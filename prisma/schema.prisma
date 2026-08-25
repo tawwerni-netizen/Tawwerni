@@ -1,0 +1,207 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String?
+  phone             String?
+  dailyPaceMinutes  Int?
+  focusCategory     String?
+  quizAnswers       String?
+  aiReadinessScore  Int?
+  archetype         String?
+  createdAt         DateTime  @default(now())
+
+  orders      Order[]
+  completions LessonCompletion[]
+  badges      UserBadge[]
+  messages    ChatMessage[]
+}
+
+model EmailOtp {
+  id         String    @id @default(cuid())
+  email      String
+  codeHash   String
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([email])
+}
+
+model Order {
+  id              String    @id @default(cuid())
+  userId          String
+  courseId        String
+  method          String
+  amountEgp       Int
+  originalPriceEgp Int      @default(2000)
+  status          String    @default("pending")
+  proofChannel    String?
+  /// Number the customer transfers from — used to match a Vodafone Cash SMS.
+  senderPhone     String?
+  /// InstaPay receipts carry no phone, only the payer's name — captured here
+  /// at checkout so an incoming IPN transfer can be attributed.
+  instapayName    String?
+  approvedAt      DateTime?
+  createdAt       DateTime  @default(now())
+
+  user     User                 @relation(fields: [userId], references: [id])
+  course   Course               @relation(fields: [courseId], references: [id])
+  payments PaymentTransaction[]
+
+  @@index([status])
+  @@index([senderPhone])
+}
+
+model Course {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String
+  description   String
+  icon          String
+  category      String
+  badge         String?
+  level         String?
+  totalLessons  Int      @default(0)
+  totalXp       Int      @default(0)
+  isComingSoon  Boolean  @default(false)
+  order         Int      @default(0)
+
+  modules Module[]
+  orders  Order[]
+}
+
+model Module {
+  id          String @id @default(cuid())
+  courseId    String
+  order       Int
+  title       String
+  description String
+  icon        String
+
+  course  Course   @relation(fields: [courseId], references: [id])
+  lessons Lesson[]
+}
+
+model Lesson {
+  id           String  @id @default(cuid())
+  moduleId     String
+  dayNumber    Int
+  title        String
+  durationMin  Int
+  xp           Int
+  order        Int
+  isCheckpoint Boolean @default(false)
+
+  module        Module             @relation(fields: [moduleId], references: [id])
+  cards         LessonCard[]
+  quizQuestions QuizQuestion[]
+  completions   LessonCompletion[]
+}
+
+model LessonCard {
+  id      String @id @default(cuid())
+  lessonId String
+  order   Int
+  type    String
+  heading String?
+  body    String
+
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+}
+
+model QuizQuestion {
+  id            String @id @default(cuid())
+  lessonId      String
+  order         Int
+  type          String
+  question      String
+  options       String
+  correctIndex  Int
+  explanation   String
+
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+}
+
+model LessonCompletion {
+  id             String   @id @default(cuid())
+  userId         String
+  lessonId       String
+  score           Int
+  totalQuestions  Int
+  xpEarned        Int
+  completedAt     DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([userId, lessonId])
+}
+
+/// A payment SMS forwarded by the receiver phone. One row per real transfer.
+/// The app only reports; every decision about activation is made here.
+model PaymentTransaction {
+  id             String   @id @default(cuid())
+  provider       String
+  amountEgp      Int
+  currency       String   @default("EGP")
+  /// Provider's own reference. Unique when present — the primary dedupe key.
+  transactionRef String?  @unique
+  /// Fallback dedupe key when the SMS carries no reference of its own.
+  fingerprint    String   @unique
+  senderPhone    String?
+  receiverPhone  String?
+  transactionAt  DateTime?
+  smsReceivedAt  DateTime?
+  rawSms         String
+  /// unmatched | matched | ignored
+  status         String   @default("unmatched")
+  matchedOrderId String?
+  matchNote      String?
+  createdAt      DateTime @default(now())
+
+  matchedOrder Order? @relation(fields: [matchedOrderId], references: [id])
+
+  @@index([status])
+  @@index([senderPhone])
+}
+
+model Badge {
+  id          String @id @default(cuid())
+  key         String @unique
+  title       String
+  description String
+  icon        String
+
+  users UserBadge[]
+}
+
+model UserBadge {
+  id       String   @id @default(cuid())
+  userId   String
+  badgeId  String
+  earnedAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  badge Badge @relation(fields: [badgeId], references: [id])
+
+  @@unique([userId, badgeId])
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  role      String
+  content   String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}

@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7faf9;
+  --foreground: #0a1f1a;
+  --brand-50: #e1f5ee;
+  --brand-100: #9fe1cb;
+  --brand-200: #5dcaa5;
+  --brand-400: #1d9e75;
+  --brand-600: #0f6e56;
+  --brand-800: #085041;
+  --brand-900: #04342c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-400: var(--brand-400);
+  --color-brand-600: var(--brand-600);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+  --font-sans: var(--font-cairo);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  /* Stop iOS from silently scaling text up in landscape. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+::selection {
+  background: var(--brand-100);
+  color: var(--brand-900);
+}
+
+/*
+ * iOS Safari force-zooms the page whenever a focused field is under 16px.
+ * Keep controls at 16px on phones; the visual sizing comes from padding.
+ */
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Keep tap highlights from flashing grey boxes over rounded cards. */
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Momentum scrolling inside the chat/FAQ panels on iOS. */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---------- Motion ---------- */
+
+/*
+ * Primary action: teal → emerald gradient that sweeps on hover, lifts slightly,
+ * and presses down on tap. The gradient is 200% wide so it can slide.
+ */
+.btn-shine {
+  background-image: linear-gradient(
+    110deg,
+    var(--brand-800) 0%,
+    var(--brand-600) 35%,
+    var(--brand-400) 55%,
+    var(--brand-600) 75%,
+    var(--brand-800) 100%
+  );
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  transition:
+    background-position 0.55s ease,
+    transform 0.18s ease,
+    box-shadow 0.25s ease;
+}
+.btn-shine:hover {
+  background-position: 0 0;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -10px var(--brand-600);
+}
+.btn-shine:active {
+  transform: translateY(0) scale(0.985);
+}
+
+/* Inverse: white pill on a coloured panel. */
+.btn-ghost-shine {
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+}
+.btn-ghost-shine:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -12px rgba(0, 0, 0, 0.45);
+}
+.btn-ghost-shine:active {
+  transform: translateY(0) scale(0.985);
+}
+
+/* Selectable cards: lift on hover, settle on press. */
+.card-lift {
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.25s ease,
+    border-color 0.2s ease;
+}
+.card-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -14px rgba(0, 0, 0, 0.4);
+}
+.card-lift:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Content entrance — staggered by inline animation-delay where useful. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-rise {
+  animation: rise-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Slow pulse for the "pending / monitoring" status dots. */
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+.animate-soft-pulse {
+  animation: soft-pulse 2s ease-in-out infinite;
+}
+
+/* Respect users who ask the OS to reduce motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .btn-shine:hover,
+  .btn-ghost-shine:hover,
+  .card-lift:hover {
+    transform: none;
+  }
+}
