@@ -31,6 +31,29 @@ body {
   /* Stop iOS from silently scaling text up in landscape. */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Arabic needs more line height than Latin to stay readable. */
+  line-height: 1.75;
+}
+
+/*
+ * Arabic script reads smaller than Latin at the same px size, so lift the
+ * bottom of the scale. Tailwind's text-xs/sm are used heavily for supporting
+ * copy and were genuinely hard to read on a phone.
+ */
+.text-\[10px\] {
+  font-size: 12px !important;
+}
+.text-\[11px\] {
+  font-size: 13px !important;
+}
+.text-xs {
+  font-size: 13.5px;
+}
+.text-sm {
+  font-size: 15.5px;
+}
+.text-base {
+  font-size: 17px;
 }
 
 ::selection {
@@ -135,6 +158,74 @@ button {
 }
 .animate-rise {
   animation: rise-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Attention-getters for the offer screen — used sparingly, on one element. */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(15, 110, 86, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(15, 110, 86, 0);
+  }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 2.1s ease-out infinite;
+}
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(8px);
+  }
+  60% {
+    transform: scale(1.02) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-pop {
+  animation: pop-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Slow shimmer across the price so the eye lands on it. */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+.shimmer-text {
+  background: linear-gradient(
+    100deg,
+    currentColor 40%,
+    var(--brand-200) 50%,
+    currentColor 60%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3.2s linear infinite;
+}
+
+/* Countdown urgency — a restrained blink, not a strobe. */
+@keyframes urgent {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+.animate-urgent {
+  animation: urgent 1.4s ease-in-out infinite;
 }
 
 /* Slow pulse for the "pending / monitoring" status dots. */

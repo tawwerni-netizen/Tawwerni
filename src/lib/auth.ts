@@ -21,28 +21,72 @@ export function generateOtpCode() {
   return String(randomInt(0, 1_000_000)).padStart(6, "0");
 }
 
+/** Codes a single address may request per hour, before we start refusing. */
+const MAX_CODES_PER_HOUR = 5;
+
+/** Wrong guesses allowed against one code. 6 digits is only 10^6 of entropy. */
+const MAX_ATTEMPTS = 5;
+
+export class OtpRateLimited extends Error {
+  constructor() {
+    super("otp_rate_limited");
+  }
+}
+
 export async function requestOtp(email: string) {
+  const normalizedEmail = email.toLowerCase().trim();
+
+  // Throttle per address: stops inbox-flooding a victim and stops an attacker
+  // minting fresh codes to sidestep the per-code attempt cap.
+  const since = new Date(Date.now() - 60 * 60 * 1000);
+  const recent = await prisma.emailOtp.count({
+    where: { email: normalizedEmail, createdAt: { gt: since } },
+  });
+  if (recent >= MAX_CODES_PER_HOUR) throw new OtpRateLimited();
+
   const code = generateOtpCode();
   const expiresAt = new Date(Date.now() + OTP_TTL_MINUTES * 60 * 1000);
   await prisma.emailOtp.create({
-    data: { email: email.toLowerCase().trim(), codeHash: hashCode(code), expiresAt },
+    data: { email: normalizedEmail, codeHash: hashCode(code), expiresAt },
   });
+
+  // Opportunistic cleanup so the table cannot grow without bound.
+  await prisma.emailOtp
+    .deleteMany({ where: { expiresAt: { lt: new Date(Date.now() - 24 * 60 * 60 * 1000) } } })
+    .catch(() => {});
+
   return code;
 }
 
 export async function verifyOtp(email: string, code: string) {
   const normalizedEmail = email.toLowerCase().trim();
-  const codeHash = hashCode(code);
+
+  // Look the code up by address first, not by hash. Matching on hash alone
+  // would let an attacker guess unlimited times, since a wrong guess would
+  // simply find no row and leave no trace.
   const otp = await prisma.emailOtp.findFirst({
-    where: {
-      email: normalizedEmail,
-      codeHash,
-      consumedAt: null,
-      expiresAt: { gt: new Date() },
-    },
+    where: { email: normalizedEmail, consumedAt: null, expiresAt: { gt: new Date() } },
     orderBy: { createdAt: "desc" },
   });
   if (!otp) return false;
+
+  if (otp.attempts >= MAX_ATTEMPTS) {
+    // Burn it rather than leaving a half-guessed code alive.
+    await prisma.emailOtp.update({
+      where: { id: otp.id },
+      data: { consumedAt: new Date() },
+    });
+    return false;
+  }
+
+  if (otp.codeHash !== hashCode(code)) {
+    await prisma.emailOtp.update({
+      where: { id: otp.id },
+      data: { attempts: { increment: 1 } },
+    });
+    return false;
+  }
+
   await prisma.emailOtp.update({ where: { id: otp.id }, data: { consumedAt: new Date() } });
   return true;
 }

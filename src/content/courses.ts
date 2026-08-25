@@ -4,6 +4,7 @@ import { mindsetCourse } from "./course-mindset";
 import { careerCourse } from "./course-career";
 import { businessCourse } from "./course-business";
 import { healthCourse } from "./course-health";
+import { claudePmCourse } from "./course-claude-pm";
 
 export const allCourses: CourseDefinition[] = [
   aiCourse,
@@ -11,6 +12,7 @@ export const allCourses: CourseDefinition[] = [
   careerCourse,
   businessCourse,
   healthCourse,
+  claudePmCourse,
 ];
 
 export function getCourseBySlug(slug: string) {

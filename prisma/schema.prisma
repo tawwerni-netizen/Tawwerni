@@ -12,6 +12,10 @@ model User {
   email             String    @unique
   name              String?
   phone             String?
+  /// Short code this user shares to earn referral commission.
+  referralCode      String?   @unique
+  /// Who referred this user, resolved at signup and never changed afterwards.
+  referredById      String?
   dailyPaceMinutes  Int?
   focusCategory     String?
   quizAnswers       String?
@@ -23,6 +27,55 @@ model User {
   completions LessonCompletion[]
   badges      UserBadge[]
   messages    ChatMessage[]
+
+  referredBy      User?             @relation("Referrals", fields: [referredById], references: [id])
+  referrals       User[]            @relation("Referrals")
+  earnings        ReferralEarning[] @relation("Earner")
+  generatedFor    ReferralEarning[] @relation("Referred")
+  payouts         Payout[]
+
+  @@index([referredById])
+}
+
+/// One commission line: earner X gets paid because referred user Y purchased.
+model ReferralEarning {
+  id             String   @id @default(cuid())
+  userId         String
+  referredUserId String
+  /// The purchase that triggered it — also the dedupe key.
+  orderId        String   @unique
+  amountEgp      Int
+  /// available = withdrawable · locked = inside a payout request · paid = sent
+  status         String   @default("available")
+  payoutId       String?
+  createdAt      DateTime @default(now())
+
+  user         User    @relation("Earner", fields: [userId], references: [id])
+  referredUser User    @relation("Referred", fields: [referredUserId], references: [id])
+  payout       Payout? @relation(fields: [payoutId], references: [id])
+
+  @@index([userId, status])
+}
+
+/// A withdrawal request the operator settles by hand.
+model Payout {
+  id          String    @id @default(cuid())
+  userId      String
+  amountEgp   Int
+  /// vodafone_cash | instapay
+  method      String
+  /// Wallet number or InstaPay handle the money should go to.
+  destination String
+  /// requested | paid | rejected
+  status      String    @default("requested")
+  note        String?
+  requestedAt DateTime  @default(now())
+  settledAt   DateTime?
+
+  user     User              @relation(fields: [userId], references: [id])
+  earnings ReferralEarning[]
+
+  @@index([status])
 }
 
 model EmailOtp {
@@ -31,9 +84,12 @@ model EmailOtp {
   codeHash   String
   expiresAt  DateTime
   consumedAt DateTime?
+  /// Failed guesses against this code. Caps brute-forcing a 6-digit secret.
+  attempts   Int       @default(0)
   createdAt  DateTime  @default(now())
 
   @@index([email])
+  @@index([email, createdAt])
 }
 
 model Order {

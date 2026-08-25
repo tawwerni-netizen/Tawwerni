@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requestOtp } from "@/lib/auth";
+import { requestOtp, OtpRateLimited } from "@/lib/auth";
 import { sendEmail } from "@/lib/email";
 import { otpEmail } from "@/lib/email-templates";
 
@@ -17,7 +17,18 @@ export async function POST(request: Request) {
     create: { email: normalizedEmail },
   });
 
-  const code = await requestOtp(normalizedEmail);
+  let code: string;
+  try {
+    code = await requestOtp(normalizedEmail);
+  } catch (err) {
+    if (err instanceof OtpRateLimited) {
+      return NextResponse.json(
+        { error: "طلبت أكواد كتير. استنى شوية وجرّب تاني." },
+        { status: 429 }
+      );
+    }
+    throw err;
+  }
 
   const tpl = otpEmail(code);
   const sent = await sendEmail({

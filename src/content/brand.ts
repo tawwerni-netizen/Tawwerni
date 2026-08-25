@@ -16,10 +16,23 @@ export const brand = {
 } as const;
 
 export const pricing = {
-  priceEgp: 200,
-  originalPriceEgp: 2000,
+  priceEgp: 299,
+  originalPriceEgp: 3000,
   discountPercent: 90,
   offerNote: "عرض خاص لفترة محدودة",
+  /** One payment opens every track — see `lib/access.ts`. */
+  grantsAllCourses: true,
+} as const;
+
+export const referral = {
+  /** Paid to the referrer once the referred person's order is approved. */
+  commissionEgp: 50,
+  /** Withdrawals open at this balance. */
+  minPayoutEgp: 500,
+  /** Query parameter that carries a referral code. */
+  param: "ref",
+  /** How long a referral click stays attributed, in days. */
+  cookieDays: 30,
 } as const;
 
 export const payment = {

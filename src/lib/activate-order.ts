@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
 import { courseActivatedEmail } from "@/lib/email-templates";
+import { creditReferral } from "@/lib/referrals";
 
 /**
  * Single place an order becomes active.
@@ -22,6 +23,9 @@ export async function activateOrder(orderId: string, note: string) {
       data: { status: "approved", approvedAt: new Date() },
     });
   }
+
+  // Pay the referrer, if any. Idempotent, so re-approving cannot double-pay.
+  await creditReferral(orderId).catch(() => {});
 
   const tpl = courseActivatedEmail({
     name: order.user.name,

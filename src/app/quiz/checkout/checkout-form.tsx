@@ -96,20 +96,39 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
 
     setLoading(true);
 
-    const res = await fetch("/api/orders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, name, phone, instapayName, courseSlug, method, proofChannel }),
-    });
-    const data = await res.json();
-    setLoading(false);
+    // Everything below must reset `loading`, otherwise the button sticks on
+    // "جاري التسجيل…" forever and the customer has no way to retry.
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, name, phone, instapayName, courseSlug, method, proofChannel }),
+      });
 
-    if (!res.ok) {
-      setError(data.error ?? "حصل خطأ، جرّب تاني");
-      return;
+      // A crashed route returns an HTML error page, so parsing can throw too.
+      const raw = await res.text();
+      let data: { error?: string } = {};
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        data = {};
+      }
+
+      if (!res.ok) {
+        setError(
+          data.error ??
+            `حصل خطأ في السيرفر (${res.status}). جرّب تاني، ولو فضلت المشكلة كلّمنا على واتساب ${payment.supportWhatsapp}.`
+        );
+        return;
+      }
+
+      sessionStorage.removeItem("tawwerni_checkout");
+      setDone(true);
+    } catch {
+      setError("مفيش اتصال بالإنترنت. اتأكد من الشبكة وجرّب تاني.");
+    } finally {
+      setLoading(false);
     }
-    sessionStorage.removeItem("tawwerni_checkout");
-    setDone(true);
   }
 
   if (!ready) return null;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { brand } from "@/content/brand";
 
@@ -53,10 +54,18 @@ export default function AdminOrders({ orders }: { orders: Order[] }) {
       <div className="mx-auto max-w-3xl">
         <div className="flex items-center justify-between mb-1">
           <h1 className="text-xl font-bold">طلبات الاشتراك</h1>
-          <span className="text-sm font-bold text-brand-800">
-            {brand.name}
-            <span className="text-brand-400">.com</span>
-          </span>
+          <div className="flex items-center gap-3">
+            <Link href="/admin/users" className="text-sm font-bold text-brand-600">
+              المستخدمون
+            </Link>
+            <Link href="/admin/payouts" className="text-sm font-bold text-brand-600">
+              السحوبات
+            </Link>
+            <span className="text-sm font-bold text-brand-800">
+              {brand.name}
+              <span className="text-brand-400">.com</span>
+            </span>
+          </div>
         </div>
         <p className="text-sm text-neutral-500 mb-4">
           {pendingCount > 0 ? `${pendingCount} طلب محتاج مراجعة` : "مفيش طلبات منتظرة"}

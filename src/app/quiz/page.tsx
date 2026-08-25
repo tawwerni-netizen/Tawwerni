@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { brand } from "@/content/brand";
+import { brand, pricing } from "@/content/brand";
 import {
   quizQuestions,
   quizInterstitials,
@@ -44,8 +44,8 @@ function buildSteps(): Step[] {
   return steps;
 }
 
-const WHEEL_SEGMENTS = ["10%", "30%", "40%", "97%", "20%", "15%"];
-const WINNING_INDEX = 3; // "97%"
+const WHEEL_SEGMENTS = ["10%", "30%", "40%", `${pricing.discountPercent}%`, "20%", "15%"];
+const WINNING_INDEX = 3; // always lands on the real headline discount
 
 const AVATARS = [
   { icon: "🧑‍💻", name: "sarah.m***" },
@@ -122,7 +122,7 @@ export default function QuizPage() {
   function goCheckout() {
     sessionStorage.setItem(
       "tawwerni_checkout",
-      JSON.stringify({ email, name, discountPercent: 97 })
+      JSON.stringify({ email, name, discountPercent: pricing.discountPercent })
     );
     router.push("/quiz/checkout");
   }
@@ -532,11 +532,13 @@ export default function QuizPage() {
               </div>
               <div className="text-left">
                 <p className="text-neutral-400">ابدأ بـ</p>
-                <p className="font-bold text-brand-800">٩ جنيه بس</p>
+                <p className="font-bold text-brand-800">{pricing.priceEgp} جنيه بس</p>
               </div>
             </div>
 
-            <span className="text-[11px] bg-amber-100 text-amber-800 rounded-full px-3 py-1">🎁 خصم خاص: ٩٧٪</span>
+            <span className="text-[11px] bg-amber-100 text-amber-800 rounded-full px-3 py-1">
+              🎁 خصم خاص: {pricing.discountPercent}٪
+            </span>
             <h2 className="text-xl font-bold mt-3 mb-1">
               خطتك الشخصية جاهزة، {name || "يا نجم"}!
             </h2>

@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { pricing, payment } from "@/content/brand";
 import { sendEmail } from "@/lib/email";
 import { orderReceivedEmail } from "@/lib/email-templates";
+import { attachReferrer } from "@/lib/referrals";
+import { REFERRAL_COOKIE } from "@/lib/referral-constants";
 
 const VALID_METHODS = ["vodafone_cash", "instapay"] as const;
 const VALID_CHANNELS = ["whatsapp", "email"] as const;
@@ -45,6 +48,11 @@ export async function POST(request: Request) {
     update: { name: name.trim(), phone: normalizedPhone },
     create: { email: normalizedEmail, name: name.trim(), phone: normalizedPhone },
   });
+
+  // Attribute the sale to whoever's link brought them here. Only ever applies
+  // when this account has no referrer yet, so credit can't be reassigned later.
+  const refCode = (await cookies()).get(REFERRAL_COOKIE)?.value;
+  await attachReferrer(user.id, refCode).catch(() => {});
 
   const existing = await prisma.order.findFirst({
     where: { userId: user.id, courseId: course.id, status: { in: ["pending", "approved"] } },

@@ -4,21 +4,21 @@ import AdminLogin from "@/components/AdminLogin";
 import AdminOrders from "@/components/AdminOrders";
 import AdminPayments from "@/components/AdminPayments";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPage() {
   if (!(await isAdmin())) return <AdminLogin />;
 
-  const [orders, unmatched] = await Promise.all([
-    prisma.order.findMany({
-      orderBy: [{ status: "asc" }, { createdAt: "desc" }],
-      include: { user: true, course: true },
-      take: 200,
-    }),
-    prisma.paymentTransaction.findMany({
-      where: { status: "unmatched" },
-      orderBy: { createdAt: "desc" },
-      take: 50,
-    }),
-  ]);
+  let orders: Awaited<ReturnType<typeof loadOrders>> = [];
+  let unmatched: Awaited<ReturnType<typeof loadUnmatched>> = [];
+
+  try {
+    [orders, unmatched] = await Promise.all([loadOrders(), loadUnmatched()]);
+  } catch (err) {
+    // Almost always a schema that hasn't caught up with the code. Say so
+    // instead of throwing a blank 500 at whoever is trying to run the business.
+    return <DatabaseProblem detail={err instanceof Error ? err.message : String(err)} />;
+  }
 
   const pendingOrders = orders
     .filter((o) => o.status === "pending")
@@ -74,6 +74,54 @@ export default async function AdminPage() {
           createdAt: o.createdAt.toISOString(),
         }))}
       />
+    </div>
+  );
+}
+
+function loadOrders() {
+  return prisma.order.findMany({
+    orderBy: [{ status: "asc" }, { createdAt: "desc" }],
+    include: { user: true, course: true },
+    take: 200,
+  });
+}
+
+function loadUnmatched() {
+  return prisma.paymentTransaction.findMany({
+    where: { status: "unmatched" },
+    orderBy: { createdAt: "desc" },
+    take: 50,
+  });
+}
+
+function DatabaseProblem({ detail }: { detail: string }) {
+  return (
+    <div className="min-h-screen bg-neutral-50 px-4 py-10">
+      <div className="mx-auto max-w-md rounded-2xl border border-amber-200 bg-white p-6">
+        <div className="mb-3 text-3xl">🛠️</div>
+        <h1 className="mb-2 text-lg font-bold">قاعدة البيانات محتاجة تحديث</h1>
+        <p className="mb-4 text-sm leading-relaxed text-neutral-600">
+          الكود المرفوع فيه جداول مش موجودة في قاعدة البيانات على السيرفر. ده بيحصل
+          لما ترفع نسخة جديدة من غير ما تحدّث القاعدة.
+        </p>
+        <p className="mb-2 text-sm font-bold">الحل — شغّل الأمر ده من Terminal في hPanel:</p>
+        <pre
+          dir="ltr"
+          className="mb-4 overflow-x-auto rounded-xl bg-neutral-900 p-3 text-left text-xs text-green-300"
+        >
+          npx prisma db push
+        </pre>
+        <p className="mb-4 text-xs leading-relaxed text-neutral-500">
+          الأمر ده <b>بيضيف الناقص بس</b> — مش بيمسح أي بيانات موجودة. بعده اعمل
+          Restart للتطبيق.
+        </p>
+        <details className="text-xs text-neutral-400">
+          <summary className="cursor-pointer">تفاصيل الخطأ التقني</summary>
+          <pre dir="ltr" className="mt-2 overflow-x-auto whitespace-pre-wrap text-left">
+            {detail}
+          </pre>
+        </details>
+      </div>
     </div>
   );
 }
