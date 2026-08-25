@@ -1,10 +1,11 @@
 import { writeFileSync, mkdirSync } from "fs";
-import { otpEmail, orderReceivedEmail, courseActivatedEmail } from "../src/lib/email-templates";
+import { otpEmail, orderReceivedEmail, courseActivatedEmail, welcomeEmail } from "../src/lib/email-templates";
 
 const out = "email-preview";
 mkdirSync(out, { recursive: true });
 
 const samples = [
+  ["welcome", welcomeEmail({ name: "أحمد محمد" })],
   ["otp", otpEmail("623402")],
   ["order-received", orderReceivedEmail({ name: "أحمد محمد", courseTitle: "تحدي الذكاء الاصطناعي - 28 يوم", method: "vodafone_cash" })],
   ["activated", courseActivatedEmail({ name: "أحمد محمد", courseTitle: "تحدي الذكاء الاصطناعي - 28 يوم", courseSlug: "tahaddi-28-yawm", amountEgp: 200 })],

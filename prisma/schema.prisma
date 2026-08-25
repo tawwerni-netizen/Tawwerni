@@ -16,6 +16,8 @@ model User {
   referralCode      String?   @unique
   /// Who referred this user, resolved at signup and never changed afterwards.
   referredById      String?
+  /// Set when the welcome email actually went out, so it is sent exactly once.
+  welcomedAt        DateTime?
   dailyPaceMinutes  Int?
   focusCategory     String?
   quizAnswers       String?

@@ -66,20 +66,31 @@ export default async function ProgressPage() {
       <div className="bg-white border border-black/5 rounded-2xl p-4 mb-5">
         <p className="text-xs text-neutral-400 mb-3">الأسبوع ده</p>
         <div className="flex justify-between">
-          {weekDays.map((d) => (
-            <div key={d.label} className="flex flex-col items-center gap-1">
+          {weekDays.map((d, i) => (
+            <div key={d.label} className="flex flex-col items-center gap-1.5">
               <div
-                className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] ${
+                className={`flex h-9 w-9 items-center justify-center rounded-full text-sm ${
                   d.done
-                    ? "bg-brand-600 text-white"
+                    ? "bg-gradient-to-br from-brand-400 to-brand-700 text-white shadow-md shadow-brand-600/30"
                     : d.isToday
-                    ? "border-2 border-brand-600 text-brand-600"
-                    : "bg-neutral-100 text-neutral-400"
+                      ? "animate-pulse-glow border-2 border-brand-600 bg-brand-50 text-brand-700"
+                      : "border border-dashed border-neutral-300 bg-neutral-50 text-neutral-300"
                 }`}
+                style={d.done ? { animationDelay: `${i * 60}ms` } : undefined}
               >
-                {d.done ? "✓" : ""}
+                {d.done ? (
+                  <span className="animate-pop text-base">🔥</span>
+                ) : d.isToday ? (
+                  <span className="text-base">🎯</span>
+                ) : (
+                  <span className="text-xs">·</span>
+                )}
               </div>
-              <span className="text-[10px] text-neutral-400">{d.label}</span>
+              <span
+                className={`text-xs ${d.isToday ? "font-bold text-brand-700" : "text-neutral-400"}`}
+              >
+                {d.label}
+              </span>
             </div>
           ))}
         </div>

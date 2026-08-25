@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import AdminLogin from "@/components/AdminLogin";
 import AdminOrders from "@/components/AdminOrders";
 import AdminPayments from "@/components/AdminPayments";
+import AdminEmailTest from "@/components/AdminEmailTest";
+import { emailStatus } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -31,8 +33,19 @@ export default async function AdminPage() {
       amountEgp: o.amountEgp,
     }));
 
+  const mail = emailStatus();
+
   return (
     <div className="min-h-screen bg-neutral-50">
+      <div className="mx-auto max-w-md px-4 pt-5">
+        <AdminEmailTest
+          configured={mail.configured}
+          via={mail.via}
+          from={mail.from}
+          smtpHost={mail.smtpHost}
+        />
+      </div>
+
       {unmatched.length > 0 && (
         <div className="mx-auto max-w-md px-4 pt-5">
           <div className="mb-2 flex items-center justify-between">

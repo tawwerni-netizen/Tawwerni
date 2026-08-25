@@ -176,12 +176,12 @@ export function courseActivatedEmail(opts: {
       <h1 style="margin:0 0 8px;font-size:21px;color:${INK};">تم تفعيل مسارك!</h1>
       <p style="margin:0 0 20px;font-size:14px;color:${MUTED};line-height:1.8;">
         ${opts.name ? `مبروك ${opts.name}! ` : "مبروك! "}
-        وصلنا تحويلك و<b style="color:${INK};">${opts.courseTitle}</b> مفتوح دلوقتي بالكامل على حسابك.
+        وصلنا تحويلك — و<b style="color:${INK};">كل المسارات</b> مفتوحة دلوقتي على حسابك، مش بس <b style="color:${INK};">${opts.courseTitle}</b>.
       </p>
 
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px;border:1px solid rgba(0,0,0,.08);border-radius:12px;">
         <tr>
-          <td style="padding:12px 16px;font-size:13px;color:${MUTED};">المسار</td>
+          <td style="padding:12px 16px;font-size:13px;color:${MUTED};">بدأت بـ</td>
           <td style="padding:12px 16px;font-size:13px;font-weight:bold;color:${INK};text-align:left;">${opts.courseTitle}</td>
         </tr>
         <tr>
@@ -190,7 +190,7 @@ export function courseActivatedEmail(opts: {
         </tr>
         <tr>
           <td style="padding:12px 16px;font-size:13px;color:${MUTED};border-top:1px solid rgba(0,0,0,.05);">الوصول</td>
-          <td style="padding:12px 16px;font-size:13px;font-weight:bold;color:${TEAL};text-align:left;border-top:1px solid rgba(0,0,0,.05);">مدى الحياة</td>
+          <td style="padding:12px 16px;font-size:13px;font-weight:bold;color:${TEAL};text-align:left;border-top:1px solid rgba(0,0,0,.05);">كل المسارات · مدى الحياة</td>
         </tr>
       </table>
 
@@ -200,18 +200,71 @@ export function courseActivatedEmail(opts: {
         نصيحة: خلّي درس واحد كل يوم في نفس الميعاد. الاستمرارية هي اللي بتفرق — مش السرعة.
       </p>
     </td></tr>`,
-    `${opts.courseTitle} مفتوح دلوقتي على حسابك`
+    `كل المسارات مفتوحة دلوقتي على حسابك`
   );
 
-  const text = `تم تفعيل مسارك! 🎉
+  const text = `تم تفعيل اشتراكك! 🎉
 
-المسار: ${opts.courseTitle}
+كل المسارات مفتوحة دلوقتي على حسابك.
+بدأت بـ: ${opts.courseTitle}
 المبلغ: ${opts.amountEgp} ج.م
-الوصول: مدى الحياة
+الوصول: كل المسارات · مدى الحياة
 
 ابدأ من هنا: ${url}
 
 ${brand.name} · ${brand.domain}`;
 
-  return { subject: `تم تفعيل ${opts.courseTitle} 🎉`, html, text };
+  return { subject: `تم تفعيل اشتراكك — كل المسارات مفتوحة 🎉`, html, text };
+}
+
+/* ------------------------------------------------------------------ */
+
+/**
+ * Sent once, the first time an account is created. Its job is to get the
+ * learner into lesson one while the intent is still fresh.
+ */
+export function welcomeEmail(opts: { name: string | null }) {
+  const url = `https://${brand.domain}/app`;
+
+  const html = shell(
+    `<tr><td style="padding:28px 24px 8px;">
+      <div style="font-size:40px;line-height:1;margin:0 0 10px;">👋</div>
+      <h1 style="margin:0 0 8px;font-size:21px;color:${INK};">أهلًا بيك في ${brand.name}!</h1>
+      <p style="margin:0 0 18px;font-size:14px;color:${MUTED};line-height:1.8;">
+        ${opts.name ? `أهلًا ${opts.name}. ` : ""}حسابك اتفتح. من دلوقتي، كل يوم فيه
+        درس واحد قصير — تقراه، تنفّذ مهمة صغيرة، وتجاوب على كام سؤال يثبّتوا المعلومة.
+      </p>
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px;background:#E1F5EE;border-radius:12px;">
+        <tr><td style="padding:16px;">
+          <p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:${TEAL_DARK};">الطريقة اللي بتنجح</p>
+          <p style="margin:0 0 5px;font-size:13px;color:${TEAL_DARK};line-height:1.9;">١. درس واحد بس في اليوم — متستعجلش.</p>
+          <p style="margin:0 0 5px;font-size:13px;color:${TEAL_DARK};line-height:1.9;">٢. في نفس الميعاد كل يوم.</p>
+          <p style="margin:0;font-size:13px;color:${TEAL_DARK};line-height:1.9;">٣. نفّذ المهمة العملية — دي الجزء اللي بيثبّت.</p>
+        </td></tr>
+      </table>
+
+      ${button(url, "ابدأ أول درس ←")}
+
+      <p style="margin:16px 0 20px;font-size:12px;color:${MUTED};line-height:1.9;">
+        اليوم الأول من كل مسار مفتوح مجانًا — جرّب الأسلوب الأول قبل أي حاجة.
+      </p>
+    </td></tr>`,
+    `حسابك جاهز — ابدأ أول درس`
+  );
+
+  const text = `أهلًا بيك في ${brand.name}!
+
+حسابك اتفتح. كل يوم فيه درس واحد قصير: تقراه، تنفّذ مهمة، وتجاوب على أسئلة.
+
+الطريقة اللي بتنجح:
+1. درس واحد بس في اليوم
+2. في نفس الميعاد كل يوم
+3. نفّذ المهمة العملية
+
+ابدأ من هنا: ${url}
+
+${brand.name} · ${brand.domain}`;
+
+  return { subject: `أهلًا بيك في ${brand.name} 👋`, html, text };
 }
