@@ -5,6 +5,9 @@ import { computeStreak, getWeekDays } from "@/lib/xp";
 import { courseSlug } from "@/content/course-28-day-ai";
 import { brand, pricing } from "@/content/brand";
 import { approvedCourseIds } from "@/lib/access";
+import ThemeToggle from "@/components/ThemeToggle";
+import WeekDot from "@/components/WeekDot";
+import { Logo } from "@/components/Logo";
 
 function greeting() {
   const hour = new Date().getHours();
@@ -49,12 +52,12 @@ export default async function AppHomePage() {
   return (
     <div className="px-4 pt-5 pb-8">
       <header className="flex items-center justify-between mb-5">
-        <div className="text-lg font-bold text-brand-800">
-          {brand.name}
-          <span className="text-brand-400">.com</span>
-        </div>
+        <Logo size={34} />
+        <div className="flex items-center gap-2">
+        <ThemeToggle />
         <div className="w-9 h-9 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-sm">
           {(user.name ?? user.email)[0].toUpperCase()}
+        </div>
         </div>
       </header>
 
@@ -95,34 +98,7 @@ export default async function AppHomePage() {
         <p className="text-xs text-neutral-400 mb-3">الأسبوع ده</p>
         <div className="flex justify-between mb-4">
           {weekDays.map((d, i) => (
-            <div key={d.label} className="flex flex-col items-center gap-1.5">
-              <div
-                className={`relative flex h-9 w-9 items-center justify-center rounded-full text-sm transition-transform ${
-                  d.done
-                    ? "bg-gradient-to-br from-brand-400 to-brand-700 text-white shadow-md shadow-brand-600/30"
-                    : d.isToday
-                      ? "animate-pulse-glow border-2 border-brand-600 bg-brand-50 text-brand-700"
-                      : "border border-dashed border-neutral-300 bg-neutral-50 text-neutral-300"
-                }`}
-                // Stagger the entrance so the row assembles left-to-right.
-                style={d.done ? { animationDelay: `${i * 60}ms` } : undefined}
-              >
-                {d.done ? (
-                  <span className="animate-pop text-base">🔥</span>
-                ) : d.isToday ? (
-                  <span className="text-base">🎯</span>
-                ) : (
-                  <span className="text-xs">·</span>
-                )}
-              </div>
-              <span
-                className={`text-xs ${
-                  d.isToday ? "font-bold text-brand-700" : "text-neutral-400"
-                }`}
-              >
-                {d.label}
-              </span>
-            </div>
+            <WeekDot key={d.label} label={d.label} done={d.done} isToday={d.isToday} index={i} />
           ))}
         </div>
         <div className="grid grid-cols-3 gap-2 text-center">
@@ -164,8 +140,12 @@ export default async function AppHomePage() {
           >
             <div className="text-xl mb-1">{c.icon}</div>
             <div className="text-xs font-bold">{c.category}</div>
-            <div className="text-[10px] text-brand-600 mt-0.5">
-              {c.unlocked ? "افتحه دلوقتي" : `${pricing.priceEgp} ج.م`}
+            {/*
+              One subscription opens everything, so never price a single track
+              here — it reads as "each of these costs 299".
+            */}
+            <div className="text-[10px] mt-0.5 text-brand-600">
+              {c.unlocked ? "مفتوح ✓" : "ضمن الاشتراك"}
             </div>
           </Link>
         ))}

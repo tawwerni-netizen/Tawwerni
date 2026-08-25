@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
-import { hasCourseAccess, approvedCourseIds, FREE_PREVIEW_DAY } from "@/lib/access";
+import { hasCourseAccess, approvedCourseIds, pendingOrderFor, FREE_PREVIEW_DAY } from "@/lib/access";
 import LessonPlayer, { type Card } from "@/components/LessonPlayer";
 
 export default async function LessonPage({ params }: { params: Promise<{ slug: string; day: string }> }) {
@@ -21,10 +21,16 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
   const lesson = allLessons.find((l) => l.dayNumber === dayNumber);
   if (!lesson) notFound();
 
+  const unlocked = await hasCourseAccess(user.id, course.id);
+
   // Day 1 is a free preview; everything after it needs an approved order.
-  if (dayNumber !== FREE_PREVIEW_DAY && !(await hasCourseAccess(user.id, course.id))) {
+  if (dayNumber !== FREE_PREVIEW_DAY && !unlocked) {
     redirect(`/app/learn/${course.slug}?locked=1`);
   }
+
+  // Drives the prompt shown after the free day finishes.
+  const pending = unlocked ? null : await pendingOrderFor(user.id, course.id);
+  const accessState = unlocked ? "unlocked" : pending ? "pending" : "unpaid";
 
   const module = course.modules.find((m) => m.id === lesson.moduleId)!;
 
@@ -50,6 +56,8 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
   return (
     <LessonPlayer
       courseSlug={course.slug}
+      courseTitle={course.title}
+      accessState={accessState}
       moduleTitle={module.title}
       dayNumber={dayNumber}
       totalDays={totalDays}

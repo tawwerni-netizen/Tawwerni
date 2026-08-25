@@ -120,7 +120,7 @@ export function orderReceivedEmail(opts: {
     `<tr><td style="padding:28px 24px 8px;">
       <h1 style="margin:0 0 8px;font-size:21px;color:${INK};">سجّلنا طلبك ✅</h1>
       <p style="margin:0 0 18px;font-size:14px;color:${MUTED};line-height:1.8;">
-        أهلًا${opts.name ? ` ${opts.name}` : ""}، سجّلنا طلبك لمسار <b style="color:${INK};">${opts.courseTitle}</b>.
+        أهلًا${opts.name ? ` ${opts.name}` : ""}، سجّلنا طلبك. اشتراك واحد بيفتحلك <b style="color:${INK};">كل المسارات</b> — وهتبدأ بـ <b style="color:${INK};">${opts.courseTitle}</b>.
         فاضل خطوة واحدة بس.
       </p>
 
@@ -138,26 +138,27 @@ export function orderReceivedEmail(opts: {
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">${numbersHtml}</table>
 
       <p style="margin:0 0 20px;font-size:13px;color:${MUTED};line-height:1.9;">
-        بعد التحويل، هنفعّل المسار على الإيميل ده خلال <b style="color:${INK};">${payment.activationHours} ساعة</b> على الأكثر —
+        بعد التحويل، هنفعّل اشتراكك على الإيميل ده خلال <b style="color:${INK};">${payment.activationHours} ساعة</b> على الأكثر —
         وغالبًا أسرع بكتير.
       </p>
     </td></tr>`,
     `فاضل خطوة واحدة: حوّل ${pricing.priceEgp} ج.م`
   );
 
-  const text = `سجّلنا طلبك لمسار: ${opts.courseTitle}
+  const text = `سجّلنا طلبك — اشتراك واحد بيفتح كل المسارات.
+هتبدأ بـ: ${opts.courseTitle}
 
 المبلغ: ${pricing.priceEgp} ج.م (بدل ${pricing.originalPriceEgp})
 
 حوّل عن طريق ${methodLabel} على:
 ${numbers.map((n) => `  ${n}`).join("\n")}
 
-بعد التحويل هنفعّل المسار خلال ${payment.activationHours} ساعة.
+بعد التحويل هنفعّل اشتراكك خلال ${payment.activationHours} ساعة.
 
 محتاج مساعدة؟ واتساب ${payment.supportWhatsapp} أو ${payment.supportEmail}
 ${brand.name} · ${brand.domain}`;
 
-  return { subject: `طلبك اتسجّل — ${opts.courseTitle}`, html, text };
+  return { subject: `طلبك اتسجّل — خطوة واحدة وتبدأ`, html, text };
 }
 
 /* ------------------------------------------------------------------ */

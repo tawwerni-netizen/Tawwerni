@@ -140,7 +140,10 @@ async function main() {
     await seedCourse(allCourses[i], i);
   }
 
-  // Anything still marked coming-soon that we now ship for real must not linger.
+  // Drop every placeholder course. An empty card on the catalogue reads as an
+  // unfinished product; better to show fewer tracks that are all real.
+  await prisma.course.deleteMany({ where: { isComingSoon: true } });
+
   const liveSlugs = new Set(allCourses.map((c) => c.meta.slug));
   const remaining = comingSoonCourses.filter((c) => !liveSlugs.has(c.slug));
 

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { catalogSections } from "@/content/courses-catalog";
 
 export default async function LearnPage() {
   const courses = await prisma.course.findMany({ orderBy: { order: "asc" } });
@@ -50,16 +49,6 @@ export default async function LearnPage() {
         ))}
       </div>
 
-      <p className="text-xs text-neutral-400 mb-2 tracking-wide">تصفح حسب القسم</p>
-      <div className="grid grid-cols-2 gap-3">
-        {catalogSections.map((s) => (
-          <div key={s.title} className="rounded-xl bg-white border border-black/5 p-3">
-            <div className="text-xl mb-1">{s.icon}</div>
-            <div className="text-xs font-bold">{s.title}</div>
-            <div className="text-[10px] text-neutral-400 mt-1">{s.coursesCount} كورس</div>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

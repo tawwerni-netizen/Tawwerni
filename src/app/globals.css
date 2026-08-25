@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/*
+ * Light is the default. Dark is applied by a `data-theme="dark"` attribute on
+ * <html>, set before paint by an inline script so the page never flashes white.
+ *
+ * The components use Tailwind's neutral utilities directly, so night mode works
+ * by re-pointing those utilities at dark surfaces rather than rewriting every
+ * component. Each token below is defined in BOTH themes — never only in dark.
+ */
 :root {
   --background: #f7faf9;
   --foreground: #0a1f1a;
@@ -10,7 +18,138 @@
   --brand-600: #0f6e56;
   --brand-800: #085041;
   --brand-900: #04342c;
+
+  /* Surfaces the utility overrides below point at. */
+  --surface: #ffffff;
+  --surface-sunk: #f5f7f6;
+  --surface-raised: #eef2f0;
+  --hairline: rgba(0, 0, 0, 0.06);
+  --hairline-strong: rgba(0, 0, 0, 0.11);
+  --text-faint: #9aa5a0;
+  --text-muted: #6b7772;
+  --text-body: #3d4844;
+  --text-strong: #1c2622;
+  --tint-amber: #fdf5e6;
+  --tint-green: #e8f6ee;
+  --tint-red: #fdeceb;
 }
+
+/*
+ * Night palette.
+ *
+ * Two rules keep it easy on the eyes:
+ *  1. Large surfaces stay deep and desaturated. A saturated teal covering half
+ *     the screen glares; the same hue at 12% lightness reads as calm depth.
+ *  2. Saturation is spent only on small things — a line of text, a chip, an
+ *     icon. Nothing bright is ever bigger than a button.
+ *
+ * The brand ramp keeps its ROLE, not its lightness: brand-50 is still "faintest
+ * wash", brand-600 is still "solid fill". Text that needs to sit on a dark
+ * ground is handled by the explicit text overrides further down.
+ */
+html[data-theme="dark"] {
+  --background: #0a1210;
+  --foreground: #dbe7e2;
+
+  --brand-50: #12211d;
+  --brand-100: #17322a;
+  --brand-200: #1f4c3e;
+  --brand-400: #17795e;
+  --brand-600: #146b54;
+  --brand-800: #0e4638;
+  --brand-900: #0a322c;
+
+  /* Bright teal, reserved for text and small marks. */
+  --brand-text: #5cc9a4;
+  --brand-text-soft: #8ddcbe;
+
+  --surface: #121b18;
+  --surface-sunk: #0e1614;
+  --surface-raised: #1a2521;
+  --hairline: rgba(255, 255, 255, 0.06);
+  --hairline-strong: rgba(255, 255, 255, 0.11);
+  --text-faint: #808f88;
+  --text-muted: #9daaa4;
+  --text-body: #bcc8c3;
+  --text-strong: #dbe7e2;
+
+  /* Semantic tints: deep grounds paired with legible, not-neon, foregrounds. */
+  --tint-amber: #251c0f;
+  --tint-amber-strong: #33270f;
+  --ink-amber: #e0b567;
+  --tint-green: #10241a;
+  --tint-green-strong: #163322;
+  --ink-green: #63c894;
+  --tint-red: #261614;
+  --tint-red-strong: #331b18;
+  --ink-red: #e08b81;
+}
+
+/* ---- Re-point the utilities the components actually use ---- */
+html[data-theme="dark"] .bg-white { background-color: var(--surface) !important; }
+html[data-theme="dark"] .bg-neutral-50 { background-color: var(--surface-sunk) !important; }
+html[data-theme="dark"] .bg-neutral-100 { background-color: var(--surface-raised) !important; }
+html[data-theme="dark"] .bg-amber-50 { background-color: var(--tint-amber) !important; }
+html[data-theme="dark"] .bg-green-50 { background-color: var(--tint-green) !important; }
+html[data-theme="dark"] .bg-red-50 { background-color: var(--tint-red) !important; }
+
+html[data-theme="dark"] .text-neutral-400 { color: var(--text-faint) !important; }
+html[data-theme="dark"] .text-neutral-500 { color: var(--text-muted) !important; }
+html[data-theme="dark"] .text-neutral-600 { color: var(--text-body) !important; }
+html[data-theme="dark"] .text-neutral-700 { color: var(--text-body) !important; }
+html[data-theme="dark"] .text-neutral-800 { color: var(--text-strong) !important; }
+
+html[data-theme="dark"] .border-black\/5 { border-color: var(--hairline) !important; }
+html[data-theme="dark"] .border-black\/10 { border-color: var(--hairline-strong) !important; }
+
+/*
+ * Semantic chips come in pairs — a tinted ground with coloured text on top.
+ * BOTH halves have to flip together, or the pair inverts into light-on-light.
+ * The `-100` grounds were the bug behind the unreadable "الأكثر شعبية" badge.
+ */
+html[data-theme="dark"] .bg-amber-100 { background-color: var(--tint-amber-strong) !important; }
+html[data-theme="dark"] .bg-green-100 { background-color: var(--tint-green-strong) !important; }
+html[data-theme="dark"] .bg-red-100 { background-color: var(--tint-red-strong) !important; }
+
+html[data-theme="dark"] .text-amber-500,
+html[data-theme="dark"] .text-amber-700,
+html[data-theme="dark"] .text-amber-800,
+html[data-theme="dark"] .text-amber-900 { color: var(--ink-amber) !important; }
+
+html[data-theme="dark"] .text-green-300,
+html[data-theme="dark"] .text-green-600,
+html[data-theme="dark"] .text-green-700,
+html[data-theme="dark"] .text-green-800 { color: var(--ink-green) !important; }
+
+html[data-theme="dark"] .text-red-600,
+html[data-theme="dark"] .text-red-700,
+html[data-theme="dark"] .text-red-800 { color: var(--ink-red) !important; }
+
+html[data-theme="dark"] .border-amber-100,
+html[data-theme="dark"] .border-amber-200 { border-color: #3d2e14 !important; }
+html[data-theme="dark"] .border-green-100,
+html[data-theme="dark"] .border-green-200,
+html[data-theme="dark"] .border-green-400 { border-color: #1c412d !important; }
+html[data-theme="dark"] .border-red-100,
+html[data-theme="dark"] .border-red-200,
+html[data-theme="dark"] .border-red-300 { border-color: #40231f !important; }
+html[data-theme="dark"] .border-neutral-200,
+html[data-theme="dark"] .border-neutral-300 { border-color: var(--hairline-strong) !important; }
+
+/*
+ * Brand text sits on a dark ground, so it needs the bright teal rather than the
+ * deep fill colour the ramp now holds. Fills keep the ramp; text does not.
+ */
+html[data-theme="dark"] .text-brand-600,
+html[data-theme="dark"] .text-brand-700,
+html[data-theme="dark"] .text-brand-800,
+html[data-theme="dark"] .text-brand-900 { color: var(--brand-text) !important; }
+html[data-theme="dark"] .text-brand-100,
+html[data-theme="dark"] .text-brand-200,
+html[data-theme="dark"] .text-brand-400 { color: var(--brand-text-soft) !important; }
+
+/* White-on-brand panels keep white text; don't let the rule above touch them. */
+html[data-theme="dark"] .text-white { color: #eef6f3 !important; }
 
 @theme inline {
   --color-background: var(--background);
@@ -306,3 +445,165 @@ button {
     transform: none;
   }
 }
+
+/* Ring that draws itself in when a day is completed. */
+@keyframes draw-ring {
+  from { stroke-dasharray: 0 100; }
+  to   { stroke-dasharray: 100 0; }
+}
+.animate-draw {
+  animation: draw-ring 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+
+
+/* ---------- Lesson graphics ----------
+ *
+ * These carry their own colours instead of Tailwind utilities. Opacity variants
+ * like `text-brand-800/70` silently escaped the night-mode overrides and left
+ * dark-teal text on a dark ground — invisible. Explicit tokens can't drift.
+ */
+
+.stat-figure {
+  color: var(--brand-600);
+  /* Descenders need room; background-clip:text used to crop "مليون". */
+  line-height: 1.35;
+  padding-bottom: 0.12em;
+  text-shadow: 0 0 26px color-mix(in srgb, var(--brand-400) 30%, transparent);
+}
+html[data-theme="dark"] .stat-figure {
+  color: var(--brand-text);
+  text-shadow: 0 0 30px color-mix(in srgb, var(--brand-text) 22%, transparent);
+}
+
+/* Caption under a figure, and the "مقابل" divider. */
+.vis-caption {
+  color: #4a5c56;
+}
+html[data-theme="dark"] .vis-caption {
+  color: var(--text-muted);
+}
+
+/* Body text inside a graphic — full reading contrast, never dimmed. */
+.vis-item {
+  color: #22302b;
+}
+html[data-theme="dark"] .vis-item {
+  color: var(--text-body);
+}
+
+/* Yes/no marks. Colour lives in the icon so the sentence stays readable. */
+.vis-mark-yes {
+  background: var(--brand-600);
+  color: #ffffff;
+}
+.vis-mark-no {
+  background: #b4413a;
+  color: #ffffff;
+}
+html[data-theme="dark"] .vis-mark-yes {
+  background: var(--brand-400);
+  color: #ffffff;
+}
+html[data-theme="dark"] .vis-mark-no {
+  background: #8e3b35;
+  color: #fdece9;
+}
+
+.vis-step {
+  background: var(--brand-600);
+  color: #ffffff;
+}
+html[data-theme="dark"] .vis-step {
+  background: var(--brand-400);
+  color: #ffffff;
+}
+
+.vis-side-yes {
+  border-color: color-mix(in srgb, var(--brand-600) 35%, transparent);
+  background: var(--surface);
+  color: #1c3830;
+}
+.vis-side-no {
+  border-color: var(--hairline-strong);
+  background: var(--surface-sunk);
+  color: #5b6b65;
+}
+html[data-theme="dark"] .vis-side-yes {
+  color: var(--brand-text);
+}
+html[data-theme="dark"] .vis-side-no {
+  color: var(--text-muted);
+}
+
+/* ---------- Lesson list rows ----------
+ *
+ * Locked days used to render at neutral-300/400 on a dark panel: technically
+ * "dimmed", visually unreadable. The title now keeps full reading contrast in
+ * both states — dimming the thing you want someone to buy is backwards.
+ */
+.lesson-title {
+  color: var(--text-strong);
+}
+.lesson-meta {
+  color: var(--text-muted);
+}
+.lesson-chip {
+  background: var(--surface-raised);
+  color: var(--text-muted);
+}
+
+/* ---------- Week strip dots ---------- */
+.weekdot-done {
+  background: var(--brand-50);
+  color: var(--brand-600);
+}
+.weekdot-today {
+  background: var(--surface);
+  border: 2px solid var(--brand-600);
+  color: var(--brand-600);
+}
+.weekdot-future {
+  background: var(--surface);
+  border: 1px solid var(--hairline-strong);
+  color: var(--text-muted);
+}
+html[data-theme="dark"] .weekdot-done {
+  background: var(--brand-100);
+  color: var(--brand-text);
+}
+html[data-theme="dark"] .weekdot-today {
+  border-color: var(--brand-400);
+  color: var(--brand-text);
+}
+html[data-theme="dark"] .weekdot-future {
+  color: var(--text-muted);
+}
+
+/* Restore the neutral text steps an earlier cleanup dropped. */
+html[data-theme="dark"] .text-neutral-200 { color: #a3b0aa !important; }
+html[data-theme="dark"] .text-neutral-300 { color: #8b9993 !important; }
+.lesson-row-locked {
+  background: var(--surface-sunk);
+}
+.pending-note {
+  background: rgba(255, 255, 255, 0.7);
+}
+html[data-theme="dark"] .pending-note {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- Light mode text scale ----------
+ *
+ * Night mode got explicit text tokens; light mode was still running on
+ * Tailwind's raw neutrals, and `text-neutral-400` on the page ground measured
+ * 1.24:1 — effectively invisible. Both themes now use the same tokens.
+ */
+html:not([data-theme="dark"]) .text-neutral-400 { color: #656f6b; }
+html:not([data-theme="dark"]) .text-neutral-500 { color: #5c6863; }
+html:not([data-theme="dark"]) .text-neutral-600 { color: #46524d; }
+html:not([data-theme="dark"]) .text-neutral-700 { color: #36423d; }
+html:not([data-theme="dark"]) .text-neutral-300 { color: #7b8781; }
+
+html:not([data-theme="dark"]) .lesson-meta { color: #5c6863; }
+html:not([data-theme="dark"]) .lesson-chip { background: #e6ebe9; color: #4a5651; }

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import WeekDot from "@/components/WeekDot";
 import { getCurrentUser } from "@/lib/auth";
 import { computeLevel, computeStreak, getWeekDays } from "@/lib/xp";
 import { badgeDefs } from "@/content/badges";
@@ -67,31 +68,7 @@ export default async function ProgressPage() {
         <p className="text-xs text-neutral-400 mb-3">الأسبوع ده</p>
         <div className="flex justify-between">
           {weekDays.map((d, i) => (
-            <div key={d.label} className="flex flex-col items-center gap-1.5">
-              <div
-                className={`flex h-9 w-9 items-center justify-center rounded-full text-sm ${
-                  d.done
-                    ? "bg-gradient-to-br from-brand-400 to-brand-700 text-white shadow-md shadow-brand-600/30"
-                    : d.isToday
-                      ? "animate-pulse-glow border-2 border-brand-600 bg-brand-50 text-brand-700"
-                      : "border border-dashed border-neutral-300 bg-neutral-50 text-neutral-300"
-                }`}
-                style={d.done ? { animationDelay: `${i * 60}ms` } : undefined}
-              >
-                {d.done ? (
-                  <span className="animate-pop text-base">🔥</span>
-                ) : d.isToday ? (
-                  <span className="text-base">🎯</span>
-                ) : (
-                  <span className="text-xs">·</span>
-                )}
-              </div>
-              <span
-                className={`text-xs ${d.isToday ? "font-bold text-brand-700" : "text-neutral-400"}`}
-              >
-                {d.label}
-              </span>
-            </div>
+            <WeekDot key={d.label} label={d.label} done={d.done} isToday={d.isToday} index={i} />
           ))}
         </div>
       </div>

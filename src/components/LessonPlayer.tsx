@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ToolChip, detectTools } from "@/components/ToolIcon";
 import { pricing } from "@/content/brand";
+import PaywallPrompt from "@/components/PaywallPrompt";
+import CardVisual, { visualConsumesHeading } from "@/components/CardVisual";
 
 export type InfoCard = {
   type: "info";
@@ -34,6 +36,9 @@ type Props = {
   quiz: QuizQ[];
   xp: number;
   nextDayNumber: number | null;
+  courseTitle: string;
+  /** unlocked = paid · pending = transfer under review · unpaid = never ordered */
+  accessState: "unlocked" | "pending" | "unpaid";
   /** Other live tracks the learner hasn't bought yet — used for the mid-journey offer. */
   promoCourses: { slug: string; icon: string; category: string }[];
 };
@@ -161,8 +166,12 @@ export default function LessonPlayer(props: Props) {
 
       <div className="flex-1 px-4 py-6 overflow-y-auto">
         {phase === "cards" && card.type === "info" && (
-          <div className="rounded-2xl bg-neutral-50 border border-black/5 p-4">
-            <h2 className="font-bold text-lg mb-2">{card.heading}</h2>
+          <div>
+            <CardVisual heading={card.heading} lines={card.body.lines} />
+            <div className="rounded-2xl bg-neutral-50 border border-black/5 p-4">
+            {!visualConsumesHeading(card.heading, card.body.lines) && (
+              <h2 className="font-bold text-lg mb-2">{card.heading}</h2>
+            )}
             <div className="space-y-2">
               {card.body.lines.map((line, i) => (
                 <p key={i} className="text-sm text-neutral-700 leading-relaxed">
@@ -177,6 +186,7 @@ export default function LessonPlayer(props: Props) {
                 ))}
               </div>
             )}
+            </div>
           </div>
         )}
 
@@ -347,7 +357,18 @@ export default function LessonPlayer(props: Props) {
                 </button>
               </div>
             )}
-            {props.nextDayNumber ? (
+            {/*
+              A locked learner who just finished the free day sees the offer
+              here instead of a "next lesson" button that would only bounce
+              them back to the course page.
+            */}
+            {props.accessState !== "unlocked" ? (
+              <PaywallPrompt
+                state={props.accessState}
+                totalLessons={props.totalDays}
+                courseTitle={props.courseTitle}
+              />
+            ) : props.nextDayNumber ? (
               <Link
                 href={`/app/learn/${props.courseSlug}/${props.nextDayNumber}`}
                 className="block text-center bg-brand-600 btn-shine text-white font-bold rounded-full py-3 text-sm"

@@ -73,14 +73,14 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             </div>
           ) : (
             <div className="rounded-2xl border border-black/5 bg-gradient-to-br from-brand-600 to-brand-800 p-4 mb-5 text-white">
-              <p className="text-sm font-bold mb-1">🔓 افتح المسار كامل</p>
+              <p className="text-sm font-bold mb-1">🔓 افتح كل المسارات</p>
               <p className="text-xs text-white/80 mb-3">
-                اليوم الأول مجاني. افتح باقي الـ {allLessons.length - 1} يوم بـ{" "}
-                <b>{pricing.priceEgp} ج.م</b>{" "}
+                اليوم الأول مجاني. اشتراك واحد بـ <b>{pricing.priceEgp} ج.م</b>{" "}
                 <span className="line-through text-white/50" dir="ltr">
                   {pricing.originalPriceEgp}
                 </span>{" "}
-                — {pricing.offerNote}.
+                بيفتحلك باقي الـ {allLessons.length - 1} يوم هنا{" "}
+                <b>وكل المسارات التانية كمان</b> — {pricing.offerNote}.
               </p>
               <Link
                 href="/quiz/checkout"
@@ -126,24 +126,25 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                     const open = canOpen(lesson.dayNumber);
                     const inner = (
                       <>
+                        {/*
+                          A locked row is a sales surface: the learner has to be
+                          able to read the title to want it. Only the chip and
+                          the "مقفول" tag are dimmed — never the title itself.
+                        */}
                         <span
                           className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] shrink-0 ${
-                            done
-                              ? "bg-brand-600 text-white"
-                              : open
-                                ? "bg-neutral-100 text-neutral-500"
-                                : "bg-neutral-100 text-neutral-300"
+                            done ? "bg-brand-600 text-white" : "lesson-chip"
                           }`}
                         >
                           {done ? "✓" : open ? lesson.dayNumber : "🔒"}
                         </span>
                         <div className="flex-1 min-w-0">
-                          <p className={`text-sm truncate ${open ? "" : "text-neutral-400"}`}>
+                          <p className="text-sm truncate lesson-title">
                             {lesson.isCheckpoint ? "🏁 " : ""}
                             {lesson.title}
                           </p>
                         </div>
-                        <span className="text-[10px] text-neutral-400 shrink-0">
+                        <span className="text-[10px] shrink-0 lesson-meta">
                           {open ? `${lesson.durationMin} د` : "مقفول"}
                         </span>
                       </>
@@ -160,7 +161,10 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                     ) : (
                       <div
                         key={lesson.id}
-                        className="flex items-center gap-3 px-3 py-2.5 bg-neutral-50/60"
+                        // `bg-neutral-50/60` was used here and stayed light in
+                        // night mode — opacity variants are separate classes and
+                        // slip past the theme overrides. Use a token instead.
+                        className="flex items-center gap-3 px-3 py-2.5 lesson-row-locked"
                         aria-disabled="true"
                       >
                         {inner}

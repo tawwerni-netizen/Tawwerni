@@ -16,6 +16,16 @@ model User {
   referralCode      String?   @unique
   /// Who referred this user, resolved at signup and never changed afterwards.
   referredById      String?
+  /// scrypt hash — the password itself is never stored and cannot be recovered.
+  passwordHash      String?
+  /// Profile picture, stored as a URL or data URI.
+  avatarUrl         String?
+  /// Set when the operator forced a reset; the user must pick a new password.
+  mustChangePassword Boolean  @default(false)
+  isAdmin           Boolean   @default(false)
+  /// Consecutive failed logins; resets on success.
+  loginAttempts     Int       @default(0)
+  lockedUntil       DateTime?
   /// Set when the welcome email actually went out, so it is sent exactly once.
   welcomedAt        DateTime?
   dailyPaceMinutes  Int?

@@ -151,7 +151,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
               <p className="mb-2 text-[11px] font-bold text-neutral-400">لما تبعت الإثبات، اكتب معاه:</p>
               <ul className="space-y-1 text-xs text-neutral-600">
                 <li>• الإيميل: <b dir="ltr">{email}</b></li>
-                <li>• المسار: <b>{selected?.title}</b></li>
+                <li>• هيبدأ بـ: <b>{selected?.title}</b></li>
                 <li>• الرقم اللي حوّلت منه</li>
               </ul>
             </div>
@@ -208,7 +208,17 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
         <form onSubmit={submit} className="space-y-4">
           {/* Course */}
           <div className="rounded-2xl border border-black/5 bg-white p-4">
-            <label className="mb-2 block text-xs font-bold text-neutral-500">١. اختار المسار</label>
+            {/*
+              The subscription opens every track, so this is not a purchase
+              choice — it only decides where the learner lands first. The copy
+              has to say that, or the list reads as "pick the one you're buying".
+            */}
+            <label className="mb-1 block text-xs font-bold text-neutral-500">
+              ١. تحب تبدأ بأنهي مسار؟
+            </label>
+            <p className="mb-3 rounded-lg bg-brand-50 px-3 py-2 text-xs leading-relaxed text-brand-800">
+              ✓ اشتراكك بيفتح <b>كل المسارات</b> — ده بس عشان نعرف نبدأ معاك منين.
+            </p>
             <div className="space-y-2">
               {courses.map((c) => (
                 <button
@@ -267,7 +277,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
             />
             <p className="mt-2 text-[11px] leading-relaxed text-neutral-400">
               اكتب <b className="text-neutral-500">رقم المحفظة اللي هتحوّل منه</b> — بنستخدمه عشان
-              نلاقي تحويلك بسرعة. وهنفعّل المسار على الإيميل ده، فتأكد إنه صح.
+              نلاقي تحويلك بسرعة. وهنفعّل اشتراكك على الإيميل ده، فتأكد إنه صح.
             </p>
           </div>
 
@@ -376,7 +386,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
           </button>
 
           <p className="pb-4 text-center text-[11px] leading-relaxed text-neutral-400">
-            بعد ما تبعت الإثبات، هنفعّل المسار خلال {payment.activationHours} ساعة على الإيميل اللي كتبته.
+            بعد ما تبعت الإثبات، هنفعّل اشتراكك خلال {payment.activationHours} ساعة على الإيميل اللي كتبته.
           </p>
         </form>
       </div>
