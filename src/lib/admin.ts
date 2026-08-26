@@ -1,45 +1,23 @@
-import { createHash, timingSafeEqual } from "crypto";
-import { cookies } from "next/headers";
+import { getCurrentUser } from "@/lib/auth";
 
-const ADMIN_COOKIE = "tawwerni_admin";
-
-function tokenFor(password: string) {
-  return createHash("sha256").update(`tawwerni-admin::${password}`).digest("hex");
+/**
+ * Admin access.
+ *
+ * There is one door into the business: the owner's own account, email plus
+ * password, with `isAdmin` set on the user row. The shared `ADMIN_PASSWORD`
+ * env var that used to guard this panel is gone — a single secret sitting in
+ * plaintext config, shared by anyone who ever saw it, with no name attached to
+ * an approval, is not a credential for the surface that moves money.
+ *
+ * Create or promote the owner account with:
+ *   npx tsx scripts/create-admin.ts <email> <password> [name]
+ */
+export async function adminUser() {
+  const user = await getCurrentUser();
+  if (!user?.isAdmin) return null;
+  return user;
 }
 
-export function verifyAdminPassword(input: string) {
-  const expected = process.env.ADMIN_PASSWORD;
-  if (!expected) return false;
-  const a = Buffer.from(tokenFor(input));
-  const b = Buffer.from(tokenFor(expected));
-  return a.length === b.length && timingSafeEqual(a, b);
-}
-
-export async function setAdminCookie() {
-  const expected = process.env.ADMIN_PASSWORD;
-  if (!expected) throw new Error("ADMIN_PASSWORD is not set");
-  const cookieStore = await cookies();
-  cookieStore.set(ADMIN_COOKIE, tokenFor(expected), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 12 * 60 * 60,
-  });
-}
-
-export async function isAdmin() {
-  const expected = process.env.ADMIN_PASSWORD;
-  if (!expected) return false;
-  const cookieStore = await cookies();
-  const token = cookieStore.get(ADMIN_COOKIE)?.value;
-  if (!token) return false;
-  const a = Buffer.from(token);
-  const b = Buffer.from(tokenFor(expected));
-  return a.length === b.length && timingSafeEqual(a, b);
-}
-
-export async function clearAdminCookie() {
-  const cookieStore = await cookies();
-  cookieStore.delete(ADMIN_COOKIE);
+export async function isAdmin(): Promise<boolean> {
+  return (await adminUser()) !== null;
 }

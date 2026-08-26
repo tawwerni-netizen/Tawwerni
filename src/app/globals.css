@@ -595,9 +595,9 @@ html[data-theme="dark"] .pending-note {
 
 /* ---------- Light mode text scale ----------
  *
- * Night mode got explicit text tokens; light mode was still running on
- * Tailwind's raw neutrals, and `text-neutral-400` on the page ground measured
- * 1.24:1 — effectively invisible. Both themes now use the same tokens.
+ * Night mode got explicit text tokens while light mode still ran on Tailwind's
+ * raw neutrals, which drift lighter than this palette wants. Both themes use
+ * the same warm-grey ramp now, all of it at or above 4.5:1 on the page ground.
  */
 html:not([data-theme="dark"]) .text-neutral-400 { color: #656f6b; }
 html:not([data-theme="dark"]) .text-neutral-500 { color: #5c6863; }
@@ -607,3 +607,12 @@ html:not([data-theme="dark"]) .text-neutral-300 { color: #7b8781; }
 
 html:not([data-theme="dark"]) .lesson-meta { color: #5c6863; }
 html:not([data-theme="dark"]) .lesson-chip { background: #e6ebe9; color: #4a5651; }
+
+/* Accent text on a light ground.
+ *
+ * `--brand-400` and Tailwind's `green-600` are tuned to sit on dark fills; on
+ * white they land near 3.2:1. These are the same hues pulled down far enough
+ * to read — the ".com" in the wordmark appears on every page, so it is not a
+ * detail that can stay borderline. */
+html:not([data-theme="dark"]) .text-brand-400 { color: #17795e; }
+html:not([data-theme="dark"]) .text-green-600 { color: #15803d; }

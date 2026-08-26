@@ -6,13 +6,24 @@ import { businessCourse } from "./course-business";
 import { healthCourse } from "./course-health";
 import { claudePmCourse } from "./course-claude-pm";
 
+/**
+ * Catalogue order — this array position becomes `Course.order`, which is how
+ * the courses are listed everywhere in the app.
+ *
+ * The sequence follows the learner outward from what they signed up for:
+ * the AI challenge is where the quiz funnel lands, so it leads; the Claude
+ * certificate is the obvious next step from it and used to be buried last
+ * despite being the highest-value thing here. Career and business carry the
+ * income promise. Mindset and health sit underneath all of it — they matter,
+ * but nobody arrives for them first.
+ */
 export const allCourses: CourseDefinition[] = [
   aiCourse,
-  mindsetCourse,
+  claudePmCourse,
   careerCourse,
   businessCourse,
+  mindsetCourse,
   healthCourse,
-  claudePmCourse,
 ];
 
 export function getCourseBySlug(slug: string) {
