@@ -134,7 +134,13 @@ export default function LessonPlayer(props: Props) {
     <div className="min-h-screen flex flex-col bg-white">
       <div className="px-4 pt-4 pb-3 border-b border-black/5">
         <div className="flex items-center justify-between mb-2">
-          <button onClick={goHome} className="text-neutral-400 text-sm">
+          {/* Was 13×22 — the smallest control on the site, and the one people
+              reach for when they want out. Now a real 40px square. */}
+          <button
+            onClick={goHome}
+            aria-label="اقفل الدرس"
+            className="tap -m-2 grid h-10 w-10 place-items-center rounded-full text-base text-neutral-400 transition hover:bg-neutral-100"
+          >
             ✕
           </button>
           <div className="text-center">

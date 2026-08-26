@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { LogoMark } from "@/components/Logo";
-import { brand } from "@/content/brand";
+import { brand, referral } from "@/content/brand";
+import ShareRow from "@/components/ShareRow";
 
 const MONTHS = [
   "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
@@ -44,7 +45,7 @@ export default function Certificate({
   return (
     <div className="px-4 pt-5 pb-10">
       <div className="no-print mb-4 flex items-center justify-between">
-        <Link href={backHref} className="text-xs text-brand-600">
+        <Link href={backHref} className="tap inline-block py-1 text-xs text-brand-600">
           ← رجوع للمسار
         </Link>
         <button
@@ -102,6 +103,19 @@ export default function Certificate({
           </div>
         </div>
       </div>
+
+      {/*
+        The moment someone finishes a course is the single best moment to ask
+        them to tell anyone — they just did the work and they're proud of it.
+        Anywhere else on the site this prompt is an interruption; here it is
+        the natural next thing.
+      */}
+      <ShareRow
+        className="no-print mx-auto mt-6 max-w-2xl"
+        title="قول لأصحابك 🎉"
+        note={`خلّصت ${courseTitle} — شارك إنجازك وخد ${referral.commissionEgp} ج.م عن كل واحد يشترك من لينكك.`}
+        message={`خلّصت "${courseTitle}" على ${brand.name} 🎓 — درس واحد كل يوم في ٥ دقايق، بالعربي.`}
+      />
 
       <p className="no-print mx-auto mt-4 max-w-2xl text-center text-[11px] leading-relaxed text-neutral-400">
         الشهادة دي بتثبت إنك أنهيت البرنامج فعليًا على {brand.domain} — مش مجرد

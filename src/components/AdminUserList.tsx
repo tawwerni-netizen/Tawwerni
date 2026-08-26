@@ -89,7 +89,7 @@ export default function AdminUserList({ users }: { users: AdminUserRowData[] }) 
           <p className="mb-2 text-[11px] text-neutral-400">
             {shown.length} من {users.length}
           </p>
-          <div className="grid gap-3 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
             {shown.map((u) => (
               <AdminUserRow key={u.id} user={u} />
             ))}

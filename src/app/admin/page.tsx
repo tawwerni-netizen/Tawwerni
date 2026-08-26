@@ -76,7 +76,7 @@ export default async function AdminPage() {
         ]}
       />
 
-      <div className="grid gap-5 lg:grid-cols-[1fr_20rem] lg:items-start">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
         <div className="min-w-0">
           {unmatched.length > 0 && (
             <section className="mb-6">

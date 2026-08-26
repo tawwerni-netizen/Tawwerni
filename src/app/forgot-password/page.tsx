@@ -65,7 +65,7 @@ export default function ForgotPasswordPage() {
               ما وصلش؟ بصّ في الـSpam. ولو لسه مش لاقيه، كلّمنا على واتساب{" "}
               <b dir="ltr">{payment.supportWhatsapp}</b> وهنحلّها معاك.
             </p>
-            <Link href="/login" className="text-sm font-bold text-brand-600">
+            <Link href="/login" className="tap inline-block py-1 text-sm font-bold text-brand-600">
               رجوع لتسجيل الدخول ←
             </Link>
           </div>

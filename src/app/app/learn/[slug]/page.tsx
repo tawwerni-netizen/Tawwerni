@@ -32,7 +32,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
   return (
     <div className="pb-8">
       <div className="bg-gradient-to-l from-brand-800 to-brand-600 text-white px-4 pt-6 pb-6">
-        <Link href="/app/learn" className="text-xs text-brand-100">
+        <Link href="/app/learn" className="tap inline-block py-1 text-xs text-brand-100">
           ← رجوع
         </Link>
         <div className="text-3xl mt-3">{course.icon}</div>

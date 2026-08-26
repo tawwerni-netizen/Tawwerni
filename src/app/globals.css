@@ -892,7 +892,7 @@ html[data-theme="dark"] .streak-chip {
 }
 
 .certificate-eyebrow {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.32em;
   font-weight: 700;
   color: var(--brand-text);
@@ -939,7 +939,7 @@ html[data-theme="dark"] .streak-chip {
   color: var(--text-strong);
 }
 .certificate-stat-label {
-  font-size: 0.68rem;
+  font-size: 0.6875rem;
   color: var(--text-muted);
 }
 
@@ -951,7 +951,7 @@ html[data-theme="dark"] .streak-chip {
   margin-top: 0.25rem;
 }
 .certificate-foot-label {
-  font-size: 0.62rem;
+  font-size: 0.6875rem;
   color: var(--text-faint);
   margin-bottom: 2px;
 }
@@ -1049,7 +1049,7 @@ html[data-theme="dark"] .admin-badge {
   padding: 0.85rem 0.9rem;
 }
 .admin-stat-label {
-  font-size: 0.68rem;
+  font-size: 0.6875rem;
   color: var(--text-muted);
 }
 .admin-stat-value {
@@ -1059,7 +1059,7 @@ html[data-theme="dark"] .admin-badge {
   color: var(--text-strong);
 }
 .admin-stat-hint {
-  font-size: 0.63rem;
+  font-size: 0.6875rem;
   color: var(--text-faint);
 }
 
@@ -1161,3 +1161,285 @@ html[data-theme="dark"] .admin-stat-warn .admin-stat-value { color: var(--ink-am
   0%, 100% { transform: translateX(0); }
   50%      { transform: translateX(-4px); }
 }
+
+/* ==================================================================
+   Course cards — the catalogue
+   ================================================================== */
+
+.course-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.9rem;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  transition:
+    transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* A wash of brand colour that sweeps up from the bottom on hover. Kept behind
+   the content with a negative z-index so it can never dim the text. */
+.course-card-wash {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  background: linear-gradient(135deg, var(--tint), transparent 62%);
+  transition: opacity 0.32s ease;
+}
+.course-card > *:not(.course-card-wash) {
+  position: relative;
+  z-index: 1;
+}
+
+.course-card:hover,
+.course-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--brand-400) 55%, transparent);
+  box-shadow: 0 18px 38px -20px color-mix(in srgb, var(--brand-800) 55%, transparent);
+  outline: none;
+}
+.course-card:hover .course-card-wash,
+.course-card:focus-visible .course-card-wash {
+  opacity: 1;
+}
+.course-card:active {
+  transform: translateY(-1px) scale(0.992);
+}
+
+.course-card-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  font-size: 1.35rem;
+  background: var(--tint);
+  border: 1px solid color-mix(in srgb, var(--brand-400) 20%, transparent);
+  transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
+}
+.course-card:hover .course-card-icon {
+  transform: scale(1.13) rotate(-7deg);
+  background: color-mix(in srgb, var(--brand-400) 22%, transparent);
+}
+
+.course-card-body {
+  display: block;
+  flex: 1;
+  min-width: 0;
+}
+.course-card-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-strong);
+  transition: color 0.25s ease;
+}
+.course-card:hover .course-card-title {
+  color: var(--brand-text);
+}
+.course-card-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.75rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+.course-card-meta {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.6875rem;
+  color: var(--text-faint);
+}
+.course-card-lock {
+  color: var(--text-faint);
+}
+.course-card-progress {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--brand-text);
+}
+
+.course-chip {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  background: var(--tint-amber);
+  color: #92610b;
+  white-space: nowrap;
+}
+html[data-theme="dark"] .course-chip { color: var(--ink-amber); }
+
+.course-chip-done {
+  background: var(--tint-green);
+  color: #15803d;
+}
+html[data-theme="dark"] .course-chip-done { color: var(--ink-green); }
+
+/* The arrow only appears on hover — a static one on every card is noise. */
+.course-card-go {
+  align-self: center;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  color: var(--brand-text);
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity 0.26s ease, transform 0.26s ease;
+}
+.course-card:hover .course-card-go,
+.course-card:focus-visible .course-card-go {
+  opacity: 1;
+  transform: translateX(0);
+}
+/* Touch devices never hover, so show it always rather than never. */
+@media (hover: none) {
+  .course-card-go { opacity: 0.5; transform: none; }
+}
+
+/* ==================================================================
+   Share row
+   ================================================================== */
+
+.share-row {
+  border-radius: 18px;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--tint), transparent 70%), var(--surface);
+  border: 1px solid color-mix(in srgb, var(--brand-400) 25%, transparent);
+}
+.share-row-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  background: var(--tint);
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-body);
+  background: var(--surface);
+  border: 1px solid var(--hairline-strong);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease;
+}
+.share-btn:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--brand-400) 50%, transparent);
+}
+.share-btn:active { transform: translateY(0) scale(0.97); }
+
+/* WhatsApp keeps its own green — recognising the button is the whole point. */
+.share-btn-wa {
+  background: #25d366;
+  border-color: #1eb455;
+  color: #05341a;
+}
+.share-btn-wa:hover { border-color: #148c3f; }
+
+/* ==================================================================
+   Avatar
+   ================================================================== */
+
+.avatar-tile {
+  /* A hairline that works on both a white header and a dark one. */
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.12);
+  user-select: none;
+}
+html[data-theme="dark"] .avatar-tile {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* ==================================================================
+   Touch targets
+   ==================================================================
+
+   A measured pass across every page at 375px turned up links and buttons as
+   small as 13×22 — including the ✕ that closes the lesson player. Anything
+   under about 40px is a coin-flip with a thumb.
+
+   The fix extends the *hit* area with an absolutely-positioned pseudo-element
+   rather than growing the element, so nothing in the layout shifts and the
+   visual design is untouched. Applied only where the pointer is coarse: on a
+   mouse a 24px target is fine and the extra area would swallow neighbouring
+   hovers. */
+
+.tap {
+  position: relative;
+}
+
+@media (pointer: coarse) {
+  .tap::after {
+    content: "";
+    position: absolute;
+    /* Grows the target to at least ~44px in both directions. */
+    inset: -11px;
+    /* Never paints, never blocks scroll. */
+    border-radius: inherit;
+  }
+
+  /* The shell's own controls, which every page carries. */
+  .logo-link,
+  .avatar-link {
+    position: relative;
+  }
+  .logo-link::after,
+  .avatar-link::after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+  }
+
+  /*
+   * Nav pills grow for real rather than getting a pseudo-element.
+   *
+   * The admin nav on a phone is a horizontally scrolling strip, and an
+   * absolutely-positioned ::after that hangs 8px past the last pill counts
+   * toward the document scroll width — it was the entire cause of the 386px
+   * overflow on a 375px screen. A taller pill has no such side effect.
+   */
+  .nav-pill {
+    min-height: 40px;
+  }
+}
+
+/* ==================================================================
+   Minimum readable size
+   ==================================================================
+
+   Arabic needs more height than Latin at the same nominal size — the dots and
+   the diacritics are what disambiguate letters, and they are the first thing
+   to disappear. 9px badges were legible in a mock-up and not on a phone.
+   These raise the floor without touching anything already large enough. */
+
+.text-\[9px\]  { font-size: 0.6875rem; }  /*  9px → 11px */
+.text-\[10px\] { font-size: 0.6875rem; }  /* 10px → 11px */
+.text-\[11px\] { font-size: 0.71875rem; } /* 11px → 11.5px */
+
+/* The counter bubble grows with its digit rather than keeping a smaller size —
+   a 10px numeral in a 17px circle was the last thing under the floor. */
+.admin-badge { font-size: 11px; min-width: 19px; height: 19px; }

@@ -29,6 +29,20 @@ function fmt(iso: string) {
 }
 
 /**
+ * Short form for the four-across stats strip.
+ *
+ * The full date ("٢٦ أغسطس ٢٠٢٦") pushed that row 11px past the viewport on a
+ * 375px phone — the only horizontal overflow left on the site. The year is
+ * dropped because every one of these is recent; the full date is still on the
+ * row itself under "آخر نشاط".
+ */
+function fmtShort(iso: string) {
+  return new Intl.DateTimeFormat("ar-EG", { day: "numeric", month: "short" }).format(
+    new Date(iso)
+  );
+}
+
+/**
  * One learner in the admin list, with the password controls attached.
  *
  * There is no "show password" here and there never will be — passwords are
@@ -117,11 +131,11 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
         </div>
       </div>
 
-      <div className="mb-3 grid grid-cols-4 gap-2 rounded-xl bg-neutral-50 p-2 text-center">
+      <div className="mb-3 grid grid-cols-4 gap-1.5 rounded-xl bg-neutral-50 p-2 text-center">
         <Mini label="XP" value={user.totalXp} />
         <Mini label="دروس" value={user.lessonsDone} />
         <Mini label="متتالية" value={`${user.streak}🔥`} />
-        <Mini label="اشترك" value={fmt(user.joined)} small />
+        <Mini label="اشترك" value={fmtShort(user.joined)} small />
       </div>
 
       {user.progress.length > 0 ? (
@@ -213,9 +227,11 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
 
 function Mini({ label, value, small }: { label: string; value: number | string; small?: boolean }) {
   return (
-    <div>
-      <div className={`font-bold text-neutral-700 ${small ? "text-xs" : "text-sm"}`}>{value}</div>
-      <div className="text-xs text-neutral-400">{label}</div>
+    <div className="min-w-0">
+      <div className={`truncate font-bold text-neutral-700 ${small ? "text-xs" : "text-sm"}`}>
+        {value}
+      </div>
+      <div className="truncate text-xs text-neutral-400">{label}</div>
     </div>
   );
 }

@@ -96,7 +96,7 @@ export default function ProfileClient(props: Props) {
           ) : (
             <div className="flex items-center gap-2">
               <p className="font-bold text-sm">{name || "حدد اسمك"}</p>
-              <button onClick={() => setEditingName(true)} className="text-[11px] text-brand-600">
+              <button onClick={() => setEditingName(true)} className="tap px-1 py-1 text-[11px] text-brand-600">
                 تعديل
               </button>
             </div>

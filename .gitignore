@@ -46,3 +46,9 @@ next-env.d.ts
 *.db
 *.db-journal
 email-preview/
+
+# artifact from scripts/check-og.ts
+og-preview.png
+
+# copied from scripts/ for in-browser auditing
+public/audit.js

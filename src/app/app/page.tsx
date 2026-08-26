@@ -7,6 +7,7 @@ import { approvedCourseIds } from "@/lib/access";
 import WeekDot from "@/components/WeekDot";
 import HelpCard from "@/components/HelpCard";
 import CourseTile from "@/components/CourseTile";
+import ShareRow from "@/components/ShareRow";
 
 function greeting() {
   const hour = new Date().getHours();
@@ -75,7 +76,7 @@ export default async function AppHomePage() {
 
       {/* Two columns from `md`: the task and the week sit side by side instead
           of stacking into a long scroll on a wide screen. */}
-      <div className="mb-5 grid gap-4 md:grid-cols-2 md:items-start">
+      <div className="mb-5 grid grid-cols-1 gap-4 md:grid-cols-2 md:items-start">
         {active && (
           <div className="animate-rise rounded-2xl bg-gradient-to-l from-brand-800 to-brand-600 text-white p-5">
             <div className="flex items-center justify-between text-xs text-brand-100 mb-2">
@@ -149,7 +150,7 @@ export default async function AppHomePage() {
           subscription covers belongs here, with its own progress.
         */}
         <p className="text-xs text-neutral-400 tracking-wide">مساراتك · {tiles.length} مسارات</p>
-        <Link href="/app/learn" className="text-xs font-bold text-brand-600">
+        <Link href="/app/learn" className="tap inline-block py-1 text-xs font-bold text-brand-600">
           كل المسارات →
         </Link>
       </div>
@@ -158,6 +159,8 @@ export default async function AppHomePage() {
           <CourseTile key={t.slug} {...t} />
         ))}
       </div>
+
+      <ShareRow className="mt-6" />
     </div>
   );
 }

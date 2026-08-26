@@ -1,54 +1,83 @@
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth";
+import { approvedCourseIds } from "@/lib/access";
+import CourseCard from "@/components/CourseCard";
+import ShareRow from "@/components/ShareRow";
 
 export default async function LearnPage() {
-  const courses = await prisma.course.findMany({ orderBy: { order: "asc" } });
+  const user = await getCurrentUser();
+  if (!user) return null;
+
+  const [courses, completions, unlockedIds] = await Promise.all([
+    prisma.course.findMany({
+      where: { isComingSoon: false },
+      orderBy: { order: "asc" },
+      include: { modules: { include: { lessons: { select: { id: true } } } } },
+    }),
+    prisma.lessonCompletion.findMany({
+      where: { userId: user.id },
+      select: { lessonId: true },
+    }),
+    approvedCourseIds(user.id),
+  ]);
+
+  const doneIds = new Set(completions.map((c) => c.lessonId));
+
+  const cards = courses.map((c) => {
+    const lessons = c.modules.flatMap((m) => m.lessons);
+    return {
+      slug: c.slug,
+      title: c.title,
+      description: c.description,
+      icon: c.icon,
+      badge: c.badge,
+      totalLessons: lessons.length,
+      totalXp: c.totalXp,
+      done: lessons.filter((l) => doneIds.has(l.id)).length,
+      unlocked: unlockedIds.has(c.id),
+    };
+  });
+
+  const totalLessons = cards.reduce((s, c) => s + c.totalLessons, 0);
+  const totalDone = cards.reduce((s, c) => s + c.done, 0);
 
   return (
     <div className="px-4 pt-5 pb-8">
-      <h1 className="text-xl font-bold mb-1">الذكاء الاصطناعي والتقنية</h1>
-      <p className="text-sm text-neutral-500 mb-4">أتقن أدوات الذكاء الاصطناعي وابنِ مصدر دخل جديد</p>
+      <h1 className="mb-1 text-xl font-bold md:text-2xl">كل المسارات</h1>
+      <p className="mb-4 text-sm text-neutral-500">
+        اشتراك واحد بيفتحلك كل ده — ابدأ من أي مكان وارجع في أي وقت.
+      </p>
 
-      <div className="flex gap-2 mb-6 text-xs">
-        <span className="bg-brand-50 text-brand-800 rounded-full px-3 py-1 font-bold">
-          {courses.length} كورس
+      <div className="mb-6 flex flex-wrap gap-2 text-xs">
+        <span className="rounded-full bg-brand-50 px-3 py-1 font-bold text-brand-800">
+          {cards.length} مسارات
         </span>
+        <span className="rounded-full bg-brand-50 px-3 py-1 font-bold text-brand-800">
+          {totalLessons} درس
+        </span>
+        {totalDone > 0 && (
+          <span className="rounded-full bg-brand-50 px-3 py-1 font-bold text-brand-800">
+            خلّصت {totalDone}
+          </span>
+        )}
       </div>
 
-      <p className="text-xs text-neutral-400 mb-2 tracking-wide">كل الكورسات</p>
-      <div className="space-y-3 mb-8">
-        {courses.map((course) => (
-          <Link
-            key={course.id}
-            href={course.isComingSoon ? "#" : `/app/learn/${course.slug}`}
-            className={`flex items-center gap-3 rounded-2xl bg-white border border-black/5 p-3 ${
-              course.isComingSoon ? "opacity-60 pointer-events-none" : ""
-            }`}
-          >
-            <div className="w-11 h-11 rounded-xl bg-brand-50 flex items-center justify-center text-xl shrink-0">
-              {course.icon}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-sm">{course.title}</span>
-                {course.badge && (
-                  <span className="text-[10px] bg-amber-100 text-amber-800 rounded-full px-2 py-0.5 shrink-0">
-                    {course.badge}
-                  </span>
-                )}
-              </div>
-              <p className="text-xs text-neutral-400 truncate mt-0.5">{course.description}</p>
-              <p className="text-[10px] text-neutral-400 mt-1">
-                {course.totalLessons} درس · {course.totalXp} XP
-              </p>
-            </div>
-            {course.isComingSoon && (
-              <span className="text-[10px] text-neutral-400 shrink-0">قريبًا</span>
-            )}
-          </Link>
+      {/*
+        One column on a phone, two from `md`. A single 1152px-wide row per
+        course wastes most of a laptop screen and makes six items feel like a
+        long list instead of a catalogue you can take in at once.
+      */}
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {cards.map((c, i) => (
+          <CourseCard key={c.slug} {...c} index={i} />
         ))}
       </div>
 
+      <ShareRow
+        className="mt-8"
+        title="عجبك المحتوى؟"
+        note="ابعت المنصة لحد تعرفه — وخد 50 ج.م عن كل واحد يشترك من لينكك."
+      />
     </div>
   );
 }
