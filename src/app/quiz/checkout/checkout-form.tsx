@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { brand, pricing, payment } from "@/content/brand";
+import { trackInitiateCheckout } from "@/lib/pixel";
 
 type CourseOption = { slug: string; title: string; icon: string; category: string };
 type Method = "vodafone_cash" | "instapay";
@@ -77,6 +78,10 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
       }
     }
     setReady(true);
+    // Reaching the payment screen — the last step before money moves. This is
+    // the signal Meta can optimise toward before there are enough real
+    // purchases to learn from.
+    trackInitiateCheckout(pricing.priceEgp);
   }, []);
 
   const selected = courses.find((c) => c.slug === courseSlug);

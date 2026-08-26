@@ -10,6 +10,7 @@ import CourseTile from "@/components/CourseTile";
 import ShareRow from "@/components/ShareRow";
 import Greeting from "@/components/Greeting";
 import ReminderPrompt from "@/components/ReminderPrompt";
+import PurchasePixel from "@/components/PurchasePixel";
 
 export default async function AppHomePage() {
   const user = await getCurrentUser();
@@ -44,6 +45,20 @@ export default async function AppHomePage() {
 
   const unlockedIds = await approvedCourseIds(user.id);
 
+  /*
+   * The sale, reported to Meta only once the money actually arrived.
+   *
+   * An order is `pending` until a transfer is matched to it, so the checkout
+   * screen is the wrong place to report a purchase — it would count everyone
+   * who filled the form and never sent the money. This is the earliest point
+   * where payment is confirmed.
+   */
+  const paidOrder = await prisma.order.findFirst({
+    where: { userId: user.id, status: "approved" },
+    orderBy: { approvedAt: "asc" },
+    select: { id: true, amountEgp: true },
+  });
+
   const tiles = courses.map((c) => {
     const lessons = c.modules.flatMap((m) => m.lessons);
     const done = lessons.filter((l) => completedLessonIds.has(l.id)).length;
@@ -65,6 +80,7 @@ export default async function AppHomePage() {
 
   return (
     <div className="px-4 pt-5 pb-8">
+      {paidOrder && <PurchasePixel orderId={paidOrder.id} amountEgp={paidOrder.amountEgp} />}
       <Greeting className="mb-1 text-xs tracking-wide text-neutral-400" />
       <h1 className="text-2xl font-bold mb-1 md:text-3xl">أهلًا، {user.name ?? "يا نجم"}!</h1>
       <p className="text-sm text-neutral-500 mb-5">أهلًا بيك في {brand.name}</p>

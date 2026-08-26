@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { brand, pricing, referral, payment } from "@/content/brand";
 import { allCourses, courseStats } from "@/content/courses";
+import { trackLead } from "@/lib/pixel";
 import {
   quizQuestions,
   quizInterstitials,
@@ -87,6 +88,7 @@ export default function QuizPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, name, answers: { ...answers, role } }),
       });
+      trackLead();
     } finally {
       setSaving(false);
       next();
