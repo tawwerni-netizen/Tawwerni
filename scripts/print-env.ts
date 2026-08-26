@@ -23,8 +23,31 @@ function read(file: string): Record<string, string> {
 // .env.local wins: it is the file that holds the real working values.
 const env = { ...read(".env"), ...read(".env.local") };
 
+/**
+ * The server talks to MySQL over localhost.
+ *
+ * The app and the database live on the same machine, so the external hostname
+ * is a detour — and depending on it would mean leaving Remote MySQL open to
+ * the whole internet forever. Your own machine still needs the external host,
+ * which is why .env.local keeps it and only this block is rewritten.
+ */
+function forServer(url: string): string {
+  if (!url.startsWith("mysql://")) return url;
+  try {
+    const u = new URL(url);
+    u.hostname = "localhost";
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
 const rows: [string, string, string][] = [
-  ["DATABASE_URL", env.DATABASE_URL || "mysql://user:password@host:3306/dbname  ← لسه مش متظبط", "بيانات الاتصال بـMySQL"],
+  [
+    "DATABASE_URL",
+    env.DATABASE_URL ? forServer(env.DATABASE_URL) : "mysql://user:password@localhost:3306/dbname  ← لسه مش متظبط",
+    "بيانات الاتصال بـMySQL — localhost لأن التطبيق على نفس السيرفر",
+  ],
   ["JWT_SECRET", env.JWT_SECRET || randomBytes(32).toString("base64url"), "لو اتغيّر، كل الناس هتتطرد من حساباتها"],
   ["PUBLIC_ORIGIN", "https://tawwerni.com", "لينكات الإيميل وبطاقة الواتساب"],
   ["PAYMENT_INGEST_TOKEN", env.PAYMENT_INGEST_TOKEN || randomBytes(24).toString("base64url"), "لازم يطابق تطبيق الأندرويد بالحرف"],
