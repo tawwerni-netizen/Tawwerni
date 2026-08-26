@@ -7,7 +7,7 @@
  *
  *   npx tsx scripts/print-env.ts
  */
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, writeFileSync } from "node:fs";
 import { randomBytes } from "node:crypto";
 
 function read(file: string): Record<string, string> {
@@ -40,14 +40,21 @@ const optional: [string, string, string][] = [
   ["EMAIL_FROM", env.EMAIL_FROM || "noreply@tawwerni.com", ""],
 ];
 
-console.log("\n════════ إجباري — من غيرهم الموقع مش هيقوم ════════\n");
-for (const [k, v] of rows) console.log(`${k}=${v}`);
+const lines: string[] = [];
+lines.push("════════ إجباري — من غيرهم الموقع مش هيقوم ════════", "");
+for (const [k, v] of rows) lines.push(`${k}=${v}`);
 
-console.log("\n════════ الإيميلات وفهيم ════════\n");
+lines.push("", "════════ الإيميلات وفهيم ════════", "");
 for (const [k, v, note] of optional) {
-  if (v) console.log(`${k}=${v}`);
-  else console.log(`# ${k}=   ← ناقص عندك · ${note}`);
+  lines.push(v ? `${k}=${v}` : `# ${k}=   ← ناقص عندك · ${note}`);
 }
+
+console.log("\n" + lines.join("\n"));
+
+// Written to a file as well, because copying a 43-character secret out of a
+// terminal by eye is how a deploy quietly fails an hour later.
+const OUT = ".env.hostinger.txt";
+writeFileSync(OUT, lines.join("\r\n") + "\r\n", "utf8");
 
 const reused = {
   JWT_SECRET: !!env.JWT_SECRET,
@@ -56,4 +63,10 @@ const reused = {
 console.log("\n────────────────────────────────────────");
 console.log(reused.JWT_SECRET ? "✓ JWT_SECRET: نفس القديم — الجلسات هتفضل شغّالة" : "⚠ JWT_SECRET: جديد اتولّد دلوقتي");
 console.log(reused.PAYMENT_INGEST_TOKEN ? "✓ PAYMENT_INGEST_TOKEN: نفس القديم — التطبيق هيفضل شغّال" : "⚠ PAYMENT_INGEST_TOKEN: جديد — لازم تحطه في التطبيق كمان");
+console.log("");
+console.log(`📄 اتكتبوا كمان في ملف: ${OUT}`);
+console.log("   افتحه بالـNotepad وانسخ منه — أسهل وأأمن من النسخ من الشاشة:");
+console.log(`   notepad ${OUT}`);
+console.log("");
+console.log("⚠ الملف ده فيه أسرار. مستثنى من Git، بس امسحه بعد ما تخلص الرفع.");
 console.log("");
