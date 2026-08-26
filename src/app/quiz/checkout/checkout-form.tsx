@@ -191,16 +191,19 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
         {/* Price summary */}
         <div className="mb-4 overflow-hidden rounded-2xl border border-black/5 bg-gradient-to-br from-brand-600 to-brand-800 p-5 text-white">
           <p className="mb-1 text-[11px] font-bold text-white/70">{pricing.offerNote}</p>
+          {/*
+            The struck-through price and the "save 90%" badge are gone: both
+            were derived from a 3000 EGP list price that was never charged.
+            What is left is the number the customer is about to transfer, and
+            what it opens — which is what this screen is for.
+          */}
           <div className="flex items-end gap-3">
             <span className="text-4xl font-bold" dir="ltr">
               {pricing.priceEgp}
             </span>
             <span className="pb-1.5 text-sm">ج.م</span>
-            <span className="pb-1.5 text-sm text-white/50 line-through" dir="ltr">
-              {pricing.originalPriceEgp} ج.م
-            </span>
             <span className="mb-1.5 mr-auto rounded-full bg-white/15 px-2.5 py-1 text-[11px] font-bold">
-              وفّر {pricing.discountPercent}٪
+              كل المسارات
             </span>
           </div>
         </div>

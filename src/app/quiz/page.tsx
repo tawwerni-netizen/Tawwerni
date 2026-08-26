@@ -94,10 +94,7 @@ export default function QuizPage() {
   }
 
   function goCheckout() {
-    sessionStorage.setItem(
-      "tawwerni_checkout",
-      JSON.stringify({ email, name, discountPercent: pricing.discountPercent })
-    );
+    sessionStorage.setItem("tawwerni_checkout", JSON.stringify({ email, name }));
     router.push("/quiz/checkout");
   }
 

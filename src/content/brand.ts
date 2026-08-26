@@ -17,9 +17,20 @@ export const brand = {
 
 export const pricing = {
   priceEgp: 299,
-  originalPriceEgp: 3000,
-  discountPercent: 90,
-  offerNote: "عرض خاص لفترة محدودة",
+  /*
+   * There is no `originalPriceEgp` and no `discountPercent` here any more.
+   *
+   * A 3000 EGP price struck through next to 299 says the course once cost 3000.
+   * It never did — nothing was ever sold at that price — so the saving, and the
+   * "90% off" derived from it, were both claims about a past that did not
+   * happen. That is the same category of invented number as the 100k users the
+   * funnel used to advertise, and it carries real legal exposure on top.
+   *
+   * What replaces it is anchoring against something true: what 299 EGP buys
+   * elsewhere, and what it works out to per lesson. Both are checkable, and a
+   * reader who checks ends up more convinced rather than less.
+   */
+  offerNote: "دفعة واحدة · وصول مدى الحياة",
   /** One payment opens every track — see `lib/access.ts`. */
   grantsAllCourses: true,
 } as const;

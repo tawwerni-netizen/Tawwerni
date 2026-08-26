@@ -129,7 +129,6 @@ export function orderReceivedEmail(opts: {
           <p style="margin:0 0 4px;font-size:12px;color:${TEAL_DARK};">المبلغ المطلوب</p>
           <p style="margin:0;font-size:26px;font-weight:bold;color:${TEAL_DARK};">
             ${pricing.priceEgp} ج.م
-            <span style="font-size:14px;font-weight:normal;color:#6b8f83;text-decoration:line-through;">${pricing.originalPriceEgp}</span>
           </p>
         </td></tr>
       </table>
@@ -148,7 +147,7 @@ export function orderReceivedEmail(opts: {
   const text = `سجّلنا طلبك — اشتراك واحد بيفتح كل المسارات.
 هتبدأ بـ: ${opts.courseTitle}
 
-المبلغ: ${pricing.priceEgp} ج.م (بدل ${pricing.originalPriceEgp})
+المبلغ: ${pricing.priceEgp} ج.م
 
 حوّل عن طريق ${methodLabel} على:
 ${numbers.map((n) => `  ${n}`).join("\n")}

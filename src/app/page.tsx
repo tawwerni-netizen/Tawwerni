@@ -180,13 +180,19 @@ export default function LandingPage() {
           */}
           <div className="price-card">
             <p className="mb-1 text-xs font-bold tracking-wide text-brand-700">اشتراك واحد</p>
+            {/*
+              A struck-through 3000 used to sit beside the price. Nothing was
+              ever sold at 3000, so it was a claim about a past that did not
+              happen. The per-lesson figure below is arithmetic on numbers the
+              reader can count for themselves.
+            */}
             <div className="mb-2 flex items-baseline justify-center gap-2">
               <span className="text-5xl font-bold">{pricing.priceEgp}</span>
               <span className="text-sm font-bold">ج.م</span>
-              <span className="text-sm text-neutral-400 line-through" dir="ltr">
-                {pricing.originalPriceEgp}
-              </span>
             </div>
+            <p className="mb-3 text-xs text-neutral-400">
+              يعني أقل من جنيهين للدرس — لـ{totalLessons} درس
+            </p>
             <p className="mb-5 text-xs leading-relaxed text-neutral-500">
               وصول مدى الحياة · كل المسارات · كل التحديثات الجاية مجانًا
             </p>

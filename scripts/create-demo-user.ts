@@ -58,7 +58,7 @@ if (!email || !password) {
         courseId: course.id,
         method: "manual",
         amountEgp: pricing.priceEgp,
-        originalPriceEgp: pricing.originalPriceEgp,
+        originalPriceEgp: pricing.priceEgp,
         status: "pending",
       },
       select: { id: true },

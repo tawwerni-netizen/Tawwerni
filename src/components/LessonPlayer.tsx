@@ -342,11 +342,7 @@ export default function LessonPlayer(props: Props) {
               <div className="mb-6 overflow-hidden rounded-2xl border border-black/5 bg-gradient-to-br from-brand-600 to-brand-800 p-4 text-right text-white">
                 <p className="mb-1 text-sm font-bold">🎁 وصلت نص الطريق — الحق العرض!</p>
                 <p className="mb-3 text-xs leading-relaxed text-white/80">
-                  المسارات التانية بـ <b>{pricing.priceEgp} ج.م</b>{" "}
-                  <span className="text-white/50 line-through" dir="ltr">
-                    {pricing.originalPriceEgp}
-                  </span>{" "}
-                  — {pricing.offerNote}.
+                  المسارات التانية بـ <b>{pricing.priceEgp} ج.م</b> — {pricing.offerNote}.
                 </p>
                 <div className="mb-3 flex flex-wrap gap-2">
                   {props.promoCourses.map((c) => (

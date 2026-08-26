@@ -83,9 +83,6 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               <p className="text-sm font-bold mb-1">🔓 افتح كل المسارات</p>
               <p className="text-xs text-white/80 mb-3">
                 اليوم الأول مجاني. اشتراك واحد بـ <b>{pricing.priceEgp} ج.م</b>{" "}
-                <span className="line-through text-white/50" dir="ltr">
-                  {pricing.originalPriceEgp}
-                </span>{" "}
                 بيفتحلك باقي الـ {allLessons.length - 1} يوم هنا{" "}
                 <b>وكل المسارات التانية كمان</b> — {pricing.offerNote}.
               </p>

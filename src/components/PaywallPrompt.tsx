@@ -60,9 +60,6 @@ export default function PaywallPrompt({
         <div className="mb-5 inline-flex items-baseline gap-2 rounded-2xl bg-white/10 px-5 py-3">
           <span className="text-3xl font-bold">{pricing.priceEgp}</span>
           <span className="text-sm">ج.م</span>
-          <span className="on-brand-strike text-sm line-through" dir="ltr">
-            {pricing.originalPriceEgp}
-          </span>
         </div>
 
         <Link

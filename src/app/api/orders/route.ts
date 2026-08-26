@@ -102,7 +102,9 @@ export async function POST(request: Request) {
       courseId: course.id,
       method,
       amountEgp: pricing.priceEgp,
-      originalPriceEgp: pricing.originalPriceEgp,
+      // السعر اللي اتدفع فعلًا — عشان أي تغيير في السعر بعدين
+      // ما يغيّرش سجل عميل قديم.
+      originalPriceEgp: pricing.priceEgp,
       status: "pending",
       proofChannel: typeof proofChannel === "string" ? proofChannel : null,
       senderPhone: normalizedPhone,
