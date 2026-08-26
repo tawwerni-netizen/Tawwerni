@@ -1,4 +1,4 @@
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient, type Prisma } from "../src/generated/prisma/client";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 import { allCourses, courseStats } from "../src/content/courses";
 import { comingSoonCourses } from "../src/content/courses-catalog";
@@ -12,21 +12,14 @@ async function seedCourse(def: CourseDefinition, order: number) {
   const { totalLessons, totalXp } = courseStats(def);
   const { meta } = def;
 
-  // Replace the course tree wholesale so re-seeding stays idempotent.
-  const existing = await prisma.course.findUnique({ where: { slug: meta.slug } });
-  if (existing) {
-    const lessons = await prisma.lesson.findMany({
-      where: { module: { courseId: existing.id } },
-      select: { id: true },
-    });
-    const lessonIds = lessons.map((l) => l.id);
-    await prisma.quizQuestion.deleteMany({ where: { lessonId: { in: lessonIds } } });
-    await prisma.lessonCard.deleteMany({ where: { lessonId: { in: lessonIds } } });
-    await prisma.lessonCompletion.deleteMany({ where: { lessonId: { in: lessonIds } } });
-    await prisma.lesson.deleteMany({ where: { module: { courseId: existing.id } } });
-    await prisma.module.deleteMany({ where: { courseId: existing.id } });
-  }
-
+  // Modules and lessons are updated in place, never dropped and rebuilt.
+  //
+  // Rebuilding them mints new lesson ids, and a LessonCompletion points at a
+  // lesson id — so a wholesale replace silently erases every student's
+  // progress. Content changes constantly after launch; progress must not.
+  //
+  // Cards and quiz questions carry no user data, so those are still replaced
+  // wholesale per lesson. That is the cheap, safe half.
   const course = await prisma.course.upsert({
     where: { slug: meta.slug },
     update: {
@@ -56,31 +49,46 @@ async function seedCourse(def: CourseDefinition, order: number) {
     },
   });
 
+  const keptModuleIds: string[] = [];
+
   for (let mi = 0; mi < def.modules.length; mi++) {
     const moduleContent = def.modules[mi];
-    const dbModule = await prisma.module.create({
-      data: {
-        courseId: course.id,
-        order: mi,
-        title: moduleContent.title,
-        description: moduleContent.description,
-        icon: moduleContent.icon,
-      },
+    const moduleData = {
+      title: moduleContent.title,
+      description: moduleContent.description,
+      icon: moduleContent.icon,
+    };
+    const dbModule = await prisma.module.upsert({
+      where: { courseId_order: { courseId: course.id, order: mi } },
+      update: moduleData,
+      create: { courseId: course.id, order: mi, ...moduleData },
     });
+    keptModuleIds.push(dbModule.id);
+
+    const keptLessonIds: string[] = [];
 
     for (let li = 0; li < moduleContent.lessons.length; li++) {
       const lessonContent = moduleContent.lessons[li];
-      const dbLesson = await prisma.lesson.create({
-        data: {
-          moduleId: dbModule.id,
-          dayNumber: lessonContent.day,
-          title: lessonContent.title,
-          durationMin: lessonContent.durationMin,
-          xp: lessonContent.xp,
-          order: li,
-          isCheckpoint: lessonContent.isCheckpoint ?? false,
+      const lessonData = {
+        title: lessonContent.title,
+        durationMin: lessonContent.durationMin,
+        xp: lessonContent.xp,
+        order: li,
+        isCheckpoint: lessonContent.isCheckpoint ?? false,
+      };
+      const dbLesson = await prisma.lesson.upsert({
+        where: {
+          moduleId_dayNumber: { moduleId: dbModule.id, dayNumber: lessonContent.day },
         },
+        update: lessonData,
+        create: { moduleId: dbModule.id, dayNumber: lessonContent.day, ...lessonData },
       });
+      keptLessonIds.push(dbLesson.id);
+
+      // Wipe this lesson's content rows so re-seeding stays idempotent. Safe:
+      // neither table holds anything the student created.
+      await prisma.lessonCard.deleteMany({ where: { lessonId: dbLesson.id } });
+      await prisma.quizQuestion.deleteMany({ where: { lessonId: dbLesson.id } });
 
       for (let ci = 0; ci < lessonContent.cards.length; ci++) {
         const card = lessonContent.cards[ci];
@@ -120,9 +128,31 @@ async function seedCourse(def: CourseDefinition, order: number) {
         });
       }
     }
+
+    // A day that no longer exists in the content has to go, and its progress
+    // with it — there is nothing left to have made progress on. This is the
+    // only path that deletes a completion, and it only fires when a course
+    // actually shrinks.
+    await dropLessons({ moduleId: dbModule.id, id: { notIn: keptLessonIds } });
   }
 
+  await dropLessons({ module: { courseId: course.id, id: { notIn: keptModuleIds } } });
+  await prisma.module.deleteMany({ where: { courseId: course.id, id: { notIn: keptModuleIds } } });
+
   console.log(`  ✓ ${meta.title} — ${totalLessons} درس، ${totalXp} XP`);
+}
+
+/** Removes lessons and everything that references them, children first. */
+async function dropLessons(where: Prisma.LessonWhereInput) {
+  const doomed = await prisma.lesson.findMany({ where, select: { id: true } });
+  if (!doomed.length) return;
+
+  const ids = doomed.map((l) => l.id);
+  await prisma.quizQuestion.deleteMany({ where: { lessonId: { in: ids } } });
+  await prisma.lessonCard.deleteMany({ where: { lessonId: { in: ids } } });
+  await prisma.lessonCompletion.deleteMany({ where: { lessonId: { in: ids } } });
+  await prisma.lesson.deleteMany({ where: { id: { in: ids } } });
+  console.log(`    · اتشال ${ids.length} درس مابقاش موجود في المحتوى`);
 }
 
 async function main() {

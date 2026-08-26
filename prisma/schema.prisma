@@ -180,6 +180,10 @@ model Module {
 
   course  Course   @relation(fields: [courseId], references: [id])
   lessons Lesson[]
+
+  // Lets the seed find an existing module instead of recreating it, which is
+  // what keeps lesson ids — and the progress hanging off them — alive.
+  @@unique([courseId, order])
 }
 
 model Lesson {
@@ -196,6 +200,11 @@ model Lesson {
   cards         LessonCard[]
   quizQuestions QuizQuestion[]
   completions   LessonCompletion[]
+
+  // The day number is the lesson's real identity — it is what the URL carries
+  // and what the learner sees. Keying on it lets a re-seed update the lesson in
+  // place, so a student who finished day 9 still has day 9 finished afterwards.
+  @@unique([moduleId, dayNumber])
 }
 
 model LessonCard {
