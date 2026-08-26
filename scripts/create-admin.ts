@@ -9,29 +9,9 @@
  *
  * Passing it as a third argument still works, for scripted setups.
  */
-import { createInterface } from "node:readline";
+import { askHidden } from "./ask-hidden";
 import { prisma } from "../src/lib/prisma";
 import { hashPassword, passwordProblem } from "../src/lib/password";
-
-/** Reads a line without echoing it back to the terminal. */
-function askHidden(question: string): Promise<string> {
-  return new Promise((resolve) => {
-    const rl = createInterface({ input: process.stdin, output: process.stdout, terminal: true });
-
-    // readline writes the prompt, then every keystroke it receives. Silencing
-    // the output stream after the prompt lands hides the typing but not the
-    // question.
-    process.stdout.write(question);
-    const out = rl as unknown as { output: NodeJS.WriteStream; _writeToOutput: (s: string) => void };
-    out._writeToOutput = () => {};
-
-    rl.question("", (answer) => {
-      rl.close();
-      process.stdout.write("\n");
-      resolve(answer);
-    });
-  });
-}
 
 const [email, ...rest] = process.argv.slice(2);
 // A third argument is still honoured so existing scripts keep working; the
