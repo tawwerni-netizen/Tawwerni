@@ -43,7 +43,14 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           <span className="bg-white/15 rounded-full px-3 py-1">{course.modules.length} وحدات</span>
           <span className="bg-white/15 rounded-full px-3 py-1">{course.totalXp} XP</span>
         </div>
-        {unlocked ? (
+        {unlocked && doneCount >= allLessons.length ? (
+          <Link
+            href={`/app/learn/${course.slug}/certificate`}
+            className="btn-ghost-shine mt-4 block rounded-full bg-white py-2.5 text-center text-sm font-bold text-brand-800"
+          >
+            🎓 شوف شهادتك
+          </Link>
+        ) : unlocked ? (
           <Link
             href={`/app/learn/${course.slug}/${nextLesson.dayNumber}`}
             className="btn-ghost-shine block text-center bg-white text-brand-800 font-bold rounded-full py-2.5 text-sm mt-4"
@@ -98,7 +105,13 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             <li>🎯 مهمة عملية واحدة كل يوم</li>
             <li>📝 كويزات بشرح كامل بعد كل درس</li>
             <li>🏅 نقاط خبرة، أيام متتالية، وشارات إنجاز</li>
-            <li>🎓 شهادة إتمام الكورس</li>
+            <li>
+              🎓{" "}
+              <Link href={`/app/learn/${course.slug}/certificate`} className="font-bold text-brand-600">
+                شهادة إتمام الكورس
+              </Link>{" "}
+              — بتتفتح لما تخلّص كل الأيام
+            </li>
           </ul>
         </div>
 

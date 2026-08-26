@@ -15,6 +15,10 @@ type Visual =
   | { kind: "versus"; left: string; right: string }
   | { kind: "steps"; items: string[] }
   | { kind: "checklist"; items: { text: string; good: boolean }[] }
+  | { kind: "quote"; text: string }
+  | { kind: "keywords"; items: { icon: string; text: string }[] }
+  | { kind: "arrow"; from: string; to: string }
+  | { kind: "accent"; icon: string; heading: string }
   | { kind: "none" };
 
 /** Arabic-Indic and Western digits both appear in the content. */
@@ -86,12 +90,104 @@ function asSteps(lines: string[]): Visual | null {
   };
 }
 
+/** "من X لـ Y" — a change of state, drawn as a transition. */
+function asArrow(heading: string): Visual | null {
+  const m = heading.match(/^من\s+(.{2,20}?)\s+(?:لـ?|إلى|ل)\s*(.{2,20})$/);
+  if (!m) return null;
+  return { kind: "arrow", from: m[1].trim(), to: m[2].trim() };
+}
+
+/**
+ * Lines that are each "مصطلح: شرح" read as a glossary rather than prose.
+ * Needs at least two, or a single colon in a sentence would trigger it.
+ */
+function asKeywords(lines: string[]): Visual | null {
+  const pairs = lines
+    .map((l) => l.match(/^\s*(?:[-•*]\s*)?([^:：]{2,22})\s*[:：]\s*(.{6,})$/))
+    .filter(Boolean) as RegExpMatchArray[];
+
+  if (pairs.length < 2) return null;
+
+  const ICONS = ["🔹", "🔸", "🔷", "🔶"];
+  return {
+    kind: "keywords",
+    items: pairs.slice(0, 4).map((m, i) => ({
+      icon: ICONS[i % ICONS.length],
+      text: m[1].trim(),
+    })),
+  };
+}
+
+/**
+ * A pull quote, for cards that really are one statement.
+ *
+ * The first cut of this fired on any opening line between 25 and 110
+ * characters, which turned out to be three quarters of every card in the
+ * course. A treatment that appears on three quarters of cards is not emphasis,
+ * it's the new body text — so this now only fires when the card genuinely IS a
+ * single short thought: one or two lines, and a sentence that ends.
+ */
+function asQuote(heading: string, lines: string[]): Visual | null {
+  if (lines.length === 0 || lines.length > 2) return null;
+
+  const first = lines[0].trim();
+  if (first.length < 30 || first.length > 90) return null;
+
+  // A list item or a labelled line belongs to another visual.
+  if (/^[-•*✅❌✓✗×\d١٢٣٤٥]/.test(first)) return null;
+  if (/[:：]/.test(first)) return null;
+
+  // A trailing comma means the thought continues into the next line.
+  if (/[،,]$/.test(first)) return null;
+
+  // Only when the heading isn't already carrying the card.
+  if (heading.trim().length > 40) return null;
+
+  return { kind: "quote", text: first };
+}
+
+/**
+ * The floor: every info card gets *something*.
+ *
+ * A page of unbroken Arabic body text is what the learner called boring, and
+ * the earlier heuristics only fire on cards shaped a particular way. This picks
+ * an icon from what the heading is about and sets it as a banner — not
+ * decoration for its own sake, but a marker that tells you at a glance what
+ * kind of card you're on.
+ */
+const TOPIC_ICONS: [RegExp, string][] = [
+  [/ذكاء|اصطناعي|AI|روبوت|نموذج/i, "🤖"],
+  [/فلوس|دخل|ربح|سعر|تسعير|ميزانية|جنيه/, "💰"],
+  [/وقت|يوم|ساعة|دقيقة|جدول|ميعاد/, "⏱️"],
+  [/صحة|نوم|أكل|تغذية|رياضة|جسم|طاقة/, "💚"],
+  [/عميل|زبون|سوق|بيع|تسويق/, "🎯"],
+  [/شغل|وظيفة|مهنة|مدير|فريق|شركة/, "💼"],
+  [/عادة|عادات|انضباط|تركيز|إرادة|هوية/, "🧠"],
+  [/خطأ|غلط|خطر|حذر|مشكلة|فخ/, "⚠️"],
+  [/خطوة|طريقة|إزاي|كيف|ابدأ/, "🧭"],
+  [/مثال|تطبيق|جرّب|نفّذ/, "🛠️"],
+  [/سؤال|ليه|إيه|فرق/, "💡"],
+];
+
+function asAccent(heading: string): Visual | null {
+  const h = heading.trim();
+  if (!h || h.length > 60) return null;
+  for (const [re, icon] of TOPIC_ICONS) {
+    if (re.test(h)) return { kind: "accent", icon, heading: h };
+  }
+  return { kind: "accent", icon: "📌", heading: h };
+}
+
 export function pickVisual(heading: string, lines: string[]): Visual {
   return (
     asVersus(heading) ??
+    asArrow(heading) ??
     asStat(heading, lines[0] ?? "") ??
     asChecklist(lines) ??
-    asSteps(lines) ?? { kind: "none" }
+    asSteps(lines) ??
+    asKeywords(lines) ??
+    asQuote(heading, lines) ??
+    asAccent(heading) ?? { kind: "none" }
   );
 }
 
@@ -101,7 +197,23 @@ export function pickVisual(heading: string, lines: string[]): Visual {
  */
 export function visualConsumesHeading(heading: string, lines: string[]): boolean {
   const v = pickVisual(heading, lines);
-  return v.kind === "stat" || v.kind === "versus";
+  return v.kind === "stat" || v.kind === "versus" || v.kind === "arrow" || v.kind === "accent";
+}
+
+/**
+ * True when the graphic already shows the card's first line, so the body drops
+ * it rather than printing the same words again immediately underneath.
+ *
+ * Covers the stat card too: its caption IS the first line, and leaving both in
+ * made the big-number card read the same sentence twice in a row.
+ */
+export function visualConsumesFirstLine(heading: string, lines: string[]): boolean {
+  const v = pickVisual(heading, lines);
+  if (v.kind === "quote") return true;
+  // Only when the caption wasn't truncated — a cut-off caption still needs the
+  // full line underneath it.
+  if (v.kind === "stat") return v.caption.length > 0 && lines[0]?.trim().startsWith(v.caption);
+  return false;
 }
 
 export default function CardVisual({ heading, lines }: { heading: string; lines: string[] }) {
@@ -137,6 +249,63 @@ export default function CardVisual({ heading, lines }: { heading: string; lines:
           <Side label={v.left} tone="no" />
           <div className="vis-caption grid place-items-center px-1 text-xs font-bold">مقابل</div>
           <Side label={v.right} tone="yes" />
+        </div>
+      </Frame>
+    );
+  }
+
+  if (v.kind === "accent") {
+    return (
+      <div className="vis-banner animate-rise mb-4">
+        <span className="vis-banner-icon" aria-hidden>
+          {v.icon}
+        </span>
+        <h2 className="vis-banner-title">{v.heading}</h2>
+      </div>
+    );
+  }
+
+  if (v.kind === "arrow") {
+    return (
+      <Frame>
+        <div className="grid grid-cols-[1fr_auto_1fr] items-stretch gap-2 p-4">
+          <Side label={v.from} tone="no" />
+          <div className="vis-arrow grid place-items-center px-1" aria-hidden>
+            ←
+          </div>
+          <Side label={v.to} tone="yes" />
+        </div>
+      </Frame>
+    );
+  }
+
+  if (v.kind === "quote") {
+    return (
+      <Frame>
+        <blockquote className="relative px-6 py-6 text-center">
+          <span className="vis-quote-mark" aria-hidden>
+            ”
+          </span>
+          <p className="vis-quote-text">{v.text}</p>
+        </blockquote>
+      </Frame>
+    );
+  }
+
+  if (v.kind === "keywords") {
+    return (
+      <Frame>
+        <div className="flex flex-wrap justify-center gap-2 p-4">
+          {v.items.map((item, i) => (
+            <span
+              key={i}
+              className="vis-chip animate-rise"
+              style={{ animationDelay: `${i * 80}ms` }}
+            >
+              <span aria-hidden>{item.icon}</span>
+              {item.text}
+            </span>
+          ))}
         </div>
       </Frame>
     );

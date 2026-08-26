@@ -21,6 +21,7 @@ export default async function ProfilePage() {
       email={user.email}
       dailyPaceMinutes={user.dailyPaceMinutes ?? 15}
       focusCategory={user.focusCategory}
+      avatarUrl={user.avatarUrl}
       totalXp={totalXp}
       streak={streak}
       subscription={

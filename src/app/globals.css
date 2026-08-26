@@ -25,13 +25,26 @@
   --surface-raised: #eef2f0;
   --hairline: rgba(0, 0, 0, 0.06);
   --hairline-strong: rgba(0, 0, 0, 0.11);
-  --text-faint: #9aa5a0;
-  --text-muted: #6b7772;
+  /* The whole ramp clears 4.5:1 on the page ground. `--text-faint` was
+     #9aa5a0 — a shade meant for hairlines that ended up carrying the bottom
+     nav labels and the admin stat hints at 2.54:1. "Faint" here means quiet,
+     not unreadable. */
+  --text-faint: #656f6b;
+  --text-muted: #59645f;
   --text-body: #3d4844;
   --text-strong: #1c2622;
   --tint-amber: #fdf5e6;
   --tint-green: #e8f6ee;
   --tint-red: #fdeceb;
+
+  /* Shell tokens — the header, nav and tiles read from these in both themes. */
+  --brand-500: #17795e;
+  /* Brand-coloured TEXT. Separate from the fills above: a colour that works as
+     a button background is rarely the one that works as words on white. */
+  --brand-text: #0f6e56;
+  --text-soft: #5c6863;
+  --tint: rgba(15, 110, 86, 0.09);
+  --tint-warm: rgba(245, 158, 11, 0.16);
 }
 
 /*
@@ -83,6 +96,12 @@ html[data-theme="dark"] {
   --tint-red: #261614;
   --tint-red-strong: #331b18;
   --ink-red: #e08b81;
+
+  /* Shell tokens. `--brand-text` is already defined brighter above for dark. */
+  --brand-500: #1f8f6d;
+  --text-soft: #9daaa4;
+  --tint: rgba(92, 201, 164, 0.12);
+  --tint-warm: rgba(245, 158, 11, 0.16);
 }
 
 /* ---- Re-point the utilities the components actually use ---- */
@@ -616,3 +635,529 @@ html:not([data-theme="dark"]) .lesson-chip { background: #e6ebe9; color: #4a5651
  * detail that can stay borderline. */
 html:not([data-theme="dark"]) .text-brand-400 { color: #17795e; }
 html:not([data-theme="dark"]) .text-green-600 { color: #15803d; }
+
+/* ==================================================================
+   The persistent shell: header, navigation, logo
+   ================================================================== */
+
+/* Sticky bar. Translucent with a blur so content scrolling underneath stays
+   sensed rather than clipped off — with an opaque fallback first, because
+   `backdrop-filter` is the kind of thing that silently does nothing. */
+.app-header {
+  background: var(--surface);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+@supports (backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)) {
+  .app-header {
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    -webkit-backdrop-filter: saturate(1.6) blur(14px);
+    backdrop-filter: saturate(1.6) blur(14px);
+  }
+}
+html[data-theme="dark"] .app-header {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ---------- Desktop nav pills ---------- */
+.nav-pill {
+  color: var(--text-soft);
+  transition: color 0.18s ease, background-color 0.18s ease, transform 0.18s ease;
+}
+.nav-pill:hover {
+  color: var(--brand-text);
+  background: var(--tint);
+  transform: translateY(-1px);
+}
+.nav-pill-on {
+  color: var(--brand-text);
+  background: var(--tint);
+}
+
+/* ---------- Phone tab bar ---------- */
+.bottom-nav {
+  background: var(--surface);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  /* Clear the iOS home indicator. */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+html[data-theme="dark"] .bottom-nav {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+.nav-tab {
+  position: relative;
+  color: var(--text-faint);
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-tab-icon {
+  display: inline-block;
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.nav-tab:hover .nav-tab-icon,
+.nav-tab:focus-visible .nav-tab-icon {
+  transform: translateY(-3px) scale(1.18);
+}
+.nav-tab:active .nav-tab-icon {
+  transform: translateY(-1px) scale(0.94);
+}
+.nav-tab:hover {
+  color: var(--brand-text);
+}
+.nav-tab-on {
+  color: var(--brand-text);
+}
+.nav-tab-on .nav-tab-icon {
+  transform: translateY(-2px) scale(1.1);
+}
+/* A dot under the active tab, so position is not carried by colour alone. */
+.nav-tab-on::after {
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: currentColor;
+  animation: pop 0.3s ease-out;
+}
+
+/* ---------- The logo, alive ---------- */
+.logo-tile {
+  display: inline-block;
+  transform-origin: center;
+  animation: logo-breathe 7s ease-in-out infinite;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+.logo-link:hover .logo-tile {
+  transform: translateY(-2px) rotate(-4deg) scale(1.07);
+}
+.logo-link:active .logo-tile {
+  transform: translateY(0) scale(0.96);
+}
+
+@keyframes logo-breathe {
+  0%, 88%, 100% { transform: translateY(0) scale(1); }
+  92%           { transform: translateY(-2px) scale(1.045); }
+  96%           { transform: translateY(0) scale(0.995); }
+}
+
+/* A highlight that sweeps the tile every few seconds. Clipped to the tile's
+   own rounded rect so it reads as light moving across a surface. */
+.logo-gleam {
+  position: absolute;
+  inset: 0;
+  border-radius: 27%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.logo-gleam::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  bottom: -60%;
+  width: 42%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  transform: translateX(-260%) rotate(14deg);
+  animation: logo-gleam 6.5s ease-in-out infinite;
+}
+@keyframes logo-gleam {
+  0%, 62%   { transform: translateX(-260%) rotate(14deg); }
+  78%, 100% { transform: translateX(320%) rotate(14deg); }
+}
+
+.logo-link .text-brand-800,
+.logo-link .text-brand-400 {
+  transition: opacity 0.2s ease;
+}
+.logo-link:hover .text-brand-800 {
+  opacity: 0.85;
+}
+
+/* ---------- Avatar ---------- */
+.avatar-link {
+  display: inline-flex;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+.avatar-link:hover {
+  transform: scale(1.09);
+  box-shadow: 0 0 0 3px var(--tint);
+}
+.avatar-link:active {
+  transform: scale(0.95);
+}
+
+/* ---------- Streak chip ---------- */
+.streak-chip {
+  background: var(--tint-warm, rgba(245, 158, 11, 0.14));
+  color: #92610b;
+}
+html[data-theme="dark"] .streak-chip {
+  background: rgba(245, 158, 11, 0.16);
+  color: #fbbf24;
+}
+.animate-flicker {
+  display: inline-block;
+  animation: flicker 2.4s ease-in-out infinite;
+}
+@keyframes flicker {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  30%      { transform: scale(1.16) rotate(-6deg); opacity: 0.92; }
+  60%      { transform: scale(0.97) rotate(4deg); opacity: 1; }
+}
+
+/* ---------- Interactive tiles ----------
+   Used for the help-centre card and the course grid: a clear press response,
+   since these are links that don't look like buttons. */
+.tile-press {
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.22s ease, border-color 0.22s ease;
+}
+.tile-press:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--brand-500) 45%, transparent);
+  box-shadow: 0 10px 26px -12px color-mix(in srgb, var(--brand-800) 40%, transparent);
+}
+.tile-press:active {
+  transform: translateY(-1px) scale(0.985);
+}
+
+/* An arrow that slides on hover — the affordance for "this goes somewhere". */
+.tile-press .go-arrow {
+  display: inline-block;
+  transition: transform 0.22s ease;
+}
+.tile-press:hover .go-arrow {
+  transform: translateX(-4px);
+}
+
+/* Help centre panel — its own surface token so night mode doesn't leave a
+   white sheet floating over a dark page. */
+.help-panel {
+  background: var(--surface);
+}
+.help-fab {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+.help-fab:hover {
+  transform: translateY(-3px) scale(1.06);
+}
+.help-fab:active {
+  transform: scale(0.93);
+}
+
+/* Progress bars on the course tiles. */
+.progress-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--surface-raised);
+  overflow: hidden;
+}
+.progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand-400), var(--brand-600));
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ==================================================================
+   Completion certificate
+   ================================================================== */
+
+.certificate {
+  border-radius: 20px;
+  padding: 5px;
+  background: linear-gradient(135deg, var(--brand-400), var(--brand-800) 55%, var(--brand-400));
+  box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.45);
+}
+.certificate-inner {
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 2.25rem 1.5rem;
+  text-align: center;
+  /* A faint guilloche, so a screenshot doesn't look like a plain web page. */
+  background-image:
+    radial-gradient(circle at 12% 10%, var(--tint) 0, transparent 42%),
+    radial-gradient(circle at 88% 90%, var(--tint) 0, transparent 42%);
+}
+@media (min-width: 640px) {
+  .certificate-inner { padding: 3rem 2.75rem; }
+}
+
+.certificate-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  font-weight: 700;
+  color: var(--brand-text);
+  margin-bottom: 1rem;
+}
+
+.certificate-rule {
+  height: 2px;
+  margin: 1.1rem auto;
+  max-width: 190px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--brand-400), transparent);
+}
+
+.certificate-name {
+  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  font-weight: 700;
+  color: var(--text-strong);
+  /* Arabic descenders need the room; without it the tails clip. */
+  line-height: 1.5;
+  padding-bottom: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.certificate-course {
+  font-size: clamp(1.05rem, 3.6vw, 1.4rem);
+  font-weight: 700;
+  color: var(--brand-text);
+  line-height: 1.6;
+  padding-bottom: 0.08em;
+  margin-bottom: 1.5rem;
+}
+
+.certificate-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.certificate-stat-value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+.certificate-stat-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.certificate-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.25rem;
+}
+.certificate-foot-label {
+  font-size: 0.62rem;
+  color: var(--text-faint);
+  margin-bottom: 2px;
+}
+.certificate-foot-value {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-body);
+}
+.certificate-seal {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  font-size: 1.5rem;
+  background: var(--tint);
+  border: 2px solid var(--brand-400);
+}
+
+/* Printing: this is how people will save it as a PDF, so strip everything that
+   isn't the certificate and force the light palette — a dark sheet would eat
+   an entire ink cartridge and look wrong on paper. */
+@media print {
+  .no-print,
+  .app-header,
+  .bottom-nav,
+  .help-fab,
+  .help-panel { display: none !important; }
+
+  html, body {
+    background: #ffffff !important;
+    color: #111 !important;
+  }
+  .certificate {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+  .certificate-inner {
+    background: #ffffff !important;
+  }
+  .certificate-name,
+  .certificate-stat-value { color: #111 !important; }
+  .certificate-course,
+  .certificate-eyebrow { color: #0f6e56 !important; }
+}
+
+/* Avatar picker: the camera badge only makes sense if the tile looks pressable. */
+.avatar-edit {
+  display: inline-block;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.avatar-edit:hover { transform: scale(1.05); }
+.avatar-edit:active { transform: scale(0.96); }
+.avatar-edit-badge {
+  position: absolute;
+  bottom: -2px;
+  left: -2px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: var(--surface);
+  border: 1px solid var(--hairline-strong);
+  box-shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* ==================================================================
+   Admin panel
+   ================================================================== */
+
+.admin-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  background: #b45309;
+  color: #fff;
+}
+html[data-theme="dark"] .admin-badge {
+  background: #d97706;
+  color: #1a1206;
+}
+
+.admin-stat {
+  border-radius: 16px;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  padding: 0.85rem 0.9rem;
+}
+.admin-stat-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+.admin-stat-value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-strong);
+}
+.admin-stat-hint {
+  font-size: 0.63rem;
+  color: var(--text-faint);
+}
+
+/* Tone is carried by a bar down the leading edge rather than by tinting the
+   whole card — four saturated cards in a row is noise, one accent is a signal. */
+.admin-stat-warn {
+  border-color: color-mix(in srgb, #b45309 35%, transparent);
+  box-shadow: inset 3px 0 0 0 #b45309;
+}
+.admin-stat-warn .admin-stat-value { color: #92400e; }
+html[data-theme="dark"] .admin-stat-warn .admin-stat-value { color: var(--ink-amber); }
+
+.admin-stat-good {
+  box-shadow: inset 3px 0 0 0 var(--brand-400);
+}
+
+/* ==================================================================
+   Lesson card graphics (see CardVisual)
+   ================================================================== */
+
+/* The floor case: every info card gets a banner, so no card is ever a bare
+   wall of Arabic text. */
+.vis-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--brand-400) 22%, transparent);
+  background:
+    linear-gradient(135deg, var(--tint), transparent 70%),
+    var(--surface);
+}
+.vis-banner-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 13px;
+  font-size: 1.4rem;
+  background: var(--tint);
+  border: 1px solid color-mix(in srgb, var(--brand-400) 18%, transparent);
+  animation: badge-float 5s ease-in-out infinite;
+}
+@keyframes badge-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-3px) rotate(-3deg); }
+}
+.vis-banner-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.6;
+  color: var(--text-strong);
+  min-width: 0;
+}
+
+/* Pull quote. */
+.vis-quote-mark {
+  position: absolute;
+  top: 0.1rem;
+  right: 1rem;
+  font-size: 3.5rem;
+  line-height: 1;
+  color: color-mix(in srgb, var(--brand-400) 28%, transparent);
+  pointer-events: none;
+}
+.vis-quote-text {
+  position: relative;
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.9;
+  color: var(--text-strong);
+}
+
+/* Glossary chips. */
+.vis-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--brand-text);
+  background: var(--tint);
+  border: 1px solid color-mix(in srgb, var(--brand-400) 24%, transparent);
+  transition: transform 0.2s ease;
+}
+.vis-chip:hover { transform: translateY(-2px); }
+
+/* The "من X لـ Y" transition marker. */
+.vis-arrow {
+  font-size: 1.35rem;
+  color: var(--brand-text);
+  animation: arrow-nudge 2.2s ease-in-out infinite;
+}
+@keyframes arrow-nudge {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(-4px); }
+}

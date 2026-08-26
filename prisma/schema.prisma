@@ -35,10 +35,11 @@ model User {
   archetype         String?
   createdAt         DateTime  @default(now())
 
-  orders      Order[]
-  completions LessonCompletion[]
-  badges      UserBadge[]
-  messages    ChatMessage[]
+  orders         Order[]
+  completions    LessonCompletion[]
+  badges         UserBadge[]
+  messages       ChatMessage[]
+  passwordResets PasswordReset[]
 
   referredBy      User?             @relation("Referrals", fields: [referredById], references: [id])
   referrals       User[]            @relation("Referrals")
@@ -102,6 +103,24 @@ model EmailOtp {
 
   @@index([email])
   @@index([email, createdAt])
+}
+
+/// A single-use link for setting a new password after "نسيت الباسورد".
+///
+/// Only the SHA-256 of the token is stored, so a stolen database still cannot
+/// be used to take over accounts — the raw token exists only inside the email.
+model PasswordReset {
+  id         String    @id @default(cuid())
+  userId     String
+  tokenHash  String    @unique
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
 }
 
 model Order {

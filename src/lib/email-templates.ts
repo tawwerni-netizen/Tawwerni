@@ -269,3 +269,84 @@ ${brand.name} · ${brand.domain}`;
 
   return { subject: `أهلًا بيك في ${brand.name} 👋`, html, text };
 }
+
+/* ------------------------------------------------------------------ */
+
+export function passwordResetEmail(opts: { name: string | null; url: string; minutes: number }) {
+  const html = shell(
+    `<tr><td style="padding:28px 24px 8px;">
+      <div style="font-size:40px;line-height:1;margin:0 0 10px;">🔑</div>
+      <h1 style="margin:0 0 8px;font-size:21px;color:${INK};">تغيير كلمة السر</h1>
+      <p style="margin:0 0 20px;font-size:14px;color:${MUTED};line-height:1.8;">
+        ${opts.name ? `أهلًا ${opts.name}، ` : ""}وصلنا طلب لتغيير كلمة السر بتاعة حسابك.
+        دوس الزرار وحط واحدة جديدة. اللينك ده صالح <b style="color:${INK};">${opts.minutes} دقيقة</b> بس،
+        وبيشتغل <b style="color:${INK};">مرة واحدة</b>.
+      </p>
+
+      ${button(opts.url, "حط كلمة سر جديدة")}
+
+      <p style="margin:16px 0 20px;font-size:12px;color:${MUTED};line-height:1.8;">
+        لو الزرار مش شغّال، انسخ اللينك ده:<br>
+        <span style="color:${TEAL};word-break:break-all;direction:ltr;display:inline-block;">${opts.url}</span>
+      </p>
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 8px;background:#FFF7E6;border-radius:12px;">
+        <tr><td style="padding:14px 16px;">
+          <p style="margin:0;font-size:12px;color:#8a6100;line-height:1.8;">
+            <b>لو مش إنت اللي طلبت ده</b> — تجاهل الرسالة. كلمة السر بتاعتك زي ما هي،
+            ومحدش يقدر يغيّرها من غير اللينك ده.
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>`,
+    `لينك تغيير كلمة السر — صالح ${opts.minutes} دقيقة`
+  );
+
+  const text = `تغيير كلمة السر — ${brand.name}
+
+وصلنا طلب لتغيير كلمة السر بتاعة حسابك.
+
+افتح اللينك ده وحط واحدة جديدة:
+${opts.url}
+
+اللينك صالح ${opts.minutes} دقيقة بس، وبيشتغل مرة واحدة.
+
+لو مش إنت اللي طلبت ده، تجاهل الرسالة — كلمة السر بتاعتك زي ما هي.
+
+${brand.name} · ${brand.domain}`;
+
+  return { subject: "تغيير كلمة السر", html, text };
+}
+
+/* ------------------------------------------------------------------ */
+
+export function passwordChangedEmail(opts: { name: string | null }) {
+  const html = shell(
+    `<tr><td style="padding:28px 24px 8px;">
+      <div style="font-size:40px;line-height:1;margin:0 0 10px;">✅</div>
+      <h1 style="margin:0 0 8px;font-size:21px;color:${INK};">كلمة السر اتغيّرت</h1>
+      <p style="margin:0 0 20px;font-size:14px;color:${MUTED};line-height:1.8;">
+        ${opts.name ? `${opts.name}، ` : ""}كلمة السر بتاعة حسابك اتغيّرت دلوقتي.
+        لو إنت اللي عملت كده، مفيش حاجة مطلوبة منك.
+      </p>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 8px;background:#FFF1F1;border-radius:12px;">
+        <tr><td style="padding:14px 16px;">
+          <p style="margin:0;font-size:12px;color:#9b1c1c;line-height:1.8;">
+            <b>لو مش إنت</b> — كلّمنا فورًا على واتساب
+            <span dir="ltr">${payment.supportWhatsapp}</span> عشان نأمّن حسابك.
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>`,
+    `كلمة السر بتاعة حسابك اتغيّرت`
+  );
+
+  const text = `كلمة السر بتاعة حسابك على ${brand.name} اتغيّرت.
+
+لو إنت اللي عملت كده، مفيش حاجة مطلوبة.
+لو مش إنت — كلّمنا فورًا على واتساب ${payment.supportWhatsapp}.
+
+${brand.name} · ${brand.domain}`;
+
+  return { subject: "كلمة السر بتاعة حسابك اتغيّرت", html, text };
+}

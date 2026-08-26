@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { brand } from "@/content/brand";
 
@@ -148,6 +149,17 @@ function LoginInner() {
           </button>
         </form>
 
+        {!isSignup && (
+          <p className="mt-3 text-center">
+            <Link
+              href="/forgot-password"
+              className="text-xs font-bold text-brand-600 underline-offset-4 hover:underline"
+            >
+              نسيت كلمة السر؟
+            </Link>
+          </p>
+        )}
+
         <div className="mt-5 border-t border-black/5 pt-4 text-center">
           <p className="text-sm text-neutral-500">
             {isSignup ? "عندك حساب بالفعل؟" : "لسه مش مشترك؟"}{" "}
@@ -166,7 +178,7 @@ function LoginInner() {
       </div>
 
       <p className="mt-5 max-w-sm text-center text-xs leading-relaxed text-neutral-400">
-        نسيت الباسورد؟ كلّمنا على واتساب وهنظبطهولك.
+        بتواجه مشكلة في الدخول؟ كلّمنا على واتساب وهنظبطهالك.
       </p>
     </div>
   );

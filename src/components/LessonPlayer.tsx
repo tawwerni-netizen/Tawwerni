@@ -6,7 +6,10 @@ import { useRouter } from "next/navigation";
 import { ToolChip, detectTools } from "@/components/ToolIcon";
 import { pricing } from "@/content/brand";
 import PaywallPrompt from "@/components/PaywallPrompt";
-import CardVisual, { visualConsumesHeading } from "@/components/CardVisual";
+import CardVisual, {
+  visualConsumesHeading,
+  visualConsumesFirstLine,
+} from "@/components/CardVisual";
 
 export type InfoCard = {
   type: "info";
@@ -173,11 +176,18 @@ export default function LessonPlayer(props: Props) {
               <h2 className="font-bold text-lg mb-2">{card.heading}</h2>
             )}
             <div className="space-y-2">
-              {card.body.lines.map((line, i) => (
-                <p key={i} className="text-sm text-neutral-700 leading-relaxed">
-                  {line}
-                </p>
-              ))}
+              {card.body.lines
+                // A pull quote already shows the first line; printing it again
+                // right underneath reads like a stutter.
+                .filter(
+                  (_, i) =>
+                    !(i === 0 && visualConsumesFirstLine(card.heading, card.body.lines))
+                )
+                .map((line, i) => (
+                  <p key={i} className="text-sm text-neutral-700 leading-relaxed">
+                    {line}
+                  </p>
+                ))}
             </div>
             {cardTools.length > 0 && (
               <div className="mt-4 flex flex-wrap gap-2 border-t border-black/5 pt-3">

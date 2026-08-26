@@ -1,14 +1,17 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { maybeSendWelcome } from "@/lib/welcome";
+import { rateLimit, clientIp, tooMany } from "@/lib/rate-limit";
 import { createSessionCookie } from "@/lib/auth";
 import { hashPassword, passwordProblem } from "@/lib/password";
 import { attachReferrer } from "@/lib/referrals";
 import { REFERRAL_COOKIE } from "@/lib/referral-constants";
-import { sendEmail } from "@/lib/email";
-import { welcomeEmail } from "@/lib/email-templates";
 
 export async function POST(request: Request) {
+  const gate = rateLimit(`signup:${clientIp(request)}`, 8, 3600);
+  if (!gate.ok) return tooMany(gate, "عملت حسابات كتير من الجهاز ده. استنى شوية.");
+
   const { email, password, name, phone } = await request.json();
 
   const normalizedEmail = typeof email === "string" ? email.toLowerCase().trim() : "";
@@ -63,18 +66,7 @@ export async function POST(request: Request) {
   const refCode = (await cookies()).get(REFERRAL_COOKIE)?.value;
   await attachReferrer(user.id, refCode).catch(() => {});
 
-  if (!user.welcomedAt) {
-    const tpl = welcomeEmail({ name: user.name });
-    const sent = await sendEmail({
-      to: normalizedEmail,
-      subject: tpl.subject,
-      html: tpl.html,
-      text: tpl.text,
-    });
-    if (sent.ok && sent.delivered) {
-      await prisma.user.update({ where: { id: user.id }, data: { welcomedAt: new Date() } });
-    }
-  }
+  await maybeSendWelcome(user.id);
 
   await createSessionCookie(user.id);
 

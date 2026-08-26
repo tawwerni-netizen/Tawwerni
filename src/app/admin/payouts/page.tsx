@@ -1,13 +1,15 @@
-import Link from "next/link";
-import { isAdmin } from "@/lib/admin";
+import { adminUser } from "@/lib/admin";
 import { prisma } from "@/lib/prisma";
 import AdminLogin from "@/components/AdminLogin";
 import AdminPayouts from "@/components/AdminPayouts";
+import AdminShell from "@/components/AdminShell";
+import AdminStats from "@/components/AdminStats";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminPayoutsPage() {
-  if (!(await isAdmin())) return <AdminLogin />;
+  const admin = await adminUser();
+  if (!admin) return <AdminLogin />;
 
   const [requested, settled] = await Promise.all([
     prisma.payout.findMany({
@@ -28,22 +30,37 @@ export default async function AdminPayoutsPage() {
   );
 
   const totalOwed = requested.reduce((s, p) => s + p.amountEgp, 0);
+  const paidOut = settled
+    .filter((p) => p.status === "paid")
+    .reduce((s, p) => s + p.amountEgp, 0);
+  const pendingOrders = await prisma.order.count({ where: { status: "pending" } });
 
   return (
-    <div className="min-h-screen bg-neutral-50 px-4 py-6">
-      <div className="mx-auto max-w-2xl">
-        <div className="mb-1 flex items-center gap-3">
-          <h1 className="flex-1 text-xl font-bold">طلبات السحب</h1>
-          <Link href="/admin" className="text-sm font-bold text-brand-600">
-            الطلبات ←
-          </Link>
-        </div>
-        <p className="mb-4 text-sm text-neutral-500">
-          {requested.length > 0
-            ? `${requested.length} طلب · إجمالي ${totalOwed} ج.م`
-            : "مفيش طلبات منتظرة"}
-        </p>
+    <AdminShell
+      title="طلبات السحب"
+      subtitle={
+        requested.length > 0
+          ? `${requested.length} طلب مستني تحويل`
+          : "مفيش طلبات منتظرة — كله متسدّد ✓"
+      }
+      admin={admin}
+      badges={{ "/admin": pendingOrders, "/admin/payouts": requested.length }}
+    >
+      <AdminStats
+        stats={[
+          {
+            label: "مستني تحويل",
+            value: requested.length,
+            icon: "⏳",
+            tone: requested.length ? "warn" : "good",
+          },
+          { label: "المبلغ المستحق", value: `${totalOwed} ج.م`, icon: "💸", tone: requested.length ? "warn" : "neutral" },
+          { label: "اتحوّل قبل كده", value: `${paidOut} ج.م`, icon: "✅", tone: "good" },
+          { label: "إجمالي الطلبات", value: requested.length + settled.length, icon: "📊" },
+        ]}
+      />
 
+      <div className="mx-auto max-w-2xl">
         <AdminPayouts
           payouts={requested.map((p, i) => ({
             id: p.id,
@@ -85,6 +102,6 @@ export default async function AdminPayoutsPage() {
           </>
         )}
       </div>
-    </div>
+    </AdminShell>
   );
 }

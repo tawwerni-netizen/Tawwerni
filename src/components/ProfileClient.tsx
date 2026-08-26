@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { brand } from "@/content/brand";
+import AvatarPicker from "@/components/AvatarPicker";
+import ChangePassword from "@/components/ChangePassword";
 
 const PACE_OPTIONS = [
   { value: 5, label: "شرارة", sub: "٥ دقايق/يوم" },
@@ -15,6 +17,7 @@ const FOCUS_OPTIONS = [
   { value: "success-mindset", label: "نمط النجاح" },
   { value: "career", label: "النمو المهني" },
   { value: "business", label: "الأعمال" },
+  { value: "project-management", label: "إدارة المشاريع" },
   { value: "health", label: "الصحة والطاقة" },
   { value: "all", label: "كل التصنيفات" },
 ];
@@ -30,6 +33,7 @@ type Props = {
   email: string;
   dailyPaceMinutes: number;
   focusCategory: string | null;
+  avatarUrl: string | null;
   totalXp: number;
   streak: number;
   subscription: { method: string; amountEgp: number; createdAt: string } | null;
@@ -64,10 +68,11 @@ export default function ProfileClient(props: Props) {
       <h1 className="text-xl font-bold mb-1">حسابي</h1>
       <p className="text-sm text-neutral-500 mb-5">إدارة حسابك وتفضيلاتك</p>
 
+      <div className="bg-white border border-black/5 rounded-2xl p-4 mb-4">
+        <AvatarPicker name={name || null} email={props.email} avatarUrl={props.avatarUrl} />
+      </div>
+
       <div className="bg-white border border-black/5 rounded-2xl p-4 mb-4 flex items-center gap-3">
-        <div className="w-12 h-12 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-lg shrink-0">
-          {(name || props.email)[0].toUpperCase()}
-        </div>
         <div className="flex-1 min-w-0">
           {editingName ? (
             <form
@@ -162,6 +167,11 @@ export default function ProfileClient(props: Props) {
           <div className="font-bold text-brand-800">{props.streak} 🔥</div>
           <div className="text-[10px] text-neutral-400">أيام متتالية</div>
         </div>
+      </div>
+
+      <div className="mb-4 rounded-2xl border border-black/5 bg-white p-4">
+        <p className="mb-3 text-xs font-bold text-neutral-500">الأمان</p>
+        <ChangePassword />
       </div>
 
       <button

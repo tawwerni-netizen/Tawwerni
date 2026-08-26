@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 /**
  * The brand mark.
  *
@@ -74,5 +76,48 @@ export function Logo({
         </span>
       )}
     </span>
+  );
+}
+
+/**
+ * The header logo: alive, and a way home.
+ *
+ * The tile breathes on a long slow cycle and a highlight sweeps across it every
+ * so often, so the corner of the screen is never completely static — but the
+ * motion is slow and low-contrast enough to sit behind reading. Hovering makes
+ * it lift and the arrow redraw, which is the affordance that it's a link.
+ *
+ * Every part of this is inside `prefers-reduced-motion` guards in globals.css:
+ * a decorative loop that cannot be turned off is a real accessibility problem,
+ * not a style preference.
+ */
+export function LogoLink({
+  size = 34,
+  showWord = true,
+  href = "/app",
+  className = "",
+}: {
+  size?: number;
+  showWord?: boolean;
+  href?: string;
+  className?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      aria-label="طوّرني — الصفحة الرئيسية"
+      className={`logo-link group inline-flex items-center gap-2 rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-brand-400 ${className}`}
+    >
+      <span className="logo-tile relative inline-block">
+        <LogoMark size={size} />
+        <span className="logo-gleam" aria-hidden />
+      </span>
+      {showWord && (
+        <span className="text-lg font-bold leading-none text-brand-800">
+          طوّرني
+          <span className="text-brand-400">.com</span>
+        </span>
+      )}
+    </Link>
   );
 }

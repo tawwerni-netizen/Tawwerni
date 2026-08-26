@@ -6,11 +6,17 @@ import { sendEmail } from "@/lib/email";
 import { orderReceivedEmail } from "@/lib/email-templates";
 import { attachReferrer } from "@/lib/referrals";
 import { REFERRAL_COOKIE } from "@/lib/referral-constants";
+import { rateLimit, clientIp, tooMany } from "@/lib/rate-limit";
 
 const VALID_METHODS = ["vodafone_cash", "instapay"] as const;
 const VALID_CHANNELS = ["whatsapp", "email"] as const;
 
 export async function POST(request: Request) {
+  // Unauthenticated and it creates accounts, so a script could otherwise bury
+  // the real orders in the admin panel under thousands of fake ones.
+  const gate = rateLimit(`orders:${clientIp(request)}`, 10, 3600);
+  if (!gate.ok) return tooMany(gate, "طلبات كتير من الجهاز ده. استنى شوية أو كلّمنا على واتساب.");
+
   const { email, name, phone, instapayName, courseSlug, method, proofChannel } = await request.json();
 
   if (typeof email !== "string" || !email.includes("@")) {
@@ -43,26 +49,49 @@ export async function POST(request: Request) {
   if (!course) return NextResponse.json({ error: "المسار مش موجود" }, { status: 404 });
 
   const normalizedEmail = email.toLowerCase().trim();
-  const user = await prisma.user.upsert({
+
+  /*
+   * This endpoint is public — checkout happens before anyone signs in — so a
+   * stranger can name any address here. It used to upsert `name` and `phone`
+   * unconditionally, which let anyone rewrite a paying customer's details from
+   * the open internet, including the phone the payment matcher relies on.
+   *
+   * An established account (one with a password) keeps its own details; the
+   * order still gets created and carries its own `senderPhone`, so checkout
+   * works exactly the same for them.
+   */
+  const existing = await prisma.user.findUnique({
     where: { email: normalizedEmail },
-    update: { name: name.trim(), phone: normalizedPhone },
-    create: { email: normalizedEmail, name: name.trim(), phone: normalizedPhone },
+    select: { id: true, name: true, passwordHash: true },
   });
+
+  const user = existing
+    ? existing.passwordHash
+      ? existing
+      : await prisma.user.update({
+          where: { id: existing.id },
+          data: { name: name.trim(), phone: normalizedPhone },
+          select: { id: true, name: true, passwordHash: true },
+        })
+    : await prisma.user.create({
+        data: { email: normalizedEmail, name: name.trim(), phone: normalizedPhone },
+        select: { id: true, name: true, passwordHash: true },
+      });
 
   // Attribute the sale to whoever's link brought them here. Only ever applies
   // when this account has no referrer yet, so credit can't be reassigned later.
   const refCode = (await cookies()).get(REFERRAL_COOKIE)?.value;
   await attachReferrer(user.id, refCode).catch(() => {});
 
-  const existing = await prisma.order.findFirst({
+  const openOrder = await prisma.order.findFirst({
     where: { userId: user.id, courseId: course.id, status: { in: ["pending", "approved"] } },
   });
-  if (existing) {
+  if (openOrder) {
     return NextResponse.json({
       ok: true,
-      orderId: existing.id,
+      orderId: openOrder.id,
       alreadyExists: true,
-      status: existing.status,
+      status: openOrder.status,
     });
   }
 
