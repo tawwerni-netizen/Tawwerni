@@ -1,14 +1,21 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { brand, pricing } from "@/content/brand";
+import { brand, pricing, referral, payment } from "@/content/brand";
+import { allCourses, courseStats } from "@/content/courses";
 import {
   quizQuestions,
   quizInterstitials,
   computeArchetype,
   computeReadinessScore,
 } from "@/content/marketing-quiz";
+
+/**
+ * Counted from the course files at build time, so the funnel can never quote a
+ * lesson count the catalogue does not actually contain.
+ */
+const totalLessons = allCourses.reduce((sum, c) => sum + courseStats(c).totalLessons, 0);
 
 type Step =
   | { kind: "roleIntro" }
@@ -44,38 +51,18 @@ function buildSteps(): Step[] {
   return steps;
 }
 
-const WHEEL_SEGMENTS = ["10%", "30%", "40%", `${pricing.discountPercent}%`, "20%", "15%"];
-const WINNING_INDEX = 3; // always lands on the real headline discount
-
-const AVATARS = [
-  { icon: "🧑‍💻", name: "sarah.m***" },
-  { icon: "👩‍💼", name: "ahmed.k***" },
-  { icon: "👨‍🎓", name: "mona.r***" },
-  { icon: "👩‍🔬", name: "tarek.b***" },
-  { icon: "🧑‍🏫", name: "yara.s***" },
-];
 
 export default function QuizPage() {
   const router = useRouter();
-  const steps = useMemo(buildSteps, []);
+  const steps = useMemo(() => buildSteps(), []);
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [wheelSpinning, setWheelSpinning] = useState(false);
-  const [wheelRotation, setWheelRotation] = useState(0);
-  const [wheelDone, setWheelDone] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(600);
   const [saving, setSaving] = useState(false);
 
   const step = steps[stepIndex];
-
-  useEffect(() => {
-    if (step.kind !== "offer") return;
-    const t = setInterval(() => setSecondsLeft((s) => Math.max(0, s - 1)), 1000);
-    return () => clearInterval(t);
-  }, [step.kind]);
 
   const archetype = useMemo(() => computeArchetype(answers), [answers]);
   const score = useMemo(() => computeReadinessScore(answers), [answers]);
@@ -106,19 +93,6 @@ export default function QuizPage() {
     }
   }
 
-  function spinWheel() {
-    if (wheelSpinning || wheelDone) return;
-    setWheelSpinning(true);
-    const segmentAngle = 360 / WHEEL_SEGMENTS.length;
-    const targetCenter = WINNING_INDEX * segmentAngle + segmentAngle / 2;
-    const finalRotation = 360 * 5 + (360 - targetCenter);
-    setWheelRotation(finalRotation);
-    setTimeout(() => {
-      setWheelSpinning(false);
-      setWheelDone(true);
-    }, 3200);
-  }
-
   function goCheckout() {
     sessionStorage.setItem(
       "tawwerni_checkout",
@@ -128,8 +102,6 @@ export default function QuizPage() {
   }
 
   const questionNumber = step.kind === "question" ? step.qIndex + 1 : 0;
-  const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
-  const ss = String(secondsLeft % 60).padStart(2, "0");
 
   return (
     <div className="min-h-screen bg-neutral-50 flex flex-col">
@@ -228,26 +200,38 @@ export default function QuizPage() {
           </div>
         )}
 
+        {/*
+          What this platform actually is, in numbers that can be counted.
+
+          This step used to claim a hundred thousand users and a 4.9 rating from
+          twelve thousand reviews. There were zero of both. The content below is
+          the real inventory — and a funnel that runs on WhatsApp trust cannot
+          afford a number the reader can disprove by asking one question.
+        */}
         {step.kind === "socialProof" && (
           <div className="text-center pt-4">
-            <div className="text-3xl mb-3">✨</div>
-            <h2 className="text-xl font-bold mb-3">انت في صحبة كويسة</h2>
-            <p className="bg-neutral-50 rounded-xl p-3 text-sm text-neutral-600 mb-4">
-              أكتر من ١٠٠ ألف محترف استخدموا {brand.name} عشان يفضلوا في المقدمة مع الذكاء الاصطناعي
-            </p>
-            <div className="flex justify-center -space-x-2 space-x-reverse mb-2">
-              {AVATARS.map((a) => (
-                <div
-                  key={a.name}
-                  className="w-8 h-8 rounded-full bg-brand-100 border-2 border-white flex items-center justify-center text-sm"
-                >
-                  {a.icon}
+            <div className="text-3xl mb-3">📚</div>
+            <h2 className="text-xl font-bold mb-2">اللي هتلاقيه جوّه</h2>
+            <p className="text-sm text-neutral-500 mb-5">محتوى مكتوب بالعامية المصرية — مش ترجمة</p>
+
+            <div className="grid grid-cols-3 gap-2 mb-5">
+              {[
+                { n: allCourses.length, l: "مسارات" },
+                { n: totalLessons, l: "درس" },
+                { n: "٥", l: "دقايق/يوم" },
+              ].map((s) => (
+                <div key={s.l} className="rounded-xl bg-neutral-50 py-3">
+                  <p className="text-xl font-bold text-brand-800">{s.n}</p>
+                  <p className="text-[11px] text-neutral-500">{s.l}</p>
                 </div>
               ))}
             </div>
-            <p className="text-[11px] text-neutral-400 mb-5">انضموا الأسبوع ده</p>
-            <p className="font-bold mb-4">خلّينا نبني خطتك الشخصية — هياخد دقيقتين بس</p>
-            <p className="text-amber-500 text-sm mb-6">★★★★★ ٤.٩/٥ من ١٢,٤٠٠+ متعلم</p>
+
+            <p className="rounded-xl bg-brand-50 p-3 text-sm text-brand-900 mb-5">
+              اليوم الأول في <b>كل مسار</b> مفتوح مجانًا — جرّب قبل ما تدفع أي حاجة
+            </p>
+
+            <p className="font-bold mb-5">خلّينا نبني خطتك الشخصية — دقيقتين بس</p>
             <button onClick={next} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3">
               ابدأ ←
             </button>
@@ -456,116 +440,94 @@ export default function QuizPage() {
           </div>
         )}
 
+        {/*
+          Three invented customers used to sit here, with invented job titles
+          and an invented outcome each. They are gone. Until real learners say
+          something worth quoting, the honest substitute is what the buyer
+          actually receives — which is checkable, and stronger than praise
+          nobody wrote.
+        */}
         {step.kind === "testimonials" && (
           <div>
-            <h2 className="text-xl font-bold text-center mb-1">انضم لـ ١٠٠ ألف+ متعلم</h2>
-            <p className="text-xs text-neutral-400 text-center mb-5">ناس زيك بالظبط اخدوا الخطوة الأولى</p>
-            <div className="grid grid-cols-3 gap-2 text-center mb-6">
-              <div>
-                <p className="font-bold text-brand-800">١٠٠ ألف+</p>
-                <p className="text-[10px] text-neutral-400">متعلم حول العالم</p>
-              </div>
-              <div>
-                <p className="font-bold text-brand-800">٤.٨⭐</p>
-                <p className="text-[10px] text-neutral-400">متوسط التقييم</p>
-              </div>
-              <div>
-                <p className="font-bold text-brand-800">٩٣٪</p>
-                <p className="text-[10px] text-neutral-400">شافوا نتيجة من أول أسبوع</p>
-              </div>
-            </div>
-            <div className="space-y-3 mb-6">
+            <h2 className="text-xl font-bold text-center mb-1">اللي بتاخده بالظبط</h2>
+            <p className="text-xs text-neutral-400 text-center mb-5">مفيش اشتراك شهري ومفيش تجديد</p>
+
+            <div className="space-y-2.5 mb-6">
               {[
-                { n: "سارة م.", role: "مديرة تسويق", t: "من صفر معرفة بالذكاء الاصطناعي لاستخدامه يوميًا في شغلي. الأسلوب اليومي خلاه سهل جدًا." },
-                { n: "كريم ت.", role: "مصمم فريلانسر", t: "وفرت ٣ ساعات أسبوعيًا بمهارات من أول ٧ أيام بس. كنت اتمنى أبدأ من زمان." },
-                { n: "منى ع.", role: "بتغيّر مسارها المهني", t: "أخدت الشهادة ولقيت فرصة جديدة خلال ٦ أسابيع من إما خلصت." },
-              ].map((r) => (
-                <div key={r.n} className="rounded-xl bg-neutral-50 p-3">
-                  <p className="text-xs text-neutral-600 mb-2">&quot;{r.t}&quot;</p>
-                  <p className="text-[11px] font-bold">
-                    {r.n} <span className="text-neutral-400 font-normal">· {r.role}</span>
-                  </p>
+                { i: "📚", t: `${allCourses.length} مسارات · ${totalLessons} درس`, s: "كلها مفتوحة بدفعة واحدة" },
+                { i: "🎁", t: "اليوم الأول مجاني في كل مسار", s: "تجرّب الأسلوب قبل ما تدفع" },
+                { i: "♾️", t: "وصول مدى الحياة", s: "وأي مسار جديد ينزل بعد كده بيجيلك مجانًا" },
+                { i: "⚡", t: "التفعيل تلقائي", s: `حوّل في أي وقت — الكورس بيتفتح خلال دقايق` },
+                { i: "💸", t: `${referral.commissionEgp} جنيه عن كل صاحب يشترك بلينكك`, s: `السحب من ${referral.minPayoutEgp} جنيه` },
+              ].map((f) => (
+                <div key={f.t} className="flex gap-3 rounded-xl bg-neutral-50 p-3">
+                  <span className="text-lg leading-none">{f.i}</span>
+                  <div>
+                    <p className="text-sm font-bold text-neutral-800">{f.t}</p>
+                    <p className="text-[11px] text-neutral-500">{f.s}</p>
+                  </div>
                 </div>
               ))}
             </div>
+
             <button onClick={next} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3">
-              ابدأ تحدي الـ٢٨ يوم ←
+              كمّل ←
             </button>
           </div>
         )}
 
+        {/*
+          This was a spinning prize wheel that always stopped on the same
+          segment, then announced a discount that did not match the one actually
+          charged. Everyone gets the same price, so the honest version simply
+          says the price — no game of chance whose outcome was decided in the
+          source code.
+        */}
         {step.kind === "wheel" && (
           <div className="text-center">
-            <h2 className="text-xl font-bold mb-1">لُف واكسب خصمك الشخصي!</h2>
-            <p className="text-sm text-neutral-500 mb-6">متفوتش فرصتك تتقن الذكاء الاصطناعي بخصم مخصص ليك 🎁</p>
+            <div className="text-4xl mb-3">🎁</div>
+            <h2 className="text-xl font-bold mb-1">سعرك، {name || "يا نجم"}</h2>
+            <p className="text-sm text-neutral-500 mb-6">نفس السعر لكل الناس — مفيش عروض مخفية</p>
 
-            <div className="relative w-64 h-64 mx-auto mb-6">
-              <div className="absolute -top-1 left-1/2 -translate-x-1/2 z-10 text-2xl">▼</div>
-              <div
-                className="w-full h-full rounded-full border-8 border-brand-600 relative overflow-hidden"
-                style={{
-                  transform: `rotate(${wheelRotation}deg)`,
-                  transition: wheelSpinning ? "transform 3.2s cubic-bezier(0.15,0.9,0.25,1)" : "none",
-                  background: `conic-gradient(#e1f5ee 0deg 60deg, #ffffff 60deg 120deg, #e1f5ee 120deg 180deg, #9fe1cb 180deg 240deg, #e1f5ee 240deg 300deg, #ffffff 300deg 360deg)`,
-                }}
-              >
-                {WHEEL_SEGMENTS.map((label, i) => {
-                  const angle = i * 60 + 30;
-                  return (
-                    <div
-                      key={label}
-                      className="absolute top-1/2 left-1/2 text-sm font-bold text-brand-800"
-                      style={{
-                        transform: `rotate(${angle}deg) translate(0, -85px) rotate(${-angle}deg)`,
-                      }}
-                    >
-                      {label}
-                    </div>
-                  );
-                })}
+            <div className="rounded-2xl border border-brand-100 bg-brand-50 p-5 mb-4">
+              <div className="flex items-end justify-center gap-2 mb-1">
+                <span className="text-5xl font-bold text-brand-800">{pricing.priceEgp}</span>
+                <span className="text-sm font-bold text-brand-800 mb-1.5">ج.م</span>
               </div>
+              <p className="text-xs text-brand-900/70">
+                دفعة واحدة · {allCourses.length} مسارات · {totalLessons} درس · مدى الحياة
+              </p>
             </div>
 
-            {!wheelDone ? (
-              <button
-                onClick={spinWheel}
-                disabled={wheelSpinning}
-                className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3 disabled:opacity-60"
-              >
-                {wheelSpinning ? "بتلف..." : "لُف العجلة"}
-              </button>
-            ) : (
-              <div>
-                <div className="rounded-xl bg-amber-50 border border-amber-100 p-4 mb-4">
-                  <p className="font-bold text-amber-800">🎉 مبروك! كسبت خصم ٩٧٪!</p>
-                  <p className="text-xs text-amber-700 mt-1">{name}، هيتطبق الخصم تلقائيًا</p>
-                </div>
-                <button onClick={next} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3">
-                  استلم خصمي
-                </button>
-              </div>
-            )}
+            <p className="text-xs text-neutral-500 mb-6">
+              يعني أقل من جنيهين للدرس — وبيفضلوا معاك للأبد
+            </p>
+
+            <button onClick={next} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3">
+              كمّل ←
+            </button>
           </div>
         )}
 
         {step.kind === "offer" && (
           <div>
+            {/*
+              A ten-minute countdown used to sit here. It reset on every reload
+              and nothing happened when it reached zero — the price never moved.
+              Manufactured urgency is the easiest lie for a customer to catch:
+              they refresh once. What replaces it is the thing that is actually
+              true and actually time-bound — how fast access opens after paying.
+            */}
             <div className="flex items-center justify-between bg-neutral-50 rounded-xl p-3 mb-5 text-xs">
               <div>
-                <p className="text-neutral-400">العرض بينتهي خلال</p>
-                <p className="font-bold text-red-600" dir="ltr">
-                  {mm}:{ss}
-                </p>
+                <p className="text-neutral-400">التفعيل</p>
+                <p className="font-bold text-brand-800">تلقائي خلال دقايق</p>
               </div>
               <div className="text-left">
                 <p className="text-neutral-400">ابدأ بـ</p>
                 <p className="font-bold text-brand-800">{pricing.priceEgp} جنيه بس</p>
               </div>
             </div>
-
-            <span className="text-[11px] bg-amber-100 text-amber-800 rounded-full px-3 py-1">
-              🎁 خصم خاص: {pricing.discountPercent}٪
-            </span>
             <h2 className="text-xl font-bold mt-3 mb-1">
               خطتك الشخصية جاهزة، {name || "يا نجم"}!
             </h2>
@@ -602,15 +564,20 @@ export default function QuizPage() {
               احصل على خطتي ←
             </button>
 
-            <div className="rounded-xl bg-neutral-50 p-3 mb-5">
-              <p className="text-[11px] font-bold mb-2">🔥 ١,٢٤٧ شخص بدأوا خطتهم الأسبوع ده</p>
-              <div className="space-y-1 text-[10px] text-neutral-400">
-                {AVATARS.map((a, i) => (
-                  <p key={a.name}>
-                    {a.name} اشترك · من {i + 1} دقيقة
-                  </p>
-                ))}
-              </div>
+            {/*
+              A fake live feed used to sit here — "1,247 people started this
+              week", followed by invented usernames each subscribing a minute
+              ago. Replaced with the support line, which is a real person on a
+              real number, and answers the question a hesitant buyer actually
+              has at this point.
+            */}
+            <div className="rounded-xl bg-neutral-50 p-3 mb-5 text-center">
+              <p className="text-[11px] text-neutral-500">
+                عندك سؤال قبل ما تدفع؟ كلّمنا واتساب{" "}
+                <a href={`https://wa.me/2${payment.supportWhatsapp}`} className="font-bold text-brand-700" dir="ltr">
+                  {payment.supportWhatsapp}
+                </a>
+              </p>
             </div>
 
             {/*
