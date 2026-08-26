@@ -21,8 +21,21 @@ function getSecret() {
  * no second door.
  */
 
+/**
+ * Signs a session for a user.
+ *
+ * The token carries the account's current `sessionVersion`. Bumping that
+ * column invalidates every token already issued — which is what has to happen
+ * when a password changes, because otherwise "I changed my password because I
+ * think someone got in" leaves the intruder logged in indefinitely.
+ */
 export async function createSessionCookie(userId: string) {
-  const token = await new SignJWT({ userId })
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { sessionVersion: true },
+  });
+
+  const token = await new SignJWT({ userId, v: user?.sessionVersion ?? 0 })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime(`${SESSION_TTL_DAYS}d`)
@@ -42,12 +55,27 @@ export async function getSessionUserId(): Promise<string | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_COOKIE)?.value;
   if (!token) return null;
+
+  let userId: string;
+  let version: number;
   try {
     const { payload } = await jwtVerify(token, getSecret());
-    return typeof payload.userId === "string" ? payload.userId : null;
+    if (typeof payload.userId !== "string") return null;
+    userId = payload.userId;
+    version = typeof payload.v === "number" ? payload.v : 0;
   } catch {
     return null;
   }
+
+  // A valid signature is not enough — the token also has to be from the
+  // current generation for this account.
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { sessionVersion: true },
+  });
+  if (!user || user.sessionVersion !== version) return null;
+
+  return userId;
 }
 
 export async function getCurrentUser() {

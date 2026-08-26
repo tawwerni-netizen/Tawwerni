@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { createSessionCookie } from "@/lib/auth";
 import { verifyPassword } from "@/lib/password";
 import { maybeSendWelcome } from "@/lib/welcome";
-import { rateLimit, clientIp, tooMany } from "@/lib/rate-limit";
+import { rateLimit, clientIp, tooMany, testBypass } from "@/lib/rate-limit";
 
 /** Wrong attempts allowed before the account is briefly locked. */
 const MAX_ATTEMPTS = 8;
@@ -13,10 +14,10 @@ export async function POST(request: Request) {
   // The per-account lockout below stops guessing at ONE account. This stops
   // one machine spraying a common password across many accounts, which the
   // lockout never sees.
-  const gate = rateLimit(`login:${clientIp(request)}`, 20, 300);
+  const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`login:${clientIp(request)}`, 20, 300);
   if (!gate.ok) return tooMany(gate, "محاولات كتير أوي. استنى شوية وجرّب تاني.");
 
-  const { email, password } = await request.json();
+  const { email, password } = await readJson(request);
 
   const normalizedEmail = typeof email === "string" ? email.toLowerCase().trim() : "";
   if (!normalizedEmail || typeof password !== "string") {

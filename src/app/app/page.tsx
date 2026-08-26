@@ -74,7 +74,7 @@ export default async function AppHomePage() {
       <div className="mb-5 grid grid-cols-1 gap-4 md:grid-cols-2 md:items-start">
         {active && (
           <div className="animate-rise rounded-2xl bg-gradient-to-l from-brand-800 to-brand-600 text-white p-5">
-            <div className="flex items-center justify-between text-xs text-brand-100 mb-2">
+            <div className="on-brand-soft mb-2 flex items-center justify-between text-xs">
               <span>مهمة اليوم</span>
               <span>
                 {doneCount}/{activeLessons.length} يوم
@@ -85,7 +85,7 @@ export default async function AppHomePage() {
                 <h2 className="text-lg font-bold mb-1">
                   يوم {nextLesson.dayNumber} · {nextLesson.title}
                 </h2>
-                <p className="text-xs text-brand-100 mb-4">
+                <p className="on-brand-soft mb-4 text-xs">
                   {active.title} · {nextLesson.durationMin} دقايق · {nextLesson.xp} XP
                 </p>
                 <Link
@@ -98,7 +98,7 @@ export default async function AppHomePage() {
             ) : (
               <>
                 <h2 className="mb-1 text-lg font-bold">خلّصت {active.title} 🎉</h2>
-                <p className="mb-4 text-xs text-brand-100">
+                <p className="on-brand-soft mb-4 text-xs">
                   شهادتك جاهزة، وفيه مسارات تانية مفتوحة ليك.
                 </p>
                 <Link

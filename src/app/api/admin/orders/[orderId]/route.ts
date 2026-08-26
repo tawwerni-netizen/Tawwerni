@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { readJson, isOneOf } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/admin";
 import { activateOrder } from "@/lib/activate-order";
@@ -9,8 +10,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ or
   if (!(await isAdmin())) return NextResponse.json({ error: "غير مصرّح" }, { status: 401 });
 
   const { orderId } = await params;
-  const { status } = await request.json();
-  if (!VALID_STATUS.includes(status)) {
+  const { status } = await readJson(request);
+  if (!isOneOf(status, VALID_STATUS)) {
     return NextResponse.json({ error: "حالة غير صالحة" }, { status: 400 });
   }
 

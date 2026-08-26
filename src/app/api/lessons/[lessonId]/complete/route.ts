@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { getSessionUserId } from "@/lib/auth";
 import { hasCourseAccess, FREE_PREVIEW_DAY } from "@/lib/access";
@@ -10,13 +11,28 @@ export async function POST(request: Request, { params }: { params: Promise<{ les
   if (!userId) return NextResponse.json({ error: "لازم تسجل دخول" }, { status: 401 });
 
   const { lessonId } = await params;
-  const { score, totalQuestions } = await request.json();
+  const body = await readJson(request);
 
   const lesson = await prisma.lesson.findUnique({
     where: { id: lessonId },
-    include: { module: true },
+    include: { module: true, quizQuestions: { select: { id: true } } },
   });
   if (!lesson) return NextResponse.json({ error: "الدرس مش موجود" }, { status: 404 });
+
+  /*
+   * The quiz result is client-reported, so it has to be bounded here.
+   *
+   * These went straight into the database unchecked, which meant a crafted
+   * request could store `score: 999999` — and that number is what the
+   * certificate averages into "متوسط الكويزات". `totalQuestions` is pinned to
+   * the lesson's real question count rather than trusted from the body, and
+   * the score is clamped into that range.
+   */
+  const totalQuestions = lesson.quizQuestions.length;
+  const rawScore = Number(body.score);
+  const score = Number.isFinite(rawScore)
+    ? Math.min(Math.max(Math.round(rawScore), 0), totalQuestions)
+    : 0;
 
   // Mirror the page-level gate so a locked day can't be completed via a direct call.
   if (

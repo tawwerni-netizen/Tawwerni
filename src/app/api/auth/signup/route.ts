@@ -1,18 +1,19 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { maybeSendWelcome } from "@/lib/welcome";
-import { rateLimit, clientIp, tooMany } from "@/lib/rate-limit";
+import { rateLimit, clientIp, tooMany, testBypass } from "@/lib/rate-limit";
 import { createSessionCookie } from "@/lib/auth";
-import { hashPassword, passwordProblem } from "@/lib/password";
+import { hashPassword, passwordProblem, isValidPassword } from "@/lib/password";
 import { attachReferrer } from "@/lib/referrals";
 import { REFERRAL_COOKIE } from "@/lib/referral-constants";
 
 export async function POST(request: Request) {
-  const gate = rateLimit(`signup:${clientIp(request)}`, 8, 3600);
+  const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`signup:${clientIp(request)}`, 8, 3600);
   if (!gate.ok) return tooMany(gate, "عملت حسابات كتير من الجهاز ده. استنى شوية.");
 
-  const { email, password, name, phone } = await request.json();
+  const { email, password, name, phone } = await readJson(request);
 
   const normalizedEmail = typeof email === "string" ? email.toLowerCase().trim() : "";
   if (!normalizedEmail.includes("@") || normalizedEmail.length < 5) {
@@ -20,7 +21,9 @@ export async function POST(request: Request) {
   }
 
   const pwProblem = passwordProblem(password);
-  if (pwProblem) return NextResponse.json({ error: pwProblem }, { status: 400 });
+  if (pwProblem || !isValidPassword(password)) {
+    return NextResponse.json({ error: pwProblem ?? "باسورد غير صالح" }, { status: 400 });
+  }
 
   if (typeof name !== "string" || name.trim().length < 2) {
     return NextResponse.json({ error: "اكتب اسمك" }, { status: 400 });

@@ -613,15 +613,25 @@ export default function QuizPage() {
               </div>
             </div>
 
+            {/*
+              Two claims used to sit here that weren't true of this product:
+              a 30-day refund (nowhere else on the site promised the same
+              number) and "cancel anytime" — there is nothing to cancel, it is
+              a single payment, not a subscription. Both are replaced with
+              things that are actually the case and happen to sell better.
+            */}
             <ul className="text-xs space-y-1.5 mb-5 text-neutral-600">
               <li>✓ ٢٨ درس يومي مترابط (١٥ دقيقة بس)</li>
               <li>✓ خطة مخصصة لـ {archetype.title}</li>
               <li>✓ مكتبة أدوات وقوالب وبرومبتات جاهزة</li>
               <li>✓ شهادة إتمام</li>
-              <li>✓ إلغاء الاشتراك في أي وقت</li>
+              <li>✓ وصول مدى الحياة — دفعة واحدة مش اشتراك شهري</li>
+              <li>✓ كل مسار جديد ننزّله بيتفتحلك مجانًا</li>
             </ul>
 
-            <p className="text-center text-[11px] text-neutral-400">🛡️ ضمان استرجاع الفلوس خلال ٣٠ يوم</p>
+            <p className="text-center text-[11px] leading-relaxed text-neutral-400">
+              🎁 اليوم الأول من كل مسار مفتوح مجانًا — جرّب قبل ما تدفع أي حاجة
+            </p>
           </div>
         )}
       </div>

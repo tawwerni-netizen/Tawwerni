@@ -7,6 +7,7 @@
  *
  * Usage: npx tsx scripts/e2e-security.ts [baseUrl]
  */
+import { TEST_HEADERS } from "./test-env";
 import { prisma } from "../src/lib/prisma";
 import { hashPassword } from "../src/lib/password";
 import { createResetToken } from "../src/lib/password-reset";
@@ -47,6 +48,7 @@ class Jar {
       headers: {
         ...(init.body ? { "Content-Type": "application/json" } : {}),
         ...(this.header() ? { Cookie: this.header() } : {}),
+        ...TEST_HEADERS,
         ...(init.headers ?? {}),
       },
     });
@@ -80,7 +82,7 @@ async function body(res: Response) {
   for (const p of ["/api/auth/request-code", "/api/auth/verify-code"]) {
     const r = await fetch(`${BASE}${p}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...TEST_HEADERS },
       body: JSON.stringify({ email: "anyone@example.com", code: "000000" }),
     });
     check(`${p} اتشال`, r.status === 404 || r.status === 405, `status ${r.status}`);
@@ -110,7 +112,7 @@ async function body(res: Response) {
   console.log("\nنسيت كلمة السر");
   let r = await fetch(`${BASE}/api/auth/forgot-password`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...TEST_HEADERS },
     body: JSON.stringify({ email: victimEmail }),
   });
   check("طلب اللينك", r.status === 200, `status ${r.status}`);
@@ -119,7 +121,7 @@ async function body(res: Response) {
 
   r = await fetch(`${BASE}/api/auth/forgot-password`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...TEST_HEADERS },
     body: JSON.stringify({ email: `ghost${stamp}@test.local` }),
   });
   const ghost = await body(r);
@@ -135,14 +137,14 @@ async function body(res: Response) {
 
   r = await fetch(`${BASE}/api/auth/reset-password`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...TEST_HEADERS },
     body: JSON.stringify({ token: "not-a-real-token-aaaaaaaaaaaaaaaa", password: "brandnew12345" }),
   });
   check("توكن مزيّف بيترفض", r.status === 400, `status ${r.status}`);
 
   r = await fetch(`${BASE}/api/auth/reset-password`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...TEST_HEADERS },
     body: JSON.stringify({ token, password: "short" }),
   });
   check("باسورد قصير بيترفض", r.status === 400, `status ${r.status}`);
@@ -157,7 +159,7 @@ async function body(res: Response) {
 
   r = await fetch(`${BASE}/api/auth/reset-password`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...TEST_HEADERS },
     body: JSON.stringify({ token, password: "another12345" }),
   });
   check("نفس اللينك مبيشتغلش مرتين", r.status === 400, `status ${r.status}`);
@@ -195,6 +197,12 @@ async function body(res: Response) {
   });
   check("التغيير الصحيح بينجح", r.status === 200, `status ${r.status}`);
 
+  // Changing the password bumps `sessionVersion`, so the jar is re-issued a
+  // fresh cookie by that same response. Confirm it survived rather than
+  // silently running the rest of the suite signed out.
+  r = await victimJar.fetch("/app");
+  check("الجهاز اللي غيّر الباسورد فضل داخل", r.status === 200, `status ${r.status}`);
+
   /* ================= profile leaks ================= */
   console.log("\nتسريب بيانات");
   r = await victimJar.fetch("/api/profile", {
@@ -227,7 +235,7 @@ async function body(res: Response) {
   console.log("\nكتابة من غير تسجيل دخول");
   await fetch(`${BASE}/api/quiz/lead`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...TEST_HEADERS },
     body: JSON.stringify({ email: victimEmail, name: "اسم مزوّر", answers: { field: "business" } }),
   });
   const afterLead = await prisma.user.findUnique({
@@ -243,7 +251,7 @@ async function body(res: Response) {
   const course = await prisma.course.findFirst({ where: { isComingSoon: false } });
   await fetch(`${BASE}/api/orders`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...TEST_HEADERS },
     body: JSON.stringify({
       email: victimEmail,
       name: "مخترق",
@@ -271,7 +279,7 @@ async function body(res: Response) {
   ]) {
     const res = await fetch(`${BASE}${p}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...TEST_HEADERS },
       body: JSON.stringify({ mode: "temp", to: "x@y.com" }),
     });
     check(`${p} بيرفض الزائر`, res.status === 401, `status ${res.status}`);
@@ -317,6 +325,17 @@ async function body(res: Response) {
   });
   check("أدمن مبيقدرش ياخد حساب أدمن تاني", r.status === 403, `status ${r.status}`);
 
+  /*
+   * The operator reset above deliberately signed the victim out of every
+   * device — that is the point of it. Sign back in with the temporary password
+   * it produced, so the checks below run against a live session.
+   */
+  r = await victimJar.fetch("/api/auth/login", {
+    method: "POST",
+    body: JSON.stringify({ email: victimEmail, password: tempRes.tempPassword }),
+  });
+  check("الباسورد المؤقت بيشتغل فعلًا", r.status === 200, `status ${r.status}`);
+
   /* ================= certificate gate ================= */
   console.log("\nبوابة الشهادة");
   r = await victimJar.fetch(`/app/learn/${course!.slug}/certificate`);
@@ -336,6 +355,67 @@ async function body(res: Response) {
     body: JSON.stringify({ score: 4, totalQuestions: 4 }),
   });
   check("مش بينفع يخلّص درس مقفول", r.status === 403, `status ${r.status}`);
+
+
+  /* ================= session invalidation ================= */
+  console.log("\nإبطال الجلسات عند تغيير الباسورد");
+
+  const sessionUser = await prisma.user.create({
+    data: {
+      email: `sess${stamp}@test.local`,
+      passwordHash: await hashPassword(PW),
+      dailyPaceMinutes: 15,
+    },
+  });
+
+  // Two devices signed in on the same account.
+  const deviceA = new Jar();
+  const deviceB = new Jar();
+  for (const d of [deviceA, deviceB]) {
+    await d.fetch("/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ email: sessionUser.email, password: PW }),
+    });
+  }
+  check("الجهازين داخلين", (await deviceA.fetch("/app")).status === 200 && (await deviceB.fetch("/app")).status === 200);
+
+  // Device A changes the password.
+  r = await deviceA.fetch("/api/auth/change-password", {
+    method: "POST",
+    body: JSON.stringify({ currentPassword: PW, newPassword: "freshpass9876" }),
+  });
+  check("الجهاز الأول غيّر الباسورد", r.status === 200, `status ${r.status}`);
+
+  r = await deviceB.fetch("/app");
+  check(
+    "الجهاز التاني اتطرد",
+    r.status === 307 || r.status === 302,
+    `status ${r.status} — الجلسة القديمة لسه شغالة`
+  );
+
+  r = await deviceA.fetch("/app");
+  check("الجهاز اللي غيّر فضل داخل", r.status === 200, `status ${r.status}`);
+
+  await prisma.user.deleteMany({ where: { id: sessionUser.id } });
+
+  /* ================= JSON-LD escaping ================= */
+  console.log("\nالبيانات المنظّمة");
+  const landing = await (await fetch(`${BASE}/`)).text();
+
+  const ldBlocks = landing.match(
+    /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g
+  ) ?? [];
+  check("فيه بيانات منظّمة", ldBlocks.length >= 2, `${ldBlocks.length} بلوك`);
+
+  // Anything inside the block must be escaped — a raw "<" would let content
+  // close the tag and become markup.
+  const inner = ldBlocks.map((b) =>
+    b.replace(/^<script type="application\/ld\+json">/, "").replace(/<\/script>$/, "")
+  );
+  check("مفيش وسوم HTML جوّه البيانات", inner.every((b) => !b.includes("<")), "فيه < غير مهروبة");
+  check("البيانات JSON صالح", inner.every((b) => {
+    try { JSON.parse(b); return true; } catch { return false; }
+  }));
 
   /* ================= headers ================= */
   console.log("\nرؤوس الأمان");

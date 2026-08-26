@@ -1,4 +1,5 @@
 import { brand, pricing, payment } from "@/content/brand";
+import { ldJson } from "@/lib/ld-json";
 import { allCourses, courseStats } from "@/content/courses";
 
 const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${brand.domain}`;
@@ -16,6 +17,8 @@ const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${bran
  * structured data that doesn't match the page is a policy violation, not just
  * an inaccuracy.
  */
+
+
 export default function StructuredData() {
   const courses = allCourses.map((c) => ({ ...c.meta, ...courseStats(c) }));
 
@@ -78,7 +81,7 @@ export default function StructuredData() {
       type="application/ld+json"
       // Server-rendered from constants only — no user input reaches this.
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify({ "@context": "https://schema.org", "@graph": graph }),
+        __html: ldJson({ "@context": "https://schema.org", "@graph": graph }),
       }}
     />
   );

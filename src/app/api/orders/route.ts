@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { readJson, isOneOf } from "@/lib/read-json";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { pricing, payment } from "@/content/brand";
@@ -6,7 +7,7 @@ import { sendEmail } from "@/lib/email";
 import { orderReceivedEmail } from "@/lib/email-templates";
 import { attachReferrer } from "@/lib/referrals";
 import { REFERRAL_COOKIE } from "@/lib/referral-constants";
-import { rateLimit, clientIp, tooMany } from "@/lib/rate-limit";
+import { rateLimit, clientIp, tooMany, testBypass } from "@/lib/rate-limit";
 
 const VALID_METHODS = ["vodafone_cash", "instapay"] as const;
 const VALID_CHANNELS = ["whatsapp", "email"] as const;
@@ -14,10 +15,10 @@ const VALID_CHANNELS = ["whatsapp", "email"] as const;
 export async function POST(request: Request) {
   // Unauthenticated and it creates accounts, so a script could otherwise bury
   // the real orders in the admin panel under thousands of fake ones.
-  const gate = rateLimit(`orders:${clientIp(request)}`, 10, 3600);
+  const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`orders:${clientIp(request)}`, 10, 3600);
   if (!gate.ok) return tooMany(gate, "طلبات كتير من الجهاز ده. استنى شوية أو كلّمنا على واتساب.");
 
-  const { email, name, phone, instapayName, courseSlug, method, proofChannel } = await request.json();
+  const { email, name, phone, instapayName, courseSlug, method, proofChannel } = await readJson(request);
 
   if (typeof email !== "string" || !email.includes("@")) {
     return NextResponse.json({ error: "اكتب إيميل صحيح" }, { status: 400 });
@@ -38,10 +39,10 @@ export async function POST(request: Request) {
   if (typeof courseSlug !== "string" || !courseSlug) {
     return NextResponse.json({ error: "اختر المسار الأول" }, { status: 400 });
   }
-  if (!VALID_METHODS.includes(method)) {
+  if (!isOneOf(method, VALID_METHODS)) {
     return NextResponse.json({ error: "اختر طريقة دفع صحيحة" }, { status: 400 });
   }
-  if (proofChannel != null && !VALID_CHANNELS.includes(proofChannel)) {
+  if (proofChannel != null && !isOneOf(proofChannel, VALID_CHANNELS)) {
     return NextResponse.json({ error: "قناة تواصل غير صالحة" }, { status: 400 });
   }
 

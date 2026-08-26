@@ -40,7 +40,16 @@ export async function verifyPassword(password: string, stored: string): Promise<
 }
 
 /** Rules kept deliberately light — length is what actually matters. */
-export function passwordProblem(password: string): string | null {
+/**
+ * Takes `unknown` on purpose.
+ *
+ * Every caller receives this straight off a request body, where it could be a
+ * number, an object, or missing entirely. Typing it as `string` meant the
+ * check was doing runtime narrowing the compiler couldn't see, and callers
+ * were free to pass unvalidated input into `hashPassword` right after.
+ * Narrowing here makes the type system enforce what the code already assumed.
+ */
+export function passwordProblem(password: unknown): string | null {
   if (typeof password !== "string" || password.length < 8) {
     return "الباسورد لازم يكون ٨ حروف على الأقل";
   }
@@ -48,6 +57,11 @@ export function passwordProblem(password: string): string | null {
     return "الباسورد طويل أوي";
   }
   return null;
+}
+
+/** True once `passwordProblem` has cleared it — narrows for the compiler. */
+export function isValidPassword(password: unknown): password is string {
+  return passwordProblem(password) === null;
 }
 
 /** Readable temporary password for an operator-triggered reset. */

@@ -8,7 +8,9 @@
  *
  * Usage: npx tsx scripts/e2e-test.ts [baseUrl]
  */
+import { TEST_HEADERS } from "./test-env";
 import { prisma } from "../src/lib/prisma";
+
 import { hashPassword } from "../src/lib/password";
 
 const BASE = process.argv[2] ?? "http://localhost:3000";
@@ -51,6 +53,7 @@ class Jar {
       headers: {
         ...(init.body ? { "Content-Type": "application/json" } : {}),
         ...(this.header() ? { Cookie: this.header() } : {}),
+        ...TEST_HEADERS,
         ...(init.headers ?? {}),
       },
     });

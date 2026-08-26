@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { timingSafeEqual } from "crypto";
+import { rateLimit, clientIp, tooMany, testBypass } from "@/lib/rate-limit";
 import { recordAndMatch, type IncomingPayment } from "@/lib/payment-matching";
 import { parsePaymentSms } from "@/lib/sms-parsers";
 
@@ -33,13 +35,23 @@ function parseDate(value: unknown): Date | null {
 }
 
 export async function POST(request: Request) {
+  /*
+   * Throttled before the token is even checked. The bearer token is the only
+   * thing standing between the open internet and the payment ledger, and an
+   * unthrottled endpoint lets it be guessed at whatever rate the network
+   * allows. One phone posts a handful of messages a day — this cap is far
+   * above anything real traffic will hit.
+   */
+  const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`payin:${clientIp(request)}`, 60, 300);
+  if (!gate.ok) return tooMany(gate, "Too many requests");
+
   if (!authorized(request)) {
     return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
   }
 
   let body: Record<string, unknown>;
   try {
-    body = await request.json();
+    body = await readJson(request);
   } catch {
     return NextResponse.json({ success: false, message: "Malformed JSON" }, { status: 400 });
   }

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/admin";
 import { activateOrder } from "@/lib/activate-order";
@@ -13,7 +14,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ tx
   if (!(await isAdmin())) return NextResponse.json({ error: "غير مصرّح" }, { status: 401 });
 
   const { txId } = await params;
-  const { action, orderId } = await request.json();
+  const { action, orderId } = await readJson(request);
 
   const tx = await prisma.paymentTransaction.findUnique({ where: { id: txId } });
   if (!tx) return NextResponse.json({ error: "التحويل مش موجود" }, { status: 404 });

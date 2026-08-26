@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { payment } from "@/content/brand";
-import { getCurrentUser } from "@/lib/auth";
-import { hashPassword, verifyPassword, passwordProblem } from "@/lib/password";
+import { getCurrentUser, createSessionCookie } from "@/lib/auth";
+import { hashPassword, verifyPassword, passwordProblem, isValidPassword } from "@/lib/password";
 import { sendEmail } from "@/lib/email";
 import { passwordChangedEmail } from "@/lib/email-templates";
-import { rateLimit, clientIp, tooMany } from "@/lib/rate-limit";
+import { rateLimit, clientIp, tooMany, testBypass } from "@/lib/rate-limit";
 
 /**
  * Changes the signed-in user's own password.
@@ -21,13 +22,15 @@ export async function POST(request: Request) {
   if (!user) return NextResponse.json({ error: "لازم تسجّل دخول الأول" }, { status: 401 });
 
   // Guessing the current password from inside a session is still guessing.
-  const gate = rateLimit(`chpw:${user.id}`, 10, 900);
+  const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`chpw:${user.id}`, 10, 900);
   if (!gate.ok) return tooMany(gate, "محاولات كتير. استنى شوية.");
 
-  const { currentPassword, newPassword } = await request.json();
+  const { currentPassword, newPassword } = await readJson(request);
 
   const problem = passwordProblem(newPassword);
-  if (problem) return NextResponse.json({ error: problem }, { status: 400 });
+  if (problem || !isValidPassword(newPassword)) {
+    return NextResponse.json({ error: problem ?? "باسورد غير صالح" }, { status: 400 });
+  }
 
   if (!user.passwordHash) {
     return NextResponse.json(
@@ -50,8 +53,17 @@ export async function POST(request: Request) {
 
   await prisma.user.update({
     where: { id: user.id },
-    data: { passwordHash: await hashPassword(newPassword), mustChangePassword: false },
+    data: {
+      passwordHash: await hashPassword(newPassword),
+      mustChangePassword: false,
+      // Signs every other device out. The most common reason somebody changes
+      // a password is that they think another device has it.
+      sessionVersion: { increment: 1 },
+    },
   });
+
+  // ...including this one, so re-issue it here.
+  await createSessionCookie(user.id);
 
   // Any outstanding reset link is now stale — kill it, so an old email in an
   // inbox cannot undo the change they just made.

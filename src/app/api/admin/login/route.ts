@@ -1,14 +1,21 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { createSessionCookie } from "@/lib/auth";
 import { verifyPassword } from "@/lib/password";
+import { rateLimit, clientIp, tooMany, testBypass } from "@/lib/rate-limit";
 
 /** Wrong attempts allowed before the account is briefly locked. */
 const MAX_ATTEMPTS = 8;
 const LOCK_MINUTES = 15;
 
 export async function POST(request: Request) {
-  const { email, password } = await request.json();
+  // Tighter than the learner login: there is exactly one account that can get
+  // in here, so a legitimate person needs very few attempts.
+  const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`adminlogin:${clientIp(request)}`, 10, 600);
+  if (!gate.ok) return tooMany(gate, "محاولات كتير. استنى شوية وجرّب تاني.");
+
+  const { email, password } = await readJson(request);
 
   const normalizedEmail = typeof email === "string" ? email.toLowerCase().trim() : "";
   if (!normalizedEmail || typeof password !== "string") {

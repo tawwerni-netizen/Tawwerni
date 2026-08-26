@@ -1,4 +1,5 @@
 import { faqCategories } from "@/content/faq";
+import { ldJson } from "@/lib/ld-json";
 
 /**
  * FAQPage markup, drawn from the real help centre.
@@ -21,6 +22,8 @@ const WANTED = [
   "الدفع بيتم إزاي؟",
 ];
 
+
+
 export default function FaqSchema() {
   const all = faqCategories.flatMap((c) => c.items);
 
@@ -34,7 +37,7 @@ export default function FaqSchema() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
+        __html: ldJson({
           "@context": "https://schema.org",
           "@type": "FAQPage",
           mainEntity: picked.map((item) => ({

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { computeArchetype, computeReadinessScore } from "@/content/marketing-quiz";
-import { rateLimit, clientIp, tooMany } from "@/lib/rate-limit";
+import { rateLimit, clientIp, tooMany, testBypass } from "@/lib/rate-limit";
 
 /**
  * Captures a marketing-quiz lead.
@@ -17,17 +18,32 @@ import { rateLimit, clientIp, tooMany } from "@/lib/rate-limit";
  *    address and overwrite their name and preferences from the open internet.
  */
 export async function POST(request: Request) {
-  const gate = rateLimit(`lead:${clientIp(request)}`, 15, 3600);
+  const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`lead:${clientIp(request)}`, 15, 3600);
   if (!gate.ok) return tooMany(gate, "محاولات كتير. استنى شوية وجرّب تاني.");
 
-  const { email, name, answers } = await request.json();
+  const { email, name, answers: rawAnswers } = await readJson(request);
   if (
     typeof email !== "string" ||
     !email.includes("@") ||
-    typeof answers !== "object" ||
-    answers === null
+    typeof rawAnswers !== "object" ||
+    rawAnswers === null ||
+    Array.isArray(rawAnswers)
   ) {
     return NextResponse.json({ error: "بيانات غير صالحة" }, { status: 400 });
+  }
+
+  /*
+   * Keep only string values, and cap them.
+   *
+   * The quiz answers arrive from the browser and are stored as JSON, so
+   * without this a caller could post arbitrarily deep objects or megabytes of
+   * text into the row. The scoring functions only ever read strings anyway.
+   */
+  const answers: Record<string, string> = {};
+  for (const [key, value] of Object.entries(rawAnswers as Record<string, unknown>)) {
+    if (typeof value === "string" && key.length <= 40) {
+      answers[key.slice(0, 40)] = value.slice(0, 200);
+    }
   }
 
   const normalizedEmail = email.toLowerCase().trim();

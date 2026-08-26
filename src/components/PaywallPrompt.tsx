@@ -48,11 +48,11 @@ export default function PaywallPrompt({
         <div className="mx-auto mb-3 grid h-16 w-16 place-items-center rounded-2xl bg-white/15 text-4xl">
           🎉
         </div>
-        <p className="mb-1 text-xs font-bold tracking-wide text-brand-100">
+        <p className="on-brand-soft mb-1 text-xs font-bold tracking-wide">
           خلّصت اليوم الأول
         </p>
         <h2 className="mb-2 text-xl font-bold">حلو! كمّل الباقي</h2>
-        <p className="mx-auto mb-5 max-w-xs text-sm leading-relaxed text-white/85">
+        <p className="on-brand-soft mx-auto mb-5 max-w-xs text-sm leading-relaxed">
           فاضلك <b className="text-white">{Math.max(0, totalLessons - 1)} يوم</b> في
           {" "}{courseTitle} — واشتراك واحد بيفتحلك <b className="text-white">كل المسارات</b>.
         </p>
@@ -60,7 +60,7 @@ export default function PaywallPrompt({
         <div className="mb-5 inline-flex items-baseline gap-2 rounded-2xl bg-white/10 px-5 py-3">
           <span className="text-3xl font-bold">{pricing.priceEgp}</span>
           <span className="text-sm">ج.م</span>
-          <span className="text-sm text-white/50 line-through" dir="ltr">
+          <span className="on-brand-strike text-sm line-through" dir="ltr">
             {pricing.originalPriceEgp}
           </span>
         </div>
@@ -71,8 +71,8 @@ export default function PaywallPrompt({
         >
           افتح كل المسارات ←
         </Link>
-        <p className="text-xs text-white/60">
-          دفعة واحدة · وصول مدى الحياة · ضمان استرجاع ٧ أيام
+        <p className="on-brand-faint text-xs">
+          دفعة واحدة · وصول مدى الحياة · كل مسار جديد مجانًا
         </p>
       </div>
 
@@ -85,7 +85,7 @@ export default function PaywallPrompt({
         ].map(([icon, label]) => (
           <li key={label} className="flex items-center gap-2 bg-brand-800/60 px-4 py-3">
             <span aria-hidden>{icon}</span>
-            <span className="text-white/90">{label}</span>
+            <span className="on-brand">{label}</span>
           </li>
         ))}
       </ul>

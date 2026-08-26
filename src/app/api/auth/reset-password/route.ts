@@ -1,24 +1,31 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { payment } from "@/content/brand";
-import { hashPassword, passwordProblem } from "@/lib/password";
+import { hashPassword, passwordProblem, isValidPassword } from "@/lib/password";
 import { findLiveReset, consumeReset } from "@/lib/password-reset";
 import { createSessionCookie } from "@/lib/auth";
 import { sendEmail } from "@/lib/email";
 import { passwordChangedEmail } from "@/lib/email-templates";
-import { rateLimit, clientIp, tooMany } from "@/lib/rate-limit";
+import { rateLimit, clientIp, tooMany, testBypass } from "@/lib/rate-limit";
 
 /** Finishes a reset: verify the token, set the new password, sign them in. */
 export async function POST(request: Request) {
   // A 32-byte token is not guessable, but an unlimited endpoint is still a
   // free way to hammer the server.
-  const gate = rateLimit(`reset:${clientIp(request)}`, 20, 3600);
+  const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`reset:${clientIp(request)}`, 20, 3600);
   if (!gate.ok) return tooMany(gate, "محاولات كتير. استنى شوية.");
 
-  const { token, password } = await request.json();
+  const { token, password } = await readJson(request);
 
   const problem = passwordProblem(password);
-  if (problem) return NextResponse.json({ error: problem }, { status: 400 });
+  if (problem || !isValidPassword(password)) {
+    return NextResponse.json({ error: problem ?? "باسورد غير صالح" }, { status: 400 });
+  }
+
+  if (typeof token !== "string") {
+    return NextResponse.json({ error: "اللينك ناقص" }, { status: 400 });
+  }
 
   const reset = await findLiveReset(token);
   if (!reset) {
@@ -39,6 +46,8 @@ export async function POST(request: Request) {
       // by an attacker's guessing would still be shut out of their own account.
       loginAttempts: 0,
       lockedUntil: null,
+      // And kicks out every session that existed before this reset.
+      sessionVersion: { increment: 1 },
     },
   });
 

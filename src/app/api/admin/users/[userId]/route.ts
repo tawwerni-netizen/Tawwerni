@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { adminUser } from "@/lib/admin";
 
@@ -27,7 +28,7 @@ export async function DELETE(
   if (!admin) return NextResponse.json({ error: "غير مصرّح" }, { status: 401 });
 
   const { userId } = await params;
-  const { confirmEmail } = await request.json().catch(() => ({}));
+  const { confirmEmail } = await readJson(request);
 
   const target = await prisma.user.findUnique({
     where: { id: userId },

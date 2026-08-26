@@ -234,13 +234,13 @@ export default function LandingPage() {
         {/* ---------- 6. One action ---------- */}
         <div className="closing-cta">
           <h2 className="mb-3 text-2xl font-bold md:text-3xl">أنهي يوم هتبدأ؟</h2>
-          <p className="mx-auto mb-7 max-w-md text-sm leading-relaxed text-brand-100">
+          <p className="on-brand-soft mx-auto mb-7 max-w-md text-sm leading-relaxed">
             كل يوم بتأجّل فيه هو يوم كنت هتبقى خلّصته. اليوم الأول مفتوح — ابدأ دلوقتي.
           </p>
           <Link href="/quiz" className="cta-buy px-9 py-4 text-sm">
             <span>ابدأ التحدي ←</span>
           </Link>
-          <p className="mt-4 text-xs text-brand-100/80">دقيقتين بس · نتيجة فورية</p>
+          <p className="on-brand-faint mt-4 text-xs">دقيقتين بس · نتيجة فورية</p>
         </div>
 
         <p className="mt-10 text-center text-[11px] leading-relaxed text-neutral-400">

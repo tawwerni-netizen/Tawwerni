@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { brand } from "@/content/brand";
 import { payment } from "@/content/brand";
 import { sendEmail } from "@/lib/email";
 import { passwordResetEmail } from "@/lib/email-templates";
 import { createResetToken, ResetRateLimited, RESET_TTL_MINUTES } from "@/lib/password-reset";
-import { rateLimit, clientIp, tooMany } from "@/lib/rate-limit";
+import { rateLimit, clientIp, tooMany, testBypass } from "@/lib/rate-limit";
 
 /**
  * Starts a password reset.
@@ -17,10 +18,10 @@ import { rateLimit, clientIp, tooMany } from "@/lib/rate-limit";
 export async function POST(request: Request) {
   // Per-account throttling lives in createResetToken; this caps one machine
   // walking a list of addresses to see which ones exist.
-  const gate = rateLimit(`forgot:${clientIp(request)}`, 10, 3600);
+  const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`forgot:${clientIp(request)}`, 10, 3600);
   if (!gate.ok) return tooMany(gate, "طلبات كتير. استنى شوية وجرّب تاني.");
 
-  const { email } = await request.json();
+  const { email } = await readJson(request);
 
   const normalized = typeof email === "string" ? email.toLowerCase().trim() : "";
   if (!normalized.includes("@")) {

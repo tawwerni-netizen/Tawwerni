@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { readJson, isOneOf } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { getSessionUserId } from "@/lib/auth";
 
@@ -46,7 +47,7 @@ export async function PATCH(request: Request) {
   const userId = await getSessionUserId();
   if (!userId) return NextResponse.json({ error: "لازم تسجل دخول" }, { status: 401 });
 
-  const body = await request.json();
+  const body = await readJson(request);
   const data: {
     name?: string;
     dailyPaceMinutes?: number;
@@ -71,7 +72,7 @@ export async function PATCH(request: Request) {
   }
 
   if (body.focusCategory !== undefined) {
-    if (!FOCUS_OPTIONS.includes(body.focusCategory)) {
+    if (!isOneOf(body.focusCategory, FOCUS_OPTIONS)) {
       return NextResponse.json({ error: "تصنيف غير صالح" }, { status: 400 });
     }
     data.focusCategory = body.focusCategory;

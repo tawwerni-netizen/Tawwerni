@@ -26,6 +26,10 @@ model User {
   /// Consecutive failed logins; resets on success.
   loginAttempts     Int       @default(0)
   lockedUntil       DateTime?
+  /// Bumped whenever the password changes. Sessions carry the value they were
+  /// signed with, so raising it logs every existing device out at once —
+  /// without it, "I changed my password" left an intruder's session alive.
+  sessionVersion    Int       @default(0)
   /// Set when the welcome email actually went out, so it is sent exactly once.
   welcomedAt        DateTime?
   dailyPaceMinutes  Int?

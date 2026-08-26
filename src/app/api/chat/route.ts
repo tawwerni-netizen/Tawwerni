@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { getSessionUserId } from "@/lib/auth";
 import { askCoach, MissingApiKeyError } from "@/lib/anthropic";
 import { computeLevel, computeStreak } from "@/lib/xp";
-import { rateLimit, tooMany } from "@/lib/rate-limit";
+import { rateLimit, tooMany, testBypass } from "@/lib/rate-limit";
 
 /** A question, not a document. Also caps what one call can cost. */
 const MAX_MESSAGE_CHARS = 2000;
@@ -14,10 +15,10 @@ export async function POST(request: Request) {
 
   // Every call here costs real money at the model provider, so it is capped
   // per account rather than per IP — the session is the thing being billed.
-  const gate = rateLimit(`chat:${userId}`, 30, 3600);
+  const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`chat:${userId}`, 30, 3600);
   if (!gate.ok) return tooMany(gate, "أسئلة كتير في وقت قصير. استنى شوية.");
 
-  const { message } = await request.json();
+  const { message } = await readJson(request);
   if (typeof message !== "string" || !message.trim()) {
     return NextResponse.json({ error: "اكتب رسالة الأول" }, { status: 400 });
   }

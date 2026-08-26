@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { isAdmin } from "@/lib/admin";
 import { sendEmail, emailStatus } from "@/lib/email";
 import { welcomeEmail } from "@/lib/email-templates";
@@ -7,7 +8,7 @@ import { welcomeEmail } from "@/lib/email-templates";
 export async function POST(request: Request) {
   if (!(await isAdmin())) return NextResponse.json({ error: "غير مصرّح" }, { status: 401 });
 
-  const { to } = await request.json();
+  const { to } = await readJson(request);
   if (typeof to !== "string" || !to.includes("@")) {
     return NextResponse.json({ error: "اكتب إيميل صحيح" }, { status: 400 });
   }

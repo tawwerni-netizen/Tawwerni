@@ -26,6 +26,23 @@ function sweep(now: number) {
 
 export type RateVerdict = { ok: true } | { ok: false; retryAfterSeconds: number };
 
+/**
+ * Header the test suites send to opt out of throttling.
+ *
+ * Gated on `NODE_ENV !== "production"` **and** on knowing `JWT_SECRET`, so it
+ * cannot be reached on the live site even if someone guesses the header name.
+ * Without it the suites eat each other's quota — the windows are hours long and
+ * a full run makes more requests than a real customer would in a week.
+ */
+const TEST_BYPASS_HEADER = "x-tawwerni-test";
+
+export function testBypass(request: Request): boolean {
+  if (process.env.NODE_ENV === "production") return false;
+  const secret = process.env.JWT_SECRET;
+  if (!secret) return false;
+  return request.headers.get(TEST_BYPASS_HEADER) === secret;
+}
+
 export function rateLimit(key: string, limit: number, windowSeconds: number): RateVerdict {
   const now = Date.now();
   sweep(now);

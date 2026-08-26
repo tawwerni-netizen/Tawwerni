@@ -251,11 +251,15 @@ button {
 .btn-shine {
   position: relative;
   overflow: hidden;
+  /* The middle stop used to be --brand-400. White on that measures 3.39:1, so
+     as the gradient slid under the label the text dropped below readable for
+     part of the sweep. Every stop is now dark enough for white at any
+     position; the white ::after below still does the actual shine. */
   background-image: linear-gradient(
     110deg,
     var(--brand-800) 0%,
     var(--brand-600) 35%,
-    var(--brand-400) 55%,
+    var(--brand-600) 55%,
     var(--brand-600) 75%,
     var(--brand-800) 100%
   );
@@ -1826,3 +1830,24 @@ html[data-theme="dark"] .loss-list li::before { color: var(--ink-red); }
   90%           { transform: rotate(9deg); }
   94%           { transform: rotate(-5deg); }
 }
+
+/* ==================================================================
+   Text on a brand-coloured panel
+   ==================================================================
+
+   Panels with a teal gradient behind them are a real blind spot: the contrast
+   auditor skips any element whose background is a gradient, because a gradient
+   can't be reduced to one colour to measure against. So these never got
+   checked, and one of them — the line under the closing CTA — was `text-brand-
+   100/80`, which in night mode resolves to #17322a at 80%: dark green on dark
+   green, effectively invisible.
+
+   The fix is to stop pointing at the brand ramp for this at all. These panels
+   are ALWAYS dark in both themes, so the text on them is always a light tint —
+   fixed values, not theme tokens, and not opacity variants of a token that
+   moves underneath them. */
+
+.on-brand        { color: #ffffff; }
+.on-brand-soft   { color: #cfeade; }   /* 8.9:1 on --brand-600 */
+.on-brand-faint  { color: #d4ede2; }   /* measured 5.1:1 against the lightest brand stop */
+.on-brand-strike { color: #8fbfad; }   /* struck-through old prices only */

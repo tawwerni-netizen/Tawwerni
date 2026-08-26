@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { requestPayout } from "@/lib/referrals";
@@ -9,7 +10,7 @@ export async function POST(request: Request) {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: "لازم تسجّل دخول" }, { status: 401 });
 
-  const { method, destination } = await request.json();
+  const { method, destination } = await readJson(request);
 
   if (typeof method !== "string" || !VALID_METHODS.includes(method)) {
     return NextResponse.json({ error: "اختار طريقة استلام صحيحة" }, { status: 400 });

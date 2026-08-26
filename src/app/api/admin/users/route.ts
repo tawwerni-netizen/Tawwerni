@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { adminUser } from "@/lib/admin";
-import { hashPassword, passwordProblem } from "@/lib/password";
+import { hashPassword, passwordProblem, isValidPassword } from "@/lib/password";
 import { pricing, payment } from "@/content/brand";
 import { sendEmail } from "@/lib/email";
 import { welcomeEmail } from "@/lib/email-templates";
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
   const admin = await adminUser();
   if (!admin) return NextResponse.json({ error: "غير مصرّح" }, { status: 401 });
 
-  const { email, name, phone, password, grantAccess } = await request.json();
+  const { email, name, phone, password, grantAccess } = await readJson(request);
 
   const normalizedEmail = typeof email === "string" ? email.toLowerCase().trim() : "";
   if (!normalizedEmail.includes("@") || normalizedEmail.length < 5) {
@@ -28,7 +29,9 @@ export async function POST(request: Request) {
   }
 
   const problem = passwordProblem(password);
-  if (problem) return NextResponse.json({ error: problem }, { status: 400 });
+  if (problem || !isValidPassword(password)) {
+    return NextResponse.json({ error: problem ?? "باسورد غير صالح" }, { status: 400 });
+  }
 
   const existing = await prisma.user.findUnique({
     where: { email: normalizedEmail },

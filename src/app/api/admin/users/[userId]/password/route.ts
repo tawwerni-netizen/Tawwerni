@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { adminUser } from "@/lib/admin";
 import { payment, brand } from "@/content/brand";
@@ -31,7 +32,7 @@ export async function POST(
   if (!admin) return NextResponse.json({ error: "غير مصرّح" }, { status: 401 });
 
   const { userId } = await params;
-  const { mode } = await request.json();
+  const { mode } = await readJson(request);
 
   const target = await prisma.user.findUnique({
     where: { id: userId },
@@ -56,6 +57,8 @@ export async function POST(
         mustChangePassword: true,
         loginAttempts: 0,
         lockedUntil: null,
+        // Whoever was signed in on the old password is signed out.
+        sessionVersion: { increment: 1 },
       },
     });
 
