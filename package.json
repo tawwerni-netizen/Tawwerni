@@ -11,29 +11,30 @@
     "db:setup": "prisma db push && tsx prisma/seed.ts",
     "postinstall": "prisma generate"
   },
+  "//": "Hostinger installs with devDependencies omitted, so anything the BUILD touches has to live in dependencies — Tailwind's PostCSS plugin, the TypeScript compiler and its @types, and prisma+dotenv for the postinstall generate. Only the tools that never run on the server stay below.",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.120.0",
     "@prisma/adapter-better-sqlite3": "^7.9.1",
     "@prisma/client": "^7.9.1",
-    "@types/nodemailer": "^8.0.1",
-    "jose": "^6.2.10",
-    "next": "16.3.2",
-    "nodemailer": "^9.0.5",
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
-  },
-  "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "dotenv": "^17.4.2",
+    "jose": "^6.2.10",
+    "next": "16.3.2",
+    "nodemailer": "^9.0.5",
+    "prisma": "^7.9.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "devDependencies": {
     "eslint": "^9",
     "eslint-config-next": "16.3.2",
-    "prisma": "^7.9.1",
-    "tailwindcss": "^4",
-    "tsx": "^4.23.12",
-    "typescript": "^5"
+    "tsx": "^4.23.12"
   },
   "allowScripts": {
     "@prisma/engines@7.9.1": true,
