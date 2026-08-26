@@ -8,13 +8,8 @@ import WeekDot from "@/components/WeekDot";
 import HelpCard from "@/components/HelpCard";
 import CourseTile from "@/components/CourseTile";
 import ShareRow from "@/components/ShareRow";
-
-function greeting() {
-  const hour = new Date().getHours();
-  if (hour < 12) return "صباح الخير";
-  if (hour < 18) return "مساء النور";
-  return "مساء الخير";
-}
+import Greeting from "@/components/Greeting";
+import ReminderPrompt from "@/components/ReminderPrompt";
 
 export default async function AppHomePage() {
   const user = await getCurrentUser();
@@ -70,7 +65,7 @@ export default async function AppHomePage() {
 
   return (
     <div className="px-4 pt-5 pb-8">
-      <p className="text-xs text-neutral-400 tracking-wide mb-1">{greeting()} 👋</p>
+      <Greeting className="mb-1 text-xs tracking-wide text-neutral-400" />
       <h1 className="text-2xl font-bold mb-1 md:text-3xl">أهلًا، {user.name ?? "يا نجم"}!</h1>
       <p className="text-sm text-neutral-500 mb-5">أهلًا بيك في {brand.name}</p>
 
@@ -140,6 +135,10 @@ export default async function AppHomePage() {
           </div>
         </div>
       </div>
+
+      {/* Only offered after the learner has finished something — see the
+          component for why the timing of this ask matters. */}
+      <ReminderPrompt hasCompletions={completions.length > 0} />
 
       <HelpCard className="mb-5" />
 

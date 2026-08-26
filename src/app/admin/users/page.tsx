@@ -4,6 +4,7 @@ import AdminLogin from "@/components/AdminLogin";
 import AdminShell from "@/components/AdminShell";
 import AdminStats from "@/components/AdminStats";
 import AdminUserList from "@/components/AdminUserList";
+import AdminAddUser from "@/components/AdminAddUser";
 import type { AdminUserRowData } from "@/components/AdminUserRow";
 import { computeStreak } from "@/lib/xp";
 
@@ -112,6 +113,8 @@ export default async function AdminUsersPage() {
           { label: "الإيرادات", value: `${revenue} ج.م`, icon: "💰" },
         ]}
       />
+
+      <AdminAddUser />
 
       <AdminUserList users={rows} />
     </AdminShell>

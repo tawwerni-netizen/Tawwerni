@@ -74,12 +74,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         {/*
-          Runs before first paint so a night-mode visitor never sees a white
-          flash. Falls back to the OS preference when nothing is saved.
+          Runs before first paint so nobody sees a flash of the wrong theme.
+
+          Dark is the default for a first-time visitor — it is the look the
+          brand is built around, and this is a product people open at night.
+          A saved choice always wins; the OS preference is deliberately not
+          consulted, because a visitor whose laptop is set to light would
+          otherwise never see the design as intended.
         */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var s=localStorage.getItem('tawwerni-theme');var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();`,
+            __html: `(function(){try{var s=localStorage.getItem('tawwerni-theme');document.documentElement.dataset.theme=s==='light'?'light':'dark';}catch(e){document.documentElement.dataset.theme='dark';}})();`,
           }}
         />
       </head>

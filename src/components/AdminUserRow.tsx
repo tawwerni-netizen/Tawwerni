@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Avatar from "@/components/Avatar";
 
 export type AdminUserRowData = {
@@ -51,11 +52,35 @@ function fmtShort(iso: string) {
  * which is what these two buttons do.
  */
 export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [confirming, setConfirming] = useState(false);
+  const [confirmEmail, setConfirmEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [temp, setTemp] = useState<string | null>(null);
   const [note, setNote] = useState("");
   const [error, setError] = useState("");
+
+  async function remove() {
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch(`/api/admin/users/${user.id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirmEmail }),
+      });
+      const raw = await res.text();
+      let data: { error?: string } = {};
+      try { data = JSON.parse(raw); } catch { /* not JSON */ }
+      if (!res.ok) { setError(data.error ?? "مش قادر أمسح الحساب"); return; }
+      router.refresh();
+    } catch {
+      setError("مفيش اتصال بالسيرفر");
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function reset(mode: "send_link" | "temp") {
     setBusy(true);
@@ -218,6 +243,53 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
               كلمات السر مخزّنة مشفّرة في اتجاه واحد — مفيش طريقة تشوف باسورد
               العميل، لا من هنا ولا من قاعدة البيانات.
             </p>
+
+            {!user.isAdmin && (
+              <div className="mt-3 border-t border-black/5 pt-3">
+                {!confirming ? (
+                  <button
+                    onClick={() => setConfirming(true)}
+                    className="text-[11px] font-bold text-red-600"
+                  >
+                    🗑️ امسح الحساب نهائيًا
+                  </button>
+                ) : (
+                  <div className="animate-rise rounded-xl bg-red-50 p-3">
+                    <p className="mb-2 text-[11px] font-bold leading-relaxed text-red-800">
+                      ده هيمسح الحساب وكل تقدّمه وطلباته — مفيش رجوع.
+                    </p>
+                    <p className="mb-2 text-[10px] text-red-700">
+                      اكتب <b dir="ltr">{user.email}</b> عشان تأكّد:
+                    </p>
+                    <input
+                      dir="ltr"
+                      value={confirmEmail}
+                      onChange={(e) => setConfirmEmail(e.target.value)}
+                      placeholder="الإيميل"
+                      className="mb-2 w-full rounded-lg border border-red-200 px-2.5 py-2 text-xs"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={remove}
+                        disabled={busy || confirmEmail.trim().toLowerCase() !== user.email.toLowerCase()}
+                        className="rounded-full bg-red-600 px-3 py-1.5 text-[11px] font-bold text-white disabled:opacity-40"
+                      >
+                        {busy ? "..." : "امسح"}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setConfirming(false);
+                          setConfirmEmail("");
+                        }}
+                        className="rounded-full border border-black/10 px-3 py-1.5 text-[11px]"
+                      >
+                        إلغاء
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>

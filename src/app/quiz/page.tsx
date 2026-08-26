@@ -132,8 +132,8 @@ export default function QuizPage() {
   const ss = String(secondsLeft % 60).padStart(2, "0");
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <div className="px-4 pt-4 pb-3 border-b border-black/5 flex items-center justify-between max-w-md mx-auto w-full">
+    <div className="min-h-screen bg-neutral-50 flex flex-col">
+      <div className="px-4 pt-4 pb-3 border-b border-black/5 flex items-center justify-between max-w-lg mx-auto w-full">
         {stepIndex > 0 && step.kind !== "offer" ? (
           <button onClick={back} className="text-neutral-400 text-sm">
             ‹ رجوع
@@ -149,7 +149,7 @@ export default function QuizPage() {
       </div>
 
       {step.kind === "question" && (
-        <div className="max-w-md mx-auto w-full px-4 pt-2">
+        <div className="max-w-lg mx-auto w-full px-4 pt-2">
           <div className="h-1 bg-neutral-100 rounded-full overflow-hidden mb-1">
             <div
               className="h-full bg-brand-600 transition-all"
@@ -162,41 +162,68 @@ export default function QuizPage() {
         </div>
       )}
 
-      <div className="flex-1 max-w-md mx-auto w-full px-5 py-6">
+      <div className="flex-1 max-w-lg mx-auto w-full px-5 py-6">
         {step.kind === "roleIntro" && (
           <div>
-            <h1 className="text-2xl font-bold text-center mb-1">تحدي الذكاء الاصطناعي - ٢٨ يوم</h1>
-            <p className="text-center text-brand-600 font-bold mb-6">احصل على شهادتك في الذكاء الاصطناعي</p>
-            <p className="text-center font-bold mb-4">بتوصف نفسك إزاي؟</p>
-            <div className="grid grid-cols-2 gap-3 mb-3">
+            {/*
+              The old version stacked four centred lines of near-equal weight,
+              so the title wrapped mid-phrase and nothing led the eye. There is
+              one question on this screen; everything else is scaffolding for it.
+            */}
+            <div className="mb-8 text-center">
+              {/* No "·" between the words and the number: in RTL the separator
+                  sits right against ٢٨ and the two read as "٢٨٠". */}
+              <span className="quiz-eyebrow">تحدي الذكاء الاصطناعي في ٢٨ يوم</span>
+              <h1 className="quiz-title mt-3">
+                خلّي الذكاء الاصطناعي
+                <br />
+                <span className="text-brand-600">يشتغل لصالحك</span>
+              </h1>
+              <p className="mx-auto mt-3 max-w-xs text-sm leading-relaxed text-neutral-500">
+                جاوب على كام سؤال سريع، وهنجهّزلك خطة ٢٨ يوم على مقاسك.
+              </p>
+            </div>
+
+            <p className="mb-4 text-center text-base font-bold">بتوصف نفسك إزاي؟</p>
+
+            <div className="mb-3 grid grid-cols-2 gap-3">
               {[
                 { icon: "👨‍💼", label: "بشتغل في شركة", value: "employee" },
                 { icon: "👩‍💼", label: "بابني مشروعي", value: "founder" },
-              ].map((o) => (
+              ].map((o, i) => (
                 <button
                   key={o.value}
                   onClick={() => {
                     setRole(o.value);
                     next();
                   }}
-                  className="border-2 border-brand-600 rounded-2xl p-4 text-center"
+                  className="role-card animate-rise"
+                  style={{ animationDelay: `${i * 80}ms` }}
                 >
-                  <div className="text-3xl mb-2">{o.icon}</div>
-                  <div className="text-white bg-brand-600 rounded-lg text-xs font-bold py-1.5">{o.label}</div>
+                  <span className="role-card-icon" aria-hidden>
+                    {o.icon}
+                  </span>
+                  <span className="role-card-label">{o.label}</span>
                 </button>
               ))}
             </div>
+
             <button
               onClick={() => {
                 setRole("exploring");
                 next();
               }}
-              className="w-full border border-black/10 rounded-xl p-3 flex items-center gap-2 text-sm"
+              className="role-card role-card-wide animate-rise"
+              style={{ animationDelay: "160ms" }}
             >
-              🌱 بستكشف الموضوع لنفسي
+              <span className="role-card-icon" aria-hidden>
+                🌱
+              </span>
+              <span className="role-card-label">بستكشف الموضوع لنفسي</span>
             </button>
-            <p className="text-center text-[11px] text-neutral-400 mt-5">
-              ✓ دقيقتين بس · ✓ نتيجة فورية
+
+            <p className="mt-6 text-center text-[11px] text-neutral-400">
+              ✓ دقيقتين بس · ✓ نتيجة فورية · ✓ من غير بطاقة بنكية
             </p>
           </div>
         )}

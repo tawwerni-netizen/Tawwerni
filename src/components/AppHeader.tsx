@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { LogoLink } from "@/components/Logo";
 import ThemeToggle from "@/components/ThemeToggle";
 import Avatar from "@/components/Avatar";
+import { openHelpCentre } from "@/lib/help-centre";
 
 const NAV = [
   { href: "/app", label: "الرئيسية", icon: "🏠" },
@@ -81,6 +82,22 @@ export default function AppHeader({
               {streak}
             </span>
           )}
+
+          {/*
+            Help lives in the header as well as in the floating button. The
+            floating one sits above the tab bar and gets covered by whatever
+            the page puts at the bottom; this one is in the same place on every
+            screen and can't be obscured by anything.
+          */}
+          <button
+            type="button"
+            onClick={() => openHelpCentre()}
+            aria-label="مركز المساعدة"
+            title="مركز المساعدة"
+            className="help-btn"
+          >
+            ؟
+          </button>
 
           <ThemeToggle />
 
