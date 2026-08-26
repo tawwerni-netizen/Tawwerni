@@ -92,10 +92,8 @@ function run(label: string, command: string) {
   }
 
   if (urlOnly) {
-    console.log("
-✅ الرابط اتحدّث. المحتوى زي ما هو.");
-    console.log("   حطّ الرابط الجديد في hPanel كمان: npx tsx scripts/print-env.ts
-");
+    console.log("\n✅ الرابط اتحدّث. المحتوى زي ما هو.");
+    console.log("   حطّ الرابط الجديد في hPanel كمان: npx tsx scripts/print-env.ts\n");
     return;
   }
 
