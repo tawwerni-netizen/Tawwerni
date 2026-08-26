@@ -5,6 +5,7 @@
  * production is the empty account, the malformed request, the duplicate
  * submit, the URL somebody typed wrong.
  */
+import "./load-env";
 import { TEST_HEADERS } from "./test-env";
 import { prisma } from "../src/lib/prisma";
 

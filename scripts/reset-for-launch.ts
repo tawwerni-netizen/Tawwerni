@@ -10,6 +10,7 @@
  *
  * Run it once, before the first real customer. After that, use the panel.
  */
+import "./load-env";
 import { prisma } from "../src/lib/prisma";
 
 /** Accounts that survive the reset even though they look like test data. */

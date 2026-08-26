@@ -1,4 +1,5 @@
 /** Reverses scripts/preview-certificate.ts — removes the fake completions. */
+import "./load-env";
 import { prisma } from "../src/lib/prisma";
 
 const [email, slug = "claude-lel-mashroaat"] = process.argv.slice(2);

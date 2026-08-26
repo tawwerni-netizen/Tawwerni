@@ -8,6 +8,7 @@
  *
  * Usage: npx tsx scripts/e2e-test.ts [baseUrl]
  */
+import "./load-env";
 import { TEST_HEADERS } from "./test-env";
 import { prisma } from "../src/lib/prisma";
 

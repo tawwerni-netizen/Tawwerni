@@ -1,4 +1,4 @@
-import "dotenv/config";
+import "../scripts/load-env";
 import { PrismaClient, type Prisma } from "../src/generated/prisma/client";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { allCourses, courseStats } from "../src/content/courses";
@@ -97,43 +97,40 @@ async function seedCourse(def: CourseDefinition, order: number) {
       await prisma.lessonCard.deleteMany({ where: { lessonId: dbLesson.id } });
       await prisma.quizQuestion.deleteMany({ where: { lessonId: dbLesson.id } });
 
-      for (let ci = 0; ci < lessonContent.cards.length; ci++) {
-        const card = lessonContent.cards[ci];
-        await prisma.lessonCard.create({
-          data: {
+      // One round trip per table instead of one per row. The database is in
+      // another country now, so each individual insert costs a few hundred
+      // milliseconds of latency — batching turns a ten-minute seed into a
+      // short one.
+      await prisma.lessonCard.createMany({
+        data: [
+          ...lessonContent.cards.map((card, ci) => ({
             lessonId: dbLesson.id,
             order: ci,
             type: "info",
             heading: card.heading,
             body: JSON.stringify({ lines: card.lines, tools: card.tools ?? [] }),
+          })),
+          {
+            lessonId: dbLesson.id,
+            order: lessonContent.cards.length,
+            type: "task",
+            heading: "مهمتك النهاردة",
+            body: JSON.stringify(lessonContent.task),
           },
-        });
-      }
-
-      await prisma.lessonCard.create({
-        data: {
-          lessonId: dbLesson.id,
-          order: lessonContent.cards.length,
-          type: "task",
-          heading: "مهمتك النهاردة",
-          body: JSON.stringify(lessonContent.task),
-        },
+        ],
       });
 
-      for (let qi = 0; qi < lessonContent.quiz.length; qi++) {
-        const q = lessonContent.quiz[qi];
-        await prisma.quizQuestion.create({
-          data: {
-            lessonId: dbLesson.id,
-            order: qi,
-            type: q.type,
-            question: q.question,
-            options: JSON.stringify(q.options),
-            correctIndex: q.correctIndex,
-            explanation: q.explanation,
-          },
-        });
-      }
+      await prisma.quizQuestion.createMany({
+        data: lessonContent.quiz.map((q, qi) => ({
+          lessonId: dbLesson.id,
+          order: qi,
+          type: q.type,
+          question: q.question,
+          options: JSON.stringify(q.options),
+          correctIndex: q.correctIndex,
+          explanation: q.explanation,
+        })),
+      });
     }
 
     // A day that no longer exists in the content has to go, and its progress

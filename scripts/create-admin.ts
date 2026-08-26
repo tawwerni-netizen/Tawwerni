@@ -9,6 +9,7 @@
  *
  * Passing it as a third argument still works, for scripted setups.
  */
+import "./load-env";
 import { askHidden } from "./ask-hidden";
 import { prisma } from "../src/lib/prisma";
 import { hashPassword, passwordProblem } from "../src/lib/password";

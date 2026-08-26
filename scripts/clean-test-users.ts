@@ -4,6 +4,7 @@
  * Only ever touches `@test.local` addresses — the suites mint those and nothing
  * real ever uses that domain, so this can't reach a paying customer.
  */
+import "./load-env";
 import { prisma } from "../src/lib/prisma";
 
 (async () => {

@@ -1,4 +1,5 @@
 /** Quick read-only snapshot of the database: admins, users, course order. */
+import "./load-env";
 import { prisma } from "../src/lib/prisma";
 
 (async () => {

@@ -2,6 +2,7 @@
  * Marks one course complete for one account so the certificate can be viewed.
  * Local preview only — never run this against real data.
  */
+import "./load-env";
 import { prisma } from "../src/lib/prisma";
 
 const [email, slug = "claude-lel-mashroaat"] = process.argv.slice(2);

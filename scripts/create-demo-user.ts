@@ -7,6 +7,7 @@
  *
  * Usage: npx tsx scripts/create-demo-user.ts <email> <password> [name]
  */
+import "./load-env";
 import { prisma } from "../src/lib/prisma";
 import { hashPassword } from "../src/lib/password";
 import { activateOrder } from "../src/lib/activate-order";

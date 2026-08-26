@@ -4,6 +4,7 @@
  * These are the two most destructive things in the app, so the tests are as
  * much about what they REFUSE as what they do.
  */
+import "./load-env";
 import { TEST_HEADERS } from "./test-env";
 import { prisma } from "../src/lib/prisma";
 
