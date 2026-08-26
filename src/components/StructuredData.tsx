@@ -1,4 +1,4 @@
-import { brand, pricing, payment } from "@/content/brand";
+import { brand, pricing, payment, social } from "@/content/brand";
 import { ldJson } from "@/lib/ld-json";
 import { allCourses, courseStats } from "@/content/courses";
 
@@ -31,7 +31,9 @@ export default function StructuredData() {
       logo: `${siteUrl}/icon.svg`,
       email: payment.supportEmail,
       areaServed: "EG",
-      sameAs: [],
+      // Tells Google these accounts are the same entity as the site, which is
+      // what merges them into one Knowledge Panel instead of four strangers.
+      sameAs: social.map((s) => s.url),
     },
     {
       "@type": "WebSite",

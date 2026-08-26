@@ -7,7 +7,7 @@
  * and it keeps us out of spam filters that penalise HTML-only mail.
  */
 
-import { brand, pricing, payment } from "@/content/brand";
+import { brand, pricing, payment, social } from "@/content/brand";
 
 const TEAL = "#0F6E56";
 const TEAL_DARK = "#085041";
@@ -43,6 +43,11 @@ function shell(bodyHtml: string, preheader: string): string {
       <p style="margin:0 0 6px;font-size:12px;color:${MUTED};line-height:1.7;">
         محتاج مساعدة؟ واتساب <span dir="ltr">${payment.supportWhatsapp}</span>
         أو <a href="mailto:${payment.supportEmail}" style="color:${TEAL};text-decoration:none;">${payment.supportEmail}</a>
+      </p>
+      <p style="margin:0 0 8px;font-size:12px;color:${MUTED};">
+        ${social
+          .map((s) => `<a href="${s.url}" style="color:${TEAL};text-decoration:none;">${s.label}</a>`)
+          .join(" &nbsp;·&nbsp; ")}
       </p>
       <p style="margin:0;font-size:11px;color:#9ca3af;">
         وصلتك الرسالة دي لأن عندك حساب على ${brand.name}. دي رسالة خدمة عن حسابك.

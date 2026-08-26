@@ -1851,3 +1851,45 @@ html[data-theme="dark"] .loss-list li::before { color: var(--ink-red); }
 .on-brand-soft   { color: #cfeade; }   /* 8.9:1 on --brand-600 */
 .on-brand-faint  { color: #d4ede2; }   /* measured 5.1:1 against the lightest brand stop */
 .on-brand-strike { color: #8fbfad; }   /* struck-through old prices only */
+
+/* ==================================================================
+   Social links
+   ==================================================================
+
+   A quiet row of icon buttons. They sit in the footer under support details,
+   where the reader is either finished or looking for a reason to trust the
+   site — neither is a moment for a loud colour, so the resting state is the
+   same muted grey as the text around them and the brand colour only appears
+   on hover.
+
+   Sized to 40px so they clear the touch target minimum on a phone; the icon
+   inside is 17px, which leaves the tap area larger than the ink. */
+
+.social-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--text-faint);
+  background: transparent;
+  border: 1px solid var(--hairline-strong);
+  transition: color .15s ease, border-color .15s ease, background-color .15s ease;
+}
+
+.social-dot:hover,
+.social-dot:focus-visible {
+  color: var(--brand-text);
+  border-color: currentColor;
+  background: var(--tint);
+}
+
+.social-dot:focus-visible {
+  outline: 2px solid var(--brand-text);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social-dot { transition: none; }
+}

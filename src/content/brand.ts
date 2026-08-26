@@ -35,6 +35,23 @@ export const pricing = {
   grantsAllCourses: true,
 } as const;
 
+/**
+ * The public accounts, in the order they matter for this audience.
+ *
+ * Facebook and TikTok carry the reach in Egypt; Instagram takes the same
+ * vertical video for free; X is here so the handle is claimed and the
+ * Organization entity in search links to it — not because it is a channel
+ * worth writing for yet.
+ *
+ * One handle everywhere, so someone who sees it once can find the rest.
+ */
+export const social = [
+  { key: "facebook", label: "فيسبوك", handle: "Tawwerni", url: "https://facebook.com/Tawwerni" },
+  { key: "tiktok", label: "تيك توك", handle: "@Tawwerni", url: "https://tiktok.com/@Tawwerni" },
+  { key: "instagram", label: "إنستجرام", handle: "@Tawwerni", url: "https://instagram.com/Tawwerni" },
+  { key: "x", label: "إكس", handle: "@Tawwerni", url: "https://x.com/Tawwerni" },
+] as const;
+
 export const referral = {
   /** Paid to the referrer once the referred person's order is approved. */
   commissionEgp: 50,

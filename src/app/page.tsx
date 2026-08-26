@@ -5,6 +5,7 @@ import { LogoLink } from "@/components/Logo";
 import LiveSeats from "@/components/LiveSeats";
 import StructuredData from "@/components/StructuredData";
 import FaqSchema from "@/components/FaqSchema";
+import SocialLinks from "@/components/SocialLinks";
 
 /**
  * The public landing page.
@@ -32,7 +33,9 @@ export default function LandingPage() {
   const comparisons = [
     { icon: "☕", label: "٣ قعدات قهوة", note: "بتخلص في ساعة" },
     { icon: "🍔", label: "وجبة لاتنين", note: "بتخلص في نص ساعة" },
-    { icon: "📚", label: "١٥٧ درس", note: "بتفضل معاك للأبد", ours: true },
+    // Counted, not typed: a hardcoded 157 here would quietly disagree with the
+    // catalogue the first time a lesson is added.
+    { icon: "📚", label: `${totalLessons} درس`, note: "بتفضل معاك للأبد", ours: true },
   ];
 
   return (
@@ -249,10 +252,23 @@ export default function LandingPage() {
           <p className="on-brand-faint mt-4 text-xs">دقيقتين بس · نتيجة فورية</p>
         </div>
 
-        <p className="mt-10 text-center text-[11px] leading-relaxed text-neutral-400">
-          محتاج مساعدة؟ واتساب <span dir="ltr">{payment.supportWhatsapp}</span> ·{" "}
-          {payment.supportEmail}
-        </p>
+        {/*
+          The footer answers the two questions left at the bottom of a sales
+          page: how do I reach a human, and is anyone actually behind this. The
+          support line does the first; the accounts do the second — for a new
+          platform, a place to go and look is worth more than another claim.
+        */}
+        <footer className="mt-12 border-t border-black/5 pt-8 text-center">
+          <p className="mb-4 text-[11px] leading-relaxed text-neutral-400">
+            محتاج مساعدة؟ واتساب <span dir="ltr">{payment.supportWhatsapp}</span> ·{" "}
+            {payment.supportEmail}
+          </p>
+          <SocialLinks className="justify-center" />
+          <p className="mt-4 text-[11px] text-neutral-400">
+            {brand.name}
+            <span className="text-neutral-300">.com</span> · كل الحقوق محفوظة
+          </p>
+        </footer>
       </main>
     </div>
   );
