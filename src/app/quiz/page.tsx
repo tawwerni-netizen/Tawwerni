@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { brand, pricing, referral, payment } from "@/content/brand";
 import { allCourses, courseStats } from "@/content/courses";
-import { trackLead } from "@/lib/pixel";
+import { trackLead } from "@/lib/analytics";
 import {
   quizQuestions,
   quizInterstitials,

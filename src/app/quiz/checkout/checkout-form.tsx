@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { brand, pricing, payment } from "@/content/brand";
-import { trackInitiateCheckout } from "@/lib/pixel";
+import { trackInitiateCheckout } from "@/lib/analytics";
 
 type CourseOption = { slug: string; title: string; icon: string; category: string };
 type Method = "vodafone_cash" | "instapay";

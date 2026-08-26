@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cairo } from "next/font/google";
 import { brand, pricing } from "@/content/brand";
 import "./globals.css";
-import MetaPixel from "@/components/MetaPixel";
+import Analytics from "@/components/Analytics";
 
 const cairo = Cairo({
   variable: "--font-cairo",
@@ -91,7 +91,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="min-h-full flex flex-col">
         {children}
-        <MetaPixel />
+        <Analytics />
       </body>
     </html>
   );
