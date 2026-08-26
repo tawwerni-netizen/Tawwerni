@@ -13,7 +13,7 @@
  * Both IDs are public by design — they are visible in the page source of every
  * site that runs them. They are not secrets and do not belong in env vars.
  */
-export const META_PIXEL_ID = "3725210437617519";
+export const META_PIXEL_ID = "1639099564495968";
 export const GA_MEASUREMENT_ID = "G-JRGJ9BR8YC";
 
 const CURRENCY = "EGP";
