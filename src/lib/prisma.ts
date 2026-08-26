@@ -36,19 +36,29 @@ function connect(): PrismaClient {
     );
   }
 
-  return new PrismaClient({ adapter: new PrismaMariaDb(withPoolLimit(url)) });
+  return new PrismaClient({ adapter: new PrismaMariaDb(tuned(url)) });
 }
 
 /**
- * Caps the pool at 5 connections unless the URL already says otherwise.
+ * Connection settings the driver's defaults get wrong for this setup.
  *
- * Shared hosting limits how many connections one account may hold, and
- * Passenger can run several app processes at once — each with its own pool.
- * The driver's default of 10 per process runs into that ceiling; 5 does not.
+ * `connectionLimit`: shared hosting caps how many connections one account may
+ * hold, and Passenger can run several app processes at once — each with its
+ * own pool. The default of 10 per process runs into that ceiling; 5 does not.
+ *
+ * `connectTimeout`: the driver gives up after one second. In production the
+ * database is on localhost and that is plenty, but a developer connecting from
+ * another country never completes a handshake that fast — so the default turns
+ * every local script into a confusing timeout.
+ *
+ * Anything already spelled out in the URL wins.
  */
-function withPoolLimit(raw: string): string {
-  if (/[?&]connectionLimit=/i.test(raw)) return raw;
-  return raw + (raw.includes("?") ? "&" : "?") + "connectionLimit=5";
+function tuned(raw: string): string {
+  const params: string[] = [];
+  if (!/[?&]connectionLimit=/i.test(raw)) params.push("connectionLimit=5");
+  if (!/[?&]connectTimeout=/i.test(raw)) params.push("connectTimeout=15000");
+  if (!params.length) return raw;
+  return raw + (raw.includes("?") ? "&" : "?") + params.join("&");
 }
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
