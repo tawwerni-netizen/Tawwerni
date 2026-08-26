@@ -11,7 +11,7 @@
  * Git ignores.
  */
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
-import { execFileSync } from "node:child_process";
+import { execSync } from "node:child_process";
 import { askHidden } from "./ask-hidden";
 
 const HOST = "de-fra-web1803.main-hosting.eu";
@@ -33,9 +33,12 @@ function writeUrl(url: string) {
   writeFileSync(ENV_FILE, updated, "utf8");
 }
 
-function run(label: string, args: string[]) {
+function run(label: string, command: string) {
   console.log(`\n· ${label}…`);
-  execFileSync("npx", args, { stdio: "inherit", shell: true });
+  // One string rather than an args array: npx needs a shell on Windows, and
+  // passing an array through a shell triggers a deprecation warning because
+  // the arguments get concatenated rather than escaped.
+  execSync(command, { stdio: "inherit" });
 }
 
 (async () => {
@@ -54,25 +57,39 @@ function run(label: string, args: string[]) {
   writeUrl(url);
   console.log(`✓ اتكتب في ${ENV_FILE}`);
 
-  // Prove the credentials before running anything that assumes them.
+  // Prove the credentials with a real query. Opening a pool proves nothing:
+  // pools are lazy, so creating one succeeds even with a wrong password and
+  // reports a connection that does not exist.
   process.env.DATABASE_URL = url;
-  const { PrismaMariaDb } = await import("@prisma/adapter-mariadb");
+  const mariadb = (await import("mariadb")).default;
+  let conn;
   try {
-    const adapter = await new PrismaMariaDb(url).connect();
-    await adapter.dispose();
-    console.log("✓ الاتصال شغّال");
+    conn = await mariadb.createConnection({
+      host: HOST,
+      port: PORT,
+      user: USER,
+      password,
+      database: DB,
+      connectTimeout: 15000,
+    });
+    await conn.query("SELECT 1");
+    console.log("✓ الاتصال شغّال — اتجرّب باستعلام حقيقي");
   } catch (err) {
     console.error("\n✗ الاتصال فشل.");
     console.error(`  ${err instanceof Error ? err.message : String(err)}`);
     console.error("\n  الأسباب الغالبة:");
-    console.error("   · الباسورد غلط");
+    console.error("   · الباسورد غلط — غيّره من hPanel وجرّب تاني");
     console.error("   · Remote MySQL مش مفعّل لـ % في hPanel");
+    console.error("\n  ملحوظة: 'Access denied' معناها إن السيرفر ردّ ورفض —");
+    console.error("  يعني الشبكة والعنوان تمام، والمشكلة في البيانات نفسها.");
     process.exit(1);
+  } finally {
+    if (conn) await conn.end();
   }
 
-  run("بيبني الجداول", ["prisma", "db", "push", "--skip-generate"]);
-  run("بيولّد الـclient", ["prisma", "generate"]);
-  run("بيحطّ المسارات والدروس", ["tsx", "prisma/seed.ts"]);
+  run("بيبني الجداول", "npx prisma db push");
+  run("بيولّد الـclient", "npx prisma generate");
+  run("بيحطّ المسارات والدروس", "npx tsx prisma/seed.ts");
 
   console.log("\n────────────────────────────────────────");
   console.log("✅ قاعدة البيانات جاهزة");

@@ -54,7 +54,7 @@ echo "✓ ٣/٦  المكتبات جاهزة"
 #
 # New columns ship with the code. Without this the app starts and then throws
 # on the first query, which looks like the whole site is down.
-npx prisma db push --skip-generate --accept-data-loss 2>&1 | tail -2
+npx prisma db push --accept-data-loss 2>&1 | tail -2
 npx prisma generate 2>&1 | tail -1
 echo "✓ ٤/٦  قاعدة البيانات اتحدّثت"
 
