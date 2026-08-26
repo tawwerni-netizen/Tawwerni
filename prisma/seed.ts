@@ -1,11 +1,18 @@
+import "dotenv/config";
 import { PrismaClient, type Prisma } from "../src/generated/prisma/client";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { allCourses, courseStats } from "../src/content/courses";
 import { comingSoonCourses } from "../src/content/courses-catalog";
 import { badgeDefs } from "../src/content/badges";
 import type { CourseDefinition } from "../src/content/course-types";
 
-const adapter = new PrismaBetterSqlite3({ url: process.env.DATABASE_URL ?? "file:./dev.db" });
+const url = process.env.DATABASE_URL;
+if (!url) {
+  console.error("DATABASE_URL مش موجود. حطّه في .env.local الأول.");
+  process.exit(1);
+}
+
+const adapter = new PrismaMariaDb(url);
 const prisma = new PrismaClient({ adapter });
 
 async function seedCourse(def: CourseDefinition, order: number) {

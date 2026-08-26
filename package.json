@@ -14,7 +14,7 @@
   "//": "Hostinger installs with devDependencies omitted, so anything the BUILD touches has to live in dependencies — Tailwind's PostCSS plugin, the TypeScript compiler and its @types, and prisma+dotenv for the postinstall generate. Only the tools that never run on the server stay below.",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.120.0",
-    "@prisma/adapter-better-sqlite3": "^7.9.1",
+    "@prisma/adapter-mariadb": "^7.10.0",
     "@prisma/client": "^7.9.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
@@ -23,6 +23,7 @@
     "@types/react-dom": "^19",
     "dotenv": "^17.4.2",
     "jose": "^6.2.10",
+    "mariadb": "^3.5.3",
     "next": "16.3.2",
     "nodemailer": "^9.0.5",
     "prisma": "^7.9.1",

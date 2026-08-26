@@ -24,7 +24,7 @@ function read(file: string): Record<string, string> {
 const env = { ...read(".env"), ...read(".env.local") };
 
 const rows: [string, string, string][] = [
-  ["DATABASE_URL", "file:./dev.db", "مكان قاعدة البيانات"],
+  ["DATABASE_URL", env.DATABASE_URL || "mysql://user:password@host:3306/dbname  ← لسه مش متظبط", "بيانات الاتصال بـMySQL"],
   ["JWT_SECRET", env.JWT_SECRET || randomBytes(32).toString("base64url"), "لو اتغيّر، كل الناس هتتطرد من حساباتها"],
   ["PUBLIC_ORIGIN", "https://tawwerni.com", "لينكات الإيميل وبطاقة الواتساب"],
   ["PAYMENT_INGEST_TOKEN", env.PAYMENT_INGEST_TOKEN || randomBytes(24).toString("base64url"), "لازم يطابق تطبيق الأندرويد بالحرف"],

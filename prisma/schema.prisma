@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
 }
 
 model User {
@@ -19,7 +19,7 @@ model User {
   /// scrypt hash — the password itself is never stored and cannot be recovered.
   passwordHash      String?
   /// Profile picture, stored as a URL or data URI.
-  avatarUrl         String?
+  avatarUrl         String? @db.MediumText
   /// Set when the operator forced a reset; the user must pick a new password.
   mustChangePassword Boolean  @default(false)
   isAdmin           Boolean   @default(false)
@@ -34,7 +34,7 @@ model User {
   welcomedAt        DateTime?
   dailyPaceMinutes  Int?
   focusCategory     String?
-  quizAnswers       String?
+  quizAnswers       String? @db.Text
   aiReadinessScore  Int?
   archetype         String?
   createdAt         DateTime  @default(now())
@@ -85,7 +85,7 @@ model Payout {
   destination String
   /// requested | paid | rejected
   status      String    @default("requested")
-  note        String?
+  note        String? @db.Text
   requestedAt DateTime  @default(now())
   settledAt   DateTime?
 
@@ -156,7 +156,7 @@ model Course {
   id            String   @id @default(cuid())
   slug          String   @unique
   title         String
-  description   String
+  description   String @db.Text
   icon          String
   category      String
   badge         String?
@@ -175,7 +175,7 @@ model Module {
   courseId    String
   order       Int
   title       String
-  description String
+  description String @db.Text
   icon        String
 
   course  Course   @relation(fields: [courseId], references: [id])
@@ -213,7 +213,7 @@ model LessonCard {
   order   Int
   type    String
   heading String?
-  body    String
+  body    String @db.Text
 
   lesson Lesson @relation(fields: [lessonId], references: [id])
 }
@@ -223,10 +223,10 @@ model QuizQuestion {
   lessonId      String
   order         Int
   type          String
-  question      String
-  options       String
+  question      String @db.Text
+  options       String @db.Text
   correctIndex  Int
-  explanation   String
+  explanation   String @db.Text
 
   lesson Lesson @relation(fields: [lessonId], references: [id])
 }
@@ -261,11 +261,11 @@ model PaymentTransaction {
   receiverPhone  String?
   transactionAt  DateTime?
   smsReceivedAt  DateTime?
-  rawSms         String
+  rawSms         String @db.Text
   /// unmatched | matched | ignored
   status         String   @default("unmatched")
   matchedOrderId String?
-  matchNote      String?
+  matchNote      String? @db.Text
   createdAt      DateTime @default(now())
 
   matchedOrder Order? @relation(fields: [matchedOrderId], references: [id])
@@ -300,7 +300,7 @@ model ChatMessage {
   id        String   @id @default(cuid())
   userId    String
   role      String
-  content   String
+  content   String @db.Text
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id])

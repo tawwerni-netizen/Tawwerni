@@ -1,14 +1,72 @@
 import { PrismaClient } from "@/generated/prisma/client";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+
+/**
+ * The database connection.
+ *
+ * MySQL, not a file. The old SQLite file lived inside the deployed build
+ * directory, which Hostinger replaces wholesale on every deploy — so every
+ * release quietly started from an empty database and the site looked healthy
+ * while serving nothing. A managed database sits outside the deploy cycle.
+ *
+ * There is no fallback URL on purpose: a default would let the app boot
+ * against the wrong database and fail silently, which is exactly the failure
+ * that cost a day of hunting.
+ *
+ * The connection is built on first use rather than on import. `next build`
+ * imports every route module to collect its config, and the build machine has
+ * no reason to hold database credentials — validating at import time would
+ * turn a missing variable into a failed build instead of a clear runtime error.
+ */
+function connect(): PrismaClient {
+  const url = process.env.DATABASE_URL;
+
+  if (!url) {
+    throw new Error(
+      "DATABASE_URL مش موجود. الموقع مش هيشتغل من غيره.\n" +
+        "حطّه في إعدادات الـ Node.js في hPanel بالشكل ده:\n" +
+        "  mysql://user:password@host:3306/dbname"
+    );
+  }
+
+  if (url.startsWith("file:")) {
+    throw new Error(
+      "DATABASE_URL لسه على صيغة SQLite القديمة (file:...).\n" +
+        "المشروع بقى على MySQL — غيّره لـ mysql://user:password@host:3306/dbname"
+    );
+  }
+
+  return new PrismaClient({ adapter: new PrismaMariaDb(withPoolLimit(url)) });
+}
+
+/**
+ * Caps the pool at 5 connections unless the URL already says otherwise.
+ *
+ * Shared hosting limits how many connections one account may hold, and
+ * Passenger can run several app processes at once — each with its own pool.
+ * The driver's default of 10 per process runs into that ceiling; 5 does not.
+ */
+function withPoolLimit(raw: string): string {
+  if (/[?&]connectionLimit=/i.test(raw)) return raw;
+  return raw + (raw.includes("?") ? "&" : "?") + "connectionLimit=5";
+}
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
-const adapter = new PrismaBetterSqlite3({
-  url: process.env.DATABASE_URL ?? "file:./dev.db",
-});
+let client: PrismaClient | undefined;
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter });
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
+function client_(): PrismaClient {
+  if (client) return client;
+  client = globalForPrisma.prisma ?? connect();
+  // Dev reloads the module on every edit; without this each reload would open
+  // another pool and the connection limit would be hit within minutes.
+  if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = client;
+  return client;
 }
+
+export const prisma = new Proxy({} as PrismaClient, {
+  get(_target, prop, receiver) {
+    const value = Reflect.get(client_(), prop, receiver);
+    return typeof value === "function" ? value.bind(client_()) : value;
+  },
+}) as PrismaClient;
