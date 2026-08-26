@@ -21,6 +21,10 @@ const USER = "u375891363_tawwerni";
 
 const ENV_FILE = ".env.local";
 
+// After a password change the tables and content are already there; only the
+// connection string needs replacing.
+const urlOnly = process.argv.includes("--url-only");
+
 /** Replaces DATABASE_URL in .env.local, keeping every other line untouched. */
 function writeUrl(url: string) {
   const existing = existsSync(ENV_FILE) ? readFileSync(ENV_FILE, "utf8") : "";
@@ -85,6 +89,14 @@ function run(label: string, command: string) {
     process.exit(1);
   } finally {
     if (conn) await conn.end();
+  }
+
+  if (urlOnly) {
+    console.log("
+✅ الرابط اتحدّث. المحتوى زي ما هو.");
+    console.log("   حطّ الرابط الجديد في hPanel كمان: npx tsx scripts/print-env.ts
+");
+    return;
   }
 
   run("بيبني الجداول", "npx prisma db push");
