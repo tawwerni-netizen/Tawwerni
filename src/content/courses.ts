@@ -5,6 +5,7 @@ import { careerCourse } from "./course-career";
 import { businessCourse } from "./course-business";
 import { healthCourse } from "./course-health";
 import { claudePmCourse } from "./course-claude-pm";
+import { buildPlatformCourse } from "./course-build-platform";
 
 /**
  * Catalogue order — this array position becomes `Course.order`, which is how
@@ -18,6 +19,7 @@ import { claudePmCourse } from "./course-claude-pm";
  * but nobody arrives for them first.
  */
 export const allCourses: CourseDefinition[] = [
+  buildPlatformCourse,
   aiCourse,
   claudePmCourse,
   careerCourse,
