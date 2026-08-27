@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { brand, pricing, payment } from "@/content/brand";
+import { brand, pricing, payment, referral, referralsToBreakEven } from "@/content/brand";
 import { allCourses, courseStats } from "@/content/courses";
 import { LogoLink } from "@/components/Logo";
 import LiveSeats from "@/components/LiveSeats";
@@ -114,7 +114,7 @@ export default function LandingPage() {
                 <li>٥ دقايق في اليوم — حاجة تقدر تكمّلها فعلًا</li>
                 <li>مهمة عملية كل يوم، مش محتوى تتفرج عليه</li>
                 <li>تشوف تقدّمك قدامك يوم بيوم</li>
-                <li>بعد ٢٨ يوم عندك مهارة وشهادة تثبتها</li>
+                <li>بعد ٢٨ يوم تقدر تعمل حاجات محددة — مكتوبة تحت</li>
               </ul>
             </div>
           </div>
@@ -151,6 +151,41 @@ export default function LandingPage() {
               </span>
             </div>
           ))}
+        </div>
+
+        {/*
+          What the buyer actually becomes.
+
+          The page used to promise “a skill and a certificate” and stop there,
+          which answers nothing — the reader still does not know what changes
+          about them. Every line below is drawn from lessons that exist, and
+          each course states its own ceiling out loud. Naming the limit is what
+          makes the four lines above it believable.
+        */}
+        <div className="mx-auto mb-14 max-w-3xl">
+          <h2 className="mb-2 text-center text-xl font-bold md:text-2xl">
+            وبعد ما تخلّص، تبقى إيه؟
+          </h2>
+          <p className="mx-auto mb-7 max-w-lg text-center text-sm leading-relaxed text-neutral-500">
+            مش «خبير». دي الحاجات اللي هتقدر تعملها فعلًا — وتقدر تحكم بنفسك بعد ٢٨ يوم.
+          </p>
+
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            {courses.map((c) => (
+              <div key={c.slug} className="outcome-card">
+                <p className="mb-2 flex items-center gap-2 text-sm font-bold">
+                  <span aria-hidden>{c.icon}</span>
+                  {c.title}
+                </p>
+                <ul className="outcome-list">
+                  {c.outcomes.map((o) => (
+                    <li key={o}>{o}</li>
+                  ))}
+                </ul>
+                <p className="outcome-reality">{c.reality}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* ---------- 4. The price, anchored ---------- */}
@@ -195,6 +230,20 @@ export default function LandingPage() {
             </div>
             <p className="mb-3 text-xs text-neutral-400">
               يعني أقل من جنيهين للدرس — لـ{totalLessons} درس
+            </p>
+            {/*
+              The referral maths, stated plainly.
+
+              This audience judges a purchase by what it returns, and the
+              honest answer here is unusually strong: six people covers the
+              price. It was buried inside the app where only paying customers
+              ever saw it — which is precisely backwards, since it is the
+              argument that makes someone pay in the first place.
+            */}
+            <p className="mb-4 rounded-xl bg-brand-50 px-3 py-2.5 text-xs leading-relaxed text-brand-900">
+              <b>{referralsToBreakEven} أصحاب يشتركوا بلينكك = رجّعت فلوسك.</b>{" "}
+              كل واحد بياخد {referral.commissionEgp} ج.م، والسحب بيفتح من{" "}
+              {referral.minPayoutEgp} ج.م.
             </p>
             <p className="mb-5 text-xs leading-relaxed text-neutral-500">
               وصول مدى الحياة · كل المسارات · كل التحديثات الجاية مجانًا

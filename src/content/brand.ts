@@ -55,13 +55,32 @@ export const social = [
 export const referral = {
   /** Paid to the referrer once the referred person's order is approved. */
   commissionEgp: 50,
-  /** Withdrawals open at this balance. */
-  minPayoutEgp: 500,
+  /*
+   * Withdrawals open at this balance.
+   *
+   * It was 500 — ten referrals. Six already covers the price of the course, so
+   * a referrer would earn their money back on paper and still be locked out of
+   * every piastre of it. That gap is exactly where people stop trying.
+   *
+   * 150 is three referrals: a number people reach, and the first withdrawal is
+   * what makes them believe the rest is real.
+   */
+  minPayoutEgp: 150,
   /** Query parameter that carries a referral code. */
   param: "ref",
   /** How long a referral click stays attributed, in days. */
   cookieDays: 30,
 } as const;
+
+/**
+ * How many referrals pay for the course.
+ *
+ * Derived, never typed: if the price or the commission moves, the number on
+ * the page moves with it. This is the honest answer to “why would I pay?” for
+ * an audience that judges everything by what it returns — the course can end
+ * up costing nothing, and the maths is checkable in one line.
+ */
+export const referralsToBreakEven = Math.ceil(pricing.priceEgp / referral.commissionEgp);
 
 export const payment = {
   vodafoneCash: ["01200176755", "01067558133"],
