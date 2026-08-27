@@ -25,7 +25,19 @@ export const buildPlatformCourse: CourseDefinition = {
     slug: "ebni-mansetak",
     title: "ابنِ منصتك - 28 يوم",
     description:
-      "المسار اللي اتبنت بيه طوّرني نفسها. من صفحة فاضية لموقع شغّال بحسابات ودفع وتفعيل تلقائي — من غير ما تكتب سطر كود بنفسك.",
+    /*
+     * Was: “from a blank page to a working site — without writing a line of
+     * code”. A customer read that and pointed out, correctly, that he can send
+     * this site to any model and get the same answer in ten minutes.
+     *
+     * He is right, and the honest reply is that the code was never the hard
+     * part. Building this platform took two days, and almost none of it was
+     * code: the cache that served a stale page for a full day, the database
+     * being wiped on every deploy, the hosting panel that runs the app from a
+     * directory nobody documents. No model warns you about those in advance —
+     * they are only learned by hitting them. That is what this promises now.
+     */
+      "الكود مش الجزء الصعب — الأداة بتكتبه. الصعب هو الحاجات اللي محدش بيقولك عليها: الاستضافة، والكاش، وقاعدة البيانات اللي بتتمسح كل تحديث. ٢٨ يوم بتشوف فيهم كل حاجة بتقع وبتتصلّح.",
     icon: "🛠️",
     category: "بناء المنتجات",
     badge: "جديد",

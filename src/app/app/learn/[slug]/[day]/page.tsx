@@ -63,6 +63,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
       totalDays={totalDays}
       lessonId={lesson.id}
       lessonTitle={lesson.title}
+      videoUrl={lesson.videoUrl}
       cards={cards.map(
         (c) =>
           ({

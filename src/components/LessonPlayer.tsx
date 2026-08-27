@@ -35,6 +35,8 @@ type Props = {
   totalDays: number;
   lessonId: string;
   lessonTitle: string;
+  /** Screen recording, when one has been produced for this lesson. */
+  videoUrl?: string | null;
   cards: Card[];
   quiz: QuizQ[];
   xp: number;
@@ -184,6 +186,31 @@ export default function LessonPlayer(props: Props) {
       </div>
 
       <div className="flex-1 px-4 py-6 overflow-y-auto">
+        {/*
+          The recording comes first, above the written cards.
+
+          A model can produce the text of any lesson on demand, so the text is
+          no longer the thing being sold — it is the transcript. What cannot be
+          generated is somebody doing the work on screen, including the steps
+          that break and are in nobody's documentation. Putting it after the
+          cards would make it read as an attachment to the real lesson; it is
+          the lesson.
+        */}
+        {phase === "cards" && cardIndex === 0 && props.videoUrl && (
+          <div className="lesson-video mb-5">
+            <video
+              src={props.videoUrl}
+              controls
+              playsInline
+              preload="metadata"
+              className="w-full"
+            />
+            <p className="lesson-video-note">
+              شوف الخطوات وهي بتتعمل — والنص تحت مرجع ترجعله.
+            </p>
+          </div>
+        )}
+
         {phase === "cards" && card.type === "info" && (
           <div>
             <CardVisual heading={card.heading} lines={card.body.lines} />

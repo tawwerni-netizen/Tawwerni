@@ -13,6 +13,8 @@ export type LessonContent = {
   durationMin: number;
   xp: number;
   isCheckpoint?: boolean;
+  /** Screen recording — the half of a lesson an AI cannot generate. */
+  videoUrl?: string;
   cards: LessonCard[];
   task: LessonTask;
   quiz: QuizQuestion[];

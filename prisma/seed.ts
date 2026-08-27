@@ -96,12 +96,23 @@ async function seedCourse(def: CourseDefinition, order: number) {
         order: li,
         isCheckpoint: lessonContent.isCheckpoint ?? false,
       };
+
+      /*
+       * `videoUrl` is only written when the content file actually names one.
+       *
+       * Writing `?? null` on every run would wipe a recording attached any
+       * other way — from an admin screen, or by hand after an upload — and it
+       * would do it silently, on a routine content update. Recordings are the
+       * expensive half of a lesson; the seed must not be able to erase one it
+       * does not know about.
+       */
+      const videoData = lessonContent.videoUrl ? { videoUrl: lessonContent.videoUrl } : {};
       const dbLesson = await prisma.lesson.upsert({
         where: {
           moduleId_dayNumber: { moduleId: dbModule.id, dayNumber: lessonContent.day },
         },
-        update: lessonData,
-        create: { moduleId: dbModule.id, dayNumber: lessonContent.day, ...lessonData },
+        update: { ...lessonData, ...videoData },
+        create: { moduleId: dbModule.id, dayNumber: lessonContent.day, ...lessonData, ...videoData },
       });
       keptLessonIds.push(dbLesson.id);
 

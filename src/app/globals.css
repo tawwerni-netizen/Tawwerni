@@ -2113,3 +2113,34 @@ html[data-theme="dark"] .lesson-actions {
 @media (prefers-reduced-motion: reduce) {
   .invite-btn { transition: none; }
 }
+
+/* ==================================================================
+   Lesson recording
+   ==================================================================
+
+   Sits above the written cards on the first card of a lesson. The text is the
+   transcript; this is the lesson. Metadata-only preload so the duration and
+   poster frame appear without pulling the whole file down on a phone plan. */
+
+.lesson-video {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--hairline-strong);
+  background: #000;
+}
+
+.lesson-video video {
+  display: block;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #000;
+}
+
+.lesson-video-note {
+  margin: 0;
+  padding: 0.55rem 0.8rem;
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  background: var(--surface);
+  border-top: 1px solid var(--hairline);
+}

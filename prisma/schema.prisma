@@ -196,6 +196,15 @@ model Lesson {
   order        Int
   isCheckpoint Boolean @default(false)
 
+  /// Screen recording for this lesson, if one exists.
+  ///
+  /// Written material is the part of a course an AI can now produce on demand,
+  /// which makes it the part nobody will pay for. What it cannot produce is a
+  /// recording of the steps that actually break — the hosting panel, the cache,
+  /// the settings screen nobody documents. Nullable so the catalogue keeps
+  /// working while recordings are added lesson by lesson.
+  videoUrl     String?
+
   module        Module             @relation(fields: [moduleId], references: [id])
   cards         LessonCard[]
   quizQuestions QuizQuestion[]
