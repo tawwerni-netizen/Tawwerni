@@ -63,14 +63,25 @@ export default function LandingPage() {
           <span className="mb-5 inline-flex items-center gap-2 rounded-full bg-brand-50 px-3.5 py-1.5 text-xs text-brand-800">
             🎯 {courses.length} مسارات · {totalLessons} درس · اشتراك واحد
           </span>
+          {/*
+            The headline is the proof, not a promise.
+
+            It used to be the tagline — "turn your daily learning into real
+            progress" — which is the same sentence every self-improvement site
+            in Arabic already runs, and it left the visitor with nothing to
+            check. The page they are standing on is the strongest evidence this
+            product has, it is verifiable in one glance, and no competitor can
+            copy it by rewriting the same content.
+          */}
           <h1 className="mb-4 text-3xl font-bold leading-tight md:text-5xl">
-            {brand.tagline}
+            الموقع اللي إنت فيه دلوقتي
             <br />
-            <span className="text-brand-600">في ٥ دقايق بس</span>
+            <span className="text-brand-600">اتبنى بالذكاء الاصطناعي</span>
           </h1>
           <p className="mx-auto mb-7 max-w-lg text-sm leading-relaxed text-neutral-500 md:text-base">
-            درس واحد كل يوم — تقراه، تنفّذ مهمة عملية، وتجاوب على كام سؤال.
-            كله بالعربي، وبدون تعقيد.
+            من غير مبرمج ومن غير مصمّم. والمسار اللي اتبنى بيه هو أول حاجة
+            هتلاقيها جوّه — ومعاه {courses.length - 1} مسارات تانية، كلها
+            بالعامية المصرية و٥ دقايق في اليوم.
           </p>
 
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">

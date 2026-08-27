@@ -7,15 +7,28 @@ export type QuizQuestionDef = {
 };
 
 export const quizQuestions: QuizQuestionDef[] = [
+  /*
+   * The opener earns the next seventeen questions.
+   *
+   * This used to be "how old are you?" — a form field, asked before the
+   * visitor had any reason to fill one in. It gathers data and gives nothing
+   * back, and it is the single easiest place to lose someone.
+   *
+   * This one costs no thought and returns something: whichever answer they
+   * pick is a small admission about where they stand, and people who have just
+   * admitted something keep going. Age moves further down, once the exchange
+   * has started.
+   */
   {
-    id: "age",
-    question: "كام عمرك؟",
+    id: "ai_today",
+    question: "الذكاء الاصطناعي بالنسبالك دلوقتي إيه؟",
+    subtitle: "جاوب بصراحة — النتيجة هتتبني على ده",
     options: [
-      { label: "أقل من ٢٥", value: "under25" },
-      { label: "٢٥ – ٣٤", value: "25-34" },
-      { label: "٣٥ – ٤٤", value: "35-44" },
-      { label: "٤٥ – ٥٤", value: "45-54" },
-      { label: "٥٥+", value: "55plus" },
+      { icon: "🌫️", label: "كلام بسمعه كتير ومش عارف أستخدمه", value: "aware-unused" },
+      { icon: "🧪", label: "جرّبته مرة أو اتنين وسيبته", value: "tried-quit" },
+      { icon: "🔁", label: "بستخدمه في حاجات بسيطة", value: "casual" },
+      { icon: "⚡", label: "بستخدمه يوميًا وعايز أطوّر", value: "daily" },
+      { icon: "😟", label: "قلقان منه على شغلي", value: "worried" },
     ],
   },
   {
@@ -45,13 +58,14 @@ export const quizQuestions: QuizQuestionDef[] = [
     ],
   },
   {
-    id: "feeling",
-    question: "لما تسمع أخبار عن الذكاء الاصطناعي، حاسس إيه؟",
+    id: "age",
+    question: "كام عمرك؟",
     options: [
-      { icon: "🔥", label: "متحمس — بتابع الموضوع باستمرار", value: "excited" },
-      { icon: "🤔", label: "فضولي بس حاسس تايه شوية", value: "curious" },
-      { icon: "😰", label: "بصراحة، حاسس بضغط", value: "overwhelmed" },
-      { icon: "😬", label: "بحاول ملحقش أفكر فيه", value: "avoid" },
+      { label: "أقل من ٢٥", value: "under25" },
+      { label: "٢٥ – ٣٤", value: "25-34" },
+      { label: "٣٥ – ٤٤", value: "35-44" },
+      { label: "٤٥ – ٥٤", value: "45-54" },
+      { label: "٥٥+", value: "55plus" },
     ],
   },
   {
