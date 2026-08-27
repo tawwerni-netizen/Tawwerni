@@ -18,7 +18,7 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
   const streak = computeStreak(completions.map((c) => c.completedAt));
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="flex min-h-[100dvh] flex-col bg-neutral-50">
       <AppHeader
         name={user.name}
         email={user.email}
@@ -35,7 +35,7 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
         `pb-20` only below `md`, since that padding exists to clear the bottom
         tab bar, and the tab bar is gone at that size.
       */}
-      <main className="mx-auto min-h-[calc(100vh-3.5rem)] w-full max-w-6xl pb-20 md:pb-8">
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col pb-20 md:pb-8">
         {children}
       </main>
 

@@ -130,8 +130,18 @@ export default function LessonPlayer(props: Props) {
     setTimeout(() => setCopied(false), 1500);
   }
 
+  // No `min-h-screen` on the wrapper below.
+  //
+  // This sits inside a layout that is already a full viewport tall, under a
+  // 3.5rem header. Forcing another 100vh stacked a second screen underneath the
+  // first, so on a short card the Next button sat ~8rem below the fold and every
+  // single card needed a scroll to continue. Across a 157-lesson course that is
+  // hundreds of scrolls for a button that should never move.
+  //
+  // The player now takes the height of its content, and the action bar sticks to
+  // the bottom of the viewport instead — see `.lesson-actions` in globals.css.
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="flex flex-1 flex-col bg-white">
       <div className="px-4 pt-4 pb-3 border-b border-black/5">
         <div className="flex items-center justify-between mb-2">
           {/* Was 13×22 — the smallest control on the site, and the one people
@@ -400,7 +410,7 @@ export default function LessonPlayer(props: Props) {
       </div>
 
       {(phase === "cards" || phase === "quizIntro") && (
-        <div className="px-4 pb-6 pt-2 flex gap-2">
+        <div className="lesson-actions flex gap-2 px-4 pb-4 pt-3">
           {phase === "cards" && cardIndex > 0 && (
             <button onClick={prevCard} className="w-11 h-11 rounded-full border border-black/10 text-neutral-500 shrink-0">
               ›
@@ -420,7 +430,7 @@ export default function LessonPlayer(props: Props) {
       )}
 
       {phase === "quiz" && answered && (
-        <div className="px-4 pb-6 pt-2">
+        <div className="lesson-actions px-4 pb-4 pt-3">
           <button onClick={nextQuestion} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3 text-sm">
             {qIndex < props.quiz.length - 1 ? "السؤال الجاي ‹" : "شوف النتيجة"}
           </button>

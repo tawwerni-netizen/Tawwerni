@@ -1893,3 +1893,37 @@ html[data-theme="dark"] .loss-list li::before { color: var(--ink-red); }
 @media (prefers-reduced-motion: reduce) {
   .social-dot { transition: none; }
 }
+
+/* ==================================================================
+   Lesson action bar
+   ==================================================================
+
+   The Next button is pressed once per card — several hundred times across a
+   course. It has to be reachable without hunting for it, whether the card is
+   two lines or twenty.
+
+   Sticky rather than fixed: it stays in the document flow, so it never covers
+   the last line of a long card the way a fixed bar does. On a phone it sits
+   above the tab bar; from `md` the tab bar is gone and it drops to the bottom.
+
+   `bottom` uses the safe-area inset so it clears the iOS home indicator. */
+
+.lesson-actions {
+  position: sticky;
+  bottom: calc(3.75rem + env(safe-area-inset-bottom, 0px));
+  z-index: 30;
+  background: var(--surface);
+  border-top: 1px solid var(--hairline);
+  /* The fade stops content from appearing to slide under a hard edge. */
+  box-shadow: 0 -12px 16px -12px rgba(0, 0, 0, 0.12);
+}
+
+@media (min-width: 768px) {
+  .lesson-actions {
+    bottom: 0;
+  }
+}
+
+html[data-theme="dark"] .lesson-actions {
+  box-shadow: 0 -12px 16px -12px rgba(0, 0, 0, 0.5);
+}
