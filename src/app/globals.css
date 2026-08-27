@@ -1981,3 +1981,45 @@ html[data-theme="dark"] .lesson-actions {
   line-height: 1.7;
   color: var(--text-faint);
 }
+
+/* ==================================================================
+   Touch targets
+   ==================================================================
+
+   Measured on a 375px viewport with `pointer: coarse`: the header's primary
+   call to action came out 38px tall and the social icons 40px, both under the
+   44px minimum. A mis-tap on the one button that starts the funnel is the most
+   expensive small bug on the page.
+
+   `.tap` already solves this elsewhere by growing an invisible ::after, but
+   these two are shapes people can see — a pill and a circle — so the fix is
+   real height rather than a hidden hit area that leaves the visible control
+   looking cramped. */
+
+@media (pointer: coarse) {
+  .cta-buy,
+  .cta-ghost,
+  .btn-ghost-shine,
+  .share-btn {
+    min-height: 44px;
+  }
+
+  /* Form fields on the checkout page landed at 43.7px — a quarter of a pixel
+     short, invisible to the eye and still a miss on a payment form. */
+  /* `input[type="text"]` misses a field written as a bare <input>: the DOM
+     reports type "text" by default, but the attribute selector needs the
+     attribute to actually be there. Excluding the types that are not text
+     boxes catches every one of them instead. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+  select,
+  textarea {
+    min-height: 44px;
+  }
+
+  .social-dot,
+  .help-btn,
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+  }
+}

@@ -35,7 +35,7 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
       onClick={toggle}
       aria-label={dark ? "الوضع النهاري" : "الوضع الليلي"}
       title={dark ? "الوضع النهاري" : "الوضع الليلي"}
-      className={`relative grid h-9 w-9 place-items-center rounded-full border border-black/10 bg-white text-base transition-transform hover:scale-110 active:scale-95 ${className}`}
+      className={`theme-toggle relative grid h-9 w-9 place-items-center rounded-full border border-black/10 bg-white text-base transition-transform hover:scale-110 active:scale-95 ${className}`}
     >
       {/* Render nothing until mounted so server and client markup agree. */}
       <span className={ready ? "transition-opacity" : "opacity-0"}>{dark ? "☀️" : "🌙"}</span>
