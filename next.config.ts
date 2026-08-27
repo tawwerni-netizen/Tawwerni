@@ -20,8 +20,32 @@ const securityHeaders = [
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
 ];
 
+/*
+ * The downloader's backend.
+ *
+ * It needs Python, FFmpeg, Redis and long-running workers — none of which
+ * Hostinger's Node hosting can run — so it lives on its own machine. The
+ * rewrite below hides that: the browser only ever talks to tawwerni.com, so
+ * there is no CORS preflight and no third-party-cookie problem.
+ *
+ * Unset in development, and unset on the server until the backend exists. The
+ * page still renders in that state; requests simply 404 rather than the whole
+ * config failing to build.
+ */
+const VD_API_ORIGIN = process.env.VD_API_ORIGIN;
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+
+  async rewrites() {
+    if (!VD_API_ORIGIN) return [];
+    return [
+      {
+        source: "/api/vd/:path*",
+        destination: `${VD_API_ORIGIN.replace(/\/$/, "")}/api/:path*`,
+      },
+    ];
+  },
 
   async headers() {
     return [
