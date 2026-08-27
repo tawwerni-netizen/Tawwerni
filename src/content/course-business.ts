@@ -7,7 +7,6 @@ export const businessCourse: CourseDefinition = {
     description: "من فهم البيزنس لبناء مشروع قابل للنمو. مهارة عملية واحدة كل يوم، من المشكلة للعميل للعرض للأرقام.",
     icon: "📈",
     category: "الأعمال",
-    badge: "جديد",
     level: "مبتدئ",
     outcomes: [
       "تختبر فكرة مشروعك على ٥ معايير قبل ما تصرف عليها وقت أو فلوس",

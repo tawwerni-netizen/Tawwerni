@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { allCourses } from "@/content/courses";
 
 /**
  * Social proof, from the database.
@@ -49,7 +50,9 @@ export default async function LiveSeats({ className = "" }: { className?: string
         <>
           <span aria-hidden>🎁</span>
           <span>
-            <b>اليوم الأول</b> من كل المسارات الستة مفتوح — من غير دفع
+            {/* Counted, not typed. It said “الستة” while the catalogue had nine —
+                a number written once and left behind by the product. */}
+            <b>اليوم الأول</b> من كل الـ{allCourses.length} مسارات مفتوح — من غير دفع
           </span>
         </>
       )}

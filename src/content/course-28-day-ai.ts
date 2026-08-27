@@ -29,10 +29,15 @@ export const courseSlug = "tahaddi-28-yawm";
 export const courseMeta = {
   slug: courseSlug,
   title: "تحدي الذكاء الاصطناعي - 28 يوم",
-  description: "من الصفر لمحترف AI. مهارة عملية واحدة كل يوم، ٥ دقايق بس.",
+  /*
+   * Was “من الصفر لمحترف AI” — which contradicted this course’s own outcome
+   * line further down the same page: “مش هتبقى مهندس ذكاء اصطناعي”. A visitor
+   * who reads both learns that one of them is marketing, and then discounts
+   * everything else on the page.
+   */
+  description: "استخدم الذكاء الاصطناعي في شغلك اليومي فعلًا. مهارة عملية واحدة كل يوم، ٥ دقايق بس.",
   icon: "🤖",
   category: "الذكاء الاصطناعي والتقنية",
-  badge: "الأكثر شعبية",
   level: "مبتدئ",
 };
 
@@ -2459,7 +2464,6 @@ export const aiCourse = {
     description: courseMeta.description,
     icon: courseMeta.icon,
     category: courseMeta.category,
-    badge: courseMeta.badge,
     level: courseMeta.level,
     outcomes: [
       "تكتب برومبت يجيب نتيجة تستخدمها زي ما هي — مش رد عام تعيد صياغته",

@@ -7,7 +7,6 @@ export const mindsetCourse: CourseDefinition = {
     description: "مفيش كلام تحفيزي فاضي. 28 يوم تبني فيهم أنظمة عملية: مسؤولية، هوية، تركيز، عادات، بيئة، واستمرارية.",
     icon: "🧠",
     category: "نمط النجاح",
-    badge: "جديد",
     level: "مبتدئ",
     outcomes: [
       "تبني عادة تستمر من غير ما تعتمد على قوة الإرادة",

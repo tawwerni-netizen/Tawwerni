@@ -6,6 +6,7 @@ import LiveSeats from "@/components/LiveSeats";
 import StructuredData from "@/components/StructuredData";
 import FaqSchema from "@/components/FaqSchema";
 import SocialLinks from "@/components/SocialLinks";
+import ShareInvite from "@/components/ShareInvite";
 
 /**
  * The public landing page.
@@ -301,6 +302,16 @@ export default function LandingPage() {
         </div>
 
         {/* ---------- 6. One action ---------- */}
+        {/*
+          Sharing, for people who have not bought.
+
+          Every share control used to sit behind the paywall — so the visitor
+          most likely to forward the page, the one still deciding, had no way
+          to. For a product whose distribution is WhatsApp, that was the
+          largest leak on the site.
+        */}
+        <ShareInvite className="mx-auto mb-14 max-w-lg" />
+
         <div className="closing-cta">
           <h2 className="mb-3 text-2xl font-bold md:text-3xl">أنهي يوم هتبدأ؟</h2>
           <p className="on-brand-soft mx-auto mb-7 max-w-md text-sm leading-relaxed">

@@ -7,7 +7,6 @@ export const careerCourse: CourseDefinition = {
     description: "مش مجرد شهادات وكورسات. 28 يوم تبني فيهم وضوح مهني حقيقي: تعرف أنت فين، رايح فين، ناقصك إيه، وإزاي توصل.",
     icon: "💼",
     category: "النمو المهني",
-    badge: "جديد",
     level: "مبتدئ",
     outcomes: [
       "تكتب CV كل سطر فيه رقم أو نتيجة، مش وصف مهام",

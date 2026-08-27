@@ -2023,3 +2023,93 @@ html[data-theme="dark"] .lesson-actions {
     height: 44px;
   }
 }
+
+/* ==================================================================
+   Share invite
+   ==================================================================
+
+   Sits low on the landing page, after the price and the objections — the
+   point where a visitor has either decided or is thinking of someone else who
+   should see this. Placing it higher would interrupt the decision it depends
+   on having been made. */
+
+.invite-card {
+  border: 1px solid var(--hairline-strong);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.invite-title {
+  font-weight: 700;
+  color: var(--text-strong);
+  margin: 0 0 0.35rem;
+}
+
+.invite-sub {
+  font-size: 0.82rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+}
+.invite-sub b { color: var(--brand-text); }
+
+.invite-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.invite-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--hairline-strong);
+  background: transparent;
+  color: var(--text-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color .15s ease, color .15s ease, background-color .15s ease;
+}
+
+.invite-btn:hover,
+.invite-btn:focus-visible {
+  color: var(--brand-text);
+  border-color: currentColor;
+  background: var(--tint);
+}
+
+.invite-btn:focus-visible {
+  outline: 2px solid var(--brand-text);
+  outline-offset: 2px;
+}
+
+/* WhatsApp is the channel this audience actually forwards things in, so it
+   gets the solid treatment and the copy button stays secondary. */
+.invite-btn-wa {
+  background: var(--brand-text);
+  border-color: var(--brand-text);
+  color: #ffffff;
+}
+.invite-btn-wa:hover,
+.invite-btn-wa:focus-visible {
+  color: #ffffff;
+  filter: brightness(1.08);
+}
+
+.invite-note {
+  margin: 0.9rem 0 0;
+  font-size: 0.7rem;
+  line-height: 1.7;
+  color: var(--text-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .invite-btn { transition: none; }
+}

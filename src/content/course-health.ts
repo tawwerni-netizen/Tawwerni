@@ -7,7 +7,6 @@ export const healthCourse: CourseDefinition = {
     description: "مش هنغيّر حياتك في يوم. هنبني نظام تفهمه وتقدر تكمّل عليه — معلومة وتطبيق كل يوم في ٥ دقايق.",
     icon: "💪",
     category: "الصحة والطاقة",
-    badge: "جديد",
     level: "مبتدئ",
     outcomes: [
       "تصمّم بيئة نوم بتخلّيك تصحى مرتاح فعلًا",
