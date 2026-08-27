@@ -12,7 +12,20 @@ if (!url) {
   process.exit(1);
 }
 
-const adapter = new PrismaMariaDb(url);
+/*
+ * The seed builds its own connection, so the tuning in src/lib/prisma.ts does
+ * not reach it — and this is the heaviest workload in the project: hundreds of
+ * writes in sequence against a database in another country.
+ *
+ * `acquireTimeout` is the one that was failing. The driver gives up waiting for
+ * a free connection after ten seconds, which is fine on localhost and not fine
+ * across a continent once the catalogue grew past two hundred lessons.
+ */
+const tunedUrl =
+  url + (url.includes("?") ? "&" : "?") +
+  "connectionLimit=5&connectTimeout=20000&acquireTimeout=60000";
+
+const adapter = new PrismaMariaDb(tunedUrl);
 const prisma = new PrismaClient({ adapter });
 
 async function seedCourse(def: CourseDefinition, order: number) {
