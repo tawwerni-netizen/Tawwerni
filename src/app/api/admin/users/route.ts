@@ -7,6 +7,7 @@ import { pricing, payment } from "@/content/brand";
 import { sendEmail } from "@/lib/email";
 import { welcomeEmail } from "@/lib/email-templates";
 import { activateOrder } from "@/lib/activate-order";
+import { logAdminAction } from "@/lib/audit-log";
 
 /**
  * Creating an account from the panel.
@@ -85,6 +86,14 @@ export async function POST(request: Request) {
       activated = true;
     }
   }
+
+  await logAdminAction({
+    admin,
+    action: "user.create",
+    targetType: "user",
+    targetId: user.id,
+    detail: activated ? `${user.email} · granted access` : user.email,
+  });
 
   const tpl = welcomeEmail({ name: user.name });
   await sendEmail({

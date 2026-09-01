@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
-import { isAdmin } from "@/lib/admin";
+import { adminUser } from "@/lib/admin";
 import { activateOrder } from "@/lib/activate-order";
+import { logAdminAction } from "@/lib/audit-log";
 
 /**
  * Manual resolution for transfers the matcher parked.
@@ -11,7 +12,8 @@ import { activateOrder } from "@/lib/activate-order";
  * as handled without activating anything (refunds, wrong sender, test sends).
  */
 export async function PATCH(request: Request, { params }: { params: Promise<{ txId: string }> }) {
-  if (!(await isAdmin())) return NextResponse.json({ error: "غير مصرّح" }, { status: 401 });
+  const admin = await adminUser();
+  if (!admin) return NextResponse.json({ error: "غير مصرّح" }, { status: 401 });
 
   const { txId } = await params;
   const { action, orderId } = await readJson(request);
@@ -27,6 +29,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ tx
       where: { id: txId },
       data: { status: "ignored", matchNote: "اتجاهل يدويًا" },
     });
+    await logAdminAction({ admin, action: "payment.ignore", targetType: "payment_transaction", targetId: txId });
     return NextResponse.json({ ok: true });
   }
 
@@ -45,6 +48,13 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ tx
     data: { status: "matched", matchedOrderId: order.id, matchNote: "ربط يدوي" },
   });
   await activateOrder(order.id, "ربط يدوي");
+  await logAdminAction({
+    admin,
+    action: "payment.link",
+    targetType: "payment_transaction",
+    targetId: txId,
+    detail: `order ${order.id} · ${order.user.email}`,
+  });
 
   return NextResponse.json({
     ok: true,

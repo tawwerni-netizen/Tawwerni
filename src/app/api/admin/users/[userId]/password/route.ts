@@ -7,6 +7,7 @@ import { hashPassword, generateTempPassword } from "@/lib/password";
 import { createResetToken, RESET_TTL_MINUTES } from "@/lib/password-reset";
 import { sendEmail } from "@/lib/email";
 import { passwordResetEmail } from "@/lib/email-templates";
+import { logAdminAction } from "@/lib/audit-log";
 
 /**
  * Operator-triggered password recovery.
@@ -67,6 +68,14 @@ export async function POST(
       .updateMany({ where: { userId: target.id, consumedAt: null }, data: { consumedAt: new Date() } })
       .catch(() => {});
 
+    await logAdminAction({
+      admin,
+      action: "user.password_temp_issued",
+      targetType: "user",
+      targetId: target.id,
+      detail: target.email,
+    });
+
     return NextResponse.json({
       ok: true,
       mode: "temp",
@@ -97,6 +106,14 @@ export async function POST(
   // "succeeds" by logging to the console, and the owner would sit waiting for
   // a link that was never going to arrive.
   const delivered = sent.ok && sent.delivered === true;
+
+  await logAdminAction({
+    admin,
+    action: "user.password_reset_sent",
+    targetType: "user",
+    targetId: target.id,
+    detail: target.email,
+  });
 
   return NextResponse.json({
     ok: true,

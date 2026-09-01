@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { adminUser } from "@/lib/admin";
+import { logAdminAction } from "@/lib/audit-log";
 
 /**
  * Deleting an account, permanently.
@@ -73,6 +74,13 @@ export async function DELETE(
     prisma.user.updateMany({ where: { referredById: userId }, data: { referredById: null } }),
     prisma.user.delete({ where: { id: userId } }),
   ]);
+  await logAdminAction({
+    admin,
+    action: "user.delete",
+    targetType: "user",
+    targetId: userId,
+    detail: target.email,
+  });
 
   return NextResponse.json({ ok: true, deleted: target.email });
 }

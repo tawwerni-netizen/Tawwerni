@@ -342,3 +342,21 @@ model Certificate {
 
   @@unique([userId, courseId])
 }
+
+/// One row per consequential thing an admin does — approve/reject an order,
+/// link or ignore a transfer, settle a payout, delete an account, reset
+/// someone's password. No foreign key to User on purpose: the log has to
+/// keep answering "who did this" even after the admin who did it is gone.
+model AdminAuditLog {
+  id         String   @id @default(cuid())
+  adminId    String
+  adminEmail String
+  action     String
+  targetType String
+  targetId   String?
+  detail     String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([targetType, targetId])
+}

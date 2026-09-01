@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
-import { isAdmin } from "@/lib/admin";
+import { adminUser } from "@/lib/admin";
+import { logAdminAction } from "@/lib/audit-log";
 
 /**
  * Settles a withdrawal request.
@@ -11,7 +12,8 @@ import { isAdmin } from "@/lib/admin";
  * silently vanish.
  */
 export async function PATCH(request: Request, { params }: { params: Promise<{ payoutId: string }> }) {
-  if (!(await isAdmin())) return NextResponse.json({ error: "غير مصرّح" }, { status: 401 });
+  const admin = await adminUser();
+  if (!admin) return NextResponse.json({ error: "غير مصرّح" }, { status: 401 });
 
   const { payoutId } = await params;
   const { action, note } = await readJson(request);
@@ -44,6 +46,13 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ pa
             { status: "available", payoutId: null },
     }),
   ]);
+  await logAdminAction({
+    admin,
+    action: action === "paid" ? "payout.paid" : "payout.reject",
+    targetType: "payout",
+    targetId: payoutId,
+    detail: `${payout.amountEgp} EGP`,
+  });
 
   return NextResponse.json({ ok: true });
 }
