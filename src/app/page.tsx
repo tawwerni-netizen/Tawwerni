@@ -7,6 +7,7 @@ import StructuredData from "@/components/StructuredData";
 import FaqSchema from "@/components/FaqSchema";
 import SocialLinks from "@/components/SocialLinks";
 import ShareInvite from "@/components/ShareInvite";
+import ExitIntentPrompt from "@/components/ExitIntentPrompt";
 
 /**
  * The public landing page.
@@ -353,6 +354,8 @@ export default function LandingPage() {
           </p>
         </footer>
       </main>
+
+      <ExitIntentPrompt />
     </div>
   );
 }
