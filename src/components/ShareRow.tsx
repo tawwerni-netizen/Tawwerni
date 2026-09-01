@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { brand } from "@/content/brand";
 import { referral } from "@/content/brand";
+import { allCourses } from "@/content/courses";
 
 /**
  * Sharing, aimed at how this audience actually shares.
@@ -54,7 +55,9 @@ export default function ShareRow({
 
   const text =
     message ??
-    `جرّب ${brand.name} — درس واحد كل يوم في ٥ دقايق، بالعربي. ٦ مسارات كاملة باشتراك واحد.`;
+    // Counted, not typed — see LiveSeats.tsx for why a hardcoded count here
+    // is exactly the bug that let this go stale once already.
+    `جرّب ${brand.name} — درس واحد كل يوم في ٥ دقايق، بالعربي. ${allCourses.length} مسارات كاملة باشتراك واحد.`;
 
   async function nativeShare() {
     try {
