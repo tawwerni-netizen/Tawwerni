@@ -11,6 +11,7 @@
 import "./load-env";
 import { TEST_HEADERS } from "./test-env";
 import { prisma } from "../src/lib/prisma";
+import { allCourses } from "../src/content/courses";
 
 import { hashPassword } from "../src/lib/password";
 
@@ -108,6 +109,15 @@ async function json(res: Response) {
     select: { id: true, referralCode: true },
   });
   check("الحساب اتسجّل في الداتابيز", !!refRow);
+
+  // The referrals page sits behind the same onboarding gate every /app route
+  // does — skipping this step made the fetch below hit the /onboarding
+  // redirect instead of the page that actually mints the code, which looked
+  // exactly like a broken referral system and was not one.
+  await referrer.fetch("/api/profile", {
+    method: "PATCH",
+    body: JSON.stringify({ dailyPaceMinutes: 15 }),
+  });
 
   // Referral code is minted lazily on first view of the referrals page.
   await referrer.fetch("/app/referrals");
@@ -286,11 +296,15 @@ async function json(res: Response) {
   console.log("\nالكتالوج");
   const courses = await prisma.course.findMany({ orderBy: { order: "asc" } });
   check("مفيش كورسات فاضية (قريبًا)", courses.every((c) => !c.isComingSoon));
-  check("٦ مسارات", courses.length === 6, `${courses.length}`);
+  // Was a hardcoded "6" — the exact count this is supposed to guard against
+  // silently drifting from. Checked against the seeded catalogue itself
+  // instead, so the count can only ever be wrong if the seed and the DB
+  // actually disagree, not just because a track got added.
+  check("عدد المسارات مطابق للمحتوى المزروع", courses.length === allCourses.length, `${courses.length} في القاعدة، ${allCourses.length} في المحتوى`);
   check(
-    "الترتيب: الذكاء الاصطناعي الأول",
-    courses[0].slug === "tahaddi-28-yawm",
-    courses[0].slug
+    "الترتيب مطابق لترتيب الكتالوج في الكود",
+    courses[0].slug === allCourses[0].meta.slug,
+    `${courses[0].slug} بدل ${allCourses[0].meta.slug}`
   );
 
   /* ---------------- cleanup ---------------- */

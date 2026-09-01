@@ -84,36 +84,56 @@ export async function POST(request: Request) {
   const refCode = (await cookies()).get(REFERRAL_COOKIE)?.value;
   await attachReferrer(user.id, refCode).catch(() => {});
 
-  const openOrder = await prisma.order.findFirst({
-    where: { userId: user.id, courseId: course.id, status: { in: ["pending", "approved"] } },
+  /*
+   * Check-then-create, made atomic.
+   *
+   * A plain findFirst-then-create race: a double-click, or a slow network
+   * retrying the same submit, can fire two requests close enough together
+   * that both see "no open order yet" before either has committed its
+   * insert — two pending orders for the same course. That is not just a
+   * stray row: the payment matcher requires *exactly one* pending order at
+   * a given phone+amount before it auto-activates anything, so a duplicate
+   * here turns an otherwise-clean automatic activation into a manual-review
+   * case for no real reason. `FOR UPDATE` on the user row serializes
+   * concurrent requests for the same user, so the second one's check runs
+   * only after the first one's insert has actually landed.
+   */
+  const order = await prisma.$transaction(async (tx) => {
+    await tx.$queryRaw`SELECT id FROM User WHERE id = ${user.id} FOR UPDATE`;
+
+    const openOrder = await tx.order.findFirst({
+      where: { userId: user.id, courseId: course.id, status: { in: ["pending", "approved"] } },
+    });
+    if (openOrder) return { ...openOrder, alreadyExists: true as const };
+
+    return tx.order.create({
+      data: {
+        userId: user.id,
+        courseId: course.id,
+        method,
+        amountEgp: pricing.priceEgp,
+        // السعر اللي اتدفع فعلًا — عشان أي تغيير في السعر بعدين
+        // ما يغيّرش سجل عميل قديم.
+        originalPriceEgp: pricing.priceEgp,
+        status: "pending",
+        proofChannel: typeof proofChannel === "string" ? proofChannel : null,
+        senderPhone: normalizedPhone,
+        instapayName:
+          method === "instapay" && typeof instapayName === "string" && instapayName.trim()
+            ? instapayName.trim()
+            : null,
+      },
+    });
   });
-  if (openOrder) {
+
+  if ("alreadyExists" in order) {
     return NextResponse.json({
       ok: true,
-      orderId: openOrder.id,
+      orderId: order.id,
       alreadyExists: true,
-      status: openOrder.status,
+      status: order.status,
     });
   }
-
-  const order = await prisma.order.create({
-    data: {
-      userId: user.id,
-      courseId: course.id,
-      method,
-      amountEgp: pricing.priceEgp,
-      // السعر اللي اتدفع فعلًا — عشان أي تغيير في السعر بعدين
-      // ما يغيّرش سجل عميل قديم.
-      originalPriceEgp: pricing.priceEgp,
-      status: "pending",
-      proofChannel: typeof proofChannel === "string" ? proofChannel : null,
-      senderPhone: normalizedPhone,
-      instapayName:
-        method === "instapay" && typeof instapayName === "string" && instapayName.trim()
-          ? instapayName.trim()
-          : null,
-    },
-  });
 
   // Receipt is best-effort: a mail outage must never lose the order.
   const tpl = orderReceivedEmail({
