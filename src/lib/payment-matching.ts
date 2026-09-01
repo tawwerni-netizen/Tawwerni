@@ -148,9 +148,27 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
     );
 
     if (matches.length === 0) {
-      const anyPhone = await prisma.order.findFirst({
-        where: { status: "pending", senderPhone: { contains: senderPhone.slice(-9) } },
+      /*
+       * Was a DB-level `contains` filter. This database has a genuine
+       * collation mismatch on at least the `User.email` and `Order.senderPhone`
+       * columns (`utf8mb4_unicode_ci` vs `utf8mb4_bin`) that makes MySQL's LIKE
+       * operator throw `Illegal mix of collations` outright — not a partial
+       * match, a hard error. That turned every Vodafone Cash transfer landing
+       * with no exact phone+amount match into an uncaught exception: the
+       * webhook 500'd back to the Android forwarder, and this park() call
+       * (with the one diagnostic line telling the operator "same phone,
+       * different amount") never ran. The `PaymentTransaction` row itself was
+       * already written above, so no transfer was ever lost — but the note
+       * explaining why it needs review was. `candidates` above already proves
+       * this dataset is small enough to filter in memory instead of asking
+       * MySQL to do it.
+       */
+      const phoneSuffix = senderPhone.slice(-9);
+      const pendingPhones = await prisma.order.findMany({
+        where: { status: "pending" },
+        select: { senderPhone: true },
       });
+      const anyPhone = pendingPhones.some((o) => o.senderPhone?.includes(phoneSuffix));
       return park(
         anyPhone
           ? `فيه طلب من نفس الرقم بس بمبلغ مختلف (المحوَّل ${payment.amountEgp} ج.م)`
