@@ -8,6 +8,7 @@ import FaqSchema from "@/components/FaqSchema";
 import SocialLinks from "@/components/SocialLinks";
 import ShareInvite from "@/components/ShareInvite";
 import ExitIntentPrompt from "@/components/ExitIntentPrompt";
+import Testimonials from "@/components/Testimonials";
 
 /**
  * The public landing page.
@@ -219,6 +220,8 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
+
+        <Testimonials />
 
         {/* ---------- 4. The price, anchored ---------- */}
         <div className="mx-auto mb-14 max-w-2xl">

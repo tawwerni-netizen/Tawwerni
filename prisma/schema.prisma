@@ -51,6 +51,7 @@ model User {
   generatedFor    ReferralEarning[] @relation("Referred")
   payouts         Payout[]
   certificates    Certificate[]
+  testimonials    Testimonial[]
 
   @@index([referredById])
 }
@@ -170,6 +171,7 @@ model Course {
   modules      Module[]
   orders       Order[]
   certificates Certificate[]
+  testimonials Testimonial[]
 }
 
 model Module {
@@ -347,6 +349,37 @@ model Certificate {
 /// link or ignore a transfer, settle a payout, delete an account, reset
 /// someone's password. No foreign key to User on purpose: the log has to
 /// keep answering "who did this" even after the admin who did it is gone.
+/// A learner's own words about a course, held for review before it can
+/// appear anywhere public. `holderName`/`avatarUrl` are copied in at
+/// submission time for the same reason `Certificate` copies its fields —
+/// what gets shown publicly should not change out from under the review
+/// that approved it because the account changed later.
+model Testimonial {
+  id         String    @id @default(cuid())
+  userId     String
+  courseId   String?
+  holderName String
+  avatarUrl  String?   @db.MediumText
+  /// 1–5, optional — some testimonials are text-only.
+  rating     Int?
+  quote      String    @db.Text
+  /// pending | approved | rejected
+  status     String    @default("pending")
+  /// Shown in the smaller/priority slot when a public list has more
+  /// approved testimonials than it has room to show.
+  featured   Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  decidedAt  DateTime?
+  /// Admin email, snapshotted the same way — see AdminAuditLog for why.
+  decidedBy  String?
+
+  user   User    @relation(fields: [userId], references: [id])
+  course Course? @relation(fields: [courseId], references: [id])
+
+  @@index([status])
+  @@index([userId])
+}
+
 model AdminAuditLog {
   id         String   @id @default(cuid())
   adminId    String

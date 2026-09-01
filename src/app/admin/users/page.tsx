@@ -19,7 +19,7 @@ export default async function AdminUsersPage() {
   const admin = await adminUser();
   if (!admin) return <AdminLogin />;
 
-  const [users, courses, pendingOrders, pendingPayouts] = await Promise.all([
+  const [users, courses, pendingOrders, pendingPayouts, pendingTestimonials] = await Promise.all([
     prisma.user.findMany({
       orderBy: { createdAt: "desc" },
       take: 300,
@@ -42,6 +42,7 @@ export default async function AdminUsersPage() {
     }),
     prisma.order.count({ where: { status: "pending" } }),
     prisma.payout.count({ where: { status: "requested" } }),
+    prisma.testimonial.count({ where: { status: "pending" } }),
   ]);
 
   const lessonCounts = new Map(courses.map((c) => [c.id, c.totalLessons]));
@@ -103,7 +104,7 @@ export default async function AdminUsersPage() {
       title="المستخدمون"
       subtitle={`${rows.length} حساب مسجّل · ${paidCount} مشترك`}
       admin={admin}
-      badges={{ "/admin": pendingOrders, "/admin/payouts": pendingPayouts }}
+      badges={{ "/admin": pendingOrders, "/admin/payouts": pendingPayouts, "/admin/testimonials": pendingTestimonials }}
     >
       <AdminStats
         stats={[

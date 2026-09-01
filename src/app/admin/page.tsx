@@ -19,11 +19,14 @@ export default async function AdminPage() {
   let unmatched: Awaited<ReturnType<typeof loadUnmatched>> = [];
   let payoutCount = 0;
 
+  let pendingTestimonials = 0;
+
   try {
-    [orders, unmatched, payoutCount] = await Promise.all([
+    [orders, unmatched, payoutCount, pendingTestimonials] = await Promise.all([
       loadOrders(),
       loadUnmatched(),
       prisma.payout.count({ where: { status: "requested" } }),
+      prisma.testimonial.count({ where: { status: "pending" } }),
     ]);
   } catch (err) {
     // Almost always a schema that hasn't caught up with the code. Say so
@@ -59,7 +62,7 @@ export default async function AdminPage() {
           : "مفيش طلبات مستنية — كله متظبط ✓"
       }
       admin={admin}
-      badges={{ "/admin": pending.length, "/admin/payouts": payoutCount }}
+      badges={{ "/admin": pending.length, "/admin/payouts": payoutCount, "/admin/testimonials": pendingTestimonials }}
     >
       <AdminStats
         stats={[

@@ -33,7 +33,10 @@ export default async function AdminPayoutsPage() {
   const paidOut = settled
     .filter((p) => p.status === "paid")
     .reduce((s, p) => s + p.amountEgp, 0);
-  const pendingOrders = await prisma.order.count({ where: { status: "pending" } });
+  const [pendingOrders, pendingTestimonials] = await Promise.all([
+    prisma.order.count({ where: { status: "pending" } }),
+    prisma.testimonial.count({ where: { status: "pending" } }),
+  ]);
 
   return (
     <AdminShell
@@ -44,7 +47,7 @@ export default async function AdminPayoutsPage() {
           : "مفيش طلبات منتظرة — كله متسدّد ✓"
       }
       admin={admin}
-      badges={{ "/admin": pendingOrders, "/admin/payouts": requested.length }}
+      badges={{ "/admin": pendingOrders, "/admin/payouts": requested.length, "/admin/testimonials": pendingTestimonials }}
     >
       <AdminStats
         stats={[

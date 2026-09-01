@@ -17,6 +17,11 @@ const ACTION_LABELS: Record<string, string> = {
   "user.delete": "مسح حساب",
   "user.password_temp_issued": "طلّع باسورد مؤقت",
   "user.password_reset_sent": "بعت لينك تغيير باسورد",
+  "testimonial.approve": "وافق على رأي متعلّم",
+  "testimonial.reject": "رفض رأي متعلّم",
+  "testimonial.feature": "أبرز رأي متعلّم",
+  "testimonial.unfeature": "شال إبراز رأي",
+  "testimonial.edit": "عدّل نص رأي",
 };
 
 function formatWhen(d: Date) {
@@ -40,10 +45,11 @@ export default async function AdminAuditPage() {
   const admin = await adminUser();
   if (!admin) return <AdminLogin />;
 
-  const [entries, pendingOrders, requestedPayouts] = await Promise.all([
+  const [entries, pendingOrders, requestedPayouts, pendingTestimonials] = await Promise.all([
     prisma.adminAuditLog.findMany({ orderBy: { createdAt: "desc" }, take: 200 }),
     prisma.order.count({ where: { status: "pending" } }),
     prisma.payout.count({ where: { status: "requested" } }),
+    prisma.testimonial.count({ where: { status: "pending" } }),
   ]);
 
   return (
@@ -55,7 +61,7 @@ export default async function AdminAuditPage() {
           : "لسه مفيش إجراءات مسجّلة"
       }
       admin={admin}
-      badges={{ "/admin": pendingOrders, "/admin/payouts": requestedPayouts }}
+      badges={{ "/admin": pendingOrders, "/admin/payouts": requestedPayouts, "/admin/testimonials": pendingTestimonials }}
     >
       <div className="mx-auto max-w-3xl space-y-2">
         {entries.length === 0 && (

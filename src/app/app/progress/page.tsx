@@ -1,20 +1,24 @@
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import WeekDot from "@/components/WeekDot";
 import { getCurrentUser } from "@/lib/auth";
 import { computeLevel, computeStreak, getWeekDays } from "@/lib/xp";
 import { badgeDefs } from "@/content/badges";
 
+const MIN_COMPLETIONS_FOR_TESTIMONIAL = 3;
+
 export default async function ProgressPage() {
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const [completions, userBadges, courses] = await Promise.all([
+  const [completions, userBadges, courses, hasTestimonial] = await Promise.all([
     prisma.lessonCompletion.findMany({
       where: { userId: user.id },
       include: { lesson: { include: { module: { include: { course: true } } } } },
     }),
     prisma.userBadge.findMany({ where: { userId: user.id }, include: { badge: true } }),
     prisma.course.findMany({ where: { isComingSoon: false } }),
+    prisma.testimonial.findFirst({ where: { userId: user.id }, select: { id: true } }),
   ]);
 
   const totalXp = completions.reduce((s, c) => s + c.xpEarned, 0);
@@ -72,6 +76,20 @@ export default async function ProgressPage() {
           ))}
         </div>
       </div>
+
+      {!hasTestimonial && completions.length >= MIN_COMPLETIONS_FOR_TESTIMONIAL && (
+        <Link
+          href="/app/testimonial"
+          className="card-lift mb-5 flex items-center gap-3 rounded-2xl bg-gradient-to-l from-brand-700 to-brand-600 p-4 text-white"
+        >
+          <span className="text-2xl" aria-hidden>💬</span>
+          <span className="flex-1">
+            <span className="block text-sm font-bold">شارك تجربتك</span>
+            <span className="block text-xs text-white/80">دقيقة واحدة — ممكن تساعد حد يبدأ</span>
+          </span>
+          <span aria-hidden>←</span>
+        </Link>
+      )}
 
       <p className="text-xs text-neutral-400 mb-2 tracking-wide">كورساتي</p>
       <div className="space-y-2 mb-6">
