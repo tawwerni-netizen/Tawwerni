@@ -3,6 +3,7 @@ import Link from "next/link";
 import { LogoLink } from "@/components/Logo";
 import { brand, pricing, payment } from "@/content/brand";
 import { allCourses, courseStats } from "@/content/courses";
+import { coursesWord } from "@/lib/arabic-plural";
 import SocialLinks from "@/components/SocialLinks";
 
 export const metadata: Metadata = {
@@ -35,7 +36,7 @@ export default function AboutPage() {
         </p>
 
         <p className="mb-5">
-          المنصة صغيرة ومتخصصة عمدًا: {allCourses.length} مسارات مكتوبة بالكامل،
+          المنصة صغيرة ومتخصصة عمدًا: {allCourses.length} {coursesWord(allCourses.length)} مكتوبة بالكامل،
           يوم بيوم — {totalLessons} درس عملي، مش عشرين مسار نصهم "قريبًا".
         </p>
 

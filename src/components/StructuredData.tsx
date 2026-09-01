@@ -1,6 +1,7 @@
 import { brand, pricing, payment, social } from "@/content/brand";
 import { ldJson } from "@/lib/ld-json";
 import { allCourses, courseStats } from "@/content/courses";
+import { coursesWord } from "@/lib/arabic-plural";
 
 const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${brand.domain}`;
 
@@ -47,7 +48,7 @@ export default function StructuredData() {
       "@type": "Product",
       "@id": `${siteUrl}/#subscription`,
       name: `اشتراك ${brand.name}`,
-      description: `وصول مدى الحياة لكل مسارات ${brand.name} — ${courses.length} مسارات بالعربي.`,
+      description: `وصول مدى الحياة لكل مسارات ${brand.name} — ${courses.length} ${coursesWord(courses.length)} بالعربي.`,
       brand: { "@id": `${siteUrl}/#org` },
       offers: {
         "@type": "Offer",

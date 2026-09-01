@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { brand, referral, referralsToBreakEven, pricing } from "@/content/brand";
+import { allCourses } from "@/content/courses";
+import { coursesWord } from "@/lib/arabic-plural";
 import { trackReferralShared } from "@/lib/analytics";
 
 /**
@@ -22,7 +24,7 @@ export default function ShareInvite({ className = "" }: { className?: string }) 
   const url = `https://${brand.domain}`;
   const message = `لقيت حاجة تعجبك: ${brand.name} — ${brand.domain}
 
-٩ مسارات بالعامية المصرية، ٥ دقايق في اليوم.
+${allCourses.length} ${coursesWord(allCourses.length)} بالعامية المصرية، ٥ دقايق في اليوم.
 اليوم الأول من كل مسار مفتوح مجانًا — جرّبه من غير ما تدفع حاجة.`;
 
   async function copy() {

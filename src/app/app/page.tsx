@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { computeStreak, getWeekDays } from "@/lib/xp";
 import { brand } from "@/content/brand";
 import { approvedCourseIds } from "@/lib/access";
+import { coursesWord } from "@/lib/arabic-plural";
 import WeekDot from "@/components/WeekDot";
 import HelpCard from "@/components/HelpCard";
 import CourseTile from "@/components/CourseTile";
@@ -164,7 +165,7 @@ export default async function AppHomePage() {
           tracks", so the catalogue looked like it had five. Every track the
           subscription covers belongs here, with its own progress.
         */}
-        <p className="text-xs text-neutral-400 tracking-wide">مساراتك · {tiles.length} مسارات</p>
+        <p className="text-xs text-neutral-400 tracking-wide">مساراتك · {tiles.length} {coursesWord(tiles.length)}</p>
         <Link href="/app/learn" className="tap inline-block py-1 text-xs font-bold text-brand-600">
           كل المسارات →
         </Link>

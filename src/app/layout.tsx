@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cairo } from "next/font/google";
 import { brand, pricing } from "@/content/brand";
 import { allCourses, courseStats } from "@/content/courses";
+import { coursesWord } from "@/lib/arabic-plural";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
 
@@ -26,7 +27,7 @@ const totalLessons = allCourses.reduce((sum, c) => sum + courseStats(c).totalLes
 
 const shareTitle = `${brand.name} — الموقع ده اتبنى بالذكاء الاصطناعي`;
 
-const description = `${allCourses.length} مسارات و${totalLessons} درس بالعامية المصرية، ٥ دقايق في اليوم. اشتراك واحد ${pricing.priceEgp} ج.م — واليوم الأول من كل مسار مجانًا.`;
+const description = `${allCourses.length} ${coursesWord(allCourses.length)} و${totalLessons} درس بالعامية المصرية، ٥ دقايق في اليوم. اشتراك واحد ${pricing.priceEgp} ج.م — واليوم الأول من كل مسار مجانًا.`;
 
 /**
  * Metadata, including the link preview card.

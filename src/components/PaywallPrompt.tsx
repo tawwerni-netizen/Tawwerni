@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { pricing, payment } from "@/content/brand";
 import { allCourses } from "@/content/courses";
+import { coursesWord } from "@/lib/arabic-plural";
 
 /**
  * Shown right after a non-paying learner finishes the free day, and whenever
@@ -76,7 +77,7 @@ export default function PaywallPrompt({
 
       <ul className="grid grid-cols-2 gap-px bg-white/10 text-right text-xs">
         {[
-          ["📚", `${allCourses.length} مسارات كاملة`],
+          ["📚", `${allCourses.length} ${coursesWord(allCourses.length)} كاملة`],
           ["🎯", "مهمة عملية كل يوم"],
           ["🏅", "شارات وشهادات"],
           ["♾️", "تحديثات مجانية"],

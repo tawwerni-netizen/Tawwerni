@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { approvedCourseIds } from "@/lib/access";
+import { coursesWord } from "@/lib/arabic-plural";
 import CourseCard from "@/components/CourseCard";
 import ShareRow from "@/components/ShareRow";
 
@@ -50,7 +51,7 @@ export default async function LearnPage() {
 
       <div className="mb-6 flex flex-wrap gap-2 text-xs">
         <span className="rounded-full bg-brand-50 px-3 py-1 font-bold text-brand-800">
-          {cards.length} مسارات
+          {cards.length} {coursesWord(cards.length)}
         </span>
         <span className="rounded-full bg-brand-50 px-3 py-1 font-bold text-brand-800">
           {totalLessons} درس

@@ -39,6 +39,15 @@ export async function generateMetadata({
   };
 }
 
+async function loadRelatedArticles(courseId: string) {
+  return prisma.article.findMany({
+    where: { relatedCourseId: courseId, status: "published" },
+    orderBy: { publishedAt: "desc" },
+    take: 3,
+    select: { slug: true, pillar: true, title: true, excerpt: true, icon: true, readingMinutes: true },
+  });
+}
+
 /**
  * Gated behind `getCurrentUser()` used to mean gated from Google too: an
  * anonymous request — including a crawler — got `return null`, a blank page,
@@ -55,7 +64,9 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
   const course = await loadCourse(slug);
   if (!course || course.isComingSoon) notFound();
 
-  if (!user) return <PublicCourseView course={course} />;
+  const relatedArticles = await loadRelatedArticles(course.id);
+
+  if (!user) return <PublicCourseView course={course} relatedArticles={relatedArticles} />;
 
   const completions = await prisma.lessonCompletion.findMany({
     where: { userId: user.id, lesson: { module: { courseId: course.id } } },
@@ -227,15 +238,61 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             );
           })}
         </div>
+
+        <RelatedArticles articles={relatedArticles} />
       </div>
     </div>
   );
 }
 
 type CourseWithLessons = NonNullable<Awaited<ReturnType<typeof loadCourse>>>;
+type RelatedArticle = Awaited<ReturnType<typeof loadRelatedArticles>>[number];
+
+/**
+ * Free enrichment content, not a nav destination.
+ *
+ * The AI Hub has no permanent spot in the app's bottom nav or the landing
+ * page's primary CTA — either would compete with the 5-minutes-a-day loop
+ * this product is built around. This is the alternative: 1-3 articles this
+ * specific course already has a `relatedCourseId` link to, surfaced right
+ * where someone deciding on (or already inside) this course would want them.
+ * Renders on both the public and authenticated view, since the public one is
+ * also what Google indexes.
+ */
+function RelatedArticles({ articles }: { articles: RelatedArticle[] }) {
+  if (articles.length === 0) return null;
+
+  return (
+    <div className="mt-5">
+      <p className="text-xs font-bold text-neutral-500 mb-2">مقالات تساعدك أكتر</p>
+      <div className="space-y-2">
+        {articles.map((a) => (
+          <Link
+            key={a.slug}
+            href={`/hub/${a.pillar}/${a.slug}`}
+            className="flex items-start gap-3 rounded-2xl bg-white border border-black/5 p-3 tap"
+          >
+            <span className="text-lg leading-none shrink-0">{a.icon}</span>
+            <div className="min-w-0">
+              <p className="text-sm font-bold text-neutral-800 truncate">{a.title}</p>
+              <p className="text-[11px] text-neutral-500 line-clamp-1">{a.excerpt}</p>
+            </div>
+            <span className="text-[10px] text-neutral-400 shrink-0 mr-auto">{a.readingMinutes} د</span>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /** The curriculum outline a stranger — or a crawler — actually gets to see. */
-function PublicCourseView({ course }: { course: CourseWithLessons }) {
+function PublicCourseView({
+  course,
+  relatedArticles,
+}: {
+  course: CourseWithLessons;
+  relatedArticles: RelatedArticle[];
+}) {
   const allLessons = course.modules.flatMap((m) => m.lessons);
 
   return (
@@ -276,7 +333,7 @@ function PublicCourseView({ course }: { course: CourseWithLessons }) {
           </Link>
         </div>
 
-        <p className="text-xs text-neutral-400 mb-2 tracking-wide">مسار المسار — {allLessons.length} درس</p>
+        <p className="text-xs text-neutral-400 mb-2 tracking-wide">منهج المسار — {allLessons.length} درس</p>
         <div className="space-y-4">
           {course.modules.map((module) => (
             <div key={module.id} className="rounded-2xl bg-white border border-black/5 overflow-hidden">
@@ -315,6 +372,8 @@ function PublicCourseView({ course }: { course: CourseWithLessons }) {
             </div>
           ))}
         </div>
+
+        <RelatedArticles articles={relatedArticles} />
       </div>
     </div>
   );

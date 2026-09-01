@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { brand, pricing, referral, payment } from "@/content/brand";
 import { allCourses, courseStats } from "@/content/courses";
+import { coursesWord } from "@/lib/arabic-plural";
 import { trackLead, trackQuizStarted } from "@/lib/analytics";
 import {
   quizQuestions,
@@ -221,7 +222,7 @@ export default function QuizPage() {
 
             <div className="grid grid-cols-3 gap-2 mb-5">
               {[
-                { n: allCourses.length, l: "مسارات" },
+                { n: allCourses.length, l: coursesWord(allCourses.length) },
                 { n: totalLessons, l: "درس" },
                 { n: "٥", l: "دقايق/يوم" },
               ].map((s) => (
@@ -459,7 +460,7 @@ export default function QuizPage() {
 
             <div className="space-y-2.5 mb-6">
               {[
-                { i: "📚", t: `${allCourses.length} مسارات · ${totalLessons} درس`, s: "كلها مفتوحة بدفعة واحدة" },
+                { i: "📚", t: `${allCourses.length} ${coursesWord(allCourses.length)} · ${totalLessons} درس`, s: "كلها مفتوحة بدفعة واحدة" },
                 { i: "🎁", t: "اليوم الأول مجاني في كل مسار", s: "تجرّب الأسلوب قبل ما تدفع" },
                 { i: "♾️", t: "وصول مدى الحياة", s: "وأي مسار جديد ينزل بعد كده بيجيلك مجانًا" },
                 { i: "⚡", t: "التفعيل تلقائي", s: `حوّل في أي وقت — الكورس بيتفتح خلال دقايق` },
@@ -500,7 +501,7 @@ export default function QuizPage() {
                 <span className="text-sm font-bold text-brand-800 mb-1.5">ج.م</span>
               </div>
               <p className="text-xs text-brand-900/70">
-                دفعة واحدة · {allCourses.length} مسارات · {totalLessons} درس · مدى الحياة
+                دفعة واحدة · {allCourses.length} {coursesWord(allCourses.length)} · {totalLessons} درس · مدى الحياة
               </p>
             </div>
 

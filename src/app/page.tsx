@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { brand, pricing, payment, referral, referralsToBreakEven } from "@/content/brand";
 import { allCourses, courseStats } from "@/content/courses";
+import { coursesWord } from "@/lib/arabic-plural";
 import { LogoLink } from "@/components/Logo";
 import LiveSeats from "@/components/LiveSeats";
 import StructuredData from "@/components/StructuredData";
@@ -64,7 +65,7 @@ export default function LandingPage() {
         {/* ---------- 1. The promise ---------- */}
         <div className="mx-auto mb-6 max-w-2xl text-center">
           <span className="mb-5 inline-flex items-center gap-2 rounded-full bg-brand-50 px-3.5 py-1.5 text-xs text-brand-800">
-            🎯 {courses.length} مسارات · {totalLessons} درس · اشتراك واحد
+            🎯 {courses.length} {coursesWord(courses.length)} · {totalLessons} درس · اشتراك واحد
           </span>
           {/*
             The headline is the mechanism and the outcome, not a claim about
@@ -83,7 +84,7 @@ export default function LandingPage() {
             <span className="text-brand-600">مهارة تقدر تشتغل بيها فعلًا.</span>
           </h1>
           <p className="mx-auto mb-3 max-w-lg text-sm leading-relaxed text-neutral-500 md:text-base">
-            {courses.length} مسارات عملية — من الذكاء الاصطناعي للعمل الحر —
+            {courses.length} {coursesWord(courses.length)} عملية — من الذكاء الاصطناعي للعمل الحر —
             كل يوم فيها مهمة تنفّذها، مش فيديو تتفرج عليه. اشتراك واحد{" "}
             {pricing.priceEgp} جنيه، وصول مدى الحياة، واليوم الأول مجاني.
           </p>
@@ -145,7 +146,7 @@ export default function LandingPage() {
           كل ده جوّه الاشتراك
         </p>
         <h2 className="mb-7 text-center text-xl font-bold md:text-2xl">
-          {courses.length} مسارات كاملة
+          {courses.length} {coursesWord(courses.length)} كاملة
         </h2>
 
         <div className="mb-14 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
