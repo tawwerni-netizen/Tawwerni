@@ -65,24 +65,30 @@ export default function LandingPage() {
             🎯 {courses.length} مسارات · {totalLessons} درس · اشتراك واحد
           </span>
           {/*
-            The headline is the proof, not a promise.
+            The headline is the mechanism and the outcome, not a claim about
+            who built the site.
 
-            It used to be the tagline — "turn your daily learning into real
-            progress" — which is the same sentence every self-improvement site
-            in Arabic already runs, and it left the visitor with nothing to
-            check. The page they are standing on is the strongest evidence this
-            product has, it is verifiable in one glance, and no competitor can
-            copy it by rewriting the same content.
+            It used to lead with "this site was built with AI" — true, and
+            still the single most verifiable thing about the product, but not
+            an answer to the only question a new visitor actually has: what do
+            I get and what does it cost me. That proof still belongs on the
+            page — it just moved to a supporting line instead of carrying the
+            entire pitch alone.
           */}
           <h1 className="mb-4 text-3xl font-bold leading-tight md:text-5xl">
-            الموقع اللي إنت فيه دلوقتي
+            ٥ دقايق في اليوم. ٢٨ يوم.
             <br />
-            <span className="text-brand-600">اتبنى بالذكاء الاصطناعي</span>
+            <span className="text-brand-600">مهارة تقدر تشتغل بيها فعلًا.</span>
           </h1>
-          <p className="mx-auto mb-7 max-w-lg text-sm leading-relaxed text-neutral-500 md:text-base">
-            من غير مبرمج ومن غير مصمّم. والمسار اللي اتبنى بيه هو أول حاجة
-            هتلاقيها جوّه — ومعاه {courses.length - 1} مسارات تانية، كلها
-            بالعامية المصرية و٥ دقايق في اليوم.
+          <p className="mx-auto mb-3 max-w-lg text-sm leading-relaxed text-neutral-500 md:text-base">
+            {courses.length} مسارات عملية — من الذكاء الاصطناعي للعمل الحر —
+            كل يوم فيها مهمة تنفّذها، مش فيديو تتفرج عليه. اشتراك واحد{" "}
+            {pricing.priceEgp} جنيه، وصول مدى الحياة، واليوم الأول مجاني.
+          </p>
+          <p className="mx-auto mb-7 max-w-lg text-xs leading-relaxed text-neutral-400 md:text-sm">
+            دليل إننا بنطبّق اللي بنعلّمه: الموقع اللي إنت فيه دلوقتي اتبنى
+            بالذكاء الاصطناعي — من غير مبرمج ولا مصمّم — والمسار اللي اتبنى بيه
+            هو أول مسار هتلاقيه جوّه.
           </p>
 
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -335,6 +341,12 @@ export default function LandingPage() {
             {payment.supportEmail}
           </p>
           <SocialLinks className="justify-center" />
+          <nav className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[11px] text-neutral-400">
+            <Link href="/about" className="tap hover:text-neutral-600">من إحنا</Link>
+            <Link href="/terms" className="tap hover:text-neutral-600">الشروط والأحكام</Link>
+            <Link href="/privacy" className="tap hover:text-neutral-600">الخصوصية</Link>
+            <Link href="/refund" className="tap hover:text-neutral-600">الاسترجاع</Link>
+          </nav>
           <p className="mt-4 text-[11px] text-neutral-400">
             {brand.name}
             <span className="text-neutral-300">.com</span> · كل الحقوق محفوظة
