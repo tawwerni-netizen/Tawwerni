@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { brand } from "@/content/brand";
 import { allCourses } from "@/content/courses";
+import { pillars } from "@/content/hub-pillars";
+import { prisma } from "@/lib/prisma";
 
 const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${brand.domain}`;
 
@@ -11,7 +13,7 @@ const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${bran
  * Google to a redirect and waste the crawl. Course pages are listed because
  * their day-one preview is public-facing value worth being found for.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -31,5 +33,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...coursePages];
+  // Published articles only — a draft or an empty pillar page has nothing
+  // for Google to index and shouldn't be submitted at all.
+  const articles = await prisma.article.findMany({
+    where: { status: "published" },
+    select: { slug: true, pillar: true, updatedAt: true },
+  });
+
+  const articlePages: MetadataRoute.Sitemap = articles.map((a) => ({
+    url: `${siteUrl}/hub/${a.pillar}/${a.slug}`,
+    lastModified: a.updatedAt,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  const pillarsWithContent = new Set(articles.map((a) => a.pillar));
+  const pillarPages: MetadataRoute.Sitemap =
+    pillarsWithContent.size > 0
+      ? [
+          { url: `${siteUrl}/hub`, lastModified: now, changeFrequency: "weekly", priority: 0.6 },
+          ...pillars
+            .filter((p) => pillarsWithContent.has(p.key))
+            .map((p) => ({
+              url: `${siteUrl}/hub/${p.key}`,
+              lastModified: now,
+              changeFrequency: "weekly" as const,
+              priority: 0.5,
+            })),
+        ]
+      : [];
+
+  return [...staticPages, ...coursePages, ...pillarPages, ...articlePages];
 }

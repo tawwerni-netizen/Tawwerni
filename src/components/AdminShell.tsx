@@ -11,6 +11,7 @@ const NAV = [
   { href: "/admin/users", label: "المستخدمين", icon: "👥" },
   { href: "/admin/payouts", label: "السحوبات", icon: "💸" },
   { href: "/admin/testimonials", label: "آراء المتعلمين", icon: "💬" },
+  { href: "/admin/articles", label: "المقالات", icon: "📚" },
   { href: "/admin/audit", label: "سجل الإجراءات", icon: "📜" },
 ];
 

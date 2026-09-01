@@ -22,6 +22,11 @@ const ACTION_LABELS: Record<string, string> = {
   "testimonial.feature": "أبرز رأي متعلّم",
   "testimonial.unfeature": "شال إبراز رأي",
   "testimonial.edit": "عدّل نص رأي",
+  "article.create": "أنشأ مقال",
+  "article.edit": "عدّل مقال",
+  "article.publish": "نشر مقال",
+  "article.unpublish": "سحب مقال من النشر",
+  "article.delete": "مسح مقال",
 };
 
 function formatWhen(d: Date) {

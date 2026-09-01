@@ -172,6 +172,7 @@ model Course {
   orders       Order[]
   certificates Certificate[]
   testimonials Testimonial[]
+  articles     Article[]
 }
 
 model Module {
@@ -378,6 +379,39 @@ model Testimonial {
 
   @@index([status])
   @@index([userId])
+}
+
+/// A content-engine article — the unit both the AI Hub and any future topic
+/// cluster (Freelancing Hub, Marketing Hub, ...) are built from. `pillar` is
+/// a free-form cluster key defined in `src/content/hub-pillars.ts`, not a
+/// foreign key, so new hubs open by adding a config entry, not a migration.
+model Article {
+  id              String    @id @default(cuid())
+  slug            String    @unique
+  pillar          String
+  title           String
+  excerpt         String    @db.Text
+  /// The lite-Markdown subset rendered by `src/lib/markdown-lite.tsx`.
+  content         String    @db.Text
+  icon            String    @default("📄")
+  seoTitle        String?
+  seoDescription  String?   @db.Text
+  /// draft | published
+  status          String    @default("draft")
+  readingMinutes  Int       @default(5)
+  /// JSON array of {q, a} — becomes FAQPage structured data when present.
+  faq             String?   @db.Text
+  relatedCourseId String?
+  /// The one thing every article ends on: a reason to try the related
+  /// course, not a generic "sign up now".
+  ctaText         String?
+  publishedAt     DateTime?
+  updatedAt       DateTime  @updatedAt
+  createdAt       DateTime  @default(now())
+
+  relatedCourse Course? @relation(fields: [relatedCourseId], references: [id])
+
+  @@index([status, pillar])
 }
 
 model AdminAuditLog {
