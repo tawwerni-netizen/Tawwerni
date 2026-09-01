@@ -1,10 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { brand, pricing, referral, payment } from "@/content/brand";
 import { allCourses, courseStats } from "@/content/courses";
-import { trackLead } from "@/lib/analytics";
+import { trackLead, trackQuizStarted } from "@/lib/analytics";
 import {
   quizQuestions,
   quizInterstitials,
@@ -64,6 +64,12 @@ export default function QuizPage() {
   const [saving, setSaving] = useState(false);
 
   const step = steps[stepIndex];
+
+  useEffect(() => {
+    trackQuizStarted();
+    // Fires once on mount — starting the quiz, not every step within it.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const archetype = useMemo(() => computeArchetype(answers), [answers]);
   const score = useMemo(() => computeReadinessScore(answers), [answers]);

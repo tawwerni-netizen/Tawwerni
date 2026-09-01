@@ -10,6 +10,7 @@ import CardVisual, {
   visualConsumesHeading,
   visualConsumesFirstLine,
 } from "@/components/CardVisual";
+import { trackLessonCompleted } from "@/lib/analytics";
 
 export type InfoCard = {
   type: "info";
@@ -124,6 +125,7 @@ export default function LessonPlayer(props: Props) {
     const data = await res.json();
     setResult(data);
     setPhase("complete");
+    trackLessonCompleted(props.courseSlug, props.dayNumber);
   }
 
   function copyPrompt(text: string) {

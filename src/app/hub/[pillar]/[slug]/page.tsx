@@ -7,6 +7,7 @@ import { brand, pricing } from "@/content/brand";
 import { ArticleBody } from "@/lib/markdown-lite";
 import { ldJson } from "@/lib/ld-json";
 import { LogoLink } from "@/components/Logo";
+import ArticleViewPixel from "@/components/ArticleViewPixel";
 
 const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${brand.domain}`;
 
@@ -60,6 +61,7 @@ export default async function ArticlePage({
 
   return (
     <div className="min-h-screen bg-neutral-50">
+      <ArticleViewPixel slug={slug} pillar={pillarKey} />
       {faqItems.length > 0 && (
         <script
           type="application/ld+json"

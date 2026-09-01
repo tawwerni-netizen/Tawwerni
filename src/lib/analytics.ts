@@ -75,3 +75,44 @@ export function trackPurchaseOnce(orderId: string, valueEgp: number) {
     currency: CURRENCY,
   });
 }
+
+/*
+ * Everything below is GA-only, on purpose.
+ *
+ * These are internal funnel/engagement signals — useful for finding where
+ * people actually drop off, not useful for Meta's ad optimizer. Sending it
+ * dozens of custom events per user (one per lesson, one per article) dilutes
+ * the handful of signals that actually matter to it (Lead, InitiateCheckout,
+ * Purchase, already above). GA can hold the detail; Meta gets the moments
+ * that predict a sale.
+ */
+
+export function trackQuizStarted() {
+  google()?.("event", "quiz_started");
+}
+
+export function trackArticleView(slug: string, pillar: string) {
+  google()?.("event", "article_view", { article_slug: slug, article_pillar: pillar });
+}
+
+export function trackLessonCompleted(courseSlug: string, day: number) {
+  google()?.("event", "lesson_completed", { course_slug: courseSlug, day });
+}
+
+/** Once per course — the same `orderId`-style dedupe as `trackPurchaseOnce`. */
+export function trackCertificateEarned(courseSlug: string) {
+  const ga = google();
+  if (!ga) return;
+  const key = `tw_cert_${courseSlug}`;
+  try {
+    if (localStorage.getItem(key)) return;
+    localStorage.setItem(key, "1");
+  } catch {
+    // Private browsing — reporting twice beats never reporting.
+  }
+  ga("event", "certificate_earned", { course_slug: courseSlug });
+}
+
+export function trackReferralShared(channel: "whatsapp" | "native" | "copy") {
+  google()?.("event", "referral_shared", { channel });
+}

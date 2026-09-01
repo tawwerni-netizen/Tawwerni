@@ -7,6 +7,7 @@ import { hasCourseAccess } from "@/lib/access";
 import { getOrCreateCertificate } from "@/lib/certificate";
 import { brand } from "@/content/brand";
 import Certificate from "@/components/Certificate";
+import CertificateEarnedPixel from "@/components/CertificateEarnedPixel";
 
 const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${brand.domain}`;
 
@@ -105,17 +106,20 @@ export default async function CertificatePage({
   const qrDataUrl = await QRCode.toDataURL(verifyUrl, { margin: 1, width: 200 });
 
   return (
-    <Certificate
-      holder={cert.holderName}
-      courseTitle={cert.courseTitle}
-      lessons={cert.lessons}
-      totalXp={cert.totalXp}
-      avgScore={cert.avgScore}
-      finishedAt={cert.issuedAt.toISOString()}
-      serial={cert.code}
-      verifyUrl={verifyUrl}
-      qrDataUrl={qrDataUrl}
-      backHref={`/app/learn/${course.slug}`}
-    />
+    <>
+      <CertificateEarnedPixel courseSlug={course.slug} />
+      <Certificate
+        holder={cert.holderName}
+        courseTitle={cert.courseTitle}
+        lessons={cert.lessons}
+        totalXp={cert.totalXp}
+        avgScore={cert.avgScore}
+        finishedAt={cert.issuedAt.toISOString()}
+        serial={cert.code}
+        verifyUrl={verifyUrl}
+        qrDataUrl={qrDataUrl}
+        backHref={`/app/learn/${course.slug}`}
+      />
+    </>
   );
 }

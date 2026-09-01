@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { brand } from "@/content/brand";
 import { referral } from "@/content/brand";
 import { allCourses } from "@/content/courses";
+import { trackReferralShared } from "@/lib/analytics";
 
 /**
  * Sharing, aimed at how this audience actually shares.
@@ -62,6 +63,7 @@ export default function ShareRow({
   async function nativeShare() {
     try {
       await navigator.share({ title: brand.name, text, url });
+      trackReferralShared("native");
     } catch {
       /* the user dismissed the sheet — nothing to report */
     }
@@ -71,6 +73,7 @@ export default function ShareRow({
     try {
       await navigator.clipboard.writeText(`${text}\n${url}`);
       setCopied(true);
+      trackReferralShared("copy");
       setTimeout(() => setCopied(false), 2000);
     } catch {
       /* clipboard denied — the WhatsApp button still works */
@@ -96,6 +99,7 @@ export default function ShareRow({
           href={`https://wa.me/?text=${encodeURIComponent(`${text}\n${url}`)}`}
           target="_blank"
           rel="noreferrer"
+          onClick={() => trackReferralShared("whatsapp")}
           className="share-btn share-btn-wa"
         >
           <span aria-hidden>💬</span> واتساب

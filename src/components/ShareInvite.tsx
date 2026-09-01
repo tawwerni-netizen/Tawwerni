@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { brand, referral, referralsToBreakEven, pricing } from "@/content/brand";
+import { trackReferralShared } from "@/lib/analytics";
 
 /**
  * Sharing, offered to people who have not bought yet.
@@ -32,6 +33,7 @@ export default function ShareInvite({ className = "" }: { className?: string }) 
       return;
     }
     setCopied(true);
+    trackReferralShared("copy");
     setTimeout(() => setCopied(false), 1800);
   }
 
@@ -49,6 +51,7 @@ export default function ShareInvite({ className = "" }: { className?: string }) 
           href={`https://wa.me/?text=${encodeURIComponent(`${message}\n\n${url}`)}`}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => trackReferralShared("whatsapp")}
           className="invite-btn invite-btn-wa"
         >
           <span aria-hidden>💬</span> ابعت على واتساب
