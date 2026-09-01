@@ -148,9 +148,19 @@ export default function LandingPage() {
         </h2>
 
         <div className="mb-14 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {/*
+            These used to be inert divs — no href, nothing to click. The
+            `.course-card` styling (hover lift, reveal arrow) was already
+            built for a link, per the real version of this card in
+            `components/CourseCard.tsx`; the homepage's copy of the markup
+            had just never gotten one. Now each card is what it always looked
+            like it should be: the course's own public overview page, which
+            is real content since /app/learn/<slug> stopped requiring login.
+          */}
           {courses.map((c, i) => (
-            <div
+            <Link
               key={c.slug}
+              href={`/app/learn/${c.slug}`}
               className="course-card animate-rise"
               style={{ animationDelay: `${i * 70}ms` }}
             >
@@ -168,7 +178,10 @@ export default function LandingPage() {
                   {c.totalLessons} درس · {c.totalXp} XP
                 </span>
               </span>
-            </div>
+              <span className="course-card-go" aria-hidden>
+                ←
+              </span>
+            </Link>
           ))}
         </div>
 
