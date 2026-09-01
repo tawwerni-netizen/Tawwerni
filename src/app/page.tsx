@@ -360,6 +360,7 @@ export default function LandingPage() {
           <SocialLinks className="justify-center" />
           <nav className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[11px] text-neutral-400">
             <Link href="/about" className="tap hover:text-neutral-600">من إحنا</Link>
+            <Link href="/hub" className="tap hover:text-neutral-600">مقالات</Link>
             <Link href="/terms" className="tap hover:text-neutral-600">الشروط والأحكام</Link>
             <Link href="/privacy" className="tap hover:text-neutral-600">الخصوصية</Link>
             <Link href="/refund" className="tap hover:text-neutral-600">الاسترجاع</Link>
