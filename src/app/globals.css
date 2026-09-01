@@ -976,6 +976,22 @@ html[data-theme="dark"] .streak-chip {
   border: 2px solid var(--brand-400);
 }
 
+.certificate-verify {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px dashed var(--border-soft, rgba(0, 0, 0, 0.08));
+}
+.certificate-qr {
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 4px;
+  flex-shrink: 0;
+}
+
 /* Printing: this is how people will save it as a PDF, so strip everything that
    isn't the certificate and force the light palette — a dark sheet would eat
    an entire ink cartridge and look wrong on paper. */

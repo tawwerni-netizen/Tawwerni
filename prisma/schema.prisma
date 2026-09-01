@@ -50,6 +50,7 @@ model User {
   earnings        ReferralEarning[] @relation("Earner")
   generatedFor    ReferralEarning[] @relation("Referred")
   payouts         Payout[]
+  certificates    Certificate[]
 
   @@index([referredById])
 }
@@ -166,8 +167,9 @@ model Course {
   isComingSoon  Boolean  @default(false)
   order         Int      @default(0)
 
-  modules Module[]
-  orders  Order[]
+  modules      Module[]
+  orders       Order[]
+  certificates Certificate[]
 }
 
 model Module {
@@ -313,4 +315,30 @@ model ChatMessage {
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id])
+}
+
+/// Issued once, the moment a learner finishes every lesson in a course.
+///
+/// Name and course title are copied in at issue time rather than joined live,
+/// so a certificate a stranger looks up at /verify/[code] still reads
+/// correctly even if the account is later renamed or deleted — the record of
+/// "this was earned" outlives the account that earned it.
+model Certificate {
+  id          String   @id @default(cuid())
+  /// Short, public, unguessable — the only thing printed on the certificate
+  /// and typed into /verify. Never the user id or course id themselves.
+  code        String   @unique
+  userId      String
+  courseId    String
+  holderName  String
+  courseTitle String
+  lessons     Int
+  totalXp     Int
+  avgScore    Int?
+  issuedAt    DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  course Course @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId])
 }

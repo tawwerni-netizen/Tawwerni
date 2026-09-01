@@ -1,9 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import QRCode from "qrcode";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { hasCourseAccess } from "@/lib/access";
+import { getOrCreateCertificate } from "@/lib/certificate";
+import { brand } from "@/content/brand";
 import Certificate from "@/components/Certificate";
+
+const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${brand.domain}`;
 
 /**
  * The certificate the course page has been promising.
@@ -83,37 +88,33 @@ export default async function CertificatePage({
     );
   }
 
-  const finishedAt = completions[completions.length - 1]?.completedAt ?? new Date();
-  const totalXp = completions.reduce((s, c) => s + c.xpEarned, 0);
+  const holderName = user.name ?? user.email;
+  const cert = await getOrCreateCertificate({
+    userId: user.id,
+    courseId: course.id,
+    holderName,
+    courseTitle: course.title,
+    completions,
+  });
 
-  /*
-   * Average quiz score, as a percentage.
-   *
-   * `score` is a count of correct answers, not a percentage — averaging the
-   * raw counts printed "4%" on a certificate where every quiz was perfect.
-   * Each lesson is converted to its own percentage first, so a 4-question and
-   * a 10-question quiz weigh the same.
-   */
-  const scored = completions.filter(
-    (c) => typeof c.score === "number" && (c.totalQuestions ?? 0) > 0
-  );
-  const avgScore = scored.length
-    ? Math.round(
-        (scored.reduce((s, c) => s + (c.score ?? 0) / (c.totalQuestions ?? 1), 0) /
-          scored.length) *
-          100
-      )
-    : null;
+  const verifyUrl = `${siteUrl}/verify/${cert.code}`;
+  // A data URL, not a file — the certificate is either printed straight from
+  // the page or saved as a PDF via the browser, and either way needs the
+  // image inlined rather than pointing at a route that will not exist in
+  // that PDF's context.
+  const qrDataUrl = await QRCode.toDataURL(verifyUrl, { margin: 1, width: 200 });
 
   return (
     <Certificate
-      holder={user.name ?? user.email}
-      courseTitle={course.title}
-      lessons={lessons.length}
-      totalXp={totalXp}
-      avgScore={avgScore}
-      finishedAt={finishedAt.toISOString()}
-      serial={`${course.slug.slice(0, 4).toUpperCase()}-${user.id.slice(-6).toUpperCase()}`}
+      holder={cert.holderName}
+      courseTitle={cert.courseTitle}
+      lessons={cert.lessons}
+      totalXp={cert.totalXp}
+      avgScore={cert.avgScore}
+      finishedAt={cert.issuedAt.toISOString()}
+      serial={cert.code}
+      verifyUrl={verifyUrl}
+      qrDataUrl={qrDataUrl}
       backHref={`/app/learn/${course.slug}`}
     />
   );

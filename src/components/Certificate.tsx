@@ -31,6 +31,8 @@ export default function Certificate({
   avgScore,
   finishedAt,
   serial,
+  verifyUrl,
+  qrDataUrl,
   backHref,
 }: {
   holder: string;
@@ -40,6 +42,8 @@ export default function Certificate({
   avgScore: number | null;
   finishedAt: string;
   serial: string;
+  verifyUrl: string;
+  qrDataUrl: string;
   backHref: string;
 }) {
   return (
@@ -98,6 +102,22 @@ export default function Certificate({
               <p className="certificate-foot-label">رقم الشهادة</p>
               <p className="certificate-foot-value" dir="ltr">
                 {serial}
+              </p>
+            </div>
+          </div>
+
+          {/*
+            Printed too, not just on-screen — a scanned QR only means
+            something on the copy someone actually holds. Anyone who scans it,
+            or types the code by hand, lands on a page that confirms this
+            exact certificate independently of whoever is showing it to them.
+          */}
+          <div className="certificate-verify">
+            <img src={qrDataUrl} alt="" width={72} height={72} className="certificate-qr" />
+            <div className="text-right">
+              <p className="certificate-foot-label">تحقق من صحة الشهادة</p>
+              <p className="certificate-foot-value" dir="ltr">
+                {verifyUrl.replace(/^https?:\/\//, "")}
               </p>
             </div>
           </div>
