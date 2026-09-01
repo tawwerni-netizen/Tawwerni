@@ -5,6 +5,7 @@ import {
   REFERRAL_COOKIE_MAX_AGE,
   REFERRAL_PARAM,
 } from "@/lib/referral-constants";
+import { PUBLIC_COURSE_PAGE } from "@/lib/public-routes";
 
 const SESSION_COOKIE = "tawwerni_session";
 
@@ -42,7 +43,9 @@ function captureReferral(request: NextRequest, response: NextResponse) {
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const isProtected = pathname.startsWith("/app") || pathname.startsWith("/onboarding");
+  const isProtected =
+    (pathname.startsWith("/app") && !PUBLIC_COURSE_PAGE.test(pathname)) ||
+    pathname.startsWith("/onboarding");
   const isLoginPage = pathname === "/login";
 
   const loggedIn = await hasValidSession(request);
@@ -59,7 +62,13 @@ export async function proxy(request: NextRequest) {
     return captureReferral(request, NextResponse.redirect(url));
   }
 
-  return captureReferral(request, NextResponse.next());
+  // `app/app/layout.tsx` runs its own independent auth check and has no
+  // other way to know which page it's wrapping — Server Component layouts
+  // don't receive a leaf route's pathname. This is the one channel available
+  // to tell it "this one's the public exception too".
+  const headers = new Headers(request.headers);
+  headers.set("x-pathname", pathname);
+  return captureReferral(request, NextResponse.next({ request: { headers } }));
 }
 
 export const config = {
