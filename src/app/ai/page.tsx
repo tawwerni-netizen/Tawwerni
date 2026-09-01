@@ -78,7 +78,19 @@ export default async function AiLandingPage() {
           <p className="cta-note mt-4">من غير بطاقة بنكية · اليوم الأول مفتوح</p>
         </div>
 
-        <LiveSeats className="mx-auto mb-14 max-w-sm" />
+        <LiveSeats className="mx-auto mb-8 max-w-sm" />
+
+        <div className="mx-auto mb-14 max-w-lg rounded-2xl border border-black/5 bg-white p-4 text-center">
+          <p className="mb-1 text-sm font-bold text-neutral-800">
+            🎁 لسه مش متأكد؟ خد ١٠٠ برومبت مجانًا الأول
+          </p>
+          <p className="mb-3 text-xs leading-relaxed text-neutral-500">
+            مفيش حساب ولا دفع — برومبتات جاهزة تستخدمها من النهاردة.
+          </p>
+          <Link href="/lead-magnets/ai-prompts" className="cta-ghost inline-block px-6 py-2.5 text-xs">
+            شوف الـ١٠٠ برومبت ←
+          </Link>
+        </div>
 
         {/* What you'll actually be able to do */}
         {course && (

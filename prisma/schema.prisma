@@ -414,6 +414,23 @@ model Article {
   @@index([status, pillar])
 }
 
+/// One row per lead-magnet download — a stranger trading an email for real,
+/// immediately-usable content (the 100 prompts, and whatever gets added
+/// after it). Deliberately its own table rather than another passwordless
+/// `User` row like the quiz lead capture: a lead magnet isn't a quiz answer
+/// set, and folding it into `User` would mean two unrelated capture flows
+/// fighting over the same row if someone hits both.
+model LeadMagnetRequest {
+  id        String   @id @default(cuid())
+  email     String
+  name      String?
+  magnetKey String
+  createdAt DateTime @default(now())
+
+  @@index([magnetKey])
+  @@index([email])
+}
+
 model AdminAuditLog {
   id         String   @id @default(cuid())
   adminId    String
