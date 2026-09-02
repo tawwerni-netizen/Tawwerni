@@ -36,18 +36,25 @@ export default async function HubIndexPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {pillars.map((p) => (
+          {pillars.map((p, i) => (
             <Link
               key={p.key}
               href={`/hub/${p.key}`}
-              className="rounded-2xl border border-black/5 bg-white p-4 transition hover:border-brand-400"
+              className="course-card animate-rise"
+              style={{ animationDelay: `${i * 60}ms` }}
             >
-              <span className="mb-2 block text-2xl" aria-hidden>
+              <span className="course-card-wash" aria-hidden />
+              <span className="course-card-icon" aria-hidden>
                 {p.icon}
               </span>
-              <p className="mb-1 text-sm font-bold text-neutral-800">{p.title}</p>
-              <p className="text-xs leading-relaxed text-neutral-500">{p.description}</p>
-              <p className="mt-2 text-[11px] text-neutral-400">{countMap.get(p.key) ?? 0} مقال</p>
+              <span className="course-card-body">
+                <span className="course-card-title">{p.title}</span>
+                <span className="course-card-desc">{p.description}</span>
+                <span className="course-card-meta">{countMap.get(p.key) ?? 0} مقال</span>
+              </span>
+              <span className="course-card-go" aria-hidden>
+                ←
+              </span>
             </Link>
           ))}
         </div>

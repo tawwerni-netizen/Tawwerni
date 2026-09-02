@@ -59,11 +59,12 @@ export default async function PillarPage({ params }: { params: Promise<{ pillar:
           </p>
         ) : (
           <div className="space-y-3">
-            {articles.map((a) => (
+            {articles.map((a, i) => (
               <Link
                 key={a.slug}
                 href={`/hub/${key}/${a.slug}`}
                 className="course-card animate-rise"
+                style={{ animationDelay: `${Math.min(i, 10) * 60}ms` }}
               >
                 <span className="course-card-wash" aria-hidden />
                 <span className="course-card-icon" aria-hidden>
