@@ -15,6 +15,7 @@ import {
 import { useI18n } from "@/components/LanguageContext";
 import LanguageToggle from "@/components/LanguageToggle";
 import ThemeToggle from "@/components/ThemeToggle";
+import { LogoLink } from "@/components/Logo";
 
 const total100Tracks = ALL_100_TRACKS.length;
 const totalLessons = ALL_100_TRACKS.reduce((sum, t) => sum + t.totalLessons, 0);
@@ -136,10 +137,7 @@ export default function QuizPage() {
             )}
           </div>
 
-          <div className="font-extrabold text-sm text-brand-700 dark:text-brand-400">
-            {brand.name}
-            <span className="text-teal-600 dark:text-teal-400">.com</span>
-          </div>
+          <LogoLink size={28} href="/" />
 
           <div className="flex items-center gap-1.5">
             <LanguageToggle />

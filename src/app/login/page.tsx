@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { brand, payment } from "@/content/brand";
 import LanguageToggle from "@/components/LanguageToggle";
 import ThemeToggle from "@/components/ThemeToggle";
+import { LogoLink } from "@/components/Logo";
 import { useI18n } from "@/components/LanguageContext";
 
 type Mode = "login" | "signup";
@@ -74,10 +75,9 @@ function LoginInner() {
         <ThemeToggle />
       </div>
 
-      <Link href="/" className="mb-7 text-2xl font-black text-brand-700 dark:text-brand-400">
-        {brand.name}
-        <span className="text-teal-600 dark:text-teal-400">.com</span>
-      </Link>
+      <div className="mb-7">
+        <LogoLink size={38} href="/" />
+      </div>
 
       <div className="animate-rise w-full max-w-sm rounded-3xl border border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 p-7 shadow-xs transition-colors">
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-500/10 text-2xl">

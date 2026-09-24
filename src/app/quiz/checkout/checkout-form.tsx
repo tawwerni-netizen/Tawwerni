@@ -7,6 +7,7 @@ import { brand, pricing, payment } from "@/content/brand";
 import { trackInitiateCheckout } from "@/lib/analytics";
 import LanguageToggle from "@/components/LanguageToggle";
 import ThemeToggle from "@/components/ThemeToggle";
+import { LogoLink } from "@/components/Logo";
 import { useI18n } from "@/components/LanguageContext";
 
 type CourseOption = { slug: string; title: string; icon: string; category: string };
@@ -218,10 +219,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
       <div className="mx-auto max-w-md">
         {/* Header Bar */}
         <div className="flex items-center justify-between mb-6">
-          <Link href="/" className="font-extrabold text-brand-700 dark:text-brand-400 text-lg">
-            {brand.name}
-            <span className="text-teal-600 dark:text-teal-400">.com</span>
-          </Link>
+          <LogoLink size={32} href="/" />
           <div className="flex items-center gap-2">
             <LanguageToggle />
             <ThemeToggle />
