@@ -2,25 +2,27 @@
 
 import { useMemo, useState } from "react";
 import AdminUserRow, { type AdminUserRowData } from "@/components/AdminUserRow";
+import { useI18n } from "./LanguageContext";
 
 type Filter = "all" | "paid" | "pending" | "free" | "active";
 
-const FILTERS: { key: Filter; label: string }[] = [
-  { key: "all", label: "الكل" },
-  { key: "pending", label: "في الانتظار" },
-  { key: "paid", label: "مشتركين" },
-  { key: "active", label: "نشِطين" },
-  { key: "free", label: "مجاني" },
+const FILTERS: { key: Filter; labelAr: string; labelEn: string }[] = [
+  { key: "all", labelAr: "الكل", labelEn: "All" },
+  { key: "pending", labelAr: "في الانتظار", labelEn: "Pending" },
+  { key: "paid", labelAr: "مشتركين", labelEn: "Subscribers" },
+  { key: "active", labelAr: "نشِطين", labelEn: "Active" },
+  { key: "free", labelAr: "مجاني", labelEn: "Free" },
 ];
 
 /**
  * Search and filter over the learner list.
  *
- * At three hundred accounts a flat list is unusable — when a customer messages
- * on WhatsApp the owner needs to find *that* person by email or phone in a
- * couple of seconds, which is what this is for.
+ * Full bilingual support (Arabic / English) and dark/light modes.
  */
 export default function AdminUserList({ users }: { users: AdminUserRowData[] }) {
+  const { lang } = useI18n();
+  const isEn = lang === "en";
+
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
 
@@ -60,8 +62,8 @@ export default function AdminUserList({ users }: { users: AdminUserRowData[] }) 
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="ابحث بالإيميل أو الاسم أو رقم الموبايل…"
-          className="w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm outline-none ring-brand-200 focus:ring-2"
+          placeholder={isEn ? "Search by name, email, or phone number..." : "ابحث بالإيميل أو الاسم أو رقم الموبايل…"}
+          className="w-full rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900 px-4 py-3 text-sm text-neutral-900 dark:text-white outline-none focus:ring-2 focus:ring-teal-500 shadow-xs"
         />
 
         <div className="flex flex-wrap gap-2">
@@ -69,25 +71,33 @@ export default function AdminUserList({ users }: { users: AdminUserRowData[] }) 
             <button
               key={f.key}
               onClick={() => setFilter(f.key)}
-              className={`nav-pill rounded-full px-3 py-1.5 text-xs ${
-                filter === f.key ? "nav-pill-on font-bold" : ""
+              className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
+                filter === f.key
+                  ? "bg-teal-600 text-white shadow-xs font-bold"
+                  : "border border-black/10 dark:border-white/10 text-neutral-600 dark:text-neutral-400 bg-white dark:bg-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800"
               }`}
             >
-              {f.label}
-              <span className="mr-1.5 text-[10px] opacity-70">{counts[f.key]}</span>
+              <span>{isEn ? f.labelEn : f.labelAr}</span>
+              <span className={`${isEn ? "ml-1.5" : "mr-1.5"} text-[10px] opacity-75`}>({counts[f.key]})</span>
             </button>
           ))}
         </div>
       </div>
 
       {shown.length === 0 ? (
-        <p className="rounded-2xl border border-black/5 bg-white p-6 text-center text-sm text-neutral-400">
-          {query ? `مفيش نتيجة لـ "${query}"` : "مفيش حسابات في القسم ده."}
+        <p className="rounded-2xl border border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 p-8 text-center text-sm text-neutral-400 shadow-xs">
+          {query
+            ? isEn
+              ? `No matching results for "${query}"`
+              : `مفيش نتيجة لـ "${query}"`
+            : isEn
+            ? "No accounts in this category."
+            : "مفيش حسابات في القسم ده."}
         </p>
       ) : (
         <>
-          <p className="mb-2 text-[11px] text-neutral-400">
-            {shown.length} من {users.length}
+          <p className="mb-2 text-[11px] text-neutral-500 dark:text-neutral-400 font-medium">
+            {isEn ? `Showing ${shown.length} of ${users.length} accounts` : `معروض ${shown.length} من ${users.length} حساب`}
           </p>
           <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
             {shown.map((u) => (

@@ -429,67 +429,123 @@ export default function LandingPageView() {
             ))}
           </div>
 
-          <div className="rounded-3xl border-2 border-teal-500 bg-white dark:bg-neutral-900 p-6 md:p-8 shadow-xl text-center relative overflow-hidden">
-            <div className={`absolute top-4 ${isEn ? "right-4" : "left-4"} bg-amber-500 text-white text-[10px] font-black px-3 py-1 rounded-full shadow-xs`}>
-              {isEn ? "Saved 850 EGP" : "وفرت 850 ج.م"}
-            </div>
+          <div className="rounded-3xl border-2 border-emerald-500/50 bg-white dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-10 shadow-2xl shadow-emerald-500/10 text-center relative overflow-hidden ring-1 ring-emerald-500/30">
+            {/* Ambient luminous glow effects */}
+            <div className="pointer-events-none absolute -top-24 -left-24 w-60 h-60 rounded-full bg-emerald-500/15 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 w-60 h-60 rounded-full bg-teal-500/15 blur-3xl" />
 
-            <p className="mb-1 text-xs font-bold tracking-wide text-teal-700 dark:text-teal-400">
-              {isEn ? "Exclusive Founding Lifetime Access" : pricing.offerNote}
-            </p>
-
-            <div className="my-3 flex items-baseline justify-center gap-3 font-mono">
-              <span className="text-xl text-neutral-400 line-through font-bold">
-                {pricing.originalPriceEgp} {isEn ? "EGP" : "ج.م"}
-              </span>
-              <span className="text-5xl font-black text-teal-700 dark:text-teal-400 tracking-tight">
-                {pricing.priceEgp}
-              </span>
-              <span className="text-base font-bold text-neutral-700 dark:text-neutral-300">
-                {isEn ? "EGP" : "ج.م"}
-              </span>
-            </div>
-
-            <div className="inline-flex items-center gap-1.5 bg-teal-50 dark:bg-teal-950/60 text-teal-900 dark:text-teal-200 text-xs font-bold px-3.5 py-1.5 rounded-full mb-4">
-              <span>🔥</span>
+            {/* Prominent VIP Discount Ribbon */}
+            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 text-xs font-black mb-4">
+              <span>👑</span>
               <span>
-                {isEn ? (
-                  <>Only <b>{pricing.cohortSeatsRemaining} seats remaining</b> at this launch price</>
-                ) : (
-                  <>باقي <b>{pricing.cohortSeatsRemaining} مقعدًا فقط</b> بهذا السعر الاستثنائي</>
-                )}
+                {isEn
+                  ? "Exclusive Founding Cohort · Save 850 EGP (71% OFF)"
+                  : "عرض فوج التأسيس الأول الحصري · وفّرت 850 ج.م (خصم 71%)"}
               </span>
             </div>
 
-            <p className="mb-4 text-xs text-neutral-500 dark:text-neutral-400">
+            <h3 className="text-xl sm:text-2xl font-black text-neutral-900 dark:text-white mb-1">
+              {isEn ? "Lifetime All-Access Pass to 100 Tracks" : "عضوية الوصول الشامل مدى الحياة لـ 100 مسار"}
+            </h3>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-6">
               {isEn
-                ? `Less than 0.25 EGP per lesson — for all 100 tracks and ${totalLessons}+ actionable lessons`
-                : `أقل من ٢٥ قرشًا للدرس الواحد — لـ ١٠٠ مسار و${totalLessons}+ درس تطبيقي كامل`}
+                ? "One-time investment · Zero recurring subscriptions · Future tracks included forever"
+                : "دفعة واحدة فقط · بدون أي اشتراكات دورية أو تجديد شهري · كل التحديثات القادمة مجانًا للأبد"}
             </p>
 
-            <p className="mb-5 rounded-2xl bg-teal-50 dark:bg-teal-950/40 p-3.5 text-xs leading-relaxed text-teal-900 dark:text-teal-200 border border-teal-200/50 dark:border-teal-800/40">
-              {isEn ? (
-                <>
-                  <b>Refer 3 friends with your link = 100% investment returned + profit!</b>{" "}
-                  Earn {referral.commissionEgp} EGP cash on each friend, with instant withdrawal from {referral.minPayoutEgp} EGP.
-                </>
-              ) : (
-                <>
-                  <b>{referralsToBreakEven} أصدقاء يشتركون برابطك = استرجعت اشتراكك بالكامل وزيادة!</b>{" "}
-                  عمولة {referral.commissionEgp} ج.م كاش عن كل مشترك، والسحب فوري من {referral.minPayoutEgp} ج.م.
-                </>
-              )}
-            </p>
+            {/* Clear Separated Price Typography */}
+            <div className="my-5 p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/50 flex flex-col items-center justify-center">
+              <div className="flex items-center gap-2 text-neutral-400 text-sm font-semibold mb-1">
+                <span>{isEn ? "Standard Value:" : "السعر الأصلي:"}</span>
+                <span className="line-through font-mono font-bold text-base">
+                  {pricing.originalPriceEgp} {isEn ? "EGP" : "ج.م"}
+                </span>
+              </div>
+              <div className="flex items-baseline justify-center gap-2">
+                <span className="text-5xl sm:text-6xl font-black text-emerald-600 dark:text-emerald-400 font-mono tracking-tight">
+                  {pricing.priceEgp}
+                </span>
+                <span className="text-lg font-black text-neutral-800 dark:text-neutral-200">
+                  {isEn ? "EGP" : "ج.م"}
+                </span>
+              </div>
+              <div className="mt-2 text-xs font-bold text-emerald-700 dark:text-emerald-300">
+                {isEn ? "⚡ Pay Once, Learn Forever" : "⚡ استثمار لمرة واحدة يدوم معك للأبد"}
+              </div>
+            </div>
 
-            <p className="mb-5 text-xs text-neutral-500 dark:text-neutral-400">
-              {isEn
-                ? "Lifetime access · All 100 tracks · Arabic & English · 14-Day Money-Back Guarantee"
-                : "وصول مدى الحياة · كل الـ ١٠٠ مسار · محتوى عربي وإنجليزي · ضمان استرداد كامل خلال ١٤ يومًا"}
-            </p>
+            {/* Visual Animated Scarcity Progress Bar */}
+            <div className="mx-auto max-w-md my-4 p-4 rounded-2xl bg-amber-500/10 dark:bg-amber-950/30 border border-amber-500/30">
+              <div className="flex items-center justify-between text-xs font-bold mb-2">
+                <span className="text-amber-800 dark:text-amber-300 flex items-center gap-1.5">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
+                  </span>
+                  {isEn
+                    ? `Only ${pricing.cohortSeatsRemaining} seats remaining at this launch price`
+                    : `متبقي ${pricing.cohortSeatsRemaining} مقعدًا فقط بهذا السعر الاستثنائي`}
+                </span>
+                <span className="text-neutral-600 dark:text-neutral-400 text-[11px] font-mono font-bold">
+                  {isEn ? "453 / 500 Claimed" : "٤٥٣ / ٥٠٠ مقعد"}
+                </span>
+              </div>
+              <div className="h-2.5 w-full bg-neutral-200 dark:bg-neutral-800 rounded-full overflow-hidden p-0.5">
+                <div className="h-full rounded-full bg-gradient-to-r from-teal-500 via-emerald-400 to-amber-400 w-[90.6%]" />
+              </div>
+              <p className="mt-2 text-[11px] text-amber-800 dark:text-amber-200 font-medium">
+                {isEn
+                  ? "Once the 500 founding seats are filled, pricing increases to 599 EGP."
+                  : "فور اكتمال الـ ٥٠٠ مقعد الأولى سيتم رفع الاشتراك إلى ٥٩٩ ج.م."}
+              </p>
+            </div>
 
+            {/* Cost-per-lesson Value Anchor */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 text-xs font-bold border border-emerald-300/40 mb-4">
+              <span>💡</span>
+              <span>
+                {isEn
+                  ? `Less than 0.25 EGP per lesson — for 100 tracks and ${totalLessons}+ actionable modules`
+                  : `أقل من ٢٥ قرشًا للدرس الواحد — لـ ١٠٠ مسار و${totalLessons}+ درس تطبيقي كامل`}
+              </span>
+            </div>
+
+            {/* Referral Cash-Back Guarantee Card */}
+            <div className="mb-6 rounded-2xl bg-teal-50/80 dark:bg-teal-950/40 p-4 text-xs leading-relaxed text-teal-950 dark:text-teal-200 border border-teal-200/60 dark:border-teal-800/60 flex items-start gap-3 text-start">
+              <span className="text-2xl shrink-0">💸</span>
+              <div>
+                <p className="font-bold text-teal-900 dark:text-teal-100 text-sm">
+                  {isEn ? "Recover 100% of Your Investment + Profit!" : "استرجع اشتراكك بالكامل وزيادة كاش!"}
+                </p>
+                <p className="mt-1 text-teal-800 dark:text-teal-300 text-xs leading-relaxed">
+                  {isEn
+                    ? `Refer 5 friends with your personal affiliate link = ${referral.commissionEgp * 5} EGP cash in your pocket. Instant withdrawal starting at ${referral.minPayoutEgp} EGP via Vodafone Cash or InstaPay.`
+                    : `٥ أصدقاء يشتركون برابطك الشخصي = ٣٧٥ ج.م كاش فوري في محفظتك (عمولة ٧٥ ج.م عن كل صديق، والسحب فوري من ١٥٠ ج.م عبر فودافون كاش أو إنستاباي).`}
+                </p>
+              </div>
+            </div>
+
+            {/* Feature Checklist */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-neutral-700 dark:text-neutral-300 mb-6 text-start">
+              {[
+                isEn ? "Instant access to all 100 professional tracks" : "فتح فوري لكافة الـ ١٠٠ مسار تخصصي",
+                isEn ? `Over ${totalLessons}+ micro-lessons with visual infographics` : `أكثر من ${totalLessons}+ درس عملي مصغر برسوم بيانية`,
+                isEn ? "Fully bilingual content (Arabic & English)" : "محتوى ثنائي اللغة بالكامل (عربي وإنجليزي)",
+                isEn ? "Psychological focus tools (Pomodoro & Alpha waves)" : "أدوات التركيز وبومودورو وموجات ألفا",
+                isEn ? "Verified community wall with 300+ real members" : "حائط المجتمع وقصص نجاح أكثر من ٣٠٠ عضو",
+                isEn ? "14-Day 100% Money-Back Guarantee" : "ضمان استرداد كامل خلال ١٤ يومًا بدون تعقيد",
+              ].map((item) => (
+                <div key={item} className="flex items-center gap-2">
+                  <span className="text-emerald-500 font-bold shrink-0">✓</span>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* High-Converting Radiant CTA Button */}
             <Link
               href="/quiz"
-              className="rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 text-white font-bold w-full py-4 text-sm shadow-lg hover:brightness-110 active:scale-98 transition block text-center"
+              className="w-full inline-flex items-center justify-center py-4 px-8 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-500 text-white font-black text-sm sm:text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:brightness-110 active:scale-98 transition-all"
             >
               <span>
                 {isEn
@@ -498,10 +554,10 @@ export default function LandingPageView() {
               </span>
             </Link>
 
-            <p className="mt-3 text-xs text-neutral-400">
+            <p className="mt-3 text-xs text-neutral-500 dark:text-neutral-400">
               {isEn
-                ? "Day 1 of every track is 100% open and free — try it before paying anything"
-                : "اليوم الأول من كل مسار مفتوح مجانًا بالكامل — جرّب قبل ما تدفع أي حاجة"}
+                ? "Day 1 of every track is 100% open and free — try it first before paying anything"
+                : "اليوم الأول من كل مسار مفتوح مجانًا بالكامل — جرّب عمليًا قبل ما تدفع أي حاجة"}
             </p>
           </div>
         </div>
@@ -552,27 +608,71 @@ export default function LandingPageView() {
         {/* ---------- 8. SHARE & CLOSING CTA ---------- */}
         <ShareInvite className="mx-auto mb-14 max-w-lg" />
 
-        <div className="rounded-3xl bg-gradient-to-r from-teal-800 via-teal-900 to-neutral-950 p-8 md:p-12 text-center text-white shadow-xl relative overflow-hidden">
-          <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-teal-400/20 blur-3xl" />
-          <h2 className="mb-3 text-2xl font-black md:text-4xl">
-            {isEn ? "Which Day Will You Start?" : "أنهي يوم هتبدأ؟"}
+        <div className="rounded-3xl bg-gradient-to-br from-neutral-900 via-teal-950 to-neutral-950 p-8 sm:p-14 text-center text-white shadow-2xl relative overflow-hidden border border-teal-500/30">
+          {/* Ambient luminous glow effects */}
+          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-emerald-500/20 blur-3xl" />
+          <div className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-teal-400/20 blur-3xl" />
+
+          {/* Top Floating Badge */}
+          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-teal-500/15 text-teal-300 border border-teal-400/30 text-xs font-bold mb-5 shadow-xs">
+            <span>✨</span>
+            <span>
+              {isEn
+                ? "One Step Changes Everything · Day 1 Is 100% Free"
+                : "خطوة واحدة تصنع فارقًا حقيقيًا · اليوم الأول مجانًا بالكامل"}
+            </span>
+          </div>
+
+          <h2 className="mb-4 text-3xl font-black md:text-5xl tracking-tight leading-tight">
+            {isEn ? (
+              <>
+                Which Day Will You{" "}
+                <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 bg-clip-text text-transparent">
+                  Start?
+                </span>
+              </>
+            ) : (
+              <>
+                أنهي يوم{" "}
+                <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 bg-clip-text text-transparent">
+                  هتبدأ؟
+                </span>
+              </>
+            )}
           </h2>
-          <p className="mx-auto mb-8 max-w-lg text-xs sm:text-sm text-teal-100 leading-relaxed">
+
+          <p className="mx-auto mb-8 max-w-xl text-xs sm:text-sm text-teal-100/90 leading-relaxed">
             {isEn
-              ? "Every day delayed is a day you could have completed your first track. 100 tracks are ready for you, and Day 1 is completely free."
-              : "كل يوم بتأجّل فيه هو يوم كان ممكن تخلّص فيه مسارك الأول. الـ ١٠٠ مسار بانتظارك، واليوم الأول مفتوح مجانًا."}
+              ? "Every day you delay is a day you could have completed your first track, built a real project, and acquired a high-income skill. 100 tracks are ready for you right now."
+              : "كل يوم بتأجّل فيه هو يوم كان ممكن تخلّص فيه أول مسار لك، وتطبّق أول مشروع، وتكسب مهارة تفتح لك فرص دخل جديدة. الـ ١٠٠ مسار بانتظارك واليوم الأول متاح للتجربة فورًا."}
           </p>
+
+          {/* Glowing High-Contrast CTA Button */}
           <Link
             href="/quiz"
-            className="rounded-full bg-white text-teal-900 font-bold px-10 py-4 text-xs sm:text-sm shadow-lg hover:bg-neutral-100 active:scale-95 transition inline-block"
+            className="group relative inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 text-neutral-950 font-black px-10 py-4.5 text-sm sm:text-base shadow-[0_0_35px_rgba(52,211,153,0.4)] hover:shadow-[0_0_50px_rgba(52,211,153,0.65)] hover:scale-105 active:scale-95 transition-all duration-300"
           >
             <span>{isEn ? "Start Free Assessment Now →" : "ابدأ التقييم مجانًا الآن ←"}</span>
+            <span className="text-lg transition-transform group-hover:translate-x-1">🚀</span>
           </Link>
-          <p className="mt-4 text-xs text-teal-200/80">
-            {isEn
-              ? "Just 2 minutes · Personalized roadmap · No credit card required"
-              : "دقيقتان فقط · خطة مخصصة لك فورًا · بدون بطاقة بنكية"}
-          </p>
+
+          {/* 3 Trust pillars */}
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-teal-200/90 font-medium">
+            <span className="flex items-center gap-1.5">
+              <span>⚡</span>
+              <span>{isEn ? "2 Minutes Only" : "دقيقتان فقط"}</span>
+            </span>
+            <span className="hidden sm:inline opacity-40">•</span>
+            <span className="flex items-center gap-1.5">
+              <span>🎯</span>
+              <span>{isEn ? "Personalized Roadmap" : "خطة مخصصة لك فورًا"}</span>
+            </span>
+            <span className="hidden sm:inline opacity-40">•</span>
+            <span className="flex items-center gap-1.5">
+              <span>🔒</span>
+              <span>{isEn ? "No Credit Card Needed" : "بدون بطاقة بنكية وبدون مخاطرة"}</span>
+            </span>
+          </div>
         </div>
 
         {/* Footer */}

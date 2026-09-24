@@ -199,22 +199,24 @@ export default function QuizPage() {
               </p>
             </div>
 
-            <p className="mb-3 text-center text-sm font-bold text-neutral-800 dark:text-neutral-200">
+            <p className="mb-4 text-center text-sm font-bold text-neutral-800 dark:text-neutral-200">
               {isEn ? "How do you best describe yourself?" : "كيف تصف نفسك وتطلعاتك حاليًا؟"}
             </p>
 
-            <div className="mb-3 grid grid-cols-2 gap-3">
+            <div className="mb-3.5 grid grid-cols-2 gap-3.5">
               {[
                 {
                   icon: "👨‍💼",
+                  badge: isEn ? "Career Track" : "مسار وظيفي",
                   label: isEn ? "Company Professional" : "موظف في شركة",
-                  desc: isEn ? "Accelerate my career" : "أريد الترقية والتميز",
+                  desc: isEn ? "Accelerate promotion & AI mastery" : "أريد الترقية والتميز بالذكاء الاصطناعي",
                   value: "employee",
                 },
                 {
-                  icon: "👩‍💼",
+                  icon: "🚀",
+                  badge: isEn ? "Growth Track" : "مسار دخل",
                   label: isEn ? "Founder / Freelancer" : "صاحب مشروع أو فريلانسر",
-                  desc: isEn ? "Build income streams" : "أريد زيادة دخلي ومشاريعي",
+                  desc: isEn ? "Build profitable income streams" : "أريد زيادة دخلي وتوسيع أعمالي",
                   value: "founder",
                 },
               ].map((o) => (
@@ -225,11 +227,20 @@ export default function QuizPage() {
                     setRole(o.value);
                     next();
                   }}
-                  className="flex flex-col items-center justify-center p-4 rounded-2xl border border-black/10 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:border-teal-500 hover:shadow-lg transition-all active:scale-95 group text-center"
+                  className="relative flex flex-col items-center justify-center p-4 rounded-3xl border-2 border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-1 transition-all duration-300 active:scale-95 group text-center overflow-hidden"
                 >
-                  <span className="text-3xl mb-2 group-hover:scale-110 transition-transform">{o.icon}</span>
-                  <span className="text-xs font-bold text-neutral-900 dark:text-white mb-0.5">{o.label}</span>
-                  <span className="text-[10px] text-neutral-500 dark:text-neutral-400">{o.desc}</span>
+                  <div className="mb-2 w-12 h-12 rounded-2xl bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                    {o.icon}
+                  </div>
+                  <span className="text-[10px] font-black uppercase text-teal-600 dark:text-teal-400 mb-0.5 tracking-wider">
+                    {o.badge}
+                  </span>
+                  <span className="text-xs font-black text-neutral-900 dark:text-white mb-1">
+                    {o.label}
+                  </span>
+                  <span className="text-[10px] text-neutral-500 dark:text-neutral-400 leading-snug">
+                    {o.desc}
+                  </span>
                 </button>
               ))}
             </div>
@@ -240,9 +251,9 @@ export default function QuizPage() {
                 setRole("exploring");
                 next();
               }}
-              className="w-full flex items-center justify-center gap-2 p-3.5 rounded-2xl border border-black/10 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:border-teal-500 hover:shadow-md transition-all active:scale-98 text-xs font-bold text-neutral-800 dark:text-neutral-200"
+              className="w-full flex items-center justify-center gap-2.5 p-3.5 rounded-2xl border border-black/10 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:border-teal-500 hover:bg-teal-500/5 hover:shadow-md transition-all active:scale-98 text-xs font-bold text-neutral-800 dark:text-neutral-200"
             >
-              <span className="text-xl">🌱</span>
+              <span className="text-lg">🌱</span>
               <span>{isEn ? "Exploring for personal mastery & learning" : "أستكشف المجال لشغفي الشخصي وبناء المعرفة"}</span>
             </button>
 
@@ -332,19 +343,35 @@ export default function QuizPage() {
               </p>
             )}
 
-            <div className="space-y-2.5 mt-4">
-              {quizQuestions[step.qIndex].options.map((opt) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  onClick={() => answerQuestion(quizQuestions[step.qIndex].id, opt.value)}
-                  className="w-full flex items-center gap-3 rounded-2xl border border-black/10 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-3.5 text-xs sm:text-sm text-start hover:border-teal-500 hover:shadow-md transition-all active:scale-98"
-                >
-                  {opt.icon && <span className="text-xl shrink-0">{opt.icon}</span>}
-                  <span className="flex-1 font-medium">{isEn ? opt.labelEn || opt.label : opt.label}</span>
-                  <span className="text-neutral-400 text-sm">›</span>
-                </button>
-              ))}
+            <div className="space-y-3 mt-4">
+              {quizQuestions[step.qIndex].options.map((opt, idx) => {
+                const letter = isEn
+                  ? String.fromCharCode(65 + idx)
+                  : ["أ", "ب", "ج", "د", "هـ"][idx] ?? `${idx + 1}`;
+                return (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => answerQuestion(quizQuestions[step.qIndex].id, opt.value)}
+                    className="group w-full flex items-center gap-3.5 rounded-2xl border-2 border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 p-4 text-xs sm:text-sm text-start hover:border-emerald-500 hover:bg-emerald-50/20 dark:hover:bg-emerald-950/20 hover:shadow-lg hover:shadow-emerald-500/10 hover:-translate-y-0.5 transition-all duration-200 active:scale-98"
+                  >
+                    <span className="w-7 h-7 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 group-hover:bg-emerald-500 group-hover:text-white font-bold text-xs flex items-center justify-center shrink-0 transition-colors">
+                      {letter}
+                    </span>
+                    {opt.icon && (
+                      <span className="text-xl shrink-0 group-hover:scale-110 transition-transform">
+                        {opt.icon}
+                      </span>
+                    )}
+                    <span className="flex-1 font-semibold text-neutral-800 dark:text-neutral-100">
+                      {isEn ? opt.labelEn || opt.label : opt.label}
+                    </span>
+                    <span className="text-neutral-400 text-sm group-hover:text-emerald-500 group-hover:translate-x-0.5 transition-all">
+                      {isEn ? "›" : "‹"}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
@@ -469,46 +496,63 @@ export default function QuizPage() {
                 : "بناءً على إجاباتك، بنينا لك خارطة طريق ٢٨ يوم مصممة لظروفك"}
             </p>
 
-            {/* Score donut meter */}
-            <div className="rounded-3xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 p-5 mb-4 flex items-center gap-4 text-start shadow-xs">
-              <div
-                className="w-20 h-20 rounded-full flex items-center justify-center shrink-0"
-                style={{
-                  background: `conic-gradient(#0f766e ${score * 3.6}deg, rgba(15,118,110,0.15) 0deg)`,
-                }}
-              >
-                <div className="w-14 h-14 rounded-full bg-white dark:bg-neutral-900 flex flex-col items-center justify-center shadow-inner">
-                  <span className="font-black text-lg leading-none text-teal-600 dark:text-teal-400 font-mono">
-                    {score}
-                  </span>
-                  <span className="text-[9px] text-neutral-400">/100</span>
+            {/* Celebratory Score donut meter with multi-stop conic gradient & glow */}
+            <div className="relative rounded-3xl bg-gradient-to-br from-white via-emerald-50/20 to-teal-50/30 dark:from-neutral-900 dark:via-neutral-900 dark:to-teal-950/30 border-2 border-emerald-500/30 p-6 mb-5 flex flex-col sm:flex-row items-center gap-5 text-center sm:text-start shadow-xl shadow-emerald-500/10 overflow-hidden">
+              <div className="pointer-events-none absolute -right-12 -top-12 w-32 h-32 rounded-full bg-emerald-500/20 blur-2xl" />
+
+              <div className="relative shrink-0 flex items-center justify-center">
+                {/* Pulsing Aura */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 blur-md opacity-40 animate-pulse" />
+                <div
+                  className="relative w-24 h-24 rounded-full flex items-center justify-center shadow-lg"
+                  style={{
+                    background: `conic-gradient(#10b981 0deg, #14b8a6 ${score * 2.5}deg, #f59e0b ${score * 3.6}deg, rgba(20,184,166,0.12) 0deg)`,
+                  }}
+                >
+                  <div className="w-18 h-18 rounded-full bg-white dark:bg-neutral-900 flex flex-col items-center justify-center shadow-inner">
+                    <span className="font-black text-2xl leading-none bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent font-mono">
+                      {score}
+                    </span>
+                    <span className="text-[10px] font-bold text-neutral-400">/ 100</span>
+                  </div>
                 </div>
               </div>
+
               <div className="flex-1">
-                <p className="text-[10px] uppercase font-bold text-neutral-400">
-                  {isEn ? "AI & Tech Readiness Index" : "مؤشر الجاهزية الرقمية"}
-                </p>
-                <p className="text-xs sm:text-sm font-bold mt-1 text-neutral-800 dark:text-neutral-200">
+                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 text-[10px] font-bold border border-emerald-500/30 mb-1.5">
+                  <span>🏆</span>
+                  <span>{isEn ? "Top 12% Digital Readiness Tier" : "أعلى ١٢٪ في مؤشر الجاهزية والذكاء الرقمي"}</span>
+                </div>
+                <h3 className="text-sm sm:text-base font-bold text-neutral-900 dark:text-white">
                   {isEn
-                    ? "You are positioned in the top forward-thinking bracket. Let's convert this into income."
-                    : "أنت متقدم على الأغلبية في الاستعداد المعرفي. حان وقت تحويل ذلك لمهارات دخل حقيقية."}
+                    ? "Exceptional potential for rapid monetization and AI adoption."
+                    : "إمكانيات استثنائية للتفوق وبناء مهارات دخل حقيقية بالذكاء الاصطناعي."}
+                </h3>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 leading-relaxed">
+                  {isEn
+                    ? "Your responses demonstrate high adaptability and readiness for daily 15-minute micro-habits."
+                    : "إجاباتك تبرهن على رغبة حقيقية واستعداد كامل لالتزام ١٥ دقيقة يوميًا لصنع تحول جذري."}
                 </p>
               </div>
             </div>
 
-            {/* Archetype card */}
-            <div className="rounded-3xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 p-5 mb-6 text-start shadow-xs">
-              <p className="text-[10px] uppercase font-bold text-neutral-400 mb-1">
-                {isEn ? "Your Future Profile Archetype" : "نمطك القيادي في عالم الذكاء الاصطناعي"}
-              </p>
-              <p className="text-base sm:text-lg font-black mb-1 text-neutral-900 dark:text-white flex items-center gap-2">
-                <span>{archetype.icon}</span>
+            {/* Archetype VIP blueprint card */}
+            <div className="rounded-3xl bg-white dark:bg-neutral-900 border-2 border-teal-500/30 p-6 mb-6 text-start shadow-lg shadow-teal-500/5 relative overflow-hidden">
+              <div className="pointer-events-none absolute -bottom-10 -right-10 w-28 h-28 rounded-full bg-teal-500/10 blur-xl" />
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-[10px] uppercase font-bold text-teal-600 dark:text-teal-400 tracking-wider">
+                  {isEn ? "YOUR FUTURE LEADERSHIP ARCHETYPE" : "نمطك القيادي في عالم الذكاء الاصطناعي"}
+                </p>
+                <span className="text-xs font-bold text-amber-500">✨ Verified Blueprint</span>
+              </div>
+              <p className="text-lg sm:text-xl font-black mb-1 text-neutral-900 dark:text-white flex items-center gap-2.5">
+                <span className="text-2xl">{archetype.icon}</span>
                 <span>{isEn ? archetype.titleEn : archetype.title}</span>
               </p>
-              <p className="text-xs text-teal-600 dark:text-teal-400 font-medium mb-3">
+              <p className="text-xs text-teal-600 dark:text-teal-400 font-semibold mb-3">
                 {isEn ? archetype.subtitleEn : archetype.subtitle}
               </p>
-              <p className="text-xs italic text-neutral-600 dark:text-neutral-300 border-s-2 border-teal-500 ps-3">
+              <p className="text-xs italic text-neutral-600 dark:text-neutral-300 border-s-2 border-teal-500 ps-3 py-0.5 leading-relaxed bg-neutral-50/60 dark:bg-neutral-800/40 rounded-e-xl">
                 &ldquo;{isEn ? archetype.quoteEn : archetype.quote}&rdquo;
               </p>
             </div>
@@ -715,51 +759,77 @@ export default function QuizPage() {
         {step.kind === "wheel" && (
           <div className="text-center animate-fade-in">
             <div className="text-4xl mb-2">🎁</div>
-            <span className="inline-block bg-amber-500/10 text-amber-800 dark:text-amber-300 text-xs font-bold px-3.5 py-1 rounded-full border border-amber-500/20 mb-3">
-              {isEn
-                ? `Founding Cohort Offer · Only ${pricing.cohortSeatsRemaining} seats remaining`
-                : `عرض فوج التأسيس الأول · متبقي ${pricing.cohortSeatsRemaining} مقعدًا فقط`}
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-black mb-1">
-              {isEn ? `Your Special Price, ${name || "Champion"}` : `سعرك الاستثنائي، ${name || "يا بطل"}`}
+            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 text-xs font-black mb-3">
+              <span>👑</span>
+              <span>
+                {isEn
+                  ? `Founding Cohort Offer · Only ${pricing.cohortSeatsRemaining} seats remaining`
+                  : `عرض فوج التأسيس الأول الحصري · متبقي ${pricing.cohortSeatsRemaining} مقعدًا فقط`}
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black mb-1 text-neutral-900 dark:text-white">
+              {isEn ? `Your Special Launch Rate, ${name || "Champion"}` : `سعرك الاستثنائي، ${name || "يا بطل"}`}
             </h2>
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-5">
               {isEn
-                ? "71% OFF for Founding Cohort members — this rate will not be repeated"
-                : "خصم 71% للأعضاء المؤسسين — لن يتكرر هذا السعر مجددًا"}
+                ? "71% OFF for Founding Cohort members — this special rate will not be repeated"
+                : "خصم 71% للأعضاء المؤسسين — هذا السعر الحصري لن يتكرر مجددًا"}
             </p>
 
-            <div className="rounded-3xl border-2 border-teal-500 bg-gradient-to-b from-teal-50/50 to-white dark:from-teal-950/30 dark:to-neutral-900 p-6 mb-4 shadow-lg relative overflow-hidden">
-              <div className="flex items-center justify-center gap-3 my-2 font-mono">
-                <span className="text-xl text-neutral-400 line-through font-bold">
+            <div className="rounded-3xl border-2 border-emerald-500/50 bg-white dark:bg-neutral-900 p-6 md:p-8 mb-5 shadow-2xl shadow-emerald-500/10 relative overflow-hidden ring-1 ring-emerald-500/20">
+              <div className="pointer-events-none absolute -top-16 -left-16 w-36 h-36 rounded-full bg-emerald-500/15 blur-2xl" />
+
+              <div className="flex items-center justify-center gap-2 text-neutral-400 text-xs font-semibold mb-1">
+                <span>{isEn ? "Standard Value:" : "السعر الأصلي:"}</span>
+                <span className="line-through font-mono font-bold text-sm">
                   {pricing.originalPriceEgp} {isEn ? "EGP" : "ج.م"}
                 </span>
-                <span className="text-5xl font-black text-teal-700 dark:text-teal-400">
+              </div>
+
+              <div className="flex items-baseline justify-center gap-2 my-2 font-mono">
+                <span className="text-5xl sm:text-6xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight">
                   {pricing.priceEgp}
                 </span>
-                <span className="text-sm font-bold text-neutral-700 dark:text-neutral-300 mb-1">
+                <span className="text-base font-bold text-neutral-800 dark:text-neutral-200">
                   {isEn ? "EGP" : "ج.م"}
                 </span>
               </div>
-              <p className="text-xs font-bold text-teal-950 dark:text-teal-200 mt-2">
+
+              <p className="text-xs font-bold text-emerald-700 dark:text-emerald-300 mt-1 mb-4">
                 {isEn
                   ? `One-time payment · Lifetime access to all 100 tracks · ${totalLessons}+ lessons · All future updates included`
-                  : `دفعة واحدة فقط · وصول مدى الحياة لكل الـ ١٠٠ مسار · أكثر من ${totalLessons}+ درس · كل التحديثات المستقبلية مجانًا`}
+                  : `دفعة واحدة فقط مدى الحياة · كل الـ ١٠٠ مسار · أكثر من ${totalLessons}+ درس · كل التحديثات المستقبلية مجانًا`}
               </p>
+
+              {/* Scarcity Bar */}
+              <div className="p-3 rounded-2xl bg-amber-500/10 dark:bg-amber-950/30 border border-amber-500/30 text-start">
+                <div className="flex items-center justify-between text-[11px] font-bold mb-1.5">
+                  <span className="text-amber-800 dark:text-amber-300 flex items-center gap-1">
+                    <span className="inline-block w-2 h-2 rounded-full bg-red-500 animate-ping" />
+                    {isEn ? `Only ${pricing.cohortSeatsRemaining} seats left` : `باقي ${pricing.cohortSeatsRemaining} مقعدًا فقط`}
+                  </span>
+                  <span className="text-neutral-500 dark:text-neutral-400 font-mono">
+                    {isEn ? "453 / 500 Claimed" : "٤٥٣ / ٥٠٠ مقعد"}
+                  </span>
+                </div>
+                <div className="h-2 w-full bg-neutral-200 dark:bg-neutral-800 rounded-full overflow-hidden">
+                  <div className="h-full rounded-full bg-gradient-to-r from-teal-500 via-emerald-400 to-amber-400 w-[90.6%]" />
+                </div>
+              </div>
             </div>
 
-            <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-6">
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-6 font-medium">
               {isEn
-                ? "Less than 0.25 EGP per lesson — an investment that unlocks lasting income opportunities"
-                : "أقل من 25 قرشًا للدرس الواحد — استثمار بسيط يفتح لك مصادر دخل حقيقية ومستمرة"}
+                ? "💡 Less than 0.25 EGP per lesson — an investment that unlocks lasting income opportunities"
+                : "💡 أقل من 25 قرشًا للدرس الواحد — استثمار رمزي يفتح لك فرص دخل حقيقية ومستمرة"}
             </p>
 
             <button
               type="button"
               onClick={next}
-              className="w-full bg-gradient-to-r from-teal-600 to-emerald-500 text-white font-bold rounded-full py-3.5 shadow-md hover:brightness-110 active:scale-98 transition-all text-sm"
+              className="w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-500 text-white font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:brightness-110 active:scale-98 transition-all"
             >
-              {isEn ? "Claim Offer & Join Cohort →" : "احصل على العرض والتحق بالفوج الآن ←"}
+              {isEn ? "Claim Offer & Join Cohort Now →" : "احصل على العرض والتحق بالفوج الآن ←"}
             </button>
           </div>
         )}
@@ -767,23 +837,23 @@ export default function QuizPage() {
         {/* Step: Final Checkout Confirmation & Offer */}
         {step.kind === "offer" && (
           <div className="animate-fade-in">
-            <div className="flex items-center justify-between bg-teal-500/10 border border-teal-500/20 rounded-2xl p-3.5 mb-5 text-xs">
+            <div className="flex items-center justify-between bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 mb-5 text-xs">
               <div>
-                <p className="text-neutral-500 dark:text-neutral-400">{isEn ? "Activation" : "التفعيل"}</p>
-                <p className="font-bold text-teal-700 dark:text-teal-300">
-                  {isEn ? "Instant & automated within minutes" : "تلقائي وفوري خلال دقائق"}
+                <p className="text-neutral-500 dark:text-neutral-400 font-medium">{isEn ? "Account Status" : "حالة الحساب"}</p>
+                <p className="font-bold text-emerald-700 dark:text-emerald-300 text-sm">
+                  {isEn ? "Ready for Instant Activation" : "جاهز للتفعيل الفوري"}
                 </p>
               </div>
               <div className="text-end">
-                <p className="text-neutral-500 dark:text-neutral-400">{isEn ? "Full Investment" : "الاستثمار الكامل"}</p>
-                <p className="font-bold text-teal-700 dark:text-teal-300 font-mono">
+                <p className="text-neutral-500 dark:text-neutral-400 font-medium">{isEn ? "One-Time Investment" : "الاستثمار لمرة واحدة"}</p>
+                <p className="font-black text-emerald-600 dark:text-emerald-400 text-base font-mono">
                   {pricing.priceEgp} {isEn ? "EGP" : "ج.م"}{" "}
-                  <span className="line-through text-neutral-400 text-[10px]">({pricing.originalPriceEgp})</span>
+                  <span className="line-through text-neutral-400 text-xs font-normal">({pricing.originalPriceEgp})</span>
                 </p>
               </div>
             </div>
 
-            <h2 className="text-xl sm:text-2xl font-black mt-2 mb-1">
+            <h2 className="text-xl sm:text-2xl font-black mt-2 mb-1 text-neutral-900 dark:text-white">
               {isEn
                 ? `Your Custom Roadmap is Ready, ${name || "Champion"}!`
                 : `خطتك الشخصية جاهزة للانطلاق، ${name || "يا بطل"}!`}
@@ -811,14 +881,21 @@ export default function QuizPage() {
 
             {/* First 4 days roadmap preview */}
             <div className="rounded-2xl border border-black/5 dark:border-white/10 p-4 bg-white dark:bg-neutral-900 mb-5 shadow-xs">
-              <p className="text-xs font-bold mb-3">{isEn ? "Your First 4 Days Snapshot" : "نظرة على أول ٤ أيام من خطتك"}</p>
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-xs font-bold text-neutral-900 dark:text-white">
+                  {isEn ? "Your First 4 Days Snapshot" : "نظرة على أول ٤ أيام من خطتك"}
+                </p>
+                <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-300/40">
+                  {isEn ? "Day 1 Free" : "اليوم الأول مجانًا"}
+                </span>
+              </div>
               <div className="grid grid-cols-4 gap-2 text-[10px] text-center">
                 {(isEn
                   ? ["Core Fundamentals", "AI Tools & Setup", "First Practical Task", "Income Strategies"]
                   : ["أساسيات المهارة", "أدوات الذكاء وتطبيقها", "أول مشروع عملي", "استراتيجيات الدخل"]
                 ).map((tool, i) => (
-                  <div key={tool} className="bg-teal-500/10 rounded-xl py-2 px-1">
-                    <p className="font-bold text-teal-800 dark:text-teal-300">
+                  <div key={tool} className={`rounded-xl py-2 px-1 ${i === 0 ? "bg-emerald-500/15 border border-emerald-500/30" : "bg-teal-500/10"}`}>
+                    <p className={`font-bold ${i === 0 ? "text-emerald-800 dark:text-emerald-300" : "text-teal-800 dark:text-teal-300"}`}>
                       {isEn ? `Day ${i + 1}` : `يوم ${i + 1}`}
                     </p>
                     <p className="text-neutral-600 dark:text-neutral-400 mt-0.5 line-clamp-1">{tool}</p>
@@ -830,7 +907,7 @@ export default function QuizPage() {
             <button
               type="button"
               onClick={goCheckout}
-              className="w-full bg-gradient-to-r from-teal-600 to-emerald-500 text-white font-bold rounded-full py-4 mb-4 shadow-lg hover:brightness-110 active:scale-98 transition-all text-sm font-sans"
+              className="w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-500 text-white font-black rounded-full py-4 mb-4 shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:brightness-110 active:scale-98 transition-all text-sm sm:text-base font-sans"
             >
               {isEn
                 ? `Confirm Enrollment & Join for Only ${pricing.priceEgp} EGP →`

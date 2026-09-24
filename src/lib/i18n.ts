@@ -95,6 +95,29 @@ export const ar = {
   askCoach: "تحدث مع فهيم (المدرب الذكي)",
   coachTagline: "مدربك الذكي لدعمك تعليمياً ونفسياً",
   coachPlaceholder: "اسأل فهيم عما يدور في ذهنك...",
+
+  // Admin Panel
+  adminTitle: "لوحة الإدارة",
+  adminOrders: "الطلبات",
+  adminUsers: "المستخدمين",
+  adminPayouts: "السحوبات",
+  adminReviews: "آراء المتعلمين",
+  adminArticles: "المقالات",
+  adminAudit: "سجل الإجراءات",
+  adminPlatform: "المنصة",
+  adminSignOut: "خروج",
+  adminPendingReview: "مستني مراجعة",
+  adminSubscribers: "مشتركين",
+  adminRevenue: "الإيرادات",
+  adminTodayOrders: "طلبات النهاردة",
+  adminNeedsDecision: "محتاج قرارك",
+  adminNone: "مفيش",
+  adminApprove: "تفعيل",
+  adminReject: "رفض",
+  adminAll: "الكل",
+  adminPending: "في الانتظار",
+  adminActive: "نشِط",
+  adminFree: "مجاني",
 };
 
 export const en: Translations = {
@@ -190,6 +213,29 @@ export const en: Translations = {
   askCoach: "Chat with Faheem (AI Coach)",
   coachTagline: "Your empathetic AI tutor for learning and mindset",
   coachPlaceholder: "Ask Faheem whatever is on your mind...",
+
+  // Admin Panel
+  adminTitle: "Admin Panel",
+  adminOrders: "Orders",
+  adminUsers: "Users",
+  adminPayouts: "Payouts",
+  adminReviews: "Reviews",
+  adminArticles: "Articles",
+  adminAudit: "Audit Log",
+  adminPlatform: "Platform",
+  adminSignOut: "Sign out",
+  adminPendingReview: "Pending Review",
+  adminSubscribers: "Subscribers",
+  adminRevenue: "Total Revenue",
+  adminTodayOrders: "Today's Orders",
+  adminNeedsDecision: "Action needed",
+  adminNone: "None",
+  adminApprove: "Approve",
+  adminReject: "Reject",
+  adminAll: "All",
+  adminPending: "Pending",
+  adminActive: "Active",
+  adminFree: "Free",
 };
 
 export function getTranslations(lang: Language): Translations {

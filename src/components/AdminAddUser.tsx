@@ -2,16 +2,18 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useI18n } from "./LanguageContext";
 
 /**
  * Creating an account from the panel — for a sale that happened on WhatsApp.
  *
- * Shows the password back once, because the owner has to relay it to the
- * customer. It is stored hashed like every other password, so this is the only
- * moment it exists in readable form.
+ * Full bilingual support (Arabic / English) and dark/light modes.
  */
 export default function AdminAddUser() {
   const router = useRouter();
+  const { lang } = useI18n();
+  const isEn = lang === "en";
+
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -23,8 +25,6 @@ export default function AdminAddUser() {
   const [done, setDone] = useState<{ email: string; password: string; note: string } | null>(null);
 
   function suggest() {
-    // Readable, unambiguous, and long enough — no 0/O or 1/l to misread down
-    // a phone line.
     const alphabet = "abcdefghjkmnpqrstuvwxyz23456789";
     let out = "";
     const bytes = new Uint8Array(10);
@@ -59,20 +59,32 @@ export default function AdminAddUser() {
       try {
         data = JSON.parse(raw);
       } catch {
-        /* not JSON — generic message below */
+        /* fallback */
       }
 
       if (!res.ok) {
-        setError(data.error ?? "مش قادر أعمل الحساب");
+        setError(data.error ?? (isEn ? "Failed to create user" : "حصل مشكلة في إنشاء الحساب"));
         return;
       }
 
-      setDone({ email, password, note: data.note ?? "تم" });
+      setDone({
+        email,
+        password,
+        note:
+          data.note ??
+          (grant
+            ? isEn
+              ? "All tracks unlocked. Please send this temporary password to the learner."
+              : "كل المسارات اتفتحت. ابعت الباسورد المؤقت ده للعميل في واتساب."
+            : isEn
+            ? "Account created without active subscription."
+            : "الحساب اتعمل بس المسارات لسه مقفولة."),
+      });
       reset();
       setOpen(false);
       router.refresh();
     } catch {
-      setError("مفيش اتصال بالسيرفر");
+      setError(isEn ? "Connection error" : "مفيش اتصال بالسيرفر");
     } finally {
       setBusy(false);
     }
@@ -81,18 +93,20 @@ export default function AdminAddUser() {
   return (
     <div className="mb-4">
       {done && (
-        <div className="animate-rise mb-3 rounded-2xl border border-green-200 bg-green-50 p-4">
-          <p className="mb-2 text-xs font-bold text-green-800">✓ الحساب جاهز</p>
-          <p className="mb-3 text-[11px] leading-relaxed text-green-800">{done.note}</p>
+        <div className="animate-rise mb-3 rounded-2xl border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30 p-4 shadow-xs">
+          <p className="mb-2 text-xs font-bold text-emerald-800 dark:text-emerald-300">
+            {isEn ? "✓ Account Successfully Created" : "✓ الحساب جاهز"}
+          </p>
+          <p className="mb-3 text-[11px] leading-relaxed text-emerald-900 dark:text-emerald-200">{done.note}</p>
           <div className="space-y-1.5">
-            <Copyable label="الإيميل" value={done.email} />
-            <Copyable label="الباسورد" value={done.password} />
+            <Copyable label={isEn ? "Email" : "الإيميل"} value={done.email} isEn={isEn} />
+            <Copyable label={isEn ? "Password" : "الباسورد"} value={done.password} isEn={isEn} />
           </div>
           <button
             onClick={() => setDone(null)}
-            className="mt-3 text-[11px] font-bold text-green-800 underline-offset-4 hover:underline"
+            className="mt-3 text-[11px] font-bold text-emerald-800 dark:text-emerald-300 underline-offset-4 hover:underline"
           >
-            تمام، أخفي
+            {isEn ? "Dismiss" : "تمام، أخفي"}
           </button>
         </div>
       )}
@@ -100,51 +114,53 @@ export default function AdminAddUser() {
       {!open ? (
         <button
           onClick={() => setOpen(true)}
-          className="btn-shine rounded-full bg-brand-600 px-4 py-2.5 text-xs font-bold text-white"
+          className="rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 hover:brightness-110 px-4 py-2.5 text-xs font-bold text-white shadow-xs transition"
         >
-          + أضف مستخدم
+          {isEn ? "+ Add New Learner" : "+ أضف مستخدم"}
         </button>
       ) : (
         <form
           onSubmit={submit}
-          className="animate-rise rounded-2xl border border-black/10 bg-white p-4"
+          className="animate-rise rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900 p-4 shadow-xs"
         >
           <div className="mb-3 flex items-center justify-between">
-            <p className="text-sm font-bold">مستخدم جديد</p>
+            <p className="text-sm font-bold text-neutral-900 dark:text-white">
+              {isEn ? "New Learner Account" : "مستخدم جديد"}
+            </p>
             <button
               type="button"
               onClick={() => {
                 setOpen(false);
                 reset();
               }}
-              className="text-xs text-neutral-500"
+              className="text-xs text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200"
             >
-              إلغاء
+              {isEn ? "Cancel" : "إلغاء"}
             </button>
           </div>
 
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             <input
               type="email"
               required
               dir="ltr"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="الإيميل"
-              className="rounded-xl border border-black/10 px-3 py-2.5 text-sm"
+              placeholder={isEn ? "Email address" : "الإيميل"}
+              className="rounded-xl border border-black/10 dark:border-white/10 bg-neutral-50 dark:bg-neutral-800 px-3 py-2.5 text-sm text-neutral-900 dark:text-white focus:outline-teal-500"
             />
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="الاسم"
-              className="rounded-xl border border-black/10 px-3 py-2.5 text-sm"
+              placeholder={isEn ? "Full Name" : "الاسم"}
+              className="rounded-xl border border-black/10 dark:border-white/10 bg-neutral-50 dark:bg-neutral-800 px-3 py-2.5 text-sm text-neutral-900 dark:text-white focus:outline-teal-500"
             />
             <input
               dir="ltr"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder="رقم الموبايل (اختياري)"
-              className="rounded-xl border border-black/10 px-3 py-2.5 text-sm"
+              placeholder={isEn ? "Phone number (optional)" : "رقم الموبايل (اختياري)"}
+              className="rounded-xl border border-black/10 dark:border-white/10 bg-neutral-50 dark:bg-neutral-800 px-3 py-2.5 text-sm text-neutral-900 dark:text-white focus:outline-teal-500"
             />
             <div className="flex gap-2">
               <input
@@ -152,42 +168,47 @@ export default function AdminAddUser() {
                 dir="ltr"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="الباسورد المؤقت"
-                className="min-w-0 flex-1 rounded-xl border border-black/10 px-3 py-2.5 text-sm"
+                placeholder={isEn ? "Temporary password" : "الباسورد المؤقت"}
+                className="min-w-0 flex-1 rounded-xl border border-black/10 dark:border-white/10 bg-neutral-50 dark:bg-neutral-800 px-3 py-2.5 text-sm text-neutral-900 dark:text-white focus:outline-teal-500 font-mono"
               />
               <button
                 type="button"
                 onClick={suggest}
-                className="shrink-0 rounded-xl border border-black/10 px-3 text-xs font-bold"
+                className="shrink-0 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-700 px-3 text-xs font-bold text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100"
               >
-                ولّد
+                {isEn ? "Generate" : "ولّد"}
               </button>
             </div>
           </div>
 
-          <label className="mt-3 flex items-center gap-2 text-xs">
+          <label className="mt-3 flex items-center gap-2 text-xs text-neutral-700 dark:text-neutral-300 cursor-pointer">
             <input
               type="checkbox"
               checked={grant}
               onChange={(e) => setGrant(e.target.checked)}
-              className="h-4 w-4"
+              className="h-4 w-4 rounded-sm text-teal-600 focus:ring-teal-500"
             />
-            افتحله كل المسارات على طول (يعني دفع)
+            <span>
+              {isEn
+                ? "Unlock all 100 tracks immediately (marked as paid)"
+                : "افتحله كل المسارات على طول (يعني دفع)"}
+            </span>
           </label>
 
-          {error && <p className="mt-2 text-[11px] text-red-600">{error}</p>}
+          {error && <p className="mt-2 text-[11px] text-red-600 dark:text-red-400 font-semibold">{error}</p>}
 
           <button
             type="submit"
             disabled={busy}
-            className="btn-shine mt-3 w-full rounded-full bg-brand-600 py-2.5 text-xs font-bold text-white disabled:opacity-60"
+            className="mt-3 w-full rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 py-2.5 text-xs font-bold text-white shadow-xs hover:brightness-110 disabled:opacity-60 transition"
           >
-            {busy ? "..." : "اعمل الحساب"}
+            {busy ? "..." : isEn ? "Create Account" : "اعمل الحساب"}
           </button>
 
           <p className="mt-2 text-[11px] leading-relaxed text-neutral-400">
-            الباسورد ده هيظهرلك مرة واحدة بس بعد الحفظ. العميل هيتطلب منه يغيّره أول
-            ما يدخل.
+            {isEn
+              ? "This temporary password will only be visible once upon saving. Share it securely with the learner."
+              : "الباسورد ده هيظهرلك مرة واحدة بس بعد الحفظ. العميل هيتطلب منه يغيّره أول ما يدخل."}
           </p>
         </form>
       )}
@@ -195,12 +216,12 @@ export default function AdminAddUser() {
   );
 }
 
-function Copyable({ label, value }: { label: string; value: string }) {
+function Copyable({ label, value, isEn }: { label: string; value: string; isEn: boolean }) {
   const [copied, setCopied] = useState(false);
   return (
-    <div className="flex items-center gap-2 rounded-lg bg-white px-2.5 py-1.5">
-      <span className="shrink-0 text-[10px] text-neutral-500">{label}</span>
-      <span dir="ltr" className="min-w-0 flex-1 truncate text-left font-mono text-xs font-bold">
+    <div className="flex items-center gap-2 rounded-xl bg-white dark:bg-neutral-800 border border-black/5 dark:border-white/10 px-3 py-2">
+      <span className="shrink-0 text-[10px] text-neutral-500 dark:text-neutral-400">{label}</span>
+      <span dir="ltr" className="min-w-0 flex-1 truncate text-left font-mono text-xs font-bold text-neutral-900 dark:text-white">
         {value}
       </span>
       <button
@@ -210,9 +231,9 @@ function Copyable({ label, value }: { label: string; value: string }) {
           setCopied(true);
           setTimeout(() => setCopied(false), 1500);
         }}
-        className="shrink-0 text-[10px] font-bold text-brand-600"
+        className="shrink-0 text-[10px] font-bold text-teal-600 dark:text-teal-400 hover:underline"
       >
-        {copied ? "✓" : "انسخ"}
+        {copied ? (isEn ? "✓ Copied" : "✓ تم النسخ") : isEn ? "Copy" : "انسخ"}
       </button>
     </div>
   );
