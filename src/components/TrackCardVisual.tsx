@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import type { Track100 } from "@/content/tracks100";
 import { useI18n } from "./LanguageContext";
 
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export default function TrackCardVisual({ track, onSelect, isUnlocked = true }: Props) {
+  const router = useRouter();
   const { lang, t } = useI18n();
 
   const title = lang === "ar" ? track.titleAr : track.titleEn;
@@ -17,9 +19,17 @@ export default function TrackCardVisual({ track, onSelect, isUnlocked = true }: 
   const pillar = lang === "ar" ? track.pillarNameAr : track.pillarNameEn;
   const level = lang === "ar" ? track.levelAr : track.levelEn;
 
+  function handleClick() {
+    if (onSelect) {
+      onSelect(track);
+    } else {
+      router.push(`/tracks?pillar=${track.pillarId}`);
+    }
+  }
+
   return (
     <div
-      onClick={() => onSelect?.(track)}
+      onClick={handleClick}
       className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-neutral-900/80 p-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:border-teal-500/40 hover:shadow-2xl hover:shadow-teal-500/10 cursor-pointer text-white"
     >
       {/* Dynamic Background Glow based on track colors */}

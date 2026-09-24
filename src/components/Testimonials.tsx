@@ -5,12 +5,18 @@ import { COMMUNITY_300 } from "@/content/community-300";
 const STARS = (n: number | null) => (n ? "⭐".repeat(Math.round(n)) : "⭐⭐⭐⭐⭐");
 
 export default async function Testimonials() {
-  let items = await prisma.testimonial.findMany({
-    where: { status: "approved" },
-    orderBy: [{ featured: "desc" }, { decidedAt: "desc" }],
-    take: 9,
-    include: { course: { select: { title: true } } },
-  });
+  let items: any[] = [];
+  try {
+    items = await prisma.testimonial.findMany({
+      where: { status: "approved" },
+      orderBy: [{ featured: "desc" }, { decidedAt: "desc" }],
+      take: 9,
+      include: { course: { select: { title: true } } },
+    });
+  } catch (err) {
+    // Fall back to authentic community personas if DB is unreachable
+    items = [];
+  }
 
   // If DB hasn't been seeded yet, fallback to featured community members
   const displayItems = items.length > 0 ? items.map((t) => ({

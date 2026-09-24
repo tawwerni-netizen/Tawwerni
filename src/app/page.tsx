@@ -242,7 +242,6 @@ export default function LandingPage() {
               <TrackCardVisual
                 key={track.slug}
                 track={track}
-                onSelect={() => {}}
               />
             ))}
           </div>
