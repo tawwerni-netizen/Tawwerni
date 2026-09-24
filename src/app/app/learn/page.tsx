@@ -4,6 +4,8 @@ import StudentTrackCatalog from "@/components/StudentTrackCatalog";
 import ShareRow from "@/components/ShareRow";
 import FocusPlayer from "@/components/FocusPlayer";
 
+import LearnHeader from "@/components/LearnHeader";
+
 export default async function LearnPage() {
   const user = await getCurrentUser();
   if (!user) return null;
@@ -38,14 +40,7 @@ export default async function LearnPage() {
     <div className="px-4 pt-5 pb-8 min-h-screen">
       <FocusPlayer />
 
-      <div className="mb-6">
-        <h1 className="text-2xl font-black md:text-3xl text-neutral-900 dark:text-white">
-          كتالوج الـ ١٠٠ مسار الاحترافي
-        </h1>
-        <p className="mt-1.5 text-sm text-neutral-600 dark:text-neutral-400">
-          وصول مفتوح لجميع المسارات مدى الحياة — اختر مسارك وانطلق بخطوات عملية ٥ دقائق يومياً
-        </p>
-      </div>
+      <LearnHeader />
 
       <StudentTrackCatalog
         completedTrackSlugs={completedTrackSlugs}

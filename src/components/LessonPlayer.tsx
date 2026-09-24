@@ -11,6 +11,7 @@ import CardVisual, {
   visualConsumesFirstLine,
 } from "@/components/CardVisual";
 import { trackLessonCompleted } from "@/lib/analytics";
+import { useI18n } from "@/components/LanguageContext";
 
 export type InfoCard = {
   type: "info";
@@ -32,10 +33,12 @@ type QuizQ = {
 type Props = {
   courseSlug: string;
   moduleTitle: string;
+  moduleTitleEn?: string;
   dayNumber: number;
   totalDays: number;
   lessonId: string;
   lessonTitle: string;
+  lessonTitleEn?: string;
   /** Screen recording, when one has been produced for this lesson. */
   videoUrl?: string | null;
   cards: Card[];
@@ -43,6 +46,7 @@ type Props = {
   xp: number;
   nextDayNumber: number | null;
   courseTitle: string;
+  courseTitleEn?: string;
   /** unlocked = paid · pending = transfer under review · unpaid = never ordered */
   accessState: "unlocked" | "pending" | "unpaid";
   /** Other live tracks the learner hasn't bought yet — used for the mid-journey offer. */
@@ -56,6 +60,13 @@ type Phase = "cards" | "quizIntro" | "quiz" | "complete";
 
 export default function LessonPlayer(props: Props) {
   const router = useRouter();
+  const { lang, t } = useI18n();
+  const isEn = lang === "en";
+
+  const moduleTitle = isEn && props.moduleTitleEn ? props.moduleTitleEn : props.moduleTitle;
+  const courseTitle = isEn && props.courseTitleEn ? props.courseTitleEn : props.courseTitle;
+  const lessonTitle = isEn && props.lessonTitleEn ? props.lessonTitleEn : props.lessonTitle;
+
   const [phase, setPhase] = useState<Phase>("cards");
   const [cardIndex, setCardIndex] = useState(0);
   const [qIndex, setQIndex] = useState(0);
@@ -145,32 +156,32 @@ export default function LessonPlayer(props: Props) {
   // The player now takes the height of its content, and the action bar sticks to
   // the bottom of the viewport instead — see `.lesson-actions` in globals.css.
   return (
-    <div className="flex flex-1 flex-col bg-white">
-      <div className="px-4 pt-4 pb-3 border-b border-black/5">
+    <div className="flex flex-1 flex-col bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white" dir={isEn ? "ltr" : "rtl"}>
+      <div className="px-4 pt-4 pb-3 border-b border-black/5 dark:border-neutral-800">
         <div className="flex items-center justify-between mb-2">
           {/* Was 13×22 — the smallest control on the site, and the one people
               reach for when they want out. Now a real 40px square. */}
           <button
             onClick={goHome}
-            aria-label="اقفل الدرس"
-            className="tap -m-2 grid h-10 w-10 place-items-center rounded-full text-base text-neutral-400 transition hover:bg-neutral-100"
+            aria-label={isEn ? "Close lesson" : "اقفل الدرس"}
+            className="tap -m-2 grid h-10 w-10 place-items-center rounded-full text-base text-neutral-400 hover:text-neutral-700 dark:hover:text-white transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
           >
             ✕
           </button>
           <div className="text-center">
-            <p className="text-[10px] text-neutral-400 tracking-wide">{props.moduleTitle}</p>
+            <p className="text-[10px] text-neutral-400 tracking-wide">{moduleTitle}</p>
             <p className="text-xs font-bold">
               {phase === "quiz" || phase === "quizIntro"
-                ? "كويز سريع"
-                : `يوم ${props.dayNumber} من ${props.totalDays}`}
+                ? (isEn ? "Quick Quiz" : "كويز سريع")
+                : (isEn ? `Day ${props.dayNumber} of ${props.totalDays}` : `يوم ${props.dayNumber} من ${props.totalDays}`)}
             </p>
           </div>
           <div className="w-4" />
         </div>
         {phase === "cards" && (
-          <div className="h-1 bg-neutral-100 rounded-full overflow-hidden">
+          <div className="h-1 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden">
             <div
-              className="h-full bg-brand-600 transition-all"
+              className="h-full bg-teal-600 transition-all"
               style={{ width: `${((cardIndex + 1) / totalSteps) * 100}%` }}
             />
           </div>
@@ -180,7 +191,7 @@ export default function LessonPlayer(props: Props) {
             {props.quiz.map((_, i) => (
               <div
                 key={i}
-                className={`h-1 flex-1 rounded-full ${i <= qIndex ? "bg-brand-600" : "bg-neutral-100"}`}
+                className={`h-1 flex-1 rounded-full ${i <= qIndex ? "bg-teal-600" : "bg-neutral-100 dark:bg-neutral-800"}`}
               />
             ))}
           </div>
@@ -188,16 +199,6 @@ export default function LessonPlayer(props: Props) {
       </div>
 
       <div className="flex-1 px-4 py-6 overflow-y-auto">
-        {/*
-          The recording comes first, above the written cards.
-
-          A model can produce the text of any lesson on demand, so the text is
-          no longer the thing being sold — it is the transcript. What cannot be
-          generated is somebody doing the work on screen, including the steps
-          that break and are in nobody's documentation. Putting it after the
-          cards would make it read as an attachment to the real lesson; it is
-          the lesson.
-        */}
         {phase === "cards" && cardIndex === 0 && props.videoUrl && (
           <div className="lesson-video mb-5">
             <video
@@ -208,7 +209,7 @@ export default function LessonPlayer(props: Props) {
               className="w-full"
             />
             <p className="lesson-video-note">
-              شوف الخطوات وهي بتتعمل — والنص تحت مرجع ترجعله.
+              {isEn ? "Watch the steps in action — refer to the text below." : "شوف الخطوات وهي بتتعمل — والنص تحت مرجع ترجعله."}
             </p>
           </div>
         )}
@@ -216,26 +217,24 @@ export default function LessonPlayer(props: Props) {
         {phase === "cards" && card.type === "info" && (
           <div>
             <CardVisual heading={card.heading} lines={card.body.lines} />
-            <div className="rounded-2xl bg-neutral-50 border border-black/5 p-4">
+            <div className="rounded-2xl bg-neutral-50 dark:bg-neutral-900 border border-black/5 dark:border-neutral-800 p-4">
             {!visualConsumesHeading(card.heading, card.body.lines) && (
-              <h2 className="font-bold text-lg mb-2">{card.heading}</h2>
+              <h2 className="font-bold text-lg mb-2 text-neutral-900 dark:text-white">{card.heading}</h2>
             )}
             <div className="space-y-2">
               {card.body.lines
-                // A pull quote already shows the first line; printing it again
-                // right underneath reads like a stutter.
                 .filter(
                   (_, i) =>
                     !(i === 0 && visualConsumesFirstLine(card.heading, card.body.lines))
                 )
                 .map((line, i) => (
-                  <p key={i} className="text-sm text-neutral-700 leading-relaxed">
+                  <p key={i} className="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
                     {line}
                   </p>
                 ))}
             </div>
             {cardTools.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-2 border-t border-black/5 pt-3">
+              <div className="mt-4 flex flex-wrap gap-2 border-t border-black/5 dark:border-neutral-800 pt-3">
                 {cardTools.map((t) => (
                   <ToolChip key={t} tool={t} />
                 ))}
@@ -250,27 +249,27 @@ export default function LessonPlayer(props: Props) {
             <div className="flex items-center gap-2 mb-3">
               <span className="text-lg">🎯</span>
               <div>
-                <p className="text-[10px] text-neutral-400">مهمة اليوم</p>
-                <p className="text-sm font-bold">قبل ما تكمل</p>
+                <p className="text-[10px] text-neutral-400">{isEn ? "Today's Mission" : "مهمة اليوم"}</p>
+                <p className="text-sm font-bold">{isEn ? "Before you proceed" : "قبل ما تكمل"}</p>
               </div>
             </div>
-            <div className="rounded-2xl bg-amber-50 border border-amber-100 p-4">
-              <h3 className="font-bold mb-2">{card.heading}</h3>
+            <div className="rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-500/20 p-4">
+              <h3 className="font-bold mb-2 text-neutral-900 dark:text-white">{card.heading}</h3>
               <div className="space-y-1.5 mb-3">
                 {card.body.instructions.map((line, i) => (
-                  <p key={i} className="text-sm text-neutral-700">
+                  <p key={i} className="text-sm text-neutral-800 dark:text-neutral-200">
                     {line}
                   </p>
                 ))}
               </div>
               {card.body.prompt && (
-                <div className="bg-white rounded-xl border border-black/5 p-3 flex items-start justify-between gap-2">
-                  <code className="text-xs text-neutral-700 flex-1">{card.body.prompt}</code>
+                <div className="bg-white dark:bg-neutral-900 rounded-xl border border-black/5 dark:border-neutral-800 p-3 flex items-start justify-between gap-2">
+                  <code className="text-xs text-neutral-700 dark:text-neutral-300 flex-1 font-mono">{card.body.prompt}</code>
                   <button
                     onClick={() => copyPrompt(card.body.prompt!)}
-                    className="text-[10px] shrink-0 bg-brand-50 text-brand-800 rounded-full px-2 py-1"
+                    className="text-[10px] shrink-0 bg-teal-50 dark:bg-teal-950/50 text-teal-800 dark:text-teal-300 rounded-full px-2.5 py-1 font-bold"
                   >
-                    {copied ? "✓ اتنسخ" : "نسخ"}
+                    {copied ? (isEn ? "✓ Copied" : "✓ اتنسخ") : (isEn ? "Copy" : "نسخ")}
                   </button>
                 </div>
               )}
@@ -280,58 +279,62 @@ export default function LessonPlayer(props: Props) {
 
         {phase === "quizIntro" && (
           <div className="text-center pt-8">
-            <div className="w-16 h-16 mx-auto rounded-2xl bg-brand-50 flex items-center justify-center text-3xl mb-4">
+            <div className="w-16 h-16 mx-auto rounded-2xl bg-teal-50 dark:bg-teal-950/50 flex items-center justify-center text-3xl mb-4">
               📝
             </div>
             <p className="text-[10px] text-neutral-400 tracking-wide mb-1">
-              الكروت خلصت · يوم {props.dayNumber} من {props.totalDays}
+              {isEn ? `Cards finished · Day ${props.dayNumber} of ${props.totalDays}` : `الكروت خلصت · يوم ${props.dayNumber} من ${props.totalDays}`}
             </p>
-            <h2 className="text-lg font-bold mb-2">جاهز للكويز؟</h2>
-            <p className="text-sm text-neutral-500 mb-5">
-              قريت كل الكروت. جاوب على {props.quiz.length} أسئلة سريعة وثبّت اللي اتعلمته واكسب ⚡ {props.xp} XP.
+            <h2 className="text-lg font-bold mb-2 text-neutral-900 dark:text-white">{isEn ? "Ready for the quiz?" : "جاهز للكويز؟"}</h2>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-5 max-w-sm mx-auto">
+              {isEn
+                ? `You've read all the cards. Answer ${props.quiz.length} quick questions to cement what you learned and earn ⚡ ${props.xp} XP.`
+                : `قريت كل الكروت. جاوب على ${props.quiz.length} أسئلة سريعة وثبّت اللي اتعلمته واكسب ⚡ ${props.xp} XP.`}
             </p>
           </div>
         )}
 
         {phase === "quiz" && (
           <div>
-            <span className="text-[10px] bg-neutral-100 text-neutral-500 rounded-full px-2 py-1">
-              {props.quiz[qIndex].type === "mcq" ? "اختيار من متعدد" : "صح أو غلط"}
+            <span className="text-[10px] bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 rounded-full px-2.5 py-1 font-semibold">
+              {props.quiz[qIndex].type === "mcq" ? (isEn ? "Multiple Choice" : "اختيار من متعدد") : (isEn ? "True or False" : "صح أو غلط")}
             </span>
-            <h2 className="text-lg font-bold mt-3 mb-4">{props.quiz[qIndex].question}</h2>
+            <h2 className="text-lg font-bold mt-3 mb-4 text-neutral-900 dark:text-white">{props.quiz[qIndex].question}</h2>
             <div className="space-y-2">
               {props.quiz[qIndex].options.map((opt, i) => {
                 const isCorrect = i === props.quiz[qIndex].correctIndex;
                 const isSelected = i === selected;
-                let cls = "border-black/10";
-                if (answered && isCorrect) cls = "border-green-400 bg-green-50";
-                else if (answered && isSelected && !isCorrect) cls = "border-red-300 bg-red-50";
+                let cls = "border-black/10 dark:border-neutral-800 bg-white dark:bg-neutral-900";
+                if (answered && isCorrect) cls = "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-100";
+                else if (answered && isSelected && !isCorrect) cls = "border-rose-400 bg-rose-50 dark:bg-rose-950/30 text-rose-900 dark:text-rose-100";
                 return (
                   <button
                     key={i}
                     onClick={() => selectAnswer(i)}
-                    className={`w-full text-right rounded-xl border p-3 text-sm flex items-center gap-3 ${cls}`}
+                    className={`w-full text-start rounded-2xl border p-3.5 text-sm flex items-center gap-3 transition-colors ${cls}`}
                   >
-                    <span className="w-6 h-6 rounded-full bg-neutral-100 flex items-center justify-center text-[11px] shrink-0">
+                    <span className="w-6 h-6 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-[11px] font-bold shrink-0">
                       {answered && isCorrect ? "✓" : String.fromCharCode(65 + i)}
                     </span>
-                    {opt}
+                    <span className="flex-1">{opt}</span>
                   </button>
                 );
               })}
             </div>
             {answered && (
               <div
-                className={`mt-4 rounded-xl p-3 text-sm ${
+                className={`mt-4 rounded-2xl p-4 text-sm ${
                   selected === props.quiz[qIndex].correctIndex
-                    ? "bg-green-50 text-green-800"
-                    : "bg-red-50 text-red-800"
+                    ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-500/20"
+                    : "bg-rose-50 dark:bg-rose-950/30 text-rose-900 dark:text-rose-200 border border-rose-200 dark:border-rose-500/20"
                 }`}
               >
                 <p className="font-bold mb-1">
-                  {selected === props.quiz[qIndex].correctIndex ? "صح! 🎉" : "مش قصادها"}
+                  {selected === props.quiz[qIndex].correctIndex
+                    ? (isEn ? "Correct! 🎉" : "صح! 🎉")
+                    : (isEn ? "Not quite right" : "مش قصادها")}
                 </p>
-                <p className="text-xs">{props.quiz[qIndex].explanation}</p>
+                <p className="text-xs leading-relaxed">{props.quiz[qIndex].explanation}</p>
               </div>
             )}
           </div>
@@ -339,38 +342,42 @@ export default function LessonPlayer(props: Props) {
 
         {phase === "complete" && result && (
           <div className="text-center pt-6">
-            <div className="w-20 h-20 mx-auto rounded-2xl bg-amber-100 flex items-center justify-center text-4xl mb-4">
+            <div className="w-20 h-20 mx-auto rounded-3xl bg-amber-100 dark:bg-amber-950/40 flex items-center justify-center text-4xl mb-4 shadow-inner">
               🏆
             </div>
             <p className="text-[10px] text-neutral-400 tracking-wide mb-1">
-              يوم {props.dayNumber} · الكويز خلص
+              {isEn ? `Day ${props.dayNumber} · Quiz Complete` : `يوم ${props.dayNumber} · الكويز خلص`}
             </p>
-            <h2 className="text-xl font-bold mb-4">
-              {score === props.quiz.length ? "نتيجة مثالية!" : "خلصت اليوم ده!"}
+            <h2 className="text-xl font-black mb-4 text-neutral-900 dark:text-white">
+              {score === props.quiz.length
+                ? (isEn ? "Perfect Score! 🌟" : "نتيجة مثالية! 🌟")
+                : (isEn ? "Day Completed!" : "خلصت اليوم ده!")}
             </h2>
             <div className="grid grid-cols-3 gap-2 mb-5">
-              <div className="bg-neutral-50 rounded-xl py-3">
-                <div className="font-bold text-brand-800">
+              <div className="bg-neutral-50 dark:bg-neutral-900 border border-black/5 dark:border-neutral-800 rounded-2xl py-3">
+                <div className="font-bold text-teal-800 dark:text-teal-400 font-mono text-base">
                   {score}/{props.quiz.length}
                 </div>
-                <div className="text-[10px] text-neutral-400">النتيجة</div>
+                <div className="text-[10px] text-neutral-400">{isEn ? "Score" : "النتيجة"}</div>
               </div>
-              <div className="bg-neutral-50 rounded-xl py-3">
-                <div className="font-bold text-brand-800">⚡ {result.xpEarned}</div>
-                <div className="text-[10px] text-neutral-400">XP اتكسبت</div>
+              <div className="bg-neutral-50 dark:bg-neutral-900 border border-black/5 dark:border-neutral-800 rounded-2xl py-3">
+                <div className="font-bold text-teal-800 dark:text-teal-400 font-mono text-base">⚡ {result.xpEarned}</div>
+                <div className="text-[10px] text-neutral-400">{isEn ? "XP Earned" : "XP اتكسبت"}</div>
               </div>
-              <div className="bg-neutral-50 rounded-xl py-3">
-                <div className="font-bold text-brand-800">{result.streak} 🔥</div>
-                <div className="text-[10px] text-neutral-400">أيام متتالية</div>
+              <div className="bg-neutral-50 dark:bg-neutral-900 border border-black/5 dark:border-neutral-800 rounded-2xl py-3">
+                <div className="font-bold text-teal-800 dark:text-teal-400 font-mono text-base">{result.streak} 🔥</div>
+                <div className="text-[10px] text-neutral-400">{isEn ? "Day Streak" : "أيام متتالية"}</div>
               </div>
             </div>
             {result.newBadges.length > 0 && (
-              <div className="space-y-2 mb-6 text-right">
+              <div className="space-y-2 mb-6 text-start">
                 {result.newBadges.map((b) => (
-                  <div key={b.key} className="flex items-center gap-3 bg-amber-50 border border-amber-100 rounded-xl p-3">
+                  <div key={b.key} className="flex items-center gap-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-500/20 rounded-2xl p-3">
                     <span className="text-xl">{b.icon}</span>
                     <div>
-                      <p className="text-sm font-bold">شارة جديدة: {b.title}</p>
+                      <p className="text-xs font-bold text-amber-900 dark:text-amber-200">
+                        {isEn ? `New Badge: ${b.title}` : `شارة جديدة: ${b.title}`}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -378,10 +385,14 @@ export default function LessonPlayer(props: Props) {
             )}
 
             {showPromo && (
-              <div className="mb-6 overflow-hidden rounded-2xl border border-black/5 bg-gradient-to-br from-brand-600 to-brand-800 p-4 text-right text-white">
-                <p className="mb-1 text-sm font-bold">🎁 وصلت نص الطريق — الحق العرض!</p>
-                <p className="mb-3 text-xs leading-relaxed text-white/80">
-                  المسارات التانية بـ <b>{pricing.priceEgp} ج.م</b> — {pricing.offerNote}.
+              <div className="mb-6 overflow-hidden rounded-3xl border border-black/5 bg-gradient-to-br from-teal-600 to-emerald-700 p-5 text-start text-white shadow-lg">
+                <p className="mb-1 text-sm font-bold">
+                  {isEn ? "🎁 Halfway There — Unlock the Full Catalogue!" : "🎁 وصلت نص الطريق — الحق العرض!"}
+                </p>
+                <p className="mb-3 text-xs leading-relaxed text-white/90">
+                  {isEn
+                    ? `Get all 100 tracks for just ${pricing.priceEgp} EGP — ${pricing.offerNote}.`
+                    : `المسارات التانية بـ ${pricing.priceEgp} ج.م — ${pricing.offerNote}.`}
                 </p>
                 <div className="mb-3 flex flex-wrap gap-2">
                   {props.promoCourses.map((c) => (
@@ -395,43 +406,39 @@ export default function LessonPlayer(props: Props) {
                 </div>
                 <Link
                   href="/quiz/checkout"
-                  className="block rounded-full bg-white py-2.5 text-center text-sm font-bold text-brand-800"
+                  className="block rounded-full bg-white py-2.5 text-center text-xs font-bold text-teal-900 shadow-md hover:bg-neutral-50 transition-colors"
                 >
-                  اشترك دلوقتي →
+                  {isEn ? "Subscribe Now →" : "اشترك دلوقتي ←"}
                 </Link>
                 <button
                   type="button"
                   onClick={() => setPromoDismissed(true)}
-                  className="mt-2 w-full text-center text-[11px] text-white/60"
+                  className="mt-2 w-full text-center text-[11px] text-white/60 hover:text-white"
                 >
-                  مش دلوقتي
+                  {isEn ? "Not now" : "مش دلوقتي"}
                 </button>
               </div>
             )}
-            {/*
-              A locked learner who just finished the free day sees the offer
-              here instead of a "next lesson" button that would only bounce
-              them back to the course page.
-            */}
+
             {props.accessState !== "unlocked" ? (
               <PaywallPrompt
                 state={props.accessState}
                 totalLessons={props.totalDays}
-                courseTitle={props.courseTitle}
+                courseTitle={courseTitle}
               />
             ) : props.nextDayNumber ? (
               <Link
                 href={`/app/learn/${props.courseSlug}/${props.nextDayNumber}`}
-                className="block text-center bg-brand-600 btn-shine text-white font-bold rounded-full py-3 text-sm"
+                className="block text-center bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-500 hover:to-emerald-400 text-white font-bold rounded-full py-3.5 text-sm shadow-md active:scale-98 transition-all"
               >
-                الدرس الجاي →
+                {isEn ? `Next Lesson · Day ${props.nextDayNumber} →` : `الدرس الجاي · يوم ${props.nextDayNumber} ←`}
               </Link>
             ) : (
               <button
                 onClick={goHome}
-                className="w-full text-center bg-brand-600 btn-shine text-white font-bold rounded-full py-3 text-sm"
+                className="w-full text-center bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-500 hover:to-emerald-400 text-white font-bold rounded-full py-3.5 text-sm shadow-md active:scale-98 transition-all"
               >
-                أكملت الكورس! 🎉
+                {isEn ? "🎉 Completed Course! View Certificate" : "🎉 أكملت الكورس! استلم الشهادة"}
               </button>
             )}
           </div>
@@ -439,29 +446,38 @@ export default function LessonPlayer(props: Props) {
       </div>
 
       {(phase === "cards" || phase === "quizIntro") && (
-        <div className="lesson-actions flex gap-2 px-4 pb-4 pt-3">
+        <div className="lesson-actions flex gap-2 px-4 pb-4 pt-3 border-t border-black/5 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md">
           {phase === "cards" && cardIndex > 0 && (
-            <button onClick={prevCard} className="w-11 h-11 rounded-full border border-black/10 text-neutral-500 shrink-0">
-              ›
+            <button
+              onClick={prevCard}
+              aria-label="Previous card"
+              className="w-12 h-12 rounded-full border border-black/10 dark:border-neutral-800 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 flex items-center justify-center shrink-0 transition-colors"
+            >
+              {isEn ? "‹" : "›"}
             </button>
           )}
           <button
             onClick={phase === "cards" ? nextCard : () => setPhase("quiz")}
-            className="flex-1 bg-brand-600 btn-shine text-white font-bold rounded-full py-3 text-sm"
+            className="flex-1 bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-500 hover:to-emerald-400 text-white font-bold rounded-full py-3.5 text-sm shadow-md active:scale-98 transition-all"
           >
             {phase === "quizIntro"
-              ? "ابدأ الكويز"
+              ? (isEn ? "Start Quiz →" : "ابدأ الكويز ←")
               : card.type === "task"
-              ? "ابدأ الكويز"
-              : "التالي ‹"}
+              ? (isEn ? "Take Quiz →" : "ابدأ الكويز ←")
+              : (isEn ? "Next Card →" : "التالي ‹")}
           </button>
         </div>
       )}
 
       {phase === "quiz" && answered && (
-        <div className="lesson-actions px-4 pb-4 pt-3">
-          <button onClick={nextQuestion} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3 text-sm">
-            {qIndex < props.quiz.length - 1 ? "السؤال الجاي ‹" : "شوف النتيجة"}
+        <div className="lesson-actions px-4 pb-4 pt-3 border-t border-black/5 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md">
+          <button
+            onClick={nextQuestion}
+            className="w-full bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-500 hover:to-emerald-400 text-white font-bold rounded-full py-3.5 text-sm shadow-md active:scale-98 transition-all"
+          >
+            {qIndex < props.quiz.length - 1
+              ? (isEn ? "Next Question →" : "السؤال التالي ‹")
+              : (isEn ? "View Results 🎉" : "شوف النتيجة 🎉")}
           </button>
         </div>
       )}

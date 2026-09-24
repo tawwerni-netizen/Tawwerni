@@ -1,17 +1,15 @@
-import Link from "next/link";
+"use client";
 
-/**
- * One track in the home grid.
- *
- * Carries its own progress, so the grid answers "where am I in each of these"
- * at a glance rather than being six identical cards. The ring fills as days are
- * completed; the track currently being worked on is marked, because that is the
- * one piece of state the learner looks for first.
- */
+import Link from "next/link";
+import { useI18n } from "./LanguageContext";
+import { getTrackBySlug } from "@/content/tracks100";
+
 export default function CourseTile({
   slug,
   title,
+  titleEn,
   category,
+  categoryEn,
   icon,
   total,
   done,
@@ -20,13 +18,22 @@ export default function CourseTile({
 }: {
   slug: string;
   title: string;
+  titleEn?: string;
   category: string;
+  categoryEn?: string;
   icon: string;
   total: number;
   done: number;
   unlocked: boolean;
   isActive: boolean;
 }) {
+  const { lang } = useI18n();
+  const isEn = lang === "en";
+
+  const track = getTrackBySlug(slug);
+  const displayTitle = isEn ? (titleEn || track?.titleEn || title) : (title || track?.titleAr);
+  const displayCategory = isEn ? (categoryEn || track?.pillarNameEn || category) : (category || track?.pillarNameAr);
+
   const pct = total ? Math.round((done / total) * 100) : 0;
   const complete = total > 0 && done >= total;
 
@@ -34,38 +41,41 @@ export default function CourseTile({
     <Link
       href={`/app/learn/${slug}`}
       className={`tile-press relative block rounded-2xl border p-3.5 text-center transition-all bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-xs ${
-        isActive ? "border-brand-500 ring-2 ring-brand-500/20" : "border-black/10 dark:border-neutral-800 hover:border-brand-500/40"
+        isActive ? "border-teal-500 ring-2 ring-teal-500/20" : "border-black/10 dark:border-neutral-800 hover:border-teal-500/40"
       }`}
     >
       {isActive && (
-        <span className="absolute right-2 top-2 rounded-full bg-brand-600 px-1.5 py-0.5 text-[9px] font-bold text-white">
-          شغّال
+        <span className="absolute top-2 right-2 rounded-full bg-teal-600 px-2 py-0.5 text-[9px] font-bold text-white shadow-xs">
+          {isEn ? "Active" : "شغّال"}
         </span>
       )}
       {complete && (
-        <span className="absolute right-2 top-2 text-sm" title="خلصته">
+        <span className="absolute top-2 right-2 text-sm" title={isEn ? "Completed" : "خلصته"}>
           🎓
         </span>
       )}
 
-      <div className="mb-1 text-xl" aria-hidden>
+      <div className="mb-1 text-2xl" aria-hidden>
         {icon}
       </div>
-      <div className="truncate text-xs font-bold" title={title}>
-        {category}
+      <div className="truncate text-xs font-bold" title={displayTitle}>
+        {displayTitle}
+      </div>
+      <div className="truncate text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5">
+        {displayCategory}
       </div>
 
-      <div className="mt-2">
+      <div className="mt-2.5">
         <div className="progress-track" role="presentation">
           <span className="progress-fill" style={{ width: `${pct}%` }} />
         </div>
-        <div className="mt-1 text-[10px] text-neutral-400">
-          {done}/{total} يوم
+        <div className="mt-1 text-[10px] text-neutral-400 font-mono">
+          {done}/{total} {isEn ? "Days" : "يوم"}
         </div>
       </div>
 
-      <div className="mt-1 text-[10px] text-brand-600">
-        {unlocked ? "مفتوح ✓" : "ضمن الاشتراك"}
+      <div className="mt-1 text-[10px] font-medium text-teal-600 dark:text-teal-400">
+        {unlocked ? (isEn ? "Unlocked ✓" : "مفتوح ✓") : (isEn ? "Included in Pass" : "ضمن الاشتراك")}
       </div>
     </Link>
   );

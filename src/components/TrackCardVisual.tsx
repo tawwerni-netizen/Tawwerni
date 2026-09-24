@@ -10,7 +10,120 @@ type Props = {
   isUnlocked?: boolean;
 };
 
-export default function TrackCardVisual({ track, onSelect, isUnlocked = true }: Props) {
+function PillarSvgIllustration({ pillarId, accentFrom, accentTo }: { pillarId: number; accentFrom: string; accentTo: string }) {
+  switch (pillarId) {
+    case 1: // AI & Prompts
+      return (
+        <svg viewBox="0 0 200 100" className="w-full h-full opacity-35 transition-transform duration-500 group-hover:scale-105 stroke-teal-300 dark:stroke-teal-400 fill-none" strokeWidth="1.2">
+          <circle cx="100" cy="50" r="32" strokeDasharray="3 3" />
+          <circle cx="100" cy="50" r="16" className="fill-teal-500/20" />
+          <circle cx="45" cy="30" r="6" className="fill-emerald-400/40" />
+          <circle cx="155" cy="30" r="6" className="fill-cyan-400/40" />
+          <circle cx="40" cy="75" r="5" className="fill-emerald-400/30" />
+          <circle cx="160" cy="75" r="5" className="fill-teal-400/30" />
+          <line x1="45" y1="30" x2="100" y2="50" />
+          <line x1="155" y1="30" x2="100" y2="50" />
+          <line x1="40" y1="75" x2="100" y2="50" />
+          <line x1="160" y1="75" x2="100" y2="50" />
+          <line x1="45" y1="30" x2="40" y2="75" strokeDasharray="2 2" />
+          <line x1="155" y1="30" x2="160" y2="75" strokeDasharray="2 2" />
+        </svg>
+      );
+    case 2: // Code & Dev
+      return (
+        <svg viewBox="0 0 200 100" className="w-full h-full opacity-35 transition-transform duration-500 group-hover:scale-105 stroke-blue-300 dark:stroke-blue-400 fill-none" strokeWidth="1.2">
+          <rect x="25" y="15" width="150" height="70" rx="10" strokeDasharray="4 4" />
+          <path d="M60,35 L45,50 L60,65" strokeWidth="2" strokeLinecap="round" />
+          <path d="M140,35 L155,50 L140,65" strokeWidth="2" strokeLinecap="round" />
+          <line x1="110" y1="30" x2="90" y2="70" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="38" cy="25" r="2.5" className="fill-rose-400" />
+          <circle cx="46" cy="25" r="2.5" className="fill-amber-400" />
+          <circle cx="54" cy="25" r="2.5" className="fill-emerald-400" />
+        </svg>
+      );
+    case 3: // Data & BI
+      return (
+        <svg viewBox="0 0 200 100" className="w-full h-full opacity-35 transition-transform duration-500 group-hover:scale-105 stroke-cyan-300 dark:stroke-cyan-400 fill-none" strokeWidth="1.2">
+          <polyline points="30,80 70,55 110,65 150,30 175,20" strokeWidth="2" strokeLinecap="round" />
+          <rect x="40" y="65" width="14" height="20" rx="3" className="fill-cyan-500/20" />
+          <rect x="75" y="45" width="14" height="40" rx="3" className="fill-cyan-500/25" />
+          <rect x="110" y="55" width="14" height="30" rx="3" className="fill-cyan-500/20" />
+          <rect x="145" y="30" width="14" height="55" rx="3" className="fill-teal-500/35" />
+          <circle cx="175" cy="20" r="4" className="fill-cyan-400" />
+        </svg>
+      );
+    case 4: // Freelancing & Agency
+      return (
+        <svg viewBox="0 0 200 100" className="w-full h-full opacity-35 transition-transform duration-500 group-hover:scale-105 stroke-amber-300 dark:stroke-amber-400 fill-none" strokeWidth="1.2">
+          <circle cx="70" cy="50" r="24" className="fill-amber-500/20" />
+          <circle cx="130" cy="50" r="24" className="fill-amber-500/20" />
+          <line x1="70" y1="50" x2="130" y2="50" strokeWidth="2" strokeDasharray="3 3" />
+          <path d="M62,44 Q70,38 78,44 T78,56 Q70,62 62,56" strokeWidth="1.8" />
+          <line x1="70" y1="36" x2="70" y2="64" strokeWidth="1.8" />
+          <polyline points="120,40 135,50 120,60" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      );
+    case 5: // Marketing & Sales
+      return (
+        <svg viewBox="0 0 200 100" className="w-full h-full opacity-35 transition-transform duration-500 group-hover:scale-105 stroke-rose-300 dark:stroke-rose-400 fill-none" strokeWidth="1.2">
+          <path d="M50,40 L90,25 L90,75 L50,60 Z" className="fill-rose-500/20" />
+          <path d="M105,32 Q125,50 105,68" strokeWidth="2" strokeLinecap="round" />
+          <path d="M120,24 Q150,50 120,76" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="165" cy="50" r="16" strokeDasharray="2 2" />
+          <circle cx="165" cy="50" r="5" className="fill-rose-400" />
+        </svg>
+      );
+    case 6: // Design & Media
+      return (
+        <svg viewBox="0 0 200 100" className="w-full h-full opacity-35 transition-transform duration-500 group-hover:scale-105 stroke-purple-300 dark:stroke-purple-400 fill-none" strokeWidth="1.2">
+          <circle cx="75" cy="50" r="28" strokeDasharray="3 3" />
+          <circle cx="125" cy="50" r="28" strokeDasharray="3 3" />
+          <path d="M40,50 C80,10 120,90 160,50" strokeWidth="2.2" strokeLinecap="round" />
+          <circle cx="80" cy="30" r="4" className="fill-purple-400" />
+          <circle cx="120" cy="70" r="4" className="fill-fuchsia-400" />
+        </svg>
+      );
+    case 7: // Startups & Business
+      return (
+        <svg viewBox="0 0 200 100" className="w-full h-full opacity-35 transition-transform duration-500 group-hover:scale-105 stroke-emerald-300 dark:stroke-emerald-400 fill-none" strokeWidth="1.2">
+          <polygon points="100,18 135,82 65,82" strokeWidth="1.8" className="fill-emerald-500/20" />
+          <polygon points="100,32 120,76 80,76" strokeWidth="1.2" />
+          <line x1="100" y1="18" x2="100" y2="82" strokeDasharray="3 3" />
+          <circle cx="100" cy="48" r="4" className="fill-emerald-400" />
+        </svg>
+      );
+    case 8: // Cybersecurity
+      return (
+        <svg viewBox="0 0 200 100" className="w-full h-full opacity-35 transition-transform duration-500 group-hover:scale-105 stroke-red-300 dark:stroke-red-400 fill-none" strokeWidth="1.2">
+          <path d="M100,18 L140,32 L140,58 C140,75 100,88 100,88 C100,88 60,75 60,58 L60,32 Z" strokeWidth="1.8" className="fill-red-500/20" />
+          <circle cx="100" cy="48" r="8" strokeWidth="1.5" />
+          <line x1="100" y1="56" x2="100" y2="66" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      );
+    case 9: // Soft Skills & Leadership
+      return (
+        <svg viewBox="0 0 200 100" className="w-full h-full opacity-35 transition-transform duration-500 group-hover:scale-105 stroke-yellow-300 dark:stroke-yellow-400 fill-none" strokeWidth="1.2">
+          <circle cx="60" cy="50" r="18" className="fill-amber-400/20" />
+          <circle cx="140" cy="50" r="18" className="fill-amber-400/20" />
+          <path d="M78,50 Q100,35 122,50" strokeWidth="2" strokeLinecap="round" />
+          <path d="M78,50 Q100,65 122,50" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="100" cy="50" r="4" className="fill-yellow-400" />
+        </svg>
+      );
+    case 10: // Productivity & Mindset
+    default:
+      return (
+        <svg viewBox="0 0 200 100" className="w-full h-full opacity-35 transition-transform duration-500 group-hover:scale-105 stroke-teal-300 dark:stroke-teal-400 fill-none" strokeWidth="1.2">
+          <ellipse cx="100" cy="50" rx="45" ry="18" strokeDasharray="3 3" transform="rotate(-25 100 50)" />
+          <ellipse cx="100" cy="50" rx="45" ry="18" strokeDasharray="3 3" transform="rotate(25 100 50)" />
+          <circle cx="100" cy="50" r="12" className="fill-teal-400/30" />
+          <circle cx="100" cy="50" r="4" className="fill-teal-300" />
+        </svg>
+      );
+  }
+}
+
+export default function TrackCardVisual({ track, onSelect }: Props) {
   const router = useRouter();
   const { lang, t } = useI18n();
 
@@ -23,27 +136,27 @@ export default function TrackCardVisual({ track, onSelect, isUnlocked = true }: 
     if (onSelect) {
       onSelect(track);
     } else {
-      router.push(`/tracks?pillar=${track.pillarId}`);
+      router.push(`/app/learn/${track.slug}`);
     }
   }
 
   return (
     <div
       onClick={handleClick}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900/80 p-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:border-teal-500/40 hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-teal-500/10 cursor-pointer text-neutral-900 dark:text-white shadow-sm"
+      className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900/90 p-4.5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:border-teal-500/50 hover:shadow-2xl dark:hover:shadow-teal-500/15 cursor-pointer text-neutral-900 dark:text-white shadow-xs"
     >
-      {/* Dynamic Background Glow based on track colors */}
+      {/* Dynamic Background Glow */}
       <div
-        className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full opacity-10 dark:opacity-20 blur-3xl transition-opacity group-hover:opacity-30 dark:group-hover:opacity-40"
+        className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full opacity-15 dark:opacity-25 blur-3xl transition-opacity group-hover:opacity-40"
         style={{ background: `radial-gradient(circle, ${track.accentFrom} 0%, transparent 70%)` }}
       />
       <div
-        className="pointer-events-none absolute -bottom-10 -left-10 h-32 w-32 rounded-full opacity-10 dark:opacity-15 blur-2xl transition-opacity group-hover:opacity-20 dark:group-hover:opacity-30"
+        className="pointer-events-none absolute -bottom-10 -left-10 h-36 w-36 rounded-full opacity-10 dark:opacity-20 blur-2xl transition-opacity group-hover:opacity-30"
         style={{ background: `radial-gradient(circle, ${track.accentTo} 0%, transparent 70%)` }}
       />
 
-      {/* Top Header */}
       <div>
+        {/* Top Header Pill & Order */}
         <div className="flex items-center justify-between gap-2 mb-3">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-black/10 dark:border-white/10 bg-neutral-100 dark:bg-white/5 px-2.5 py-1 text-xs font-semibold text-neutral-700 dark:text-neutral-300 backdrop-blur-xs">
             <span>{track.icon}</span>
@@ -54,24 +167,39 @@ export default function TrackCardVisual({ track, onSelect, isUnlocked = true }: 
           </span>
         </div>
 
-        {/* Visual Graphic Artwork Badge */}
-        <div className="relative my-3 flex h-24 w-full items-center justify-center overflow-hidden rounded-2xl border border-black/5 dark:border-white/5 bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-950/80 dark:to-neutral-900/60 shadow-inner group-hover:border-teal-500/30 transition-all">
-          {/* Subtle grid pattern */}
-          <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:16px_16px]" />
-          
-          <div
-            className="flex h-16 w-16 items-center justify-center rounded-2xl text-3xl shadow-lg transition-transform duration-300 group-hover:scale-110"
-            style={{
-              background: `linear-gradient(135deg, ${track.accentFrom}, ${track.accentTo})`,
-              boxShadow: `0 10px 25px -5px ${track.accentFrom}40`,
-            }}
-          >
+        {/* Rich Thematic Graphic Visual Banner */}
+        <div
+          className="relative my-2.5 flex h-36 w-full items-center justify-center overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 shadow-inner transition-all duration-500 group-hover:border-teal-500/40"
+          style={{
+            background: `linear-gradient(135deg, ${track.accentFrom}dd, ${track.accentTo}ee)`,
+          }}
+        >
+          {/* Ambient SVG pattern behind */}
+          <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+            <PillarSvgIllustration pillarId={track.pillarId} accentFrom={track.accentFrom} accentTo={track.accentTo} />
+          </div>
+
+          {/* Shimmer sweep effect */}
+          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-1000 group-hover:translate-x-full pointer-events-none" />
+
+          {/* Elevated Glassmorphic Center Icon Badge */}
+          <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 dark:bg-black/30 backdrop-blur-md text-3xl shadow-xl border border-white/30 dark:border-white/20 transition-transform duration-300 group-hover:scale-110">
             {track.icon}
+          </div>
+
+          {/* Level Overlay Chip */}
+          <div className="absolute bottom-2.5 left-2.5 z-10 rounded-full bg-black/40 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white border border-white/15">
+            {level}
+          </div>
+
+          {/* Lesson Count Overlay */}
+          <div className="absolute bottom-2.5 right-2.5 z-10 rounded-full bg-black/40 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white border border-white/15 font-mono">
+            {track.totalLessons} {t.lessonsCount}
           </div>
         </div>
 
         {/* Title & Description */}
-        <h3 className="text-base font-bold leading-snug tracking-tight text-neutral-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors line-clamp-2">
+        <h3 className="text-base font-bold leading-snug tracking-tight text-neutral-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors line-clamp-2 mt-2">
           {title}
         </h3>
         <p className="mt-1.5 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400 line-clamp-2">
@@ -80,14 +208,10 @@ export default function TrackCardVisual({ track, onSelect, isUnlocked = true }: 
       </div>
 
       {/* Footer Info & Badges */}
-      <div className="mt-4 pt-3 border-t border-neutral-200 dark:border-neutral-800/80 flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400">
-        <div className="flex items-center gap-2">
-          <span className="rounded-md bg-neutral-100 text-neutral-800 dark:bg-neutral-800/70 dark:text-neutral-300 px-2 py-0.5 font-medium">
-            {level}
-          </span>
-          <span>
-            {track.totalLessons} {t.lessonsCount}
-          </span>
+      <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800/80 flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400">
+        <div className="flex items-center gap-1.5 font-medium">
+          <span className="text-teal-600 dark:text-teal-400">✓</span>
+          <span>{lang === "ar" ? "اليوم الأول مجانًا" : "Day 1 Free"}</span>
         </div>
 
         <div className="flex items-center gap-1 font-mono font-bold text-teal-600 dark:text-teal-400">

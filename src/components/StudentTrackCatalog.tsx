@@ -258,16 +258,10 @@ export default function StudentTrackCatalog({ completedTrackSlugs = [], inProgre
             {/* Action Button */}
             <div className="flex items-center gap-3">
               <Link
-                href={
-                  interactiveSlugs.has(activeTrack.slug)
-                    ? `/app/learn/${activeTrack.slug}`
-                    : `/tracks?pillar=${activeTrack.pillarId}`
-                }
+                href={`/app/learn/${activeTrack.slug}`}
                 className="flex-1 py-3 text-center rounded-full font-bold text-sm bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-500 hover:to-emerald-400 text-white shadow-lg active:scale-95 transition-all"
               >
-                {interactiveSlugs.has(activeTrack.slug)
-                  ? (lang === "ar" ? "ابدأ اليوم الأول الآن مجانًا ←" : "Start Day 1 Now (Free) →")
-                  : (lang === "ar" ? "تصفّح تفاصيل وخطة المسار ←" : "Explore Track Curriculum →")}
+                {lang === "ar" ? "ابدأ المسار الآن (اليوم الأول مجانًا) ←" : "Start Track Now (Day 1 Free) →"}
               </Link>
               <button
                 onClick={() => setActiveTrack(null)}

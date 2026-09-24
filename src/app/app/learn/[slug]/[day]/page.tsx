@@ -1,85 +1,70 @@
 import { notFound, redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
-import { hasCourseAccess, approvedCourseIds, pendingOrderFor, FREE_PREVIEW_DAY } from "@/lib/access";
-import LessonPlayer, { type Card } from "@/components/LessonPlayer";
+import { hasCourseAccess, pendingOrderFor, FREE_PREVIEW_DAY } from "@/lib/access";
+import { loadUniversalLesson } from "@/lib/course-loader";
+import { ALL_100_TRACKS } from "@/content/tracks100";
+import LessonPlayer from "@/components/LessonPlayer";
 
 export default async function LessonPage({ params }: { params: Promise<{ slug: string; day: string }> }) {
   const { slug, day } = await params;
   const user = await getCurrentUser();
-  if (!user) return null;
+  if (!user) {
+    redirect(`/login?next=/app/learn/${slug}/${day}`);
+  }
 
   const dayNumber = Number(day);
-  const course = await prisma.course.findUnique({
-    where: { slug },
-    include: { modules: { orderBy: { order: "asc" }, include: { lessons: { orderBy: { order: "asc" } } } } },
-  });
-  if (!course) notFound();
+  if (isNaN(dayNumber) || dayNumber < 1) notFound();
 
-  const allLessons = course.modules.flatMap((m) => m.lessons);
-  const totalDays = allLessons.length;
-  const lesson = allLessons.find((l) => l.dayNumber === dayNumber);
-  if (!lesson) notFound();
+  const lessonData = loadUniversalLesson(slug, dayNumber);
+  if (!lessonData) notFound();
 
-  const unlocked = await hasCourseAccess(user.id, course.id);
+  const { course, module, lesson, allLessons, nextLesson } = lessonData;
 
-  // Day 1 is a free preview; everything after it needs an approved order.
+  let unlocked = false;
+  try {
+    unlocked = await hasCourseAccess(user.id, course.id);
+  } catch {
+    unlocked = false;
+  }
+
+  // Day 1 is a free preview; everything after it needs an approved order or admin role.
   if (dayNumber !== FREE_PREVIEW_DAY && !unlocked) {
     redirect(`/app/learn/${course.slug}?locked=1`);
   }
 
   // Drives the prompt shown after the free day finishes.
-  const pending = unlocked ? null : await pendingOrderFor(user.id, course.id);
+  let pending = false;
+  if (!unlocked) {
+    try {
+      const p = await pendingOrderFor(user.id, course.id);
+      pending = p !== null;
+    } catch {
+      pending = false;
+    }
+  }
+
   const accessState = unlocked ? "unlocked" : pending ? "pending" : "unpaid";
 
-  const module = course.modules.find((m) => m.id === lesson.moduleId)!;
-
-  const [cards, quizQuestions] = await Promise.all([
-    prisma.lessonCard.findMany({ where: { lessonId: lesson.id }, orderBy: { order: "asc" } }),
-    prisma.quizQuestion.findMany({ where: { lessonId: lesson.id }, orderBy: { order: "asc" } }),
-  ]);
-
-  const nextLesson = allLessons.find((l) => l.order > lesson.order && l.moduleId === lesson.moduleId) ??
-    course.modules.find((m) => m.order === module.order + 1)?.lessons[0];
-
-  const unlockedIds = await approvedCourseIds(user.id);
-  const promoCourses = (
-    await prisma.course.findMany({
-      where: { isComingSoon: false, id: { not: course.id } },
-      orderBy: { order: "asc" },
-      select: { id: true, slug: true, icon: true, category: true },
-    })
-  )
-    .filter((c) => !unlockedIds.has(c.id))
-    .map(({ slug, icon, category }) => ({ slug, icon, category }));
+  const promoCourses = ALL_100_TRACKS.filter((t) => t.slug !== course.slug)
+    .slice(0, 4)
+    .map(({ slug, icon, pillarNameAr }) => ({ slug, icon, category: pillarNameAr }));
 
   return (
     <LessonPlayer
       courseSlug={course.slug}
-      courseTitle={course.title}
+      courseTitle={course.titleAr}
+      courseTitleEn={course.titleEn}
       accessState={accessState}
-      moduleTitle={module.title}
+      moduleTitle={module.titleAr}
+      moduleTitleEn={module.titleEn}
       dayNumber={dayNumber}
-      totalDays={totalDays}
+      totalDays={allLessons.length}
       lessonId={lesson.id}
-      lessonTitle={lesson.title}
+      lessonTitle={lesson.titleAr}
+      lessonTitleEn={lesson.titleEn}
       videoUrl={lesson.videoUrl}
-      cards={cards.map(
-        (c) =>
-          ({
-            type: c.type,
-            heading: c.heading ?? "",
-            body: JSON.parse(c.body),
-          }) as Card
-      )}
-      quiz={quizQuestions.map((q) => ({
-        id: q.id,
-        type: q.type as "mcq" | "tf",
-        question: q.question,
-        options: JSON.parse(q.options),
-        correctIndex: q.correctIndex,
-        explanation: q.explanation,
-      }))}
+      cards={lesson.cards}
+      quiz={lesson.quiz}
       xp={lesson.xp}
       nextDayNumber={nextLesson?.dayNumber ?? null}
       promoCourses={promoCourses}

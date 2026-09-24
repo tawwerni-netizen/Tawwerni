@@ -27,6 +27,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         setLangState(saved);
         document.documentElement.lang = saved;
         document.documentElement.dir = saved === "en" ? "ltr" : "rtl";
+        document.title = saved === "en" 
+          ? "Tawwerni — Turn Daily Learning into Real Progress" 
+          : "طوّرني — حوّل تعلّمك اليومي لتقدّم حقيقي";
       }
     } catch {
       /* ignore storage error */
@@ -37,6 +40,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     setLangState(newLang);
     document.documentElement.lang = newLang;
     document.documentElement.dir = newLang === "en" ? "ltr" : "rtl";
+    document.title = newLang === "en" 
+      ? "Tawwerni — Turn Daily Learning into Real Progress" 
+      : "طوّرني — حوّل تعلّمك اليومي لتقدّم حقيقي";
     try {
       localStorage.setItem("tawwerni-lang", newLang);
     } catch {

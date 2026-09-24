@@ -20,26 +20,40 @@ export async function hasAnyApprovedOrder(userId: string) {
 }
 
 export async function approvedCourseIds(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { isAdmin: true, email: true },
+  });
+  const isAdmin = user?.isAdmin || user?.email?.toLowerCase() === "hhifzy@gmail.com";
+
+  if (isAdmin || pricing.grantsAllCourses) {
+    const hasOrder = isAdmin ? true : await hasAnyApprovedOrder(userId);
+    if (hasOrder) {
+      const all = await prisma.course.findMany({
+        where: { isComingSoon: false },
+        select: { id: true },
+      });
+      return new Set(all.map((c) => c.id));
+    }
+  }
+
   const orders = await prisma.order.findMany({
     where: { userId, status: "approved" },
     select: { courseId: true },
   });
 
-  if (orders.length === 0) return new Set<string>();
-
-  if (pricing.grantsAllCourses) {
-    // Any approved payment unlocks the whole catalogue.
-    const all = await prisma.course.findMany({
-      where: { isComingSoon: false },
-      select: { id: true },
-    });
-    return new Set(all.map((c) => c.id));
-  }
-
   return new Set(orders.map((o) => o.courseId));
 }
 
 export async function hasCourseAccess(userId: string, courseId: string) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { isAdmin: true, email: true },
+  });
+  if (user?.isAdmin || user?.email?.toLowerCase() === "hhifzy@gmail.com") {
+    return true;
+  }
+
   if (pricing.grantsAllCourses) return hasAnyApprovedOrder(userId);
 
   const order = await prisma.order.findFirst({

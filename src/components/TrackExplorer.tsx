@@ -249,7 +249,7 @@ export default function TrackExplorer() {
             {/* Action Buttons */}
             <div className="flex items-center gap-3">
               <Link
-                href="/app"
+                href={`/app/learn/${activeModalTrack.slug}`}
                 className="flex-1 py-3 text-center rounded-full font-bold text-sm bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-500 hover:to-emerald-400 text-white shadow-lg active:scale-95 transition-all"
               >
                 {t.startTrack}
