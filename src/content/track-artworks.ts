@@ -62,7 +62,7 @@ export const TRACK_ARTWORKS: Record<string, TrackArtwork> = {
     badgeEn: "Global Freelancing",
   },
   "ecommerce-from-scratch": {
-    image: "/images/tracks/ecommerce-digital-store-artwork.jpg",
+    image: "/images/tracks/ecommerce-from-scratch.jpg",
     altAr: "التجارة الإلكترونية وبناء المتاجر الرقمية",
     altEn: "E-commerce & Digital Stores",
     badgeAr: "التجارة الإلكترونية",
