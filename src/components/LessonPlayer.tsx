@@ -216,7 +216,7 @@ export default function LessonPlayer(props: Props) {
 
         {phase === "cards" && card.type === "info" && (
           <div>
-            <CardVisual heading={card.heading} lines={card.body.lines} />
+            <CardVisual heading={card.heading} lines={card.body.lines} courseSlug={props.courseSlug} cardIndex={cardIndex} />
             <div className="rounded-2xl bg-neutral-50 dark:bg-neutral-900 border border-black/5 dark:border-neutral-800 p-4">
             {!visualConsumesHeading(card.heading, card.body.lines) && (
               <h2 className="font-bold text-lg mb-2 text-neutral-900 dark:text-white">{card.heading}</h2>

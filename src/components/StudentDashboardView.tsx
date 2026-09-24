@@ -120,7 +120,7 @@ export default function StudentDashboardView({
                 </p>
                 <Link
                   href={`/app/learn/${activeTrack.slug}/${activeTrack.nextDayNumber}`}
-                  className="btn-ghost-shine block text-center bg-white text-teal-900 font-bold rounded-full py-3 text-sm shadow-md hover:bg-neutral-50 active:scale-98 transition-all"
+                  className="btn-ghost-shine cta-btn-white block text-center font-bold rounded-full py-3 text-sm shadow-md active:scale-98 transition-all"
                 >
                   {isEn ? `Continue · Day ${activeTrack.nextDayNumber} →` : `كمّل · يوم ${activeTrack.nextDayNumber} ←`}
                 </Link>
@@ -137,7 +137,7 @@ export default function StudentDashboardView({
                 </p>
                 <Link
                   href={`/app/learn/${activeTrack.slug}/certificate`}
-                  className="btn-ghost-shine block rounded-full bg-white py-3 text-center text-sm font-bold text-teal-900 shadow-md hover:bg-neutral-50 active:scale-98 transition-all"
+                  className="btn-ghost-shine cta-btn-white block rounded-full py-3 text-center text-sm font-bold shadow-md active:scale-98 transition-all"
                 >
                   {isEn ? "Claim Your Verified Certificate 🎓" : "استلم شهادتك المعتمدة 🎓"}
                 </Link>

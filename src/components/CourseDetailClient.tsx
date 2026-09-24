@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useI18n } from "@/components/LanguageContext";
+import { getTrackArtwork } from "@/content/track-artworks";
 import type { UniversalCourse } from "@/lib/course-loader";
 import { pricing, payment } from "@/content/brand";
 
@@ -42,6 +43,7 @@ export default function CourseDetailClient({
   const title = isEn ? course.titleEn : course.titleAr;
   const description = isEn ? course.descriptionEn : course.descriptionAr;
   const level = isEn ? course.levelEn : course.levelAr;
+  const artwork = getTrackArtwork(course.slug);
 
   return (
     <div className="pb-12 text-neutral-900 dark:text-white" dir={isEn ? "ltr" : "rtl"}>
@@ -52,6 +54,16 @@ export default function CourseDetailClient({
           background: `linear-gradient(135deg, ${course.accentFrom || "#0f766e"}, ${course.accentTo || "#042f2e"})`,
         }}
       >
+        {artwork && (
+          <div className="absolute inset-0 pointer-events-none opacity-20 dark:opacity-30">
+            <img
+              src={artwork.image}
+              alt={isEn ? artwork.altEn : artwork.altAr}
+              className="h-full w-full object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/50" />
+          </div>
+        )}
         <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-black/20 blur-2xl" />
 
@@ -106,21 +118,21 @@ export default function CourseDetailClient({
             {!isLoggedIn ? (
               <Link
                 href="/login?signup=1"
-                className="btn-ghost-shine block text-center bg-white text-neutral-900 font-bold rounded-full py-3 text-sm shadow-xl hover:bg-neutral-50 active:scale-98 transition-all"
+                className="btn-ghost-shine cta-btn-white block text-center font-bold rounded-full py-3 text-sm shadow-xl active:scale-98 transition-all"
               >
                 {isEn ? "Start Day 1 Free Now →" : "جرّب اليوم الأول مجانًا الآن ←"}
               </Link>
             ) : unlocked && doneCount >= allLessons.length ? (
               <Link
                 href={`/app/learn/${course.slug}/certificate`}
-                className="btn-ghost-shine block rounded-full bg-white py-3 text-center text-sm font-bold text-neutral-900 shadow-xl hover:bg-neutral-50 transition-all"
+                className="btn-ghost-shine cta-btn-white block rounded-full py-3 text-center text-sm font-bold shadow-xl transition-all"
               >
                 {isEn ? "🎓 View Your Official Certificate" : "🎓 استلم شهادتك المعتمدة"}
               </Link>
             ) : unlocked ? (
               <Link
                 href={`/app/learn/${course.slug}/${nextLesson.dayNumber}`}
-                className="btn-ghost-shine block text-center bg-white text-neutral-900 font-bold rounded-full py-3 text-sm shadow-xl hover:bg-neutral-50 active:scale-98 transition-all"
+                className="btn-ghost-shine cta-btn-white block text-center font-bold rounded-full py-3 text-sm shadow-xl active:scale-98 transition-all"
               >
                 {doneCount === 0
                   ? (isEn ? "Start Day 1 Now →" : "ابدأ يوم ١ الآن ←")
@@ -129,7 +141,7 @@ export default function CourseDetailClient({
             ) : (
               <Link
                 href={`/app/learn/${course.slug}/${FREE_PREVIEW_DAY}`}
-                className="btn-ghost-shine block text-center bg-white text-neutral-900 font-bold rounded-full py-3 text-sm shadow-xl hover:bg-neutral-50 active:scale-98 transition-all"
+                className="btn-ghost-shine cta-btn-white block text-center font-bold rounded-full py-3 text-sm shadow-xl active:scale-98 transition-all"
               >
                 {isEn ? "Start Day 1 Free Preview →" : "جرّب اليوم الأول مجانًا ←"}
               </Link>

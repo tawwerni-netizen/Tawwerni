@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import type { Track100 } from "@/content/tracks100";
+import { getTrackArtwork } from "@/content/track-artworks";
 import { useI18n } from "./LanguageContext";
 
 type Props = {
@@ -131,6 +132,7 @@ export default function TrackCardVisual({ track, onSelect }: Props) {
   const description = lang === "ar" ? track.descriptionAr : track.descriptionEn;
   const pillar = lang === "ar" ? track.pillarNameAr : track.pillarNameEn;
   const level = lang === "ar" ? track.levelAr : track.levelEn;
+  const artwork = getTrackArtwork(track.slug);
 
   function handleClick() {
     if (onSelect) {
@@ -174,10 +176,20 @@ export default function TrackCardVisual({ track, onSelect }: Props) {
             background: `linear-gradient(135deg, ${track.accentFrom}dd, ${track.accentTo}ee)`,
           }}
         >
-          {/* Ambient SVG pattern behind */}
-          <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-            <PillarSvgIllustration pillarId={track.pillarId} accentFrom={track.accentFrom} accentTo={track.accentTo} />
-          </div>
+          {artwork ? (
+            <div className="absolute inset-0 overflow-hidden">
+              <img
+                src={artwork.image}
+                alt={lang === "ar" ? artwork.altAr : artwork.altEn}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            </div>
+          ) : (
+            <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+              <PillarSvgIllustration pillarId={track.pillarId} accentFrom={track.accentFrom} accentTo={track.accentTo} />
+            </div>
+          )}
 
           {/* Shimmer sweep effect */}
           <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-1000 group-hover:translate-x-full pointer-events-none" />
