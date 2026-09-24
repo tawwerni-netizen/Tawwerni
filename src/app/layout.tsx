@@ -98,11 +98,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           dangerouslySetInnerHTML={{
             __html: `(function(){try{
               var s=localStorage.getItem('tawwerni-theme');
-              document.documentElement.dataset.theme=s==='light'?'light':'dark';
+              var t=s==='light'?'light':'dark';
+              document.documentElement.dataset.theme=t;
+              if(t==='dark'){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}
               var l=localStorage.getItem('tawwerni-lang')||'ar';
               document.documentElement.lang=l;
               document.documentElement.dir=l==='en'?'ltr':'rtl';
-            }catch(e){document.documentElement.dataset.theme='dark';}})();`,
+            }catch(e){document.documentElement.dataset.theme='dark';document.documentElement.classList.add('dark');}})();`,
           }}
         />
       </head>

@@ -33,8 +33,8 @@ export default function CourseTile({
   return (
     <Link
       href={`/app/learn/${slug}`}
-      className={`tile-press relative block rounded-xl border bg-white p-3 text-center ${
-        isActive ? "border-brand-400" : "border-black/5"
+      className={`tile-press relative block rounded-2xl border p-3.5 text-center transition-all bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-xs ${
+        isActive ? "border-brand-500 ring-2 ring-brand-500/20" : "border-black/10 dark:border-neutral-800 hover:border-brand-500/40"
       }`}
     >
       {isActive && (

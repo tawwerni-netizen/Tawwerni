@@ -31,7 +31,7 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
   const streak = computeStreak(completions.map((c) => c.completedAt));
 
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-neutral-50">
+    <div className="flex min-h-[100dvh] flex-col bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors">
       <AppHeader
         name={user.name}
         email={user.email}

@@ -3,30 +3,39 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { ALL_100_TRACKS, TRACK_PILLARS, Track100 } from "@/content/tracks100";
-import TrackCardVisual from "@/components/TrackCardVisual";
-import { useI18n } from "@/components/LanguageContext";
+import { allCourses } from "@/content/courses";
+import { useI18n } from "./LanguageContext";
+import TrackCardVisual from "./TrackCardVisual";
 
-export default function TrackExplorer() {
+type Props = {
+  completedTrackSlugs?: string[];
+  inProgressTrackSlugs?: string[];
+};
+
+export default function StudentTrackCatalog({ completedTrackSlugs = [], inProgressTrackSlugs = [] }: Props) {
   const { lang, t } = useI18n();
   const [selectedPillarId, setSelectedPillarId] = useState<number | null>(null);
   const [selectedLevel, setSelectedLevel] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeModalTrack, setActiveModalTrack] = useState<Track100 | null>(null);
+  const [activeTrack, setActiveTrack] = useState<Track100 | null>(null);
 
-  // Filtered tracks
+  const interactiveSlugs = useMemo(() => new Set(allCourses.map((c) => c.meta.slug)), []);
+
+  const totalTracksCount = ALL_100_TRACKS.length;
+  const totalLessonsCount = useMemo(() => {
+    return ALL_100_TRACKS.reduce((sum, t) => sum + t.totalLessons, 0);
+  }, []);
+
   const filteredTracks = useMemo(() => {
     return ALL_100_TRACKS.filter((track) => {
-      // Pillar filter
       if (selectedPillarId !== null && track.pillarId !== selectedPillarId) {
         return false;
       }
-      // Level filter
       if (selectedLevel !== "all") {
         if (selectedLevel === "beginner" && track.levelEn !== "Beginner") return false;
         if (selectedLevel === "intermediate" && track.levelEn !== "Intermediate") return false;
         if (selectedLevel === "advanced" && track.levelEn !== "Advanced") return false;
       }
-      // Search filter
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
         const titleAr = track.titleAr.toLowerCase();
@@ -41,16 +50,28 @@ export default function TrackExplorer() {
 
   return (
     <div className="w-full">
-      {/* Top Search & Filter Bar */}
+      {/* Header Badges */}
+      <div className="mb-6 flex flex-wrap items-center gap-2.5 text-xs">
+        <span className="rounded-full bg-teal-500/10 border border-teal-500/20 px-3.5 py-1.5 font-bold text-teal-800 dark:text-teal-300">
+          🌟 {lang === "ar" ? "١٠٠ مسار احترافي مفتوح بالكامل" : "100 Professional Tracks Unlocked"}
+        </span>
+        <span className="rounded-full bg-neutral-100 dark:bg-neutral-800 px-3.5 py-1.5 font-bold text-neutral-700 dark:text-neutral-300">
+          ⚡ {lang === "ar" ? `أكثر من ${totalLessonsCount} درس تطبيقي` : `${totalLessonsCount}+ Hands-on Lessons`}
+        </span>
+        <span className="rounded-full bg-amber-500/10 border border-amber-500/20 px-3.5 py-1.5 font-bold text-amber-800 dark:text-amber-300">
+          ♾️ {lang === "ar" ? "وصول مدى الحياة شامل التحديثات" : "Lifetime Access & Updates"}
+        </span>
+      </div>
+
+      {/* Search and Level Filters */}
       <div className="mb-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-        {/* Search input */}
         <div className="relative flex-1">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={lang === "ar" ? "ابحث في الـ 100 مسار..." : "Search across 100 tracks..."}
-            className="w-full rounded-2xl border border-black/10 dark:border-neutral-800 bg-white dark:bg-neutral-900/80 px-4 py-3 text-sm text-neutral-900 dark:text-white placeholder-neutral-400 dark:placeholder-neutral-500 focus:border-teal-500 focus:outline-hidden backdrop-blur-md shadow-xs transition-colors"
+            placeholder={lang === "ar" ? "ابحث في كل الـ 100 مسار بالاسم أو المجال..." : "Search all 100 tracks by keyword..."}
+            className="w-full rounded-2xl border border-black/10 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-3 text-sm text-neutral-900 dark:text-white placeholder-neutral-400 dark:placeholder-neutral-500 focus:border-teal-500 focus:outline-hidden backdrop-blur-md shadow-xs transition-colors"
           />
           {searchQuery && (
             <button
@@ -62,7 +83,6 @@ export default function TrackExplorer() {
           )}
         </div>
 
-        {/* Level Filter */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
           <button
             onClick={() => setSelectedLevel("all")}
@@ -107,8 +127,8 @@ export default function TrackExplorer() {
         </div>
       </div>
 
-      {/* Pillar Pills (10 Pillars) */}
-      <div className="mb-8 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+      {/* Pillar Tabs (10 Pillars) */}
+      <div className="mb-7 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
         <button
           onClick={() => setSelectedPillarId(null)}
           className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition-all ${
@@ -118,7 +138,7 @@ export default function TrackExplorer() {
           }`}
         >
           <span>🌟</span>
-          <span>{lang === "ar" ? "كل المجالات (100 مسار)" : "All Pillars (100 Tracks)"}</span>
+          <span>{lang === "ar" ? `جميع الـ ${totalTracksCount} مسار` : `All ${totalTracksCount} Tracks`}</span>
         </button>
 
         {TRACK_PILLARS.map((pillar) => {
@@ -140,22 +160,13 @@ export default function TrackExplorer() {
         })}
       </div>
 
-      {/* Results Count */}
-      <div className="mb-4 flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400">
-        <span>
-          {lang === "ar"
-            ? `عرض ${filteredTracks.length} مسار من أصل 100`
-            : `Showing ${filteredTracks.length} of 100 tracks`}
-        </span>
-      </div>
-
-      {/* Tracks Grid (3 columns on lg, 2 on md, 1 on mobile) */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Grid of All 100 Tracks */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filteredTracks.map((track) => (
           <TrackCardVisual
             key={track.id}
             track={track}
-            onSelect={(t) => setActiveModalTrack(t)}
+            onSelect={(t) => setActiveTrack(t)}
           />
         ))}
       </div>
@@ -164,61 +175,59 @@ export default function TrackExplorer() {
         <div className="py-16 text-center text-neutral-400">
           <p className="text-3xl mb-2">🔍</p>
           <p className="text-sm">
-            {lang === "ar" ? "لم نجد مسارات تطابق بحثك" : "No tracks found matching your query"}
+            {lang === "ar" ? "لم يتم العثور على مسارات تطابق بحثك" : "No tracks match your search criteria."}
           </p>
         </div>
       )}
 
-      {/* Detailed Track Modal */}
-      {activeModalTrack && (
+      {/* Track Details Modal */}
+      {activeTrack && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in">
           <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl border border-black/10 dark:border-teal-500/20 bg-white dark:bg-neutral-950 p-6 text-neutral-900 dark:text-white shadow-2xl transition-colors">
-            {/* Close button */}
             <button
-              onClick={() => setActiveModalTrack(null)}
+              onClick={() => setActiveTrack(null)}
               className="absolute top-5 left-5 rounded-full w-8 h-8 flex items-center justify-center text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 transition-colors"
             >
               ✕
             </button>
 
-            {/* Header with artwork */}
+            {/* Header */}
             <div className="flex items-center gap-3 mb-4">
               <div
                 className="flex h-16 w-16 items-center justify-center rounded-2xl text-3xl shadow-lg"
                 style={{
-                  background: `linear-gradient(135deg, ${activeModalTrack.accentFrom}, ${activeModalTrack.accentTo})`,
+                  background: `linear-gradient(135deg, ${activeTrack.accentFrom}, ${activeTrack.accentTo})`,
                 }}
               >
-                {activeModalTrack.icon}
+                {activeTrack.icon}
               </div>
               <div>
                 <span className="text-xs font-semibold text-teal-700 dark:text-teal-400">
-                  {lang === "ar" ? activeModalTrack.pillarNameAr : activeModalTrack.pillarNameEn} · #{String(activeModalTrack.order).padStart(2, "0")}
+                  {lang === "ar" ? activeTrack.pillarNameAr : activeTrack.pillarNameEn} · #{String(activeTrack.order).padStart(2, "0")}
                 </span>
                 <h2 className="text-xl font-black text-neutral-900 dark:text-white mt-0.5">
-                  {lang === "ar" ? activeModalTrack.titleAr : activeModalTrack.titleEn}
+                  {lang === "ar" ? activeTrack.titleAr : activeTrack.titleEn}
                 </h2>
               </div>
             </div>
 
-            {/* Description */}
             <p className="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed mb-5">
-              {lang === "ar" ? activeModalTrack.descriptionAr : activeModalTrack.descriptionEn}
+              {lang === "ar" ? activeTrack.descriptionAr : activeTrack.descriptionEn}
             </p>
 
-            {/* Quick Metrics */}
+            {/* Metrics */}
             <div className="grid grid-cols-3 gap-2 p-3 rounded-2xl bg-neutral-50 dark:bg-neutral-900/60 border border-black/5 dark:border-neutral-800 text-center mb-6">
               <div>
                 <span className="text-xs text-neutral-500 block mb-0.5">{lang === "ar" ? "الدروس" : "Lessons"}</span>
-                <span className="text-sm font-bold text-neutral-900 dark:text-white font-mono">{activeModalTrack.totalLessons} {t.lessonsCount}</span>
+                <span className="text-sm font-bold text-neutral-900 dark:text-white font-mono">{activeTrack.totalLessons} {t.lessonsCount}</span>
               </div>
               <div>
                 <span className="text-xs text-neutral-500 block mb-0.5">{lang === "ar" ? "الوقت الإجمالي" : "Duration"}</span>
-                <span className="text-sm font-bold text-neutral-900 dark:text-white font-mono">{activeModalTrack.durationHours} {t.hoursCount}</span>
+                <span className="text-sm font-bold text-neutral-900 dark:text-white font-mono">{activeTrack.durationHours} {t.hoursCount}</span>
               </div>
               <div>
                 <span className="text-xs text-neutral-500 block mb-0.5">{lang === "ar" ? "النقاط" : "Total XP"}</span>
-                <span className="text-sm font-bold text-teal-700 dark:text-teal-400 font-mono">+{activeModalTrack.totalXp} XP</span>
+                <span className="text-sm font-bold text-teal-700 dark:text-teal-400 font-mono">+{activeTrack.totalXp} XP</span>
               </div>
             </div>
 
@@ -228,7 +237,7 @@ export default function TrackExplorer() {
                 {t.whatYouWillLearn}
               </h4>
               <ul className="space-y-2">
-                {(lang === "ar" ? activeModalTrack.outcomesAr : activeModalTrack.outcomesEn).map((outcome, i) => (
+                {(lang === "ar" ? activeTrack.outcomesAr : activeTrack.outcomesEn).map((outcome, i) => (
                   <li key={i} className="flex items-start gap-2 text-xs text-neutral-700 dark:text-neutral-200">
                     <span className="text-teal-600 dark:text-teal-400 font-bold">✓</span>
                     <span>{outcome}</span>
@@ -242,20 +251,26 @@ export default function TrackExplorer() {
               <span className="text-base">⚠️</span>
               <div>
                 <span className="font-bold block mb-0.5">{t.honestReality}:</span>
-                <p>{lang === "ar" ? activeModalTrack.realityAr : activeModalTrack.realityEn}</p>
+                <p>{lang === "ar" ? activeTrack.realityAr : activeTrack.realityEn}</p>
               </div>
             </div>
 
-            {/* Action Buttons */}
+            {/* Action Button */}
             <div className="flex items-center gap-3">
               <Link
-                href="/app"
+                href={
+                  interactiveSlugs.has(activeTrack.slug)
+                    ? `/app/learn/${activeTrack.slug}`
+                    : `/tracks?pillar=${activeTrack.pillarId}`
+                }
                 className="flex-1 py-3 text-center rounded-full font-bold text-sm bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-500 hover:to-emerald-400 text-white shadow-lg active:scale-95 transition-all"
               >
-                {t.startTrack}
+                {interactiveSlugs.has(activeTrack.slug)
+                  ? (lang === "ar" ? "ابدأ اليوم الأول الآن مجانًا ←" : "Start Day 1 Now (Free) →")
+                  : (lang === "ar" ? "تصفّح تفاصيل وخطة المسار ←" : "Explore Track Curriculum →")}
               </Link>
               <button
-                onClick={() => setActiveModalTrack(null)}
+                onClick={() => setActiveTrack(null)}
                 className="px-5 py-3 rounded-full text-xs font-semibold bg-neutral-100 hover:bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-300 transition-colors"
               >
                 {lang === "ar" ? "إغلاق" : "Close"}

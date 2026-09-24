@@ -11,18 +11,18 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-neutral-50">
-      <header className="sticky top-0 z-40 app-header">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 transition-colors">
+      <header className="sticky top-0 z-40 border-b border-black/5 dark:border-white/10 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md transition-colors">
         <div className="mx-auto flex h-14 max-w-2xl items-center justify-between px-5">
           <LogoLink size={32} href="/" />
-          <Link href="/" className="tap px-2 py-2 text-xs text-neutral-500">
+          <Link href="/" className="tap px-2 py-2 text-xs text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors">
             الرئيسية
           </Link>
         </div>
       </header>
 
-      <main className="mx-auto max-w-2xl px-5 py-10 text-sm leading-relaxed text-neutral-700">
-        <h1 className="mb-2 text-2xl font-bold text-neutral-800">الشروط والأحكام</h1>
+      <main className="mx-auto max-w-2xl px-5 py-10 text-sm leading-relaxed">
+        <h1 className="mb-2 text-2xl font-bold text-neutral-900 dark:text-white">الشروط والأحكام</h1>
         <p className="mb-8 text-xs text-neutral-400">آخر تحديث: سبتمبر 2026</p>
 
         <p className="mb-6">
@@ -30,7 +30,7 @@ export default function TermsPage() {
           تعرف بالظبط اللي بتوافق عليه، مش عشان تكون عائق.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">١. إيه اللي بتشتريه</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">١. إيه اللي بتشتريه</h2>
         <p className="mb-6">
           دفعة واحدة {pricing.priceEgp} جنيه بتفتحلك وصول مدى الحياة لكل مسارات
           المنصة، بما فيها أي مسار جديد ننزّله بعد كده. مش اشتراك شهري، ومفيش
@@ -38,21 +38,21 @@ export default function TermsPage() {
           حساب قبل ما تدفع.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">٢. حسابك</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٢. حسابك</h2>
         <ul className="mb-6 list-disc space-y-1.5 pr-5">
           <li>الحساب شخصي — بياناتك اللي بتدخل بيها لازم تكون حقيقية</li>
           <li>انت مسؤول عن سرّية كلمة السر بتاعتك</li>
           <li>حساب واحد للشخص الواحد. حسابات مكررة أو وهمية بنقفلها من غير إشعار مسبق</li>
         </ul>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">٣. المحتوى</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٣. المحتوى</h2>
         <p className="mb-6">
           كل محتوى المسارات — الدروس والمهام والكويزات — ملك {brand.name}. وصولك
           ليه شخصي لاستخدامك انت بس. مش مسموح تنسخه أو تعيد بيعه أو توزّعه لحد
           تاني، سواء مجانًا أو بمقابل.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">٤. الإحالة والمكافآت</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٤. الإحالة والمكافآت</h2>
         <p className="mb-6">
           نظام الإحالة بيدّيك {" "}
           <b>عمولة حقيقية عن كل حد يشترك فعليًا بلينكك</b>. أي محاولة تلاعب —
@@ -60,14 +60,14 @@ export default function TermsPage() {
           المرتبطة بيها، وممكن تقفل الحساب.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">٥. مسار الصحة والطاقة</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٥. مسار الصحة والطاقة</h2>
         <p className="mb-6">
           مسار "الصحة والطاقة" محتوى تثقيفي عام عن النوم والحركة والطاقة اليومية.
           مش بديل عن استشارة طبيب، ومش بيقدّم تشخيص أو علاج أو نصيحة طبية شخصية.
           لو عندك حالة صحية، ارجع لطبيبك.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">٦. الدفع والاسترجاع</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٦. الدفع والاسترجاع</h2>
         <p className="mb-6">
           تفاصيل الدفع والاسترجاع مذكورة بالكامل في{" "}
           <Link href="/refund" className="font-bold text-brand-600">
@@ -76,14 +76,14 @@ export default function TermsPage() {
           .
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">٧. حدود المسؤولية</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٧. حدود المسؤولية</h2>
         <p className="mb-6">
           بنبذل جهدنا إن المحتوى يكون دقيق ومفيد، بس نتايجك الفعلية بتعتمد على
           مجهودك في التطبيق. المنصة بتقدّم أدوات وخطة، مش وعد بنتيجة مالية أو
           مهنية محددة.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">٨. تعديل الشروط</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٨. تعديل الشروط</h2>
         <p className="mb-6">
           ممكن نحدّث الشروط دي مع نمو المنصة. أي تعديل جوهري هنحدّث تاريخه فوق
           الصفحة، واستمرارك في الاستخدام معناه موافقتك.

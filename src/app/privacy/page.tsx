@@ -11,18 +11,18 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-neutral-50">
-      <header className="sticky top-0 z-40 app-header">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 transition-colors">
+      <header className="sticky top-0 z-40 border-b border-black/5 dark:border-white/10 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md transition-colors">
         <div className="mx-auto flex h-14 max-w-2xl items-center justify-between px-5">
           <LogoLink size={32} href="/" />
-          <Link href="/" className="tap px-2 py-2 text-xs text-neutral-500">
+          <Link href="/" className="tap px-2 py-2 text-xs text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors">
             الرئيسية
           </Link>
         </div>
       </header>
 
-      <main className="mx-auto max-w-2xl px-5 py-10 text-sm leading-relaxed text-neutral-700">
-        <h1 className="mb-2 text-2xl font-bold text-neutral-800">سياسة الخصوصية</h1>
+      <main className="mx-auto max-w-2xl px-5 py-10 text-sm leading-relaxed">
+        <h1 className="mb-2 text-2xl font-bold text-neutral-900 dark:text-white">سياسة الخصوصية</h1>
         <p className="mb-8 text-xs text-neutral-400">آخر تحديث: سبتمبر 2026</p>
 
         <p className="mb-6">
@@ -30,7 +30,7 @@ export default function PrivacyPage() {
           وإزاي بنستخدمها. مفيش لغة قانونية معقّدة — الهدف إنك تفهم بالظبط اللي بيحصل.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">البيانات اللي بنجمعها</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">البيانات اللي بنجمعها</h2>
         <ul className="mb-6 list-disc space-y-1.5 pr-5">
           <li>الاسم والإيميل ورقم الموبايل — لما تعمل حساب</li>
           <li>كلمة السر — متخزنة مشفّرة باتجاه واحد (scrypt)، مستحيل ترجع نص واضح حتى لينا</li>
@@ -46,7 +46,7 @@ export default function PrivacyPage() {
           أصلًا.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">إزاي بنستخدم البيانات دي</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">إزاي بنستخدم البيانات دي</h2>
         <ul className="mb-6 list-disc space-y-1.5 pr-5">
           <li>تشغيل حسابك وتسجيل دخولك</li>
           <li>مطابقة تحويلك المالي بطلبك وتفعيل وصولك للمسارات</li>
@@ -55,7 +55,7 @@ export default function PrivacyPage() {
           <li>الرد على استفساراتك لما تكلّمنا على واتساب أو إيميل</li>
         </ul>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">مين بيشوف بياناتك</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">مين بيشوف بياناتك</h2>
         <p className="mb-4">
           بنستخدم خدمات خارجية محدودة تساعدنا نشغّل المنصة وندفعها للناس المهتمة:
         </p>
@@ -79,14 +79,14 @@ export default function PrivacyPage() {
           الخدمات دي، وبس عشان يشغّلوا الوظيفة اللي المفروض يعملوها.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">الكوكيز</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">الكوكيز</h2>
         <p className="mb-6">
           بنستخدم كوكي واحدة أساسية لتسجيل دخولك (مشفّرة، ومحمية بحيث المتصفح بس
           يقدر يقراها)، وكوكي بسيطة لتتبّع لينك الإحالة لو دخلت بلينك صاحبك. Google
           وMeta بيحطوا كوكيز التتبّع بتاعتهم بعد موافقتك الضمنية على الاستخدام.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">حقوقك</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">حقوقك</h2>
         <p className="mb-6">
           تقدر تطلب منّا في أي وقت: نبعتلك نسخة من بياناتك، نصحّح بيانات غلط، أو
           نمسح حسابك بالكامل. ابعتلنا الطلب على{" "}
@@ -96,13 +96,13 @@ export default function PrivacyPage() {
           من نفس إيميل حسابك، وهنتعامل معاه خلال أيام قليلة.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">الأطفال</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">الأطفال</h2>
         <p className="mb-6">
           المنصة مش موجّهة لأطفال تحت 16 سنة، ومبنجمعش بيانات عن قصد من حد في
           السن ده.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">تحديث السياسة</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">تحديث السياسة</h2>
         <p className="mb-6">
           لو غيّرنا حاجة جوهرية في السياسة دي، هنحدّث التاريخ فوق الصفحة. الاستمرار
           في استخدام المنصة بعد التحديث معناه موافقتك على النسخة الجديدة.

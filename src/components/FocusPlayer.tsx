@@ -176,7 +176,7 @@ export default function FocusPlayer() {
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label={t.focusMode}
         title={t.focusMode}
-        className="fixed bottom-24 right-5 z-40 flex items-center gap-2 rounded-full border border-teal-500/30 bg-neutral-900/90 text-teal-300 px-3.5 py-2.5 text-xs font-bold shadow-xl backdrop-blur-md transition-all hover:scale-105 active:scale-95 hover:border-teal-400"
+        className="fixed bottom-24 right-5 z-40 flex items-center gap-2 rounded-full border border-teal-500/40 bg-white/95 text-teal-800 dark:bg-neutral-900/90 dark:text-teal-300 px-3.5 py-2.5 text-xs font-bold shadow-xl backdrop-blur-md transition-all hover:scale-105 active:scale-95 hover:border-teal-500"
       >
         <span className="text-base animate-pulse">🧘‍♂️</span>
         <span className="hidden sm:inline">{isRunning ? timeFormatted : t.focusMode}</span>
@@ -184,21 +184,21 @@ export default function FocusPlayer() {
 
       {/* Focus Modal / Drawer */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-md rounded-3xl border border-teal-500/20 bg-neutral-950 p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-md animate-fade-in">
+          <div className="relative w-full max-w-md rounded-3xl border border-black/10 dark:border-teal-500/20 bg-white dark:bg-neutral-950 p-6 text-neutral-900 dark:text-white shadow-2xl transition-colors">
             {/* Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-neutral-800">
+            <div className="flex items-center justify-between pb-4 border-b border-black/10 dark:border-neutral-800">
               <div className="flex items-center gap-2">
                 <span className="text-2xl">🧘‍♂️</span>
                 <div>
-                  <h3 className="text-base font-bold text-teal-400">{t.focusMode}</h3>
-                  <p className="text-xs text-neutral-400">{t.pomodoro}</p>
+                  <h3 className="text-base font-bold text-teal-700 dark:text-teal-400">{t.focusMode}</h3>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400">{t.pomodoro}</p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="rounded-full w-8 h-8 flex items-center justify-center text-neutral-400 hover:text-white bg-neutral-900 hover:bg-neutral-800 transition-colors"
+                className="rounded-full w-8 h-8 flex items-center justify-center text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 transition-colors"
               >
                 ✕
               </button>
@@ -206,11 +206,11 @@ export default function FocusPlayer() {
 
             {/* Big Timer Circle */}
             <div className="my-8 flex flex-col items-center justify-center">
-              <div className="relative w-44 h-44 rounded-full border-4 border-teal-500/20 flex flex-col items-center justify-center bg-teal-950/20 shadow-inner">
-                <span className="text-4xl font-extrabold tracking-wider font-mono text-teal-300">
+              <div className="relative w-44 h-44 rounded-full border-4 border-teal-500/25 flex flex-col items-center justify-center bg-teal-50/60 dark:bg-teal-950/20 shadow-inner">
+                <span className="text-4xl font-extrabold tracking-wider font-mono text-teal-800 dark:text-teal-300">
                   {timeFormatted}
                 </span>
-                <span className="text-xs text-neutral-400 mt-1">
+                <span className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 font-medium">
                   {isRunning ? (lang === "ar" ? "جلسة تركيز جارية" : "Deep Focus") : (lang === "ar" ? "مستعد للبدء؟" : "Ready to focus?")}
                 </span>
               </div>
@@ -223,7 +223,7 @@ export default function FocusPlayer() {
                   className={`px-6 py-2.5 rounded-full font-bold text-sm transition-transform active:scale-95 shadow-md ${
                     isRunning
                       ? "bg-amber-600 hover:bg-amber-500 text-white"
-                      : "bg-teal-500 hover:bg-teal-400 text-neutral-950"
+                      : "bg-teal-600 hover:bg-teal-500 text-white dark:bg-teal-500 dark:hover:bg-teal-400 dark:text-neutral-950"
                   }`}
                 >
                   {isRunning ? (lang === "ar" ? "إيقاف مؤقت ⏸" : "Pause ⏸") : (lang === "ar" ? "ابدأ التركيز ▶" : "Start ▶")}
@@ -234,7 +234,7 @@ export default function FocusPlayer() {
                     setIsRunning(false);
                     setSecondsLeft(25 * 60);
                   }}
-                  className="px-4 py-2.5 rounded-full text-xs font-semibold bg-neutral-800 hover:bg-neutral-700 text-neutral-300 transition-colors"
+                  className="px-4 py-2.5 rounded-full text-xs font-semibold bg-neutral-100 hover:bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-300 transition-colors"
                 >
                   {lang === "ar" ? "إعادة ضبط" : "Reset"}
                 </button>
@@ -242,8 +242,8 @@ export default function FocusPlayer() {
             </div>
 
             {/* Ambient Sound Selection */}
-            <div className="border-t border-neutral-800 pt-4">
-              <div className="text-xs font-bold text-neutral-300 mb-3 flex items-center gap-1.5">
+            <div className="border-t border-black/10 dark:border-neutral-800 pt-4">
+              <div className="text-xs font-bold text-neutral-700 dark:text-neutral-300 mb-3 flex items-center gap-1.5">
                 <span>🎧</span>
                 <span>{t.ambientSounds}</span>
               </div>
@@ -253,12 +253,12 @@ export default function FocusPlayer() {
                   onClick={() => startSound(activeSound === "binaural" ? "none" : "binaural")}
                   className={`flex items-center justify-between p-2.5 rounded-xl border text-xs transition-colors ${
                     activeSound === "binaural"
-                      ? "border-teal-500 bg-teal-950/60 text-teal-300 font-bold"
-                      : "border-neutral-800 bg-neutral-900/60 text-neutral-400 hover:bg-neutral-800"
+                      ? "border-teal-500 bg-teal-50 text-teal-800 dark:bg-teal-950/60 dark:text-teal-300 font-bold"
+                      : "border-black/10 bg-neutral-50 text-neutral-700 hover:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-900/60 dark:text-neutral-400 dark:hover:bg-neutral-800"
                   }`}
                 >
                   <span>🧠 {t.binauralWaves}</span>
-                  {activeSound === "binaural" && <span className="text-teal-400 animate-pulse">●</span>}
+                  {activeSound === "binaural" && <span className="text-teal-600 dark:text-teal-400 animate-pulse">●</span>}
                 </button>
 
                 <button
@@ -266,12 +266,12 @@ export default function FocusPlayer() {
                   onClick={() => startSound(activeSound === "rain" ? "none" : "rain")}
                   className={`flex items-center justify-between p-2.5 rounded-xl border text-xs transition-colors ${
                     activeSound === "rain"
-                      ? "border-teal-500 bg-teal-950/60 text-teal-300 font-bold"
-                      : "border-neutral-800 bg-neutral-900/60 text-neutral-400 hover:bg-neutral-800"
+                      ? "border-teal-500 bg-teal-50 text-teal-800 dark:bg-teal-950/60 dark:text-teal-300 font-bold"
+                      : "border-black/10 bg-neutral-50 text-neutral-700 hover:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-900/60 dark:text-neutral-400 dark:hover:bg-neutral-800"
                   }`}
                 >
                   <span>🌧️ {t.rainSound}</span>
-                  {activeSound === "rain" && <span className="text-teal-400 animate-pulse">●</span>}
+                  {activeSound === "rain" && <span className="text-teal-600 dark:text-teal-400 animate-pulse">●</span>}
                 </button>
 
                 <button
@@ -279,12 +279,12 @@ export default function FocusPlayer() {
                   onClick={() => startSound(activeSound === "whitenoise" ? "none" : "whitenoise")}
                   className={`flex items-center justify-between p-2.5 rounded-xl border text-xs transition-colors ${
                     activeSound === "whitenoise"
-                      ? "border-teal-500 bg-teal-950/60 text-teal-300 font-bold"
-                      : "border-neutral-800 bg-neutral-900/60 text-neutral-400 hover:bg-neutral-800"
+                      ? "border-teal-500 bg-teal-50 text-teal-800 dark:bg-teal-950/60 dark:text-teal-300 font-bold"
+                      : "border-black/10 bg-neutral-50 text-neutral-700 hover:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-900/60 dark:text-neutral-400 dark:hover:bg-neutral-800"
                   }`}
                 >
                   <span>💨 {t.whiteNoise}</span>
-                  {activeSound === "whitenoise" && <span className="text-teal-400 animate-pulse">●</span>}
+                  {activeSound === "whitenoise" && <span className="text-teal-600 dark:text-teal-400 animate-pulse">●</span>}
                 </button>
 
                 <button
@@ -292,8 +292,8 @@ export default function FocusPlayer() {
                   onClick={() => startSound("none")}
                   className={`flex items-center justify-center p-2.5 rounded-xl border text-xs transition-colors ${
                     activeSound === "none"
-                      ? "border-neutral-700 bg-neutral-800 text-neutral-200"
-                      : "border-neutral-800 bg-neutral-900/40 text-neutral-500 hover:bg-neutral-800"
+                      ? "border-neutral-300 bg-neutral-200/70 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 font-bold"
+                      : "border-black/10 bg-neutral-50 text-neutral-500 hover:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-900/40 dark:text-neutral-500 dark:hover:bg-neutral-800"
                   }`}
                 >
                   <span>🔇 {t.soundOff}</span>

@@ -21,9 +21,15 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
   function toggle() {
     const next = !dark;
     setDark(next);
-    document.documentElement.dataset.theme = next ? "dark" : "light";
+    const theme = next ? "dark" : "light";
+    document.documentElement.dataset.theme = theme;
+    if (next) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
     try {
-      localStorage.setItem("tawwerni-theme", next ? "dark" : "light");
+      localStorage.setItem("tawwerni-theme", theme);
     } catch {
       /* private mode — the choice just won't persist */
     }

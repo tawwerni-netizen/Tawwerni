@@ -39,19 +39,19 @@ export default function MoodCheckIn() {
   if (dismissed) return null;
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-teal-500/15 bg-gradient-to-br from-neutral-900 via-neutral-900 to-teal-950/40 p-4 text-white shadow-lg mb-6 backdrop-blur-xs">
+    <div className="relative overflow-hidden rounded-2xl border border-teal-500/25 bg-gradient-to-r from-teal-50 via-white to-emerald-50 dark:from-neutral-900 dark:via-neutral-900 dark:to-teal-950/40 p-4 text-neutral-900 dark:text-white shadow-sm dark:shadow-lg mb-6 backdrop-blur-xs transition-colors">
       <button
         type="button"
         onClick={() => setDismissed(true)}
-        className="absolute top-3 left-3 text-xs text-neutral-500 hover:text-neutral-300"
-        aria-label="إغلاق"
+        className="absolute top-3 left-3 text-xs text-neutral-400 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-300"
+        aria-label={lang === "ar" ? "إغلاق" : "Close"}
       >
         ✕
       </button>
 
       <div className="flex items-center gap-2 mb-2">
         <span className="text-xl">✨</span>
-        <h4 className="text-sm font-bold text-teal-300">{t.howAreYouFeeling}</h4>
+        <h4 className="text-sm font-bold text-teal-700 dark:text-teal-300">{t.howAreYouFeeling}</h4>
       </div>
 
       {/* Mood Selector Buttons */}
@@ -61,8 +61,8 @@ export default function MoodCheckIn() {
           onClick={() => handleSelect("excited")}
           className={`flex items-center gap-1.5 p-2 rounded-xl text-xs font-medium border transition-all ${
             selectedMood === "excited"
-              ? "border-teal-400 bg-teal-500/20 text-teal-200 font-bold scale-[1.02]"
-              : "border-neutral-800 bg-neutral-950/40 text-neutral-300 hover:bg-neutral-800"
+              ? "border-teal-500 bg-teal-500/15 text-teal-800 dark:text-teal-200 font-bold scale-[1.02] shadow-xs"
+              : "border-black/10 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/40 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
           }`}
         >
           <span>🚀</span>
@@ -74,8 +74,8 @@ export default function MoodCheckIn() {
           onClick={() => handleSelect("focused")}
           className={`flex items-center gap-1.5 p-2 rounded-xl text-xs font-medium border transition-all ${
             selectedMood === "focused"
-              ? "border-teal-400 bg-teal-500/20 text-teal-200 font-bold scale-[1.02]"
-              : "border-neutral-800 bg-neutral-950/40 text-neutral-300 hover:bg-neutral-800"
+              ? "border-teal-500 bg-teal-500/15 text-teal-800 dark:text-teal-200 font-bold scale-[1.02] shadow-xs"
+              : "border-black/10 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/40 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
           }`}
         >
           <span>☕</span>
@@ -87,8 +87,8 @@ export default function MoodCheckIn() {
           onClick={() => handleSelect("tired")}
           className={`flex items-center gap-1.5 p-2 rounded-xl text-xs font-medium border transition-all ${
             selectedMood === "tired"
-              ? "border-amber-400 bg-amber-500/20 text-amber-200 font-bold scale-[1.02]"
-              : "border-neutral-800 bg-neutral-950/40 text-neutral-300 hover:bg-neutral-800"
+              ? "border-amber-500 bg-amber-500/15 text-amber-800 dark:text-amber-200 font-bold scale-[1.02] shadow-xs"
+              : "border-black/10 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/40 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
           }`}
         >
           <span>🧘‍♂️</span>
@@ -100,8 +100,8 @@ export default function MoodCheckIn() {
           onClick={() => handleSelect("down")}
           className={`flex items-center gap-1.5 p-2 rounded-xl text-xs font-medium border transition-all ${
             selectedMood === "down"
-              ? "border-rose-400 bg-rose-500/20 text-rose-200 font-bold scale-[1.02]"
-              : "border-neutral-800 bg-neutral-950/40 text-neutral-300 hover:bg-neutral-800"
+              ? "border-rose-500 bg-rose-500/15 text-rose-800 dark:text-rose-200 font-bold scale-[1.02] shadow-xs"
+              : "border-black/10 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/40 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
           }`}
         >
           <span>💪</span>
@@ -111,10 +111,10 @@ export default function MoodCheckIn() {
 
       {/* Empathetic tailored advice box */}
       {selectedMood && (
-        <div className="mt-3 p-3 rounded-xl bg-neutral-950/60 border border-neutral-800 text-xs text-neutral-300 flex items-start gap-2 animate-fade-in">
+        <div className="mt-3 p-3 rounded-xl bg-white/90 dark:bg-neutral-950/60 border border-teal-500/20 dark:border-neutral-800 text-xs text-neutral-700 dark:text-neutral-300 flex items-start gap-2 shadow-xs animate-fade-in">
           <span className="text-base">💡</span>
           <div>
-            <div className="font-semibold text-teal-400 mb-0.5">
+            <div className="font-semibold text-teal-700 dark:text-teal-400 mb-0.5">
               {lang === "ar" ? "توجيه اليوم المخصص لك:" : "Personalized Guidance:"}
             </div>
             {selectedMood === "excited" && <p>{t.moodAdviceExcited}</p>}

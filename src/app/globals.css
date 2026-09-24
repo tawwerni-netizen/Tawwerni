@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
+
 /*
  * Light is the default. Dark is applied by a `data-theme="dark"` attribute on
  * <html>, set before paint by an inline script so the page never flashes white.

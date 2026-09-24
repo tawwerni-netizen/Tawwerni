@@ -1,60 +1,29 @@
-import { prisma } from "@/lib/prisma";
-import { allCourses } from "@/content/courses";
-import { coursesWord } from "@/lib/arabic-plural";
+"use client";
 
-/**
- * Social proof, from the database.
- *
- * Every number here is counted at request time. It would have been easy to
- * write "٣٤ شخص بيتصفحوا دلوقتي" and have it tick upward on a timer — that is
- * what most funnels do — but a fabricated number is a lie that a customer can
- * catch, and this business runs on manual WhatsApp trust. Real and modest beats
- * invented and impressive.
- *
- * When the numbers are still too small to persuade anyone, the component says
- * something true about the product instead of showing an embarrassing count.
- */
-export default async function LiveSeats({ className = "" }: { className?: string }) {
-  let learners = 0;
-  let lessonsThisWeek = 0;
+import { useI18n } from "./LanguageContext";
 
-  try {
-    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-    [learners, lessonsThisWeek] = await Promise.all([
-      prisma.user.count(),
-      prisma.lessonCompletion.count({ where: { completedAt: { gt: weekAgo } } }),
-    ]);
-  } catch {
-    // A landing page must never fail because of a database hiccup.
-    return null;
-  }
-
-  // Below this the count works against us rather than for us.
-  const showCounts = learners >= 25;
+export default function LiveSeats({ className = "" }: { className?: string }) {
+  const { lang } = useI18n();
+  const isEn = lang === "en";
 
   return (
-    <div className={`live-strip ${className}`}>
-      {showCounts ? (
-        <>
-          <span className="live-dot" aria-hidden />
-          <span>
-            <b>{learners}</b> متعلّم سجّلوا
-            {lessonsThisWeek > 0 && (
-              <>
-                {" · "}
-                <b>{lessonsThisWeek}</b> درس اتخلّص الأسبوع ده
-              </>
-            )}
-          </span>
-        </>
-      ) : (
-        <>
-          <span aria-hidden>🎁</span>
-          <span>
-            <b>اليوم الأول</b> من كل الـ ١٠٠ مسار مفتوح — من غير دفع
-          </span>
-        </>
-      )}
+    <div
+      className={`inline-flex items-center justify-center gap-2 rounded-full border border-teal-500/20 bg-teal-500/10 px-4 py-2 text-xs font-semibold text-teal-800 dark:text-teal-300 transition-colors shadow-2xs ${className}`}
+    >
+      <span aria-hidden className="animate-pulse">
+        🎁
+      </span>
+      <span>
+        {isEn ? (
+          <>
+            <b>Day 1</b> of ALL 100 tracks is open — 100% free, no credit card required
+          </>
+        ) : (
+          <>
+            <b>اليوم الأول</b> من كل الـ ١٠٠ مسار مفتوح مجانًا — جرّب عمليًا بدون أي بطاقة بنكية
+          </>
+        )}
+      </span>
     </div>
   );
 }

@@ -30,32 +30,32 @@ export default function TrackCardVisual({ track, onSelect, isUnlocked = true }: 
   return (
     <div
       onClick={handleClick}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-neutral-900/80 p-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:border-teal-500/40 hover:shadow-2xl hover:shadow-teal-500/10 cursor-pointer text-white"
+      className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900/80 p-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:border-teal-500/40 hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-teal-500/10 cursor-pointer text-neutral-900 dark:text-white shadow-sm"
     >
       {/* Dynamic Background Glow based on track colors */}
       <div
-        className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full opacity-20 blur-3xl transition-opacity group-hover:opacity-40"
+        className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full opacity-10 dark:opacity-20 blur-3xl transition-opacity group-hover:opacity-30 dark:group-hover:opacity-40"
         style={{ background: `radial-gradient(circle, ${track.accentFrom} 0%, transparent 70%)` }}
       />
       <div
-        className="pointer-events-none absolute -bottom-10 -left-10 h-32 w-32 rounded-full opacity-15 blur-2xl transition-opacity group-hover:opacity-30"
+        className="pointer-events-none absolute -bottom-10 -left-10 h-32 w-32 rounded-full opacity-10 dark:opacity-15 blur-2xl transition-opacity group-hover:opacity-20 dark:group-hover:opacity-30"
         style={{ background: `radial-gradient(circle, ${track.accentTo} 0%, transparent 70%)` }}
       />
 
       {/* Top Header */}
       <div>
         <div className="flex items-center justify-between gap-2 mb-3">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-semibold text-neutral-300 backdrop-blur-xs">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-black/10 dark:border-white/10 bg-neutral-100 dark:bg-white/5 px-2.5 py-1 text-xs font-semibold text-neutral-700 dark:text-neutral-300 backdrop-blur-xs">
             <span>{track.icon}</span>
             <span>{pillar}</span>
           </span>
-          <span className="font-mono text-xs font-bold text-neutral-500 group-hover:text-teal-400 transition-colors">
+          <span className="font-mono text-xs font-bold text-neutral-400 dark:text-neutral-500 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
             #{String(track.order).padStart(2, "0")}
           </span>
         </div>
 
         {/* Visual Graphic Artwork Badge */}
-        <div className="relative my-3 flex h-24 w-full items-center justify-center overflow-hidden rounded-2xl border border-white/5 bg-gradient-to-br from-neutral-950/80 to-neutral-900/60 shadow-inner group-hover:border-teal-500/20 transition-all">
+        <div className="relative my-3 flex h-24 w-full items-center justify-center overflow-hidden rounded-2xl border border-black/5 dark:border-white/5 bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-950/80 dark:to-neutral-900/60 shadow-inner group-hover:border-teal-500/30 transition-all">
           {/* Subtle grid pattern */}
           <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:16px_16px]" />
           
@@ -71,18 +71,18 @@ export default function TrackCardVisual({ track, onSelect, isUnlocked = true }: 
         </div>
 
         {/* Title & Description */}
-        <h3 className="text-base font-bold leading-snug tracking-tight text-white group-hover:text-teal-300 transition-colors line-clamp-2">
+        <h3 className="text-base font-bold leading-snug tracking-tight text-neutral-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors line-clamp-2">
           {title}
         </h3>
-        <p className="mt-1.5 text-xs leading-relaxed text-neutral-400 line-clamp-2">
+        <p className="mt-1.5 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400 line-clamp-2">
           {description}
         </p>
       </div>
 
       {/* Footer Info & Badges */}
-      <div className="mt-4 pt-3 border-t border-neutral-800/80 flex items-center justify-between text-xs text-neutral-400">
+      <div className="mt-4 pt-3 border-t border-neutral-200 dark:border-neutral-800/80 flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400">
         <div className="flex items-center gap-2">
-          <span className="rounded-md bg-neutral-800/70 px-2 py-0.5 font-medium text-neutral-300">
+          <span className="rounded-md bg-neutral-100 text-neutral-800 dark:bg-neutral-800/70 dark:text-neutral-300 px-2 py-0.5 font-medium">
             {level}
           </span>
           <span>
@@ -90,7 +90,7 @@ export default function TrackCardVisual({ track, onSelect, isUnlocked = true }: 
           </span>
         </div>
 
-        <div className="flex items-center gap-1 font-mono font-bold text-teal-400">
+        <div className="flex items-center gap-1 font-mono font-bold text-teal-600 dark:text-teal-400">
           <span>⚡</span>
           <span>{track.totalXp} XP</span>
         </div>
