@@ -5,6 +5,7 @@ import { allCourses, courseStats } from "@/content/courses";
 import { coursesWord } from "@/lib/arabic-plural";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
+import { LanguageProvider } from "@/components/LanguageContext";
 
 const cairo = Cairo({
   variable: "--font-cairo",
@@ -100,12 +101,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var s=localStorage.getItem('tawwerni-theme');document.documentElement.dataset.theme=s==='light'?'light':'dark';}catch(e){document.documentElement.dataset.theme='dark';}})();`,
+            __html: `(function(){try{
+              var s=localStorage.getItem('tawwerni-theme');
+              document.documentElement.dataset.theme=s==='light'?'light':'dark';
+              var l=localStorage.getItem('tawwerni-lang')||'ar';
+              document.documentElement.lang=l;
+              document.documentElement.dir=l==='en'?'ltr':'rtl';
+            }catch(e){document.documentElement.dataset.theme='dark';}})();`,
           }}
         />
       </head>
       <body className="min-h-full flex flex-col">
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
         <Analytics />
       </body>
     </html>

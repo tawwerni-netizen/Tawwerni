@@ -12,6 +12,8 @@ import ShareRow from "@/components/ShareRow";
 import Greeting from "@/components/Greeting";
 import ReminderPrompt from "@/components/ReminderPrompt";
 import PurchasePixel from "@/components/PurchasePixel";
+import MoodCheckIn from "@/components/MoodCheckIn";
+import FocusPlayer from "@/components/FocusPlayer";
 
 export default async function AppHomePage() {
   const user = await getCurrentUser();
@@ -85,6 +87,10 @@ export default async function AppHomePage() {
       <Greeting className="mb-1 text-xs tracking-wide text-neutral-400" />
       <h1 className="text-2xl font-bold mb-1 md:text-3xl">أهلًا، {user.name ?? "يا نجم"}!</h1>
       <p className="text-sm text-neutral-500 mb-5">أهلًا بيك في {brand.name}</p>
+
+      {/* Psychological Well-being & Mood Check-in */}
+      <MoodCheckIn />
+      <FocusPlayer />
 
       {/* Two columns from `md`: the task and the week sit side by side instead
           of stacking into a long scroll on a wide screen. */}

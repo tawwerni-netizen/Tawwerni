@@ -2,27 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useI18n } from "@/components/LanguageContext";
 
-const items = [
-  { href: "/app", label: "الرئيسية", icon: "🏠" },
-  { href: "/app/learn", label: "تعلّم", icon: "📚" },
-  { href: "/app/progress", label: "تقدّمي", icon: "📊" },
-  { href: "/app/referrals", label: "اكسب", icon: "💰" },
-  { href: "/app/profile", label: "حسابي", icon: "👤" },
-];
-
-/**
- * Phone navigation.
- *
- * Hidden from `md` up, where the header carries the same links — a thumb bar
- * stuck to the bottom of a desktop window is a control in the wrong place.
- *
- * Each tab reacts on hover and on press: the icon lifts and scales, the label
- * brightens, and the active tab keeps a small dot under it so the current
- * position stays legible without relying on colour alone.
- */
 export default function BottomNav() {
   const pathname = usePathname();
+  const { lang } = useI18n();
+
+  const items = [
+    { href: "/app", label: lang === "ar" ? "الرئيسية" : "Home", icon: "🏠" },
+    { href: "/app/learn", label: lang === "ar" ? "تعلّم" : "Learn", icon: "📚" },
+    { href: "/app/progress", label: lang === "ar" ? "تقدّمي" : "Progress", icon: "📊" },
+    { href: "/app/referrals", label: lang === "ar" ? "اكسب" : "Earn", icon: "💰" },
+    { href: "/app/profile", label: lang === "ar" ? "حسابي" : "Profile", icon: "👤" },
+  ];
 
   // The lesson player is a focus surface — nothing competes with it.
   if (/^\/app\/learn\/[^/]+\/\d+$/.test(pathname)) return null;

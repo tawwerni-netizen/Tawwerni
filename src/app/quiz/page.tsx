@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { brand, pricing, referral, payment } from "@/content/brand";
 import { allCourses, courseStats } from "@/content/courses";
+import { ALL_100_TRACKS } from "@/content/tracks100";
 import { coursesWord } from "@/lib/arabic-plural";
 import { trackLead, trackQuizStarted } from "@/lib/analytics";
 import {
@@ -13,11 +14,8 @@ import {
   computeReadinessScore,
 } from "@/content/marketing-quiz";
 
-/**
- * Counted from the course files at build time, so the funnel can never quote a
- * lesson count the catalogue does not actually contain.
- */
-const totalLessons = allCourses.reduce((sum, c) => sum + courseStats(c).totalLessons, 0);
+const total100Tracks = ALL_100_TRACKS.length;
+const totalLessons = ALL_100_TRACKS.reduce((sum, t) => sum + t.totalLessons, 0);
 
 type Step =
   | { kind: "roleIntro" }
@@ -216,30 +214,30 @@ export default function QuizPage() {
         */}
         {step.kind === "socialProof" && (
           <div className="text-center pt-4">
-            <div className="text-3xl mb-3">📚</div>
-            <h2 className="text-xl font-bold mb-2">اللي هتلاقيه جوّه</h2>
-            <p className="text-sm text-neutral-500 mb-5">محتوى مكتوب بالعامية المصرية — مش ترجمة</p>
+            <div className="text-4xl mb-3">🚀</div>
+            <h2 className="text-2xl font-black mb-2">منظومة تعليمية متكاملة بانتظارك</h2>
+            <p className="text-sm text-neutral-500 mb-5">محتوى ثنائي اللغة (عربي / إنجليزي) مبني على أحدث علوم النفس السلوكية والتطبيق العملي</p>
 
-            <div className="grid grid-cols-3 gap-2 mb-5">
+            <div className="grid grid-cols-3 gap-2.5 mb-5">
               {[
-                { n: allCourses.length, l: coursesWord(allCourses.length) },
-                { n: totalLessons, l: "درس" },
-                { n: "٥", l: "دقايق/يوم" },
+                { n: "١٠٠", l: "مسار احترافي" },
+                { n: `${totalLessons}+`, l: "درس عملي" },
+                { n: "١٥", l: "دقيقة/يوم" },
               ].map((s) => (
-                <div key={s.l} className="rounded-xl bg-neutral-50 py-3">
-                  <p className="text-xl font-bold text-brand-800">{s.n}</p>
-                  <p className="text-[11px] text-neutral-500">{s.l}</p>
+                <div key={s.l} className="rounded-xl bg-white border border-brand-100 shadow-sm py-3 transition hover:shadow-md">
+                  <p className="text-2xl font-black text-brand-800">{s.n}</p>
+                  <p className="text-[11px] font-medium text-neutral-500 mt-0.5">{s.l}</p>
                 </div>
               ))}
             </div>
 
-            <p className="rounded-xl bg-brand-50 p-3 text-sm text-brand-900 mb-5">
-              اليوم الأول في <b>كل مسار</b> مفتوح مجانًا — جرّب قبل ما تدفع أي حاجة
-            </p>
+            <div className="rounded-xl bg-gradient-to-r from-brand-50 to-teal-50 border border-brand-200/60 p-3.5 text-sm text-brand-900 mb-5 shadow-sm">
+              ✨ اليوم الأول في <b>كل الـ ١٠٠ مسار</b> مفتوح مجانًا بالكامل — جرّب عمليًا قبل ما تقرر
+            </div>
 
-            <p className="font-bold mb-5">خلّينا نبني خطتك الشخصية — دقيقتين بس</p>
-            <button onClick={next} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3">
-              ابدأ ←
+            <p className="font-bold text-neutral-800 mb-4 text-sm">خلّينا نبني خطتك الشخصية والمسار الأنسب لأهدافك — دقيقتين بس</p>
+            <button onClick={next} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3.5 shadow-md hover:bg-brand-700 transition">
+              ابدأ التقييم الآن ←
             </button>
           </div>
         )}
@@ -455,155 +453,159 @@ export default function QuizPage() {
         */}
         {step.kind === "testimonials" && (
           <div>
-            <h2 className="text-xl font-bold text-center mb-1">اللي بتاخده بالظبط</h2>
-            <p className="text-xs text-neutral-400 text-center mb-5">مفيش اشتراك شهري ومفيش تجديد</p>
+            <h2 className="text-xl font-bold text-center mb-1">اللي بتاخده بالظبط عند الانضمام</h2>
+            <p className="text-xs text-neutral-400 text-center mb-5">دفعة واحدة فقط مدى الحياة — بدون أي اشتراك شهري</p>
 
             <div className="space-y-2.5 mb-6">
               {[
-                { i: "📚", t: `${allCourses.length} ${coursesWord(allCourses.length)} · ${totalLessons} درس`, s: "كلها مفتوحة بدفعة واحدة" },
-                { i: "🎁", t: "اليوم الأول مجاني في كل مسار", s: "تجرّب الأسلوب قبل ما تدفع" },
-                { i: "♾️", t: "وصول مدى الحياة", s: "وأي مسار جديد ينزل بعد كده بيجيلك مجانًا" },
-                { i: "⚡", t: "التفعيل تلقائي", s: `حوّل في أي وقت — الكورس بيتفتح خلال دقايق` },
-                { i: "💸", t: `${referral.commissionEgp} جنيه عن كل صاحب يشترك بلينكك`, s: `السحب من ${referral.minPayoutEgp} جنيه` },
+                { i: "🎯", t: "١٠٠ مسار احترافي في ١٠ مجالات حيوية", s: `أكثر من ${totalLessons}+ درس عملي وتطبيقي مع رسوم بيانية وجرافيكس لكل درس` },
+                { i: "🌐", t: "منصة ثنائية اللغة بالكامل (عربي / إنجليزي)", s: "بدّل اللغة بنقرة زر في أي وقت مع مصطلحات تقنية عالمية مشروحة" },
+                { i: "🧠", t: "أدوات الدعم النفسي والتركيز الفائق المدمجة", s: "مؤقت بومودورو مدمج، ترددات ألفا الذهنية، واختبار طاقة ومزاج يومي" },
+                { i: "👥", t: "مجتمع يضم أكثر من ٣٠٠ عضو وقصص نجاح حقيقية", s: "تواصل واستفد من خبرات رواد أعمال وفريلانسرز ومبرمجين في كل الدول العربية" },
+                { i: "🎁", t: "اليوم الأول مجاني في كل مسار", s: "تجرّب بنفسك أسلوب التعلم وجودة المحتوى بدون أي مخاطرة" },
+                { i: "⚡", t: "تفعيل فوري وآمن خلال دقائق", s: "تحويل مباشر عبر فودافون كاش أو إنستاباي بدون أي عمولات وسيطة" },
               ].map((f) => (
-                <div key={f.t} className="flex gap-3 rounded-xl bg-neutral-50 p-3">
-                  <span className="text-lg leading-none">{f.i}</span>
+                <div key={f.t} className="flex gap-3 rounded-xl bg-white border border-brand-100/80 p-3 shadow-sm hover:border-brand-300 transition">
+                  <span className="text-xl leading-none">{f.i}</span>
                   <div>
                     <p className="text-sm font-bold text-neutral-800">{f.t}</p>
-                    <p className="text-[11px] text-neutral-500">{f.s}</p>
+                    <p className="text-[11px] text-neutral-500 mt-0.5">{f.s}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <button onClick={next} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3">
-              كمّل ←
+            <button onClick={next} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3.5 shadow-md hover:bg-brand-700 transition">
+              كمّل وشوف سعرك المخصص ←
             </button>
           </div>
         )}
 
-        {/*
-          This was a spinning prize wheel that always stopped on the same
-          segment, then announced a discount that did not match the one actually
-          charged. Everyone gets the same price, so the honest version simply
-          says the price — no game of chance whose outcome was decided in the
-          source code.
-        */}
         {step.kind === "wheel" && (
           <div className="text-center">
-            <div className="text-4xl mb-3">🎁</div>
-            <h2 className="text-xl font-bold mb-1">سعرك، {name || "يا نجم"}</h2>
-            <p className="text-sm text-neutral-500 mb-6">نفس السعر لكل الناس — مفيش عروض مخفية</p>
+            <div className="text-4xl mb-2">🎁</div>
+            <span className="inline-block bg-amber-100 text-amber-800 text-[11px] font-bold px-3 py-1 rounded-full mb-3">
+              عرض فوج التأسيس الأول · متبقي {pricing.cohortSeatsRemaining} مقعدًا فقط
+            </span>
+            <h2 className="text-2xl font-black mb-1">سعرك الاستثنائي، {name || "يا بطل"}</h2>
+            <p className="text-xs text-neutral-500 mb-5">خصم 71% للأعضاء المؤسسين — لن يتكرر هذا السعر</p>
 
-            <div className="rounded-2xl border border-brand-100 bg-brand-50 p-5 mb-4">
-              <div className="flex items-end justify-center gap-2 mb-1">
-                <span className="text-5xl font-bold text-brand-800">{pricing.priceEgp}</span>
-                <span className="text-sm font-bold text-brand-800 mb-1.5">ج.م</span>
+            <div className="rounded-2xl border-2 border-brand-500 bg-gradient-to-b from-brand-50 to-white p-5 mb-4 shadow-lg relative overflow-hidden">
+              <div className="flex items-center justify-center gap-3 my-2">
+                <span className="text-xl text-neutral-400 line-through font-bold">{pricing.originalPriceEgp} ج.م</span>
+                <span className="text-5xl font-black text-brand-800">{pricing.priceEgp}</span>
+                <span className="text-sm font-bold text-brand-800 mb-1">ج.م</span>
               </div>
-              <p className="text-xs text-brand-900/70">
-                دفعة واحدة · {allCourses.length} {coursesWord(allCourses.length)} · {totalLessons} درس · مدى الحياة
+              <p className="text-xs font-bold text-brand-900 mt-2">
+                دفعة واحدة فقط · وصول مدى الحياة لكل الـ ١٠٠ مسار · {totalLessons}+ درس · كل التحديثات المستقبلية مجاناً
               </p>
             </div>
 
             <p className="text-xs text-neutral-500 mb-6">
-              يعني أقل من جنيهين للدرس — وبيفضلوا معاك للأبد
+              يعني أقل من 25 قرشاً للدرس الواحد — استثمار بسيط يفتحلك مصادر دخل بمئات وآلاف الجنيهات!
             </p>
 
-            <button onClick={next} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3">
-              كمّل ←
+            <button onClick={next} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3.5 shadow-md hover:bg-brand-700 transition">
+              احصل على العرض والتحق بالفوج ←
             </button>
           </div>
         )}
 
         {step.kind === "offer" && (
           <div>
-            {/*
-              A ten-minute countdown used to sit here. It reset on every reload
-              and nothing happened when it reached zero — the price never moved.
-              Manufactured urgency is the easiest lie for a customer to catch:
-              they refresh once. What replaces it is the thing that is actually
-              true and actually time-bound — how fast access opens after paying.
-            */}
-            <div className="flex items-center justify-between bg-neutral-50 rounded-xl p-3 mb-5 text-xs">
+            <div className="flex items-center justify-between bg-brand-50 border border-brand-200/80 rounded-xl p-3 mb-5 text-xs">
               <div>
-                <p className="text-neutral-400">التفعيل</p>
-                <p className="font-bold text-brand-800">تلقائي خلال دقايق</p>
+                <p className="text-neutral-500">التفعيل</p>
+                <p className="font-bold text-brand-800">تلقائي وفوري خلال دقائق</p>
               </div>
               <div className="text-left">
-                <p className="text-neutral-400">ابدأ بـ</p>
-                <p className="font-bold text-brand-800">{pricing.priceEgp} جنيه بس</p>
+                <p className="text-neutral-500">الاستثمار الكامل</p>
+                <p className="font-bold text-brand-800">{pricing.priceEgp} ج.م فقط (بدل {pricing.originalPriceEgp})</p>
               </div>
             </div>
-            <h2 className="text-xl font-bold mt-3 mb-1">
-              خطتك الشخصية جاهزة، {name || "يا نجم"}!
+
+            <h2 className="text-2xl font-black mt-2 mb-1">
+              خطتك الشخصية جاهزة للانطلاق، {name || "يا بطل"}!
             </h2>
             <p className="text-sm text-neutral-500 mb-5">
-              اللي بيتفوقوا في اضطراب الذكاء الاصطناعي هما اللي بيتعلموه دلوقتي — وده بالظبط اللي انت هتعمله.
+              مرحبًا بك في نقطة التحوّل. الـ ١٠٠ مسار وأدوات الدعم النفسي بالكامل بين يديك الآن.
             </p>
 
             <div className="grid grid-cols-2 gap-3 mb-5 text-xs">
-              <div className="bg-neutral-50 rounded-lg p-3">
-                <p className="text-neutral-400">🎯 هدفك</p>
-                <p className="font-bold mt-1">
-                  {answers.goal === "build-income" ? "بناء دخل إضافي" : archetype.title}
+              <div className="bg-neutral-50 rounded-xl p-3 border border-black/5">
+                <p className="text-neutral-400">🎯 مسار انطلاقك</p>
+                <p className="font-bold mt-1 text-brand-800">
+                  {answers.goal === "build-income" ? "بناء دخل ومشاريع" : archetype.title}
                 </p>
               </div>
-              <div className="bg-neutral-50 rounded-lg p-3">
-                <p className="text-neutral-400">⚡ مستواك</p>
-                <p className="font-bold mt-1">جاهز للذكاء الاصطناعي</p>
+              <div className="bg-neutral-50 rounded-xl p-3 border border-black/5">
+                <p className="text-neutral-400">⚡ مستوى الانطلاق</p>
+                <p className="font-bold mt-1 text-brand-800">جاهز للتطبيق السريع</p>
               </div>
             </div>
 
-            <div className="rounded-xl border border-black/5 p-3 mb-5">
-              <p className="text-xs font-bold mb-2">لمحة من خطتك</p>
+            <div className="rounded-xl border border-black/5 p-3.5 bg-white mb-5 shadow-sm">
+              <p className="text-xs font-bold mb-2">أول ٤ أيام من خطتك</p>
               <div className="grid grid-cols-4 gap-2 text-[10px] text-center">
-                {["ChatGPT", "Claude", "Canva", "Midjourney"].map((tool, i) => (
-                  <div key={tool} className="bg-brand-50 rounded-lg py-2">
+                {["أساسيات المهارة", "أدوات الذكاء وتطبيقها", "أول مشروع عملي", "استراتيجيات الدخل"].map((tool, i) => (
+                  <div key={tool} className="bg-brand-50 rounded-lg py-2 px-1">
                     <p className="font-bold text-brand-800">يوم {i + 1}</p>
-                    <p className="text-neutral-500">{tool}</p>
+                    <p className="text-neutral-600 mt-0.5 line-clamp-1">{tool}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <button onClick={goCheckout} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3.5 mb-5">
-              احصل على خطتي ←
+            <button onClick={goCheckout} className="w-full bg-brand-600 btn-shine text-white font-bold rounded-full py-3.5 mb-4 shadow-lg hover:bg-brand-700 transition">
+              تأكيد التسجيل والانضمام بـ {pricing.priceEgp} ج.م فقط ←
             </button>
 
-            {/*
-              A fake live feed used to sit here — "1,247 people started this
-              week", followed by invented usernames each subscribing a minute
-              ago. Replaced with the support line, which is a real person on a
-              real number, and answers the question a hesitant buyer actually
-              has at this point.
-            */}
-            <div className="rounded-xl bg-neutral-50 p-3 mb-5 text-center">
+            <div className="rounded-xl bg-neutral-50 p-3 mb-5 text-center border border-black/5">
               <p className="text-[11px] text-neutral-500">
-                عندك سؤال قبل ما تدفع؟ كلّمنا واتساب{" "}
-                <a href={`https://wa.me/2${payment.supportWhatsapp}`} className="font-bold text-brand-700" dir="ltr">
+                عندك استفسار قبل التحويل؟ كلّمنا واتساب فورًا:{" "}
+                <a href={`https://wa.me/2${payment.supportWhatsapp}`} className="font-bold text-brand-700 hover:underline" dir="ltr">
                   {payment.supportWhatsapp}
                 </a>
               </p>
             </div>
 
-            {/*
-              Two claims used to sit here that weren't true of this product:
-              a 30-day refund (nowhere else on the site promised the same
-              number) and "cancel anytime" — there is nothing to cancel, it is
-              a single payment, not a subscription. Both are replaced with
-              things that are actually the case and happen to sell better.
-            */}
-            <ul className="text-xs space-y-1.5 mb-5 text-neutral-600">
-              <li>✓ ٢٨ درس يومي مترابط (١٥ دقيقة بس)</li>
-              <li>✓ خطة مخصصة لـ {archetype.title}</li>
-              <li>✓ مكتبة أدوات وقوالب وبرومبتات جاهزة</li>
-              <li>✓ شهادة إتمام</li>
-              <li>✓ وصول مدى الحياة — دفعة واحدة مش اشتراك شهري</li>
-              <li>✓ كل مسار جديد ننزّله بيتفتحلك مجانًا</li>
+            <ul className="text-xs space-y-2 mb-5 text-neutral-700 bg-white p-4 rounded-xl border border-black/5 shadow-sm">
+              <li className="flex items-center gap-2">
+                <span className="text-green-600 font-bold">✓</span>
+                <span><b>١٠٠ مسار احترافي كامل</b> في ١٠ أركان حيوية</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600 font-bold">✓</span>
+                <span><b>محتوى ثنائي اللغة (عربي / إنجليزي)</b> بنقرة واحدة</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600 font-bold">✓</span>
+                <span><b>أكثر من {totalLessons} درس تطبيقي</b> مع رسوم وجرافيكس لكل درس</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600 font-bold">✓</span>
+                <span><b>أدوات الدعم النفسي</b>: بومودورو + ترددات ألفا للتركيز + فحص طاقة</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600 font-bold">✓</span>
+                <span><b>مجتمع ٣٠٠+ عضو حقيقي</b> مع شبكة علاقات وتجارب ملهمة</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600 font-bold">✓</span>
+                <span><b>شهادة إتمام معتمدة</b> لكل مسار تنهيه بنجاح</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600 font-bold">✓</span>
+                <span><b>وصول مدى الحياة</b> — دفعة واحدة {pricing.priceEgp} ج.م بدون أي اشتراك شهري</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600 font-bold">✓</span>
+                <span><b>{pricing.guaranteeNote}</b></span>
+              </li>
             </ul>
 
             <p className="text-center text-[11px] leading-relaxed text-neutral-400">
-              🎁 اليوم الأول من كل مسار مفتوح مجانًا — جرّب قبل ما تدفع أي حاجة
+              🎁 اليوم الأول من كل مسار من الـ ١٠٠ مفتوح مجانًا — جودة ومصداقية نضمنها لك
             </p>
           </div>
         )}

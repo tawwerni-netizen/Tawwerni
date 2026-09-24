@@ -11,13 +11,19 @@ import ArticleViewPixel from "@/components/ArticleViewPixel";
 
 const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${brand.domain}`;
 
+export const dynamic = "force-dynamic";
+
 async function loadArticle(pillarKey: string, slug: string) {
-  const article = await prisma.article.findUnique({
-    where: { slug },
-    include: { relatedCourse: { select: { slug: true, title: true, icon: true } } },
-  });
-  if (!article || article.pillar !== pillarKey || article.status !== "published") return null;
-  return article;
+  try {
+    const article = await prisma.article.findUnique({
+      where: { slug },
+      include: { relatedCourse: { select: { slug: true, title: true, icon: true } } },
+    });
+    if (!article || article.pillar !== pillarKey || article.status !== "published") return null;
+    return article;
+  } catch {
+    return null;
+  }
 }
 
 export async function generateMetadata({

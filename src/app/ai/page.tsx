@@ -24,16 +24,23 @@ export const metadata: Metadata = {
  * one specific thing — "AI" — and should see that one thing immediately: the
  * course, real articles about it, and nothing about the other eight tracks.
  */
+export const dynamic = "force-dynamic";
+
 export default async function AiLandingPage() {
   const course = getCourseBySlug("tahaddi-28-yawm");
   const stats = course ? courseStats(course) : { totalLessons: 0, totalXp: 0 };
 
-  const articles = await prisma.article.findMany({
-    where: { pillar: { in: AI_PILLARS }, status: "published" },
-    orderBy: { publishedAt: "desc" },
-    take: 6,
-    select: { slug: true, pillar: true, title: true, excerpt: true, icon: true },
-  });
+  let articles: Array<{ slug: string; pillar: string; title: string; excerpt: string; icon: string }> = [];
+  try {
+    articles = await prisma.article.findMany({
+      where: { pillar: { in: AI_PILLARS }, status: "published" },
+      orderBy: { publishedAt: "desc" },
+      take: 6,
+      select: { slug: true, pillar: true, title: true, excerpt: true, icon: true },
+    });
+  } catch {
+    /* fallback when offline */
+  }
 
   return (
     <div className="min-h-screen bg-neutral-50">

@@ -28,6 +28,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/productivity`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${siteUrl}/lead-magnets/ai-prompts`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/login`, lastModified: now, changeFrequency: "yearly", priority: 0.4 },
+    { url: `${siteUrl}/tracks`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
+    { url: `${siteUrl}/community`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
     { url: `${siteUrl}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
     { url: `${siteUrl}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
     { url: `${siteUrl}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
@@ -41,12 +43,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  // Published articles only — a draft or an empty pillar page has nothing
-  // for Google to index and shouldn't be submitted at all.
-  const articles = await prisma.article.findMany({
-    where: { status: "published" },
-    select: { slug: true, pillar: true, updatedAt: true },
-  });
+  // Published articles only — with safe fallback if DB is offline during build
+  let articles: Array<{ slug: string; pillar: string; updatedAt: Date }> = [];
+  try {
+    articles = await prisma.article.findMany({
+      where: { status: "published" },
+      select: { slug: true, pillar: true, updatedAt: true },
+    });
+  } catch {
+    /* fallback when offline */
+  }
 
   const articlePages: MetadataRoute.Sitemap = articles.map((a) => ({
     url: `${siteUrl}/hub/${a.pillar}/${a.slug}`,

@@ -216,6 +216,159 @@ export function visualConsumesFirstLine(heading: string, lines: string[]): boole
   return false;
 }
 
+function getTopicArtwork(icon: string) {
+  switch (icon) {
+    case "🤖":
+      return {
+        label: "الذكاء الاصطناعي والتكنولوجيا · AI Tech",
+        color: "from-teal-600 to-emerald-800",
+        svg: (
+          <svg viewBox="0 0 120 120" className="w-24 h-24 stroke-teal-400 fill-none" strokeWidth="1.5">
+            <circle cx="60" cy="60" r="40" strokeDasharray="4 4" />
+            <circle cx="60" cy="60" r="18" className="fill-teal-500/20" />
+            <circle cx="30" cy="40" r="8" className="fill-emerald-500/30" />
+            <circle cx="90" cy="40" r="8" className="fill-emerald-500/30" />
+            <circle cx="60" cy="95" r="8" className="fill-teal-500/30" />
+            <line x1="30" y1="40" x2="60" y2="60" />
+            <line x1="90" y1="40" x2="60" y2="60" />
+            <line x1="60" y1="95" x2="60" y2="60" />
+          </svg>
+        ),
+      };
+    case "💰":
+      return {
+        label: "المال والبيزنس والنمو · Business & Finance",
+        color: "from-emerald-600 to-teal-800",
+        svg: (
+          <svg viewBox="0 0 120 120" className="w-24 h-24 stroke-emerald-400 fill-none" strokeWidth="1.5">
+            <polyline points="20,95 45,70 70,80 100,35" strokeWidth="2.5" />
+            <polyline points="85,35 100,35 100,50" strokeWidth="2.5" />
+            <rect x="25" y="75" width="10" height="20" className="fill-emerald-500/20" />
+            <rect x="50" y="60" width="10" height="35" className="fill-emerald-500/20" />
+            <rect x="75" y="45" width="10" height="50" className="fill-emerald-500/30" />
+          </svg>
+        ),
+      };
+    case "⏱️":
+      return {
+        label: "إدارة الوقت والإنتاجية · Productivity",
+        color: "from-amber-600 to-orange-800",
+        svg: (
+          <svg viewBox="0 0 120 120" className="w-24 h-24 stroke-amber-400 fill-none" strokeWidth="1.5">
+            <circle cx="60" cy="60" r="45" />
+            <circle cx="60" cy="60" r="38" strokeDasharray="3 3" />
+            <polyline points="60,30 60,60 80,60" strokeWidth="2.5" strokeLinecap="round" />
+            <line x1="60" y1="10" x2="60" y2="15" strokeWidth="3" />
+            <line x1="110" y1="60" x2="105" y2="60" strokeWidth="3" />
+            <line x1="60" y1="110" x2="60" y2="105" strokeWidth="3" />
+            <line x1="10" y1="60" x2="15" y2="60" strokeWidth="3" />
+          </svg>
+        ),
+      };
+    case "💚":
+      return {
+        label: "الصحة والطاقة الحيوية · Vitality & Health",
+        color: "from-green-600 to-emerald-900",
+        svg: (
+          <svg viewBox="0 0 120 120" className="w-24 h-24 stroke-green-400 fill-none" strokeWidth="1.5">
+            <path d="M15,60 Q35,60 45,60 L50,40 L55,80 L65,30 L75,70 L80,60 Q95,60 105,60" strokeWidth="2.5" strokeLinecap="round" />
+            <circle cx="60" cy="60" r="45" strokeDasharray="6 6" />
+          </svg>
+        ),
+      };
+    case "🎯":
+      return {
+        label: "التسويق والمبيعات والعملاء · Growth & Marketing",
+        color: "from-rose-600 to-pink-900",
+        svg: (
+          <svg viewBox="0 0 120 120" className="w-24 h-24 stroke-rose-400 fill-none" strokeWidth="1.5">
+            <circle cx="60" cy="60" r="45" />
+            <circle cx="60" cy="60" r="30" />
+            <circle cx="60" cy="60" r="15" className="fill-rose-500/20" />
+            <line x1="10" y1="60" x2="110" y2="60" strokeDasharray="2 4" />
+            <line x1="60" y1="10" x2="60" y2="110" strokeDasharray="2 4" />
+          </svg>
+        ),
+      };
+    case "💼":
+      return {
+        label: "المسار المهني والقيادة · Career & Leadership",
+        color: "from-blue-600 to-indigo-900",
+        svg: (
+          <svg viewBox="0 0 120 120" className="w-24 h-24 stroke-blue-400 fill-none" strokeWidth="1.5">
+            <rect x="25" y="40" width="70" height="50" rx="8" />
+            <path d="M45,40 V28 Q45,25 48,25 H72 Q75,25 75,28 V40" strokeWidth="2" />
+            <line x1="25" y1="58" x2="95" y2="58" />
+            <circle cx="60" cy="68" r="4" className="fill-blue-400" />
+          </svg>
+        ),
+      };
+    case "🧠":
+      return {
+        label: "العقلية وعلم النفس السلوكي · Mindset Psychology",
+        color: "from-purple-600 to-violet-900",
+        svg: (
+          <svg viewBox="0 0 120 120" className="w-24 h-24 stroke-purple-400 fill-none" strokeWidth="1.5">
+            <path d="M60,25 C40,25 25,40 25,60 C25,75 35,88 50,92 L50,98 H70 L70,92 C85,88 95,75 95,60 C95,40 80,25 60,25 Z" />
+            <path d="M45,50 Q60,40 75,50" />
+            <path d="M40,65 Q60,55 80,65" />
+            <line x1="60" y1="25" x2="60" y2="92" strokeDasharray="2 4" />
+          </svg>
+        ),
+      };
+    case "⚠️":
+      return {
+        label: "تنبيه وتحذير عملي · Critical Caution",
+        color: "from-amber-600 to-red-900",
+        svg: (
+          <svg viewBox="0 0 120 120" className="w-24 h-24 stroke-amber-400 fill-none" strokeWidth="1.5">
+            <path d="M60,20 L105,95 H15 Z" strokeWidth="2.5" />
+            <line x1="60" y1="48" x2="60" y2="70" strokeWidth="3" strokeLinecap="round" />
+            <circle cx="60" cy="82" r="3" className="fill-amber-400" />
+          </svg>
+        ),
+      };
+    case "🧭":
+      return {
+        label: "الاستراتيجية وخارطة الطريق · Strategy & Steps",
+        color: "from-cyan-600 to-teal-900",
+        svg: (
+          <svg viewBox="0 0 120 120" className="w-24 h-24 stroke-cyan-400 fill-none" strokeWidth="1.5">
+            <circle cx="60" cy="60" r="45" />
+            <polygon points="60,25 67,53 95,60 67,67 60,95 53,67 25,60 53,53" className="fill-cyan-500/20" strokeWidth="1.5" />
+          </svg>
+        ),
+      };
+    case "🛠️":
+      return {
+        label: "التطبيق العملي والأدوات · Hands-on Tools",
+        color: "from-indigo-600 to-blue-900",
+        svg: (
+          <svg viewBox="0 0 120 120" className="w-24 h-24 stroke-indigo-400 fill-none" strokeWidth="1.5">
+            <path d="M35,45 L15,60 L35,75" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M85,45 L105,60 L85,75" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            <line x1="68" y1="35" x2="52" y2="85" strokeWidth="2.5" strokeLinecap="round" />
+          </svg>
+        ),
+      };
+    default:
+      return {
+        label: "مفتاح معرفي وتطبيقي · Key Insight",
+        color: "from-brand-600 to-teal-900",
+        svg: (
+          <svg viewBox="0 0 120 120" className="w-24 h-24 stroke-teal-300 fill-none" strokeWidth="1.5">
+            <circle cx="60" cy="50" r="28" />
+            <path d="M48,78 H72 L68,88 H52 Z" />
+            <line x1="55" y1="94" x2="65" y2="94" strokeWidth="2" />
+            <line x1="60" y1="12" x2="60" y2="18" strokeLinecap="round" />
+            <line x1="90" y1="26" x2="85" y2="30" strokeLinecap="round" />
+            <line x1="30" y1="26" x2="35" y2="30" strokeLinecap="round" />
+          </svg>
+        ),
+      };
+  }
+}
+
 export default function CardVisual({ heading, lines }: { heading: string; lines: string[] }) {
   const v = pickVisual(heading, lines);
   if (v.kind === "none") return null;
@@ -224,11 +377,6 @@ export default function CardVisual({ heading, lines }: { heading: string; lines:
     return (
       <Frame>
         <div className="relative px-5 py-7 text-center">
-          {/*
-            No background-clip:text here. It crops Arabic descenders — "مليون"
-            lost the tail of its ن. A solid colour with a soft glow reads just
-            as strong and can't clip.
-          */}
           <div className="stat-figure text-5xl font-bold" dir="auto">
             {v.value}
           </div>
@@ -255,12 +403,31 @@ export default function CardVisual({ heading, lines }: { heading: string; lines:
   }
 
   if (v.kind === "accent") {
+    const topicArtwork = getTopicArtwork(v.icon);
     return (
-      <div className="vis-banner animate-rise mb-4">
-        <span className="vis-banner-icon" aria-hidden>
-          {v.icon}
-        </span>
-        <h2 className="vis-banner-title">{v.heading}</h2>
+      <div className="group relative overflow-hidden rounded-2xl border border-brand-500/20 bg-gradient-to-br from-neutral-900 via-neutral-900 to-brand-950 p-4 mb-4 shadow-lg text-white transition-all">
+        {/* Ambient radial glow */}
+        <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-teal-500/20 blur-2xl" />
+        <div className="pointer-events-none absolute -left-8 -bottom-8 h-32 w-32 rounded-full bg-emerald-500/15 blur-2xl" />
+
+        {/* Decorative dynamic SVG vector pattern */}
+        <div className="absolute inset-y-0 left-2 pointer-events-none opacity-25 flex items-center justify-end overflow-hidden">
+          {topicArtwork.svg}
+        </div>
+
+        <div className="relative z-10 flex items-center gap-3.5">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-teal-700 text-2xl shadow-md ring-2 ring-white/10 group-hover:scale-105 transition-transform duration-300">
+            {v.icon}
+          </div>
+          <div className="flex-1 min-w-0 pr-1">
+            <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-teal-300/90 mb-0.5">
+              {topicArtwork.label}
+            </span>
+            <h2 className="text-sm md:text-base font-bold leading-snug text-white drop-shadow-sm">
+              {v.heading}
+            </h2>
+          </div>
+        </div>
       </div>
     );
   }

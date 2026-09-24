@@ -10,13 +10,22 @@ export const metadata: Metadata = {
   alternates: { canonical: "/hub" },
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function HubIndexPage() {
-  const counts = await prisma.article.groupBy({
-    by: ["pillar"],
-    where: { status: "published" },
-    _count: { _all: true },
-  });
-  const countMap = new Map(counts.map((c) => [c.pillar, c._count._all]));
+  const countMap = new Map<string, number>();
+  try {
+    const counts = await prisma.article.groupBy({
+      by: ["pillar"],
+      where: { status: "published" },
+      _count: { _all: true },
+    });
+    for (const c of counts) {
+      countMap.set(c.pillar, c._count._all);
+    }
+  } catch {
+    /* fallback when offline */
+  }
 
   return (
     <div className="min-h-screen bg-neutral-50">

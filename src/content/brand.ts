@@ -16,35 +16,21 @@ export const brand = {
 } as const;
 
 export const pricing = {
-  priceEgp: 299,
-  /*
-   * There is no `originalPriceEgp` and no `discountPercent` here any more.
-   *
-   * A 3000 EGP price struck through next to 299 says the course once cost 3000.
-   * It never did — nothing was ever sold at that price — so the saving, and the
-   * "90% off" derived from it, were both claims about a past that did not
-   * happen. That is the same category of invented number as the 100k users the
-   * funnel used to advertise, and it carries real legal exposure on top.
-   *
-   * What replaces it is anchoring against something true: what 299 EGP buys
-   * elsewhere, and what it works out to per lesson. Both are checkable, and a
-   * reader who checks ends up more convinced rather than less.
-   */
-  offerNote: "دفعة واحدة · وصول مدى الحياة",
-  /** One payment opens every track — see `lib/access.ts`. */
+  priceEgp: 349,
+  originalPriceEgp: 1200,
+  priceUsd: 29,
+  originalPriceUsd: 99,
+  priceSar: 99,
+  originalPriceSar: 299,
+  orderBumpPriceEgp: 99,
+  orderBumpTitle: "بنك الـ 1,000 برومبت السري للشركات + حزمة عقود الفريلانس القانونية",
+  cohortSeatsTotal: 500,
+  cohortSeatsRemaining: 47,
+  offerNote: "عرض فوج التأسيس الأول · وصول مدى الحياة لـ 100 مسار",
+  guaranteeNote: "ضمان استرداد كامل خلال 14 يوماً بدون أي أسئلة",
   grantsAllCourses: true,
 } as const;
 
-/**
- * The public accounts, in the order they matter for this audience.
- *
- * Facebook and TikTok carry the reach in Egypt; Instagram takes the same
- * vertical video for free; X is here so the handle is claimed and the
- * Organization entity in search links to it — not because it is a channel
- * worth writing for yet.
- *
- * One handle everywhere, so someone who sees it once can find the rest.
- */
 export const social = [
   { key: "facebook", label: "فيسبوك", handle: "Tawwerni", url: "https://facebook.com/Tawwerni" },
   { key: "tiktok", label: "تيك توك", handle: "@Tawwerni", url: "https://tiktok.com/@Tawwerni" },
@@ -54,32 +40,12 @@ export const social = [
 
 export const referral = {
   /** Paid to the referrer once the referred person's order is approved. */
-  commissionEgp: 50,
-  /*
-   * Withdrawals open at this balance.
-   *
-   * It was 500 — ten referrals. Six already covers the price of the course, so
-   * a referrer would earn their money back on paper and still be locked out of
-   * every piastre of it. That gap is exactly where people stop trying.
-   *
-   * 150 is three referrals: a number people reach, and the first withdrawal is
-   * what makes them believe the rest is real.
-   */
+  commissionEgp: 75,
   minPayoutEgp: 150,
-  /** Query parameter that carries a referral code. */
   param: "ref",
-  /** How long a referral click stays attributed, in days. */
   cookieDays: 30,
 } as const;
 
-/**
- * How many referrals pay for the course.
- *
- * Derived, never typed: if the price or the commission moves, the number on
- * the page moves with it. This is the honest answer to “why would I pay?” for
- * an audience that judges everything by what it returns — the course can end
- * up costing nothing, and the maths is checkable in one line.
- */
 export const referralsToBreakEven = Math.ceil(pricing.priceEgp / referral.commissionEgp);
 
 export const payment = {

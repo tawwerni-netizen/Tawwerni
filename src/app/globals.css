@@ -2361,3 +2361,45 @@ html[data-theme="dark"] .vd-root {
   direction: ltr;
   display: inline-block;
 }
+
+/* Attractive modern visual animation utilities */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; filter: blur(24px); }
+  50% { opacity: 0.8; filter: blur(32px); }
+}
+
+@keyframes dopaminePop {
+  0% { transform: scale(0.92); opacity: 0.8; }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-float-slow {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+.animate-dopamine {
+  animation: dopaminePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+html[data-theme="dark"] .glass-card {
+  background: rgba(18, 27, 24, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+

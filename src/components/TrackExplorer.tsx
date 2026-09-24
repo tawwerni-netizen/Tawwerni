@@ -1,0 +1,269 @@
+"use client";
+
+import { useState, useMemo } from "react";
+import Link from "next/link";
+import { ALL_100_TRACKS, TRACK_PILLARS, Track100 } from "@/content/tracks100";
+import TrackCardVisual from "@/components/TrackCardVisual";
+import { useI18n } from "@/components/LanguageContext";
+
+export default function TrackExplorer() {
+  const { lang, t } = useI18n();
+  const [selectedPillarId, setSelectedPillarId] = useState<number | null>(null);
+  const [selectedLevel, setSelectedLevel] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeModalTrack, setActiveModalTrack] = useState<Track100 | null>(null);
+
+  // Filtered tracks
+  const filteredTracks = useMemo(() => {
+    return ALL_100_TRACKS.filter((track) => {
+      // Pillar filter
+      if (selectedPillarId !== null && track.pillarId !== selectedPillarId) {
+        return false;
+      }
+      // Level filter
+      if (selectedLevel !== "all") {
+        if (selectedLevel === "beginner" && track.levelEn !== "Beginner") return false;
+        if (selectedLevel === "intermediate" && track.levelEn !== "Intermediate") return false;
+        if (selectedLevel === "advanced" && track.levelEn !== "Advanced") return false;
+      }
+      // Search filter
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase().trim();
+        const titleAr = track.titleAr.toLowerCase();
+        const titleEn = track.titleEn.toLowerCase();
+        const descAr = track.descriptionAr.toLowerCase();
+        const descEn = track.descriptionEn.toLowerCase();
+        return titleAr.includes(q) || titleEn.includes(q) || descAr.includes(q) || descEn.includes(q);
+      }
+      return true;
+    });
+  }, [selectedPillarId, selectedLevel, searchQuery]);
+
+  return (
+    <div className="w-full">
+      {/* Top Search & Filter Bar */}
+      <div className="mb-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        {/* Search input */}
+        <div className="relative flex-1">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={lang === "ar" ? "ابحث في الـ 100 مسار..." : "Search across 100 tracks..."}
+            className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/80 px-4 py-3 text-sm text-white placeholder-neutral-500 focus:border-teal-500 focus:outline-hidden backdrop-blur-md transition-colors"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute top-3 left-3 text-neutral-400 hover:text-white text-sm"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+
+        {/* Level Filter */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
+          <button
+            onClick={() => setSelectedLevel("all")}
+            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+              selectedLevel === "all"
+                ? "bg-teal-500 text-neutral-950 shadow-md font-bold"
+                : "bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white"
+            }`}
+          >
+            {t.categoryAll}
+          </button>
+          <button
+            onClick={() => setSelectedLevel("beginner")}
+            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+              selectedLevel === "beginner"
+                ? "bg-teal-500 text-neutral-950 shadow-md font-bold"
+                : "bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white"
+            }`}
+          >
+            {t.beginner}
+          </button>
+          <button
+            onClick={() => setSelectedLevel("intermediate")}
+            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+              selectedLevel === "intermediate"
+                ? "bg-teal-500 text-neutral-950 shadow-md font-bold"
+                : "bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white"
+            }`}
+          >
+            {lang === "ar" ? "متوسط" : "Intermediate"}
+          </button>
+          <button
+            onClick={() => setSelectedLevel("advanced")}
+            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+              selectedLevel === "advanced"
+                ? "bg-teal-500 text-neutral-950 shadow-md font-bold"
+                : "bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white"
+            }`}
+          >
+            {t.expert}
+          </button>
+        </div>
+      </div>
+
+      {/* Pillar Pills (10 Pillars) */}
+      <div className="mb-8 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+        <button
+          onClick={() => setSelectedPillarId(null)}
+          className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition-all ${
+            selectedPillarId === null
+              ? "bg-gradient-to-r from-teal-500 to-emerald-400 text-neutral-950 shadow-lg shadow-teal-500/20"
+              : "border border-neutral-800 bg-neutral-900/60 text-neutral-300 hover:bg-neutral-800"
+          }`}
+        >
+          <span>🌟</span>
+          <span>{lang === "ar" ? "كل المجالات (100 مسار)" : "All Pillars (100 Tracks)"}</span>
+        </button>
+
+        {TRACK_PILLARS.map((pillar) => {
+          const isSelected = selectedPillarId === pillar.id;
+          return (
+            <button
+              key={pillar.id}
+              onClick={() => setSelectedPillarId(isSelected ? null : pillar.id)}
+              className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition-all ${
+                isSelected
+                  ? "bg-teal-400 text-neutral-950 shadow-md"
+                  : "border border-neutral-800 bg-neutral-900/60 text-neutral-400 hover:text-white hover:bg-neutral-800"
+              }`}
+            >
+              <span>{pillar.icon}</span>
+              <span>{lang === "ar" ? pillar.nameAr : pillar.nameEn}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Results Count */}
+      <div className="mb-4 flex items-center justify-between text-xs text-neutral-400">
+        <span>
+          {lang === "ar"
+            ? `عرض ${filteredTracks.length} مسار من أصل 100`
+            : `Showing ${filteredTracks.length} of 100 tracks`}
+        </span>
+      </div>
+
+      {/* Tracks Grid (3 columns on lg, 2 on md, 1 on mobile) */}
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {filteredTracks.map((track) => (
+          <TrackCardVisual
+            key={track.id}
+            track={track}
+            onSelect={(t) => setActiveModalTrack(t)}
+          />
+        ))}
+      </div>
+
+      {filteredTracks.length === 0 && (
+        <div className="py-16 text-center text-neutral-500">
+          <p className="text-3xl mb-2">🔍</p>
+          <p className="text-sm">
+            {lang === "ar" ? "لم نجد مسارات تطابق بحثك" : "No tracks found matching your query"}
+          </p>
+        </div>
+      )}
+
+      {/* Detailed Track Modal */}
+      {activeModalTrack && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+          <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl border border-teal-500/20 bg-neutral-950 p-6 text-white shadow-2xl">
+            {/* Close button */}
+            <button
+              onClick={() => setActiveModalTrack(null)}
+              className="absolute top-5 left-5 rounded-full w-8 h-8 flex items-center justify-center text-neutral-400 hover:text-white bg-neutral-900 hover:bg-neutral-800 transition-colors"
+            >
+              ✕
+            </button>
+
+            {/* Header with artwork */}
+            <div className="flex items-center gap-3 mb-4">
+              <div
+                className="flex h-16 w-16 items-center justify-center rounded-2xl text-3xl shadow-lg"
+                style={{
+                  background: `linear-gradient(135deg, ${activeModalTrack.accentFrom}, ${activeModalTrack.accentTo})`,
+                }}
+              >
+                {activeModalTrack.icon}
+              </div>
+              <div>
+                <span className="text-xs font-semibold text-teal-400">
+                  {lang === "ar" ? activeModalTrack.pillarNameAr : activeModalTrack.pillarNameEn} · #{String(activeModalTrack.order).padStart(2, "0")}
+                </span>
+                <h2 className="text-xl font-black text-white mt-0.5">
+                  {lang === "ar" ? activeModalTrack.titleAr : activeModalTrack.titleEn}
+                </h2>
+              </div>
+            </div>
+
+            {/* Description */}
+            <p className="text-sm text-neutral-300 leading-relaxed mb-5">
+              {lang === "ar" ? activeModalTrack.descriptionAr : activeModalTrack.descriptionEn}
+            </p>
+
+            {/* Quick Metrics */}
+            <div className="grid grid-cols-3 gap-2 p-3 rounded-2xl bg-neutral-900/60 border border-neutral-800 text-center mb-6">
+              <div>
+                <span className="text-xs text-neutral-500 block mb-0.5">{lang === "ar" ? "الدروس" : "Lessons"}</span>
+                <span className="text-sm font-bold text-white font-mono">{activeModalTrack.totalLessons} {t.lessonsCount}</span>
+              </div>
+              <div>
+                <span className="text-xs text-neutral-500 block mb-0.5">{lang === "ar" ? "الوقت الإجمالي" : "Duration"}</span>
+                <span className="text-sm font-bold text-white font-mono">{activeModalTrack.durationHours} {t.hoursCount}</span>
+              </div>
+              <div>
+                <span className="text-xs text-neutral-500 block mb-0.5">{lang === "ar" ? "النقاط" : "Total XP"}</span>
+                <span className="text-sm font-bold text-teal-400 font-mono">+{activeModalTrack.totalXp} XP</span>
+              </div>
+            </div>
+
+            {/* Outcomes */}
+            <div className="mb-5">
+              <h4 className="text-xs font-bold text-teal-300 uppercase tracking-wider mb-2.5">
+                {t.whatYouWillLearn}
+              </h4>
+              <ul className="space-y-2">
+                {(lang === "ar" ? activeModalTrack.outcomesAr : activeModalTrack.outcomesEn).map((outcome, i) => (
+                  <li key={i} className="flex items-start gap-2 text-xs text-neutral-200">
+                    <span className="text-teal-400 font-bold">✓</span>
+                    <span>{outcome}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Reality Check */}
+            <div className="mb-6 p-3 rounded-xl bg-amber-950/20 border border-amber-500/20 text-xs text-amber-200/90 flex items-start gap-2">
+              <span className="text-base">⚠️</span>
+              <div>
+                <span className="font-bold block mb-0.5">{t.honestReality}:</span>
+                <p>{lang === "ar" ? activeModalTrack.realityAr : activeModalTrack.realityEn}</p>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-3">
+              <Link
+                href="/app"
+                className="flex-1 py-3 text-center rounded-full font-bold text-sm bg-gradient-to-r from-teal-500 to-emerald-400 text-neutral-950 hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-teal-500/20"
+              >
+                {t.startTrack}
+              </Link>
+              <button
+                onClick={() => setActiveModalTrack(null)}
+                className="px-5 py-3 rounded-full text-xs font-semibold bg-neutral-800 hover:bg-neutral-700 text-neutral-300 transition-colors"
+              >
+                {lang === "ar" ? "إغلاق" : "Close"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

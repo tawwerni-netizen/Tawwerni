@@ -6,7 +6,12 @@ import { brand } from "@/content/brand";
 
 type Message = { role: "user" | "assistant"; content: string };
 
-const QUICK_REPLIES = ["وإيه أركّز عليه النهاردة؟", "ساعدني أحدد هدف", "راجع تقدمي", "محتاج تحفيز"];
+const QUICK_REPLIES = [
+  "وإيه أركّز عليه النهاردة؟",
+  "حاسس بتشتت ومحتاج خطة 5 دقايق",
+  "مش قادر أركز وحاسس بإحباط",
+  "راجع تقدمي ونقاط قوتي",
+];
 
 export default function ChatWidget() {
   const pathname = usePathname();

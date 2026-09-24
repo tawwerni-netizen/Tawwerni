@@ -4,33 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogoLink } from "@/components/Logo";
 import ThemeToggle from "@/components/ThemeToggle";
+import LanguageToggle from "@/components/LanguageToggle";
 import Avatar from "@/components/Avatar";
 import { openHelpCentre } from "@/lib/help-centre";
-
-const NAV = [
-  { href: "/app", label: "الرئيسية", icon: "🏠" },
-  { href: "/app/learn", label: "تعلّم", icon: "📚" },
-  { href: "/app/progress", label: "تقدّمي", icon: "📊" },
-  { href: "/app/referrals", label: "اكسب", icon: "💰" },
-  { href: "/app/profile", label: "حسابي", icon: "👤" },
-];
+import { useI18n } from "@/components/LanguageContext";
 
 function isActive(pathname: string, href: string) {
   return href === "/app" ? pathname === "/app" : pathname.startsWith(href);
 }
 
-/**
- * The bar that never leaves.
- *
- * Every page used to draw its own header, so the logo and the theme switch
- * appeared on the home screen and nowhere else — you could get three screens
- * deep with no way back and no way to change the theme. This is now one sticky
- * bar across the whole app.
- *
- * On desktop it also carries the primary navigation, because a bottom tab bar
- * pinned to the foot of a 1400px window is a phone control stranded on a
- * monitor. The bottom bar hides itself above `md` for the same reason.
- */
 export default function AppHeader({
   name,
   email,
@@ -43,6 +25,15 @@ export default function AppHeader({
   streak: number;
 }) {
   const pathname = usePathname();
+  const { lang } = useI18n();
+
+  const navItems = [
+    { href: "/app", label: lang === "ar" ? "الرئيسية" : "Home", icon: "🏠" },
+    { href: "/app/learn", label: lang === "ar" ? "تعلّم" : "Learn", icon: "📚" },
+    { href: "/app/progress", label: lang === "ar" ? "تقدّمي" : "Progress", icon: "📊" },
+    { href: "/app/referrals", label: lang === "ar" ? "اكسب" : "Earn", icon: "💰" },
+    { href: "/app/profile", label: lang === "ar" ? "حسابي" : "Profile", icon: "👤" },
+  ];
 
   return (
     <header className="app-header sticky top-0 z-40">
@@ -50,7 +41,7 @@ export default function AppHeader({
         <LogoLink size={32} />
 
         <nav className="hidden flex-1 items-center justify-center gap-1 md:flex">
-          {NAV.map((item) => {
+          {navItems.map((item) => {
             const active = isActive(pathname, item.href);
             return (
               <Link
@@ -99,6 +90,7 @@ export default function AppHeader({
             ؟
           </button>
 
+          <LanguageToggle />
           <ThemeToggle />
 
           {/* The avatar is a link to the account page — it looked clickable

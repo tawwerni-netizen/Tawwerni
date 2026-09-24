@@ -61,9 +61,12 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
   const [courseSlug, setCourseSlug] = useState(courses[0]?.slug ?? "");
   const [method, setMethod] = useState<Method>("vodafone_cash");
   const [proofChannel, setProofChannel] = useState<Channel>("whatsapp");
+  const [withOrderBump, setWithOrderBump] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+
+  const totalPrice = pricing.priceEgp + (withOrderBump ? pricing.orderBumpPriceEgp : 0);
 
   useEffect(() => {
     const raw = sessionStorage.getItem("tawwerni_checkout");
@@ -148,7 +151,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
             </div>
             <h1 className="mb-2 text-xl font-bold">سجّلنا طلبك!</h1>
             <p className="mb-5 text-sm leading-relaxed text-neutral-500">
-              فاضل خطوة واحدة بس: حوّل <b className="text-brand-700">{pricing.priceEgp} ج.م</b> وابعتلنا صورة
+              فاضل خطوة واحدة بس: حوّل <b className="text-brand-700">{totalPrice} ج.م</b> وابعتلنا صورة
               التحويل، وهنفعّل حسابك خلال {payment.activationHours} ساعة.
             </p>
 
@@ -157,6 +160,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
               <ul className="space-y-1 text-xs text-neutral-600">
                 <li>• الإيميل: <b dir="ltr">{email}</b></li>
                 <li>• هيبدأ بـ: <b>{selected?.title}</b></li>
+                <li>• المبلغ: <b>{totalPrice} ج.م {withOrderBump ? "(شامل حزمة البرومبتات والعقود VIP)" : ""}</b></li>
                 <li>• الرقم اللي حوّلت منه</li>
               </ul>
             </div>
@@ -165,17 +169,17 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
               href={
                 proofChannel === "whatsapp"
                   ? waLink(payment.supportWhatsapp)
-                  : `mailto:${payment.supportEmail}?subject=${encodeURIComponent("إثبات دفع - " + (selected?.title ?? ""))}&body=${encodeURIComponent(`الإيميل: ${email}\nالمسار: ${selected?.title ?? ""}\nالرقم اللي حوّلت منه: `)}`
+                  : `mailto:${payment.supportEmail}?subject=${encodeURIComponent("إثبات دفع - " + (selected?.title ?? ""))}&body=${encodeURIComponent(`الإيميل: ${email}\nالمسار: ${selected?.title ?? ""}\nالمبلغ: ${totalPrice} ج.م\nالرقم اللي حوّلت منه: `)}`
               }
               target="_blank"
               rel="noopener noreferrer"
-              className="mb-3 block w-full rounded-full bg-brand-600 btn-shine py-3 font-bold text-white"
+              className="mb-3 block w-full rounded-full bg-brand-600 btn-shine py-3 font-bold text-white shadow-md hover:bg-brand-700"
             >
               {proofChannel === "whatsapp" ? "ابعت الإثبات على واتساب ←" : "ابعت الإثبات بالإيميل ←"}
             </a>
             <button
               onClick={() => router.push(`/login?email=${encodeURIComponent(email)}`)}
-              className="w-full rounded-full border border-black/10 py-3 text-sm font-bold text-neutral-600"
+              className="w-full rounded-full border border-black/10 py-3 text-sm font-bold text-neutral-600 hover:bg-neutral-100"
             >
               أنشئ حسابي دلوقتي
             </button>
@@ -193,39 +197,75 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
           <span className="text-brand-400">.com</span>
         </p>
 
-        {/* Price summary */}
-        <div className="mb-4 overflow-hidden rounded-2xl border border-black/5 bg-gradient-to-br from-brand-600 to-brand-800 p-5 text-white">
-          <p className="mb-1 text-[11px] font-bold text-white/70">{pricing.offerNote}</p>
-          {/*
-            The struck-through price and the "save 90%" badge are gone: both
-            were derived from a 3000 EGP list price that was never charged.
-            What is left is the number the customer is about to transfer, and
-            what it opens — which is what this screen is for.
-          */}
-          <div className="flex items-end gap-3">
-            <span className="text-4xl font-bold" dir="ltr">
-              {pricing.priceEgp}
+        {/* Price summary with anchor & cohort urgency */}
+        <div className="mb-4 overflow-hidden rounded-2xl border border-brand-500/20 bg-gradient-to-br from-brand-700 via-brand-800 to-teal-900 p-5 text-white shadow-lg relative">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[11px] font-bold text-teal-200">{pricing.offerNote}</span>
+            <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-black text-neutral-950 shadow-sm">
+              خصم 71%
             </span>
-            <span className="pb-1.5 text-sm">ج.م</span>
-            <span className="mb-1.5 mr-auto rounded-full bg-white/15 px-2.5 py-1 text-[11px] font-bold">
-              كل المسارات
+          </div>
+          <div className="flex items-end gap-2.5">
+            <span className="text-4xl font-black tracking-tight" dir="ltr">
+              {totalPrice}
             </span>
+            <span className="pb-1 text-sm font-bold">ج.م</span>
+            <span className="text-sm text-white/50 line-through pb-1">
+              {pricing.originalPriceEgp} ج.م
+            </span>
+            <span className="mb-1 mr-auto rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-bold backdrop-blur-sm">
+              ١٠٠ مسار · مدى الحياة
+            </span>
+          </div>
+          <p className="mt-2 text-[11px] text-white/80 flex items-center gap-1.5">
+            <span>🔥</span>
+            <span>باقي <b>{pricing.cohortSeatsRemaining} مقعدًا فقط</b> في فوج التأسيس الأول بالسعر المخفض</span>
+          </p>
+        </div>
+
+        {/* Order Bump Special Offer */}
+        <div
+          onClick={() => setWithOrderBump(!withOrderBump)}
+          className={`mb-4 cursor-pointer rounded-2xl border-2 p-4 transition-all ${
+            withOrderBump
+              ? "border-amber-500 bg-amber-50/80 shadow-md ring-2 ring-amber-400/20"
+              : "border-dashed border-amber-300 bg-amber-50/30 hover:border-amber-400"
+          }`}
+        >
+          <div className="flex items-start gap-3">
+            <input
+              type="checkbox"
+              checked={withOrderBump}
+              onChange={(e) => setWithOrderBump(e.target.checked)}
+              onClick={(e) => e.stopPropagation()}
+              className="mt-1 h-5 w-5 rounded border-neutral-300 text-brand-600 focus:ring-brand-500 cursor-pointer"
+            />
+            <div className="flex-1 text-right">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-md bg-amber-200 px-2 py-0.5 text-[10px] font-black text-amber-900">
+                  ⚡ ترقية حصرية مضافة لطلبك (Order Bump)
+                </span>
+                <span className="text-xs font-black text-brand-800">+{pricing.orderBumpPriceEgp} ج.م فقط</span>
+                <span className="text-[10px] text-neutral-400 line-through">٤٥٠ ج.م</span>
+              </div>
+              <p className="mt-1 text-xs font-bold text-neutral-900 leading-snug">
+                {pricing.orderBumpTitle}
+              </p>
+              <p className="mt-1 text-[11px] leading-relaxed text-neutral-600">
+                بنك مكوّن من +1,000 أمر ذكاء اصطناعي احترافي عالي الدقة تم اختباره للبيزنس والمبيعات والبرمجة + صِيغ عقود عمل حر تحمي أتعابك قانونيًا.
+              </p>
+            </div>
           </div>
         </div>
 
         <form onSubmit={submit} className="space-y-4">
           {/* Course */}
           <div className="rounded-2xl border border-black/5 bg-white p-4">
-            {/*
-              The subscription opens every track, so this is not a purchase
-              choice — it only decides where the learner lands first. The copy
-              has to say that, or the list reads as "pick the one you're buying".
-            */}
             <label className="mb-1 block text-xs font-bold text-neutral-500">
               ١. تحب تبدأ بأنهي مسار؟
             </label>
             <p className="mb-3 rounded-lg bg-brand-50 px-3 py-2 text-xs leading-relaxed text-brand-800">
-              ✓ اشتراكك بيفتح <b>كل المسارات</b> — ده بس عشان نعرف نبدأ معاك منين.
+              ✓ اشتراكك بيفتح <b>كل الـ ١٠٠ مسار</b> مدى الحياة — ده بس عشان نجهّزلك نقطة البداية المخصصة.
             </p>
             <div className="space-y-2">
               {courses.map((c) => (
@@ -317,8 +357,8 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
 
             <p className="mb-2 text-[11px] text-neutral-500">
               {method === "vodafone_cash"
-                ? `حوّل ${pricing.priceEgp} ج.م على أي رقم من دول:`
-                : `حوّل ${pricing.priceEgp} ج.م على:`}
+                ? `حوّل ${totalPrice} ج.م على أي رقم من دول:`
+                : `حوّل ${totalPrice} ج.م على:`}
             </p>
             <div className="space-y-2">
               {(method === "vodafone_cash" ? payment.vodafoneCash : payment.instapay).map((v) => (

@@ -20,16 +20,23 @@ export async function generateMetadata({
   };
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function PillarPage({ params }: { params: Promise<{ pillar: string }> }) {
   const { pillar: key } = await params;
   const pillar = getPillar(key);
   if (!pillar) notFound();
 
-  const articles = await prisma.article.findMany({
-    where: { pillar: key, status: "published" },
-    orderBy: { publishedAt: "desc" },
-    select: { slug: true, title: true, excerpt: true, readingMinutes: true, icon: true },
-  });
+  let articles: Array<{ slug: string; title: string; excerpt: string; readingMinutes: number; icon: string }> = [];
+  try {
+    articles = await prisma.article.findMany({
+      where: { pillar: key, status: "published" },
+      orderBy: { publishedAt: "desc" },
+      select: { slug: true, title: true, excerpt: true, readingMinutes: true, icon: true },
+    });
+  } catch {
+    /* fallback when offline */
+  }
 
   return (
     <div className="min-h-screen bg-neutral-50">
