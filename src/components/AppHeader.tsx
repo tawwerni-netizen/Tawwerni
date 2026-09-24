@@ -38,7 +38,7 @@ export default function AppHeader({
   return (
     <header className="app-header sticky top-0 z-40">
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-3 px-4">
-        <LogoLink size={32} />
+        <LogoLink size={32} href="/app" />
 
         <nav className="hidden flex-1 items-center justify-center gap-1 md:flex">
           {navItems.map((item) => {

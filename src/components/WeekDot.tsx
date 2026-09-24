@@ -1,9 +1,12 @@
+"use client";
+
 /**
  * One day in the week strip.
  *
- * A thin ring carrying the day's first Arabic letter. A completed day fills the
- * ring and draws a progress arc around it; today gets a soft halo. The letter
- * stays visible in every state so the row reads as a week even at a glance.
+ * A high-contrast, crystal-clear ring carrying the day's first letter.
+ * - Completed: drawn progress ring + checkmark badge
+ * - Today: solid luminous teal fill + white bold letter + active ping beacon
+ * - Future: clean neutral border with legible muted letter
  */
 export default function WeekDot({
   label,
@@ -19,9 +22,9 @@ export default function WeekDot({
   const letter = label.trim().charAt(0);
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <div className="relative h-10 w-10" style={{ animationDelay: `${index * 55}ms` }}>
-        {/* Completed days get a drawn ring; the SVG sits behind the letter. */}
+    <div className="flex flex-col items-center gap-1.5">
+      <div className="relative h-10 w-10 flex items-center justify-center" style={{ animationDelay: `${index * 55}ms` }}>
+        {/* Completed days get a drawn ring */}
         {done && (
           <svg viewBox="0 0 40 40" className="absolute inset-0 h-full w-full -rotate-90">
             <circle
@@ -29,41 +32,47 @@ export default function WeekDot({
               cy="20"
               r="18"
               fill="none"
-              stroke="currentColor"
+              stroke="#0d9488"
               strokeWidth="2.5"
               strokeLinecap="round"
-              className="animate-draw text-brand-600"
+              className="animate-draw text-teal-600"
               pathLength={100}
             />
           </svg>
         )}
 
-        {/*
-          The letter carries the whole meaning of the dot, so it never gets
-          dimmed below reading contrast — a future day is quieter than today,
-          not invisible.
-        */}
         <div
-          className={`relative flex h-full w-full items-center justify-center rounded-full text-sm font-bold transition-all duration-300 ${
+          className={`relative flex h-9 w-9 items-center justify-center rounded-full text-sm font-extrabold transition-all duration-300 ${
             done
-              ? "animate-pop weekdot-done"
+              ? "bg-teal-100 dark:bg-teal-900/60 text-teal-800 dark:text-teal-200 shadow-xs"
               : isToday
-                ? "animate-pulse-glow weekdot-today"
-                : "weekdot-future"
+                ? "bg-teal-600 text-white shadow-md ring-3 ring-teal-500/30 scale-105"
+                : "bg-neutral-100/90 dark:bg-neutral-800/80 border border-black/10 dark:border-white/10 text-neutral-500 dark:text-neutral-400"
           }`}
         >
           {letter}
         </div>
 
         {done && (
-          <span className="absolute -bottom-0.5 -left-0.5 grid h-4 w-4 place-items-center rounded-full bg-brand-600 text-[9px] text-white shadow-sm">
+          <span className="absolute -bottom-0.5 -left-0.5 grid h-4 w-4 place-items-center rounded-full bg-teal-600 text-[9px] text-white shadow-sm font-bold">
             ✓
+          </span>
+        )}
+
+        {isToday && !done && (
+          <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5" title="اليوم · Today">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500" />
           </span>
         )}
       </div>
 
       <span
-        className={`text-xs ${isToday ? "font-bold text-brand-700" : "text-neutral-400"}`}
+        className={`text-[11px] transition-colors ${
+          isToday
+            ? "font-extrabold text-teal-700 dark:text-teal-300 scale-105"
+            : "font-medium text-neutral-500 dark:text-neutral-400"
+        }`}
       >
         {label}
       </span>

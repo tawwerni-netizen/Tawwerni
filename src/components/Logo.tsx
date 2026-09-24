@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useI18n } from "./LanguageContext";
 
 /**
@@ -168,7 +169,7 @@ export function Logo({
 export function LogoLink({
   size = 34,
   showWord = true,
-  href = "/",
+  href,
   className = "",
   lang,
 }: {
@@ -178,12 +179,15 @@ export function LogoLink({
   className?: string;
   lang?: "ar" | "en";
 }) {
+  const pathname = usePathname();
   const { lang: contextLang } = useI18n();
   const isEn = (lang ?? contextLang) === "en";
 
+  const targetHref = href ?? (pathname?.startsWith("/app") ? "/app" : "/");
+
   return (
     <Link
-      href={href}
+      href={targetHref}
       aria-label={isEn ? "Tawwerni — Home" : "طوّرني — الصفحة الرئيسية"}
       className={`logo-link group inline-flex items-center gap-2.5 rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-teal-400 ${className}`}
     >
