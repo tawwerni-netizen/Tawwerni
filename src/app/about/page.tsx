@@ -36,8 +36,8 @@ export default function AboutPage() {
         </p>
 
         <p className="mb-5">
-          المنصة صغيرة ومتخصصة عمدًا: {allCourses.length} {coursesWord(allCourses.length)} مكتوبة بالكامل،
-          يوم بيوم — {totalLessons} درس عملي، مش عشرين مسار نصهم "قريبًا".
+          المنصة تضم ١٠٠ مسار تطبيقي في ١٠ مجالات حيوية، مكتوبة بالكامل
+          يوم بيوم — أكثر من ١,٤٨٠ درس عملي، مش كلام نظري مكرر.
         </p>
 
         <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-800">اتبنى إزاي</h2>

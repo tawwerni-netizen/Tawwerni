@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cairo } from "next/font/google";
 import { brand, pricing } from "@/content/brand";
 import { allCourses, courseStats } from "@/content/courses";
+import { ALL_100_TRACKS } from "@/content/tracks100";
 import { coursesWord } from "@/lib/arabic-plural";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
@@ -17,18 +18,12 @@ const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${bran
 
 /*
  * The preview card is the whole distribution channel.
- *
- * This is what appears when somebody forwards the link on WhatsApp — the
- * first and often only thing a new visitor reads. It said “٦ مسارات” while
- * the catalogue had nine, and its title carried the same generic tagline the
- * hero was replaced for. Both are fixed here, and the count is computed so it
- * cannot drift again.
  */
-const totalLessons = allCourses.reduce((sum, c) => sum + courseStats(c).totalLessons, 0);
+const total100Lessons = ALL_100_TRACKS.reduce((sum, t) => sum + t.totalLessons, 0);
 
 const shareTitle = `${brand.name} — الموقع ده اتبنى بالذكاء الاصطناعي`;
 
-const description = `${allCourses.length} ${coursesWord(allCourses.length)} و${totalLessons} درس بالعامية المصرية، ٥ دقايق في اليوم. اشتراك واحد ${pricing.priceEgp} ج.م — واليوم الأول من كل مسار مجانًا.`;
+const description = `١٠٠ مسار احترافي وأكثر من ${total100Lessons} درس تطبيقي بالعربية والإنجليزية، ٥ دقايق في اليوم. اشتراك واحد ${pricing.priceEgp} ج.م مدى الحياة — واليوم الأول من كل مسار مجانًا.`;
 
 /**
  * Metadata, including the link preview card.

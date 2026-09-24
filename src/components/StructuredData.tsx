@@ -48,7 +48,7 @@ export default function StructuredData() {
       "@type": "Product",
       "@id": `${siteUrl}/#subscription`,
       name: `اشتراك ${brand.name}`,
-      description: `وصول مدى الحياة لكل مسارات ${brand.name} — ${courses.length} ${coursesWord(courses.length)} بالعربي.`,
+      description: `وصول مدى الحياة لكل مسارات ${brand.name} — ١٠٠ مسار احترافي بالعربي والإنجليزي.`,
       brand: { "@id": `${siteUrl}/#org` },
       offers: {
         "@type": "Offer",

@@ -51,9 +51,7 @@ export default async function LiveSeats({ className = "" }: { className?: string
         <>
           <span aria-hidden>🎁</span>
           <span>
-            {/* Counted, not typed. It said “الستة” while the catalogue had nine —
-                a number written once and left behind by the product. */}
-            <b>اليوم الأول</b> من كل الـ{allCourses.length} {coursesWord(allCourses.length)} مفتوح — من غير دفع
+            <b>اليوم الأول</b> من كل الـ ١٠٠ مسار مفتوح — من غير دفع
           </span>
         </>
       )}

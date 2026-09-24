@@ -57,9 +57,7 @@ export default function ShareRow({
 
   const text =
     message ??
-    // Counted, not typed — see LiveSeats.tsx for why a hardcoded count here
-    // is exactly the bug that let this go stale once already.
-    `جرّب ${brand.name} — درس واحد كل يوم في ٥ دقايق، بالعربي. ${allCourses.length} ${coursesWord(allCourses.length)} كاملة باشتراك واحد.`;
+    `جرّب ${brand.name} — درس واحد كل يوم في ٥ دقايق، بالعربي والإنجليزي. ١٠٠ مسار احترافي كامل باشتراك واحد.`;
 
   async function nativeShare() {
     try {

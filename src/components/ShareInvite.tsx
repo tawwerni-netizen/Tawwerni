@@ -24,7 +24,7 @@ export default function ShareInvite({ className = "" }: { className?: string }) 
   const url = `https://${brand.domain}`;
   const message = `لقيت حاجة تعجبك: ${brand.name} — ${brand.domain}
 
-${allCourses.length} ${coursesWord(allCourses.length)} بالعامية المصرية، ٥ دقايق في اليوم.
+١٠٠ مسار احترافي بالعربية والإنجليزية، ٥ دقايق في اليوم.
 اليوم الأول من كل مسار مفتوح مجانًا — جرّبه من غير ما تدفع حاجة.`;
 
   async function copy() {

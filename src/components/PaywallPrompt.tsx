@@ -77,7 +77,7 @@ export default function PaywallPrompt({
 
       <ul className="grid grid-cols-2 gap-px bg-white/10 text-right text-xs">
         {[
-          ["📚", `${allCourses.length} ${coursesWord(allCourses.length)} كاملة`],
+          ["📚", "١٠٠ مسار احترافي كامل"],
           ["🎯", "مهمة عملية كل يوم"],
           ["🏅", "شارات وشهادات"],
           ["♾️", "تحديثات مجانية"],
