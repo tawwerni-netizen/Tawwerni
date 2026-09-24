@@ -110,6 +110,27 @@ export const TRACK_ARTWORKS: Record<string, TrackArtwork> = {
     badgeAr: "التواصل واللغة الدولية",
     badgeEn: "Global Communication",
   },
+  "autonomous-ai-agents": {
+    image: "/images/tracks/autonomous-ai-agents.jpg",
+    altAr: "وكلاء الذكاء الاصطناعي المستقلون والأنظمة الذاتية",
+    altEn: "Autonomous AI Agents & Multi-Agent Systems",
+    badgeAr: "وكلاء الذكاء الاصطناعي",
+    badgeEn: "Autonomous AI Agents",
+  },
+  "python-automation-scripting": {
+    image: "/images/tracks/python-automation-scripting.jpg",
+    altAr: "أتمتة الأعمال وسلاسل المهام بلغة Python",
+    altEn: "Python Workflow Automation & Scripting",
+    badgeAr: "أتمتة المهام بـ Python",
+    badgeEn: "Python Automation",
+  },
+  "sql-data-analytics": {
+    image: "/images/tracks/sql-data-analytics.jpg",
+    altAr: "قواعد البيانات وهندسة استعلامات SQL المتقدمة",
+    altEn: "SQL Databases & Enterprise Analytics",
+    badgeAr: "قواعد البيانات SQL",
+    badgeEn: "Enterprise SQL Analytics",
+  },
 };
 
 /**
