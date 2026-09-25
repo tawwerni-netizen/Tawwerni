@@ -62,7 +62,7 @@ export default function AppHeader({
           })}
         </nav>
 
-        <div className="mr-auto flex items-center gap-2 md:mr-0">
+        <div className="ms-auto flex items-center gap-2 md:ms-0">
           {streak > 0 && (
             <span
               className="streak-chip hidden items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold sm:inline-flex"

@@ -7,6 +7,7 @@ import { HELP_OPEN_EVENT, type HelpOpenDetail } from "@/lib/help-centre";
 import { useI18n } from "./LanguageContext";
 
 const CATEGORY_TITLES_EN: Record<string, string> = {
+  "tracks-100": "100 Career Tracks & Specializations",
   "getting-started": "Getting Started & Signup",
   "payment": "Payment & Membership",
   "learning": "Learning & Lessons",
@@ -82,7 +83,7 @@ export default function FaqWidget() {
 
     const scored: { item: FaqItem; cat: string; score: number }[] = [];
     for (const cat of faqCategories) {
-      const catTitle = isEn ? CATEGORY_TITLES_EN[cat.key] ?? cat.title : cat.title;
+      const catTitle = isEn ? (cat.titleEn || CATEGORY_TITLES_EN[cat.key] || cat.title) : cat.title;
       for (const item of cat.items) {
         const itemQ = (isEn && item.qEn) ? item.qEn : item.q;
         const itemA = (isEn && item.aEn) ? item.aEn : item.a;
@@ -101,7 +102,7 @@ export default function FaqWidget() {
   }, [query, isEn]);
 
   const current = faqCategories.find((c) => c.key === activeCat);
-  const currentTitle = current ? (isEn ? CATEGORY_TITLES_EN[current.key] ?? current.title : current.title) : "";
+  const currentTitle = current ? (isEn ? (current.titleEn || CATEGORY_TITLES_EN[current.key] || current.title) : current.title) : "";
 
   return (
     <>
@@ -117,6 +118,7 @@ export default function FaqWidget() {
             role="dialog"
             aria-modal="true"
             aria-label={isEn ? "Help Center" : "مركز المساعدة"}
+            dir={isEn ? "ltr" : "rtl"}
             className="help-panel animate-rise fixed inset-x-3 bottom-24 z-50 mx-auto flex max-h-[72vh] max-w-lg flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900 shadow-2xl md:bottom-8 md:left-8 md:right-auto md:mx-0 md:max-h-[76vh] md:w-[26rem]"
           >
             <div className="flex shrink-0 items-center gap-3 bg-brand-800 text-white px-4 py-3">
@@ -215,7 +217,7 @@ export default function FaqWidget() {
               ) : (
                 <div className="grid grid-cols-2 gap-2">
                   {faqCategories.map((cat) => {
-                    const title = isEn ? CATEGORY_TITLES_EN[cat.key] ?? cat.title : cat.title;
+                    const title = isEn ? (cat.titleEn || CATEGORY_TITLES_EN[cat.key] || cat.title) : cat.title;
                     return (
                       <button
                         key={cat.key}

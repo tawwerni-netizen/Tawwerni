@@ -3,23 +3,25 @@
 /**
  * One day in the week strip.
  *
- * A high-contrast, crystal-clear ring carrying the day's first letter.
+ * A high-contrast, crystal-clear ring carrying the day's letter and label.
  * - Completed: drawn progress ring + checkmark badge
  * - Today: solid luminous teal fill + white bold letter + active ping beacon
  * - Future: clean neutral border with legible muted letter
  */
 export default function WeekDot({
   label,
+  letter,
   done,
   isToday,
   index,
 }: {
   label: string;
+  letter?: string;
   done: boolean;
   isToday: boolean;
   index: number;
 }) {
-  const letter = label.trim().charAt(0);
+  const displayLetter = letter || label.trim().charAt(0);
 
   return (
     <div className="flex flex-col items-center gap-1.5">
@@ -50,7 +52,7 @@ export default function WeekDot({
                 : "bg-neutral-100/90 dark:bg-neutral-800/80 border border-black/10 dark:border-white/10 text-neutral-500 dark:text-neutral-400"
           }`}
         >
-          {letter}
+          {displayLetter}
         </div>
 
         {done && (
@@ -60,7 +62,7 @@ export default function WeekDot({
         )}
 
         {isToday && !done && (
-          <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5" title="اليوم · Today">
+          <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5" title="Today">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500" />
           </span>

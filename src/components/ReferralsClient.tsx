@@ -21,7 +21,7 @@ export default function ReferralsClient(props: Props) {
   const isEn = lang === "en";
 
   return (
-    <div className="px-4 pt-5 pb-8">
+    <div className="px-4 pt-7 sm:pt-9 pb-12 max-w-2xl mx-auto" dir={isEn ? "ltr" : "rtl"}>
       <h1 className="mb-1 text-2xl font-bold text-neutral-900 dark:text-neutral-100">
         {isEn ? "Earn by Inviting Friends" : "اكسب من دعوة أصحابك"}
       </h1>

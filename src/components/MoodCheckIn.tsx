@@ -43,7 +43,7 @@ export default function MoodCheckIn() {
       <button
         type="button"
         onClick={() => setDismissed(true)}
-        className="absolute top-3 left-3 text-xs text-neutral-400 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-300"
+        className="absolute top-3 end-3 text-xs text-neutral-400 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-300"
         aria-label={lang === "ar" ? "إغلاق" : "Close"}
       >
         ✕

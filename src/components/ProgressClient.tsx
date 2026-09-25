@@ -35,6 +35,9 @@ interface WeekDayItem {
   index: number;
 }
 
+const WEEK_LETTERS_AR = ["إ", "ن", "ث", "ر", "خ", "ج", "س"];
+const WEEK_LETTERS_EN = ["M", "T", "W", "T", "F", "S", "S"];
+
 export default function ProgressClient({
   totalXp,
   streak,
@@ -64,7 +67,7 @@ export default function ProgressClient({
   const nextLevelName = isEn ? level.nextNameEn : level.nextName;
 
   return (
-    <div className="px-4 pt-5 pb-8">
+    <div className="px-4 pt-7 sm:pt-9 pb-12 max-w-2xl mx-auto" dir={isEn ? "ltr" : "rtl"}>
       <h1 className="text-xl font-bold mb-1 text-neutral-900 dark:text-neutral-100">
         {isEn ? "My Progress" : "تقدّمي"}
       </h1>
@@ -111,10 +114,11 @@ export default function ProgressClient({
           {isEn ? "This Week" : "الأسبوع ده"}
         </p>
         <div className="flex justify-between">
-          {weekDays.map((d) => (
+          {weekDays.map((d, i) => (
             <WeekDot
-              key={d.labelEn}
+              key={d.labelEn || i}
               label={isEn ? d.labelEn : d.label}
+              letter={isEn ? WEEK_LETTERS_EN[i % 7] : WEEK_LETTERS_AR[i % 7]}
               done={d.done}
               isToday={d.isToday}
               index={d.index}

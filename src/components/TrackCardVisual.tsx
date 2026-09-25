@@ -153,6 +153,7 @@ export default function TrackCardVisual({ track, onSelect }: Props) {
         e.currentTarget.style.borderColor = "";
         e.currentTarget.style.boxShadow = "";
       }}
+      dir={lang === "ar" ? "rtl" : "ltr"}
       className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900/90 p-4.5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 cursor-pointer text-neutral-900 dark:text-white shadow-xs"
     >
       {/* Dynamic Background Glow - Pulses and intensifies with course color */}
@@ -234,12 +235,12 @@ export default function TrackCardVisual({ track, onSelect }: Props) {
           )}
 
           {/* Level Overlay Chip */}
-          <div className="absolute bottom-2.5 left-2.5 z-10 rounded-full bg-black/55 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white border border-white/15">
+          <div className="absolute bottom-2.5 start-2.5 z-10 rounded-full bg-black/55 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white border border-white/15">
             {level}
           </div>
 
           {/* Lesson Count Overlay */}
-          <div className="absolute bottom-2.5 right-2.5 z-10 rounded-full bg-black/55 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white border border-white/15 font-mono">
+          <div className="absolute bottom-2.5 end-2.5 z-10 rounded-full bg-black/55 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white border border-white/15 font-mono">
             {track.totalLessons} {t.lessonsCount}
           </div>
         </div>

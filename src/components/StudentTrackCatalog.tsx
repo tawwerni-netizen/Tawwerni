@@ -50,7 +50,7 @@ export default function StudentTrackCatalog({ completedTrackSlugs = [], inProgre
   }, [selectedPillarId, selectedLevel, searchQuery]);
 
   return (
-    <div className="w-full">
+    <div className="w-full" dir={lang === "ar" ? "rtl" : "ltr"}>
       {/* Header Badges */}
       <div className="mb-6 flex flex-wrap items-center gap-2.5 text-xs">
         <span className="rounded-full bg-teal-500/10 border border-teal-500/20 px-3.5 py-1.5 font-bold text-teal-800 dark:text-teal-300">
@@ -186,10 +186,14 @@ export default function StudentTrackCatalog({ completedTrackSlugs = [], inProgre
         const activeArtwork = getTrackArtwork(activeTrack.slug);
         return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl border border-black/10 dark:border-teal-500/20 bg-white dark:bg-neutral-950 p-6 text-neutral-900 dark:text-white shadow-2xl transition-colors">
+          <div
+            dir={lang === "ar" ? "rtl" : "ltr"}
+            className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl border border-black/10 dark:border-teal-500/20 bg-white dark:bg-neutral-900 p-6 text-neutral-900 dark:text-white shadow-2xl transition-colors"
+          >
             <button
               onClick={() => setActiveTrack(null)}
-              className="absolute top-5 left-5 z-20 rounded-full w-8 h-8 flex items-center justify-center text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-md transition-colors"
+              className="absolute top-5 end-5 z-20 rounded-full w-8 h-8 flex items-center justify-center text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-md transition-colors"
+              aria-label={lang === "ar" ? "إغلاق" : "Close"}
             >
               ✕
             </button>

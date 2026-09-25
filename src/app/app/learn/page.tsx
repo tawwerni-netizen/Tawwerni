@@ -37,7 +37,7 @@ export default async function LearnPage() {
   );
 
   return (
-    <div className="px-4 pt-5 pb-8 min-h-screen">
+    <div className="px-4 pt-7 sm:pt-9 pb-12 min-h-screen">
       <FocusPlayer />
 
       <LearnHeader />

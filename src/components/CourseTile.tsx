@@ -45,12 +45,12 @@ export default function CourseTile({
       }`}
     >
       {isActive && (
-        <span className="absolute top-2 right-2 rounded-full bg-teal-600 px-2 py-0.5 text-[9px] font-bold text-white shadow-xs">
+        <span className="absolute top-2 end-2 rounded-full bg-teal-600 px-2 py-0.5 text-[9px] font-bold text-white shadow-xs">
           {isEn ? "Active" : "شغّال"}
         </span>
       )}
       {complete && (
-        <span className="absolute top-2 right-2 text-sm" title={isEn ? "Completed" : "خلصته"}>
+        <span className="absolute top-2 end-2 text-sm" title={isEn ? "Completed" : "خلصته"}>
           🎓
         </span>
       )}

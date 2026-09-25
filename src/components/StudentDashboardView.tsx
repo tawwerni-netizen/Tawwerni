@@ -47,6 +47,11 @@ type Props = {
   hasCompletions: boolean;
 };
 
+const WEEK_LETTERS_EN = ["M", "T", "W", "T", "F", "S", "S"];
+const WEEK_LETTERS_AR = ["ا", "ث", "أ", "خ", "ج", "س", "أ"];
+const WEEK_LABELS_EN = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const WEEK_LABELS_AR = ["اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت", "أحد"];
+
 export default function StudentDashboardView({
   userName,
   totalXp,
@@ -69,27 +74,29 @@ export default function StudentDashboardView({
     : activeTrack?.nextDayTitle;
 
   return (
-    <div className="px-4 pt-5 pb-8 min-h-screen text-neutral-900 dark:text-white" dir={isEn ? "ltr" : "rtl"}>
+    <div className="px-4 pt-7 sm:pt-9 pb-12 min-h-screen text-neutral-900 dark:text-white" dir={isEn ? "ltr" : "rtl"}>
       {paidOrder && <PurchasePixel orderId={paidOrder.id} amountEgp={paidOrder.amountEgp} />}
       
       {/* Header Greeting */}
-      <Greeting className="mb-1 text-xs tracking-wide text-neutral-500 dark:text-neutral-400 font-semibold" />
-      <h1 className="text-2xl font-black mb-1 md:text-3xl text-neutral-900 dark:text-white">
-        {isEn ? (
-          <>
-            Welcome back, <span className="text-teal-600 dark:text-teal-400 font-extrabold">{userName || "Champion"}</span> 👋
-          </>
-        ) : (
-          <>
-            أهلًا بك، <span className="text-teal-600 dark:text-teal-400 font-extrabold">{userName || "يا بطل"}</span> 👋
-          </>
-        )}
-      </h1>
-      <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-5">
-        {isEn
-          ? "Ready to conquer today's practical milestone in Tawwerni?"
-          : "جاهز لإنجاز خطوة اليوم في طوّرني؟"}
-      </p>
+      <div className="mb-6">
+        <Greeting className="mb-1 text-xs tracking-wider uppercase text-teal-600 dark:text-teal-400 font-bold" />
+        <h1 className="text-2xl sm:text-3xl font-black mb-1.5 text-neutral-900 dark:text-white leading-tight">
+          {isEn ? (
+            <>
+              Welcome back, <span className="text-teal-600 dark:text-teal-400 font-extrabold">{userName || "Champion"}</span> 👋
+            </>
+          ) : (
+            <>
+              أهلًا بك، <span className="text-teal-600 dark:text-teal-400 font-extrabold">{userName || "يا بطل"}</span> 👋
+            </>
+          )}
+        </h1>
+        <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
+          {isEn
+            ? "Ready to conquer today's practical milestone in Tawwerni?"
+            : "جاهز لإنجاز خطوة اليوم في طوّرني؟"}
+        </p>
+      </div>
 
       {/* Psychological Well-being & Mood Check-in */}
       <MoodCheckIn />
@@ -154,8 +161,9 @@ export default function StudentDashboardView({
           <div className="flex justify-between mb-4">
             {weekDays.map((d, i) => (
               <WeekDot
-                key={d.labelEn || d.label}
-                label={isEn ? (d.labelEn || d.label) : (d.labelAr || d.label)}
+                key={isEn ? (WEEK_LABELS_EN[i] ?? i) : (WEEK_LABELS_AR[i] ?? i)}
+                label={isEn ? (d.labelEn || WEEK_LABELS_EN[i]) : (d.labelAr || WEEK_LABELS_AR[i])}
+                letter={isEn ? WEEK_LETTERS_EN[i] : WEEK_LETTERS_AR[i]}
                 done={d.done}
                 isToday={d.isToday}
                 index={i}

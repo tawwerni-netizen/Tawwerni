@@ -11,11 +11,7 @@ const MAX_INPUT_BYTES = 8 * 1024 * 1024;
 
 /**
  * Downscales and re-encodes in the browser before upload.
- *
- * A phone camera photo is 4MB of JPEG that would be stored and re-sent on every
- * page load. Drawing it to a square canvas at 256px turns it into ~20KB and, as
- * a side effect, strips EXIF — so nobody uploads a selfie carrying the GPS
- * coordinates of their house into a database the owner can read.
+ * Fits the whole image cleanly without cropping edges off logos or portraits.
  */
 function shrink(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -24,18 +20,25 @@ function shrink(file: File): Promise<string> {
 
     img.onload = () => {
       URL.revokeObjectURL(url);
-      // Centre-crop to a square, since the avatar is always round.
-      const edge = Math.min(img.width, img.height);
-      const sx = (img.width - edge) / 2;
-      const sy = (img.height - edge) / 2;
-
       const canvas = document.createElement("canvas");
-      canvas.width = canvas.height = Math.min(edge, MAX_EDGE);
+      canvas.width = MAX_EDGE;
+      canvas.height = MAX_EDGE;
       const ctx = canvas.getContext("2d");
       if (!ctx) return reject(new Error("canvas unavailable"));
 
-      ctx.drawImage(img, sx, sy, edge, edge, 0, 0, canvas.width, canvas.height);
-      resolve(canvas.toDataURL("image/jpeg", 0.82));
+      // Clean white background
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, MAX_EDGE, MAX_EDGE);
+
+      // Fit the image comfortably inside the circle with a safe margin so nothing gets sliced
+      const scale = Math.min((MAX_EDGE * 0.92) / img.width, (MAX_EDGE * 0.92) / img.height);
+      const dw = img.width * scale;
+      const dh = img.height * scale;
+      const dx = (MAX_EDGE - dw) / 2;
+      const dy = (MAX_EDGE - dh) / 2;
+
+      ctx.drawImage(img, 0, 0, img.width, img.height, dx, dy, dw, dh);
+      resolve(canvas.toDataURL("image/jpeg", 0.88));
     };
 
     img.onerror = () => {
@@ -83,7 +86,7 @@ export default function AvatarPicker({
           /* keep the default */
         }
         setError(msg);
-        setPreview(avatarUrl); // put the old one back
+        setPreview(avatarUrl);
         return;
       }
       router.refresh();
@@ -97,7 +100,7 @@ export default function AvatarPicker({
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    e.target.value = ""; // so picking the same file twice still fires
+    e.target.value = "";
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
@@ -121,33 +124,35 @@ export default function AvatarPicker({
   }
 
   return (
-    <div className="flex items-center gap-4">
-      <button
-        type="button"
-        onClick={() => fileRef.current?.click()}
-        disabled={busy}
-        className="avatar-edit relative shrink-0 rounded-full"
-        aria-label={isEn ? "Change your avatar" : "غيّر صورتك"}
-      >
-        <Avatar name={name} email={email} avatarUrl={preview} size={64} />
-        <span className="avatar-edit-badge" aria-hidden>
-          📷
-        </span>
-      </button>
+    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-start" dir={isEn ? "ltr" : "rtl"}>
+      <div className="relative shrink-0">
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          disabled={busy}
+          className="avatar-edit relative block rounded-full focus:outline-hidden ring-2 ring-black/5 dark:ring-white/10 hover:ring-brand-500/50 transition-all active:scale-95"
+          aria-label={isEn ? "Change your avatar" : "غيّر صورتك"}
+        >
+          <Avatar name={name} email={email} avatarUrl={preview} size={72} />
+          <span className="avatar-edit-badge absolute bottom-0 right-0 bg-neutral-900/80 text-white rounded-full p-1.5 text-xs shadow-md border border-white/20" aria-hidden>
+            📷
+          </span>
+        </button>
+      </div>
 
       <div className="min-w-0 flex-1">
-        <p className="mb-1 text-xs font-bold text-neutral-800 dark:text-neutral-200">
+        <p className="mb-1 text-sm font-bold text-neutral-900 dark:text-white">
           {isEn ? "Profile Picture" : "صورتك الشخصية"}
         </p>
-        <p className="mb-2 text-[11px] leading-relaxed text-neutral-400">
-          {isEn ? "Tap to change picture. JPG or PNG." : "دوس على الصورة عشان تغيّرها. JPG أو PNG."}
+        <p className="mb-3 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
+          {isEn ? "JPG or PNG. Tap to choose a new picture." : "دوس على الصورة عشان تغيّرها. JPG أو PNG."}
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap justify-center sm:justify-start gap-2">
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={busy}
-            className="rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-[11px] font-bold text-neutral-800 dark:text-neutral-200 disabled:opacity-50 hover:border-brand-500/40 transition-colors"
+            className="rounded-full border border-black/10 dark:border-white/10 bg-neutral-50 dark:bg-neutral-800 px-3.5 py-1.5 text-xs font-bold text-neutral-800 dark:text-neutral-200 disabled:opacity-50 hover:border-brand-500/40 transition-colors shadow-2xs"
           >
             {busy ? "..." : preview ? (isEn ? "Change photo" : "غيّر الصورة") : (isEn ? "Upload photo" : "ارفع صورة")}
           </button>
@@ -159,13 +164,13 @@ export default function AvatarPicker({
                 save(null);
               }}
               disabled={busy}
-              className="rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-[11px] text-neutral-500 hover:text-red-600 disabled:opacity-50 transition-colors"
+              className="rounded-full border border-black/10 dark:border-white/10 px-3.5 py-1.5 text-xs font-semibold text-neutral-500 hover:text-red-600 disabled:opacity-50 transition-colors"
             >
               {isEn ? "Remove" : "شيلها"}
             </button>
           )}
         </div>
-        {error && <p className="mt-2 text-[11px] text-red-600">{error}</p>}
+        {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
       </div>
 
       <input

@@ -65,11 +65,11 @@ export default function Avatar({
       // eslint-disable-next-line @next/next/no-img-element
       <img
         src={avatarUrl}
-        alt={name ?? "صورتك"}
+        alt={name ?? "Avatar"}
         width={size}
         height={size}
         style={{ width: size, height: size }}
-        className={`avatar-tile shrink-0 rounded-full object-cover ${className}`}
+        className={`avatar-tile shrink-0 rounded-full object-contain bg-white dark:bg-neutral-800 p-0.5 border border-black/10 dark:border-white/10 ${className}`}
       />
     );
   }
