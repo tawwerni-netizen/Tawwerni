@@ -164,7 +164,7 @@ export default function Certificate({
         }
         message={
           isEn
-            ? `I just finished "${resolvedTitle}" on ${brand.name} 🎓 — 5-minute micro-lessons daily!`
+            ? `I just finished "${resolvedTitle}" on ${brand.nameEn} 🎓 — 5-minute micro-lessons daily!`
             : `خلّصت "${resolvedTitle}" على ${brand.name} 🎓 — درس واحد كل يوم في ٥ دقايق، بالعربي.`
         }
       />

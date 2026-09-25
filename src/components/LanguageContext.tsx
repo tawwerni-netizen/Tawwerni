@@ -45,6 +45,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       : "طوّرني — حوّل تعلّمك اليومي لتقدّم حقيقي";
     try {
       localStorage.setItem("tawwerni-lang", newLang);
+      document.cookie = `tawwerni-lang=${newLang}; path=/; max-age=31536000; SameSite=Lax`;
     } catch {
       /* ignore */
     }

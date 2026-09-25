@@ -32,11 +32,13 @@ export default function ShareRow({
   const { lang } = useI18n();
   const isEn = lang === "en";
 
+  const hasArabic = (s?: string) => Boolean(s && /[\u0600-\u06FF]/.test(s));
+
   const resolvedTitle = isEn
-    ? (titleEn ?? `Share ${brand.nameEn}`)
+    ? (titleEn ?? (title && !hasArabic(title) ? title : `Share ${brand.nameEn}`))
     : (title ?? `شارك ${brand.name}`);
   const resolvedNote = isEn
-    ? (noteEn ?? `Earn ${referral.commissionEgp} EGP for every friend who subscribes from your link.`)
+    ? (noteEn ?? (note && !hasArabic(note) ? note : `Earn ${referral.commissionEgp} EGP for every friend who subscribes from your link.`))
     : (note ?? `خد ${referral.commissionEgp} ج.م عن كل صاحب يشترك من لينكك.`);
 
   const [url, setUrl] = useState(`https://${brand.domain}`);
@@ -65,12 +67,12 @@ export default function ShareRow({
   }, []);
 
   const text = isEn
-    ? (messageEn ?? `Try ${brand.nameEn} — 5-minute micro-lessons daily. 100 complete professional tracks with one membership.`)
+    ? (messageEn ?? (message && !hasArabic(message) ? message : `Try ${brand.nameEn} — 5-minute micro-lessons daily. 100 complete professional tracks with one membership.`))
     : (message ?? `جرّب ${brand.name} — درس واحد كل يوم في ٥ دقايق، بالعربي والإنجليزي. ١٠٠ مسار احترافي كامل باشتراك واحد.`);
 
   async function nativeShare() {
     try {
-      await navigator.share({ title: brand.name, text, url });
+      await navigator.share({ title: isEn ? brand.nameEn : brand.name, text, url });
       trackReferralShared("native");
     } catch {
       /* ignore */
@@ -89,12 +91,12 @@ export default function ShareRow({
   }
 
   return (
-    <div className={`share-row ${className}`}>
+    <div className={`share-row ${className}`} dir={isEn ? "ltr" : "rtl"}>
       <div className="mb-3 flex items-start gap-3">
-        <span className="share-row-icon" aria-hidden>
+        <span className="share-row-icon shrink-0" aria-hidden>
           🎁
         </span>
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <p className="text-sm font-bold text-neutral-900 dark:text-neutral-100">{resolvedTitle}</p>
           <p className="mt-0.5 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
             {resolvedNote}
