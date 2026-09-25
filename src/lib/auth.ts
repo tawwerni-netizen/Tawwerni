@@ -30,12 +30,15 @@ function getSecret() {
  * think someone got in" leaves the intruder logged in indefinitely.
  */
 export async function createSessionCookie(userId: string) {
-  const user = await prisma.user.findUnique({
+  // We increment the sessionVersion here so any new sign-in invalidates
+  // all previous active sessions on other devices.
+  const user = await prisma.user.update({
     where: { id: userId },
+    data: { sessionVersion: { increment: 1 } },
     select: { sessionVersion: true },
   });
 
-  const token = await new SignJWT({ userId, v: user?.sessionVersion ?? 0 })
+  const token = await new SignJWT({ userId, v: user.sessionVersion })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime(`${SESSION_TTL_DAYS}d`)
