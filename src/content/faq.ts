@@ -1,4 +1,4 @@
-export type FaqItem = { q: string; a: string };
+export type FaqItem = { q: string; a: string; qEn?: string; aEn?: string };
 export type FaqCategory = { key: string; title: string; icon: string; items: FaqItem[] };
 
 /**

@@ -17,7 +17,7 @@ type Props = {
   totalXp: number;
   streak: number;
   dailyPaceMinutes: number;
-  weekDays: { label: string; done: boolean; isToday: boolean }[];
+  weekDays: { label: string; labelAr?: string; labelEn?: string; done: boolean; isToday: boolean }[];
   activeTrack: {
     slug: string;
     title: string;
@@ -153,7 +153,13 @@ export default function StudentDashboardView({
           </p>
           <div className="flex justify-between mb-4">
             {weekDays.map((d, i) => (
-              <WeekDot key={d.label} label={d.label} done={d.done} isToday={d.isToday} index={i} />
+              <WeekDot
+                key={d.labelEn || d.label}
+                label={isEn ? (d.labelEn || d.label) : (d.labelAr || d.label)}
+                done={d.done}
+                isToday={d.isToday}
+                index={i}
+              />
             ))}
           </div>
           <div className="grid grid-cols-3 gap-2 text-center">

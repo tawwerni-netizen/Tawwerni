@@ -26,6 +26,7 @@ export default function AppHeader({
 }) {
   const pathname = usePathname();
   const { lang } = useI18n();
+  const isEn = lang === "en";
 
   const navItems = [
     { href: "/app", label: lang === "ar" ? "الرئيسية" : "Home", icon: "🏠" },
@@ -65,7 +66,7 @@ export default function AppHeader({
           {streak > 0 && (
             <span
               className="streak-chip hidden items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold sm:inline-flex"
-              title={`${streak} يوم متتالي`}
+              title={isEn ? `${streak} day streak` : `${streak} يوم متتالي`}
             >
               <span className="animate-flicker" aria-hidden>
                 🔥
@@ -83,11 +84,11 @@ export default function AppHeader({
           <button
             type="button"
             onClick={() => openHelpCentre()}
-            aria-label="مركز المساعدة"
-            title="مركز المساعدة"
+            aria-label={isEn ? "Help Centre" : "مركز المساعدة"}
+            title={isEn ? "Help Centre" : "مركز المساعدة"}
             className="help-btn"
           >
-            ؟
+            {isEn ? "?" : "؟"}
           </button>
 
           <LanguageToggle />
@@ -97,7 +98,7 @@ export default function AppHeader({
               long before it was, which is its own kind of broken. */}
           <Link
             href="/app/profile"
-            aria-label="حسابي"
+            aria-label={isEn ? "Profile" : "حسابي"}
             className="avatar-link rounded-full outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
           >
             <Avatar name={name} email={email} avatarUrl={avatarUrl} size={34} />

@@ -18,12 +18,20 @@ export async function POST(request: Request) {
   const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`chat:${userId}`, 30, 3600);
   if (!gate.ok) return tooMany(gate, "أسئلة كتير في وقت قصير. استنى شوية.");
 
-  const { message } = await readJson(request);
+  const { message, lang = "ar" } = await readJson(request);
+  const isEn = lang === "en";
+
   if (typeof message !== "string" || !message.trim()) {
-    return NextResponse.json({ error: "اكتب رسالة الأول" }, { status: 400 });
+    return NextResponse.json(
+      { error: isEn ? "Please enter a message" : "اكتب رسالة الأول" },
+      { status: 400 }
+    );
   }
   if (message.length > MAX_MESSAGE_CHARS) {
-    return NextResponse.json({ error: "الرسالة طويلة أوي. اختصرها شوية." }, { status: 413 });
+    return NextResponse.json(
+      { error: isEn ? "Message is too long. Please shorten it." : "الرسالة طويلة أوي. اختصرها شوية." },
+      { status: 413 }
+    );
   }
 
   const [user, completions, history] = await Promise.all([
@@ -50,10 +58,11 @@ export async function POST(request: Request) {
         name: user?.name ?? null,
         totalXp,
         streak,
-        levelName: level.name,
+        levelName: isEn ? level.nameEn : level.name,
         archetype: user?.archetype ?? null,
         currentCourseTitle: latest?.lesson.module.course.title ?? null,
         currentDay: latest?.lesson.dayNumber ?? null,
+        lang: isEn ? "en" : "ar",
       }
     );
 
@@ -61,11 +70,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ reply });
   } catch (err) {
     if (err instanceof MissingApiKeyError) {
-      const fallback =
-        "لسه محتاج مفتاح Anthropic API عشان أقدر أرد عليك فعليًا. اطلب من صاحب الموقع يضيفه في إعدادات المشروع.";
+      const fallback = isEn
+        ? "I need an Anthropic API key configured in project settings to answer live questions. You can add ANTHROPIC_API_KEY to your environment."
+        : "لسه محتاج مفتاح Anthropic API عشان أقدر أرد عليك فعليًا. اطلب من صاحب الموقع يضيفه في إعدادات المشروع.";
       return NextResponse.json({ reply: fallback });
     }
     console.error(err);
-    return NextResponse.json({ error: "حصل خطأ، جرب تاني" }, { status: 500 });
+    return NextResponse.json(
+      { error: isEn ? "Something went wrong, please try again" : "حصل خطأ، جرب تاني" },
+      { status: 500 }
+    );
   }
 }

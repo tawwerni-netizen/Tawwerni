@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useI18n } from "./LanguageContext";
 
 /**
  * Time-of-day greeting, read from the visitor's own clock.
@@ -14,7 +15,12 @@ import { useEffect, useState } from "react";
  * so there is no empty gap and no hydration mismatch.
  */
 
-function greetingFor(hour: number) {
+function greetingFor(hour: number, isEn: boolean) {
+  if (isEn) {
+    if (hour < 12) return "Good morning";
+    if (hour < 17) return "Good afternoon";
+    return "Good evening";
+  }
   if (hour < 5) return "مساء الخير";      // after midnight is still "evening"
   if (hour < 12) return "صباح الخير";
   if (hour < 17) return "مساء النور";
@@ -22,11 +28,13 @@ function greetingFor(hour: number) {
 }
 
 export default function Greeting({ className = "" }: { className?: string }) {
-  const [text, setText] = useState("مساء الخير");
+  const { lang } = useI18n();
+  const isEn = lang === "en";
+  const [text, setText] = useState(isEn ? "Welcome back" : "مساء الخير");
 
   useEffect(() => {
-    setText(greetingFor(new Date().getHours()));
-  }, []);
+    setText(greetingFor(new Date().getHours(), isEn));
+  }, [isEn]);
 
   return (
     <p className={className} suppressHydrationWarning>

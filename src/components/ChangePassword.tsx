@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useI18n } from "./LanguageContext";
 
 /**
  * Change-your-own-password panel.
@@ -10,6 +11,9 @@ import { useState } from "react";
  * behaviour lives rather than two that can drift apart.
  */
 export default function ChangePassword({ compact = false }: { compact?: boolean }) {
+  const { lang } = useI18n();
+  const isEn = lang === "en";
+
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState("");
   const [next, setNext] = useState("");
@@ -31,7 +35,7 @@ export default function ChangePassword({ compact = false }: { compact?: boolean 
     setError("");
 
     if (next !== confirm) {
-      setError("الباسوردين الجداد مش زي بعض");
+      setError(isEn ? "New passwords do not match" : "الباسوردين الجداد مش زي بعض");
       return;
     }
 
@@ -52,7 +56,7 @@ export default function ChangePassword({ compact = false }: { compact?: boolean 
       }
 
       if (!res.ok) {
-        setError(data.error ?? "مش قادر أغيّر الباسورد");
+        setError(data.error ?? (isEn ? "Failed to change password" : "مش قادر أغيّر الباسورد"));
         return;
       }
 
@@ -61,7 +65,7 @@ export default function ChangePassword({ compact = false }: { compact?: boolean 
       setOpen(false);
       setTimeout(() => setDone(false), 6000);
     } catch {
-      setError("مفيش اتصال بالسيرفر");
+      setError(isEn ? "Server connection failed" : "مفيش اتصال بالسيرفر");
     } finally {
       setBusy(false);
     }
@@ -73,15 +77,17 @@ export default function ChangePassword({ compact = false }: { compact?: boolean 
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className={`rounded-full border border-black/10 px-4 py-2 text-xs font-bold ${
+          className={`rounded-full border border-black/10 dark:border-white/10 px-4 py-2 text-xs font-bold text-neutral-800 dark:text-neutral-200 hover:border-brand-500/40 transition-colors ${
             compact ? "" : "w-full"
           }`}
         >
-          🔒 غيّر كلمة السر
+          {isEn ? "🔒 Change Password" : "🔒 غيّر كلمة السر"}
         </button>
         {done && (
-          <p className="animate-rise mt-2 text-center text-[11px] font-bold text-green-700">
-            ✓ كلمة السر اتغيّرت، وبعتنالك إيميل يأكّد ده
+          <p className="animate-rise mt-2 text-center text-[11px] font-bold text-green-700 dark:text-green-400">
+            {isEn
+              ? "✓ Password successfully changed! We sent you a confirmation email."
+              : "✓ كلمة السر اتغيّرت، وبعتنالك إيميل يأكّد ده"}
           </p>
         )}
       </div>
@@ -89,18 +95,20 @@ export default function ChangePassword({ compact = false }: { compact?: boolean 
   }
 
   return (
-    <form onSubmit={submit} className="animate-rise rounded-2xl border border-black/10 p-3">
+    <form onSubmit={submit} className="animate-rise rounded-2xl border border-black/10 dark:border-white/10 p-3">
       <div className="mb-3 flex items-center justify-between">
-        <p className="text-xs font-bold">تغيير كلمة السر</p>
+        <p className="text-xs font-bold text-neutral-800 dark:text-neutral-200">
+          {isEn ? "Change Password" : "تغيير كلمة السر"}
+        </p>
         <button
           type="button"
           onClick={() => {
             setOpen(false);
             reset();
           }}
-          className="text-xs text-neutral-500"
+          className="text-xs text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200"
         >
-          إلغاء
+          {isEn ? "Cancel" : "إلغاء"}
         </button>
       </div>
 
@@ -114,8 +122,8 @@ export default function ChangePassword({ compact = false }: { compact?: boolean 
         autoComplete="current-password"
         value={current}
         onChange={(e) => setCurrent(e.target.value)}
-        placeholder="كلمة السر الحالية"
-        className="mb-2 w-full rounded-xl border border-black/10 px-3 py-2.5 text-sm"
+        placeholder={isEn ? "Current Password" : "كلمة السر الحالية"}
+        className="mb-2 w-full rounded-xl border border-black/10 dark:border-white/10 dark:bg-neutral-800 px-3 py-2.5 text-sm"
       />
       <input
         type={show ? "text" : "password"}
@@ -123,8 +131,8 @@ export default function ChangePassword({ compact = false }: { compact?: boolean 
         autoComplete="new-password"
         value={next}
         onChange={(e) => setNext(e.target.value)}
-        placeholder="كلمة السر الجديدة (٨ حروف على الأقل)"
-        className="mb-2 w-full rounded-xl border border-black/10 px-3 py-2.5 text-sm"
+        placeholder={isEn ? "New Password (at least 8 chars)" : "كلمة السر الجديدة (٨ حروف على الأقل)"}
+        className="mb-2 w-full rounded-xl border border-black/10 dark:border-white/10 dark:bg-neutral-800 px-3 py-2.5 text-sm"
       />
       <input
         type={show ? "text" : "password"}
@@ -132,13 +140,13 @@ export default function ChangePassword({ compact = false }: { compact?: boolean 
         autoComplete="new-password"
         value={confirm}
         onChange={(e) => setConfirm(e.target.value)}
-        placeholder="اكتب الجديدة تاني"
-        className="mb-2 w-full rounded-xl border border-black/10 px-3 py-2.5 text-sm"
+        placeholder={isEn ? "Confirm New Password" : "اكتب الجديدة تاني"}
+        className="mb-2 w-full rounded-xl border border-black/10 dark:border-white/10 dark:bg-neutral-800 px-3 py-2.5 text-sm"
       />
 
       <label className="mb-3 flex items-center gap-2 text-[11px] text-neutral-500">
         <input type="checkbox" checked={show} onChange={(e) => setShow(e.target.checked)} />
-        أظهر كلمات السر
+        {isEn ? "Show passwords" : "أظهر كلمات السر"}
       </label>
 
       {error && <p className="mb-2 text-[11px] text-red-600">{error}</p>}
@@ -146,9 +154,9 @@ export default function ChangePassword({ compact = false }: { compact?: boolean 
       <button
         type="submit"
         disabled={busy}
-        className="btn-shine w-full rounded-full bg-brand-600 py-2.5 text-xs font-bold text-white disabled:opacity-60"
+        className="btn-shine w-full rounded-full bg-brand-600 py-2.5 text-xs font-bold text-white disabled:opacity-60 hover:bg-brand-700 transition-colors"
       >
-        {busy ? "..." : "احفظ كلمة السر الجديدة"}
+        {busy ? "..." : isEn ? "Save New Password" : "احفظ كلمة السر الجديدة"}
       </button>
     </form>
   );

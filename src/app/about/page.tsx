@@ -35,12 +35,12 @@ export default function AboutPage() {
 
       <main className="mx-auto max-w-3xl px-5 py-10 text-sm leading-relaxed">
         <h1 className="mb-6 text-2xl sm:text-3xl font-black text-neutral-900 dark:text-white">
-          {isEn ? `Who is behind ${brand.name}?` : `من وراء ${brand.name}؟`}
+          {isEn ? `Who is behind ${brand.nameEn}?` : `من وراء ${brand.name}؟`}
         </h1>
 
         <p className="mb-5 text-neutral-700 dark:text-neutral-300">
           {isEn
-            ? `${brand.name} started from a fundamental truth: most people don't need another 40-hour video course to bookmark and forget. They need a frictionless daily micro-system they can actually complete. That is why every single track here is structured as 28 days × 5 to 15 minutes of hands-on practice.`
+            ? `${brand.nameEn} started from a fundamental truth: most people don't need another 40-hour video course to bookmark and forget. They need a frictionless daily micro-system they can actually complete. That is why every single track here is structured as 28 days × 5 to 15 minutes of hands-on practice.`
             : `${brand.name} بدأ من ملاحظة بسيطة: أغلب الناس مش محتاجة كورس تاني تحفظه وتسيبه — محتاجة نظام يومي صغير يقدر يكمّله فعلًا. عشان كده كل مسار هنا مقسّم ٢٨ يومًا × ٥ إلى ١٥ دقيقة، مش ساعات فيديو طويلة حد بيتحمس لها وما يكملهاش.`}
         </p>
 

@@ -8,6 +8,7 @@ import { orderReceivedEmail } from "@/lib/email-templates";
 import { attachReferrer } from "@/lib/referrals";
 import { REFERRAL_COOKIE } from "@/lib/referral-constants";
 import { rateLimit, clientIp, tooMany, testBypass } from "@/lib/rate-limit";
+import { ensureDbCourse } from "@/lib/db-course";
 
 const VALID_METHODS = ["vodafone_cash", "instapay"] as const;
 const VALID_CHANNELS = ["whatsapp", "email"] as const;
@@ -46,7 +47,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "قناة تواصل غير صالحة" }, { status: 400 });
   }
 
-  const course = await prisma.course.findUnique({ where: { slug: courseSlug } });
+  const course = await ensureDbCourse(courseSlug);
   if (!course) return NextResponse.json({ error: "المسار مش موجود" }, { status: 404 });
 
   const normalizedEmail = email.toLowerCase().trim();

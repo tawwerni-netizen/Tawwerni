@@ -51,13 +51,20 @@ function asStat(heading: string, firstLine: string): Visual | null {
  * Only "X مقابل Y" — an explicit comparison.
  */
 function asVersus(heading: string): Visual | null {
-  const m = heading.match(/^(.{3,24}?)\s+مقابل\s+(.{3,24})$/);
-  if (!m) return null;
+  const mAr = heading.match(/^(.{3,24}?)\s+مقابل\s+(.{3,24})$/);
+  if (mAr) {
+    const [, left, right] = mAr;
+    if (/^(إيه|ليه|إزاي|مين|امتى)/.test(left.trim())) return null;
+    return { kind: "versus", left: left.trim(), right: right.trim() };
+  }
 
-  const [, left, right] = m;
-  if (/^(إيه|ليه|إزاي|مين|امتى)/.test(left.trim())) return null;
+  const mEn = heading.match(/^(.{3,30}?)\s+(?:vs\.?|versus)\s+(.{3,30})$/i);
+  if (mEn) {
+    const [, left, right] = mEn;
+    return { kind: "versus", left: left.trim(), right: right.trim() };
+  }
 
-  return { kind: "versus", left: left.trim(), right: right.trim() };
+  return null;
 }
 
 /** Lines that are each a short labelled item read better as a checklist. */
@@ -73,7 +80,7 @@ function asChecklist(lines: string[]): Visual | null {
   };
 }
 
-/** Numbered lines ("١. …") are a real sequence worth drawing as one. */
+/** Numbered lines ("١. …" or "1. ...") are a real sequence worth drawing as one. */
 function asSteps(lines: string[]): Visual | null {
   const numbered = lines.filter((l) => /^\s*[١٢٣٤٥1-5][.．)]/.test(l));
   if (numbered.length < 3) return null;
@@ -83,11 +90,19 @@ function asSteps(lines: string[]): Visual | null {
   };
 }
 
-/** "من X لـ Y" — a change of state, drawn as a transition. */
+/** "من X لـ Y" or "From X to Y" — a change of state, drawn as a transition. */
 function asArrow(heading: string): Visual | null {
-  const m = heading.match(/^من\s+(.{2,20}?)\s+(?:لـ?|إلى|ل)\s*(.{2,20})$/);
-  if (!m) return null;
-  return { kind: "arrow", from: m[1].trim(), to: m[2].trim() };
+  const mAr = heading.match(/^من\s+(.{2,20}?)\s+(?:لـ?|إلى|ل)\s*(.{2,20})$/);
+  if (mAr) {
+    return { kind: "arrow", from: mAr[1].trim(), to: mAr[2].trim() };
+  }
+
+  const mEn = heading.match(/^From\s+(.{2,25}?)\s+(?:to|->|→)\s*(.{2,25})$/i);
+  if (mEn) {
+    return { kind: "arrow", from: mEn[1].trim(), to: mEn[2].trim() };
+  }
+
+  return null;
 }
 
 /**
@@ -182,7 +197,8 @@ export function visualConsumesFirstLine(heading: string, lines: string[]): boole
 }
 
 interface TopicArtwork {
-  label: string;
+  labelAr: string;
+  labelEn: string;
   themeLight: string;
   themeDark: string;
   borderLight: string;
@@ -197,7 +213,8 @@ function getTopicArtwork(icon: string): TopicArtwork {
   switch (icon) {
     case "📊":
       return {
-        label: "تحليل البيانات واللوحات التفاعلية · Data Analytics & BI",
+        labelAr: "تحليل البيانات واللوحات التفاعلية",
+        labelEn: "Data Analytics & BI",
         themeLight: "from-teal-50 via-cyan-50/80 to-emerald-50",
         themeDark: "dark:from-[#062c31] dark:via-[#0a3a42] dark:to-[#041d22]",
         borderLight: "border-teal-200",
@@ -230,7 +247,8 @@ function getTopicArtwork(icon: string): TopicArtwork {
       };
     case "🤖":
       return {
-        label: "الذكاء الاصطناعي وهندسة الأوامر · AI & Intelligent Systems",
+        labelAr: "الذكاء الاصطناعي والأنظمة الذكية",
+        labelEn: "AI & Intelligent Systems",
         themeLight: "from-indigo-50 via-purple-50/80 to-teal-50",
         themeDark: "dark:from-[#11193d] dark:via-[#192257] dark:to-[#0c122e]",
         borderLight: "border-indigo-200",
@@ -259,7 +277,8 @@ function getTopicArtwork(icon: string): TopicArtwork {
       };
     case "💻":
       return {
-        label: "تطوير البرمجيات والويب · Software & Fullstack Dev",
+        labelAr: "تطوير البرمجيات والويب",
+        labelEn: "Software & Fullstack Dev",
         themeLight: "from-sky-50 via-blue-50/80 to-teal-50",
         themeDark: "dark:from-[#092238] dark:via-[#0e304f] dark:to-[#061828]",
         borderLight: "border-sky-200",
@@ -282,7 +301,8 @@ function getTopicArtwork(icon: string): TopicArtwork {
       };
     case "🎨":
       return {
-        label: "تصميم الواجهات وتجربة المستخدم · UI/UX & Creative Systems",
+        labelAr: "تصميم الواجهات وتجربة المستخدم",
+        labelEn: "UI/UX & Creative Systems",
         themeLight: "from-rose-50 via-pink-50/80 to-purple-50",
         themeDark: "dark:from-[#2e0f2f] dark:via-[#3e143f] dark:to-[#210921]",
         borderLight: "border-rose-200",
@@ -302,7 +322,8 @@ function getTopicArtwork(icon: string): TopicArtwork {
       };
     case "💰":
       return {
-        label: "المال والبيزنس والنمو المالي · Business, Finance & Wealth",
+        labelAr: "المال والبيزنس والنمو المالي",
+        labelEn: "Business, Finance & Wealth",
         themeLight: "from-emerald-50 via-teal-50/80 to-amber-50",
         themeDark: "dark:from-[#072d1e] dark:via-[#0d402b] dark:to-[#051e14]",
         borderLight: "border-emerald-200",
@@ -321,7 +342,8 @@ function getTopicArtwork(icon: string): TopicArtwork {
       };
     case "🎯":
       return {
-        label: "التسويق وجذب العملاء · Growth Marketing & Sales",
+        labelAr: "التسويق وجذب العملاء",
+        labelEn: "Growth Marketing & Sales",
         themeLight: "from-orange-50 via-amber-50/80 to-rose-50",
         themeDark: "dark:from-[#311808] dark:via-[#43220b] dark:to-[#210f04]",
         borderLight: "border-orange-200",
@@ -341,7 +363,8 @@ function getTopicArtwork(icon: string): TopicArtwork {
       };
     case "⏱️":
       return {
-        label: "إدارة الوقت والإنتاجية الفائقة · Time Mastery & Flow",
+        labelAr: "إدارة الوقت والإنتاجية الفائقة",
+        labelEn: "Time Mastery & Flow",
         themeLight: "from-amber-50 via-yellow-50/80 to-teal-50",
         themeDark: "dark:from-[#2e1d06] dark:via-[#3c2608] dark:to-[#1e1302]",
         borderLight: "border-amber-200",
@@ -360,7 +383,8 @@ function getTopicArtwork(icon: string): TopicArtwork {
       };
     case "🧠":
       return {
-        label: "علم النفس السلوكي وصناعة العادات · Mindset Psychology",
+        labelAr: "علم النفس السلوكي وصناعة العادات",
+        labelEn: "Mindset Psychology",
         themeLight: "from-violet-50 via-purple-50/80 to-indigo-50",
         themeDark: "dark:from-[#1d0e3b] dark:via-[#2b1455] dark:to-[#130728]",
         borderLight: "border-violet-200",
@@ -379,7 +403,8 @@ function getTopicArtwork(icon: string): TopicArtwork {
       };
     case "💚":
       return {
-        label: "الصحة والطاقة الحيوية المستدامة · Vitality & Daily Energy",
+        labelAr: "الصحة والطاقة الحيوية المستدامة",
+        labelEn: "Vitality & Daily Energy",
         themeLight: "from-green-50 via-emerald-50/80 to-teal-50",
         themeDark: "dark:from-[#092a1b] dark:via-[#0e3b26] dark:to-[#051c11]",
         borderLight: "border-green-200",
@@ -396,7 +421,8 @@ function getTopicArtwork(icon: string): TopicArtwork {
       };
     case "⚠️":
       return {
-        label: "تنبيه عملي وتجنب الأخطاء الشائعة · Reality Check & Caution",
+        labelAr: "تنبيه عملي وتجنب الأخطاء الشائعة",
+        labelEn: "Reality Check & Caution",
         themeLight: "from-amber-50 via-rose-50/80 to-orange-50",
         themeDark: "dark:from-[#311808] dark:via-[#421e0a] dark:to-[#210d03]",
         borderLight: "border-amber-200",
@@ -414,7 +440,8 @@ function getTopicArtwork(icon: string): TopicArtwork {
       };
     case "🧭":
       return {
-        label: "خارطة الطريق والاستراتيجية التنفيذية · Strategy & Milestones",
+        labelAr: "خارطة الطريق والاستراتيجية التنفيذية",
+        labelEn: "Strategy & Milestones",
         themeLight: "from-cyan-50 via-teal-50/80 to-sky-50",
         themeDark: "dark:from-[#062931] dark:via-[#093742] dark:to-[#041a1f]",
         borderLight: "border-cyan-200",
@@ -431,7 +458,8 @@ function getTopicArtwork(icon: string): TopicArtwork {
       };
     case "🛠️":
       return {
-        label: "التطبيق العملي والأدوات التنفيذية · Hands-on Execution",
+        labelAr: "التطبيق العملي والأدوات التنفيذية",
+        labelEn: "Hands-on Execution",
         themeLight: "from-teal-50 via-emerald-50/80 to-cyan-50",
         themeDark: "dark:from-[#072d25] dark:via-[#0b3c32] dark:to-[#041e19]",
         borderLight: "border-teal-200",
@@ -449,7 +477,8 @@ function getTopicArtwork(icon: string): TopicArtwork {
       };
     default:
       return {
-        label: "مفتاح معرفي وتطبيقي · Key Strategic Insight",
+        labelAr: "مفتاح معرفي وتطبيقي",
+        labelEn: "Key Strategic Insight",
         themeLight: "from-teal-50 via-emerald-50/80 to-cyan-50",
         themeDark: "dark:from-[#072c23] dark:via-[#0b3c31] dark:to-[#041d17]",
         borderLight: "border-teal-200",
@@ -653,6 +682,8 @@ export default function CardVisual({
 }
 
 function AccentBanner({ icon, heading }: { icon: string; heading: string }) {
+  const { lang } = useI18n();
+  const isEn = lang === "en";
   const topicArtwork = getTopicArtwork(icon);
 
   return (
@@ -682,7 +713,7 @@ function AccentBanner({ icon, heading }: { icon: string; heading: string }) {
           <div className="flex items-center gap-1.5 mb-1">
             <span className={`inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider ${topicArtwork.tagColor}`}>
               <span className="h-1.5 w-1.5 rounded-full bg-teal-500 animate-pulse" />
-              {topicArtwork.label}
+              {isEn ? topicArtwork.labelEn : topicArtwork.labelAr}
             </span>
           </div>
           <h2 className="text-sm md:text-base font-bold leading-snug text-neutral-900 dark:text-white drop-shadow-xs">

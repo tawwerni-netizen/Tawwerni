@@ -55,3 +55,4 @@ public/audit.js
 
 # raw Gemini downloads before being renamed to slug
 public/images/tracks/Gemini_Generated_Image_*.jpg
+scratch/

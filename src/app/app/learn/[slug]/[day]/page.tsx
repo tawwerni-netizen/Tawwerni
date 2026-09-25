@@ -47,7 +47,12 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
 
   const promoCourses = ALL_100_TRACKS.filter((t) => t.slug !== course.slug)
     .slice(0, 4)
-    .map(({ slug, icon, pillarNameAr }) => ({ slug, icon, category: pillarNameAr }));
+    .map(({ slug, icon, pillarNameAr, pillarNameEn }) => ({
+      slug,
+      icon,
+      category: pillarNameAr,
+      categoryEn: pillarNameEn,
+    }));
 
   return (
     <LessonPlayer
@@ -64,7 +69,11 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
       lessonTitleEn={lesson.titleEn}
       videoUrl={lesson.videoUrl}
       cards={lesson.cards}
+      cardsAr={lesson.cardsAr}
+      cardsEn={lesson.cardsEn}
       quiz={lesson.quiz}
+      quizAr={lesson.quizAr}
+      quizEn={lesson.quizEn}
       xp={lesson.xp}
       nextDayNumber={nextLesson?.dayNumber ?? null}
       promoCourses={promoCourses}

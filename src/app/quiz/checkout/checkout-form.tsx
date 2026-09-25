@@ -10,7 +10,14 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { LogoLink } from "@/components/Logo";
 import { useI18n } from "@/components/LanguageContext";
 
-type CourseOption = { slug: string; title: string; icon: string; category: string };
+type CourseOption = {
+  slug: string;
+  title: string;
+  titleEn?: string;
+  icon: string;
+  category: string;
+  categoryEn?: string;
+};
 type Method = "vodafone_cash" | "instapay";
 type Channel = "whatsapp" | "email";
 
@@ -95,6 +102,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
   }, []);
 
   const selected = courses.find((c) => c.slug === courseSlug);
+  const selectedTitle = isEn ? (selected?.titleEn || selected?.title) : selected?.title;
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -179,7 +187,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
               </p>
               <ul className="space-y-1.5 text-xs text-neutral-700 dark:text-neutral-300">
                 <li>• {isEn ? "Email:" : "الإيميل:"} <b dir="ltr">{email}</b></li>
-                <li>• {isEn ? "Starting Track:" : "المسار الأولي:"} <b>{selected?.title}</b></li>
+                <li>• {isEn ? "Starting Track:" : "المسار الأولي:"} <b>{selectedTitle}</b></li>
                 <li>• {isEn ? "Amount:" : "المبلغ:"} <b className="font-mono">{totalPrice} {isEn ? "EGP" : "ج.م"} {withOrderBump ? (isEn ? "(Includes VIP Prompts & Contracts)" : "(شامل حزمة البرومبتات والعقود VIP)") : ""}</b></li>
                 <li>• {isEn ? "Sender Phone / Wallet Number" : "الرقم أو المحفظة المحوّل منها"}</li>
               </ul>
@@ -189,7 +197,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
               href={
                 proofChannel === "whatsapp"
                   ? waLink(payment.supportWhatsapp)
-                  : `mailto:${payment.supportEmail}?subject=${encodeURIComponent("Payment Proof - " + (selected?.title ?? ""))}&body=${encodeURIComponent(`Email: ${email}\nTrack: ${selected?.title ?? ""}\nAmount: ${totalPrice} EGP\nSender Phone: `)}`
+                  : `mailto:${payment.supportEmail}?subject=${encodeURIComponent("Payment Proof - " + (selectedTitle ?? ""))}&body=${encodeURIComponent(`Email: ${email}\nTrack: ${selectedTitle ?? ""}\nAmount: ${totalPrice} EGP\nSender Phone: `)}`
               }
               target="_blank"
               rel="noopener noreferrer"
@@ -328,8 +336,12 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
                 >
                   <span className="text-xl">{c.icon}</span>
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-xs sm:text-sm font-bold text-neutral-900 dark:text-white">{c.title}</span>
-                    <span className="block text-[10px] text-neutral-400">{c.category}</span>
+                    <span className="block truncate text-xs sm:text-sm font-bold text-neutral-900 dark:text-white">
+                      {isEn ? (c.titleEn || c.title) : c.title}
+                    </span>
+                    <span className="block text-[10px] text-neutral-400">
+                      {isEn ? (c.categoryEn || c.category) : c.category}
+                    </span>
                   </span>
                   <span
                     className={`h-4 w-4 shrink-0 rounded-full border-2 ${

@@ -7,29 +7,38 @@ import { allCourses } from "@/content/courses";
 import { coursesWord } from "@/lib/arabic-plural";
 import { trackReferralShared } from "@/lib/analytics";
 
+import { useI18n } from "./LanguageContext";
+
 /**
  * Sharing, aimed at how this audience actually shares.
- *
- * WhatsApp first, and by a distance — in Egypt a link that isn't WhatsApp-able
- * mostly doesn't travel. The native share sheet is offered when the browser has
- * one (every modern phone), because it reaches WhatsApp, Messenger, Telegram
- * and SMS in one tap. Copy is the fallback that always works.
- *
- * The link carries the sharer's referral code, so a share is worth 50 EGP to
- * them — which is the difference between "nice idea" and something people
- * actually do.
  */
 export default function ShareRow({
   className = "",
-  title = "شارك طوّرني",
+  title,
+  titleEn,
   note,
+  noteEn,
   message,
+  messageEn,
 }: {
   className?: string;
   title?: string;
+  titleEn?: string;
   note?: string;
+  noteEn?: string;
   message?: string;
+  messageEn?: string;
 }) {
+  const { lang } = useI18n();
+  const isEn = lang === "en";
+
+  const resolvedTitle = isEn
+    ? (titleEn ?? `Share ${brand.nameEn}`)
+    : (title ?? `شارك ${brand.name}`);
+  const resolvedNote = isEn
+    ? (noteEn ?? `Earn ${referral.commissionEgp} EGP for every friend who subscribes from your link.`)
+    : (note ?? `خد ${referral.commissionEgp} ج.م عن كل صاحب يشترك من لينكك.`);
+
   const [url, setUrl] = useState(`https://${brand.domain}`);
   const [canNativeShare, setCanNativeShare] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -46,7 +55,7 @@ export default function ShareRow({
         }
       })
       .catch(() => {
-        /* fall back to the plain domain — sharing still works */
+        /* fall back */
       });
 
     setCanNativeShare(typeof navigator !== "undefined" && !!navigator.share);
@@ -55,16 +64,16 @@ export default function ShareRow({
     };
   }, []);
 
-  const text =
-    message ??
-    `جرّب ${brand.name} — درس واحد كل يوم في ٥ دقايق، بالعربي والإنجليزي. ١٠٠ مسار احترافي كامل باشتراك واحد.`;
+  const text = isEn
+    ? (messageEn ?? `Try ${brand.nameEn} — 5-minute micro-lessons daily. 100 complete professional tracks with one membership.`)
+    : (message ?? `جرّب ${brand.name} — درس واحد كل يوم في ٥ دقايق، بالعربي والإنجليزي. ١٠٠ مسار احترافي كامل باشتراك واحد.`);
 
   async function nativeShare() {
     try {
       await navigator.share({ title: brand.name, text, url });
       trackReferralShared("native");
     } catch {
-      /* the user dismissed the sheet — nothing to report */
+      /* ignore */
     }
   }
 
@@ -75,7 +84,7 @@ export default function ShareRow({
       trackReferralShared("copy");
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      /* clipboard denied — the WhatsApp button still works */
+      /* ignore */
     }
   }
 
@@ -86,9 +95,9 @@ export default function ShareRow({
           🎁
         </span>
         <div className="min-w-0">
-          <p className="text-sm font-bold">{title}</p>
-          <p className="mt-0.5 text-xs leading-relaxed text-neutral-500">
-            {note ?? `خد ${referral.commissionEgp} ج.م عن كل صاحب يشترك من لينكك.`}
+          <p className="text-sm font-bold text-neutral-900 dark:text-neutral-100">{resolvedTitle}</p>
+          <p className="mt-0.5 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
+            {resolvedNote}
           </p>
         </div>
       </div>
@@ -101,17 +110,18 @@ export default function ShareRow({
           onClick={() => trackReferralShared("whatsapp")}
           className="share-btn share-btn-wa"
         >
-          <span aria-hidden>💬</span> واتساب
+          <span aria-hidden>💬</span> {isEn ? "WhatsApp" : "واتساب"}
         </a>
 
         {canNativeShare && (
           <button type="button" onClick={nativeShare} className="share-btn">
-            <span aria-hidden>📤</span> شارك
+            <span aria-hidden>📤</span> {isEn ? "Share" : "شارك"}
           </button>
         )}
 
         <button type="button" onClick={copy} className="share-btn">
-          <span aria-hidden>{copied ? "✓" : "🔗"}</span> {copied ? "اتنسخ" : "انسخ اللينك"}
+          <span aria-hidden>{copied ? "✓" : "🔗"}</span>{" "}
+          {copied ? (isEn ? "Copied" : "اتنسخ") : (isEn ? "Copy Link" : "انسخ اللينك")}
         </button>
       </div>
     </div>

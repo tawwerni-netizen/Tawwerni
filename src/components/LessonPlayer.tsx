@@ -42,7 +42,11 @@ type Props = {
   /** Screen recording, when one has been produced for this lesson. */
   videoUrl?: string | null;
   cards: Card[];
+  cardsAr?: Card[];
+  cardsEn?: Card[];
   quiz: QuizQ[];
+  quizAr?: QuizQ[];
+  quizEn?: QuizQ[];
   xp: number;
   nextDayNumber: number | null;
   courseTitle: string;
@@ -50,7 +54,7 @@ type Props = {
   /** unlocked = paid · pending = transfer under review · unpaid = never ordered */
   accessState: "unlocked" | "pending" | "unpaid";
   /** Other live tracks the learner hasn't bought yet — used for the mid-journey offer. */
-  promoCourses: { slug: string; icon: string; category: string }[];
+  promoCourses: { slug: string; icon: string; category: string; categoryEn?: string }[];
 };
 
 /** Days where the cross-sell offer appears, once the learner is invested. */
@@ -67,6 +71,18 @@ export default function LessonPlayer(props: Props) {
   const courseTitle = isEn && props.courseTitleEn ? props.courseTitleEn : props.courseTitle;
   const lessonTitle = isEn && props.lessonTitleEn ? props.lessonTitleEn : props.lessonTitle;
 
+  const cards = useMemo(() => {
+    if (isEn && props.cardsEn && props.cardsEn.length > 0) return props.cardsEn;
+    if (!isEn && props.cardsAr && props.cardsAr.length > 0) return props.cardsAr;
+    return props.cards || [];
+  }, [isEn, props.cardsEn, props.cardsAr, props.cards]);
+
+  const quiz = useMemo(() => {
+    if (isEn && props.quizEn && props.quizEn.length > 0) return props.quizEn;
+    if (!isEn && props.quizAr && props.quizAr.length > 0) return props.quizAr;
+    return props.quiz || [];
+  }, [isEn, props.quizEn, props.quizAr, props.quiz]);
+
   const [phase, setPhase] = useState<Phase>("cards");
   const [cardIndex, setCardIndex] = useState(0);
   const [qIndex, setQIndex] = useState(0);
@@ -81,14 +97,14 @@ export default function LessonPlayer(props: Props) {
     newBadges: { key: string; title: string; icon: string }[];
   } | null>(null);
 
-  const totalSteps = props.cards.length;
+  const totalSteps = cards.length;
   const [promoDismissed, setPromoDismissed] = useState(false);
   const showPromo =
     !promoDismissed &&
     props.promoCourses.length > 0 &&
     PROMO_DAYS.includes(props.dayNumber);
 
-  const card = props.cards[cardIndex];
+  const card = cards[cardIndex] || cards[0];
 
   // Show brand chips for any AI tool the card names — explicit list wins,
   // otherwise detect mentions (Arabic or English) from the card's own text.
@@ -118,11 +134,11 @@ export default function LessonPlayer(props: Props) {
     if (answered) return;
     setSelected(i);
     setAnswered(true);
-    if (i === props.quiz[qIndex].correctIndex) setScore((s) => s + 1);
+    if (i === quiz[qIndex]?.correctIndex) setScore((s) => s + 1);
   }
 
   async function nextQuestion() {
-    if (qIndex < props.quiz.length - 1) {
+    if (qIndex < quiz.length - 1) {
       setQIndex((i) => i + 1);
       setSelected(null);
       setAnswered(false);
@@ -131,7 +147,7 @@ export default function LessonPlayer(props: Props) {
     const res = await fetch(`/api/lessons/${props.lessonId}/complete`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ score, totalQuestions: props.quiz.length }),
+      body: JSON.stringify({ score, totalQuestions: quiz.length }),
     });
     const data = await res.json();
     setResult(data);
@@ -188,7 +204,7 @@ export default function LessonPlayer(props: Props) {
         )}
         {phase === "quiz" && (
           <div className="flex gap-1">
-            {props.quiz.map((_, i) => (
+            {quiz.map((_, i) => (
               <div
                 key={i}
                 className={`h-1 flex-1 rounded-full ${i <= qIndex ? "bg-teal-600" : "bg-neutral-100 dark:bg-neutral-800"}`}
@@ -288,21 +304,21 @@ export default function LessonPlayer(props: Props) {
             <h2 className="text-lg font-bold mb-2 text-neutral-900 dark:text-white">{isEn ? "Ready for the quiz?" : "جاهز للكويز؟"}</h2>
             <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-5 max-w-sm mx-auto">
               {isEn
-                ? `You've read all the cards. Answer ${props.quiz.length} quick questions to cement what you learned and earn ⚡ ${props.xp} XP.`
-                : `قريت كل الكروت. جاوب على ${props.quiz.length} أسئلة سريعة وثبّت اللي اتعلمته واكسب ⚡ ${props.xp} XP.`}
+                ? `You've read all the cards. Answer ${quiz.length} quick questions to cement what you learned and earn ⚡ ${props.xp} XP.`
+                : `قريت كل الكروت. جاوب على ${quiz.length} أسئلة سريعة وثبّت اللي اتعلمته واكسب ⚡ ${props.xp} XP.`}
             </p>
           </div>
         )}
 
-        {phase === "quiz" && (
+        {phase === "quiz" && quiz[qIndex] && (
           <div>
             <span className="text-[10px] bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 rounded-full px-2.5 py-1 font-semibold">
-              {props.quiz[qIndex].type === "mcq" ? (isEn ? "Multiple Choice" : "اختيار من متعدد") : (isEn ? "True or False" : "صح أو غلط")}
+              {quiz[qIndex].type === "mcq" ? (isEn ? "Multiple Choice" : "اختيار من متعدد") : (isEn ? "True or False" : "صح أو غلط")}
             </span>
-            <h2 className="text-lg font-bold mt-3 mb-4 text-neutral-900 dark:text-white">{props.quiz[qIndex].question}</h2>
+            <h2 className="text-lg font-bold mt-3 mb-4 text-neutral-900 dark:text-white">{quiz[qIndex].question}</h2>
             <div className="space-y-2">
-              {props.quiz[qIndex].options.map((opt, i) => {
-                const isCorrect = i === props.quiz[qIndex].correctIndex;
+              {quiz[qIndex].options.map((opt, i) => {
+                const isCorrect = i === quiz[qIndex].correctIndex;
                 const isSelected = i === selected;
                 let cls = "border-black/10 dark:border-neutral-800 bg-white dark:bg-neutral-900";
                 if (answered && isCorrect) cls = "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-100";
@@ -324,17 +340,17 @@ export default function LessonPlayer(props: Props) {
             {answered && (
               <div
                 className={`mt-4 rounded-2xl p-4 text-sm ${
-                  selected === props.quiz[qIndex].correctIndex
+                  selected === quiz[qIndex].correctIndex
                     ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-500/20"
                     : "bg-rose-50 dark:bg-rose-950/30 text-rose-900 dark:text-rose-200 border border-rose-200 dark:border-rose-500/20"
                 }`}
               >
                 <p className="font-bold mb-1">
-                  {selected === props.quiz[qIndex].correctIndex
+                  {selected === quiz[qIndex].correctIndex
                     ? (isEn ? "Correct! 🎉" : "صح! 🎉")
                     : (isEn ? "Not quite right" : "مش قصادها")}
                 </p>
-                <p className="text-xs leading-relaxed">{props.quiz[qIndex].explanation}</p>
+                <p className="text-xs leading-relaxed">{quiz[qIndex].explanation}</p>
               </div>
             )}
           </div>
@@ -349,14 +365,14 @@ export default function LessonPlayer(props: Props) {
               {isEn ? `Day ${props.dayNumber} · Quiz Complete` : `يوم ${props.dayNumber} · الكويز خلص`}
             </p>
             <h2 className="text-xl font-black mb-4 text-neutral-900 dark:text-white">
-              {score === props.quiz.length
+              {score === quiz.length
                 ? (isEn ? "Perfect Score! 🌟" : "نتيجة مثالية! 🌟")
                 : (isEn ? "Day Completed!" : "خلصت اليوم ده!")}
             </h2>
             <div className="grid grid-cols-3 gap-2 mb-5">
               <div className="bg-neutral-50 dark:bg-neutral-900 border border-black/5 dark:border-neutral-800 rounded-2xl py-3">
                 <div className="font-bold text-teal-800 dark:text-teal-400 font-mono text-base">
-                  {score}/{props.quiz.length}
+                  {score}/{quiz.length}
                 </div>
                 <div className="text-[10px] text-neutral-400">{isEn ? "Score" : "النتيجة"}</div>
               </div>
@@ -400,7 +416,7 @@ export default function LessonPlayer(props: Props) {
                       key={c.slug}
                       className="rounded-full bg-white/15 px-2.5 py-1 text-[11px] font-bold"
                     >
-                      {c.icon} {c.category}
+                      {c.icon} {isEn && c.categoryEn ? c.categoryEn : c.category}
                     </span>
                   ))}
                 </div>
@@ -475,7 +491,7 @@ export default function LessonPlayer(props: Props) {
             onClick={nextQuestion}
             className="w-full bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-500 hover:to-emerald-400 text-white font-bold rounded-full py-3.5 text-sm shadow-md active:scale-98 transition-all"
           >
-            {qIndex < props.quiz.length - 1
+            {qIndex < quiz.length - 1
               ? (isEn ? "Next Question →" : "السؤال التالي ‹")
               : (isEn ? "View Results 🎉" : "شوف النتيجة 🎉")}
           </button>

@@ -47,11 +47,7 @@ export default async function LearnPage() {
         inProgressTrackSlugs={completedTrackSlugs}
       />
 
-      <ShareRow
-        className="mt-12"
-        title="عجبك المحتوى؟"
-        note="شارك المنصة مع زملائك — واحصل على 75 ج.م عمولة كاش عن كل مشترك من رابطك."
-      />
+      <ShareRow className="mt-12" />
     </div>
   );
 }

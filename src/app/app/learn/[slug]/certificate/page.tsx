@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import QRCode from "qrcode";
 import { prisma } from "@/lib/prisma";
@@ -6,7 +5,10 @@ import { getCurrentUser } from "@/lib/auth";
 import { hasCourseAccess } from "@/lib/access";
 import { getOrCreateCertificate } from "@/lib/certificate";
 import { brand } from "@/content/brand";
+import { loadUniversalCourse } from "@/lib/course-loader";
+import { ensureDbCourse } from "@/lib/db-course";
 import Certificate from "@/components/Certificate";
+import CertificateLockedClient from "@/components/CertificateLockedClient";
 import CertificateEarnedPixel from "@/components/CertificateEarnedPixel";
 
 const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${brand.domain}`;
@@ -27,15 +29,14 @@ export default async function CertificatePage({
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const course = await prisma.course.findUnique({
-    where: { slug },
-    include: { modules: { include: { lessons: true } } },
-  });
-  if (!course || course.isComingSoon) notFound();
+  const course = loadUniversalCourse(slug);
+  if (!course) notFound();
 
   const lessons = course.modules.flatMap((m) => m.lessons);
-  const completions = await prisma.lessonCompletion.findMany({
-    where: { userId: user.id, lesson: { module: { courseId: course.id } } },
+  const lessonIds = new Set(lessons.map((l) => l.id));
+
+  const allCompletions = await prisma.lessonCompletion.findMany({
+    where: { userId: user.id },
     select: {
       lessonId: true,
       completedAt: true,
@@ -46,6 +47,7 @@ export default async function CertificatePage({
     orderBy: { completedAt: "asc" },
   });
 
+  const completions = allCompletions.filter((c) => lessonIds.has(c.lessonId));
   const doneIds = new Set(completions.map((c) => c.lessonId));
   const done = lessons.filter((l) => doneIds.has(l.id)).length;
   const complete = lessons.length > 0 && done >= lessons.length;
@@ -53,56 +55,31 @@ export default async function CertificatePage({
 
   if (!complete) {
     return (
-      <div className="px-4 pt-6 pb-10">
-        <Link href={`/app/learn/${course.slug}`} className="text-xs text-brand-600">
-          ← رجوع للمسار
-        </Link>
-
-        <div className="animate-rise mx-auto mt-6 max-w-md rounded-3xl border border-black/5 bg-white p-6 text-center">
-          <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl bg-neutral-100 text-3xl grayscale">
-            🎓
-          </div>
-          <h1 className="mb-2 text-lg font-bold">الشهادة لسه مقفولة</h1>
-          <p className="mb-5 text-sm leading-relaxed text-neutral-600">
-            الشهادة بتتفتح لما تخلّص المسار كله. إنت خلّصت{" "}
-            <b className="text-brand-600">
-              {done} من {lessons.length}
-            </b>{" "}
-            درس — فاضلك {lessons.length - done}.
-          </p>
-
-          <div className="progress-track mb-5">
-            <span
-              className="progress-fill"
-              style={{ width: `${Math.round((done / lessons.length) * 100)}%` }}
-            />
-          </div>
-
-          <Link
-            href={`/app/learn/${course.slug}`}
-            className="btn-shine block rounded-full bg-brand-600 py-3 text-sm font-bold text-white"
-          >
-            {unlocked ? "كمّل المسار ←" : "افتح المسار ←"}
-          </Link>
-        </div>
-      </div>
+      <CertificateLockedClient
+        courseSlug={course.slug}
+        courseTitleAr={course.titleAr}
+        courseTitleEn={course.titleEn}
+        done={done}
+        total={lessons.length}
+        unlocked={unlocked}
+      />
     );
   }
+
+  // Ensure course row exists in database for foreign key constraint
+  const dbCourse = await ensureDbCourse(slug);
+  const courseId = dbCourse ? dbCourse.id : course.id;
 
   const holderName = user.name ?? user.email;
   const cert = await getOrCreateCertificate({
     userId: user.id,
-    courseId: course.id,
+    courseId,
     holderName,
-    courseTitle: course.title,
+    courseTitle: course.titleAr,
     completions,
   });
 
   const verifyUrl = `${siteUrl}/verify/${cert.code}`;
-  // A data URL, not a file — the certificate is either printed straight from
-  // the page or saved as a PDF via the browser, and either way needs the
-  // image inlined rather than pointing at a route that will not exist in
-  // that PDF's context.
   const qrDataUrl = await QRCode.toDataURL(verifyUrl, { margin: 1, width: 200 });
 
   return (
@@ -110,6 +87,8 @@ export default async function CertificatePage({
       <CertificateEarnedPixel courseSlug={course.slug} />
       <Certificate
         holder={cert.holderName}
+        courseTitleAr={course.titleAr}
+        courseTitleEn={course.titleEn}
         courseTitle={cert.courseTitle}
         lessons={cert.lessons}
         totalXp={cert.totalXp}

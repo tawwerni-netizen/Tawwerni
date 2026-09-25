@@ -1,12 +1,14 @@
-import { allCourses } from "@/content/courses";
+import { ALL_100_TRACKS } from "@/content/tracks100";
 import CheckoutForm from "./checkout-form";
 
 export default function CheckoutPage() {
-  const courses = allCourses.map((c) => ({
-    slug: c.meta.slug,
-    title: c.meta.title,
-    icon: c.meta.icon,
-    category: c.meta.category,
+  const courses = ALL_100_TRACKS.map((t) => ({
+    slug: t.slug,
+    title: t.titleAr,
+    titleEn: t.titleEn,
+    icon: t.icon,
+    category: t.pillarNameAr,
+    categoryEn: t.pillarNameEn,
   }));
 
   return <CheckoutForm courses={courses} />;

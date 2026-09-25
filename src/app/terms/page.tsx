@@ -1,102 +1,92 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
 import { LogoLink } from "@/components/Logo";
 import { brand, pricing, payment } from "@/content/brand";
-
-export const metadata: Metadata = {
-  title: "الشروط والأحكام",
-  description: `شروط استخدام ${brand.name} — قبل ما تشترك، اعرف بالظبط اللي بتوافق عليه.`,
-  alternates: { canonical: "/terms" },
-};
+import { useI18n } from "@/components/LanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function TermsPage() {
+  const { lang } = useI18n();
+  const isEn = lang === "en";
+
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 transition-colors">
+    <div
+      dir={isEn ? "ltr" : "rtl"}
+      className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 transition-colors"
+    >
       <header className="sticky top-0 z-40 border-b border-black/5 dark:border-white/10 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md transition-colors">
         <div className="mx-auto flex h-14 max-w-2xl items-center justify-between px-5">
           <LogoLink size={32} href="/" />
-          <Link href="/" className="tap px-2 py-2 text-xs text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors">
-            الرئيسية
-          </Link>
+          <div className="flex items-center gap-2">
+            <LanguageToggle />
+            <ThemeToggle />
+            <Link
+              href="/"
+              className="tap px-2 py-1 text-xs font-semibold text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors"
+            >
+              {isEn ? "Home" : "الرئيسية"}
+            </Link>
+          </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-2xl px-5 py-10 text-sm leading-relaxed">
-        <h1 className="mb-2 text-2xl font-bold text-neutral-900 dark:text-white">الشروط والأحكام</h1>
-        <p className="mb-8 text-xs text-neutral-400">آخر تحديث: سبتمبر 2026</p>
-
-        <p className="mb-6">
-          استخدامك لـ{brand.name} معناه موافقتك على الشروط دي. اتكتبت بوضوح عشان
-          تعرف بالظبط اللي بتوافق عليه، مش عشان تكون عائق.
+        <h1 className="mb-2 text-2xl sm:text-3xl font-black text-neutral-900 dark:text-white">
+          {isEn ? "Terms of Service" : "الشروط والأحكام"}
+        </h1>
+        <p className="mb-8 text-xs text-neutral-400">
+          {isEn ? "Last updated: September 2026" : "آخر تحديث: سبتمبر 2026"}
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">١. إيه اللي بتشتريه</h2>
         <p className="mb-6">
-          دفعة واحدة {pricing.priceEgp} جنيه بتفتحلك وصول مدى الحياة لكل مسارات
-          المنصة، بما فيها أي مسار جديد ننزّله بعد كده. مش اشتراك شهري، ومفيش
-          تجديد تلقائي ومفيش رسوم خفية. اليوم الأول من كل مسار مفتوح مجانًا لأي
-          حساب قبل ما تدفع.
+          {isEn
+            ? `By accessing and using ${brand.nameEn}, you agree to these transparent terms. They are written in plain, clear language so you know exactly what you are agreeing to.`
+            : `استخدامك لـ${brand.name} معناه موافقتك على الشروط دي. اتكتبت بوضوح عشان تعرف بالظبط اللي بتوافق عليه، مش عشان تكون عائق.`}
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٢. حسابك</h2>
-        <ul className="mb-6 list-disc space-y-1.5 pr-5">
-          <li>الحساب شخصي — بياناتك اللي بتدخل بيها لازم تكون حقيقية</li>
-          <li>انت مسؤول عن سرّية كلمة السر بتاعتك</li>
-          <li>حساب واحد للشخص الواحد. حسابات مكررة أو وهمية بنقفلها من غير إشعار مسبق</li>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">
+          {isEn ? "1. What You Receive" : "١. إيه اللي بتشتريه"}
+        </h2>
+        <p className="mb-6">
+          {isEn
+            ? `A single one-time payment of ${pricing.priceEgp} EGP unlocks lifetime all-inclusive access to all 100 professional tracks on the platform, including any newly added tracks. No recurring subscriptions, no surprise charges. Day 1 of every track is free for all registered users.`
+            : `دفعة واحدة ${pricing.priceEgp} جنيه بتفتحلك وصول مدى الحياة لكل مسارات المنصة، بما فيها أي مسار جديد ننزّله بعد كده. مش اشتراك شهري، ومفيش تجديد تلقائي ومفيش رسوم خفية. اليوم الأول من كل مسار مفتوح مجانًا لأي حساب قبل ما تدفع.`}
+        </p>
+
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">
+          {isEn ? "2. User Accounts" : "٢. حسابك"}
+        </h2>
+        <ul className="mb-6 list-disc space-y-1.5 ps-5 text-neutral-700 dark:text-neutral-300">
+          <li>{isEn ? "Accounts are personal — your registration details should be authentic." : "الحساب شخصي — بياناتك اللي بتدخل بيها لازم تكون حقيقية"}</li>
+          <li>{isEn ? "You are responsible for maintaining the confidentiality of your password." : "انت مسؤول عن سرّية كلمة السر بتاعتك"}</li>
+          <li>{isEn ? "One account per person. Fraudulent or duplicate accounts will be terminated." : "حساب واحد للشخص الواحد. حسابات مكررة أو وهمية بنقفلها من غير إشعار مسبق"}</li>
         </ul>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٣. المحتوى</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">
+          {isEn ? "3. Intellectual Property" : "٣. الملكية الفكرية للمحتوى"}
+        </h2>
         <p className="mb-6">
-          كل محتوى المسارات — الدروس والمهام والكويزات — ملك {brand.name}. وصولك
-          ليه شخصي لاستخدامك انت بس. مش مسموح تنسخه أو تعيد بيعه أو توزّعه لحد
-          تاني، سواء مجانًا أو بمقابل.
+          {isEn
+            ? `All track curricula, infographics, exercises, and quizzes are the exclusive intellectual property of ${brand.nameEn}. Access is granted solely for your personal non-commercial educational use. Content may not be redistributed, scraped, or resold.`
+            : `كل محتوى المسارات — الدروس والمهام والكويزات — ملك ${brand.name}. وصولك ليه شخصي لاستخدامك انت بس. مش مسموح تنسخه أو تعيد بيعه أو توزّعه لحد تاني.`}
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٤. الإحالة والمكافآت</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">
+          {isEn ? "4. Referrals & Rewards Program" : "٤. الإحالة والمكافآت"}
+        </h2>
         <p className="mb-6">
-          نظام الإحالة بيدّيك {" "}
-          <b>عمولة حقيقية عن كل حد يشترك فعليًا بلينكك</b>. أي محاولة تلاعب —
-          إحالة نفسك بحساب تاني، حسابات وهمية، أو تحويلات مصطنعة — بتلغي المكافأة
-          المرتبطة بيها، وممكن تقفل الحساب.
+          {isEn
+            ? `Our affiliate program rewards you with legitimate cash commissions for genuine referrals who subscribe through your personal link. Any fraudulent activities (self-referrals, bot traffic) forfeit all accumulated payouts.`
+            : `نظام الإحالة بيدّيك عمولة حقيقية عن كل حد يشترك فعليًا بلينكك. أي محاولة تلاعب — إحالة نفسك بحساب تاني أو حسابات وهمية — بتلغي المكافأة وتقفل الحساب.`}
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٥. مسار الصحة والطاقة</h2>
-        <p className="mb-6">
-          مسار "الصحة والطاقة" محتوى تثقيفي عام عن النوم والحركة والطاقة اليومية.
-          مش بديل عن استشارة طبيب، ومش بيقدّم تشخيص أو علاج أو نصيحة طبية شخصية.
-          لو عندك حالة صحية، ارجع لطبيبك.
-        </p>
-
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٦. الدفع والاسترجاع</h2>
-        <p className="mb-6">
-          تفاصيل الدفع والاسترجاع مذكورة بالكامل في{" "}
-          <Link href="/refund" className="font-bold text-brand-600">
-            سياسة الاسترجاع
-          </Link>
-          .
-        </p>
-
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٧. حدود المسؤولية</h2>
-        <p className="mb-6">
-          بنبذل جهدنا إن المحتوى يكون دقيق ومفيد، بس نتايجك الفعلية بتعتمد على
-          مجهودك في التطبيق. المنصة بتقدّم أدوات وخطة، مش وعد بنتيجة مالية أو
-          مهنية محددة.
-        </p>
-
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">٨. تعديل الشروط</h2>
-        <p className="mb-6">
-          ممكن نحدّث الشروط دي مع نمو المنصة. أي تعديل جوهري هنحدّث تاريخه فوق
-          الصفحة، واستمرارك في الاستخدام معناه موافقتك.
-        </p>
-
-        <p className="mt-10 rounded-2xl bg-white p-4 text-xs text-neutral-500">
-          عندك سؤال عن الشروط دي؟ كلّمنا على واتساب{" "}
-          <span dir="ltr" className="font-bold">{payment.supportWhatsapp}</span> أو
-          إيميل{" "}
-          <a href={`mailto:${payment.supportEmail}`} className="font-bold text-brand-600">
+        <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-10 border-t border-black/5 dark:border-neutral-800 pt-6">
+          {isEn ? "Questions regarding these terms? Contact us at: " : "عندك أي استفسار بخصوص الشروط؟ تواصل معنا: "}
+          <a href={`mailto:${payment.supportEmail}`} className="font-bold text-teal-600 dark:text-teal-400 hover:underline">
             {payment.supportEmail}
           </a>
-          .
         </p>
       </main>
     </div>

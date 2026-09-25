@@ -9,14 +9,17 @@
 export type PromptCategory = {
   key: string;
   title: string;
+  titleEn: string;
   icon: string;
   prompts: string[];
+  promptsEn: string[];
 };
 
 export const promptCategories: PromptCategory[] = [
   {
     key: "work",
     title: "الشغل اليومي",
+    titleEn: "Daily Work & Productivity",
     icon: "💼",
     prompts: [
       "لخّصلي الاجتماع ده في ٥ نقط بس، وحدّد أي قرارات اتاخدت وأي مهام اتوزّعت على مين: [الصق محضر الاجتماع]",
@@ -30,10 +33,23 @@ export const promptCategories: PromptCategory[] = [
       "حوّل النقط دي لعرض تقديمي من ٥ شرائح بعناوين وملخص كل شريحة: [الصق النقط]",
       "اقترح ٣ طرق أرد بيها على السؤال الصعب ده من مديري: [السؤال]",
     ],
+    promptsEn: [
+      "Summarize this meeting into exactly 5 key takeaways, identifying all decisions made and action items assigned with their owners: [Paste meeting transcript]",
+      "Convert these rough notes into a concise, professional follow-up email: [Paste notes]",
+      "Review this email and tell me if the tone is appropriate for this specific situation: [Paste email] + [Situation]",
+      "Draft a polite email response declining this request without sounding harsh or uncooperative: [Paste email]",
+      "Transform this task list into an Eisenhower priority matrix based on urgency and importance: [Paste task list]",
+      "Summarize this comprehensive report into a single concise paragraph for an executive with zero time: [Paste report]",
+      "Create an efficient 30-minute meeting agenda for the following topic, including time allocations per section: [Topic]",
+      "Review this message and highlight any ambiguity or phrases that could be misinterpreted: [Paste message]",
+      "Convert these bullet points into a 5-slide presentation outline with slide titles and bulleted talking points: [Paste points]",
+      "Suggest 3 constructive ways to answer this challenging question from my manager: [Question]",
+    ],
   },
   {
     key: "content",
     title: "الكتابة والمحتوى",
+    titleEn: "Writing & Content Creation",
     icon: "✍️",
     prompts: [
       "اكتبلي ٣ عناوين مختلفة لمنشور عن [الموضوع]، كل واحد بزاوية مختلفة (فضول، رقم، سؤال)",
@@ -47,10 +63,23 @@ export const promptCategories: PromptCategory[] = [
       "اقترحلي عنوان SEO ووصف ميتا للمقال ده بحد أقصى ١٥٥ حرف: [الصق المقال]",
       "راجع النص ده من ناحية الأخطاء الإملائية والنحوية بس، من غير ما تغيّر الأسلوب: [الصق النص]",
     ],
+    promptsEn: [
+      "Write 3 distinct headlines for a post about [Topic], each using a different angle (curiosity, data/numbers, contrarian question):",
+      "Condense this paragraph to half its length while retaining 100% of the core message and impact: [Paste paragraph]",
+      "Generate 5 high-converting content ideas about [Topic] tailored for [Audience description]:",
+      "Audit this text and highlight repetitive words, passive phrasing, or run-on sentences that should be tightened: [Paste text]",
+      "Repurpose this long-form article into an engaging 6-part Twitter/X thread with a strong hook: [Paste article]",
+      "Write an engaging Instagram caption for [Topic] with a [friendly / professional / witty] tone, including call to action:",
+      "Provide 3 compelling concluding paragraphs for this article that drive reader engagement and comments: [Paste article]",
+      "Refine this casual draft into polished, publication-ready prose suitable for a professional journal: [Paste text]",
+      "Suggest an SEO-optimized title tag and meta description under 155 characters for this article: [Paste article]",
+      "Proofread this draft exclusively for grammatical, punctuation, and spelling errors without altering my voice: [Paste text]",
+    ],
   },
   {
     key: "business",
     title: "المشروع والأعمال",
+    titleEn: "Business & Entrepreneurship",
     icon: "📈",
     prompts: [
       "اسألني ٥ أسئلة تساعدني أوضّح فكرة المشروع ده أكتر: [وصف المشروع بسطرين]",
@@ -64,10 +93,23 @@ export const promptCategories: PromptCategory[] = [
       "اكتبلي وصف منتج قصير يركّز على النتيجة اللي العميل هياخدها مش المواصفات: [تفاصيل المنتج]",
       "راجع عرض السعر ده وقولي هل في حاجة غير واضحة للعميل: [الصق العرض]",
     ],
+    promptsEn: [
+      "Ask me 5 diagnostic questions to help sharpen and validate this business idea: [2-sentence idea description]",
+      "Evaluate this product value proposition: who will buy it, and why choose me over established competitors? [Product description]",
+      "Propose 3 distinct pricing models for this service with pros, cons, and customer perception for each: [Service description]",
+      "Analyze this customer complaint: is it an isolated edge case or a systemic product flaw? [Paste complaint]",
+      "Draft a response to a frustrated customer about a shipping delay, offering sincere empathy without making unfeasible promises: [Situation]",
+      "Compare these two vendor/partner options and suggest 5 critical due diligence questions before signing: [Option A] and [Option B]",
+      "Translate these complex financial metrics into a clear executive summary for non-technical stakeholders: [Paste metrics]",
+      "Identify 3 blind spots or strategic risks that I may have overlooked in this launch plan: [Plan summary]",
+      "Write a persuasive, benefits-driven product description focused on transformation rather than technical features: [Product specs]",
+      "Review this proposal quotation and identify any clauses or pricing structures that could confuse the client: [Paste proposal]",
+    ],
   },
   {
     key: "learning",
     title: "التعلّم والمذاكرة",
+    titleEn: "Learning & Study Mastery",
     icon: "🎓",
     prompts: [
       "اشرحلي [موضوع معقّد] زي ما هتشرحه لحد عمره ١٢ سنة",
@@ -81,10 +123,23 @@ export const promptCategories: PromptCategory[] = [
       "اشرحلي الفرق بين [مصطلح أول] و[مصطلح تاني] اللي بيتلخبطوا مع بعض",
       "اديني ٣ طرق مختلفة أتذكّر بيها المعلومة دي: [المعلومة]",
     ],
+    promptsEn: [
+      "Explain [Complex concept] as if you were explaining it to a curious 12-year-old using simple analogies:",
+      "Generate 5 challenging conceptual self-quiz questions to test my deep understanding of: [Topic]",
+      "Summarize this textbook chapter into a hierarchical text mind map with main concepts and sub-branches: [Paste chapter]",
+      "Create a direct comparison table comparing [Concept A] and [Concept B] across key criteria:",
+      "Provide a concrete real-world example from everyday life illustrating how [Concept] works in practice:",
+      "Review my reasoning for this problem and pinpoint the exact logical fallacy or gap: [Paste my answer]",
+      "Design a realistic 7-day study schedule for mastering [Topic] with suggested time blocks per milestone:",
+      "Convert this study material into 10 active-recall flashcard pairs (Question and Answer format): [Paste notes]",
+      "Explain the subtle distinctions between [Term A] and [Term B] that students frequently confuse:",
+      "Suggest 3 evidence-based mnemonic techniques to easily memorize and retain this specific information: [Information]",
+    ],
   },
   {
     key: "career",
     title: "الوظيفة والمقابلات",
+    titleEn: "Career & Interview Prep",
     icon: "🧑‍💼",
     prompts: [
       "راجع السطر ده في الـCV وحوّله لصيغة فيها رقم أو نتيجة بدل وصف عام: [الصق السطر]",
@@ -98,10 +153,23 @@ export const promptCategories: PromptCategory[] = [
       "اقترحلي إزاي أفاوض على الراتب في الموقف ده من غير ما أخسر العرض: [تفاصيل الموقف]",
       "حوّل مهاراتي دي لنقط في بروفايل لينكدإن مقنعة: [قايمة المهارات]",
     ],
+    promptsEn: [
+      "Rewrite this resume bullet point into the XYZ format (Accomplished [X] as measured by [Y] by doing [Z]): [Paste bullet]",
+      "Generate 5 rigorous interview questions likely asked for a [Job Title] role along with ideal response benchmarks:",
+      "Structure this past project experience into a concise STAR-method interview response (Situation, Task, Action, Result): [Details]",
+      "Critique this cover letter and assess whether it clearly demonstrates why I am uniquely qualified: [Paste letter]",
+      "Suggest 3 insightful, reverse-interview questions to ask the hiring committee that demonstrate strategic thinking:",
+      "Create a structured comparison matrix evaluating two job offers across compensation, culture, career runway, and commute: [Offer details]",
+      "Craft a memorable 30-second elevator pitch summarizing my professional background and unique edge: [Experience summary]",
+      "Review my proposed answer to 'Why did you leave your previous position?' and eliminate any unintended negative subtext: [Paste answer]",
+      "Provide a strategic salary negotiation script for this specific counter-offer scenario: [Situation details]",
+      "Transform this list of hard skills into engaging LinkedIn profile experience bullet points: [List of skills]",
+    ],
   },
   {
     key: "marketing",
     title: "التسويق والإعلانات",
+    titleEn: "Marketing & Advertising",
     icon: "📣",
     prompts: [
       "اقترحلي ٥ زوايا مختلفة أقدر أعلن بيها عن نفس المنتج ده: [وصف المنتج]",
@@ -115,10 +183,23 @@ export const promptCategories: PromptCategory[] = [
       "اقترحلي ٣ أفكار Hook لفيديو قصير عن [الموضوع]",
       "حوّل التقييمات دي من العملاء لجملة اقتباس قصيرة أستخدمها في التسويق: [الصق التقييمات]",
     ],
+    promptsEn: [
+      "Generate 5 distinct advertising angles targeting different pain points and desires for this product: [Product description]",
+      "Write a punchy 40-word ad copy focusing on the single most painful frustration this product solves: [Product & pain point]",
+      "Audit this ad copy draft and evaluate whether the call-to-action is clear, compelling, and friction-free: [Paste copy]",
+      "Anticipate the top 3 purchasing objections a prospect might have and provide a persuasive rebuttal for each: [Product]",
+      "Transform this customer testimonial into a high-converting case study snippet (Before, Challenge, Transformation, Result): [Details]",
+      "Create a 7-day social media content theme calendar for a [Business type] focusing on engagement and authority:",
+      "Suggest relevant, high-traction hashtags for a campaign about [Topic] specifically targeting the regional market:",
+      "Audit this landing page hero section and recommend the top 2 tweaks to boost above-the-fold conversion: [Landing page copy]",
+      "Identify 3 high-converting marketing hooks for a 30-second short-form video about [Topic]:",
+      "Distill these customer reviews into 3 powerful pull-quote headlines for a landing page testimonials section: [Paste reviews]",
+    ],
   },
   {
     key: "data",
     title: "البيانات والتحليل",
+    titleEn: "Data & Analytical Thinking",
     icon: "📊",
     prompts: [
       "اشرحلي إيه اللي الأرقام دي بتقوله فعليًا بلغة بسيطة: [الصق الأرقام]",
@@ -132,10 +213,23 @@ export const promptCategories: PromptCategory[] = [
       "حوّل جدول البيانات ده لملخص من ٣ جمل: [الصق الجدول]",
       "اشرحلي إزاي أفسّر نسبة النمو دي — هل هي كويسة ولا لأ مقارنة بإيه: [الرقم والسياق]",
     ],
+    promptsEn: [
+      "Interpret what these numbers actually mean in plain English for a non-analyst stakeholder: [Paste data]",
+      "Recommend the 3 most effective visualization charts for presenting this dataset and explain why: [Data description]",
+      "Examine this data table and identify any anomalies, outliers, or inconsistent patterns: [Paste table]",
+      "Distill this technical data analysis into a single clear, actionable business recommendation: [Paste analysis]",
+      "Write an Excel / Google Sheets formula to accomplish the following calculation: [Desired calculation]",
+      "Explain whether mean or median is more appropriate for this distribution and why: [Data description]",
+      "Audit this business conclusion: is it firmly supported by the data, or is it an unsupported correlation/assumption? [Conclusion]",
+      "Suggest 3 critical data hygiene and validation questions to ask before trusting this metric: [Metric context]",
+      "Summarize the primary takeaways from this financial / operational dataset into 3 bullet points: [Paste table]",
+      "Explain how to interpret this growth rate metric: is it statistically meaningful in this context? [Metric and context]",
+    ],
   },
   {
     key: "problem-solving",
     title: "حل المشاكل والقرارات",
+    titleEn: "Problem Solving & Decision Making",
     icon: "🧩",
     prompts: [
       "اسألني أسئلة توضّحلي المشكلة دي أكتر قبل ما نفكر في حل: [وصف المشكلة]",
@@ -149,10 +243,23 @@ export const promptCategories: PromptCategory[] = [
       "اعملّي جدول إيجابيات وسلبيات للخيار ده: [الخيار]",
       "اقترحلي حل وسط بين الرأيين المتعارضين دول: [الرأي الأول] و[الرأي التاني]",
     ],
+    promptsEn: [
+      "Ask me diagnostic Socratic questions to unpack the root cause of this problem before jumping into solutions: [Problem description]",
+      "Propose 3 distinct solutions to this challenge ranging from easiest to implement to highest potential upside: [Problem]",
+      "Perform a premortem analysis: what is the worst-case scenario if we choose this option, and how do we mitigate it? [Option]",
+      "Compare these two strategic options across cost, implementation timeline, and operational risk: [Option A] and [Option B]",
+      "Suggest 3 fundamental questions I should ask myself before committing to this irreversible decision: [Decision]",
+      "Analyze this stressful situation and categorize factors into what is within my control vs outside my control: [Situation]",
+      "Deconstruct this overwhelming, ambiguous project into a sequence of bite-sized, manageable milestones: [Problem]",
+      "Evaluate whether this decision is being forced by artificial urgency or real business time constraints: [Situation]",
+      "Create a balanced, objective pros-and-cons matrix weighted by long-term impact for this choice: [Option]",
+      "Formulate an elegant compromise between these two conflicting stakeholder perspectives: [Perspective A] and [Perspective B]",
+    ],
   },
   {
     key: "communication",
     title: "التواصل والعلاقات",
+    titleEn: "Communication & Relationships",
     icon: "💬",
     prompts: [
       "راجع الرسالة دي قبل ما أبعتها وقولي هل فيها أي نبرة ممكن تتفهم غلط: [الصق الرسالة]",
@@ -166,10 +273,23 @@ export const promptCategories: PromptCategory[] = [
       "ساعدني أشكر حد على مجهوده بطريقة مش عامة أو مكررة: [تفاصيل المجهود]",
       "اقترحلي إزاي أوصّل رأي ناقد لحد من غير ما أجرح مشاعره: [الموقف]",
     ],
+    promptsEn: [
+      "Review this sensitive message before I send it and identify any unintentional aggressive or defensive phrasing: [Paste draft]",
+      "Help me draft a genuine, accountable apology for this misstep without over-explaining or sounding defensive: [Situation]",
+      "Provide a framework on how to initiate a difficult conversation regarding [Topic] with [Person]:",
+      "Rephrase this frustrated grievance into a constructive, outcome-oriented request: [Paste grievance]",
+      "Draft a warm, polite, but firm boundary to decline this request without feeling guilty: [Request description]",
+      "Help me articulate a contrarian viewpoint during an upcoming executive meeting without appearing combative: [Perspective]",
+      "Suggest 3 natural, non-generic open-ended questions to start an authentic professional networking conversation:",
+      "Assess this message draft: is it too verbose for the channel, and how can I cut 40% of the words? [Paste message]",
+      "Write a sincere, personalized note of gratitude acknowledging someone's specific contributions: [Details of contribution]",
+      "Suggest an empathetic way to deliver constructive critique to a peer without damaging morale: [Situation]",
+    ],
   },
   {
     key: "personal",
     title: "التطوير الشخصي",
+    titleEn: "Personal Growth & Habits",
     icon: "🌱",
     prompts: [
       "اسألني أسئلة تساعدني أوضّح هدفي الحقيقي من [الحاجة اللي عايز تحققها]",
@@ -182,6 +302,18 @@ export const promptCategories: PromptCategory[] = [
       "حوّل الشكوى دي من نفسي لخطة عملية بدل جلد ذات: [الشكوى]",
       "اقترحلي سؤال أسأله لنفسي في نهاية كل يوم يساعدني أتعلّم من اليوم ده",
       "ساعدني أفرّق بين الكسل والإرهاق الحقيقي في الموقف ده: [وصف الموقف]",
+    ],
+    promptsEn: [
+      "Ask me 5 targeted questions to clarify my true underlying intrinsic motivation behind this goal: [Goal description]",
+      "Break down this ambitious annual goal into realistic, bite-sized weekly habits: [Goal]",
+      "Suggest one tiny 'atomic' 2-minute daily habit that creates momentum toward this objective: [Goal]",
+      "Audit my daily schedule and highlight where hidden time-leaks and friction points are occurring: [Daily schedule description]",
+      "Provide 3 thoughtful weekly self-reflection prompts to evaluate my personal and professional trajectory:",
+      "Help me identify the underlying psychological trigger behind why I keep procrastinating on this specific task: [Task]",
+      "Recommend a meaningful, non-monetary ritual to acknowledge and celebrate small incremental wins:",
+      "Reframe this harsh self-criticism into an actionable, constructive growth plan: [Self-critique statement]",
+      "Suggest a 2-minute evening journaling question that maximizes learning and closure from each day:",
+      "Help me discern whether what I'm feeling right now is resistance/laziness or genuine cognitive exhaustion: [Context]",
     ],
   },
 ];

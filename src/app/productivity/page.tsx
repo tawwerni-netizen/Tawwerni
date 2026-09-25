@@ -13,10 +13,15 @@ export default function ProductivityLandingPage() {
     <VerticalLandingPage
       courseSlug="el-entagiya"
       eyebrow="⚡ 28 يوم · أنظمة تكمّل عليها فعلًا"
+      eyebrowEn="⚡ 28 Days · Sustainable Peak Performance Systems"
       headline="ركّز أعمق، قرر أسرع،"
+      headlineEn="Focus Deeper, Decide Faster,"
       headlineAccent="وابنِ عادات تستمر فعليًا."
+      headlineAccentEn="And Build Atomic Habits That Stick."
       subhead="مش عن الشغل أكتر ساعات — عن التركيز، القرارات الواضحة، والعادات المستدامة. أنظمة عملية، مش نصايح عامة تنساها بعد يوم."
+      subheadEn="Not about working more brutal hours — it's about sharp cognitive focus, rapid executive decisions, and sustainable momentum."
       primaryCta="ابدأ مسار الإنتاجية ←"
+      primaryCtaEn="Start Productivity Track Now →"
     />
   );
 }

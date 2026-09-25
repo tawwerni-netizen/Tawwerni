@@ -5,13 +5,18 @@ import { LogoMark } from "@/components/Logo";
 import { brand, referral } from "@/content/brand";
 import ShareRow from "@/components/ShareRow";
 
+import { useI18n } from "./LanguageContext";
+
 const MONTHS = [
   "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
   "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر",
 ];
 
-function arabicDate(iso: string) {
+function formatDate(iso: string, isEn: boolean) {
   const d = new Date(iso);
+  if (isEn) {
+    return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  }
   return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
 }
 
@@ -26,6 +31,8 @@ function arabicDate(iso: string) {
 export default function Certificate({
   holder,
   courseTitle,
+  courseTitleAr,
+  courseTitleEn,
   lessons,
   totalXp,
   avgScore,
@@ -36,7 +43,9 @@ export default function Certificate({
   backHref,
 }: {
   holder: string;
-  courseTitle: string;
+  courseTitle?: string;
+  courseTitleAr?: string;
+  courseTitleEn?: string;
   lessons: number;
   totalXp: number;
   avgScore: number | null;
@@ -46,17 +55,24 @@ export default function Certificate({
   qrDataUrl: string;
   backHref: string;
 }) {
+  const { lang } = useI18n();
+  const isEn = lang === "en";
+
+  const resolvedTitle = isEn
+    ? (courseTitleEn || courseTitle || "")
+    : (courseTitleAr || courseTitle || "");
+
   return (
     <div className="px-4 pt-5 pb-10">
       <div className="no-print mb-4 flex items-center justify-between">
         <Link href={backHref} className="tap inline-block py-1 text-xs text-brand-600">
-          ← رجوع للمسار
+          {isEn ? "← Back to Track" : "← رجوع للمسار"}
         </Link>
         <button
           onClick={() => window.print()}
           className="btn-shine rounded-full bg-brand-600 px-4 py-2 text-xs font-bold text-white"
         >
-          🖨️ اطبع / احفظ PDF
+          {isEn ? "🖨️ Print / Save PDF" : "🖨️ اطبع / احفظ PDF"}
         </button>
       </div>
 
@@ -70,36 +86,42 @@ export default function Certificate({
             </span>
           </div>
 
-          <p className="certificate-eyebrow">شهادة إتمام</p>
+          <p className="certificate-eyebrow">
+            {isEn ? "Certificate of Completion" : "شهادة إتمام"}
+          </p>
 
           <div className="certificate-rule" aria-hidden />
 
-          <p className="mb-2 text-sm text-neutral-500">تشهد المنصة بأن</p>
+          <p className="mb-2 text-sm text-neutral-500">
+            {isEn ? "This certifies that" : "تشهد المنصة بأن"}
+          </p>
           <h1 className="certificate-name">{holder}</h1>
 
           <p className="mx-auto mb-1 max-w-md text-sm leading-relaxed text-neutral-600">
-            أتمّ بنجاح جميع دروس مسار
+            {isEn ? "has successfully completed all lessons in" : "أتمّ بنجاح جميع دروس مسار"}
           </p>
-          <h2 className="certificate-course">{courseTitle}</h2>
+          <h2 className="certificate-course">{resolvedTitle}</h2>
 
           <div className="certificate-stats">
-            <Stat value={String(lessons)} label="درس" />
-            <Stat value={String(totalXp)} label="نقطة خبرة" />
-            {avgScore != null && <Stat value={`${avgScore}%`} label="متوسط الكويزات" />}
+            <Stat value={String(lessons)} label={isEn ? "Lessons" : "درس"} />
+            <Stat value={String(totalXp)} label={isEn ? "XP Earned" : "نقطة خبرة"} />
+            {avgScore != null && (
+              <Stat value={`${avgScore}%`} label={isEn ? "Quiz Average" : "متوسط الكويزات"} />
+            )}
           </div>
 
           <div className="certificate-rule" aria-hidden />
 
           <div className="certificate-foot">
             <div>
-              <p className="certificate-foot-label">تاريخ الإتمام</p>
-              <p className="certificate-foot-value">{arabicDate(finishedAt)}</p>
+              <p className="certificate-foot-label">{isEn ? "Completion Date" : "تاريخ الإتمام"}</p>
+              <p className="certificate-foot-value">{formatDate(finishedAt, isEn)}</p>
             </div>
             <div className="certificate-seal" aria-hidden>
               🎓
             </div>
             <div>
-              <p className="certificate-foot-label">رقم الشهادة</p>
+              <p className="certificate-foot-label">{isEn ? "Certificate ID" : "رقم الشهادة"}</p>
               <p className="certificate-foot-value" dir="ltr">
                 {serial}
               </p>
@@ -114,8 +136,10 @@ export default function Certificate({
           */}
           <div className="certificate-verify">
             <img src={qrDataUrl} alt="" width={72} height={72} className="certificate-qr" />
-            <div className="text-right">
-              <p className="certificate-foot-label">تحقق من صحة الشهادة</p>
+            <div className={isEn ? "text-left" : "text-right"}>
+              <p className="certificate-foot-label">
+                {isEn ? "Verify Authenticity" : "تحقق من صحة الشهادة"}
+              </p>
               <p className="certificate-foot-value" dir="ltr">
                 {verifyUrl.replace(/^https?:\/\//, "")}
               </p>
@@ -132,14 +156,23 @@ export default function Certificate({
       */}
       <ShareRow
         className="no-print mx-auto mt-6 max-w-2xl"
-        title="قول لأصحابك 🎉"
-        note={`خلّصت ${courseTitle} — شارك إنجازك وخد ${referral.commissionEgp} ج.م عن كل واحد يشترك من لينكك.`}
-        message={`خلّصت "${courseTitle}" على ${brand.name} 🎓 — درس واحد كل يوم في ٥ دقايق، بالعربي.`}
+        title={isEn ? "Share with friends 🎉" : "قول لأصحابك 🎉"}
+        note={
+          isEn
+            ? `Finished ${resolvedTitle} — Share your achievement and earn ${referral.commissionEgp} EGP for every signup.`
+            : `خلّصت ${resolvedTitle} — شارك إنجازك وخد ${referral.commissionEgp} ج.م عن كل واحد يشترك من لينكك.`
+        }
+        message={
+          isEn
+            ? `I just finished "${resolvedTitle}" on ${brand.name} 🎓 — 5-minute micro-lessons daily!`
+            : `خلّصت "${resolvedTitle}" على ${brand.name} 🎓 — درس واحد كل يوم في ٥ دقايق، بالعربي.`
+        }
       />
 
       <p className="no-print mx-auto mt-4 max-w-2xl text-center text-[11px] leading-relaxed text-neutral-400">
-        الشهادة دي بتثبت إنك أنهيت البرنامج فعليًا على {brand.domain} — مش مجرد
-        مشاهدة. مش شهادة أكاديمية معتمدة من جهة حكومية.
+        {isEn
+          ? `This verified certificate confirms practical completion on ${brand.domain}. Not an official academic degree.`
+          : `الشهادة دي بتثبت إنك أنهيت البرنامج فعليًا على ${brand.domain} — مش مجرد مشاهدة. مش شهادة أكاديمية معتمدة من جهة حكومية.`}
       </p>
     </div>
   );

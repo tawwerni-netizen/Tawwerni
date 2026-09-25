@@ -90,7 +90,7 @@ export default function TracksPage() {
 
       {/* Footer */}
       <footer className="border-t border-black/5 dark:border-neutral-900 py-6 text-center text-xs text-neutral-500">
-        <p>© {new Date().getFullYear()} {brand.name} ({brand.domain}) · {isEn ? "All 100 Tracks Unlocked" : brand.tagline}</p>
+        <p>© {new Date().getFullYear()} {isEn ? brand.nameEn : brand.name} ({brand.domain}) · {isEn ? "All 100 Tracks Unlocked" : brand.tagline}</p>
       </footer>
     </div>
   );

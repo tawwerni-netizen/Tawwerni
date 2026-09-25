@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Avatar from "@/components/Avatar";
+import { useI18n } from "./LanguageContext";
 
 /** Longest edge of the stored image. Plenty for a 34px header tile at 3x. */
 const MAX_EDGE = 256;
@@ -55,6 +56,9 @@ export default function AvatarPicker({
   email: string;
   avatarUrl: string | null;
 }) {
+  const { lang } = useI18n();
+  const isEn = lang === "en";
+
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(avatarUrl);
@@ -72,7 +76,7 @@ export default function AvatarPicker({
       });
       if (!res.ok) {
         const raw = await res.text();
-        let msg = "مش قادر أحفظ الصورة";
+        let msg = isEn ? "Failed to save photo" : "مش قادر أحفظ الصورة";
         try {
           msg = JSON.parse(raw).error ?? msg;
         } catch {
@@ -84,7 +88,7 @@ export default function AvatarPicker({
       }
       router.refresh();
     } catch {
-      setError("مفيش اتصال بالسيرفر");
+      setError(isEn ? "Server connection failed" : "مفيش اتصال بالسيرفر");
       setPreview(avatarUrl);
     } finally {
       setBusy(false);
@@ -97,11 +101,11 @@ export default function AvatarPicker({
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      setError("اختار صورة");
+      setError(isEn ? "Please select a valid image" : "اختار صورة");
       return;
     }
     if (file.size > MAX_INPUT_BYTES) {
-      setError("الصورة كبيرة أوي");
+      setError(isEn ? "Image file is too large" : "الصورة كبيرة أوي");
       return;
     }
 
@@ -111,7 +115,7 @@ export default function AvatarPicker({
       setPreview(dataUrl);
       await save(dataUrl);
     } catch {
-      setError("مش قادر أقرا الصورة دي");
+      setError(isEn ? "Unable to read this image" : "مش قادر أقرا الصورة دي");
       setBusy(false);
     }
   }
@@ -123,7 +127,7 @@ export default function AvatarPicker({
         onClick={() => fileRef.current?.click()}
         disabled={busy}
         className="avatar-edit relative shrink-0 rounded-full"
-        aria-label="غيّر صورتك"
+        aria-label={isEn ? "Change your avatar" : "غيّر صورتك"}
       >
         <Avatar name={name} email={email} avatarUrl={preview} size={64} />
         <span className="avatar-edit-badge" aria-hidden>
@@ -132,18 +136,20 @@ export default function AvatarPicker({
       </button>
 
       <div className="min-w-0 flex-1">
-        <p className="mb-1 text-xs font-bold">صورتك الشخصية</p>
+        <p className="mb-1 text-xs font-bold text-neutral-800 dark:text-neutral-200">
+          {isEn ? "Profile Picture" : "صورتك الشخصية"}
+        </p>
         <p className="mb-2 text-[11px] leading-relaxed text-neutral-400">
-          دوس على الصورة عشان تغيّرها. JPG أو PNG.
+          {isEn ? "Tap to change picture. JPG or PNG." : "دوس على الصورة عشان تغيّرها. JPG أو PNG."}
         </p>
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={busy}
-            className="rounded-full border border-black/10 px-3 py-1.5 text-[11px] font-bold disabled:opacity-50"
+            className="rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-[11px] font-bold text-neutral-800 dark:text-neutral-200 disabled:opacity-50 hover:border-brand-500/40 transition-colors"
           >
-            {busy ? "..." : preview ? "غيّر الصورة" : "ارفع صورة"}
+            {busy ? "..." : preview ? (isEn ? "Change photo" : "غيّر الصورة") : (isEn ? "Upload photo" : "ارفع صورة")}
           </button>
           {preview && (
             <button
@@ -153,9 +159,9 @@ export default function AvatarPicker({
                 save(null);
               }}
               disabled={busy}
-              className="rounded-full border border-black/10 px-3 py-1.5 text-[11px] text-neutral-500 disabled:opacity-50"
+              className="rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-[11px] text-neutral-500 hover:text-red-600 disabled:opacity-50 transition-colors"
             >
-              شيلها
+              {isEn ? "Remove" : "شيلها"}
             </button>
           )}
         </div>

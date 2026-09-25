@@ -1,4 +1,7 @@
+"use client";
+
 import { social } from "@/content/brand";
+import { useI18n } from "@/components/LanguageContext";
 
 /**
  * The brand's accounts, as icons.
@@ -22,23 +25,29 @@ const ICONS: Record<string, string> = {
 };
 
 export default function SocialLinks({ className = "" }: { className?: string }) {
+  const { lang } = useI18n();
+  const isEn = lang === "en";
+
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      {social.map((s) => (
-        <a
-          key={s.key}
-          href={s.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`${s.label} — ${s.handle}`}
-          title={`${s.label} · ${s.handle}`}
-          className="social-dot"
-        >
-          <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">
-            <path d={ICONS[s.key]} />
-          </svg>
-        </a>
-      ))}
+      {social.map((s) => {
+        const label = isEn ? s.labelEn : s.label;
+        return (
+          <a
+            key={s.key}
+            href={s.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${label} — ${s.handle}`}
+            title={`${label} · ${s.handle}`}
+            className="social-dot"
+          >
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">
+              <path d={ICONS[s.key]} />
+            </svg>
+          </a>
+        );
+      })}
     </div>
   );
 }

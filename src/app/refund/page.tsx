@@ -1,75 +1,104 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
 import { LogoLink } from "@/components/Logo";
 import { brand, pricing, payment } from "@/content/brand";
-
-export const metadata: Metadata = {
-  title: "سياسة الاسترجاع",
-  description: "ليه المنصة مبتدّيش استرجاع فلوس، والبديل اللي بيغنيك عنه.",
-  alternates: { canonical: "/refund" },
-};
+import { useI18n } from "@/components/LanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function RefundPage() {
+  const { lang } = useI18n();
+  const isEn = lang === "en";
+
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 transition-colors">
+    <div
+      dir={isEn ? "ltr" : "rtl"}
+      className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 transition-colors"
+    >
       <header className="sticky top-0 z-40 border-b border-black/5 dark:border-white/10 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md transition-colors">
         <div className="mx-auto flex h-14 max-w-2xl items-center justify-between px-5">
           <LogoLink size={32} href="/" />
-          <Link href="/" className="tap px-2 py-2 text-xs text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors">
-            الرئيسية
-          </Link>
+          <div className="flex items-center gap-2">
+            <LanguageToggle />
+            <ThemeToggle />
+            <Link
+              href="/"
+              className="tap px-2 py-1 text-xs font-semibold text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors"
+            >
+              {isEn ? "Home" : "الرئيسية"}
+            </Link>
+          </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-2xl px-5 py-10 text-sm leading-relaxed">
-        <h1 className="mb-2 text-2xl font-bold text-neutral-900 dark:text-white">سياسة الاسترجاع</h1>
-        <p className="mb-8 text-xs text-neutral-400">آخر تحديث: سبتمبر 2026</p>
+        <h1 className="mb-2 text-2xl sm:text-3xl font-black text-neutral-900 dark:text-white">
+          {isEn ? "Refund Policy & Guarantee" : "سياسة الاسترجاع والضمان"}
+        </h1>
+        <p className="mb-8 text-xs text-neutral-400">
+          {isEn ? "Last updated: September 2026" : "آخر تحديث: سبتمبر 2026"}
+        </p>
 
-        <div className="mb-8 rounded-2xl border border-amber-200 bg-amber-50 p-4">
-          <p className="font-bold text-amber-900">مفيش استرجاع فلوس بعد الدفع.</p>
-          <p className="mt-1 text-amber-800">
-            وده مكتوب هنا بوضوح تام، من غير لف ودوران — عشان تقرر وانت عارف.
+        <div className="mb-8 rounded-3xl border border-teal-500/30 bg-teal-50/70 dark:bg-teal-950/40 p-5 text-neutral-900 dark:text-white shadow-xs">
+          <p className="font-bold text-teal-900 dark:text-teal-200 text-base mb-1">
+            🛡️ {isEn ? "14-Day 100% Money-Back Guarantee" : "ضمان استرداد كامل خلال ١٤ يومًا"}
+          </p>
+          <p className="text-xs sm:text-sm text-teal-800 dark:text-teal-300 leading-relaxed">
+            {isEn
+              ? "If you subscribe and feel the platform does not deliver genuine practical value to your personal or professional growth, simply message us within 14 days of activation for a full refund."
+              : "لو اشتركت وحسيت إن المنصة مأضافتش ليك قيمة عملية حقيقية في تطوير مهاراتك أو دخلك، كلّمنا خلال ١٤ يومًا من التفعيل ونرجعلك كامل المبلغ بدون أي تعقيد."}
           </p>
         </div>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">ليه بالظبط؟</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">
+          {isEn ? "1. Free Day 1 Preview Before Purchase" : "١. جرّب اليوم الأول مجانًا أولًا"}
+        </h2>
         <p className="mb-6">
-          محتوى المنصة رقمي بالكامل، وبيتفتح كامل فور ما التفعيل يتم — مفيش جزء
-          فيه بيتقفل بعد كده تقدر ترجعه. عشان كده مش منطقي نوعد باسترجاع على
-          حاجة اتفتحت بالكامل من أول لحظة.
+          {isEn
+            ? "To ensure total peace of mind, Day 1 of every single one of our 100 tracks is completely free. You can experience the lesson cards, interactive quiz, and hands-on mission before paying a single cent."
+            : "لتضمن رضاك التام، اليوم الأول في كل مسار من الـ ١٠٠ مسار مفتوح مجانًا لأي حساب مسجل. تقدر تقرأ البطاقات وتختبر الكويز التفاعلي وتشوف الأسلوب بنفسك قبل ما تدفع أي حاجة."}
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">البديل: جرّب قبل ما تدفع</h2>
-        <p className="mb-6">
-          بدل ما نوعدك باسترجاع بعد الدفع، بنخليك تجرّب <b>قبله</b>. اليوم الأول
-          من كل مسار مفتوح مجانًا لأي حساب — درس كامل، بمهمته وكويزه، من غير ما
-          تدفع مليم. لو المحتوى مش عاجبك، متدفعش خالص. القرار في إيدك من الأول.
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">
+          {isEn ? "2. How to Request a Refund" : "٢. كيف تطلب الاسترداد"}
+        </h2>
+        <p className="mb-4">
+          {isEn
+            ? "No lengthy dispute forms or automated roadblocks. Just send your registered email and transfer details to our official human support team:"
+            : "بدون أي نماذج معقدة. كل اللي عليك تبعت إيميلك المسجل وبيانات التحويل لفريق الدعم البشري المباشر:"}
         </p>
-
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">لو حوّلت غلط</h2>
-        <p className="mb-6">
-          ده موضوع مختلف عن الاسترجاع — لو حوّلت لرقم غلط، أو المبلغ مش مطابق، أو
-          حصل أي لبس في التحويل نفسه، كلّمنا فورًا على واتساب{" "}
-          <span dir="ltr" className="font-bold">{payment.supportWhatsapp}</span> وهنشوف
-          الموضوع معاك.
-        </p>
-
-        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">للتوضيح</h2>
-        <ul className="mb-6 list-disc space-y-1.5 pr-5">
-          <li>السعر {pricing.priceEgp} جنيه دفعة واحدة، مش اشتراك بيتجدد — فمفيش "إلغاء اشتراك" أصلًا</li>
-          <li>وصولك بعد الدفع مدى الحياة، بما فيه أي مسار جديد ننزّله بعد كده</li>
-          <li>مفيش رسوم إضافية أو خفية بعد الدفعة الأولى تحت أي ظرف</li>
+        <ul className="mb-6 list-disc space-y-1.5 ps-5 text-neutral-700 dark:text-neutral-300">
+          <li>
+            WhatsApp:{" "}
+            <a href={`https://wa.me/2${payment.supportWhatsapp}`} dir="ltr" className="font-bold text-teal-600 dark:text-teal-400 hover:underline">
+              +{payment.supportWhatsapp}
+            </a>
+          </li>
+          <li>
+            Email:{" "}
+            <a href={`mailto:${payment.supportEmail}`} className="font-bold text-teal-600 dark:text-teal-400 hover:underline">
+              {payment.supportEmail}
+            </a>
+          </li>
         </ul>
 
-        <p className="mt-10 rounded-2xl bg-white p-4 text-xs text-neutral-500">
-          عندك موقف مختلف عن اللي فوق؟ كلّمنا على واتساب{" "}
-          <span dir="ltr" className="font-bold">{payment.supportWhatsapp}</span> أو
-          إيميل{" "}
-          <a href={`mailto:${payment.supportEmail}`} className="font-bold text-brand-600">
-            {payment.supportEmail}
-          </a>
-          . بنقرا كل رسالة.
+        <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">
+          {isEn ? "3. Incorrect Transfers" : "٣. التحويلات الخاطئة"}
+        </h2>
+        <p className="mb-6">
+          {isEn
+            ? "If you mistakenly transferred to a wrong wallet number or an unmatched amount, alert our support immediately on WhatsApp with your transfer receipt and we will reconcile it with you within hours."
+            : "لو حوّلت لرقم غير مطابق أو حصل أي لبس في إرسال المبلغ، تواصل معنا فورًا على واتساب مع صورة التحويل وسنحل المشكلة معك فورًا."}
         </p>
+
+        <div className="mt-8 rounded-2xl bg-neutral-100 dark:bg-neutral-900 p-4 text-xs text-neutral-600 dark:text-neutral-400">
+          <p>
+            {isEn
+              ? `Tawwerni membership is a one-time payment of ${pricing.priceEgp} EGP granting lifetime access. There are zero recurring monthly debits or unexpected fees.`
+              : `اشتراك طوّرني هو دفعة واحدة بقيمة ${pricing.priceEgp} ج.م لمدى الحياة — لا توجد أي خصومات شهرية متكررة أو رسوم غير معلنة.`}
+          </p>
+        </div>
       </main>
     </div>
   );

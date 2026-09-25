@@ -24,18 +24,21 @@ export const pricing = {
   originalPriceSar: 299,
   orderBumpPriceEgp: 99,
   orderBumpTitle: "بنك الـ 1,000 برومبت السري للشركات + حزمة عقود الفريلانس القانونية",
+  orderBumpTitleEn: "Secret 1,000+ Corporate Prompts Bank + Freelance Legal Contracts",
   cohortSeatsTotal: 500,
   cohortSeatsRemaining: 47,
   offerNote: "عرض فوج التأسيس الأول · وصول مدى الحياة لـ 100 مسار",
+  offerNoteEn: "Founding Cohort Offer · Lifetime Access to 100 Tracks",
   guaranteeNote: "ضمان استرداد كامل خلال 14 يوماً بدون أي أسئلة",
+  guaranteeNoteEn: "14-Day 100% Money-Back Guarantee, No Questions Asked",
   grantsAllCourses: true,
 } as const;
 
 export const social = [
-  { key: "facebook", label: "فيسبوك", handle: "Tawwerni", url: "https://facebook.com/Tawwerni" },
-  { key: "tiktok", label: "تيك توك", handle: "@Tawwerni", url: "https://tiktok.com/@Tawwerni" },
-  { key: "instagram", label: "إنستجرام", handle: "@Tawwerni", url: "https://instagram.com/Tawwerni" },
-  { key: "x", label: "إكس", handle: "@Tawwerni", url: "https://x.com/Tawwerni" },
+  { key: "facebook", label: "فيسبوك", labelEn: "Facebook", handle: "Tawwerni", url: "https://facebook.com/Tawwerni" },
+  { key: "tiktok", label: "تيك توك", labelEn: "TikTok", handle: "@Tawwerni", url: "https://tiktok.com/@Tawwerni" },
+  { key: "instagram", label: "إنستجرام", labelEn: "Instagram", handle: "@Tawwerni", url: "https://instagram.com/Tawwerni" },
+  { key: "x", label: "إكس", labelEn: "X", handle: "@Tawwerni", url: "https://x.com/Tawwerni" },
 ] as const;
 
 export const referral = {

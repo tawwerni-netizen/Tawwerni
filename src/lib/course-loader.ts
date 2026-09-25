@@ -16,7 +16,25 @@ export type UniversalLesson = {
   isCheckpoint: boolean;
   videoUrl: string | null;
   cards: Card[];
+  cardsAr: Card[];
+  cardsEn: Card[];
   quiz: {
+    id: string;
+    type: "mcq" | "tf";
+    question: string;
+    options: string[];
+    correctIndex: number;
+    explanation: string;
+  }[];
+  quizAr: {
+    id: string;
+    type: "mcq" | "tf";
+    question: string;
+    options: string[];
+    correctIndex: number;
+    explanation: string;
+  }[];
+  quizEn: {
     id: string;
     type: "mcq" | "tf";
     question: string;
@@ -183,39 +201,39 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
         titleEn = `Day ${day}: ${subTopicsEn[subIdx]}`;
       }
 
-      const cards: Card[] = [
+      const cardsAr: Card[] = [
         {
           type: "info",
-          heading: `المفهوم الجوهري · Core Concept`,
+          heading: `المفهوم الجوهري: ${outcomeAr}`,
           body: {
             lines: [
-              `الهدف من خطوة اليوم هو إتقان: ${outcomeAr}.`,
-              `لا تحتاج لساعات طويلة؛ القاعدة هي التركيز على خطوة واحدة واضحة وقابلة للقياس.`,
-              `الأدوات تتغير باستمرار، لكن المبادئ المنهجية التي تتعلمها هنا ستمنحك ميزة تنافسية دائمة.`,
+              `الهدف الأساسي من خطوة اليوم هو إتقان: ${outcomeAr}.`,
+              `لا تحتاج لساعات طويلة من التنظير؛ القاعدة الذهبية هي التركيز على خطوة واحدة واضحة وقابلة للقياس والتنفيذ الفوري.`,
+              `الأدوات والتقنيات تتغير باستمرار، لكن المبادئ المنهجية التي تكتسبها هنا تمنحك ميزة تنافسية دائمة في ${track.titleAr}.`,
             ],
             tools: [track.titleEn.split(" ")[0]],
           },
         },
         {
           type: "info",
-          heading: `خطوات التنفيذ العملي · Step-by-Step Execution`,
+          heading: `خطوات التنفيذ العملي خطوة بخطوة`,
           body: {
             lines: [
-              `١. افتح مساحة عملك وحدد النتيجة المستهدفة بدقة قبل أن تبدأ.`,
-              `٢. طبّق التكنيك خطوة بخطوة مع مراعاة الجودة وسرعة الإنجاز.`,
-              `٣. وثّق ما تعلمته في ملف إنجازك الشخصي لترجع إليه وقت الحاجة.`,
-              `٤. لا تبحث عن الكمال؛ الإنجاز المكتمل بنسبة 80% أفضل بكثير من خطة مثالية لم تُنفّذ.`,
+              `١. افتح مساحة عملك وحدد النتيجة المستهدفة بدقة قبل أن تبدأ في استخدام أي أداة.`,
+              `٢. طبّق التكنيك خطوة بخطوة مع مراعاة أعلى معايير الجودة وسرعة الإنجاز.`,
+              `٣. وثّق ما نفذته وما تعلمته في ملف إنجازك الشخصي لترجع إليه وقت الحاجة.`,
+              `٤. لا تبحث عن الكمال الزائف؛ الإنجاز المكتمل بنسبة 80% أفضل بكثير من خطة مثالية لم تُنفّذ.`,
             ],
           },
         },
         {
           type: "info",
-          heading: `الحقيقة الواقعية وتجنب الفخاخ · Reality Check`,
+          heading: `الحقيقة الواقعية وتجنب الفخاخ`,
           body: {
             lines: [
               `⚠️ تذكر دائماً: ${track.realityAr}`,
-              `الشعور بالتردد أو الصعوبة في البداية طبيعي تماماً ويصيب كل من يتعلم مهارة جديدة.`,
-              `الاستمرار اليومي لمدة 5 دقائق يعطيك نتائج مضاعفة 10 مرات مقارنة بحماس يوم واحد ينقطع بعده.`,
+              `الشعور بالتردد أو الصعوبة في البداية طبيعي تماماً ويصيب كل من يتعلم مهارة جديدة ومتطورة.`,
+              `الاستمرار اليومي لمدة 5 إلى 15 دقيقة يمنحك نتائج تراكمية مضاعفة 10 مرات مقارنة بحماس يوم واحد ينقطع بعده.`,
             ],
           },
         },
@@ -225,7 +243,7 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
           body: {
             instructions: [
               `قم بتنفيذ تمرين اليوم العملي حول: "${outcomeAr}".`,
-              `سجل النتيجة أو خذ لقطة شاشة لإنجازك لتثبيت العادة في عقلك.`,
+              `سجل النتيجة أو خذ لقطة شاشة لإنجازك لتثبيت العادة في عقلك وترسيخ المهارة.`,
               `اضغط على زر إتمام الكويز بالأسفل لتثبيت تقدمك وحصد نقاط الـ XP.`,
             ],
             prompt: `كيف أطبّق ${outcomeAr} بأفضل الممارسات المتبعة في عام 2026؟`,
@@ -233,7 +251,57 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
         },
       ];
 
-      const quiz = [
+      const cardsEn: Card[] = [
+        {
+          type: "info",
+          heading: `Core Concept: ${outcomeEn}`,
+          body: {
+            lines: [
+              `The primary objective of today's lesson is mastering: ${outcomeEn}.`,
+              `You do not need endless hours of theory; the proven standard is focused, measurable, and rapid execution.`,
+              `While tools and software evolve constantly, the architectural thinking and workflow discipline you build here give you a permanent competitive edge in ${track.titleEn}.`,
+            ],
+            tools: [track.titleEn.split(" ")[0]],
+          },
+        },
+        {
+          type: "info",
+          heading: `Step-by-Step Practical Blueprint`,
+          body: {
+            lines: [
+              `1. Open your workspace and clearly define the exact target deliverable for ${outcomeEn} before touching any tool.`,
+              `2. Apply the technique step-by-step, prioritizing high production quality, speed, and real-world utility.`,
+              `3. Document your finished solution and reusable prompts in your personal portfolio for future reuse.`,
+              `4. Prioritize momentum over perfection — an 80% complete, executed deliverable beats an unexecuted plan every time.`,
+            ],
+          },
+        },
+        {
+          type: "info",
+          heading: `Industry Reality & Pitfall Avoidance`,
+          body: {
+            lines: [
+              `⚠️ Pro Reality Check: ${track.realityEn}`,
+              `Feeling cognitive resistance or friction when adopting a new workflow is completely normal — it indicates real skill acquisition.`,
+              `Consistent 5 to 15-minute daily focused practice yields 10x higher compounding returns than sporadic, exhausting marathon sessions.`,
+            ],
+          },
+        },
+        {
+          type: "task",
+          heading: `Today's Hands-on Challenge (5-10 Minutes)`,
+          body: {
+            instructions: [
+              `Execute today's practical exercise focusing on: "${outcomeEn}".`,
+              `Save your deliverable or screenshot your completed workflow to lock in muscle memory.`,
+              `Click the quiz button below to test your understanding, lock in your progress, and claim your XP.`,
+            ],
+            prompt: `How do I apply ${outcomeEn} using modern industry best practices and automated workflows?`,
+          },
+        },
+      ];
+
+      const quizAr = [
         {
           id: `q-${lessonId}-1`,
           type: "mcq" as const,
@@ -259,6 +327,32 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
         },
       ];
 
+      const quizEn = [
+        {
+          id: `q-${lessonId}-1`,
+          type: "mcq" as const,
+          question: `What is the core principle for mastering today's lesson on ${titleEn}?`,
+          options: [
+            "Focusing on tangible, rapid execution and measurable output over perfectionism",
+            "Memorizing theoretical terminology without applying practical exercises",
+            "Purchasing enterprise software before understanding the foundational workflow",
+            "Spending days in planning meetings without creating a single deliverable",
+          ],
+          correctIndex: 0,
+          explanation:
+            "Consistent, rapid application is the cornerstone of true mastery. Tangible results build confidence and momentum.",
+        },
+        {
+          id: `q-${lessonId}-2`,
+          type: "tf" as const,
+          question: `Consistent daily practice of 5 to 15 minutes builds far stronger expertise than sporadic, intensive study sessions.`,
+          options: ["True", "False"],
+          correctIndex: 0,
+          explanation:
+            "True! Daily spaced repetition strengthens neural pathways, prevents burnout, and ensures lifelong retention.",
+        },
+      ];
+
       moduleLessons.push({
         id: lessonId,
         moduleId,
@@ -271,8 +365,12 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
         order: day,
         isCheckpoint,
         videoUrl: null,
-        cards,
-        quiz,
+        cards: cardsAr,
+        cardsAr,
+        cardsEn,
+        quiz: quizAr,
+        quizAr,
+        quizEn,
       });
     }
 
@@ -341,7 +439,7 @@ function convertHandcrafted(def: CourseDefinition, matchingTrack?: Track100): Un
     const moduleId = `mod-${meta.slug}-${mIdx + 1}`;
     const lessons: UniversalLesson[] = m.lessons.map((l, lIdx) => {
       const lessonId = `les-${meta.slug}-${l.day}`;
-      const cards: Card[] = [
+      const cardsAr: Card[] = [
         ...l.cards.map((c) => ({
           type: "info" as const,
           heading: c.heading,
@@ -354,29 +452,121 @@ function convertHandcrafted(def: CourseDefinition, matchingTrack?: Track100): Un
         },
       ];
 
+      const outcomeEn = matchingTrack?.outcomesEn?.[(l.day - 1) % (matchingTrack.outcomesEn.length || 1)] || titleEn;
+      const realityEn = matchingTrack?.realityEn || "Focus on daily practical momentum over sporadic perfectionism.";
+
+      const cardsEn: Card[] = [
+        {
+          type: "info",
+          heading: `Core Concept · Day ${l.day}: ${outcomeEn}`,
+          body: {
+            lines: [
+              `The primary objective of this session is mastering: ${outcomeEn}.`,
+              `True capability comes from rapid, focused daily execution rather than passive observation.`,
+              `Apply this technique step-by-step to maintain your daily compounding momentum in ${titleEn}.`,
+            ],
+            tools: l.cards[0]?.tools || [titleEn.split(" ")[0]],
+          },
+        },
+        {
+          type: "info",
+          heading: `Step-by-Step Practical Blueprint`,
+          body: {
+            lines: [
+              `1. Open your workspace and prepare your environment for today's objective.`,
+              `2. Execute the workflow step-by-step, following modern industry standards.`,
+              `3. Document your finished solution and reusable prompts in your personal vault for future reference.`,
+              `4. Commit your output and move directly to the verification quiz below.`,
+            ],
+          },
+        },
+        {
+          type: "info",
+          heading: `Reality Check & Pro Insights`,
+          body: {
+            lines: [
+              `⚠️ Pro Reality Check: ${realityEn}`,
+              `Feeling cognitive resistance when adopting a new workflow is completely normal — it indicates real skill acquisition.`,
+              `Consistent 15-minute daily focus outperforms sporadic marathon sessions every single time.`,
+            ],
+          },
+        },
+        {
+          type: "task",
+          heading: `Today's Practical Mission (5-10 Minutes)`,
+          body: {
+            instructions: [
+              `Execute today's practical mission focusing on: "${outcomeEn}".`,
+              `Capture your deliverable or save your output to solidify muscle memory.`,
+              `Take the quick quiz below to solidify your retention and claim your XP.`,
+            ],
+            prompt: l.task.prompt || `How do I master ${outcomeEn} using modern best practices in 2026?`,
+          },
+        },
+      ];
+
+      const quizAr = l.quiz.map((q, qIdx) => ({
+        id: `q-${lessonId}-${qIdx + 1}`,
+        type: q.type,
+        question: q.question,
+        options: q.options,
+        correctIndex: q.correctIndex,
+        explanation: q.explanation,
+      }));
+
+      const quizEn = [
+        {
+          id: `q-${lessonId}-1`,
+          type: "mcq" as const,
+          question: `What is the most effective approach to mastering Day ${l.day} in ${titleEn}?`,
+          options: [
+            "Executing the hands-on practical task immediately and consistently",
+            "Postponing execution until all theoretical edge-cases are memorized",
+            "Relying on passive reading without building real deliverables",
+            "Skipping daily practice in favor of occasional intensive cramming",
+          ],
+          correctIndex: 0,
+          explanation: "Consistent, active application ensures immediate skill retention and measurable progress.",
+        },
+        {
+          id: `q-${lessonId}-2`,
+          type: "tf" as const,
+          question: `Consistent daily practice of 5 to 15 minutes builds far stronger expertise than sporadic study marathons.`,
+          options: ["True", "False"],
+          correctIndex: 0,
+          explanation: "True! Spaced repetition and daily momentum strengthen neural retention and eliminate friction.",
+        },
+      ];
+
+      const lessonTitleEn = matchingTrack?.titleEn 
+        ? `Day ${l.day}: Practical Step in ${matchingTrack.titleEn}` 
+        : `Day ${l.day}: Practical Step in ${titleEn}`;
+
       return {
         id: lessonId,
         moduleId,
         dayNumber: l.day,
         title: l.title,
         titleAr: l.title,
-        titleEn: `Day ${l.day}: ${l.title}`,
+        titleEn: lessonTitleEn,
         durationMin: l.durationMin,
         xp: l.xp,
         order: l.day,
         isCheckpoint: !!l.isCheckpoint,
         videoUrl: l.videoUrl || null,
-        cards,
-        quiz: l.quiz.map((q, qIdx) => ({
-          id: `q-${lessonId}-${qIdx + 1}`,
-          type: q.type,
-          question: q.question,
-          options: q.options,
-          correctIndex: q.correctIndex,
-          explanation: q.explanation,
-        })),
+        cards: cardsAr,
+        cardsAr,
+        cardsEn,
+        quiz: quizAr,
+        quizAr,
+        quizEn,
       };
     });
+
+    const moduleTitleEn = matchingTrack?.pillarNameEn
+      ? `Module ${mIdx + 1}: ${matchingTrack.pillarNameEn}`
+      : `Module ${mIdx + 1}: Foundations & Core Skills`;
+    const moduleDescEn = `Core techniques and daily practical workflows for ${titleEn}.`;
 
     return {
       id: moduleId,
@@ -384,10 +574,10 @@ function convertHandcrafted(def: CourseDefinition, matchingTrack?: Track100): Un
       order: mIdx + 1,
       title: m.title,
       titleAr: m.title,
-      titleEn: `Module ${mIdx + 1}: ${m.title}`,
+      titleEn: moduleTitleEn,
       description: m.description,
       descriptionAr: m.description,
-      descriptionEn: m.description,
+      descriptionEn: moduleDescEn,
       icon: m.icon,
       lessons,
     };

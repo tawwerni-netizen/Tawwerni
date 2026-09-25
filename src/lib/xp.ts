@@ -1,9 +1,9 @@
 export const LEVELS = [
-  { name: "مبتدئ", minXp: 0 },
-  { name: "مستكشف", minXp: 500 },
-  { name: "ممارس", minXp: 1500 },
-  { name: "خبير", minXp: 3000 },
-  { name: "محترف", minXp: 5000 },
+  { name: "مبتدئ", nameEn: "Beginner", minXp: 0 },
+  { name: "مستكشف", nameEn: "Explorer", minXp: 500 },
+  { name: "ممارس", nameEn: "Practitioner", minXp: 1500 },
+  { name: "خبير", nameEn: "Expert", minXp: 3000 },
+  { name: "محترف", nameEn: "Master", minXp: 5000 },
 ] as const;
 
 export function computeLevel(totalXp: number) {
@@ -16,7 +16,9 @@ export function computeLevel(totalXp: number) {
   return {
     levelNumber: levelIndex + 1,
     name: current.name,
+    nameEn: current.nameEn,
     nextName: next?.name ?? null,
+    nextNameEn: next?.nameEn ?? null,
     xpIntoLevel: totalXp - current.minXp,
     xpForNextLevel: next ? next.minXp - current.minXp : null,
     xpToNext: next ? next.minXp - totalXp : 0,
@@ -49,7 +51,7 @@ export function computeStreak(completionDates: Date[]): number {
   return streak;
 }
 
-export function getWeekDays(completionDates: Date[]) {
+export function getWeekDays(completionDates: Date[], lang: "ar" | "en" = "ar") {
   const days = new Set(completionDates.map(toDayKey));
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -57,12 +59,16 @@ export function getWeekDays(completionDates: Date[]) {
   const monday = new Date(today);
   monday.setDate(today.getDate() - dayOfWeek);
 
-  const labels = ["اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت", "أحد"];
-  return labels.map((label, i) => {
+  const labelsAr = ["اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت", "أحد"];
+  const labelsEn = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+  return labelsAr.map((labelAr, i) => {
     const d = new Date(monday);
     d.setDate(monday.getDate() + i);
     return {
-      label,
+      label: lang === "en" ? labelsEn[i] : labelAr,
+      labelAr,
+      labelEn: labelsEn[i],
       done: days.has(toDayKey(d)),
       isToday: toDayKey(d) === toDayKey(today),
       isFuture: d > today,
