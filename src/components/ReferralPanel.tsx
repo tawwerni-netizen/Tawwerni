@@ -81,7 +81,7 @@ export default function ReferralPanel(props: Props) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" dir={isEn ? "ltr" : "rtl"}>
       {/* Balance */}
       <div className="animate-pop overflow-hidden rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 p-5 text-white shadow-md">
         <p className="mb-1 text-xs text-white/70">
@@ -140,7 +140,7 @@ export default function ReferralPanel(props: Props) {
         <button
           type="button"
           onClick={copy}
-          className="mb-2 flex w-full items-center justify-between gap-2 rounded-xl border border-black/10 dark:border-white/10 bg-neutral-50 dark:bg-neutral-800 px-3 py-2.5 text-right transition hover:border-brand-400"
+          className="mb-2 flex w-full items-center justify-between gap-2 rounded-xl border border-black/10 dark:border-white/10 bg-neutral-50 dark:bg-neutral-800 px-3 py-2.5 text-start transition hover:border-brand-400"
         >
           <span className="shrink-0 text-xs font-bold text-brand-700 dark:text-brand-400">
             {copied ? (isEn ? "✓ Copied" : "✓ اتنسخ") : (isEn ? "📋 Copy" : "📋 انسخ")}
