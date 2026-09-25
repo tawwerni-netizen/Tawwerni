@@ -101,7 +101,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               var t=s==='light'?'light':'dark';
               document.documentElement.dataset.theme=t;
               if(t==='dark'){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}
-              var l=localStorage.getItem('tawwerni-lang')||'ar';
+              var m=document.cookie.match(/(?:^|;\\s*)tawwerni-lang=(ar|en)/);
+              var l=localStorage.getItem('tawwerni-lang')||(m?m[1]:'ar');
               document.documentElement.lang=l;
               document.documentElement.dir=l==='en'?'ltr':'rtl';
             }catch(e){document.documentElement.dataset.theme='dark';document.documentElement.classList.add('dark');}})();`,

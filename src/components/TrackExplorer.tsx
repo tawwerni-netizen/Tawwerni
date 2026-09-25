@@ -41,7 +41,7 @@ export default function TrackExplorer() {
   }, [selectedPillarId, selectedLevel, searchQuery]);
 
   return (
-    <div className="w-full">
+    <div className="w-full" dir={lang === "ar" ? "rtl" : "ltr"}>
       {/* Top Search & Filter Bar */}
       <div className="mb-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
         {/* Search input */}
@@ -56,7 +56,8 @@ export default function TrackExplorer() {
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute top-3 left-3 text-neutral-400 hover:text-neutral-700 dark:hover:text-white text-sm"
+              className="absolute top-3 end-3 text-neutral-400 hover:text-neutral-700 dark:hover:text-white text-sm"
+              aria-label={lang === "ar" ? "مسح البحث" : "Clear search"}
             >
               ✕
             </button>
@@ -175,11 +176,15 @@ export default function TrackExplorer() {
         const activeArtwork = getTrackArtwork(activeModalTrack.slug);
         return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl border border-black/10 dark:border-teal-500/20 bg-white dark:bg-neutral-950 p-6 text-neutral-900 dark:text-white shadow-2xl transition-colors">
+          <div
+            dir={lang === "ar" ? "rtl" : "ltr"}
+            className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl border border-black/10 dark:border-teal-500/20 bg-white dark:bg-neutral-900 p-6 text-neutral-900 dark:text-white shadow-2xl transition-colors"
+          >
             {/* Close button */}
             <button
               onClick={() => setActiveModalTrack(null)}
-              className="absolute top-5 left-5 z-20 rounded-full w-8 h-8 flex items-center justify-center text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-md transition-colors"
+              className="absolute top-5 end-5 z-20 rounded-full w-8 h-8 flex items-center justify-center text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-md transition-colors"
+              aria-label={lang === "ar" ? "إغلاق" : "Close"}
             >
               ✕
             </button>

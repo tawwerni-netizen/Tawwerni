@@ -22,7 +22,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("tawwerni-lang") as Language;
+      let saved = (typeof localStorage !== "undefined" ? localStorage.getItem("tawwerni-lang") : null) as Language | null;
+      if (!saved && typeof document !== "undefined") {
+        const match = document.cookie.match(/(?:^|;\s*)tawwerni-lang=(ar|en)/);
+        if (match) saved = match[1] as Language;
+      }
       if (saved === "en" || saved === "ar") {
         setLangState(saved);
         document.documentElement.lang = saved;
@@ -30,6 +34,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         document.title = saved === "en" 
           ? "Tawwerni — Turn Daily Learning into Real Progress" 
           : "طوّرني — حوّل تعلّمك اليومي لتقدّم حقيقي";
+        localStorage.setItem("tawwerni-lang", saved);
+        document.cookie = `tawwerni-lang=${saved}; path=/; max-age=31536000; SameSite=Lax`;
       }
     } catch {
       /* ignore storage error */

@@ -12,7 +12,7 @@ export default function ShareInvite({ className = "" }: { className?: string }) 
 
   const url = `https://${brand.domain}`;
   const message = isEn
-    ? `I found something remarkable: ${brand.name} — ${brand.domain}
+    ? `I found something remarkable: ${brand.nameEn} — ${brand.domain}
 
 100 professional tracks in AI, Coding & Freelancing, 5-15 mins daily.
 Day 1 of every single track is 100% free — try it without spending a dime.`
@@ -34,6 +34,7 @@ Day 1 of every single track is 100% free — try it without spending a dime.`
 
   return (
     <div
+      dir={isEn ? "ltr" : "rtl"}
       className={`rounded-3xl border border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 p-6 shadow-sm transition-colors ${className}`}
     >
       <p className="text-base font-bold text-neutral-900 dark:text-white mb-1">

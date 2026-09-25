@@ -81,7 +81,7 @@ export default function Certificate({
           <div className="mb-5 flex items-center justify-center gap-2">
             <LogoMark size={40} />
             <span className="text-lg font-bold text-brand-800">
-              {brand.name}
+              {isEn ? brand.nameEn : brand.name}
               <span className="text-brand-400">.com</span>
             </span>
           </div>

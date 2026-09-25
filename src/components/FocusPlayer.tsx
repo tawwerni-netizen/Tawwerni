@@ -176,7 +176,7 @@ export default function FocusPlayer() {
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label={t.focusMode}
         title={t.focusMode}
-        className="fixed bottom-24 right-5 z-40 flex items-center gap-2 rounded-full border border-teal-500/40 bg-white/95 text-teal-800 dark:bg-neutral-900/90 dark:text-teal-300 px-3.5 py-2.5 text-xs font-bold shadow-xl backdrop-blur-md transition-all hover:scale-105 active:scale-95 hover:border-teal-500"
+        className="fixed bottom-24 end-5 z-40 flex items-center gap-2 rounded-full border border-teal-500/40 bg-white/95 text-teal-800 dark:bg-neutral-900/90 dark:text-teal-300 px-3.5 py-2.5 text-xs font-bold shadow-xl backdrop-blur-md transition-all hover:scale-105 active:scale-95 hover:border-teal-500"
       >
         <span className="text-base animate-pulse">🧘‍♂️</span>
         <span className="hidden sm:inline">{isRunning ? timeFormatted : t.focusMode}</span>
@@ -185,7 +185,10 @@ export default function FocusPlayer() {
       {/* Focus Modal / Drawer */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-md rounded-3xl border border-black/10 dark:border-teal-500/20 bg-white dark:bg-neutral-950 p-6 text-neutral-900 dark:text-white shadow-2xl transition-colors">
+          <div
+            dir={lang === "ar" ? "rtl" : "ltr"}
+            className="relative w-full max-w-md rounded-3xl border border-black/10 dark:border-teal-500/20 bg-white dark:bg-neutral-950 p-6 text-neutral-900 dark:text-white shadow-2xl transition-colors"
+          >
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b border-black/10 dark:border-neutral-800">
               <div className="flex items-center gap-2">

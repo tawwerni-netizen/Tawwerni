@@ -77,7 +77,8 @@ export default function StudentTrackCatalog({ completedTrackSlugs = [], inProgre
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute top-3 left-3 text-neutral-400 hover:text-neutral-700 dark:hover:text-white text-sm"
+              className="absolute top-3 end-3 text-neutral-400 hover:text-neutral-700 dark:hover:text-white text-sm"
+              aria-label={lang === "ar" ? "مسح البحث" : "Clear search"}
             >
               ✕
             </button>
