@@ -16,7 +16,7 @@ export const ar = {
   logout: "تسجيل الخروج",
   startNow: "ابدأ الآن مجاناً",
   subscribe: "اشترك الآن",
-  lifetimeAccess: "وصول مدى الحياة",
+  lifetimeAccess: "وصول لمدة سنة",
 
   // Psychological & Mindset
   focusMode: "وضع التركيز والتدفق",
@@ -134,7 +134,7 @@ export const en: Translations = {
   logout: "Sign Out",
   startNow: "Start Free",
   subscribe: "Unlock Everything",
-  lifetimeAccess: "Lifetime Access",
+  lifetimeAccess: "1-Year Access",
 
   // Psychological & Mindset
   focusMode: "Focus & Flow Mode",

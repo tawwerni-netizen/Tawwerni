@@ -60,7 +60,7 @@ export default function StudentTrackCatalog({ completedTrackSlugs = [], inProgre
           ⚡ {lang === "ar" ? `أكثر من ${totalLessonsCount} درس تطبيقي` : `${totalLessonsCount}+ Hands-on Lessons`}
         </span>
         <span className="rounded-full bg-amber-500/10 border border-amber-500/20 px-3.5 py-1.5 font-bold text-amber-800 dark:text-amber-300">
-          ♾️ {lang === "ar" ? "وصول مدى الحياة شامل التحديثات" : "Lifetime Access & Updates"}
+          ♾️ {lang === "ar" ? "وصول لمدة سنة شامل التحديثات" : "1-Year Access & Updates"}
         </span>
       </div>
 

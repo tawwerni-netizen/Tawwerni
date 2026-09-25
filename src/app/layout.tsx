@@ -23,7 +23,7 @@ const total100Lessons = ALL_100_TRACKS.reduce((sum, t) => sum + t.totalLessons, 
 
 const shareTitle = `${brand.name} — الموقع ده اتبنى بالذكاء الاصطناعي`;
 
-const description = `١٠٠ مسار احترافي وأكثر من ${total100Lessons} درس تطبيقي بالعربية والإنجليزية، ٥ دقايق في اليوم. اشتراك واحد ${pricing.priceEgp} ج.م مدى الحياة — واليوم الأول من كل مسار مجانًا.`;
+const description = `١٠٠ مسار احترافي وأكثر من ${total100Lessons} درس تطبيقي بالعربية والإنجليزية، ٥ دقايق في اليوم. اشتراك واحد ${pricing.priceEgp} ج.م لمدة سنة — واليوم الأول من كل مسار مجانًا.`;
 
 /**
  * Metadata, including the link preview card.

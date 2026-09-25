@@ -4,7 +4,7 @@ export type FaqCategory = { key: string; title: string; titleEn: string; icon: s
 /**
  * The official Tawwerni Help Center (Bilingual Arabic & English).
  * Contains comprehensive answers covering Getting Started, the 100 New Tracks,
- * Lifetime Membership, Learning Mechanics, Security, Certificates, and Track Deep Dives.
+ * 1-Year Membership, Learning Mechanics, Security, Certificates, and Track Deep Dives.
  */
 export const faqCategories: FaqCategory[] = [
   {
@@ -52,8 +52,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "لازم أخلّص المسار في 28 يوم بالظبط؟",
         "qEn": "Do I have to finish the track in exactly 28 days?",
-        "a": "لأ. الـ28 يوم هي الوتيرة المقترحة، بس الوصول عندك مدى الحياة. تقدر تاخد وقتك.",
-        "aEn": "No. 28 days is the recommended daily cadence, but you have lifetime access. You can learn at your own pace and revisit lessons whenever you want."
+        "a": "لأ. الـ28 يوم هي الوتيرة المقترحة، بس الوصول عندك لمدة سنة. تقدر تاخد وقتك.",
+        "aEn": "No. 28 days is the recommended daily cadence, but you have 1-year access. You can learn at your own pace and revisit lessons whenever you want."
       },
       {
         "q": "أقدر أبدأ أكتر من مسار في نفس الوقت؟",
@@ -64,7 +64,7 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "إيه الفرق بين المسارات؟",
         "qEn": "What is the difference between tracks?",
-        "a": "المنصة بتضم 100 مسار احترافي موزعين على 10 أركان حيوية: الذكاء الاصطناعي، البرمجة وتطوير الويب، تحليل البيانات، العمل الحر، التسويق الرقمي، التصميم الإبداعي، ريادة الأعمال، الأمن السيبراني، المهارات القيادية، والإنتاجية وإدارة الذات. اشتراك واحد يفتحلك كل الـ 100 مسار دفعة واحدة مدى الحياة.",
+        "a": "المنصة بتضم 100 مسار احترافي موزعين على 10 أركان حيوية: الذكاء الاصطناعي، البرمجة وتطوير الويب، تحليل البيانات، العمل الحر، التسويق الرقمي، التصميم الإبداعي، ريادة الأعمال، الأمن السيبراني، المهارات القيادية، والإنتاجية وإدارة الذات. اشتراك واحد يفتحلك كل الـ 100 مسار دفعة واحدة لمدة سنة.",
         "aEn": "The catalog features 100 tracks across 10 vital disciplines: AI, Web Dev, Data, Freelancing, Marketing, UI/UX, Business, Cybersecurity, Leadership, and Productivity. One single membership unlocks everything."
       },
       {
@@ -150,8 +150,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "هل اشتراك واحد يفتح لي كل الـ 100 مسار بالكامل؟",
         "qEn": "Does a single membership truly unlock all 100 tracks?",
-        "a": "نعم تماماً وبدون أي اشتراكات متكررة! باشتراك رمزي لمرة واحدة (349 ج.م فقط) تحصل على وصول دائم مدى الحياة لكافة الـ 100 مسار بجميع دروسها، مهامها العملية، كويزاتها التفاعلية، وشهادات إتمامها.",
-        "aEn": "Yes, absolutely with zero recurring fees! A single one-time payment of 349 EGP unlocks lifetime access to all 100 tracks, including every lesson, practical task, interactive quiz, and completion certificate forever."
+        "a": "نعم تماماً وبدون أي اشتراكات متكررة! باشتراك رمزي لمرة واحدة (349 ج.م فقط) تحصل على وصول لمدة سنة لكافة الـ 100 مسار بجميع دروسها، مهامها العملية، كويزاتها التفاعلية، وشهادات إتمامها.",
+        "aEn": "Yes, absolutely with zero recurring fees! A single one-time payment of 349 EGP unlocks 1-year access to all 100 tracks, including every lesson, practical task, interactive quiz, and completion certificate for a full year."
       },
       {
         "q": "هل أحصل على شهادة معتمدة لكل مسار من الـ 100؟",
@@ -198,8 +198,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "هل التحديثات والمسارات الإضافية المستقبلية مجانية للمشتركين؟",
         "qEn": "Are future updates and additional courses included for free?",
-        "a": "نعم! اشتراكك هو استثمار دائم مدى الحياة، ويشمل جميع التحديثات الدورية على المسارات الـ 100، بالإضافة إلى أي مسارات جديدة يتم إطلاقها مستقبلاً بدون أي رسوم إضافية إطلاقاً.",
-        "aEn": "Yes! Lifetime membership guarantees free access to all curriculum updates, refreshed tool guides, and brand-new tracks added to the catalog forever."
+        "a": "نعم! اشتراكك هو استثمار لمدة سنة، ويشمل جميع التحديثات الدورية على المسارات الـ 100، بالإضافة إلى أي مسارات جديدة يتم إطلاقها مستقبلاً بدون أي رسوم إضافية إطلاقاً.",
+        "aEn": "Yes! 1-Year membership guarantees free access to all curriculum updates, refreshed tool guides, and brand-new tracks added to the catalog for a full year."
       },
       {
         "q": "هل أقدر أدرس وأتابع المسارات من الموبايل بسهولة؟",
@@ -236,14 +236,14 @@ export const faqCategories: FaqCategory[] = [
   {
     "key": "payment",
     "title": "الدفع والاشتراك",
-    "titleEn": "Payment & Lifetime Membership",
+    "titleEn": "Payment & 1-Year Membership",
     "icon": "💳",
     "items": [
       {
         "q": "سعر الاشتراك كام؟",
         "qEn": "What is the membership price?",
-        "a": "349 جنيه فقط (بدل 1,200 جنيه)، دفعة واحدة، بتفتحلك كل الـ 100 مسار مدى الحياة — مش اشتراك شهري ومفيش أي تجديد تلقائي.",
-        "aEn": "Only 349 EGP (discounted from 1,200 EGP) as a single one-time payment. It grants lifetime access to all 100 tracks with zero recurring fees."
+        "a": "349 جنيه فقط (بدل 1,200 جنيه)، دفعة واحدة، بتفتحلك كل الـ 100 مسار لمدة سنة — مش اشتراك شهري ومفيش أي تجديد تلقائي.",
+        "aEn": "Only 349 EGP (discounted from 1,200 EGP) as a single one-time payment. It grants 1-year access to all 100 tracks with zero recurring fees."
       },
       {
         "q": "الدفع بيتم إزاي؟",
@@ -272,8 +272,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "الاشتراك ده شهري؟",
         "qEn": "Is this a monthly subscription?",
-        "a": "لأ. دفعة واحدة 349 جنيه فقط، ووصول مدى الحياة لكل الـ 100 مسار مع كل تحديثاتها وإضافاتها المستقبلية.",
-        "aEn": "No. A single one-time payment of 349 EGP unlocks lifetime access to all 100 tracks with all future updates included."
+        "a": "لأ. دفعة واحدة 349 جنيه فقط، ووصول لمدة سنة لكل الـ 100 مسار مع كل تحديثاتها وإضافاتها المستقبلية.",
+        "aEn": "No. A single one-time payment of 349 EGP unlocks 1-year access to all 100 tracks with all future updates included."
       },
       {
         "q": "أقدر أدفع بفيزا؟",
@@ -289,9 +289,9 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         "q": "السعر هيفضل 349 ولا هيتغيّر؟",
-        "qEn": "Will the price remain 349 EGP forever?",
-        "a": "السعر الحالي (349 جنيه) هو عرض فوج التأسيس الأول (أول 500 مشترك) بدل السعر الأصلي 1,200 جنيه. اللي مضمون: لو اشتركت دلوقتي، وصولك مدى الحياة بنفس السعر اللي دفعته مهما زاد السعر بعد كده.",
-        "aEn": "349 EGP is an early founder tier for the first 500 members. Once you enroll, your lifetime access is locked in regardless of future price increases."
+        "qEn": "Will the price remain 349 EGP for a full year?",
+        "a": "السعر الحالي (349 جنيه) هو عرض فوج التأسيس الأول (أول 500 مشترك) بدل السعر الأصلي 1,200 جنيه. اللي مضمون: لو اشتركت دلوقتي، وصولك لمدة سنة بنفس السعر اللي دفعته مهما زاد السعر بعد كده.",
+        "aEn": "349 EGP is an early founder tier for the first 500 members. Once you enroll, your 1-year access is locked in regardless of future price increases."
       },
       {
         "q": "فيه استرجاع للفلوس؟",
@@ -812,8 +812,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "خايف أدفع وما كمّلش",
         "qEn": "I'm worried about paying and then stopping",
-        "a": "ده قلق منطقي. عشان كده اليوم الأول من كل مسار مجاني — تقدر تجرّب أي درس من الـ 100 مسار الأول. ولإنه وصول مدى الحياة مفيش عداد بيجري عليك: تقدر تاخد وقتك وترجع تكمّل براحتك.",
-        "aEn": "Try Day 1 of any course for free first. With lifetime access, there is no ticking clock — you learn at your own pace."
+        "a": "ده قلق منطقي. عشان كده اليوم الأول من كل مسار مجاني — تقدر تجرّب أي درس من الـ 100 مسار الأول. ولإنه وصول لمدة سنة مفيش عداد بيجري عليك: تقدر تاخد وقتك وترجع تكمّل براحتك.",
+        "aEn": "Try Day 1 of any course for free first. With 1-year access, there is no ticking clock — you learn at your own pace."
       },
       {
         "q": "إزاي أحافظ على العادة بعد الـ28 يوم؟",

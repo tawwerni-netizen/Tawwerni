@@ -140,7 +140,7 @@ export default function VerticalLandingPage({
         <div className="mx-auto mb-14 max-w-md">
           <div className="rounded-3xl border border-teal-500/20 bg-gradient-to-br from-white to-teal-50/20 dark:from-neutral-900 dark:to-neutral-900 p-6 text-center shadow-lg">
             <p className="mb-1 text-xs font-bold tracking-wide text-teal-700 dark:text-teal-400">
-              {isEn ? "All-Inclusive Lifetime Access" : "اشتراك واحد شامل"}
+              {isEn ? "All-Inclusive 1-Year Access" : "اشتراك واحد شامل"}
             </p>
             <div className="mb-2 flex items-baseline justify-center gap-2">
               <span className="text-5xl font-black font-mono text-neutral-900 dark:text-white" dir="ltr">{pricing.priceEgp}</span>

@@ -259,7 +259,7 @@ export const quizInterstitials: Record<
   12: {
     icon: "🎓",
     heading: "نافذة الفرص مفتوحة الآن — لكنها لن تنتظر طويلًا",
-    headingEn: "The window of opportunity is open — but won't wait forever",
+    headingEn: "The window of opportunity is open — but won't wait for a full year",
     body: "«الذكاء الاصطناعي لن يستبدل الإنسان.. ولكن الإنسان الذي يتقن الذكاء الاصطناعي سيستبدل من لا يتقنه». المنصة مصممة خصيصًا لتمنحك هذه الأسبقية في أقل من 15 دقيقة يوميًا.",
     bodyEn: "\"AI won't replace humans, but humans using AI will replace those who don't.\" Tawwerni is engineered to give you that undeniable unfair advantage in just 15 minutes a day.",
     cta: "أكمل التقييم ←",

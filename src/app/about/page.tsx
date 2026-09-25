@@ -61,7 +61,7 @@ export default function AboutPage() {
           </li>
           <li>
             {isEn
-              ? "Zero fake countdowns or false urgency — lifetime membership is transparent and fixed."
+              ? "Zero fake countdowns or false urgency — 1-year membership is transparent and fixed."
               : "مفيش عد تنازلي وهمي أو خداع — السعر معلن وواضح وثابت."}
           </li>
           <li>

@@ -142,8 +142,8 @@ export default function LandingPageView() {
             <span>🔥</span>
             <span>
               {isEn
-                ? `Founding Cohort Offer: Only ${pricing.priceEgp} EGP (was ${pricing.originalPriceEgp} EGP) · 71% OFF · Lifetime Access · Day 1 Free`
-                : `عرض فوج التأسيس الأول: ${pricing.priceEgp} ج.م فقط (بدل ${pricing.originalPriceEgp} ج.م) · خصم 71% · وصول مدى الحياة · اليوم الأول مجاني`}
+                ? `Founding Cohort Offer: Only ${pricing.priceEgp} EGP (was ${pricing.originalPriceEgp} EGP) · 71% OFF · 1-Year Access · Day 1 Free`
+                : `عرض فوج التأسيس الأول: ${pricing.priceEgp} ج.م فقط (بدل ${pricing.originalPriceEgp} ج.م) · خصم 71% · وصول لمدة سنة · اليوم الأول مجاني`}
             </span>
           </div>
 
@@ -401,12 +401,12 @@ export default function LandingPageView() {
           </span>
           <h2 className="text-2xl font-black md:text-3xl mb-2 text-neutral-900 dark:text-white">
             {isEn
-              ? `Only ${pricing.priceEgp} EGP. One-Time Payment for Lifetime Access.`
-              : `٣٤٩ جنيه فقط. دفعة واحدة مدى الحياة.`}
+              ? `Only ${pricing.priceEgp} EGP. One-Time Payment for 1-Year Access.`
+              : `٣٤٩ جنيه فقط. دفعة واحدة لمدة سنة.`}
           </h2>
           <p className="mx-auto mb-7 max-w-md text-xs sm:text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
             {isEn
-              ? "Not a recurring monthly subscription. Pay once and unlock all 100 tracks plus future updates forever."
+              ? "Not a recurring monthly subscription. Pay once and unlock all 100 tracks plus future updates for a full year."
               : "مش اشتراك شهري ولا تجديد دوري. تدفع مرة واحدة وتفتح لك كل الـ ١٠٠ مسار وكل التحديثات القادمة مجانًا للأبد."}
           </p>
 
@@ -445,11 +445,11 @@ export default function LandingPageView() {
             </div>
 
             <h3 className="text-xl sm:text-2xl font-black text-neutral-900 dark:text-white mb-1">
-              {isEn ? "Lifetime All-Access Pass to 100 Tracks" : "عضوية الوصول الشامل مدى الحياة لـ 100 مسار"}
+              {isEn ? "1-Year All-Access Pass to 100 Tracks" : "عضوية الوصول الشامل لمدة سنة لـ 100 مسار"}
             </h3>
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-6">
               {isEn
-                ? "One-time investment · Zero recurring subscriptions · Future tracks included forever"
+                ? "One-time investment · Zero recurring subscriptions · Future tracks included for a full year"
                 : "دفعة واحدة فقط · بدون أي اشتراكات دورية أو تجديد شهري · كل التحديثات القادمة مجانًا للأبد"}
             </p>
 

@@ -492,7 +492,7 @@ export const cybersecurityCourse: CourseDefinition = {
           isCheckpoint: true,
           cards: [
             {
-              heading: "المهارة دي بتحميك مدى الحياة",
+              heading: "المهارة دي بتحميك لمدة سنة",
               lines: [
                 "التعرف على علامات النصب مش معلومة تتعلمها وتنساها — دي مهارة بتستخدمها كل مرة توصلك رسالة أو مكالمة مشبوهة.",
               ],

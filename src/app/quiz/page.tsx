@@ -416,7 +416,7 @@ export default function QuizPage() {
             <div className="flex justify-center gap-3 text-xs text-neutral-500 dark:text-neutral-400 mb-6">
               <span>📅 {isEn ? "28-Day Pace" : "مسار ٢٨ يوم"}</span>
               <span>🎯 {isEn ? "Tailored Track" : "خطة موجهة"}</span>
-              <span>🏆 {isEn ? "Lifetime Access" : "وصول حصري"}</span>
+              <span>🏆 {isEn ? "1-Year Access" : "وصول حصري"}</span>
             </div>
             <form
               onSubmit={(e) => {
@@ -681,8 +681,8 @@ export default function QuizPage() {
             </h2>
             <p className="text-xs text-neutral-500 dark:text-neutral-400 text-center mb-5">
               {isEn
-                ? "One-time payment for lifetime access — no monthly subscription"
-                : "دفعة واحدة فقط مدى الحياة — بدون أي اشتراكات شهرية متكررة"}
+                ? "One-time payment for 1-year access — no monthly subscription"
+                : "دفعة واحدة فقط لمدة سنة — بدون أي اشتراكات شهرية متكررة"}
             </p>
 
             <div className="space-y-2.5 mb-6">
@@ -797,8 +797,8 @@ export default function QuizPage() {
 
               <p className="text-xs font-bold text-emerald-700 dark:text-emerald-300 mt-1 mb-4">
                 {isEn
-                  ? `One-time payment · Lifetime access to all 100 tracks · ${totalLessons}+ lessons · All future updates included`
-                  : `دفعة واحدة فقط مدى الحياة · كل الـ ١٠٠ مسار · أكثر من ${totalLessons}+ درس · كل التحديثات المستقبلية مجانًا`}
+                  ? `One-time payment · 1-Year access to all 100 tracks · ${totalLessons}+ lessons · All future updates included`
+                  : `دفعة واحدة فقط لمدة سنة · كل الـ ١٠٠ مسار · أكثر من ${totalLessons}+ درس · كل التحديثات المستقبلية مجانًا`}
               </p>
 
               {/* Scarcity Bar */}
@@ -973,7 +973,7 @@ export default function QuizPage() {
               <li className="flex items-center gap-2">
                 <span className="text-emerald-500 font-bold">✓</span>
                 <span>
-                  <b>{isEn ? "Lifetime Access" : "وصول مدى الحياة"}</b> —{" "}
+                  <b>{isEn ? "1-Year Access" : "وصول لمدة سنة"}</b> —{" "}
                   {isEn
                     ? `One-time ${pricing.priceEgp} EGP without recurring fees`
                     : `دفعة واحدة ${pricing.priceEgp} ج.م بدون أي اشتراك شهري`}

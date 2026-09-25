@@ -79,7 +79,7 @@ Day 1 of every single track is 100% free — try it without spending a dime.`
 
       <p className="text-[11px] text-neutral-400 dark:text-neutral-500 leading-relaxed">
         {isEn
-          ? `Your referral earnings link directly to your account. Friends get full free preview, and lifetime membership is just ${pricing.priceEgp} EGP.`
+          ? `Your referral earnings link directly to your account. Friends get full free preview, and 1-year membership is just ${pricing.priceEgp} EGP.`
           : `العمولة تُحسب عبر رابطك المخصص الذي يتولد فور التسجيل. المشاركة تمنح صديقك التجربة المجانية، والاشتراك الكامل ${pricing.priceEgp} ج.م لمرة واحدة فقط.`}
       </p>
     </div>

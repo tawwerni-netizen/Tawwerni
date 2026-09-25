@@ -238,7 +238,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
         <div className="mb-4 overflow-hidden rounded-3xl border border-teal-500/20 bg-gradient-to-br from-teal-800 via-teal-900 to-neutral-950 p-5 text-white shadow-lg relative">
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-xs font-bold text-teal-200">
-              {isEn ? "Founding Cohort · Lifetime Access" : pricing.offerNote}
+              {isEn ? "Founding Cohort · 1-Year Access" : pricing.offerNote}
             </span>
             <span className="rounded-full bg-amber-400 px-2.5 py-0.5 text-[10px] font-black text-neutral-950 shadow-xs">
               {isEn ? "71% OFF" : "خصم 71%"}
@@ -253,7 +253,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
               {pricing.originalPriceEgp} {isEn ? "EGP" : "ج.م"}
             </span>
             <span className={`mb-1 ${isEn ? "ml-auto" : "mr-auto"} rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-bold backdrop-blur-sm`}>
-              {isEn ? "100 Tracks · Lifetime" : "١٠٠ مسار · مدى الحياة"}
+              {isEn ? "100 Tracks · 1-Year" : "١٠٠ مسار · لمدة سنة"}
             </span>
           </div>
           <p className="mt-2 text-xs text-white/80 flex items-center gap-1.5">
@@ -320,7 +320,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
             <p className="mb-3 rounded-xl bg-teal-500/10 px-3 py-2 text-xs leading-relaxed text-teal-800 dark:text-teal-300">
               {isEn
                 ? "✓ Your membership unlocks ALL 100 tracks for life — this simply sets your customized starting point."
-                : "✓ اشتراكك يفتح كل الـ ١٠٠ مسار مدى الحياة — هذا فقط لتحديد نقطة انطلاقك الأولى."}
+                : "✓ اشتراكك يفتح كل الـ ١٠٠ مسار لمدة سنة — هذا فقط لتحديد نقطة انطلاقك الأولى."}
             </p>
             <div className="space-y-2">
               {courses.slice(0, 5).map((c) => (

@@ -148,7 +148,7 @@ export default async function ArticlePage({
               {article.relatedCourse.icon} جرّب اليوم الأول مجانًا ←
             </Link>
             <p className="mt-3 text-xs text-white/70">
-              {pricing.priceEgp} جنيه دفعة واحدة لكل المسارات · وصول مدى الحياة
+              {pricing.priceEgp} جنيه دفعة واحدة لكل المسارات · وصول لمدة سنة
             </p>
           </div>
         )}

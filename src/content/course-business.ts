@@ -1482,7 +1482,7 @@ export const businessCourse: CourseDefinition = {
               type: "mcq",
               question: "CAC معناه إيه؟",
               options: [
-                "قيمة العميل مدى الحياة",
+                "قيمة العميل لمدة سنة",
                 "تكلفة الحصول على العميل",
                 "متوسط قيمة الطلب",
                 "تكلفة المنتج",

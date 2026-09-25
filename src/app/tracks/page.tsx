@@ -62,14 +62,14 @@ export default function TracksPage() {
               <>
                 All Future Skills, <br className="hidden sm:inline" />
                 <span className="bg-gradient-to-r from-teal-600 to-emerald-500 bg-clip-text text-transparent">
-                  In One Lifetime Membership
+                  In One 1-Year Membership
                 </span>
               </>
             ) : (
               <>
                 كل مهارات المستقبل، <br className="hidden sm:inline" />
                 <span className="bg-gradient-to-r from-teal-600 to-emerald-500 bg-clip-text text-transparent">
-                  في اشتراك واحد مدى الحياة
+                  في اشتراك واحد لمدة سنة
                 </span>
               </>
             )}

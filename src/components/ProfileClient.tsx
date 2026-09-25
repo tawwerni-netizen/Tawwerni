@@ -28,7 +28,7 @@ const FOCUS_OPTIONS = [
 ];
 
 function formatPaymentMethod(rawMethod: string | undefined, isEn: boolean) {
-  if (!rawMethod) return isEn ? "Lifetime Access" : "وصول مدى الحياة";
+  if (!rawMethod) return isEn ? "1-Year Access" : "وصول لمدة سنة";
   const m = rawMethod.toLowerCase();
   if (m.includes("vodafone") || m.includes("فودافون") || m.includes("cash") || m.includes("كاش")) {
     return isEn ? "Vodafone Cash" : "فودافون كاش";
@@ -145,7 +145,7 @@ export default function ProfileClient(props: Props) {
             <div className="flex items-center gap-2">
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
               <p className="text-base font-extrabold text-neutral-900 dark:text-neutral-100">
-                {isEn ? `${brand.nameEn} Pro · Lifetime Access` : `${brand.name} برو · وصول دائم مدى الحياة`}
+                {isEn ? `${brand.nameEn} Pro · 1-Year Access` : `${brand.name} برو · وصول لمدة سنة`}
               </p>
             </div>
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
@@ -159,7 +159,7 @@ export default function ProfileClient(props: Props) {
                 {isEn ? "Free Preview Mode" : "عضوية مجانية (يوم 1 مفتوح)"}
               </p>
               <p className="text-xs text-neutral-400 mt-0.5">
-                {isEn ? "Upgrade to unlock all 100 tracks permanently" : "اشترك لفتح جميع الـ 100 مسار مدى الحياة"}
+                {isEn ? "Upgrade to unlock all 100 tracks permanently" : "اشترك لفتح جميع الـ 100 مسار لمدة سنة"}
               </p>
             </div>
           </div>

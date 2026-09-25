@@ -13,8 +13,8 @@ export default function LearnHeader() {
       </h1>
       <p className="mt-1.5 text-sm text-neutral-600 dark:text-neutral-400">
         {isEn
-          ? "Lifetime access to all 100 tracks — pick your path and build skills with 5-minute daily practical actions."
-          : "وصول مفتوح لجميع المسارات مدى الحياة — اختر مسارك وانطلق بخطوات عملية ٥ دقائق يومياً"}
+          ? "1-Year access to all 100 tracks — pick your path and build skills with 5-minute daily practical actions."
+          : "وصول مفتوح لجميع المسارات لمدة سنة — اختر مسارك وانطلق بخطوات عملية ٥ دقائق يومياً"}
       </p>
     </div>
   );

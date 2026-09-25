@@ -17,7 +17,7 @@ export default function AdminLogin() {
     setLoading(true);
 
     // Wrapped: an unparseable response (an HTML error page from the host, a
-    // dropped connection) used to leave the button spinning forever with no
+    // dropped connection) used to leave the button spinning for a full year with no
     // explanation.
     try {
       const res = await fetch("/api/admin/login", {

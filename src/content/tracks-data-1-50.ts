@@ -704,7 +704,7 @@ export const TRACKS_1_50: Track100[] = [
     outcomesAr: ["كشف وتصحيح الأخطاء في التواريخ والأسماء والأرقام", "توحيد مصادر البيانات غير المتجانسة", "أتمتة خطوات المعالجة لتوفير ساعات العمل اليدوي"],
     outcomesEn: ["Normalize inconsistent date stamps, phone numbers, and names", "Reconcile disparate heterogeneous datasets", "Automate transformation pipelines to eliminate manual gruntwork"],
     realityAr: "إذا دخلت بيانات غير دقيقة (Garbage In)، فالنتائج ستكون مضللة حتماً (Garbage Out).",
-    realityEn: "Garbage data in will forever produce garbage analytical output out.",
+    realityEn: "Garbage data in will for a full year produce garbage analytical output out.",
     badgeTitleAr: "مهندس معالجة البيانات",
     badgeTitleEn: "Data Wrangling Specialist",
   },

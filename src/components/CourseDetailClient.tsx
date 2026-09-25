@@ -171,12 +171,12 @@ export default function CourseDetailClient({
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <p className="text-base font-bold mb-1">
-                    🔓 {isEn ? "Unlock All 100 Tracks (Lifetime Access)" : "افتح جميع الـ 100 مسار مدى الحياة"}
+                    🔓 {isEn ? "Unlock All 100 Tracks (1-Year Access)" : "افتح جميع الـ 100 مسار لمدة سنة"}
                   </p>
                   <p className="text-xs text-white/90 max-w-xl leading-relaxed">
                     {isEn
-                      ? `Day 1 is 100% free. A single one-time payment of ${pricing.priceEgp} EGP unlocks all ${allLessons.length} days in this track, plus ALL other 99 professional tracks forever.`
-                      : `اليوم الأول مجاني. اشتراك واحد بقيمة ${pricing.priceEgp} ج.م يفتحلك باقي الـ ${allLessons.length - 1} يوم هنا وجميع الـ 100 مسار التانية بالكامل مدى الحياة.`}
+                      ? `Day 1 is 100% free. A single one-time payment of ${pricing.priceEgp} EGP unlocks all ${allLessons.length} days in this track, plus ALL other 99 professional tracks for a full year.`
+                      : `اليوم الأول مجاني. اشتراك واحد بقيمة ${pricing.priceEgp} ج.م يفتحلك باقي الـ ${allLessons.length - 1} يوم هنا وجميع الـ 100 مسار التانية بالكامل لمدة سنة.`}
                   </p>
                 </div>
                 <Link

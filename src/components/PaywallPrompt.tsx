@@ -71,7 +71,7 @@ export default function PaywallPrompt({
         ["📚", "100 Complete Pro Tracks"],
         ["🎯", "Daily Practical Task"],
         ["🏅", "Badges & Certificates"],
-        ["♾️", "Free Lifetime Updates"],
+        ["♾️", "Free 1-Year Updates"],
       ]
     : [
         ["📚", "١٠٠ مسار احترافي كامل"],
@@ -122,8 +122,8 @@ export default function PaywallPrompt({
         </Link>
         <p className="text-xs text-white/70">
           {isEn
-            ? "One-time payment · Lifetime access · All new tracks included free"
-            : "دفعة واحدة · وصول مدى الحياة · كل مسار جديد مجانًا"}
+            ? "One-time payment · 1-Year access · All new tracks included free"
+            : "دفعة واحدة · وصول لمدة سنة · كل مسار جديد مجانًا"}
         </p>
       </div>
 

@@ -51,8 +51,8 @@ export default function TermsPage() {
         </h2>
         <p className="mb-6">
           {isEn
-            ? `A single one-time payment of ${pricing.priceEgp} EGP unlocks lifetime all-inclusive access to all 100 professional tracks on the platform, including any newly added tracks. No recurring subscriptions, no surprise charges. Day 1 of every track is free for all registered users.`
-            : `دفعة واحدة ${pricing.priceEgp} جنيه بتفتحلك وصول مدى الحياة لكل مسارات المنصة، بما فيها أي مسار جديد ننزّله بعد كده. مش اشتراك شهري، ومفيش تجديد تلقائي ومفيش رسوم خفية. اليوم الأول من كل مسار مفتوح مجانًا لأي حساب قبل ما تدفع.`}
+            ? `A single one-time payment of ${pricing.priceEgp} EGP unlocks 1-year all-inclusive access to all 100 professional tracks on the platform, including any newly added tracks. No recurring subscriptions, no surprise charges. Day 1 of every track is free for all registered users.`
+            : `دفعة واحدة ${pricing.priceEgp} جنيه بتفتحلك وصول لمدة سنة لكل مسارات المنصة، بما فيها أي مسار جديد ننزّله بعد كده. مش اشتراك شهري، ومفيش تجديد تلقائي ومفيش رسوم خفية. اليوم الأول من كل مسار مفتوح مجانًا لأي حساب قبل ما تدفع.`}
         </p>
 
         <h2 className="mb-2 mt-8 text-lg font-bold text-neutral-900 dark:text-white">

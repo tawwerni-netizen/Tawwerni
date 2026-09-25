@@ -195,7 +195,7 @@ export function courseActivatedEmail(opts: {
         </tr>
         <tr>
           <td style="padding:12px 16px;font-size:13px;color:${MUTED};border-top:1px solid rgba(0,0,0,.05);">الوصول</td>
-          <td style="padding:12px 16px;font-size:13px;font-weight:bold;color:${TEAL};text-align:left;border-top:1px solid rgba(0,0,0,.05);">كل المسارات · مدى الحياة</td>
+          <td style="padding:12px 16px;font-size:13px;font-weight:bold;color:${TEAL};text-align:left;border-top:1px solid rgba(0,0,0,.05);">كل المسارات · لمدة سنة</td>
         </tr>
       </table>
 
@@ -213,7 +213,7 @@ export function courseActivatedEmail(opts: {
 كل المسارات مفتوحة دلوقتي على حسابك.
 بدأت بـ: ${opts.courseTitle}
 المبلغ: ${opts.amountEgp} ج.م
-الوصول: كل المسارات · مدى الحياة
+الوصول: كل المسارات · لمدة سنة
 
 ابدأ من هنا: ${url}
 

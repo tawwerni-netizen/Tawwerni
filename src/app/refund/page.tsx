@@ -95,8 +95,8 @@ export default function RefundPage() {
         <div className="mt-8 rounded-2xl bg-neutral-100 dark:bg-neutral-900 p-4 text-xs text-neutral-600 dark:text-neutral-400">
           <p>
             {isEn
-              ? `Tawwerni membership is a one-time payment of ${pricing.priceEgp} EGP granting lifetime access. There are zero recurring monthly debits or unexpected fees.`
-              : `اشتراك طوّرني هو دفعة واحدة بقيمة ${pricing.priceEgp} ج.م لمدى الحياة — لا توجد أي خصومات شهرية متكررة أو رسوم غير معلنة.`}
+              ? `Tawwerni membership is a one-time payment of ${pricing.priceEgp} EGP granting 1-year access. There are zero recurring monthly debits or unexpected fees.`
+              : `اشتراك طوّرني هو دفعة واحدة بقيمة ${pricing.priceEgp} ج.م للمدة سنة — لا توجد أي خصومات شهرية متكررة أو رسوم غير معلنة.`}
           </p>
         </div>
       </main>
