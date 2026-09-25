@@ -145,15 +145,23 @@ export default function TrackCardVisual({ track, onSelect }: Props) {
   return (
     <div
       onClick={handleClick}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900/90 p-4.5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:border-teal-500/50 hover:shadow-2xl dark:hover:shadow-teal-500/15 cursor-pointer text-neutral-900 dark:text-white shadow-xs"
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = `${track.accentFrom}77`;
+        e.currentTarget.style.boxShadow = `0 20px 40px -15px ${track.accentFrom}35`;
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = "";
+        e.currentTarget.style.boxShadow = "";
+      }}
+      className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900/90 p-4.5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 cursor-pointer text-neutral-900 dark:text-white shadow-xs"
     >
-      {/* Dynamic Background Glow */}
+      {/* Dynamic Background Glow - Pulses and intensifies with course color */}
       <div
-        className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full opacity-15 dark:opacity-25 blur-3xl transition-opacity group-hover:opacity-40"
+        className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full opacity-15 dark:opacity-25 blur-3xl transition-all duration-500 group-hover:opacity-50 group-hover:scale-125"
         style={{ background: `radial-gradient(circle, ${track.accentFrom} 0%, transparent 70%)` }}
       />
       <div
-        className="pointer-events-none absolute -bottom-10 -left-10 h-36 w-36 rounded-full opacity-10 dark:opacity-20 blur-2xl transition-opacity group-hover:opacity-30"
+        className="pointer-events-none absolute -bottom-12 -left-12 h-40 w-40 rounded-full opacity-10 dark:opacity-20 blur-2xl transition-all duration-500 group-hover:opacity-40 group-hover:scale-125"
         style={{ background: `radial-gradient(circle, ${track.accentTo} 0%, transparent 70%)` }}
       />
 
@@ -164,14 +172,17 @@ export default function TrackCardVisual({ track, onSelect }: Props) {
             <span>{track.icon}</span>
             <span>{pillar}</span>
           </span>
-          <span className="font-mono text-xs font-bold text-neutral-400 dark:text-neutral-500 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+          <span
+            className="font-mono text-xs font-bold text-neutral-400 dark:text-neutral-500 transition-colors"
+            style={{ color: undefined }}
+          >
             #{String(track.order).padStart(2, "0")}
           </span>
         </div>
 
         {/* Rich Thematic Graphic Visual Banner */}
         <div
-          className="relative my-2.5 flex h-36 w-full items-center justify-center overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 shadow-inner transition-all duration-500 group-hover:border-teal-500/40"
+          className="relative my-2.5 flex h-40 w-full items-center justify-center overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 shadow-inner transition-all duration-500"
           style={{
             background: `linear-gradient(135deg, ${track.accentFrom}dd, ${track.accentTo}ee)`,
           }}
@@ -181,9 +192,17 @@ export default function TrackCardVisual({ track, onSelect }: Props) {
               <img
                 src={artwork.image}
                 alt={lang === "ar" ? artwork.altAr : artwork.altEn}
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+              {/* Subtle ambient color tint matching course accent */}
+              <div
+                className="absolute inset-0 opacity-20 transition-opacity duration-500 group-hover:opacity-35 pointer-events-none"
+                style={{
+                  background: `linear-gradient(to top, ${track.accentFrom}80 0%, transparent 60%)`,
+                }}
+              />
             </div>
           ) : (
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
@@ -192,26 +211,41 @@ export default function TrackCardVisual({ track, onSelect }: Props) {
           )}
 
           {/* Shimmer sweep effect */}
-          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-1000 group-hover:translate-x-full pointer-events-none" />
+          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-full pointer-events-none" />
 
-          {/* Elevated Glassmorphic Center Icon Badge */}
-          <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 dark:bg-black/30 backdrop-blur-md text-3xl shadow-xl border border-white/30 dark:border-white/20 transition-transform duration-300 group-hover:scale-110">
-            {track.icon}
-          </div>
+          {/* Top Floating Badges (Showcases 3D artwork cleanly without center obstruction) */}
+          {artwork ? (
+            <div className="absolute top-2.5 inset-x-2.5 z-10 flex items-center justify-between pointer-events-none">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-black/50 backdrop-blur-md text-base shadow-md border border-white/25 transition-transform duration-300 group-hover:scale-110">
+                {track.icon}
+              </div>
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white border border-white/20 shadow-md">
+                <span
+                  className="h-1.5 w-1.5 rounded-full animate-pulse"
+                  style={{ backgroundColor: track.accentFrom }}
+                />
+                <span>{lang === "ar" ? artwork.badgeAr : artwork.badgeEn}</span>
+              </div>
+            </div>
+          ) : (
+            <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 dark:bg-black/30 backdrop-blur-md text-3xl shadow-xl border border-white/30 dark:border-white/20 transition-transform duration-300 group-hover:scale-110">
+              {track.icon}
+            </div>
+          )}
 
           {/* Level Overlay Chip */}
-          <div className="absolute bottom-2.5 left-2.5 z-10 rounded-full bg-black/40 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white border border-white/15">
+          <div className="absolute bottom-2.5 left-2.5 z-10 rounded-full bg-black/55 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white border border-white/15">
             {level}
           </div>
 
           {/* Lesson Count Overlay */}
-          <div className="absolute bottom-2.5 right-2.5 z-10 rounded-full bg-black/40 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white border border-white/15 font-mono">
+          <div className="absolute bottom-2.5 right-2.5 z-10 rounded-full bg-black/55 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white border border-white/15 font-mono">
             {track.totalLessons} {t.lessonsCount}
           </div>
         </div>
 
         {/* Title & Description */}
-        <h3 className="text-base font-bold leading-snug tracking-tight text-neutral-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors line-clamp-2 mt-2">
+        <h3 className="text-base font-bold leading-snug tracking-tight text-neutral-900 dark:text-white transition-colors line-clamp-2 mt-2">
           {title}
         </h3>
         <p className="mt-1.5 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400 line-clamp-2">
@@ -222,11 +256,14 @@ export default function TrackCardVisual({ track, onSelect }: Props) {
       {/* Footer Info & Badges */}
       <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800/80 flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400">
         <div className="flex items-center gap-1.5 font-medium">
-          <span className="text-teal-600 dark:text-teal-400">✓</span>
+          <span style={{ color: track.accentFrom }}>✓</span>
           <span>{lang === "ar" ? "اليوم الأول مجانًا" : "Day 1 Free"}</span>
         </div>
 
-        <div className="flex items-center gap-1 font-mono font-bold text-teal-600 dark:text-teal-400">
+        <div
+          className="flex items-center gap-1 font-mono font-bold"
+          style={{ color: track.accentFrom }}
+        >
           <span>⚡</span>
           <span>{track.totalXp} XP</span>
         </div>

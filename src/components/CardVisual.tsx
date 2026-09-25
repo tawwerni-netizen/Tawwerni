@@ -2,6 +2,7 @@
 
 import React from "react";
 import { getTrackArtwork } from "@/content/track-artworks";
+import { getTrackBySlug } from "@/content/tracks100";
 import { useI18n } from "./LanguageContext";
 
 /**
@@ -484,6 +485,8 @@ export default function CardVisual({
   const { lang } = useI18n();
   const isEn = lang === "en";
   const artwork = getTrackArtwork(courseSlug);
+  const track = courseSlug ? getTrackBySlug(courseSlug) : undefined;
+  const accentColor = track?.accentFrom || "#10b981";
 
   const v = pickVisual(heading, lines);
 
@@ -496,7 +499,7 @@ export default function CardVisual({
     <div className="mb-4">
       {/* 3D Cinematic AI Concept Art Banner (When Available for Track) */}
       {showHeroArt && (
-        <div className="relative mb-3.5 overflow-hidden rounded-2xl border border-teal-500/30 dark:border-teal-400/40 shadow-xl group">
+        <div className="relative mb-3.5 overflow-hidden rounded-2xl border border-black/10 dark:border-white/15 shadow-xl group">
           <div className="relative aspect-video w-full overflow-hidden bg-neutral-900">
             <img
               src={artwork.image}
@@ -509,15 +512,18 @@ export default function CardVisual({
             {/* Floating badge & tag */}
             <div className="absolute bottom-3 inset-x-3 flex items-end justify-between gap-2">
               <div className="text-white min-w-0 pr-1">
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-black/50 backdrop-blur-md px-3 py-1 text-[11px] font-bold text-teal-300 border border-white/20 mb-1">
-                  <span className="h-2 w-2 rounded-full bg-teal-400 animate-pulse" />
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-[11px] font-bold text-white border border-white/20 mb-1">
+                  <span
+                    className="h-2 w-2 rounded-full animate-pulse"
+                    style={{ backgroundColor: accentColor }}
+                  />
                   <span>✨ {isEn ? artwork.badgeEn : artwork.badgeAr}</span>
                 </div>
                 <p className="text-xs md:text-sm font-bold text-white drop-shadow-md truncate">
                   {isEn ? artwork.altEn : artwork.altAr}
                 </p>
               </div>
-              <span className="shrink-0 text-[10px] font-mono font-bold bg-teal-500/30 text-teal-200 border border-teal-400/50 px-2.5 py-1 rounded-full backdrop-blur-md">
+              <span className="shrink-0 text-[10px] font-mono font-bold bg-white/15 backdrop-blur-md text-white/90 border border-white/20 px-2.5 py-1 rounded-full shadow-md">
                 3D Concept Art
               </span>
             </div>

@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { ALL_100_TRACKS, TRACK_PILLARS, Track100 } from "@/content/tracks100";
 import TrackCardVisual from "@/components/TrackCardVisual";
+import { getTrackArtwork } from "@/content/track-artworks";
 import { useI18n } from "@/components/LanguageContext";
 
 export default function TrackExplorer() {
@@ -170,21 +171,47 @@ export default function TrackExplorer() {
       )}
 
       {/* Detailed Track Modal */}
-      {activeModalTrack && (
+      {activeModalTrack && (() => {
+        const activeArtwork = getTrackArtwork(activeModalTrack.slug);
+        return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in">
           <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl border border-black/10 dark:border-teal-500/20 bg-white dark:bg-neutral-950 p-6 text-neutral-900 dark:text-white shadow-2xl transition-colors">
             {/* Close button */}
             <button
               onClick={() => setActiveModalTrack(null)}
-              className="absolute top-5 left-5 rounded-full w-8 h-8 flex items-center justify-center text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 transition-colors"
+              className="absolute top-5 left-5 z-20 rounded-full w-8 h-8 flex items-center justify-center text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-md transition-colors"
             >
               ✕
             </button>
 
+            {/* 3D Concept Artwork Showcase Banner */}
+            {activeArtwork && (
+              <div className="relative mb-5 overflow-hidden rounded-2xl border border-black/10 dark:border-white/15 shadow-xl aspect-video w-full bg-neutral-900 group">
+                <img
+                  src={activeArtwork.image}
+                  alt={lang === "ar" ? activeArtwork.altAr : activeArtwork.altEn}
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                <div className="absolute bottom-3 inset-x-3 flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-black/65 backdrop-blur-md px-3 py-1 text-xs font-bold text-white border border-white/20">
+                    <span
+                      className="h-2 w-2 rounded-full animate-pulse"
+                      style={{ backgroundColor: activeModalTrack.accentFrom }}
+                    />
+                    <span>✨ {lang === "ar" ? activeArtwork.badgeAr : activeArtwork.badgeEn}</span>
+                  </span>
+                  <span className="text-[10px] font-mono font-bold bg-white/20 text-white px-2.5 py-1 rounded-full backdrop-blur-md border border-white/15">
+                    3D Concept Art
+                  </span>
+                </div>
+              </div>
+            )}
+
             {/* Header with artwork */}
             <div className="flex items-center gap-3 mb-4">
               <div
-                className="flex h-16 w-16 items-center justify-center rounded-2xl text-3xl shadow-lg"
+                className="flex h-14 w-14 items-center justify-center rounded-2xl text-2xl shadow-lg shrink-0"
                 style={{
                   background: `linear-gradient(135deg, ${activeModalTrack.accentFrom}, ${activeModalTrack.accentTo})`,
                 }}
@@ -263,7 +290,8 @@ export default function TrackExplorer() {
             </div>
           </div>
         </div>
-      )}
+        );
+      })()}
     </div>
   );
 }

@@ -1,0 +1,402 @@
+[
+  {
+    "id": 1,
+    "slug": "prompt-engineering-mastery"
+  },
+  {
+    "id": 2,
+    "slug": "autonomous-ai-agents"
+  },
+  {
+    "id": 3,
+    "slug": "ai-media-midjourney"
+  },
+  {
+    "id": 4,
+    "slug": "ai-video-creation"
+  },
+  {
+    "id": 5,
+    "slug": "ai-workplace-productivity"
+  },
+  {
+    "id": 6,
+    "slug": "no-code-ai-apps"
+  },
+  {
+    "id": 7,
+    "slug": "local-llms-open-source"
+  },
+  {
+    "id": 8,
+    "slug": "ai-chatbots-business"
+  },
+  {
+    "id": 9,
+    "slug": "ai-copywriting-scripts"
+  },
+  {
+    "id": 10,
+    "slug": "ai-ethics-governance"
+  },
+  {
+    "id": 11,
+    "slug": "modern-coding-fundamentals"
+  },
+  {
+    "id": 12,
+    "slug": "frontend-react-nextjs"
+  },
+  {
+    "id": 13,
+    "slug": "backend-nodejs-prisma"
+  },
+  {
+    "id": 14,
+    "slug": "python-automation-scripting"
+  },
+  {
+    "id": 15,
+    "slug": "mobile-apps-flutter"
+  },
+  {
+    "id": 16,
+    "slug": "api-architecture-design"
+  },
+  {
+    "id": 17,
+    "slug": "cloud-devops-docker"
+  },
+  {
+    "id": 18,
+    "slug": "secure-web-development"
+  },
+  {
+    "id": 19,
+    "slug": "nocode-web-framer"
+  },
+  {
+    "id": 20,
+    "slug": "custom-ecommerce-dev"
+  },
+  {
+    "id": 21,
+    "slug": "advanced-excel-powerquery"
+  },
+  {
+    "id": 22,
+    "slug": "sql-data-analytics"
+  },
+  {
+    "id": 23,
+    "slug": "powerbi-tableau-visualization"
+  },
+  {
+    "id": 24,
+    "slug": "python-data-science"
+  },
+  {
+    "id": 25,
+    "slug": "applied-business-statistics"
+  },
+  {
+    "id": 26,
+    "slug": "predictive-analytics-forecasting"
+  },
+  {
+    "id": 27,
+    "slug": "data-wrangling-pipelines"
+  },
+  {
+    "id": 28,
+    "slug": "kpi-dashboards-finance"
+  },
+  {
+    "id": 29,
+    "slug": "automated-reporting-analytics"
+  },
+  {
+    "id": 30,
+    "slug": "data-driven-decision-making"
+  },
+  {
+    "id": 31,
+    "slug": "zero-to-first-dollar-freelancer"
+  },
+  {
+    "id": 32,
+    "slug": "upwork-fiverr-global-mastery"
+  },
+  {
+    "id": 33,
+    "slug": "winning-proposals-cold-emailing"
+  },
+  {
+    "id": 34,
+    "slug": "high-ticket-pricing-packaging"
+  },
+  {
+    "id": 35,
+    "slug": "client-management-retention"
+  },
+  {
+    "id": 36,
+    "slug": "portfolio-building-case-studies"
+  },
+  {
+    "id": 37,
+    "slug": "freelancer-finances-cashflow"
+  },
+  {
+    "id": 38,
+    "slug": "freelancer-to-agency-scaling"
+  },
+  {
+    "id": 39,
+    "slug": "global-invoicing-international-clients"
+  },
+  {
+    "id": 40,
+    "slug": "freelance-burnout-prevention"
+  },
+  {
+    "id": 41,
+    "slug": "integrated-digital-marketing-strategy"
+  },
+  {
+    "id": 42,
+    "slug": "meta-ads-mastery"
+  },
+  {
+    "id": 43,
+    "slug": "google-ads-performance-max"
+  },
+  {
+    "id": 44,
+    "slug": "tiktok-ads-viral-marketing"
+  },
+  {
+    "id": 45,
+    "slug": "modern-seo-semantic-search"
+  },
+  {
+    "id": 46,
+    "slug": "high-converting-copywriting"
+  },
+  {
+    "id": 47,
+    "slug": "sales-funnels-cro"
+  },
+  {
+    "id": 48,
+    "slug": "email-marketing-automation"
+  },
+  {
+    "id": 49,
+    "slug": "inbound-organic-content"
+  },
+  {
+    "id": 50,
+    "slug": "personal-branding-linkedin-x"
+  },
+  {
+    "id": 51,
+    "slug": "ui-ux-design-figma"
+  },
+  {
+    "id": 52,
+    "slug": "user-research-wireframing"
+  },
+  {
+    "id": 53,
+    "slug": "scalable-design-systems"
+  },
+  {
+    "id": 54,
+    "slug": "brand-identity-visual-storytelling"
+  },
+  {
+    "id": 55,
+    "slug": "short-form-video-editing"
+  },
+  {
+    "id": 56,
+    "slug": "motion-graphics-after-effects"
+  },
+  {
+    "id": 57,
+    "slug": "3d-design-blender-basics"
+  },
+  {
+    "id": 58,
+    "slug": "thumbnail-ad-creative-design"
+  },
+  {
+    "id": 59,
+    "slug": "audio-podcasting-sound-design"
+  },
+  {
+    "id": 60,
+    "slug": "creative-direction-pitching"
+  },
+  {
+    "id": 61,
+    "slug": "idea-validation-product-market-fit"
+  },
+  {
+    "id": 62,
+    "slug": "business-model-canvas-monetization"
+  },
+  {
+    "id": 63,
+    "slug": "building-launching-mvp"
+  },
+  {
+    "id": 64,
+    "slug": "zero-budget-traction-growth"
+  },
+  {
+    "id": 65,
+    "slug": "b2b-sales-pipeline-crm"
+  },
+  {
+    "id": 66,
+    "slug": "pitch-decks-fundraising-basics"
+  },
+  {
+    "id": 67,
+    "slug": "unit-economics-startup-finance"
+  },
+  {
+    "id": 68,
+    "slug": "remote-team-hiring-leadership"
+  },
+  {
+    "id": 69,
+    "slug": "ecommerce-store-supply-chain"
+  },
+  {
+    "id": 70,
+    "slug": "crisis-management-business-resilience"
+  },
+  {
+    "id": 71,
+    "slug": "personal-cyber-hygiene-opsec"
+  },
+  {
+    "id": 72,
+    "slug": "computer-networking-fundamentals"
+  },
+  {
+    "id": 73,
+    "slug": "ethical-hacking-penetration-testing"
+  },
+  {
+    "id": 74,
+    "slug": "cloud-security-essentials"
+  },
+  {
+    "id": 75,
+    "slug": "threat-detection-incident-response"
+  },
+  {
+    "id": 76,
+    "slug": "endpoint-enterprise-security"
+  },
+  {
+    "id": 77,
+    "slug": "social-engineering-antiphishing"
+  },
+  {
+    "id": 78,
+    "slug": "data-privacy-gdpr-compliance"
+  },
+  {
+    "id": 79,
+    "slug": "identity-access-management-iam"
+  },
+  {
+    "id": 80,
+    "slug": "applied-cryptography-secure-comms"
+  },
+  {
+    "id": 81,
+    "slug": "art-of-persuasion-influence"
+  },
+  {
+    "id": 82,
+    "slug": "public-speaking-presentations"
+  },
+  {
+    "id": 83,
+    "slug": "emotional-intelligence-workplace"
+  },
+  {
+    "id": 84,
+    "slug": "high-stakes-salary-negotiation"
+  },
+  {
+    "id": 85,
+    "slug": "critical-thinking-structured-problem-solving"
+  },
+  {
+    "id": 86,
+    "slug": "assertive-communication-conflict-resolution"
+  },
+  {
+    "id": 87,
+    "slug": "business-storytelling-leaders"
+  },
+  {
+    "id": 88,
+    "slug": "career-transitions-adaptability"
+  },
+  {
+    "id": 89,
+    "slug": "mentorship-coaching-culture"
+  },
+  {
+    "id": 90,
+    "slug": "strategic-networking-relationships"
+  },
+  {
+    "id": 91,
+    "slug": "atomic-habits-relentless-focus"
+  },
+  {
+    "id": 92,
+    "slug": "deep-work-flow-state-mastery"
+  },
+  {
+    "id": 93,
+    "slug": "time-blocking-prioritization-eisenhower"
+  },
+  {
+    "id": 94,
+    "slug": "curing-procrastination-biases"
+  },
+  {
+    "id": 95,
+    "slug": "energy-management-sleep-architecture"
+  },
+  {
+    "id": 96,
+    "slug": "overcoming-imposter-syndrome"
+  },
+  {
+    "id": 97,
+    "slug": "digital-minimalism-attention-protection"
+  },
+  {
+    "id": 98,
+    "slug": "growth-mindset-psychological-grit"
+  },
+  {
+    "id": 99,
+    "slug": "decision-making-under-stress"
+  },
+  {
+    "id": 100,
+    "slug": "life-architecture-sustainable-harmony"
+  }
+]

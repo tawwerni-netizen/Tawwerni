@@ -190,6 +190,37 @@ export default function CourseDetailClient({
           )
         )}
 
+        {/* 3D Concept Artwork Spotlight Banner */}
+        {artwork && (
+          <div className="relative mb-6 overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 shadow-xl group">
+            <div className="relative aspect-video sm:aspect-[21/9] w-full overflow-hidden bg-neutral-900">
+              <img
+                src={artwork.image}
+                alt={isEn ? artwork.altEn : artwork.altAr}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+              <div className="absolute bottom-4 inset-x-4 sm:inset-x-6 flex items-end justify-between gap-3">
+                <div className="min-w-0 pr-1">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-xs font-bold text-white border border-white/20 mb-1.5">
+                    <span
+                      className="h-2 w-2 rounded-full animate-pulse"
+                      style={{ backgroundColor: course.accentFrom || "#10b981" }}
+                    />
+                    <span>✨ {isEn ? artwork.badgeEn : artwork.badgeAr}</span>
+                  </span>
+                  <p className="text-sm sm:text-base font-bold text-white drop-shadow-md truncate">
+                    {isEn ? artwork.altEn : artwork.altAr}
+                  </p>
+                </div>
+                <span className="shrink-0 text-[10px] font-mono font-bold bg-white/15 backdrop-blur-md text-white/90 border border-white/20 px-3 py-1 rounded-full shadow-md">
+                  3D Concept Art
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Highlights Grid */}
         <div className="rounded-3xl bg-white dark:bg-neutral-900 border border-black/10 dark:border-neutral-800 p-5 mb-6 shadow-xs">
           <p className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
