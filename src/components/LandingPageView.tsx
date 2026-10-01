@@ -13,6 +13,7 @@ import LanguageToggle from "@/components/LanguageToggle";
 import ThemeToggle from "@/components/ThemeToggle";
 import TrackCardVisual from "@/components/TrackCardVisual";
 import FocusPlayer from "@/components/FocusPlayer";
+import InteractiveDopaminePreview from "@/components/InteractiveDopaminePreview";
 import { useI18n } from "./LanguageContext";
 
 export default function LandingPageView() {
@@ -46,8 +47,12 @@ export default function LandingPageView() {
   return (
     <div
       dir={isEn ? "ltr" : "rtl"}
-      className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors"
+      className="relative min-h-screen overflow-hidden bg-neutral-50 dark:bg-[#070e0c] text-neutral-900 dark:text-neutral-100 transition-colors selection:bg-teal-500 selection:text-white"
     >
+      {/* Ambient background glows */}
+      <div className="pointer-events-none absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-teal-500/15 dark:bg-teal-500/10 blur-[140px]" />
+      <div className="pointer-events-none absolute top-[30%] -right-40 h-[500px] w-[500px] rounded-full bg-emerald-500/15 dark:bg-emerald-500/10 blur-[140px]" />
+
       {/* Floating Pomodoro & Binaural Beats Focus Tool */}
       <FocusPlayer />
 
@@ -169,9 +174,12 @@ export default function LandingPageView() {
           </p>
         </div>
 
-        <div className="text-center mb-14">
+        <div className="text-center mb-8">
           <LiveSeats />
         </div>
+
+        {/* Interactive Dopamine 30-Second Micro-Mission */}
+        <InteractiveDopaminePreview />
 
         {/* ---------- 2. PSYCHOLOGICAL ADVANTAGE SUITE ---------- */}
         <section className="mb-16">

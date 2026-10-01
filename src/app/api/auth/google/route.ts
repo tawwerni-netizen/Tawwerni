@@ -45,6 +45,15 @@ export async function POST(request: Request) {
           passwordHash: "", // No password for Google users initially
         },
       });
+
+      const { cookies } = await import("next/headers");
+      const { attachReferrer } = await import("@/lib/referrals");
+      const { REFERRAL_COOKIE } = await import("@/lib/referral-constants");
+      const refCode = (await cookies()).get(REFERRAL_COOKIE)?.value;
+      if (refCode) {
+        await attachReferrer(user.id, refCode).catch(() => {});
+      }
+
       await maybeSendWelcome(user.id);
     } else {
       // Clear any lockouts if they successfully logged in with Google

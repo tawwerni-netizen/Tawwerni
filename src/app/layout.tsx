@@ -105,6 +105,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               var l=localStorage.getItem('tawwerni-lang')||(m?m[1]:'ar');
               document.documentElement.lang=l;
               document.documentElement.dir=l==='en'?'ltr':'rtl';
+
+              var u=new URLSearchParams(window.location.search);
+              var r=u.get('ref');
+              if(r){
+                var cleanRef=r.trim().toUpperCase().slice(0,16);
+                document.cookie='tawwerni_ref='+encodeURIComponent(cleanRef)+';path=/;max-age=2592000;SameSite=Lax';
+                localStorage.setItem('tawwerni_ref',cleanRef);
+              }
             }catch(e){document.documentElement.dataset.theme='dark';document.documentElement.classList.add('dark');}})();`,
           }}
         />

@@ -63,6 +63,36 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
   const [syncDays, setSyncDays] = useState(18);
   const [syncCourse, setSyncCourse] = useState("tahaddi-28-yawm");
   const [syncSuccess, setSyncSuccess] = useState("");
+  const [activating, setActivating] = useState(false);
+  const [activationSuccess, setActivationSuccess] = useState("");
+
+  async function handleActivateUser() {
+    if (!confirm(`هل أنت متأكد من تفعيل اشتراك ${user.name || user.email} فوراً ومنحه وصولاً كاملاً لكل المسارات؟`)) {
+      return;
+    }
+    setActivating(true);
+    setError("");
+    setActivationSuccess("");
+    try {
+      const res = await fetch(`/api/admin/users/${user.id}/activate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "فشل تفعيل الحساب");
+        return;
+      }
+      setActivationSuccess(data.message || "تم تفعيل الحساب بنجاح!");
+      user.paid = true;
+      user.pending = false;
+      setTimeout(() => router.refresh(), 1200);
+    } catch {
+      setError("خطأ في الاتصال بالسيرفر");
+    } finally {
+      setActivating(false);
+    }
+  }
 
   async function handleSyncProgress() {
     setBusy(true);
@@ -163,7 +193,7 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
           </p>
         </div>
 
-        <div className="flex shrink-0 flex-col items-end gap-1">
+        <div className="flex shrink-0 flex-col items-end gap-1.5">
           {user.isAdmin && (
             <span className="rounded-full bg-brand-50 px-2 py-0.5 text-[10px] font-bold text-brand-800">
               أدمن
@@ -172,16 +202,34 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
           <span
             className={`rounded-full px-2.5 py-1 text-xs font-bold ${
               user.paid
-                ? "bg-green-50 text-green-700"
+                ? "bg-green-50 text-green-700 dark:bg-green-950/50 dark:text-green-300"
                 : user.pending
-                  ? "bg-amber-50 text-amber-700"
-                  : "bg-neutral-100 text-neutral-500"
+                  ? "bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"
+                  : "bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400"
             }`}
           >
-            {user.paid ? "مشترك" : user.pending ? "في الانتظار" : "مجاني"}
+            {user.paid ? "مشترك ✓" : user.pending ? "في الانتظار" : "مجاني"}
           </span>
+
+          {!user.paid && (
+            <button
+              type="button"
+              onClick={handleActivateUser}
+              disabled={activating}
+              className="rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 hover:brightness-110 active:scale-95 text-white px-3 py-1 text-[11px] font-bold shadow-xs transition-all disabled:opacity-50 flex items-center gap-1 cursor-pointer"
+            >
+              <span>⚡</span>
+              <span>{activating ? "جارٍ التفعيل..." : "تفعيل الحساب فوراً"}</span>
+            </button>
+          )}
         </div>
       </div>
+
+      {activationSuccess && (
+        <div className="mb-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 p-2.5 text-xs text-emerald-800 dark:text-emerald-200 font-bold animate-pulse">
+          {activationSuccess}
+        </div>
+      )}
 
       <div className="mb-3 grid grid-cols-4 gap-1.5 rounded-xl bg-neutral-50 p-2 text-center">
         <Mini label="XP" value={user.totalXp} />
