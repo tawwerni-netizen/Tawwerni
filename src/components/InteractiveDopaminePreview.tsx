@@ -120,9 +120,10 @@ export default function InteractiveDopaminePreview() {
           </div>
           <Link
             href="/quiz"
-            className="shrink-0 rounded-full bg-white text-teal-800 font-black px-5 py-2.5 text-xs shadow-md hover:bg-neutral-100 active:scale-95 transition"
+            style={{ backgroundColor: '#ffffff', color: '#042f2e' }}
+            className="cta-btn-white shrink-0 rounded-full bg-white text-teal-800 font-black px-5 py-2.5 text-xs shadow-md hover:bg-neutral-100 active:scale-95 transition"
           >
-            {isEn ? "Unlock All 100 Tracks →" : "ابدأ أول مسار كامل مجاناً ←"}
+            <span style={{ color: '#042f2e' }}>{isEn ? "Unlock All 100 Tracks →" : "ابدأ أول مسار كامل مجاناً ←"}</span>
           </Link>
         </div>
       )}

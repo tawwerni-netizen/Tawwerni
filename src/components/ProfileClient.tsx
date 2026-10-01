@@ -170,22 +170,22 @@ export default function ProfileClient(props: Props) {
 
         {/* Gamified 2-Card XP & Streak Bar */}
         <div className="grid grid-cols-2 gap-3 mt-6 pt-5 border-t border-black/5 dark:border-white/5">
-          <div className="bg-gradient-to-b from-teal-50 to-white dark:from-teal-950/30 dark:to-neutral-900 rounded-2xl p-3 text-center border border-teal-500/20 shadow-xs">
-            <div className="text-xl font-black text-teal-700 dark:text-teal-400 font-mono flex items-center justify-center gap-1.5">
+          <div className="bg-gradient-to-b from-teal-50 to-white dark:from-teal-950/40 dark:to-neutral-900/90 rounded-2xl p-3.5 text-center border border-teal-500/30 shadow-xs relative overflow-hidden">
+            <div className="text-2xl font-black text-teal-600 dark:text-teal-400 font-mono flex items-center justify-center gap-1.5">
               <span>💎</span>
               <span>{props.totalXp}</span>
             </div>
-            <div className="text-[11px] text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
+            <div className="text-xs text-neutral-600 dark:text-neutral-300 font-bold mt-1">
               {isEn ? "Earned XP" : "نقاط الخبرة XP"}
             </div>
           </div>
 
-          <div className="bg-gradient-to-b from-amber-50 to-white dark:from-amber-950/30 dark:to-neutral-900 rounded-2xl p-3 text-center border border-amber-500/20 shadow-xs">
-            <div className="text-xl font-black text-amber-600 dark:text-amber-400 font-mono flex items-center justify-center gap-1.5">
+          <div className="bg-gradient-to-b from-amber-50 to-white dark:from-amber-950/40 dark:to-neutral-900/90 rounded-2xl p-3.5 text-center border border-amber-500/30 shadow-xs relative overflow-hidden">
+            <div className="text-2xl font-black text-amber-500 dark:text-amber-400 font-mono flex items-center justify-center gap-1.5">
               <span className="animate-pulse">🔥</span>
               <span>{props.streak}</span>
             </div>
-            <div className="text-[11px] text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
+            <div className="text-xs text-neutral-600 dark:text-neutral-300 font-bold mt-1">
               {isEn ? "Day Streak" : "أيام متتالية"}
             </div>
           </div>

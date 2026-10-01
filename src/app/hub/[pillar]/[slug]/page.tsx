@@ -143,9 +143,10 @@ export default async function ArticlePage({
             </p>
             <Link
               href={`/app/learn/${article.relatedCourse.slug}`}
-              className="btn-ghost-shine inline-block rounded-full bg-white px-6 py-3 text-sm font-bold text-brand-800"
+              style={{ backgroundColor: '#ffffff', color: '#042f2e' }}
+              className="cta-btn-white btn-ghost-shine inline-block rounded-full bg-white px-6 py-3 text-sm font-bold text-brand-800"
             >
-              {article.relatedCourse.icon} جرّب اليوم الأول مجانًا ←
+              <span style={{ color: '#042f2e' }}>{article.relatedCourse.icon} جرّب اليوم الأول مجانًا ←</span>
             </Link>
             <p className="mt-3 text-xs text-white/70">
               {pricing.priceEgp} جنيه دفعة واحدة لكل المسارات · وصول لمدة سنة

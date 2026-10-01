@@ -152,9 +152,10 @@ export default function AvatarPicker({
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={busy}
-            className="rounded-full border border-black/10 dark:border-white/10 bg-neutral-50 dark:bg-neutral-800 px-3.5 py-1.5 text-xs font-bold text-neutral-800 dark:text-neutral-200 disabled:opacity-50 hover:border-brand-500/40 transition-colors shadow-2xs"
+            className="rounded-full bg-teal-600 hover:bg-teal-500 text-white px-4 py-1.5 text-xs font-black disabled:opacity-50 transition-all shadow-md shadow-teal-500/20 active:scale-95 flex items-center gap-1.5"
           >
-            {busy ? "..." : preview ? (isEn ? "Change photo" : "غيّر الصورة") : (isEn ? "Upload photo" : "ارفع صورة")}
+            <span>📷</span>
+            <span>{busy ? "..." : preview ? (isEn ? "Change photo" : "غيّر الصورة") : (isEn ? "Upload photo" : "ارفع صورة")}</span>
           </button>
           {preview && (
             <button
@@ -164,7 +165,7 @@ export default function AvatarPicker({
                 save(null);
               }}
               disabled={busy}
-              className="rounded-full border border-black/10 dark:border-white/10 px-3.5 py-1.5 text-xs font-semibold text-neutral-500 hover:text-red-600 disabled:opacity-50 transition-colors"
+              className="rounded-full border border-black/10 dark:border-white/10 px-3.5 py-1.5 text-xs font-bold text-neutral-500 hover:text-red-500 dark:text-neutral-400 dark:hover:text-red-400 disabled:opacity-50 transition-colors"
             >
               {isEn ? "Remove" : "شيلها"}
             </button>

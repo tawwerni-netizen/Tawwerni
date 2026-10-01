@@ -452,9 +452,10 @@ export default function LessonPlayer(props: Props) {
                 </div>
                 <Link
                   href="/quiz/checkout"
-                  className="block rounded-full bg-white py-2.5 text-center text-xs font-bold text-teal-900 shadow-md hover:bg-neutral-50 transition-colors"
+                  style={{ backgroundColor: '#ffffff', color: '#042f2e' }}
+                  className="cta-btn-white block rounded-full bg-white py-2.5 text-center text-xs font-bold text-teal-900 shadow-md hover:bg-neutral-50 transition-colors"
                 >
-                  {isEn ? "Subscribe Now →" : "اشترك دلوقتي ←"}
+                  <span style={{ color: '#042f2e' }}>{isEn ? "Subscribe Now →" : "اشترك دلوقتي ←"}</span>
                 </Link>
                 <button
                   type="button"

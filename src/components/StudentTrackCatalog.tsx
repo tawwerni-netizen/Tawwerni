@@ -142,10 +142,11 @@ export default function StudentTrackCatalog({
 
             <Link
               href={`/app/learn/${effectiveResume.slug}/${effectiveResume.dayNumber}`}
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-white hover:bg-neutral-100 text-teal-950 px-6 py-3.5 text-xs sm:text-sm font-black shadow-xl hover:shadow-2xl active:scale-95 transition-all"
+              style={{ backgroundColor: '#ffffff', color: '#042f2e' }}
+              className="cta-btn-white inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-white hover:bg-neutral-100 text-teal-950 px-6 py-3.5 text-xs sm:text-sm font-black shadow-xl hover:shadow-2xl active:scale-95 transition-all"
             >
               <span className="text-base">🚀</span>
-              <span>
+              <span style={{ color: '#042f2e' }}>
                 {isEn
                   ? `Resume Lesson · Day ${effectiveResume.dayNumber} →`
                   : `استئناف درس اليوم · اليوم ${effectiveResume.dayNumber} ←`}

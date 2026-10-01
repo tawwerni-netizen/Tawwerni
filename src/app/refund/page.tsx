@@ -68,7 +68,10 @@ export default function RefundPage() {
                 </p>
               </div>
             </div>
-            <span className="inline-block bg-white text-teal-900 font-black text-xs px-3.5 py-1.5 rounded-full shadow-md">
+            <span
+              style={{ backgroundColor: '#ffffff', color: '#042f2e' }}
+              className="cta-btn-white inline-block bg-white text-teal-900 font-black text-xs px-3.5 py-1.5 rounded-full shadow-md"
+            >
               48 ساعة تجربة
             </span>
           </div>
@@ -82,12 +85,16 @@ export default function RefundPage() {
 
         <div className="space-y-6">
           {/* Card 1 */}
-          <div className="rounded-3xl border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md p-6 shadow-xs">
-            <h3 className="mb-2 text-base font-bold text-neutral-900 dark:text-white flex items-center gap-2">
-              <span className="text-teal-600 dark:text-teal-400 font-mono">1.</span>
-              <span>{isEn ? "Free Day 1 Preview Before You Pay" : "اليوم الأول مجاني بالكامل قبل أن تدفع"}</span>
-            </h3>
-            <p className="text-neutral-600 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed">
+          <div className="rounded-3xl border border-black/10 dark:border-white/10 bg-white/95 dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-7 shadow-xs hover:border-teal-500/30 transition-all">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-9 h-9 rounded-2xl bg-teal-500/10 dark:bg-teal-500/20 text-teal-600 dark:text-teal-400 flex items-center justify-center font-black text-sm border border-teal-500/30 shadow-xs shrink-0">
+                1
+              </div>
+              <h3 className="text-base font-black text-neutral-900 dark:text-white">
+                {isEn ? "Free Day 1 Preview Before You Pay" : "اليوم الأول مجاني بالكامل قبل أن تدفع"}
+              </h3>
+            </div>
+            <p className="text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed ps-12">
               {isEn
                 ? "To ensure complete satisfaction, Day 1 of every single one of our 100 tracks is open 100% free for all registered users without credit card requirements. You can test our interactive infographics, focus tools, and lesson quizzes firsthand."
                 : "لتتأكد من مناسبة المنصة لك قبل الدفع، جعلنا اليوم الأول من كل مسار من الـ 100 مسار مفتوحاً ومجانياً تماماً بدون الحاجة لبطاقة بنكية. يمكنك تجربة أسلوب الشرح التفاعلي والمهام اليومية واختبار الكويزات بنفسك."}
@@ -95,18 +102,22 @@ export default function RefundPage() {
           </div>
 
           {/* Card 2 */}
-          <div className="rounded-3xl border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md p-6 shadow-xs">
-            <h3 className="mb-2 text-base font-bold text-neutral-900 dark:text-white flex items-center gap-2">
-              <span className="text-teal-600 dark:text-teal-400 font-mono">2.</span>
-              <span>{isEn ? "How to Request Your Refund" : "كيف تطلب استرداد المبلغ؟"}</span>
-            </h3>
-            <p className="text-neutral-600 dark:text-neutral-300 text-xs sm:text-sm mb-4 leading-relaxed">
+          <div className="rounded-3xl border border-black/10 dark:border-white/10 bg-white/95 dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-7 shadow-xs hover:border-emerald-500/30 transition-all">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-9 h-9 rounded-2xl bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-black text-sm border border-emerald-500/30 shadow-xs shrink-0">
+                2
+              </div>
+              <h3 className="text-base font-black text-neutral-900 dark:text-white">
+                {isEn ? "How to Request Your Refund" : "كيف تطلب استرداد المبلغ؟"}
+              </h3>
+            </div>
+            <p className="text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm mb-4 leading-relaxed ps-12">
               {isEn
                 ? "No lengthy dispute tickets or automated bots. Simply message our human support with your registered email and transfer details:"
                 : "لا توجد أي استمارات معقدة أو إجراءات مطولة. كل ما عليك هو مراسلة فريق الدعم البشري المباشر بإيميلك المسجل وبيانات التحويل:"}
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 ps-0 sm:ps-12">
               <a
                 href={`https://wa.me/2${payment.supportWhatsapp}?text=${encodeURIComponent("مرحباً، أود طلب استرداد الاشتراك وفق ضمان الـ 48 ساعة")}`}
                 className="flex items-center gap-3 p-3.5 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-950 dark:text-emerald-200 transition-all font-bold text-xs"
@@ -132,12 +143,16 @@ export default function RefundPage() {
           </div>
 
           {/* Card 3 */}
-          <div className="rounded-3xl border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md p-6 shadow-xs">
-            <h3 className="mb-2 text-base font-bold text-neutral-900 dark:text-white flex items-center gap-2">
-              <span className="text-teal-600 dark:text-teal-400 font-mono">3.</span>
-              <span>{isEn ? "Resolving Incorrect Transfers" : "حل التحويلات الخاطئة"}</span>
-            </h3>
-            <p className="text-neutral-600 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed">
+          <div className="rounded-3xl border border-black/10 dark:border-white/10 bg-white/95 dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-7 shadow-xs hover:border-cyan-500/30 transition-all">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-9 h-9 rounded-2xl bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 flex items-center justify-center font-black text-sm border border-cyan-500/30 shadow-xs shrink-0">
+                3
+              </div>
+              <h3 className="text-base font-black text-neutral-900 dark:text-white">
+                {isEn ? "Resolving Incorrect Transfers" : "حل التحويلات الخاطئة"}
+              </h3>
+            </div>
+            <p className="text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed ps-12">
               {isEn
                 ? "If you mistakenly transferred an incorrect amount or sent funds to an unmatched number, immediately alert our support on WhatsApp with your transfer receipt screenshot, and we will reconcile or refund it promptly."
                 : "لو قمت بالتحويل لرقم غير مطابق أو حدث أي التباس في إرسال المبلغ، تواصل معنا فوراً على واتساب مع صورة إيصال التحويل، وسيقوم فريقنا بمطابقة العملية أو رد المبلغ لك في أسرع وقت."}

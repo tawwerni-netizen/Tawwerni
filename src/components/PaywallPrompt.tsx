@@ -116,9 +116,10 @@ export default function PaywallPrompt({
 
         <Link
           href="/quiz/checkout"
-          className="btn-ghost-shine mb-3 block rounded-full bg-white py-3.5 text-sm font-bold text-teal-950 shadow-lg hover:bg-neutral-50 transition-colors"
+          style={{ backgroundColor: '#ffffff', color: '#042f2e' }}
+          className="cta-btn-white btn-ghost-shine mb-3 block rounded-full bg-white py-3.5 text-sm font-bold text-teal-950 shadow-lg hover:bg-neutral-50 transition-colors"
         >
-          {isEn ? "Unlock All 100 Tracks →" : "افتح كل المسارات ←"}
+          <span style={{ color: '#042f2e' }}>{isEn ? "Unlock All 100 Tracks →" : "افتح كل المسارات ←"}</span>
         </Link>
         <p className="text-xs text-white/70">
           {isEn

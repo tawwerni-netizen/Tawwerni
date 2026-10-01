@@ -240,10 +240,11 @@ export default function StudentDashboardView({
             {activeTrack.nextDayNumber ? (
               <Link
                 href={`/app/learn/${activeTrack.slug}/${activeTrack.nextDayNumber}`}
-                className="group relative overflow-hidden rounded-2xl bg-white text-teal-950 font-black py-4 px-6 text-center text-sm sm:text-base shadow-xl hover:bg-neutral-100 hover:shadow-2xl active:scale-98 transition-all flex items-center justify-center gap-2.5"
+                style={{ backgroundColor: '#ffffff', color: '#042f2e' }}
+                className="cta-btn-white group relative overflow-hidden rounded-2xl bg-white text-teal-950 font-black py-4 px-6 text-center text-sm sm:text-base shadow-xl hover:bg-neutral-100 hover:shadow-2xl active:scale-98 transition-all flex items-center justify-center gap-2.5"
               >
                 <span className="text-lg group-hover:scale-110 transition-transform">🚀</span>
-                <span>
+                <span style={{ color: '#042f2e' }}>
                   {isEn
                     ? `Resume Lesson · Day ${activeTrack.nextDayNumber} →`
                     : `استئناف درس اليوم · اليوم ${activeTrack.nextDayNumber} ←`}
@@ -253,10 +254,11 @@ export default function StudentDashboardView({
             ) : (
               <Link
                 href={`/app/learn/${activeTrack.slug}/certificate`}
+                style={{ color: '#451a03' }}
                 className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-400 to-amber-300 text-amber-950 font-black py-4 px-6 text-center text-sm sm:text-base shadow-xl hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-2"
               >
                 <span>🎓</span>
-                <span>{isEn ? "Claim Verified Certificate Now →" : "استلم شهادتك المعتمدة فوراً ←"}</span>
+                <span style={{ color: '#451a03' }}>{isEn ? "Claim Verified Certificate Now →" : "استلم شهادتك المعتمدة فوراً ←"}</span>
               </Link>
             )}
           </div>

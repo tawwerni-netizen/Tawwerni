@@ -150,9 +150,10 @@ export default function LeadMagnetGate({ categories }: { categories: PromptCateg
         </p>
         <Link
           href="/quiz"
-          className="btn-ghost-shine inline-block rounded-full bg-white px-6 py-3 text-sm font-bold text-brand-800 hover:bg-neutral-100 transition active:scale-98"
+          style={{ backgroundColor: '#ffffff', color: '#042f2e' }}
+          className="cta-btn-white btn-ghost-shine inline-block rounded-full bg-white px-6 py-3 text-sm font-bold text-brand-800 hover:bg-neutral-100 transition active:scale-98"
         >
-          {isEn ? "🤖 Start Day 1 Free Preview →" : "🤖 جرّب اليوم الأول مجانًا ←"}
+          <span style={{ color: '#042f2e' }}>{isEn ? "🤖 Start Day 1 Free Preview →" : "🤖 جرّب اليوم الأول مجانًا ←"}</span>
         </Link>
       </div>
     </div>
