@@ -119,8 +119,7 @@ const IPN = {
   amount: /بمبلغ\s*([\d,]+(?:\.\d{1,2})?)\s*(?:جم|جنيه|EGP)/i,
   /** Destination is masked to its last four digits. */
   receiverTail: /على\s+(\d{4})\s+بمبلغ/,
-  /** Sender is a NAME — IPN messages carry no sender phone number. */
-  senderName: /من\s+([^\n]+?)\s+يوم\s/,
+  senderName: /من\s+([^\n.]+?)(?:\s+(?:يوم|بتاريخ|الساعة|عبر|\d{2}-\d{2})|\.|\n|$)/,
   reference: /رقم\s+المعامل[ةه]\s*([0-9a-zA-Z]+)/,
   dateTime: /يوم\s*(\d{2}-\d{2}-\d{4})\s*الساعة\s*(\d{1,2}:\d{2})/,
 };

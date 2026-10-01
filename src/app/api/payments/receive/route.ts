@@ -15,17 +15,53 @@ import { parsePaymentSms } from "@/lib/sms-parsers";
 
 const VALID_PROVIDERS = ["vodafone_cash", "instapay"];
 
-function authorized(request: Request): boolean {
+function authorized(request: Request, body?: Record<string, unknown>): boolean {
   const expected = process.env.PAYMENT_INGEST_TOKEN;
   if (!expected) return false;
 
+  // 1. Authorization header (Bearer or raw)
   const header = request.headers.get("authorization") ?? "";
-  const presented = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
+  let presented = header.startsWith("Bearer ") ? header.slice(7).trim() : header.trim();
+
+  // 2. Custom API key headers
+  if (!presented) {
+    presented =
+      request.headers.get("x-api-key")?.trim() ||
+      request.headers.get("x-token")?.trim() ||
+      "";
+  }
+
+  // 3. Fallback to token inside JSON body
+  if (!presented && body) {
+    if (typeof body.token === "string") presented = body.token.trim();
+    else if (typeof body.api_key === "string") presented = body.api_key.trim();
+    else if (typeof body.apiKey === "string") presented = body.apiKey.trim();
+    else if (typeof body.secret === "string") presented = body.secret.trim();
+  }
+
   if (!presented) return false;
 
   const a = Buffer.from(presented);
   const b = Buffer.from(expected);
   return a.length === b.length && timingSafeEqual(a, b);
+}
+
+function normalizeProvider(raw: unknown, rawSms: string): "vodafone_cash" | "instapay" | null {
+  const p = String(raw ?? "").toLowerCase().trim();
+  if (["vodafone_cash", "vodafone", "vfcash", "vf_cash", "vodafonecash", "vf"].includes(p)) {
+    return "vodafone_cash";
+  }
+  if (["instapay", "insta_pay", "ipn", "insta"].includes(p)) {
+    return "instapay";
+  }
+  // Auto-detect from SMS keywords
+  if (rawSms.includes("محفظتك") || rawSms.includes("فودافون") || rawSms.includes("vfcash") || rawSms.includes("vf.eg")) {
+    return "vodafone_cash";
+  }
+  if (rawSms.includes("IPN") || rawSms.includes("تحويل لحظي") || rawSms.includes("استقبلت تحويل") || rawSms.includes("انستاباي") || rawSms.includes("InstaPay")) {
+    return "instapay";
+  }
+  return null;
 }
 
 function parseDate(value: unknown): Date | null {
@@ -36,51 +72,54 @@ function parseDate(value: unknown): Date | null {
 
 export async function POST(request: Request) {
   /*
-   * Throttled before the token is even checked. The bearer token is the only
-   * thing standing between the open internet and the payment ledger, and an
-   * unthrottled endpoint lets it be guessed at whatever rate the network
-   * allows. One phone posts a handful of messages a day — this cap is far
-   * above anything real traffic will hit.
+   * Throttled before the token is even checked. One phone posts a handful of
+   * messages a day — this cap is far above anything real traffic will hit.
    */
   const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`payin:${clientIp(request)}`, 60, 300);
   if (!gate.ok) return tooMany(gate, "Too many requests");
 
-  if (!authorized(request)) {
-    return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
-  }
-
-  let body: Record<string, unknown>;
+  let body: Record<string, unknown> = {};
   try {
     body = await readJson(request);
   } catch {
     return NextResponse.json({ success: false, message: "Malformed JSON" }, { status: 400 });
   }
 
-  const provider = String(body.provider ?? "");
-  if (!VALID_PROVIDERS.includes(provider)) {
-    return NextResponse.json({ success: false, message: "Unknown provider" }, { status: 422 });
-  }
-
-  // Accept "500" or 500 or "500.00", but never a zero/negative/absurd amount.
-  const rawAmount = typeof body.amount === "string" ? Number(body.amount) : body.amount;
-  const amountEgp = typeof rawAmount === "number" && Number.isFinite(rawAmount) ? Math.round(rawAmount) : NaN;
-  if (!Number.isFinite(amountEgp) || amountEgp <= 0 || amountEgp > 1_000_000) {
-    return NextResponse.json({ success: false, message: "Invalid amount" }, { status: 422 });
+  if (!authorized(request, body)) {
+    return NextResponse.json({ success: false, message: "Unauthorized: Invalid or missing token" }, { status: 401 });
   }
 
   const rawSms = typeof body.raw_sms === "string" ? body.raw_sms : "";
   if (!rawSms.trim()) {
-    return NextResponse.json({ success: false, message: "Missing raw_sms" }, { status: 422 });
+    return NextResponse.json({ success: false, message: "Missing raw_sms: SMS text is required" }, { status: 422 });
   }
 
-  // Re-parse the raw SMS here and let the server's reading win. The phone's own
-  // parse is only a fallback, so a format change can be fixed with a deploy
-  // instead of reinstalling the APK on the receiving handset.
+  // Re-parse the raw SMS on server so any regex improvement applies instantly
   const reparsed = parsePaymentSms(rawSms);
 
+  const provider = normalizeProvider(body.provider, rawSms) ?? reparsed?.provider;
+  if (!provider) {
+    return NextResponse.json({ success: false, message: "Unknown provider: expected vodafone_cash or instapay" }, { status: 422 });
+  }
+
+  // Parse amount with flexible formats: 349, 350, "349", "350.00", "350 ج.م"
+  let parsedAmount = NaN;
+  if (typeof body.amount === "number" && Number.isFinite(body.amount)) {
+    parsedAmount = Math.round(body.amount);
+  } else if (typeof body.amount === "string") {
+    const cleaned = body.amount.replace(/,/g, "").replace(/[^\d.]/g, "");
+    const num = Number(cleaned);
+    if (Number.isFinite(num)) parsedAmount = Math.round(num);
+  }
+
+  const amountEgp = reparsed?.amountEgp ?? parsedAmount;
+  if (!Number.isFinite(amountEgp) || amountEgp <= 0 || amountEgp > 1_000_000) {
+    return NextResponse.json({ success: false, message: "Invalid amount" }, { status: 422 });
+  }
+
   const payment: IncomingPayment = {
-    provider: reparsed?.provider ?? provider,
-    amountEgp: reparsed?.amountEgp ?? amountEgp,
+    provider,
+    amountEgp,
     transactionRef:
       reparsed?.transactionRef ??
       ((typeof body.transaction_id === "string" && body.transaction_id.trim()) ||

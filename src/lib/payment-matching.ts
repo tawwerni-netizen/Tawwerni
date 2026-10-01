@@ -1,6 +1,6 @@
 import { createHash } from "crypto";
 import { prisma } from "@/lib/prisma";
-import { payment } from "@/content/brand";
+import { payment, pricing } from "@/content/brand";
 import { compareNames } from "@/lib/arabic-name";
 import { activateOrder } from "@/lib/activate-order";
 
@@ -42,7 +42,14 @@ export function normalizePhone(input?: string | null): string | null {
 /** The wallets we advertise, in comparable form. */
 function ownWalletTails(): Set<string> {
   const tails = new Set<string>();
-  for (const n of payment.vodafoneCash) {
+  const known = [
+    ...payment.vodafoneCash,
+    payment.supportWhatsapp,
+    "01200176755",
+    "01067558133",
+    "01069999557",
+  ];
+  for (const n of known) {
     const t = normalizePhone(n);
     if (t) tails.add(t);
   }
@@ -99,101 +106,143 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
     return { result: "unmatched", transactionId: tx.id, reason };
   };
 
-  // Only money that landed in one of our own wallets can activate anything.
-  // A transfer into some other wallet is somebody else's business.
+  // Only check destination wallet if receiverPhone is present in the SMS.
   const receiver = normalizePhone(payment.receiverPhone);
   if (receiver) {
     const ours = ownWalletTails();
     if (ours.size > 0 && !ours.has(receiver)) {
-      return park(`التحويل وصل على محفظة مش بتاعتنا (${payment.receiverPhone})`);
+      return park(`التحويل وصل على محفظة غير معتمدة (${payment.receiverPhone})`);
     }
   }
 
-  // Candidate orders: still pending, for exactly this amount.
+  // 1. In Egypt, standard subscription transfers arrive as 349 or 350 EGP.
+  const isSubscriptionTier =
+    payment.amountEgp === 349 ||
+    payment.amountEgp === 350 ||
+    payment.amountEgp === pricing.priceEgp;
+
+  const candidateAmounts = isSubscriptionTier
+    ? Array.from(new Set([349, 350, pricing.priceEgp]))
+    : [payment.amountEgp];
+
+  // Fetch pending candidate orders (ordered newest first)
   const candidates = await prisma.order.findMany({
-    where: { status: "pending", amountEgp: payment.amountEgp },
+    where: {
+      status: "pending",
+      amountEgp: { in: candidateAmounts },
+    },
     include: { user: true, course: true },
-    orderBy: { createdAt: "asc" },
+    orderBy: { createdAt: "desc" },
   });
 
-  let matches: typeof candidates;
+  if (candidates.length === 0) {
+    return park(`مفيش أي طلبات معلّقة بمبلغ ${payment.amountEgp} ج.م`);
+  }
 
-  if (payment.provider === "instapay") {
-    // IPN receipts carry no phone — fall back to the payer name the customer
-    // gave at checkout, and only when the whole name lines up.
-    const name = payment.senderName?.trim();
-    if (!name) return park("رسالة إنستاباي من غير اسم المحوِّل");
+  let matchedOrder: (typeof candidates)[0] | null = null;
+  let matchReason = "";
 
-    matches = candidates.filter((o) => {
-      const claimed = o.instapayName ?? o.user.name;
-      return claimed ? compareNames(name, claimed) === "exact" : false;
+  // -------------------------------------------------------------
+  // STRATEGY 1: Phone Matching (Vodafone Cash or InstaPay if phone present)
+  // -------------------------------------------------------------
+  if (senderPhone) {
+    const phoneMatches = candidates.filter((o) => {
+      const orderPhone = normalizePhone(o.senderPhone);
+      const userPhone = normalizePhone(o.user.phone);
+      if (orderPhone === senderPhone || userPhone === senderPhone) return true;
+      if (orderPhone && (orderPhone.endsWith(senderPhone.slice(-9)) || senderPhone.endsWith(orderPhone.slice(-9)))) return true;
+      if (userPhone && (userPhone.endsWith(senderPhone.slice(-9)) || senderPhone.endsWith(userPhone.slice(-9)))) return true;
+      return false;
     });
 
-    if (matches.length === 0) {
-      const partial = candidates.filter((o) => {
-        const claimed = o.instapayName ?? o.user.name;
-        return claimed ? compareNames(name, claimed) === "partial" : false;
-      });
-      return park(
-        partial.length
-          ? `اسم قريب مش مطابق تمامًا: «${name}» — راجع بنفسك`
-          : `مفيش طلب معلّق باسم «${name}» بمبلغ ${payment.amountEgp} ج.م`
-      );
+    if (phoneMatches.length === 1) {
+      matchedOrder = phoneMatches[0];
+      matchReason = `تفعيل تلقائي (مطابقة رقم الموبايل: ${senderPhone})`;
+    } else if (phoneMatches.length > 1) {
+      matchedOrder = phoneMatches[0]; // Newest order
+      matchReason = `تفعيل تلقائي (أحدث طلب مطابق للرقم: ${senderPhone})`;
     }
-  } else {
-    if (!senderPhone) return park("الرسالة مفيهاش رقم المحوِّل");
+  }
 
-    matches = candidates.filter(
-      (o) => normalizePhone(o.senderPhone) === senderPhone || normalizePhone(o.user.phone) === senderPhone
+  // -------------------------------------------------------------
+  // STRATEGY 2: Name Matching (InstaPay or Vodafone Cash with senderName)
+  // -------------------------------------------------------------
+  if (!matchedOrder && payment.senderName) {
+    const name = payment.senderName.trim();
+
+    // Try exact or high-confidence name match
+    const exactNameMatches = candidates.filter((o) => {
+      const claimed = o.instapayName ?? o.user.name ?? "";
+      const isExactClaimed = compareNames(name, claimed) === "exact";
+      const isExactUser = o.user.name ? compareNames(name, o.user.name) === "exact" : false;
+      return isExactClaimed || isExactUser;
+    });
+
+    if (exactNameMatches.length === 1) {
+      matchedOrder = exactNameMatches[0];
+      matchReason = `تفعيل تلقائي (مطابقة تامة للاسم: ${name})`;
+    } else if (exactNameMatches.length > 1) {
+      matchedOrder = exactNameMatches[0];
+      matchReason = `تفعيل تلقائي (أحدث طلب مطابق للاسم: ${name})`;
+    } else {
+      // Try partial name match (e.g. Alaa in Alaa Mohamed or vice versa)
+      const partialMatches = candidates.filter((o) => {
+        const claimed = o.instapayName ?? o.user.name ?? "";
+        const isPartialClaimed = compareNames(name, claimed) !== "none";
+        const isPartialUser = o.user.name ? compareNames(name, o.user.name) !== "none" : false;
+        return isPartialClaimed || isPartialUser;
+      });
+
+      if (partialMatches.length === 1) {
+        matchedOrder = partialMatches[0];
+        matchReason = `تفعيل تلقائي (مطابقة اسم جزئي مؤكد: ${name})`;
+      } else if (partialMatches.length > 1) {
+        matchedOrder = partialMatches[0];
+        matchReason = `تفعيل تلقائي (أحدث طلب لاسم قريب: ${name})`;
+      }
+    }
+  }
+
+  // -------------------------------------------------------------
+  // STRATEGY 3: Synchronized Single Pending Order Heuristic
+  // If there is ONLY ONE pending order for 349/350 EGP in the system,
+  // and the payment arrived for this exact subscription amount,
+  // activate it automatically without forcing manual human intervention!
+  // -------------------------------------------------------------
+  if (!matchedOrder && candidates.length === 1 && isSubscriptionTier) {
+    const onlyCandidate = candidates[0];
+    const hoursSinceOrder = (Date.now() - new Date(onlyCandidate.createdAt).getTime()) / (1000 * 60 * 60);
+
+    // If order was created in the last 72 hours and is the ONLY pending subscription order
+    if (hoursSinceOrder <= 72) {
+      matchedOrder = onlyCandidate;
+      matchReason = `تفعيل تلقائي متزامن (الطلب الوحيد المعلق بمبلغ ${payment.amountEgp} ج.م)`;
+    }
+  }
+
+  // If still no unambiguous match found, park it for review with clear diagnostics
+  if (!matchedOrder) {
+    const candidateSummary = candidates
+      .slice(0, 3)
+      .map((c) => `${c.user.name || c.user.email} (${c.senderPhone || c.instapayName || "بدون"})`)
+      .join("، ");
+    return park(
+      `لم يتم تحديد طلب مؤكد تلقائياً للتحويل بمبلغ ${payment.amountEgp} ج.م. طلبات مرشحة: ${candidateSummary}`
     );
-
-    if (matches.length === 0) {
-      /*
-       * Was a DB-level `contains` filter. This database has a genuine
-       * collation mismatch on at least the `User.email` and `Order.senderPhone`
-       * columns (`utf8mb4_unicode_ci` vs `utf8mb4_bin`) that makes MySQL's LIKE
-       * operator throw `Illegal mix of collations` outright — not a partial
-       * match, a hard error. That turned every Vodafone Cash transfer landing
-       * with no exact phone+amount match into an uncaught exception: the
-       * webhook 500'd back to the Android forwarder, and this park() call
-       * (with the one diagnostic line telling the operator "same phone,
-       * different amount") never ran. The `PaymentTransaction` row itself was
-       * already written above, so no transfer was ever lost — but the note
-       * explaining why it needs review was. `candidates` above already proves
-       * this dataset is small enough to filter in memory instead of asking
-       * MySQL to do it.
-       */
-      const phoneSuffix = senderPhone.slice(-9);
-      const pendingPhones = await prisma.order.findMany({
-        where: { status: "pending" },
-        select: { senderPhone: true },
-      });
-      const anyPhone = pendingPhones.some((o) => o.senderPhone?.includes(phoneSuffix));
-      return park(
-        anyPhone
-          ? `فيه طلب من نفس الرقم بس بمبلغ مختلف (المحوَّل ${payment.amountEgp} ج.م)`
-          : "مفيش طلب معلّق بنفس الرقم والمبلغ"
-      );
-    }
   }
 
-  if (matches.length > 1) {
-    return park(`فيه ${matches.length} طلبات معلّقة مطابقة — اختار بنفسك`);
-  }
-
-  // Exactly one explanation — safe to activate.
-  const order = matches[0];
+  // Activate order immediately
   await prisma.paymentTransaction.update({
     where: { id: tx.id },
-    data: { status: "matched", matchedOrderId: order.id, matchNote: "تفعيل تلقائي" },
+    data: { status: "matched", matchedOrderId: matchedOrder.id, matchNote: matchReason },
   });
-  await activateOrder(order.id, "تفعيل تلقائي");
+  await activateOrder(matchedOrder.id, matchReason);
 
   return {
     result: "activated",
     transactionId: tx.id,
-    orderId: order.id,
-    email: order.user.email,
-    courseTitle: order.course.title,
+    orderId: matchedOrder.id,
+    email: matchedOrder.user.email,
+    courseTitle: matchedOrder.course.title,
   };
 }
