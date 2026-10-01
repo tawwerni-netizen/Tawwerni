@@ -98,80 +98,134 @@ export default function LandingPageView() {
 
       <main className="mx-auto max-w-6xl px-4 sm:px-6 pt-10 pb-16">
         {/* ---------- 1. HERO SECTION ---------- */}
-        <div className="mx-auto mb-12 max-w-3xl text-center">
+        <div className="relative mx-auto mb-16 max-w-4xl text-center">
+          {/* Radiant Hero Glow Spotlight */}
+          <div className="pointer-events-none absolute left-1/2 -top-16 -translate-x-1/2 w-full max-w-3xl h-80 bg-gradient-to-b from-teal-500/25 via-emerald-500/10 to-transparent blur-3xl -z-10" />
+
+          {/* Top Announcement Pill */}
           <Link
             href="/tracks"
-            className="mb-5 inline-flex items-center gap-2 rounded-full bg-teal-500/10 border border-teal-500/30 px-4 py-1.5 text-xs font-bold text-teal-700 dark:text-teal-300 hover:bg-teal-500/20 transition-all hover:scale-105 shadow-2xs"
+            className="group mb-6 inline-flex items-center gap-2 rounded-full bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 px-4 py-1.5 text-xs font-black text-teal-700 dark:text-teal-300 transition-all hover:scale-105 shadow-sm"
           >
-            <span className="animate-pulse">✨</span>
+            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
             <span>
               {isEn
-                ? "The Premier Bilingual Catalog: 100 Pro Tracks · Explore Now →"
-                : "الكتالوج الأكبر عربيًا: ١٠٠ مسار احترافي ثنائي اللغة · تصفّح الآن ←"}
+                ? "⚡ The #1 Bilingual Hands-On Learning Platform · 100 Career Tracks →"
+                : "⚡ المنصة الأولى عربياً للتعلم التطبيقي المباشر · الكتالوج الأضخم بـ 100 مسار احترافي ←"}
             </span>
           </Link>
 
-          <h1 className="mb-4 text-3xl font-black leading-tight sm:text-5xl md:text-6xl tracking-tight text-neutral-900 dark:text-white">
+          {/* High-Dopamine Punchy Headline */}
+          <h1 className="mb-6 text-4xl sm:text-6xl md:text-7xl font-black leading-[1.14] tracking-tight text-neutral-900 dark:text-white">
             {isEn ? (
               <>
-                5 Minutes a Day. 28 Days.
+                Learn Smart. Apply in Minutes.
                 <br />
-                <span className="bg-gradient-to-r from-teal-600 to-emerald-500 bg-clip-text text-transparent">
-                  A Real High-Income Skill in AI & Future Tech.
+                <span className="bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-sm">
+                  Build Skills That Actually Pay in the AI Era.
                 </span>
               </>
             ) : (
               <>
-                ٥ دقائق في اليوم. ٢٨ يومًا.
+                تعلّم بذكاء. طبّق في دقائق.
                 <br />
-                <span className="bg-gradient-to-r from-teal-600 to-emerald-500 bg-clip-text text-transparent">
-                  مهارة حقيقية تصنع لك دخلًا بالذكاء الاصطناعي والمستقبل.
+                <span className="bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-sm">
+                  واصنع دخلك بمهارات المستقبل والذكاء الاصطناعي.
                 </span>
               </>
             )}
           </h1>
 
-          <p className="mx-auto mb-5 max-w-2xl text-sm leading-relaxed text-neutral-600 dark:text-neutral-300 md:text-base">
+          {/* Compelling Value Proposition Subtitle */}
+          <p className="mx-auto mb-8 max-w-2xl text-base sm:text-lg leading-relaxed text-neutral-600 dark:text-neutral-300 font-medium">
             {isEn ? (
               <>
-                <b>100 complete practical tracks</b> across 10 vital disciplines (AI, Web & App Development, Data Analytics, Freelancing, Business, Marketing, UI/UX, and more) — every single lesson is an actionable step backed by behavioral psychology and focus tools.
+                <b>100 practical career tracks</b> that take you from beginner to hired or freelancing — zero boring theory, engineered with micro-actions and dopamine loops that give you an instant sense of victory every single day.
               </>
             ) : (
               <>
-                <b>١٠٠ مسار تطبيقي كامل</b> مقسمة على ١٠ أركان حيوية (ذكاء اصطناعي، برمجة، بيانات، فريلانس، بيزنس، تسويق، تصميم، وأكثر) — كل درس خطوة عملية مدعومة بأنظمة الدعم النفسي والتركيز الذهني.
+                <b>١٠٠ مسار مهني وتطبيقي متكامل</b> ينقلك من الصفر حتى اقتناص الفرص والعملاء — بدون حشو نظري، وبنظام جرعات يومية سريعة تمنحك إنجازاً ملموساً وشعوراً فورياً بالانتصار والتفوق كل يوم.
               </>
             )}
           </p>
 
-          <div className="mx-auto mb-7 inline-flex items-center gap-2 rounded-2xl bg-amber-500/10 border border-amber-500/30 px-4 py-2 text-xs text-amber-800 dark:text-amber-300 font-bold">
-            <span>🔥</span>
+          {/* VIP Founding Cohort Offer Badge */}
+          <div className="mx-auto mb-8 inline-flex flex-wrap items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-amber-500/15 border border-amber-500/30 px-5 py-2.5 text-xs text-amber-900 dark:text-amber-200 font-black shadow-lg backdrop-blur-md">
+            <span className="flex h-2.5 w-2.5 rounded-full bg-amber-400 animate-pulse" />
             <span>
               {isEn
-                ? `Founding Cohort Offer: Only ${pricing.priceEgp} EGP (was ${pricing.originalPriceEgp} EGP) · 71% OFF · 1-Year Access · Day 1 Free`
-                : `عرض فوج التأسيس الأول: ${pricing.priceEgp} ج.م فقط (بدل ${pricing.originalPriceEgp} ج.م) · خصم 71% · وصول لمدة سنة · اليوم الأول مجاني`}
+                ? `🔥 Founding Cohort Special: Only ${pricing.priceEgp} EGP/year (Regular ${pricing.originalPriceEgp} EGP) · 71% OFF · Unlimited 1-Year Access`
+                : `🔥 عرض فوج التأسيس الأول: ${pricing.priceEgp} ج.م فقط لعام كامل (بدل ${pricing.originalPriceEgp} ج.م) · خصم 71% شامل كافة الـ 100 مسار`}
+            </span>
+            <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 text-[11px] font-bold border border-amber-500/30">
+              {isEn ? "48-Hour Guarantee" : "ضمان استرداد 48 ساعة"}
             </span>
           </div>
 
-          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+          {/* Giant Radiant Action CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-8">
             <Link
               href="/quiz"
-              className="w-full sm:w-auto rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 text-white font-bold px-8 py-4 text-sm shadow-lg hover:brightness-110 active:scale-98 transition-all text-center"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-400 hover:from-teal-400 hover:to-emerald-400 text-white font-black px-9 py-4 text-base shadow-xl shadow-teal-500/30 hover:shadow-2xl hover:shadow-teal-500/50 hover:scale-102 active:scale-98 transition-all text-center"
             >
-              <span>{isEn ? "Take Free Assessment & Find Your Path →" : "ابدأ التقييم وحدد مسارك مجانًا ←"}</span>
+              <span className="text-xl">🚀</span>
+              <span>{isEn ? "Take Free Assessment & Start Now →" : "ابدأ التقييم وحدد مسارك مجانًا ←"}</span>
             </Link>
             <Link
               href="/tracks"
-              className="w-full sm:w-auto rounded-full border border-black/10 dark:border-white/15 bg-white dark:bg-neutral-900 px-7 py-4 text-sm font-bold text-neutral-800 dark:text-neutral-200 hover:border-teal-500 hover:shadow-md transition-all text-center"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-black/10 dark:border-white/15 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md hover:border-teal-500/50 px-8 py-4 text-base font-black text-neutral-800 dark:text-neutral-200 hover:text-teal-600 dark:hover:text-teal-400 hover:shadow-lg transition-all text-center"
             >
-              {isEn ? "Explore 100 Tracks Catalog 🧭" : "استكشف كتالوج الـ 100 مسار 🧭"}
+              <span>🧭</span>
+              <span>{isEn ? "Explore 100 Tracks (Day 1 Free)" : "استكشف كتالوج الـ 100 مسار 🧭"}</span>
             </Link>
           </div>
 
-          <p className="mt-4 text-xs text-neutral-500 dark:text-neutral-400">
-            {isEn
-              ? "✓ No credit card required · ✓ Day 1 of every track 100% free · ✓ Instant automated access"
-              : "✓ بدون بطاقة بنكية · ✓ اليوم الأول من كل مسار مفتوح مجانًا · ✓ تفعيل فوري وآمن"}
-          </p>
+          {/* 4 Pillars of Peace of Mind & Trust */}
+          <div className="mx-auto max-w-2xl grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs font-bold text-neutral-700 dark:text-neutral-300 mb-10">
+            <div className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
+              <span>🛡️</span>
+              <span>{isEn ? "48h Full Guarantee" : "ضمان استرداد 48 ساعة"}</span>
+            </div>
+            <div className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
+              <span>🎁</span>
+              <span>{isEn ? "Day 1 Free (No Card)" : "اليوم الأول مجاني بدون كارت"}</span>
+            </div>
+            <div className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
+              <span>🎓</span>
+              <span>{isEn ? "Verified Certificates" : "شهادة معتمدة لكل مسار"}</span>
+            </div>
+            <div className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
+              <span>⚡</span>
+              <span>{isEn ? "15 Mins / Day Only" : "١٥ دقيقة فقط يومياً"}</span>
+            </div>
+          </div>
+
+          {/* Top In-Demand Sectors Quick Pills */}
+          <div className="text-center">
+            <p className="text-[11px] font-black uppercase tracking-widest text-neutral-400 dark:text-neutral-500 mb-3">
+              {isEn ? "Top In-Demand Career Tracks You Will Master" : "أبرز التخصصات العملية الأكثر طلباً التي ستحترفها بالمنصة"}
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {[
+                { icon: "🤖", ar: "هندسة الأوامر والـ AI", en: "Prompt Engineering & AI" },
+                { icon: "💻", ar: "البرمجة وتطوير الويب", en: "Full-Stack Web Dev" },
+                { icon: "📊", ar: "تحليل البيانات والذكاء التجاري", en: "Data Analytics & BI" },
+                { icon: "💼", ar: "العمل الحر واقتناص العملاء", en: "Freelance Mastery" },
+                { icon: "📈", ar: "التسويق الرقمي والمبيعات", en: "Digital Growth & Marketing" },
+                { icon: "🎨", ar: "تصميم الواجهات UI/UX", en: "UI/UX & Creative Media" },
+                { icon: "🏢", ar: "ريادة الأعمال وبناء المشاريع", en: "Business & Startups" },
+              ].map((pillar, idx) => (
+                <Link
+                  key={idx}
+                  href="/tracks"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 hover:border-teal-500/50 hover:bg-teal-500/10 text-neutral-700 dark:text-neutral-300 hover:text-teal-600 dark:hover:text-teal-400 transition-all hover:scale-105 shadow-2xs"
+                >
+                  <span>{pillar.icon}</span>
+                  <span>{isEn ? pillar.en : pillar.ar}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="text-center mb-8">
