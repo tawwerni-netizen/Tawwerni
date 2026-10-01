@@ -3,6 +3,9 @@ export type QuizOption = {
   label: string;
   labelEn?: string;
   value: string;
+  badge?: string;
+  badgeEn?: string;
+  highlight?: boolean;
 };
 
 export type QuizQuestionDef = {
@@ -22,11 +25,11 @@ export const quizQuestions: QuizQuestionDef[] = [
     subtitle: "جاوب بصراحة — النتيجة هتتبني على ده",
     subtitleEn: "Answer honestly — your personalized roadmap depends on this",
     options: [
-      { icon: "🌫️", label: "كلام بسمعه كتير ومش عارف أستخدمه", labelEn: "A buzzword I hear everywhere but don't know how to use", value: "aware-unused" },
-      { icon: "🧪", label: "جرّبته مرة أو اتنين وسيبته", labelEn: "Tried it once or twice, then stopped", value: "tried-quit" },
-      { icon: "🔁", label: "بستخدمه في حاجات بسيطة", labelEn: "I use it occasionally for basic tasks", value: "casual" },
-      { icon: "⚡", label: "بستخدمه يوميًا وعايز أطوّر", labelEn: "I use it daily and want to reach mastery", value: "daily" },
-      { icon: "😟", label: "قلقان منه على شغلي", labelEn: "Worried it might threaten my job security", value: "worried" },
+      { icon: "🌫️", label: "كلام بسمعه كتير ومش عارف أستخدمه", labelEn: "A buzzword I hear everywhere but don't know how to use", value: "aware-unused", badge: "بداية من الصفر 🌱", badgeEn: "Fresh Start" },
+      { icon: "🧪", label: "جرّبته مرة أو اتنين وسيبته", labelEn: "Tried it once or twice, then stopped", value: "tried-quit", badge: "انطلاقة جديدة 🔄", badgeEn: "Reboot" },
+      { icon: "🔁", label: "بستخدمه في حاجات بسيطة", labelEn: "I use it occasionally for basic tasks", value: "casual", badge: "جاهز للتسارع ⚡", badgeEn: "Next Level" },
+      { icon: "⚡", label: "بستخدمه يوميًا وعايز أطوّر", labelEn: "I use it daily and want to reach mastery", value: "daily", badge: "مستوى متقدم 🔥", badgeEn: "Mastery" },
+      { icon: "😟", label: "قلقان منه على شغلي", labelEn: "Worried it might threaten my job security", value: "worried", badge: "أمانك المهني أولاً 🛡️", badgeEn: "Future Proof" },
     ],
   },
   {
@@ -34,11 +37,11 @@ export const quizQuestions: QuizQuestionDef[] = [
     question: "إيه هدفك الأساسي من الذكاء الاصطناعي؟",
     questionEn: "What is your primary goal with AI & modern skills?",
     options: [
-      { icon: "📈", label: "أتقدّم في وظيفتي الحالية", labelEn: "Excel and get promoted in my current career", value: "grow-role" },
-      { icon: "🔄", label: "أغيّر مساري المهني أو أترقّى", labelEn: "Pivot into a high-paying future career", value: "career-change" },
-      { icon: "💰", label: "أبني مشروع أو دخل إضافي", labelEn: "Build a profitable side-hustle or online business", value: "build-income" },
-      { icon: "🎨", label: "أستخدمه في مشاريع إبداعية", labelEn: "Supercharge my creative projects and content", value: "creative" },
-      { icon: "🛡️", label: "أفضل مطّلع ومتأخرش عن الركب", labelEn: "Stay ahead of the curve and future-proof myself", value: "stay-informed" },
+      { icon: "📈", label: "أتقدّم في وظيفتي الحالية", labelEn: "Excel and get promoted in my current career", value: "grow-role", badge: "مسار الترقية 📈", badgeEn: "Promotion" },
+      { icon: "🔄", label: "أغيّر مساري المهني أو أترقّى", labelEn: "Pivot into a high-paying future career", value: "career-change", badge: "الأعلى طلباً 🚀", badgeEn: "High Demand", highlight: true },
+      { icon: "💰", label: "أبني مشروع أو دخل إضافي", labelEn: "Build a profitable side-hustle or online business", value: "build-income", badge: "حرية مالية 💰", badgeEn: "Income Stream", highlight: true },
+      { icon: "🎨", label: "أستخدمه في مشاريع إبداعية", labelEn: "Supercharge my creative projects and content", value: "creative", badge: "إبداع مضاعف 🎨", badgeEn: "Creative 10x" },
+      { icon: "🛡️", label: "أفضل مطّلع ومتأخرش عن الركب", labelEn: "Stay ahead of the curve and future-proof myself", value: "stay-informed", badge: "درع المستقبل 🛡️", badgeEn: "Ahead of Curve" },
       { icon: "✳️", label: "حاجة تانية", labelEn: "Something else", value: "other" },
     ],
   },
@@ -198,10 +201,10 @@ export const quizQuestions: QuizQuestionDef[] = [
     question: "كم تتمنى أن يكون الدخل الإضافي الشهري الذي تطمح لتحقيقه؟",
     questionEn: "What monthly supplemental income would make a real difference?",
     options: [
-      { icon: "🪙", label: "٢,٠٠٠ إلى ٥,٠٠٠ ج.م شهريًا (بداية ممتازة)", labelEn: "$100 – $250 / mo (Great starting baseline)", value: "2k" },
-      { icon: "💵", label: "٥,٠٠٠ إلى ١٠,٠٠٠ ج.م شهريًا (دخل جانبي ملموس)", labelEn: "$250 – $500 / mo (Solid side-income)", value: "5-10k" },
-      { icon: "💰", label: "١٥,٠٠٠ إلى ٢٥,٠٠٠ ج.م شهريًا (يضاهي وظيفة كاملة)", labelEn: "$500 – $1,200 / mo (Matches a full-time role)", value: "15-25k" },
-      { icon: "💎", label: "أكثر من ٢٥,٠٠٠ ج.م شهريًا (استقلال مالي كامل)", labelEn: "$1,200+ / mo (Full financial independence)", value: "25k-plus" },
+      { icon: "🪙", label: "٢,٠٠٠ إلى ٥,٠٠٠ ج.م شهريًا (بداية ممتازة)", labelEn: "$100 – $250 / mo (Great starting baseline)", value: "2k", badge: "خطوة البداية 🪙", badgeEn: "Kickstarter" },
+      { icon: "💵", label: "٥,٠٠٠ إلى ١٠,٠٠٠ ج.م شهريًا (دخل جانبي ملموس)", labelEn: "$250 – $500 / mo (Solid side-income)", value: "5-10k", badge: "الأكثر شعبية 🔥", badgeEn: "Most Popular", highlight: true },
+      { icon: "💰", label: "١٥,٠٠٠ إلى ٢٥,٠٠٠ ج.م شهريًا (يضاهي وظيفة كاملة)", labelEn: "$500 – $1,200 / mo (Matches a full-time role)", value: "15-25k", badge: "دخل وظيفي كامل 💰", badgeEn: "Full Role" },
+      { icon: "💎", label: "أكثر من ٢٥,٠٠٠ ج.م شهريًا (استقلال مالي كامل)", labelEn: "$1,200+ / mo (Full financial independence)", value: "25k-plus", badge: "استقلال مالي 💎", badgeEn: "Financial Freedom", highlight: true },
       { icon: "😎", label: "مش محتاج دخل — تركيزي على التميز المعرفي فقط", labelEn: "Not focused on income — purely for knowledge mastery", value: "none" },
     ],
   },
@@ -212,10 +215,10 @@ export const quizQuestions: QuizQuestionDef[] = [
     subtitle: "كن صادقًا مع نفسك — الاستمرارية اليومية أهم من الكثافة المتقطعة",
     subtitleEn: "Be realistic — micro-consistency beats sporadic cramming every time",
     options: [
-      { icon: "⏱️", label: "٥ إلى ١٠ دقائق يوميًا (جرعة خفيفة مضمونة)", labelEn: "5 – 10 minutes / day (Effortless daily micro-step)", value: "10" },
-      { icon: "⏱️", label: "١٥ دقيقة يوميًا (الوتيرة الذهبية الموصى بها)", labelEn: "15 minutes / day (The optimal golden pace)", value: "15" },
-      { icon: "⏱️", label: "٢٠ إلى ٣٠ دقيقة يوميًا (تسارع ممتاز)", labelEn: "20 – 30 minutes / day (Accelerated track)", value: "20" },
-      { icon: "⏱️", label: "٣٠ دقيقة فأكثر يوميًا (انغماس مكثف)", labelEn: "30+ minutes / day (Deep immersive focus)", value: "30" },
+      { icon: "⏱️", label: "٥ إلى ١٠ دقائق يوميًا (جرعة خفيفة مضمونة)", labelEn: "5 – 10 minutes / day (Effortless daily micro-step)", value: "10", badge: "سهل ومستمر ⏱️", badgeEn: "Easy Micro" },
+      { icon: "⏱️", label: "١٥ دقيقة يوميًا (الوتيرة الذهبية الموصى بها)", labelEn: "15 minutes / day (The optimal golden pace)", value: "15", badge: "الوتيرة الذهبية ⭐", badgeEn: "Golden Pace", highlight: true },
+      { icon: "⏱️", label: "٢٠ إلى ٣٠ دقيقة يوميًا (تسارع ممتاز)", labelEn: "20 – 30 minutes / day (Accelerated track)", value: "20", badge: "تسارع فائق 🚀", badgeEn: "Fast Track" },
+      { icon: "⏱️", label: "٣٠ دقيقة فأكثر يوميًا (انغماس مكثف)", labelEn: "30+ minutes / day (Deep immersive focus)", value: "30", badge: "انغماس احترافي ⚡", badgeEn: "Deep Immersion" },
     ],
   },
   {
@@ -276,6 +279,11 @@ export type Archetype = {
   icon: string;
   quote: string;
   quoteEn: string;
+  salaryRangeAr: string;
+  salaryRangeEn: string;
+  superpowersAr: string[];
+  superpowersEn: string[];
+  recommendedTrackSlugs: string[];
 };
 
 export const archetypes: Record<string, Archetype> = {
@@ -288,6 +296,11 @@ export const archetypes: Record<string, Archetype> = {
     icon: "📈",
     quote: "الناجحون في سوق العمل هم من يتبنون أدوات المستقبل مبكرًا — وهذا تحديدًا ما تفعله الآن.",
     quoteEn: "Top performers don't work harder; they master the tools of the future early. That's exactly what you are doing.",
+    salaryRangeAr: "١٥,٠٠٠ – ٣٥,٠٠٠ ج.م / شهرياً",
+    salaryRangeEn: "$500 – $1,200 / mo",
+    superpowersAr: ["أتمتة الأعمال وسلاسل المهام", "هندسة الأوامر المتقدمة (Prompting)", "اتخاذ قرارات رقمية سريعة ومبهرة"],
+    superpowersEn: ["Automated Task Pipelines", "Advanced Prompt Engineering", "Fast High-Impact Decision Making"],
+    recommendedTrackSlugs: ["prompt-engineering-mastery", "ai-workplace-productivity", "automated-reporting-analytics"],
   },
   "career-change": {
     key: "career-change",
@@ -298,6 +311,11 @@ export const archetypes: Record<string, Archetype> = {
     icon: "🔄",
     quote: "التحول المهني يصبح أسهل وأسرع عندما تتسلح بالمهارات التي يبحث عنها السوق بشغف.",
     quoteEn: "Pivoting careers becomes natural when you possess the exact skills the market is urgently seeking.",
+    salaryRangeAr: "٢٠,٠٠٠ – ٤٥,٠٠٠ ج.م / شهرياً",
+    salaryRangeEn: "$700 – $1,500 / mo",
+    superpowersAr: ["تطوير حلول ذكاء اصطناعي بدون كود", "بناء وإدارة وكلاء الـ AI المستقلين", "اكتناز مهارات المستقبل قبل انتشارها"],
+    superpowersEn: ["No-Code AI Solutions", "Autonomous AI Agents Building", "High-Demand Future Skillset"],
+    recommendedTrackSlugs: ["prompt-engineering-mastery", "autonomous-ai-agents", "zero-to-first-dollar-freelancer"],
   },
   "build-income": {
     key: "build-income",
@@ -308,6 +326,11 @@ export const archetypes: Record<string, Archetype> = {
     icon: "💼",
     quote: "الفرص الكبرى تُصنع في أوقات التغيير. إتقانك لأدوات اليوم يفتح لك أبواب ثروة حقيقية.",
     quoteEn: "Huge opportunities are unlocked during technology shifts. Mastering today's tools creates lasting income.",
+    salaryRangeAr: "٢٥,٠٠٠ – ٦٠,٠٠٠+ ج.م / شهرياً",
+    salaryRangeEn: "$800 – $2,000+ / mo",
+    superpowersAr: ["اكتساب عملاء دوليين على Upwork", "تسعير خدمات عالية القيمة (High-Ticket)", "بناء أنظمة دخل شبه مؤتمتة"],
+    superpowersEn: ["Global High-Paying Clients", "High-Ticket Service Packaging", "Automated Revenue Systems"],
+    recommendedTrackSlugs: ["zero-to-first-dollar-freelancer", "upwork-fiverr-global-mastery", "high-converting-copywriting"],
   },
   creative: {
     key: "creative",
@@ -318,6 +341,11 @@ export const archetypes: Record<string, Archetype> = {
     icon: "🎨",
     quote: "أدوات الذكاء الاصطناعي ليست بديلًا عن خيالك وإبداعك — بل هي جناحيك للتحليق أسرع وأعلى.",
     quoteEn: "Modern AI doesn't replace your artistic soul — it serves as the ultimate creative multiplier.",
+    salaryRangeAr: "١٨,٠٠٠ – ٤٠,٠٠٠ ج.م / شهرياً",
+    salaryRangeEn: "$600 – $1,300 / mo",
+    superpowersAr: ["توليد صور فائقة الجودة بـ Midjourney", "إنتاج فيديو ومحتوى رقمي سينمائي", "صياغة نصوص إعلانية فيروسية"],
+    superpowersEn: ["Midjourney Photorealism", "Cinematic AI Video Generation", "Viral High-Converting Copy"],
+    recommendedTrackSlugs: ["ai-media-midjourney", "ai-video-creation", "ai-copywriting-scripts"],
   },
   "stay-informed": {
     key: "stay-informed",
@@ -328,6 +356,11 @@ export const archetypes: Record<string, Archetype> = {
     icon: "🛡️",
     quote: "من يفهمون التكنولوجيا في بداياتها لا يخشون أي مفاجآت في المستقبل.",
     quoteEn: "Those who grasp the fundamentals early never need to fear what the future brings.",
+    salaryRangeAr: "١٥,٠٠٠ – ٣٠,٠٠٠ ج.م / شهرياً",
+    salaryRangeEn: "$500 – $1,000 / mo",
+    superpowersAr: ["إتقان هندسة الأوامر اليومية", "أمان وحوكمة استخدام الذكاء الاصطناعي", "فهم نماذج اللغة الكبيرة وإمكانياتها"],
+    superpowersEn: ["Daily Prompting Precision", "AI Ethics & Data Privacy", "LLM Mental Models"],
+    recommendedTrackSlugs: ["prompt-engineering-mastery", "ai-workplace-productivity", "ai-ethics-governance"],
   },
   other: {
     key: "other",
@@ -338,6 +371,11 @@ export const archetypes: Record<string, Archetype> = {
     icon: "🧭",
     quote: "كل نجاح عظيم بدأ بخطوة فضولية واثقة — وأنت اتخذت تلك الخطوة اليوم.",
     quoteEn: "Every monumental achievement begins with a curious first step — you took yours today.",
+    salaryRangeAr: "١٥,٠٠٠ – ٣٥,٠٠٠ ج.م / شهرياً",
+    salaryRangeEn: "$500 – $1,200 / mo",
+    superpowersAr: ["بناء مهارات تقنية من الصفر", "استغلال أدوات الـ AI لمضاعفة الإنتاجية", "إتقان التعلم السريع الميكرو"],
+    superpowersEn: ["Zero-to-One Tech Competence", "10x Daily Productivity Multiplier", "Mastery of Rapid Micro-Learning"],
+    recommendedTrackSlugs: ["prompt-engineering-mastery", "ai-workplace-productivity", "zero-to-first-dollar-freelancer"],
   },
 };
 
