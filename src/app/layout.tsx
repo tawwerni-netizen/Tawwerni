@@ -18,9 +18,9 @@ const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${bran
  */
 const total100Lessons = ALL_100_TRACKS.reduce((sum, t) => sum + t.totalLessons, 0);
 
-const shareTitle = `${brand.name} — الموقع ده اتبنى بالذكاء الاصطناعي`;
+const shareTitle = `${brand.name} — تعلّم بذكاء، طبّق في دقائق، واصنع دخلك بالذكاء الاصطناعي`;
 
-const description = `١٠٠ مسار احترافي وأكثر من ${total100Lessons} درس تطبيقي بالعربية والإنجليزية، ٥ دقايق في اليوم. اشتراك واحد ${pricing.priceEgp} ج.م لمدة سنة — واليوم الأول من كل مسار مجانًا.`;
+const description = `١٠٠ مسار احترافي وأكثر من ${total100Lessons} درس تطبيقي بالعربية والإنجليزية، ٥ إلى ١٥ دقيقة يومياً. اشتراك واحد ${pricing.priceEgp} ج.م لسنة كاملة مع ضمان استرجاع ٤٨ ساعة — واليوم الأول من كل مسار مجانًا.`;
 
 /**
  * Metadata, including the link preview card.
@@ -57,11 +57,20 @@ export const metadata: Metadata = {
     siteName: brand.name,
     title: shareTitle,
     description,
+    images: [
+      {
+        url: "/opengraph-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: `${brand.name} — تعلّم بذكاء، طبّق في دقائق، واصنع دخلك`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: shareTitle,
     description,
+    images: ["/opengraph-image.jpg"],
   },
   robots: { index: true, follow: true },
 };
