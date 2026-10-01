@@ -78,3 +78,27 @@ export async function pendingOrderFor(userId: string, courseId: string) {
     orderBy: { createdAt: "desc" },
   });
 }
+
+/**
+ * True if user unlocked the VIP Vault (has approved order with amountEgp >= 440, or is admin).
+ */
+export async function hasVipAccess(userId: string): Promise<boolean> {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { isAdmin: true, email: true },
+  });
+  if (user?.isAdmin || user?.email?.toLowerCase() === "hhifzy@gmail.com") {
+    return true;
+  }
+
+  const vipOrder = await prisma.order.findFirst({
+    where: {
+      userId,
+      status: "approved",
+      amountEgp: { gte: 440 },
+    },
+    select: { id: true },
+  });
+  return vipOrder !== null;
+}
+

@@ -115,14 +115,19 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
     }
   }
 
-  // 1. In Egypt, standard subscription transfers arrive as 349 or 350 EGP.
-  const isSubscriptionTier =
-    payment.amountEgp === 349 ||
-    payment.amountEgp === 350 ||
-    payment.amountEgp === pricing.priceEgp;
+  // 1. In Egypt, transfers arrive as 349/350 (Standard) or 448/450 (VIP Upgrade).
+  const standardTierAmounts = [349, 350, pricing.priceEgp];
+  const vipTierAmounts = [448, 449, 450, pricing.priceEgp + pricing.orderBumpPriceEgp];
 
-  const candidateAmounts = isSubscriptionTier
-    ? Array.from(new Set([349, 350, pricing.priceEgp]))
+  const isVipTier = vipTierAmounts.includes(payment.amountEgp);
+  const isStandardTier = standardTierAmounts.includes(payment.amountEgp);
+  const isRecognizedTier = isVipTier || isStandardTier;
+
+  // Search across pending subscription orders (including cross-tier in case of upgrade at payment time)
+  const candidateAmounts = isVipTier
+    ? Array.from(new Set([...vipTierAmounts, ...standardTierAmounts]))
+    : isStandardTier
+    ? Array.from(new Set([...standardTierAmounts, ...vipTierAmounts]))
     : [payment.amountEgp];
 
   // Fetch pending candidate orders (ordered newest first)
@@ -205,11 +210,11 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
 
   // -------------------------------------------------------------
   // STRATEGY 3: Synchronized Single Pending Order Heuristic
-  // If there is ONLY ONE pending order for 349/350 EGP in the system,
-  // and the payment arrived for this exact subscription amount,
+  // If there is ONLY ONE pending order in the system matching this candidate pool,
+  // and the payment arrived for a recognized subscription tier (349, 350, 448, 450),
   // activate it automatically without forcing manual human intervention!
   // -------------------------------------------------------------
-  if (!matchedOrder && candidates.length === 1 && isSubscriptionTier) {
+  if (!matchedOrder && candidates.length === 1 && isRecognizedTier) {
     const onlyCandidate = candidates[0];
     const hoursSinceOrder = (Date.now() - new Date(onlyCandidate.createdAt).getTime()) / (1000 * 60 * 60);
 
@@ -229,6 +234,15 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
     return park(
       `لم يتم تحديد طلب مؤكد تلقائياً للتحويل بمبلغ ${payment.amountEgp} ج.م. طلبات مرشحة: ${candidateSummary}`
     );
+  }
+
+  // If payment was for VIP tier (>= 448 EGP) and order was at 349 EGP, upgrade order amountEgp!
+  if (isVipTier && matchedOrder.amountEgp < payment.amountEgp) {
+    matchedOrder = await prisma.order.update({
+      where: { id: matchedOrder.id },
+      data: { amountEgp: payment.amountEgp, originalPriceEgp: payment.amountEgp },
+      include: { user: true, course: true },
+    });
   }
 
   // Activate order immediately

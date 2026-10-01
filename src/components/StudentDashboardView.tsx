@@ -167,6 +167,43 @@ export default function StudentDashboardView({
       <div className="space-y-4 mb-6">
         <MoodCheckIn />
         <FocusPlayer />
+
+        {/* VIP Vault Feature Banner */}
+        <div className="rounded-3xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-neutral-900/60 to-emerald-500/10 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 backdrop-blur-md shadow-xs">
+          <div className="flex items-center gap-3.5">
+            <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-200 text-neutral-950 flex items-center justify-center text-2xl shrink-0 shadow-md shadow-amber-500/20">
+              👑
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black text-amber-600 dark:text-amber-400">
+                  {isEn ? "VIP Members Vault" : "خزنة VIP الحصرية"}
+                </span>
+                <span className="rounded-md bg-amber-400 text-neutral-950 px-1.5 py-0.2 text-[10px] font-black">
+                  +1,000 Prompts
+                </span>
+              </div>
+              <h3 className="text-sm sm:text-base font-black text-neutral-900 dark:text-white leading-snug">
+                {isEn
+                  ? "Corporate AI Prompts Bank + Freelance Legal Contracts"
+                  : "بنك أوامر الذكاء الاصطناعي للشركات + حزمة عقود الفريلانس القانونية"}
+              </h3>
+              <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
+                {isEn
+                  ? "Tested enterprise prompts & battle-tested contracts protecting your freelance fees."
+                  : "أوامر ذكية جاهزة للنسخ تحمي أتعابك وتضاعف سرعة إنجاز مشاريعك وأرباحك."}
+              </p>
+            </div>
+          </div>
+
+          <Link
+            href="/app/vip-vault"
+            className="shrink-0 rounded-2xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-black text-xs px-5 py-3 text-center shadow-md shadow-amber-500/20 active:scale-95 transition-all flex items-center justify-center gap-1.5"
+          >
+            <span>⚡</span>
+            <span>{isEn ? "Open VIP Vault →" : "افتح خزنة VIP ←"}</span>
+          </Link>
+        </div>
       </div>
 
       {/* Main Grid: Radiant Active Mission + High-Energy Weekly Progress */}

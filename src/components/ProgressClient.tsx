@@ -207,6 +207,51 @@ export default function ProgressClient({
       {/* 5. In-Progress Courses */}
       {courses.length > 0 && (
         <div className="mb-6">
+          {/* Accredited Certificates Shelf if any course is completed */}
+          {courses.some((c) => c.completedLessons >= c.totalLessons) && (
+            <div className="mb-6 rounded-3xl border-2 border-amber-500/40 bg-gradient-to-br from-amber-500/10 via-neutral-900/40 to-emerald-500/10 p-5 shadow-lg">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <span>🎓</span>
+                  <span>{isEn ? "My Accredited Certificates" : "شهاداتي المعتمدة المكتملة"}</span>
+                </span>
+                <span className="text-xs font-mono bg-amber-400 text-neutral-950 px-2 py-0.5 rounded-full font-black">
+                  {courses.filter((c) => c.completedLessons >= c.totalLessons).length} {isEn ? "Certificates" : "شهادات"}
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {courses
+                  .filter((c) => c.completedLessons >= c.totalLessons)
+                  .map((certCourse) => (
+                    <div
+                      key={certCourse.id}
+                      className="rounded-2xl border border-amber-500/30 bg-white/80 dark:bg-neutral-900/80 p-3.5 flex items-center justify-between gap-3 shadow-xs"
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span className="text-2xl p-2 rounded-xl bg-amber-500/10 text-amber-500 shrink-0">
+                          {certCourse.icon || "📜"}
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-xs font-black truncate text-neutral-900 dark:text-white">
+                            {isEn ? (certCourse.titleEn || certCourse.titleAr) : certCourse.titleAr}
+                          </p>
+                          <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold mt-0.5">
+                            ✓ {isEn ? "100% Completed · Verified QR" : "مكتمل ١٠٠٪ · كود QR معتمد"}
+                          </p>
+                        </div>
+                      </div>
+                      <Link
+                        href={`/app/learn/${certCourse.slug}/certificate`}
+                        className="shrink-0 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 text-xs font-black px-3.5 py-2 shadow-xs transition-all active:scale-95"
+                      >
+                        {isEn ? "View ↗" : "عرض الشهادة ↗"}
+                      </Link>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider flex items-center gap-1.5">
               <span>📚</span>
@@ -247,7 +292,7 @@ export default function ProgressClient({
                       </div>
                     </div>
 
-                    {course.nextDay && course.completedLessons < course.totalLessons && (
+                    {course.nextDay && course.completedLessons < course.totalLessons ? (
                       <Link
                         href={`/app/learn/${course.slug}/${course.nextDay}`}
                         className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white px-3.5 py-2 text-xs font-black shadow-xs hover:scale-105 active:scale-95 transition-all"
@@ -255,7 +300,15 @@ export default function ProgressClient({
                         <span>▶️</span>
                         <span>{isEn ? `Day ${course.nextDay}` : `يوم ${course.nextDay}`}</span>
                       </Link>
-                    )}
+                    ) : course.completedLessons >= course.totalLessons ? (
+                      <Link
+                        href={`/app/learn/${course.slug}/certificate`}
+                        className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 px-3.5 py-2 text-xs font-black shadow-xs hover:scale-105 active:scale-95 transition-all"
+                      >
+                        <span>🎓</span>
+                        <span>{isEn ? "Certificate" : "الشهادة"}</span>
+                      </Link>
+                    ) : null}
                   </div>
 
                   <div className="h-2 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden">

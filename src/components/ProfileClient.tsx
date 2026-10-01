@@ -233,6 +233,38 @@ export default function ProfileClient(props: Props) {
               {paymentLabel} · {props.subscription.amountEgp} {isEn ? "EGP (All 100 Tracks Unlocked)" : "جنيه (كافة الـ 100 مسار مفتوحة بالكامل)"}
             </p>
 
+            {/* VIP Status Badge */}
+            <div className="mt-4 rounded-2xl border p-3.5 flex items-center justify-between gap-3 bg-neutral-50 dark:bg-neutral-900/60 border-black/5 dark:border-white/5">
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl">👑</span>
+                <div>
+                  <p className="text-xs font-black text-neutral-900 dark:text-white">
+                    {props.subscription.amountEgp >= 440
+                      ? isEn ? "VIP Vault Unlocked (+1,000 Prompts & Contracts)" : "خزنة VIP مفعلة (+1,000 برومبت وعقود الفريلانس)"
+                      : isEn ? "VIP Vault Upgrade Available (+99 EGP)" : "ترقية خزنة VIP متاحة (+99 ج.م فقط)"}
+                  </p>
+                  <p className="text-[10px] text-neutral-500">
+                    {props.subscription.amountEgp >= 440
+                      ? isEn ? "Lifetime access to enterprise prompts & legal contracts" : "وصول دائم لأوامر الذكاء الاصطناعي وعقود العمل الحر"
+                      : isEn ? "Unlock the 1,000 prompts bank and legal contract pack" : "احصل على بنك الأوامر وعقود العمل الحر لحماية أتعابك"}
+                  </p>
+                </div>
+              </div>
+
+              <Link
+                href="/app/vip-vault"
+                className={`shrink-0 rounded-xl px-3.5 py-1.5 text-xs font-black transition-all ${
+                  props.subscription.amountEgp >= 440
+                    ? "bg-amber-400 text-neutral-950 hover:bg-amber-300"
+                    : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 hover:bg-amber-500/20"
+                }`}
+              >
+                {props.subscription.amountEgp >= 440
+                  ? (isEn ? "Open Vault ↗" : "دخول الخزنة ↗")
+                  : (isEn ? "Upgrade ↗" : "ترقية الحساب ↗")}
+              </Link>
+            </div>
+
             {/* Guarantee and Support badge */}
             <div className="mt-4 pt-3 border-t border-black/5 dark:border-white/5 flex flex-wrap items-center justify-between gap-2 text-xs">
               <span className="text-teal-700 dark:text-teal-300 font-bold flex items-center gap-1.5">

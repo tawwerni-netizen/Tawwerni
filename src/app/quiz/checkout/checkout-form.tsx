@@ -127,7 +127,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, phone, instapayName, courseSlug, method, proofChannel }),
+        body: JSON.stringify({ email, name, phone, instapayName, courseSlug, method, proofChannel, withOrderBump }),
       });
 
       const raw = await res.text();
@@ -529,6 +529,21 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
               {error}
             </p>
           )}
+
+          {/* ⭐ Accredited Certificate Trust Badge ⭐ */}
+          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3.5 text-start flex items-center gap-3">
+            <span className="text-2xl shrink-0">🎓</span>
+            <div>
+              <p className="text-xs font-black text-amber-300">
+                {isEn ? "Verified QR Certificates Included for All 100 Tracks" : "شهادات إتمام معتمدة بكود QR لكافة الـ 100 مسار مشمولة مجاناً"}
+              </p>
+              <p className="text-[11px] text-neutral-300 mt-0.5">
+                {isEn
+                  ? "Earn verifiable digital credentials with 1-click LinkedIn integration as you complete courses."
+                  : "تحصل على شهادات موثقة برابط دائم وكود QR تُضاف بضغطة زر واحدة لحسابك على لينكد إن وسيرتك الذاتية."}
+              </p>
+            </div>
+          </div>
 
           {/* ⭐ 48-Hour Money-Back Guarantee Badge ⭐ */}
           <div className="rounded-2xl border-2 border-emerald-400/50 bg-gradient-to-r from-emerald-950/70 via-teal-950/50 to-neutral-900 p-4 shadow-xl shadow-emerald-500/15 text-start flex items-start gap-3">

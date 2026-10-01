@@ -168,6 +168,41 @@ export default function CourseDetailClient({
 
       {/* Main Container */}
       <div className="mx-auto max-w-4xl px-4 sm:px-6 pt-6">
+        {/* Course Completed Certificate Banner */}
+        {unlocked && doneCount >= allLessons.length && (
+          <div className="rounded-3xl border-2 border-amber-400/50 bg-gradient-to-r from-amber-500/15 via-teal-900/40 to-emerald-500/15 p-6 mb-6 text-neutral-900 dark:text-white shadow-xl relative overflow-hidden backdrop-blur-md">
+            <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-amber-400/20 blur-xl" />
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+              <div className="flex items-center gap-4">
+                <div className="h-14 w-14 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-200 text-neutral-950 flex items-center justify-center text-3xl shrink-0 shadow-lg shadow-amber-500/30 animate-pulse">
+                  🎓
+                </div>
+                <div>
+                  <div className="inline-flex items-center gap-2 rounded-full bg-amber-400 text-neutral-950 px-2.5 py-0.5 text-[10px] font-black mb-1">
+                    ✓ {isEn ? "Track Completed!" : "أتممت هذا المسار بنجاح!"}
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-black text-neutral-900 dark:text-white leading-tight">
+                    {isEn ? "Your Official Certificate is Ready" : "شهادتك المعتمدة جاهزة للاستلام والتنزيل"}
+                  </h3>
+                  <p className="text-xs text-neutral-600 dark:text-neutral-300 mt-1">
+                    {isEn
+                      ? "Includes permanent verification QR code and 1-click addition to your LinkedIn profile."
+                      : "تحمل كود تحقق QR رسمي دائم ويمكنك إضافتها مباشرة لملفك على لينكد إن وسيرتك الذاتية."}
+                  </p>
+                </div>
+              </div>
+
+              <Link
+                href={`/app/learn/${course.slug}/certificate`}
+                className="shrink-0 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 px-6 py-3.5 text-center text-xs sm:text-sm font-black text-neutral-950 shadow-xl shadow-amber-500/25 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2"
+              >
+                <span>🎖️</span>
+                <span>{isEn ? "Claim & Print Certificate →" : "استلم واطبع شهادتك الآن ←"}</span>
+              </Link>
+            </div>
+          </div>
+        )}
+
         {/* Access Status Banner */}
         {!unlocked && isLoggedIn && (
           pendingOrder ? (

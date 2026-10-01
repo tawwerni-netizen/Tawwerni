@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`orders:${clientIp(request)}`, 10, 3600);
   if (!gate.ok) return tooMany(gate, "طلبات كتير من الجهاز ده. استنى شوية أو كلّمنا على واتساب.");
 
-  const { email, name, phone, instapayName, courseSlug, method, proofChannel } = await readJson(request);
+  const { email, name, phone, instapayName, courseSlug, method, proofChannel, withOrderBump } = await readJson(request);
 
   if (typeof email !== "string" || !email.includes("@")) {
     return NextResponse.json({ error: "اكتب إيميل صحيح" }, { status: 400 });
@@ -99,23 +99,37 @@ export async function POST(request: Request) {
    * concurrent requests for the same user, so the second one's check runs
    * only after the first one's insert has actually landed.
    */
+  const isVipUpgrade = Boolean(withOrderBump);
+  const finalAmountEgp = isVipUpgrade
+    ? pricing.priceEgp + pricing.orderBumpPriceEgp
+    : pricing.priceEgp;
+
   const order = await prisma.$transaction(async (tx) => {
     await tx.$queryRaw`SELECT id FROM User WHERE id = ${user.id} FOR UPDATE`;
 
     const openOrder = await tx.order.findFirst({
       where: { userId: user.id, courseId: course.id, status: { in: ["pending", "approved"] } },
     });
-    if (openOrder) return { ...openOrder, alreadyExists: true as const };
+    if (openOrder) {
+      if (openOrder.status === "pending" && isVipUpgrade && openOrder.amountEgp < finalAmountEgp) {
+        const upgraded = await tx.order.update({
+          where: { id: openOrder.id },
+          data: { amountEgp: finalAmountEgp, originalPriceEgp: finalAmountEgp },
+        });
+        return { ...upgraded, alreadyExists: true as const, upgraded: true as const };
+      }
+      return { ...openOrder, alreadyExists: true as const };
+    }
 
     return tx.order.create({
       data: {
         userId: user.id,
         courseId: course.id,
         method,
-        amountEgp: pricing.priceEgp,
+        amountEgp: finalAmountEgp,
         // السعر اللي اتدفع فعلًا — عشان أي تغيير في السعر بعدين
         // ما يغيّرش سجل عميل قديم.
-        originalPriceEgp: pricing.priceEgp,
+        originalPriceEgp: finalAmountEgp,
         status: "pending",
         proofChannel: typeof proofChannel === "string" ? proofChannel : null,
         senderPhone: normalizedPhone,

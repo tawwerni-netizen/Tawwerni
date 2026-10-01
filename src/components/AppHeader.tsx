@@ -41,6 +41,7 @@ export default function AppHeader({
     { href: "/app", label: lang === "ar" ? "الرئيسية" : "Home", icon: "🏠" },
     { href: "/app/learn", label: lang === "ar" ? "تعلّم" : "Learn", icon: "📚" },
     { href: "/app/progress", label: lang === "ar" ? "تقدّمي" : "Progress", icon: "📊" },
+    { href: "/app/vip-vault", label: lang === "ar" ? "خزنة VIP" : "VIP Vault", icon: "👑" },
     { href: "/app/referrals", label: lang === "ar" ? "اكسب" : "Earn", icon: "💰" },
     { href: "/app/profile", label: lang === "ar" ? "حسابي" : "Profile", icon: "👤" },
   ];

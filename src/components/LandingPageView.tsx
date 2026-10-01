@@ -382,6 +382,174 @@ export default function LandingPageView() {
           </div>
         </section>
 
+        {/* ---------- 3.5 ACCREDITED CERTIFICATES SHOWCASE ---------- */}
+        <section className="mb-16">
+          <div className="rounded-3xl border-2 border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-neutral-900/60 to-emerald-500/10 p-6 sm:p-10 shadow-2xl relative overflow-hidden backdrop-blur-xl">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-amber-400/20 blur-3xl" />
+            <div className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-emerald-500/20 blur-3xl" />
+
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              {/* Text Side (7 cols) */}
+              <div className="lg:col-span-7">
+                <span className="inline-flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/15 px-3.5 py-1 text-xs font-black text-amber-700 dark:text-amber-300 mb-4">
+                  <span>🎓</span>
+                  <span>{isEn ? "Career Credibility & Proof of Work" : "توثيق مهني رسمي يثبت كفاءتك للشركات"}</span>
+                </span>
+
+                <h2 className="text-2xl sm:text-4xl font-black text-neutral-900 dark:text-white leading-tight tracking-tight">
+                  {isEn ? (
+                    <>
+                      Verified Certificates with Instant QR Code.
+                      <br />
+                      <span className="bg-gradient-to-r from-amber-400 via-amber-300 to-emerald-400 bg-clip-text text-transparent">
+                        100 Tracks = 100 Credentials for Your CV.
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      شهادة إتمام معتمدة بكود تحقق QR لكل مسار تنجزه.
+                      <br />
+                      <span className="bg-gradient-to-r from-amber-400 via-amber-300 to-emerald-400 bg-clip-text text-transparent">
+                        ١٠٠ مسار = ١٠٠ شهادة موثقة تثري سيرتك الذاتية و LinkedIn.
+                      </span>
+                    </>
+                  )}
+                </h2>
+
+                <p className="mt-3 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed font-medium">
+                  {isEn
+                    ? "Unlike platforms that charge extra hundreds for certificates or hand them out for passive video watching — every track on Tawwerni earns you a tamper-proof digital certificate backed by an official verification URL and real hands-on milestone completions."
+                    : "على عكس المنصات التي تطلب مئات الدولارات الإضافية لكل شهادة أو تمنحها لمجرد المشاهدة الصامتة — كل مسار تنهيه في طوّرني يمنحك شهادة رقمية رسمية برابط تحقق دائم تثبت للعملاء وأصحاب العمل أنك نفذت التطبيقات العملية بيدك."}
+                </p>
+
+                {/* 4 Feature Cards */}
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="rounded-2xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-neutral-950/60 p-3.5">
+                    <div className="flex items-center gap-2 font-black text-xs text-neutral-900 dark:text-white mb-1">
+                      <span>📱</span>
+                      <span>{isEn ? "Instant QR Verification" : "تحقق فوري بكاميرا الهاتف (QR)"}</span>
+                    </div>
+                    <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                      {isEn ? "Employers scan the QR to see your authentic graduate record on tawwerni.com." : "أي عميل يمسح الكود يتأكد فوراً من سجلك الرسمي وتاريخ تخرجك بدون أي مجال للتزييف."}
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-neutral-950/60 p-3.5">
+                    <div className="flex items-center gap-2 font-black text-xs text-neutral-900 dark:text-white mb-1">
+                      <span>💼</span>
+                      <span>{isEn ? "1-Click LinkedIn Integration" : "إضافة مباشرة لـ LinkedIn و CV"}</span>
+                    </div>
+                    <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                      {isEn ? "Add to your Licenses & Certifications section in 1 click to attract recruiters." : "بنقرة واحدة تضاف إلى قسم الشهادات والتراخيص بملفك الشخصي لجذب مسؤولي التوظيف."}
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-neutral-950/60 p-3.5">
+                    <div className="flex items-center gap-2 font-black text-xs text-neutral-900 dark:text-white mb-1">
+                      <span>⚡</span>
+                      <span>{isEn ? "Proof of Hands-On Work" : "إثبات تطبيقي وليس نظرياً"}</span>
+                    </div>
+                    <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                      {isEn ? "Issued only after completing all daily challenges and quiz masteries." : "لا تصدر إلا بعد إنجاز كافة المهام التفاعلية والكويزات، مما يعطيها وزناً حقيقياً أمام العملاء."}
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-neutral-950/60 p-3.5">
+                    <div className="flex items-center gap-2 font-black text-xs text-neutral-900 dark:text-white mb-1">
+                      <span>🖨️</span>
+                      <span>{isEn ? "Print-Ready Vector PDF" : "طباعة وتصدير عالي الدقة PDF"}</span>
+                    </div>
+                    <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                      {isEn ? "Engineered with guilloche borders and print styles for physical portfolios." : "مهيأة للطباعة المباشرة بأبعاد عالية الدقة وبوردرات ملكية لملفك الورقي والمقابلات."}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex flex-wrap items-center gap-4">
+                  <Link
+                    href="/quiz"
+                    className="rounded-full bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-500 px-7 py-3.5 text-xs sm:text-sm font-black text-white shadow-xl shadow-teal-500/20 hover:brightness-110 active:scale-95 transition-all"
+                  >
+                    {isEn ? "Start Your First Track Free →" : "ابدأ أول مسار لك مجانًا الآن ←"}
+                  </Link>
+                  <Link
+                    href="/tracks"
+                    className="text-xs font-bold text-neutral-700 dark:text-neutral-300 hover:text-teal-600 dark:hover:text-teal-400 underline"
+                  >
+                    {isEn ? "Browse 100 Available Track Certificates →" : "استكشف الـ ١٠٠ مسار وشهاداتهم المتاحة ←"}
+                  </Link>
+                </div>
+              </div>
+
+              {/* Visual Certificate Card Mockup (5 cols) */}
+              <div className="lg:col-span-5 relative">
+                <div className="rounded-3xl border-2 border-amber-400/40 bg-gradient-to-b from-[#0e1a16] to-[#070d0c] p-5 sm:p-6 text-white shadow-2xl relative overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
+                  {/* Gold seal stamp */}
+                  <div className="absolute top-4 end-4 text-3xl filter drop-shadow-md">
+                    🎖️
+                  </div>
+
+                  {/* Header in Mockup */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xl">🚀</span>
+                    <span className="text-sm font-black text-emerald-400 font-mono tracking-wider">
+                      TAWWERNI.COM
+                    </span>
+                  </div>
+
+                  <p className="text-[10px] uppercase tracking-widest text-amber-300/90 font-black mb-1">
+                    {isEn ? "Certificate of Practical Completion" : "شهادة إتمام وتأهيل عملي معتمدة"}
+                  </p>
+
+                  <div className="h-0.5 bg-gradient-to-r from-amber-400 via-emerald-400 to-transparent my-2" />
+
+                  <p className="text-[10px] text-neutral-400">{isEn ? "Presented to Graduate:" : "تُمنح للخريج المتميز:"}</p>
+                  <p className="text-lg font-black text-white my-1">
+                    {isEn ? "Sarah Mohamed Ibrahim" : "سارة محمد إبراهيم"}
+                  </p>
+
+                  <p className="text-[10px] text-neutral-400">{isEn ? "For completing all milestones in:" : "لإتمامها بنجاح كافة مشاريع مسار:"}</p>
+                  <p className="text-xs font-black text-emerald-300 mb-4">
+                    {isEn ? "AI Prompt Engineering & Business Automation" : "هندسة أوامر الذكاء الاصطناعي وأتمتة البيزنس"}
+                  </p>
+
+                  {/* Mockup stats */}
+                  <div className="grid grid-cols-3 gap-1.5 bg-white/5 rounded-xl p-2.5 text-center text-[10px] mb-4 border border-white/5">
+                    <div>
+                      <p className="font-mono font-bold text-emerald-300 text-xs">28</p>
+                      <p className="text-neutral-400 text-[9px]">{isEn ? "Lessons" : "درسًا"}</p>
+                    </div>
+                    <div>
+                      <p className="font-mono font-bold text-amber-300 text-xs">1,400</p>
+                      <p className="text-neutral-400 text-[9px]">XP</p>
+                    </div>
+                    <div>
+                      <p className="font-mono font-bold text-teal-300 text-xs">98%</p>
+                      <p className="text-neutral-400 text-[9px]">{isEn ? "Score" : "تقييم"}</p>
+                    </div>
+                  </div>
+
+                  {/* Bottom Verification & QR */}
+                  <div className="flex items-center justify-between pt-3 border-t border-white/10 text-[9px]">
+                    <div className="flex items-center gap-2">
+                      <div className="h-10 w-10 rounded-lg bg-white p-0.5 text-neutral-950 flex items-center justify-center font-mono font-black text-[9px]">
+                        QR
+                      </div>
+                      <div>
+                        <p className="font-bold text-white">ID: TW-AI2026-984</p>
+                        <p className="text-emerald-400 font-mono">tawwerni.com/verify/...</p>
+                      </div>
+                    </div>
+                    <span className="rounded-full bg-emerald-500/20 text-emerald-300 px-2 py-0.5 font-bold border border-emerald-500/30">
+                      ✓ {isEn ? "Verified" : "موثقة رسميًا"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ---------- 4. BEFORE & AFTER (LOSS AVERSION) ---------- */}
         <div className="mx-auto mb-16 max-w-3xl">
           <h2 className="mb-2 text-center text-xl font-black md:text-2xl text-neutral-900 dark:text-white">
