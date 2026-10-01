@@ -626,8 +626,9 @@ export default function LandingPageView() {
 
         {/* ---------- 6. THE HONEST PRICE, ANCHORED & TRANSPARENT ---------- */}
         <div className="mx-auto mb-16 max-w-2xl text-center">
-          <span className="inline-block bg-amber-500/10 text-amber-800 dark:text-amber-300 text-xs font-bold px-3.5 py-1 rounded-full border border-amber-500/30 mb-3">
-            {isEn ? "Founding Cohort Offer · 71% OFF" : "عرض فوج التأسيس الأول · خصم 71%"}
+          <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-rose-600 via-red-500 to-amber-500 text-white text-xs font-black px-4 py-1.5 rounded-full shadow-md shadow-rose-500/25 border border-white/20 mb-3">
+            <span className="text-yellow-200 animate-pulse text-[11px]">⚡</span>
+            <span>{isEn ? "Founding Cohort Offer · 71% OFF" : "عرض فوج التأسيس الأول · خصم 71%"}</span>
           </span>
           <h2 className="text-2xl font-black md:text-3xl mb-2 text-neutral-900 dark:text-white">
             {isEn
@@ -665,7 +666,7 @@ export default function LandingPageView() {
             <div className="pointer-events-none absolute -bottom-24 -right-24 w-60 h-60 rounded-full bg-teal-500/15 blur-3xl" />
 
             {/* Prominent VIP Discount Ribbon */}
-            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 text-xs font-black mb-4">
+            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-amber-500 text-white border border-white/20 text-xs font-black mb-4 shadow-md shadow-rose-500/25">
               <span>👑</span>
               <span>
                 {isEn

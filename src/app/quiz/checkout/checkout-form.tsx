@@ -25,7 +25,15 @@ function waLink(local: string) {
   return `https://wa.me/20${local.replace(/^0/, "")}`;
 }
 
-function CopyField({ value, label }: { value: string; label?: string }) {
+function CopyField({
+  value,
+  label,
+  method,
+}: {
+  value: string;
+  label?: string;
+  method?: "vodafone_cash" | "instapay";
+}) {
   const [copied, setCopied] = useState(false);
   const { lang } = useI18n();
   const isEn = lang === "en";
@@ -40,32 +48,71 @@ function CopyField({ value, label }: { value: string; label?: string }) {
     setTimeout(() => setCopied(false), 1600);
   }
 
+  const isPhone = /^01\d{9}$/.test(value);
+  const displayValue = isPhone
+    ? `${value.slice(0, 4)} ${value.slice(4, 7)} ${value.slice(7)}`
+    : value;
+
   return (
-    <button
-      type="button"
+    <div
       onClick={copy}
-      className={`w-full flex items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-start transition-all duration-200 active:scale-98 ${
+      role="button"
+      tabIndex={0}
+      className={`w-full cursor-pointer flex items-center justify-between gap-3 rounded-2xl border px-3.5 sm:px-4 py-3 text-start transition-all duration-200 active:scale-98 select-none ${
         copied
-          ? "border-emerald-400 bg-emerald-500/15 shadow-md shadow-emerald-500/10"
-          : "border-white/10 bg-[#0d1614] hover:border-emerald-500/50 hover:bg-[#12211d]"
+          ? "border-emerald-400 bg-emerald-500/20 shadow-md shadow-emerald-500/15"
+          : "border-white/10 bg-black/40 hover:border-emerald-500/50 hover:bg-[#12211d]"
       }`}
     >
-      <span className="flex items-center gap-1.5 shrink-0 text-xs font-black text-emerald-400">
+      <div className="flex items-center gap-2.5 min-w-0 flex-1">
+        <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/5 border border-white/10 text-sm shrink-0">
+          {method === "instapay" ? "⚡" : "📱"}
+        </span>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span
+              className="font-mono font-black tracking-wider text-white text-sm sm:text-base"
+              dir="ltr"
+            >
+              {displayValue}
+            </span>
+            {label && (
+              <span className="text-[10px] text-neutral-400 bg-white/5 px-2 py-0.5 rounded-md font-sans">
+                {label}
+              </span>
+            )}
+          </div>
+          <span className="block text-[10px] text-neutral-400 truncate">
+            {isEn ? "Tap to copy" : "انقر للنسخ المباشر"}
+          </span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          copy();
+        }}
+        className={`shrink-0 rounded-xl px-3 py-1.5 text-xs font-bold transition-all flex items-center gap-1.5 ${
+          copied
+            ? "bg-emerald-500 text-neutral-950 shadow-xs shadow-emerald-500/30 font-black"
+            : "bg-white/10 text-emerald-400 hover:bg-emerald-500/20 hover:text-emerald-300 border border-emerald-500/20"
+        }`}
+      >
         {copied ? (
           <>
-            <span aria-hidden>✓</span> {isEn ? "Copied!" : "تم النسخ بنجاح!"}
+            <span aria-hidden>✓</span>
+            <span>{isEn ? "Copied" : "تم النسخ"}</span>
           </>
         ) : (
           <>
-            <span aria-hidden>📋</span> {isEn ? "Copy" : "انقر للنسخ"}
+            <span aria-hidden>📋</span>
+            <span>{isEn ? "Copy" : "نسخ"}</span>
           </>
         )}
-      </span>
-      <span className="min-w-0 flex-1 truncate font-mono font-bold tracking-wider text-white text-sm" dir="ltr">
-        {value}
-      </span>
-      {label && <span className="shrink-0 text-xs text-neutral-400 font-semibold">{label}</span>}
-    </button>
+      </button>
+    </div>
   );
 }
 
@@ -239,7 +286,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
         <div className="absolute bottom-10 -right-28 w-80 h-80 bg-teal-500/10 blur-[100px] rounded-full" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-md">
+      <div className="relative z-10 mx-auto max-w-xl w-full px-1 sm:px-0">
         {/* Header Bar */}
         <div className="flex items-center justify-between mb-6">
           <LogoLink size={30} href="/" />
@@ -250,59 +297,71 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
         </div>
 
         {/* Price Summary Banner */}
-        <div className="mb-5 overflow-hidden rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-br from-[#0c1815] via-[#0d1614] to-[#12241f] p-5 sm:p-6 text-white shadow-xl shadow-emerald-500/15 relative">
+        <div className="mb-5 overflow-hidden rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-br from-[#0c1815] via-[#0d1614] to-[#12241f] p-4 sm:p-6 text-white shadow-xl shadow-emerald-500/15 relative">
           {/* Subtle Ambient Glow */}
           <div className="pointer-events-none absolute -top-12 -right-12 h-32 w-32 rounded-full bg-emerald-500/15 blur-2xl" />
 
-          {/* Top Row: Founding Cohort Tag + Sleek Discount Chip */}
+          {/* Top Row: Founding Cohort Tag + High-Contrast Radiant Discount Chip */}
           <div className="flex items-center justify-between gap-2 mb-3">
-            <span className="inline-flex items-center gap-1.5 text-xs font-black text-emerald-300">
-              <span className="text-sm">👑</span>
-              <span>{isEn ? "Founding Cohort · 1-Year Access" : "فوج التأسيس الأول · وصول سنوي"}</span>
+            <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-black text-emerald-300">
+              <span className="text-base">👑</span>
+              <span>{isEn ? "Founding Cohort · 1-Year Access" : "فوج التأسيس الأول · وصول سنوي شامل"}</span>
             </span>
 
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-400/15 border border-amber-400/40 px-3 py-1 text-xs font-black text-amber-300 whitespace-nowrap shrink-0 shadow-2xs">
-              <span className="text-[11px] animate-pulse">⚡</span>
-              <span>{isEn ? "71% OFF" : "خصم 71%"}</span>
+            {/* High-Contrast, Radiant 71% Discount Badge */}
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-amber-500 px-3.5 py-1 text-xs font-black text-white shadow-md shadow-rose-500/30 border border-white/30 whitespace-nowrap shrink-0">
+              <span className="text-[11px] text-yellow-200 animate-pulse">⚡</span>
+              <span className="tracking-wide">{isEn ? "71% OFF" : "خصم 71%"}</span>
             </span>
           </div>
 
-          {/* Price Numbers & Savings Row */}
-          <div className="flex flex-wrap items-baseline gap-2.5 my-2">
-            <div className="flex items-baseline gap-1">
-              <span className="text-4xl sm:text-5xl font-black font-mono tracking-tight text-white drop-shadow-sm" dir="ltr">
-                {totalPrice}
+          {/* Hero Symmetrical Price & Value Showcase */}
+          <div className="my-3 rounded-2xl bg-black/40 border border-white/10 p-3.5 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="flex items-baseline gap-2.5">
+              <div className="flex items-baseline gap-1.5" dir="ltr">
+                <span className="text-4xl sm:text-5xl font-black font-mono tracking-tight text-white drop-shadow-sm">
+                  {totalPrice}
+                </span>
+                <span className="text-base sm:text-lg font-black text-emerald-400">
+                  {isEn ? "EGP" : "ج.م"}
+                </span>
+              </div>
+
+              <span className="text-sm sm:text-base text-neutral-400 line-through font-mono">
+                {pricing.originalPriceEgp} {isEn ? "EGP" : "ج.م"}
               </span>
-              <span className="text-sm sm:text-base font-black text-emerald-400">{isEn ? "EGP" : "ج.م"}</span>
             </div>
 
-            <span className="text-sm sm:text-base text-neutral-500 line-through font-mono">
-              {pricing.originalPriceEgp} {isEn ? "EGP" : "ج.م"}
-            </span>
-
-            <span className={`text-[11px] font-bold text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 rounded-full px-2.5 py-0.5 ${isEn ? "ml-auto" : "mr-auto"}`}>
-              {isEn ? "All 100 Tracks Unlocked" : "١٠٠ مسار كاملة"}
-            </span>
+            <div className="flex items-center gap-2 self-stretch sm:self-auto justify-between sm:justify-end border-t border-white/5 pt-2.5 sm:border-0 sm:pt-0">
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 rounded-full px-3 py-1">
+                <span>🔓</span>
+                <span>{isEn ? "All 100 Tracks Unlocked" : "١٠٠ مسار كاملة"}</span>
+              </span>
+              <span className="text-[11px] text-neutral-400 font-mono">
+                {isEn ? "365 Days" : "٣٦٥ يومًا"}
+              </span>
+            </div>
           </div>
 
-          {/* Urgency Counter with Pulse Beacon */}
-          <div className="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-neutral-300">
+          {/* Urgency Counter with Pulse Beacon & Symmetrical Guarantee */}
+          <div className="mt-3 pt-3 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-neutral-300">
             <p className="flex items-center gap-2">
               <span className="relative flex h-2 w-2 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500" />
               </span>
               <span className="text-[11px] sm:text-xs">
                 {isEn ? (
-                  <>Only <b className="text-white font-mono">{pricing.cohortSeatsRemaining} seats</b> remaining at this launch price</>
+                  <>Only <b className="text-amber-300 font-mono font-black">{pricing.cohortSeatsRemaining} seats</b> remaining at this launch price</>
                 ) : (
-                  <>متبقٍ <b className="text-white font-mono">{pricing.cohortSeatsRemaining} مقعدًا فقط</b> بهذا السعر المخفض</>
+                  <>متبقٍ <b className="text-amber-300 font-mono font-black">{pricing.cohortSeatsRemaining} مقعدًا فقط</b> بهذا السعر المخفض</>
                 )}
               </span>
             </p>
 
-            <span className="text-[10px] text-neutral-400 hidden sm:inline">
-              {isEn ? "Guaranteed rate" : "يضمن لك السعر"}
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-300/90 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2.5 py-0.5">
+              <span>🔒</span>
+              <span>{isEn ? "Guaranteed rate" : "سعر مضمون لك الآن"}</span>
             </span>
           </div>
         </div>
@@ -317,26 +376,30 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
           }`}
         >
           <div className="flex items-start gap-3">
-            <input
-              type="checkbox"
-              checked={withOrderBump}
-              onChange={(e) => setWithOrderBump(e.target.checked)}
-              onClick={(e) => e.stopPropagation()}
-              className="mt-1 h-5 w-5 rounded border-neutral-600 bg-neutral-900 text-amber-500 focus:ring-amber-500 cursor-pointer"
-            />
+            <div className="pt-0.5">
+              <input
+                type="checkbox"
+                checked={withOrderBump}
+                onChange={(e) => setWithOrderBump(e.target.checked)}
+                onClick={(e) => e.stopPropagation()}
+                className="h-5 w-5 rounded border-neutral-600 bg-neutral-900 text-amber-500 focus:ring-amber-500 cursor-pointer"
+              />
+            </div>
             <div className="flex-1 text-start">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-md bg-amber-400 text-neutral-950 px-2 py-0.5 text-[10px] font-black">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="rounded-md bg-amber-400 text-neutral-950 px-2.5 py-0.5 text-[11px] font-black">
                   ⚡ {isEn ? "Exclusive VIP Upgrade (Order Bump)" : "ترقية حصرية مضافة لطلبك"}
                 </span>
-                <span className="text-xs font-black text-amber-300 font-mono">
-                  +{pricing.orderBumpPriceEgp} {isEn ? "EGP only" : "ج.م فقط"}
-                </span>
-                <span className="text-[10px] text-neutral-400 line-through font-mono">
-                  450 {isEn ? "EGP" : "ج.م"}
-                </span>
+                <div className="flex items-center gap-1.5 font-mono">
+                  <span className="text-xs font-black text-amber-300">
+                    +{pricing.orderBumpPriceEgp} {isEn ? "EGP only" : "ج.م فقط"}
+                  </span>
+                  <span className="text-[10px] text-neutral-400 line-through">
+                    450 {isEn ? "EGP" : "ج.م"}
+                  </span>
+                </div>
               </div>
-              <p className="mt-1 text-xs font-bold text-white leading-snug">
+              <p className="mt-1.5 text-xs sm:text-sm font-bold text-white leading-snug">
                 {isEn
                   ? "Secret 1,000+ Corporate AI Prompts Bank + Verified Freelance Legal Contracts"
                   : pricing.orderBumpTitle}
@@ -352,10 +415,15 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
 
         <form onSubmit={submit} className="space-y-4">
           {/* Step 1: Track Choice */}
-          <div className="rounded-3xl border border-white/10 bg-[#0d1614] p-4 shadow-xs">
-            <label className="mb-1 block text-xs font-bold text-neutral-300">
-              {isEn ? "1. Which track would you like to start with?" : "١. تحب تبدأ بأنهي مسار؟"}
-            </label>
+          <div className="rounded-3xl border border-white/10 bg-[#0d1614] p-4 sm:p-5 shadow-xs">
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-xs sm:text-sm font-black text-white">
+                {isEn ? "1. Which track would you like to start with?" : "١. تحب تبدأ بأنهي مسار؟"}
+              </label>
+              <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                {isEn ? "100 Tracks Included" : "١٠٠ مسار مشمولة"}
+              </span>
+            </div>
             <p className="mb-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 px-3 py-2 text-xs leading-relaxed text-emerald-300">
               {isEn
                 ? "✓ Your membership unlocks ALL 100 tracks for a full year — this simply sets your customized starting point."
@@ -367,13 +435,13 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
                   key={c.slug}
                   type="button"
                   onClick={() => setCourseSlug(c.slug)}
-                  className={`flex w-full items-center gap-3 rounded-2xl border-2 p-3 text-start transition-all ${
+                  className={`flex w-full items-center gap-3 rounded-2xl border-2 p-3 text-start transition-all cursor-pointer ${
                     courseSlug === c.slug
                       ? "border-emerald-400 bg-emerald-950/40 shadow-md shadow-emerald-500/10"
                       : "border-white/5 bg-white/5 hover:border-white/20"
                   }`}
                 >
-                  <span className="text-xl">{c.icon}</span>
+                  <span className="text-xl shrink-0">{c.icon}</span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-xs sm:text-sm font-bold text-white">
                       {isEn ? (c.titleEn || c.title) : c.title}
@@ -392,97 +460,196 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
             </div>
           </div>
 
-          {/* Step 2: Contact Details */}
-          <div className="rounded-3xl border border-white/10 bg-[#0d1614] p-4 shadow-xs">
-            <label className="mb-2 block text-xs font-bold text-neutral-300">
-              {isEn ? "2. Your Information" : "٢. بياناتك"}
-            </label>
-            <input
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder={isEn ? "Full name" : "اسمك بالكامل"}
-              className="mb-2 w-full rounded-2xl border border-white/15 bg-neutral-950 px-3.5 py-3 text-xs sm:text-sm text-white transition-colors focus:border-emerald-400 focus:outline-hidden"
-            />
-            <input
-              required
-              type="email"
-              dir="ltr"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              className="mb-2 w-full rounded-2xl border border-white/15 bg-neutral-950 px-3.5 py-3 text-xs sm:text-sm text-white transition-colors focus:border-emerald-400 focus:outline-hidden"
-            />
-            <input
-              required
-              type="tel"
-              inputMode="numeric"
-              dir="ltr"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value.replace(/[^\d]/g, "").slice(0, 11))}
-              placeholder="01xxxxxxxxx"
-              className="w-full rounded-2xl border border-white/15 bg-neutral-950 px-3.5 py-3 text-xs sm:text-sm text-white transition-colors focus:border-emerald-400 focus:outline-hidden"
-            />
-            <p className="mt-2 text-[11px] leading-relaxed text-neutral-400">
-              {isEn
-                ? "Enter the phone/wallet number you will transfer from so we can confirm quickly. Your account will be activated on this email."
-                : "اكتب رقم المحفظة التي ستحوّل منها لتسهيل المطابقة السريعة. سنفعّل اشتراكك على هذا البريد الإلكتروني."}
-            </p>
+          {/* Step 2: Contact Details & Symmetrical Egyptian Phone Input */}
+          <div className="rounded-3xl border border-white/10 bg-[#0d1614] p-4 sm:p-5 shadow-xs space-y-3.5">
+            <div className="flex items-center justify-between">
+              <label className="block text-xs sm:text-sm font-black text-white">
+                {isEn ? "2. Your Account & Activation Details" : "٢. بيانات الحساب والتفعيل الفوري"}
+              </label>
+              <span className="text-[10px] text-neutral-400 bg-white/5 px-2 py-0.5 rounded-full border border-white/5">
+                {isEn ? "Required" : "مطلوب لتفعيل حسابك"}
+              </span>
+            </div>
+
+            {/* Name Input */}
+            <div>
+              <label className="mb-1.5 block text-xs font-bold text-neutral-300">
+                {isEn ? "Full Name" : "الاسم بالكامل"}
+              </label>
+              <div className="relative">
+                <span className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-sm text-neutral-400">
+                  👤
+                </span>
+                <input
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder={isEn ? "Your full name" : "اسمك الثلاثي كما يظهر في التحويل"}
+                  className="w-full rounded-2xl border border-white/15 bg-neutral-950 ps-10 pe-3.5 py-3 text-xs sm:text-sm text-white placeholder:text-neutral-500 transition-colors focus:border-emerald-400 focus:outline-hidden"
+                />
+              </div>
+            </div>
+
+            {/* Email Input */}
+            <div>
+              <label className="mb-1.5 block text-xs font-bold text-neutral-300">
+                {isEn ? "Email Address (Login Access)" : "البريد الإلكتروني (لتسجيل الدخول الفوري)"}
+              </label>
+              <div className="relative">
+                <span className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-sm text-neutral-400">
+                  ✉️
+                </span>
+                <input
+                  required
+                  type="email"
+                  dir="ltr"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="yourname@gmail.com"
+                  className="w-full rounded-2xl border border-white/15 bg-neutral-950 ps-10 pe-3.5 py-3 text-xs sm:text-sm text-white placeholder:text-neutral-500 transition-colors focus:border-emerald-400 focus:outline-hidden text-start"
+                />
+              </div>
+            </div>
+
+            {/* Symmetrical Phone Input with Egyptian Telecom Format */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-xs font-bold text-neutral-300">
+                  {isEn ? "Transfer Wallet / Phone Number" : "رقم هاتف المحفظة التي ستحوّل منها"}
+                </label>
+                {phone && (
+                  <span
+                    className={`text-[11px] font-bold ${
+                      phone.length === 11 && /^01[0125]/.test(phone)
+                        ? "text-emerald-400"
+                        : "text-amber-400"
+                    }`}
+                  >
+                    {phone.length === 11 && /^01[0125]/.test(phone)
+                      ? isEn ? "✓ Valid Number" : "✓ رقم هاتف صحيح ومطابق"
+                      : `${phone.length}/11`}
+                  </span>
+                )}
+              </div>
+
+              {/* Compound Phone Input */}
+              <div
+                dir="ltr"
+                className="flex items-stretch rounded-2xl border border-white/15 bg-neutral-950 overflow-hidden focus-within:border-emerald-400 transition-colors"
+              >
+                {/* Egyptian Prefix Tile */}
+                <div className="flex items-center gap-1.5 bg-white/5 border-r border-white/10 px-3 py-3 text-xs font-bold text-neutral-200 select-none shrink-0">
+                  <span className="text-base leading-none">🇪🇬</span>
+                  <span className="font-mono text-neutral-300">+20</span>
+                </div>
+
+                {/* Phone Digits Input */}
+                <input
+                  required
+                  type="tel"
+                  inputMode="numeric"
+                  dir="ltr"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value.replace(/[^\d]/g, "").slice(0, 11))}
+                  placeholder="01X XXXX XXXX"
+                  className="w-full bg-transparent px-3.5 py-3 text-xs sm:text-sm font-mono tracking-wider text-white placeholder:text-neutral-500 placeholder:tracking-normal focus:outline-hidden"
+                />
+
+                {/* Live Checkmark Indicator */}
+                {phone.length === 11 && /^01[0125]/.test(phone) && (
+                  <div className="flex items-center pe-3 text-emerald-400 text-sm select-none">
+                    ✓
+                  </div>
+                )}
+              </div>
+
+              {/* Automated Sync Explainer */}
+              <div className="mt-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-2.5 text-[11px] leading-relaxed text-emerald-300 flex items-start gap-2">
+                <span className="text-sm shrink-0">⚡</span>
+                <span>
+                  {isEn
+                    ? "Instant automated activation: Our platform matches your wallet transfer number automatically to activate your account upon receiving payment without delay."
+                    : "ربط وتفعيل تلقائي فوري: يقوم نظام المنصة بمطابقة رقم محفظتك مع إشعار التحويل لتفعيل حسابك فور استلام المبلغ تلقائياً دون أي تأخير."}
+                </span>
+              </div>
+            </div>
           </div>
 
-          {/* Step 3: Payment Method */}
-          <div className="rounded-3xl border border-white/10 bg-[#0d1614] p-4 shadow-xs">
-            <label className="mb-2 block text-xs font-bold text-neutral-300">
-              {isEn ? "3. Transfer Amount" : "٣. حوّل المبلغ"}
-            </label>
-            <div className="mb-3 grid grid-cols-2 gap-2">
+          {/* Step 3: Payment Method & Transfer Numbers */}
+          <div className="rounded-3xl border border-white/10 bg-[#0d1614] p-4 sm:p-5 shadow-xs">
+            <div className="flex items-center justify-between mb-3">
+              <label className="block text-xs sm:text-sm font-black text-white">
+                {isEn ? "3. Choose Payment Method & Transfer" : "٣. اختر طريقة الدفع وحوّل المبلغ"}
+              </label>
+              <span className="text-xs font-mono font-black text-emerald-400">
+                {totalPrice} {isEn ? "EGP" : "ج.م"}
+              </span>
+            </div>
+
+            <div className="mb-3.5 grid grid-cols-2 gap-2.5">
               <button
                 type="button"
                 onClick={() => setMethod("vodafone_cash")}
-                className={`rounded-2xl border-2 p-3 text-center transition-all ${
+                className={`rounded-2xl border-2 p-3 sm:p-3.5 text-center transition-all cursor-pointer ${
                   method === "vodafone_cash"
                     ? "border-emerald-400 bg-emerald-950/40 shadow-md shadow-emerald-500/10"
-                    : "border-white/5 bg-white/5"
+                    : "border-white/5 bg-white/5 hover:border-white/20"
                 }`}
               >
                 <div className="mb-1 text-2xl">📱</div>
-                <div className="text-xs font-bold text-white">
+                <div className="text-xs sm:text-sm font-black text-white">
                   {isEn ? "Vodafone Cash" : "فودافون كاش"}
+                </div>
+                <div className="text-[10px] text-neutral-400 mt-0.5">
+                  {isEn ? "All Egyptian Wallets" : "كافة المحافظ الإلكترونية"}
                 </div>
               </button>
               <button
                 type="button"
                 onClick={() => setMethod("instapay")}
-                className={`rounded-2xl border-2 p-3 text-center transition-all ${
+                className={`rounded-2xl border-2 p-3 sm:p-3.5 text-center transition-all cursor-pointer ${
                   method === "instapay"
                     ? "border-emerald-400 bg-emerald-950/40 shadow-md shadow-emerald-500/10"
-                    : "border-white/5 bg-white/5"
+                    : "border-white/5 bg-white/5 hover:border-white/20"
                 }`}
               >
                 <div className="mb-1 text-2xl">⚡</div>
-                <div className="text-xs font-bold text-white">
+                <div className="text-xs sm:text-sm font-black text-white">
                   {isEn ? "InstaPay" : "إنستاباي"}
+                </div>
+                <div className="text-[10px] text-neutral-400 mt-0.5">
+                  {isEn ? "Bank to Bank / IPA" : "حساب بنكي / بطاقة ميزة"}
                 </div>
               </button>
             </div>
 
-            <p className="mb-2 text-xs text-neutral-300">
+            <p className="mb-2.5 text-xs font-bold text-neutral-300">
               {method === "vodafone_cash"
                 ? isEn
-                  ? `Transfer ${totalPrice} EGP to any of these numbers:`
-                  : `حوّل ${totalPrice} ج.م على أي رقم من التالي:`
+                  ? `Transfer exact amount (${totalPrice} EGP) to any of these numbers:`
+                  : `حوّل المبلغ المطلوب (${totalPrice} ج.م) لأي رقم من أرقام فودافون كاش التالية:`
                 : isEn
-                ? `Transfer ${totalPrice} EGP to:`
-                : `حوّل ${totalPrice} ج.م على:`}
+                ? `Transfer exact amount (${totalPrice} EGP) to:`
+                : `حوّل المبلغ المطلوب (${totalPrice} ج.م) لحساب إنستاباي التالي:`}
             </p>
+
             <div className="space-y-2">
               {(method === "vodafone_cash" ? payment.vodafoneCash : payment.instapay).map((v) => (
-                <CopyField key={v} value={v} />
+                <CopyField
+                  key={v}
+                  value={v}
+                  method={method}
+                  label={
+                    method === "vodafone_cash"
+                      ? (isEn ? "Vodafone Cash" : "فودافون كاش")
+                      : (v.includes("@") ? (isEn ? "InstaPay Handle" : "عنوان إنستاباي") : (isEn ? "InstaPay Mobile" : "رقم هاتف إنستاباي"))
+                  }
+                />
               ))}
             </div>
 
             {method === "instapay" && (
-              <div className="mt-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3.5">
+              <div className="mt-3.5 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3.5">
                 <label className="mb-1.5 block text-xs font-bold text-amber-300">
                   {isEn ? "Name displayed on your InstaPay account" : "الاسم الظاهر على حسابك في إنستاباي"}
                 </label>
@@ -490,55 +657,55 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
                   required
                   value={instapayName}
                   onChange={(e) => setInstapayName(e.target.value)}
-                  placeholder={isEn ? "Full account name as shown in app" : "الاسم بالكامل زي ما هو في البنك"}
+                  placeholder={isEn ? "Full account name as shown in app" : "الاسم بالكامل كما يظهر في تطبيق إنستاباي"}
                   className="w-full rounded-xl border border-amber-500/30 bg-neutral-950 px-3.5 py-2.5 text-xs sm:text-sm text-white transition-colors focus:border-emerald-400 focus:outline-hidden"
                 />
                 <p className="mt-1.5 text-[11px] leading-relaxed text-amber-200/90">
                   {isEn
-                    ? "InstaPay receipts display sender name rather than phone number, so exact name ensures rapid confirmation."
-                    : "إشعار إنستاباي يصلنا بالاسم وليس برقم الهاتف، لذلك نطلب الاسم لتأكيد التحويل مباشرة."}
+                    ? "InstaPay notifications display sender name, so your exact name ensures instant automatic matching."
+                    : "إشعار إنستاباي يصلنا بالاسم، لذا كتابة الاسم بدقة تضمن ربط وتفعيل حسابك تلقائياً."}
                 </p>
               </div>
             )}
           </div>
 
           {/* Step 4: Proof Channel */}
-          <div className="rounded-3xl border border-white/10 bg-[#0d1614] p-4 shadow-xs">
-            <label className="mb-2 block text-xs font-bold text-neutral-300">
+          <div className="rounded-3xl border border-white/10 bg-[#0d1614] p-4 sm:p-5 shadow-xs">
+            <label className="mb-2 block text-xs sm:text-sm font-black text-white">
               {isEn ? "4. Where will you send your payment receipt?" : "٤. أين ترغب بإرسال صورة التحويل؟"}
             </label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2.5">
               <button
                 type="button"
                 onClick={() => setProofChannel("whatsapp")}
-                className={`rounded-2xl border-2 p-3 text-center transition-all ${
+                className={`rounded-2xl border-2 p-3 text-center transition-all cursor-pointer ${
                   proofChannel === "whatsapp"
                     ? "border-emerald-400 bg-emerald-950/40 shadow-md shadow-emerald-500/10"
-                    : "border-white/5 bg-white/5"
+                    : "border-white/5 bg-white/5 hover:border-white/20"
                 }`}
               >
                 <div className="mb-1 text-xl">💬</div>
-                <div className="text-xs font-bold text-white">
+                <div className="text-xs sm:text-sm font-bold text-white">
                   {isEn ? "WhatsApp" : "واتساب"}
                 </div>
-                <div className="text-[10px] text-neutral-400 font-mono" dir="ltr">
+                <div className="text-[10px] text-neutral-400 font-mono mt-0.5" dir="ltr">
                   +{payment.supportWhatsapp}
                 </div>
               </button>
               <button
                 type="button"
                 onClick={() => setProofChannel("email")}
-                className={`rounded-2xl border-2 p-3 text-center transition-all ${
+                className={`rounded-2xl border-2 p-3 text-center transition-all cursor-pointer ${
                   proofChannel === "email"
                     ? "border-emerald-400 bg-emerald-950/40 shadow-md shadow-emerald-500/10"
-                    : "border-white/5 bg-white/5"
+                    : "border-white/5 bg-white/5 hover:border-white/20"
                 }`}
               >
                 <div className="mb-1 text-xl">✉️</div>
-                <div className="text-xs font-bold text-white">
+                <div className="text-xs sm:text-sm font-bold text-white">
                   {isEn ? "Email" : "إيميل"}
                 </div>
-                <div className="truncate text-[10px] text-neutral-400 font-mono" dir="ltr">
+                <div className="truncate text-[10px] text-neutral-400 font-mono mt-0.5" dir="ltr">
                   {payment.supportEmail}
                 </div>
               </button>
@@ -552,13 +719,13 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
           )}
 
           {/* ⭐ Accredited Certificate Trust Badge ⭐ */}
-          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3.5 text-start flex items-center gap-3">
-            <span className="text-2xl shrink-0">🎓</span>
+          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3.5 sm:p-4 text-start flex items-center gap-3">
+            <span className="text-2xl sm:text-3xl shrink-0">🎓</span>
             <div>
-              <p className="text-xs font-black text-amber-300">
+              <p className="text-xs sm:text-sm font-black text-amber-300">
                 {isEn ? "Verified QR Certificates Included for All 100 Tracks" : "شهادات إتمام معتمدة بكود QR لكافة الـ 100 مسار مشمولة مجاناً"}
               </p>
-              <p className="text-[11px] text-neutral-300 mt-0.5">
+              <p className="text-[11px] text-neutral-300 mt-0.5 leading-relaxed">
                 {isEn
                   ? "Earn verifiable digital credentials with 1-click LinkedIn integration as you complete courses."
                   : "تحصل على شهادات موثقة برابط دائم وكود QR تُضاف بضغطة زر واحدة لحسابك على لينكد إن وسيرتك الذاتية."}
@@ -567,7 +734,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
           </div>
 
           {/* ⭐ 48-Hour Money-Back Guarantee Badge ⭐ */}
-          <div className="rounded-2xl border-2 border-emerald-400/50 bg-gradient-to-r from-emerald-950/70 via-teal-950/50 to-neutral-900 p-4 shadow-xl shadow-emerald-500/15 text-start flex items-start gap-3">
+          <div className="rounded-2xl border-2 border-emerald-400/50 bg-gradient-to-r from-emerald-950/70 via-teal-950/50 to-neutral-900 p-4 sm:p-5 shadow-xl shadow-emerald-500/15 text-start flex items-start gap-3">
             <span className="text-3xl shrink-0">🛡️</span>
             <div>
               <h4 className="text-xs sm:text-sm font-black text-emerald-300 mb-1">
@@ -584,10 +751,10 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 py-4 font-black text-neutral-950 shadow-xl shadow-emerald-500/30 hover:brightness-110 active:scale-98 transition-all disabled:opacity-60 text-sm sm:text-base"
+            className="w-full rounded-2xl sm:rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 py-4 font-black text-neutral-950 shadow-xl shadow-emerald-500/30 hover:brightness-110 active:scale-98 transition-all disabled:opacity-60 text-sm sm:text-base cursor-pointer"
           >
             {loading
-              ? isEn ? "Registering Order..." : "جاري التسجيل..."
+              ? isEn ? "Registering Order..." : "جاري تسجيل طلبك..."
               : isEn ? `Submit Order for ${totalPrice} EGP →` : `سجّل طلبي بـ ${totalPrice} ج.م فقط ←`}
           </button>
 

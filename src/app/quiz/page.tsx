@@ -1176,11 +1176,16 @@ export default function QuizPage() {
             <h2 className="text-2xl sm:text-3xl font-black mb-1 text-white">
               {isEn ? `Your Special Launch Rate, ${name || "Champion"}` : `سعرك الاستثنائي، ${name || "يا بطل"}`}
             </h2>
-            <p className="text-xs text-neutral-300 mb-5">
-              {isEn
-                ? "71% OFF for Founding Cohort members — this special rate will not be repeated"
-                : "خصم 71% للأعضاء المؤسسين — هذا السعر المخفض لن يتكرر مجدداً"}
-            </p>
+            <div className="mb-5">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-amber-500 px-3.5 py-1 text-xs font-black text-white shadow-md shadow-rose-500/25 border border-white/20">
+                <span className="text-[11px] text-yellow-200 animate-pulse">⚡</span>
+                <span>
+                  {isEn
+                    ? "71% OFF for Founding Cohort members — this special rate will not be repeated"
+                    : "خصم 71% للأعضاء المؤسسين — هذا السعر المخفض لن يتكرر مجدداً"}
+                </span>
+              </span>
+            </div>
 
             {/* Giant Pricing Card */}
             <div className="rounded-3xl border-2 border-emerald-500/50 bg-[#0d1614] p-6 sm:p-8 mb-5 shadow-2xl shadow-emerald-500/20 relative overflow-hidden">
