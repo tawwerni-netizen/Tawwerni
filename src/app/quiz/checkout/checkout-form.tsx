@@ -250,40 +250,61 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
         </div>
 
         {/* Price Summary Banner */}
-        <div className="mb-4 overflow-hidden rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-br from-[#0e1a17] via-[#0d1614] to-[#12241e] p-5 text-white shadow-xl shadow-emerald-500/15 relative">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-xs font-black text-emerald-300 flex items-center gap-1">
-              <span>👑</span>
-              <span>{isEn ? "Founding Cohort · 1-Year Full Access" : pricing.offerNote}</span>
+        <div className="mb-5 overflow-hidden rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-br from-[#0c1815] via-[#0d1614] to-[#12241f] p-5 sm:p-6 text-white shadow-xl shadow-emerald-500/15 relative">
+          {/* Subtle Ambient Glow */}
+          <div className="pointer-events-none absolute -top-12 -right-12 h-32 w-32 rounded-full bg-emerald-500/15 blur-2xl" />
+
+          {/* Top Row: Founding Cohort Tag + Sleek Discount Chip */}
+          <div className="flex items-center justify-between gap-2 mb-3">
+            <span className="inline-flex items-center gap-1.5 text-xs font-black text-emerald-300">
+              <span className="text-sm">👑</span>
+              <span>{isEn ? "Founding Cohort · 1-Year Access" : "فوج التأسيس الأول · وصول سنوي"}</span>
             </span>
-            <span className="rounded-full bg-amber-400 px-2.5 py-0.5 text-[10px] font-black text-neutral-950 shadow-xs">
-              {isEn ? "71% OFF" : "خصم 71%"}
+
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-400/15 border border-amber-400/40 px-3 py-1 text-xs font-black text-amber-300 whitespace-nowrap shrink-0 shadow-2xs">
+              <span className="text-[11px] animate-pulse">⚡</span>
+              <span>{isEn ? "71% OFF" : "خصم 71%"}</span>
             </span>
           </div>
 
-          <div className="flex items-end gap-2.5 my-1">
-            <span className="text-4xl font-black font-mono tracking-tight text-transparent bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text" dir="ltr">
-              {totalPrice}
-            </span>
-            <span className="pb-1 text-sm font-bold text-neutral-300">{isEn ? "EGP" : "ج.م"}</span>
-            <span className="text-sm text-neutral-500 line-through pb-1 font-mono">
+          {/* Price Numbers & Savings Row */}
+          <div className="flex flex-wrap items-baseline gap-2.5 my-2">
+            <div className="flex items-baseline gap-1">
+              <span className="text-4xl sm:text-5xl font-black font-mono tracking-tight text-white drop-shadow-sm" dir="ltr">
+                {totalPrice}
+              </span>
+              <span className="text-sm sm:text-base font-black text-emerald-400">{isEn ? "EGP" : "ج.م"}</span>
+            </div>
+
+            <span className="text-sm sm:text-base text-neutral-500 line-through font-mono">
               {pricing.originalPriceEgp} {isEn ? "EGP" : "ج.م"}
             </span>
-            <span className={`mb-1 ${isEn ? "ml-auto" : "mr-auto"} rounded-full bg-white/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-300 border border-emerald-500/30`}>
-              {isEn ? "100 Tracks · 1-Year" : "١٠٠ مسار · سنة كاملة"}
+
+            <span className={`text-[11px] font-bold text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 rounded-full px-2.5 py-0.5 ${isEn ? "ml-auto" : "mr-auto"}`}>
+              {isEn ? "All 100 Tracks Unlocked" : "١٠٠ مسار كاملة"}
             </span>
           </div>
 
-          <p className="mt-2 text-xs text-neutral-300 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-red-400 animate-ping" />
-            <span>
-              {isEn ? (
-                <>Only <b>{pricing.cohortSeatsRemaining} seats remaining</b> at this launch rate</>
-              ) : (
-                <>باقي <b>{pricing.cohortSeatsRemaining} مقعدًا فقط</b> في فوج التأسيس الأول بالسعر المخفض</>
-              )}
+          {/* Urgency Counter with Pulse Beacon */}
+          <div className="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-neutral-300">
+            <p className="flex items-center gap-2">
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+              </span>
+              <span className="text-[11px] sm:text-xs">
+                {isEn ? (
+                  <>Only <b className="text-white font-mono">{pricing.cohortSeatsRemaining} seats</b> remaining at this launch price</>
+                ) : (
+                  <>متبقٍ <b className="text-white font-mono">{pricing.cohortSeatsRemaining} مقعدًا فقط</b> بهذا السعر المخفض</>
+                )}
+              </span>
+            </p>
+
+            <span className="text-[10px] text-neutral-400 hidden sm:inline">
+              {isEn ? "Guaranteed rate" : "يضمن لك السعر"}
             </span>
-          </p>
+          </div>
         </div>
 
         {/* Order Bump */}
