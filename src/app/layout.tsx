@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Cairo } from "next/font/google";
 import { brand, pricing } from "@/content/brand";
 import { allCourses, courseStats } from "@/content/courses";
 import { ALL_100_TRACKS } from "@/content/tracks100";
@@ -8,11 +7,9 @@ import "./globals.css";
 import Analytics from "@/components/Analytics";
 import { LanguageProvider } from "@/components/LanguageContext";
 
-const cairo = Cairo({
-  variable: "--font-cairo",
-  subsets: ["arabic", "latin"],
-  weight: ["400", "700"],
-});
+const cairo = {
+  variable: "font-cairo",
+};
 
 const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${brand.domain}`;
 
@@ -85,6 +82,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
         {/*
           Runs before first paint so nobody sees a flash of the wrong theme.
 

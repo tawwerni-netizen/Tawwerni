@@ -60,6 +60,33 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
   const [temp, setTemp] = useState<string | null>(null);
   const [note, setNote] = useState("");
   const [error, setError] = useState("");
+  const [syncDays, setSyncDays] = useState(18);
+  const [syncCourse, setSyncCourse] = useState("tahaddi-28-yawm");
+  const [syncSuccess, setSyncSuccess] = useState("");
+
+  async function handleSyncProgress() {
+    setBusy(true);
+    setError("");
+    setSyncSuccess("");
+    try {
+      const res = await fetch(`/api/admin/users/${user.id}/sync-progress`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ courseSlug: syncCourse, completedDayCount: syncDays }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "فشل مزامنة التقدم");
+        return;
+      }
+      setSyncSuccess(`تم تسجيل إنجاز ${syncDays} درس بنجاح!`);
+      setTimeout(() => router.refresh(), 1000);
+    } catch {
+      setError("خطأ في الاتصال");
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function remove() {
     setBusy(true);
@@ -243,6 +270,43 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
               كلمات السر مخزّنة مشفّرة في اتجاه واحد — مفيش طريقة تشوف باسورد
               العميل، لا من هنا ولا من قاعدة البيانات.
             </p>
+
+            {/* Progress sync / manual credit control */}
+            <div className="mt-3 border-t border-black/5 dark:border-neutral-800 pt-3">
+              <p className="text-[11px] font-bold text-neutral-800 dark:text-neutral-200 mb-1.5">
+                ⚡ مزامنة / تعديل تقدّم الدروس للعميل
+              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                <select
+                  value={syncCourse}
+                  onChange={(e) => setSyncCourse(e.target.value)}
+                  className="rounded-lg border border-black/10 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-2 py-1 text-xs"
+                >
+                  <option value="tahaddi-28-yawm">تحدي الذكاء الاصطناعي - 28 يوم</option>
+                  <option value="prompt-engineering-mastery">هندسة الأوامر بالذكاء الاصطناعي</option>
+                  <option value="ai-business-automation">أتمتة الأعمال بالـ AI</option>
+                </select>
+                <div className="flex items-center gap-1">
+                  <span className="text-xs text-neutral-500">الدروس المنجزة:</span>
+                  <input
+                    type="number"
+                    min="1"
+                    max="100"
+                    value={syncDays}
+                    onChange={(e) => setSyncDays(Number(e.target.value))}
+                    className="w-16 rounded-lg border border-black/10 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-2 py-1 text-xs text-center font-bold"
+                  />
+                </div>
+                <button
+                  onClick={handleSyncProgress}
+                  disabled={busy}
+                  className="rounded-full bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 text-[11px] font-bold disabled:opacity-50 transition-colors shadow-xs"
+                >
+                  {busy ? "جاري الحفظ..." : "تثبيت التقدم"}
+                </button>
+              </div>
+              {syncSuccess && <p className="text-[11px] text-emerald-600 mt-1 font-semibold">{syncSuccess}</p>}
+            </div>
 
             {!user.isAdmin && (
               <div className="mt-3 border-t border-black/5 pt-3">

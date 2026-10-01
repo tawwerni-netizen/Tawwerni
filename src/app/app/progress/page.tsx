@@ -49,6 +49,8 @@ export default async function ProgressPage() {
       const courseCompletions = completions.filter((comp) => courseLessonIds.has(comp.lessonId));
       const completedLessons = courseCompletions.length;
       const xpEarned = courseCompletions.reduce((s, comp) => s + comp.xpEarned, 0);
+      const nextLesson = allLessons.find((l) => !doneIds.has(l.id));
+      const nextDay = nextLesson?.dayNumber ?? (completedLessons < c.totalLessons ? completedLessons + 1 : 1);
       return {
         id: c.id,
         slug: c.slug,
@@ -57,6 +59,7 @@ export default async function ProgressPage() {
         icon: c.icon,
         totalLessons: c.totalLessons,
         completedLessons,
+        nextDay,
         xpEarned,
       };
     })

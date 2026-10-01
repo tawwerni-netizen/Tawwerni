@@ -7,6 +7,7 @@ import AdminUserList from "@/components/AdminUserList";
 import AdminAddUser from "@/components/AdminAddUser";
 import type { AdminUserRowData } from "@/components/AdminUserRow";
 import { computeStreak } from "@/lib/xp";
+import { backfillUserCourseProgress } from "@/lib/user-progress-backfill";
 
 export const dynamic = "force-dynamic";
 
@@ -45,7 +46,37 @@ export default async function AdminUsersPage() {
     prisma.testimonial.count({ where: { status: "pending" } }),
   ]);
 
-  const lessonCounts = new Map(courses.map((c) => [c.id, c.totalLessons]));
+  // Automatic backfill check for customer alaaanalytics953@gmail.com
+  const alaaUser = users.find((u) => u.email.toLowerCase() === "alaaanalytics953@gmail.com");
+  if (alaaUser && alaaUser.completions.length === 0) {
+    try {
+      await backfillUserCourseProgress(alaaUser.id, "tahaddi-28-yawm", 18);
+      const updatedCompletions = await prisma.lessonCompletion.findMany({
+        where: { userId: alaaUser.id },
+        select: {
+          xpEarned: true,
+          completedAt: true,
+          lesson: { select: { module: { select: { courseId: true } } } },
+        },
+        orderBy: { completedAt: "desc" },
+      });
+      alaaUser.completions = updatedCompletions;
+    } catch (e) {
+      console.error("Backfill failed for alaaanalytics953@gmail.com:", e);
+    }
+  }
+
+  // Refresh courses if tahaddi-28-yawm was newly provisioned
+  let effectiveCourses = courses;
+  if (!courses.some((c) => c.id === "tahaddi-28-yawm" || c.id === "course-tahaddi-28-yawm")) {
+    effectiveCourses = await prisma.course.findMany({
+      where: { isComingSoon: false },
+      select: { id: true, title: true, icon: true, totalLessons: true },
+      orderBy: { order: "asc" },
+    });
+  }
+
+  const lessonCounts = new Map(effectiveCourses.map((c) => [c.id, c.totalLessons]));
 
   const rows: AdminUserRowData[] = users.map((u) => {
     const totalXp = u.completions.reduce((s, c) => s + c.xpEarned, 0);
@@ -59,7 +90,7 @@ export default async function AdminUsersPage() {
       perCourse.set(courseId, (perCourse.get(courseId) ?? 0) + 1);
     }
 
-    const progress = courses
+    const progress = effectiveCourses
       .map((c) => {
         const done = perCourse.get(c.id) ?? 0;
         const total = lessonCounts.get(c.id) ?? 0;

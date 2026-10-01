@@ -24,6 +24,7 @@ interface CourseProgressItem {
   icon: string;
   totalLessons: number;
   completedLessons: number;
+  nextDay?: number;
   xpEarned: number;
 }
 
@@ -157,24 +158,39 @@ export default function ProgressClient({
                 : 0;
               const courseTitle = isEn ? (course.titleEn || course.titleAr) : course.titleAr;
               return (
-                <Link
+                <div
                   key={course.id}
-                  href={`/app/learn/${course.slug}`}
-                  className="block bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 rounded-xl p-3 shadow-xs hover:border-brand-500/40 transition-colors"
+                  className="block bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 rounded-2xl p-3.5 shadow-xs hover:border-teal-500/40 transition-colors"
                 >
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-lg">{course.icon}</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold truncate text-neutral-900 dark:text-neutral-100">{courseTitle}</p>
-                      <p className="text-[10px] text-neutral-400">
-                        {course.completedLessons}/{course.totalLessons} · {percent}% · +{course.xpEarned} XP
-                      </p>
+                  <div className="flex items-center justify-between gap-3 mb-2.5">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className="text-xl shrink-0">{course.icon}</span>
+                      <div className="min-w-0">
+                        <Link
+                          href={`/app/learn/${course.slug}`}
+                          className="text-sm font-bold truncate text-neutral-900 dark:text-neutral-100 hover:text-teal-600 dark:hover:text-teal-400 block"
+                        >
+                          {courseTitle}
+                        </Link>
+                        <p className="text-[10px] text-neutral-400">
+                          {course.completedLessons}/{course.totalLessons} · {percent}% · +{course.xpEarned} XP
+                        </p>
+                      </div>
                     </div>
+                    {course.nextDay && course.completedLessons < course.totalLessons && (
+                      <Link
+                        href={`/app/learn/${course.slug}/${course.nextDay}`}
+                        className="inline-flex shrink-0 items-center gap-1 rounded-xl bg-teal-600 hover:bg-teal-500 text-white px-3 py-1.5 text-xs font-bold shadow-xs hover:scale-105 active:scale-95 transition-all"
+                      >
+                        <span>▶️</span>
+                        <span>{isEn ? `Day ${course.nextDay}` : `يوم ${course.nextDay}`}</span>
+                      </Link>
+                    )}
                   </div>
                   <div className="h-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-brand-600 transition-all duration-300" style={{ width: `${percent}%` }} />
+                    <div className="h-full bg-teal-600 transition-all duration-300" style={{ width: `${percent}%` }} />
                   </div>
-                </Link>
+                </div>
               );
             })}
           </div>

@@ -1,10 +1,12 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { useI18n } from "@/components/LanguageContext";
 import { getTrackArtwork } from "@/content/track-artworks";
 import type { UniversalCourse } from "@/lib/course-loader";
 import { pricing, payment } from "@/content/brand";
+import { recordRecentLearningClient } from "@/lib/recent-learning";
 
 type Props = {
   course: UniversalCourse;
@@ -44,6 +46,20 @@ export default function CourseDetailClient({
   const description = isEn ? course.descriptionEn : course.descriptionAr;
   const level = isEn ? course.levelEn : course.levelAr;
   const artwork = getTrackArtwork(course.slug);
+
+  useEffect(() => {
+    if (nextLesson) {
+      recordRecentLearningClient({
+        courseSlug: course.slug,
+        dayNumber: nextLesson.dayNumber,
+        courseTitle: course.titleAr,
+        courseTitleEn: course.titleEn,
+        lessonTitle: nextLesson.titleAr || nextLesson.title,
+        lessonTitleEn: nextLesson.titleEn || `Day ${nextLesson.dayNumber}`,
+        icon: course.icon,
+      });
+    }
+  }, [course.slug, nextLesson?.dayNumber, course.titleAr, course.titleEn, course.icon, nextLesson?.titleAr, nextLesson?.title, nextLesson?.titleEn]);
 
   return (
     <div className="pb-12 text-neutral-900 dark:text-white" dir={isEn ? "ltr" : "rtl"}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ToolChip, detectTools } from "@/components/ToolIcon";
@@ -12,6 +12,7 @@ import CardVisual, {
 } from "@/components/CardVisual";
 import { trackLessonCompleted } from "@/lib/analytics";
 import { useI18n } from "@/components/LanguageContext";
+import { recordRecentLearningClient } from "@/lib/recent-learning";
 
 export type InfoCard = {
   type: "info";
@@ -114,6 +115,24 @@ export default function LessonPlayer(props: Props) {
     return detectTools([card.heading, ...card.body.lines].join(" "));
   }, [card]);
 
+  useEffect(() => {
+    recordRecentLearningClient({
+      courseSlug: props.courseSlug,
+      dayNumber: props.dayNumber,
+      courseTitle: props.courseTitle,
+      courseTitleEn: props.courseTitleEn,
+      lessonTitle: props.lessonTitle,
+      lessonTitleEn: props.lessonTitleEn,
+    });
+  }, [
+    props.courseSlug,
+    props.dayNumber,
+    props.courseTitle,
+    props.courseTitleEn,
+    props.lessonTitle,
+    props.lessonTitleEn,
+  ]);
+
   function goHome() {
     router.push(`/app/learn/${props.courseSlug}`);
   }
@@ -153,6 +172,17 @@ export default function LessonPlayer(props: Props) {
     setResult(data);
     setPhase("complete");
     trackLessonCompleted(props.courseSlug, props.dayNumber);
+
+    if (props.nextDayNumber) {
+      recordRecentLearningClient({
+        courseSlug: props.courseSlug,
+        dayNumber: props.nextDayNumber,
+        courseTitle: props.courseTitle,
+        courseTitleEn: props.courseTitleEn,
+        lessonTitle: isEn ? `Day ${props.nextDayNumber}` : `يوم ${props.nextDayNumber}`,
+        lessonTitleEn: `Day ${props.nextDayNumber}`,
+      });
+    }
   }
 
   function copyPrompt(text: string) {

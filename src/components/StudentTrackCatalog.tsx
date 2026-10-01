@@ -1,24 +1,62 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { ALL_100_TRACKS, TRACK_PILLARS, Track100 } from "@/content/tracks100";
 import { allCourses } from "@/content/courses";
 import { useI18n } from "./LanguageContext";
 import TrackCardVisual from "./TrackCardVisual";
 import { getTrackArtwork } from "@/content/track-artworks";
+import { getRecentLearningClient } from "@/lib/recent-learning";
 
 type Props = {
   completedTrackSlugs?: string[];
   inProgressTrackSlugs?: string[];
+  resumeTrack?: {
+    slug: string;
+    dayNumber: number;
+    titleAr?: string;
+    titleEn?: string;
+    icon?: string;
+    totalDays?: number;
+    doneCount?: number;
+    nextDayTitle?: string;
+    nextDayTitleEn?: string;
+  } | null;
 };
 
-export default function StudentTrackCatalog({ completedTrackSlugs = [], inProgressTrackSlugs = [] }: Props) {
+export default function StudentTrackCatalog({
+  completedTrackSlugs = [],
+  inProgressTrackSlugs = [],
+  resumeTrack,
+}: Props) {
   const { lang, t } = useI18n();
   const [selectedPillarId, setSelectedPillarId] = useState<number | null>(null);
   const [selectedLevel, setSelectedLevel] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTrack, setActiveTrack] = useState<Track100 | null>(null);
+  const [effectiveResume, setEffectiveResume] = useState(resumeTrack || null);
+
+  useEffect(() => {
+    if (!resumeTrack) {
+      const clientData = getRecentLearningClient();
+      if (clientData && clientData.courseSlug) {
+        setEffectiveResume({
+          slug: clientData.courseSlug,
+          dayNumber: clientData.dayNumber || 1,
+          titleAr: clientData.courseTitle,
+          titleEn: clientData.courseTitleEn || clientData.courseTitle,
+          icon: clientData.icon || "⚡",
+          totalDays: clientData.totalDays,
+          doneCount: clientData.doneCount,
+          nextDayTitle: clientData.lessonTitle,
+          nextDayTitleEn: clientData.lessonTitleEn,
+        });
+      }
+    } else {
+      setEffectiveResume(resumeTrack);
+    }
+  }, [resumeTrack]);
 
   const interactiveSlugs = useMemo(() => new Set(allCourses.map((c) => c.meta.slug)), []);
 
@@ -63,6 +101,46 @@ export default function StudentTrackCatalog({ completedTrackSlugs = [], inProgre
           ♾️ {lang === "ar" ? "وصول لمدة سنة شامل التحديثات" : "1-Year Access & Updates"}
         </span>
       </div>
+
+      {/* Resume Active Learning Banner */}
+      {effectiveResume && (
+        <div className="mb-6 rounded-3xl border border-teal-500/30 bg-gradient-to-r from-teal-500/10 via-emerald-500/10 to-teal-500/5 p-4 sm:p-5 backdrop-blur-md shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-teal-500/20 text-2xl border border-teal-500/30 shadow-xs">
+                {effectiveResume.icon || "⚡"}
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-500/20 px-2.5 py-0.5 text-[11px] font-bold text-teal-800 dark:text-teal-300">
+                    <span className="h-1.5 w-1.5 rounded-full bg-teal-500 animate-pulse" />
+                    {lang === "ar" ? "تابع من حيث توقفت" : "Resume Learning"}
+                  </span>
+                  <span className="text-xs text-neutral-600 dark:text-neutral-400 font-medium">
+                    {lang === "ar" ? `اليوم ${effectiveResume.dayNumber}` : `Day ${effectiveResume.dayNumber}`}
+                    {effectiveResume.totalDays ? ` / ${effectiveResume.totalDays}` : ""}
+                  </span>
+                </div>
+                <h3 className="mt-1 text-sm sm:text-base font-bold text-neutral-900 dark:text-white">
+                  {lang === "ar" ? effectiveResume.titleAr : (effectiveResume.titleEn || effectiveResume.titleAr)}
+                </h3>
+                {(effectiveResume.nextDayTitle || effectiveResume.nextDayTitleEn) && (
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400 line-clamp-1 mt-0.5">
+                    {lang === "ar" ? effectiveResume.nextDayTitle : (effectiveResume.nextDayTitleEn || effectiveResume.nextDayTitle)}
+                  </p>
+                )}
+              </div>
+            </div>
+            <Link
+              href={`/app/learn/${effectiveResume.slug}/${effectiveResume.dayNumber}`}
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white px-5 py-2.5 text-xs sm:text-sm font-bold shadow-md shadow-teal-600/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <span>▶️</span>
+              <span>{lang === "ar" ? `استئناف الدرس (يوم ${effectiveResume.dayNumber})` : `Resume Lesson (Day ${effectiveResume.dayNumber})`}</span>
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* Search and Level Filters */}
       <div className="mb-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">

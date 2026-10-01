@@ -23,6 +23,7 @@ type Props = {
     title: string;
     titleAr?: string;
     titleEn?: string;
+    icon?: string;
     totalDays: number;
     doneCount: number;
     nextDayNumber?: number;
@@ -31,6 +32,19 @@ type Props = {
     nextDayDuration?: number;
     nextDayXp?: number;
   } | null;
+  inProgressTracks?: {
+    slug: string;
+    title: string;
+    titleAr?: string;
+    titleEn?: string;
+    icon: string;
+    totalDays: number;
+    doneCount: number;
+    percent: number;
+    nextDayNumber: number;
+    nextDayTitle: string;
+    nextDayTitleEn: string;
+  }[];
   tiles: {
     slug: string;
     title: string;
@@ -59,6 +73,7 @@ export default function StudentDashboardView({
   dailyPaceMinutes,
   weekDays,
   activeTrack,
+  inProgressTracks = [],
   tiles,
   paidOrder,
   hasCompletions,
@@ -109,27 +124,38 @@ export default function StudentDashboardView({
             <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-white/10 blur-2xl" />
             
             <div className="mb-2 flex items-center justify-between text-xs text-white/90">
-              <span className="font-bold">{isEn ? "Today's Practical Mission" : "مهمة اليوم التطبيقية"}</span>
-              <span className="font-mono bg-white/20 px-2 py-0.5 rounded-full text-[11px]">
+              <span className="font-bold flex items-center gap-1.5">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+                </span>
+                {isEn ? "Continue Where You Left Off" : "تابع من حيث توقفت"}
+              </span>
+              <span className="font-mono bg-white/20 px-2.5 py-0.5 rounded-full text-[11px] font-bold">
                 {activeTrack.doneCount}/{activeTrack.totalDays} {isEn ? "Days" : "يوم"}
               </span>
             </div>
 
             {activeTrack.nextDayNumber ? (
               <>
-                <h2 className="text-lg font-bold mb-1 text-white">
+                <div className="inline-flex items-center gap-1.5 bg-black/25 backdrop-blur-xs px-2.5 py-0.5 rounded-full text-xs font-bold text-white mb-2 border border-white/10">
+                  <span>{activeTrack.icon || "⚡"}</span>
+                  <span className="truncate max-w-[240px]">{activeTitle}</span>
+                </div>
+                <h2 className="text-lg sm:text-xl font-black mb-1 text-white leading-tight">
                   {isEn
                     ? `Day ${activeTrack.nextDayNumber} · ${nextLessonTitle || "Practical Step"}`
                     : `يوم ${activeTrack.nextDayNumber} · ${nextLessonTitle || "خطوة تطبيقية"}`}
                 </h2>
                 <p className="mb-4 text-xs text-white/80">
-                  {activeTitle} · {activeTrack.nextDayDuration || 5} {isEn ? "mins" : "دقايق"} · {activeTrack.nextDayXp || 75} XP
+                  {activeTrack.nextDayDuration || 5} {isEn ? "mins" : "دقايق"} · {activeTrack.nextDayXp || 75} XP
                 </p>
                 <Link
                   href={`/app/learn/${activeTrack.slug}/${activeTrack.nextDayNumber}`}
-                  className="btn-ghost-shine cta-btn-white block text-center font-bold rounded-full py-3 text-sm shadow-md active:scale-98 transition-all"
+                  className="btn-ghost-shine cta-btn-white flex items-center justify-center gap-2 text-center font-black rounded-full py-3.5 text-sm shadow-md active:scale-98 transition-all"
                 >
-                  {isEn ? `Continue · Day ${activeTrack.nextDayNumber} →` : `كمّل · يوم ${activeTrack.nextDayNumber} ←`}
+                  <span className="text-base">▶️</span>
+                  <span>{isEn ? `Resume Learning · Day ${activeTrack.nextDayNumber} →` : `استئناف الكورس الآن · يوم ${activeTrack.nextDayNumber} ←`}</span>
                 </Link>
               </>
             ) : (
@@ -192,6 +218,57 @@ export default function StudentDashboardView({
           </div>
         </div>
       </div>
+
+      {/* In-Progress Tracks Shelf */}
+      {inProgressTracks.length > 0 && (
+        <div className="mb-6 rounded-3xl bg-white dark:bg-neutral-900 border border-black/10 dark:border-neutral-800 p-5 shadow-xs">
+          <div className="flex items-center justify-between mb-3.5">
+            <h3 className="text-sm font-black text-neutral-900 dark:text-white flex items-center gap-2">
+              <span className="text-base">📚</span>
+              <span>{isEn ? "Your In-Progress Tracks" : "مساراتك قيد التعلّم"}</span>
+            </h3>
+            <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono font-bold bg-neutral-100 dark:bg-neutral-800 px-2.5 py-0.5 rounded-full">
+              {inProgressTracks.length} {isEn ? "tracks active" : "مسارات نشطة"}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            {inProgressTracks.map((t) => {
+              const trackTitle = isEn ? t.titleEn : t.titleAr;
+              return (
+                <div
+                  key={t.slug}
+                  className="rounded-2xl border border-black/5 dark:border-white/10 bg-neutral-50 dark:bg-neutral-800/50 p-4 flex flex-col justify-between gap-3 hover:border-teal-500/40 transition-all shadow-xs"
+                >
+                  <div>
+                    <div className="flex items-center gap-2.5 mb-2">
+                      <span className="text-2xl">{t.icon}</span>
+                      <h4 className="text-xs font-black truncate text-neutral-900 dark:text-neutral-100 flex-1">
+                        {trackTitle}
+                      </h4>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px] text-neutral-500 dark:text-neutral-400 mb-1.5 font-medium">
+                      <span>{isEn ? `Day ${t.nextDayNumber} next` : `اليوم القادم: ${t.nextDayNumber}`}</span>
+                      <span>{t.doneCount}/{t.totalDays} ({t.percent}%)</span>
+                    </div>
+                    <div className="h-1.5 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden">
+                      <div className="h-full bg-teal-600 transition-all duration-300" style={{ width: `${t.percent}%` }} />
+                    </div>
+                  </div>
+
+                  <Link
+                    href={`/app/learn/${t.slug}/${t.nextDayNumber}`}
+                    className="rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold py-2.5 px-3 text-center shadow-xs transition-all flex items-center justify-center gap-1.5 active:scale-95"
+                  >
+                    <span>▶️</span>
+                    <span>{isEn ? `Resume Day ${t.nextDayNumber}` : `استئناف يوم ${t.nextDayNumber}`}</span>
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <ReminderPrompt hasCompletions={hasCompletions} />
       <HelpCard className="mb-6" />

@@ -32,6 +32,12 @@ export const faqCategories: FaqCategory[] = [
         "aEn": "Log in with the email and password you set during registration. No waiting for magic codes — just enter your credentials and begin."
       },
       {
+        "q": "إزاي أرجع للمحتوى أو الكورس اللي كنت بتفرج عليه عشان أكمّله؟",
+        "qEn": "How do I return to the course or content I was watching to continue it?",
+        "a": "بكل سهولة وبضغطة واحدة: هتلاقي زر 'استئناف' دائمًا في أعلى شريط المنصة (الهيدر) يوجّهك فوراً لليوم التالي. كما ستجد بطاقة مميزة 'تابع من حيث توقفت' في صفحتك الرئيسية /app وصفحة استعراض المسارات /app/learn وصفحة 'تقدمي' /app/progress، وكلها تحفظ مكانك تلقائياً.",
+        "aEn": "With a single click: you'll always find a vibrant 'Resume' button in the top navigation header pointing directly to your next day's lesson. You will also see a 'Resume Your Learning' banner on your main dashboard (/app), courses page (/app/learn), and My Progress page (/app/progress), which automatically saves your exact spot."
+      },
+      {
         "q": "محتاج خبرة سابقة عشان أبدأ؟",
         "qEn": "Do I need prior experience before starting?",
         "a": "لأ خالص. كل المسارات مصممة تبدأ من الصفر، وأول أسبوع في أي مسار أساسيات مبسّطة جدًا.",

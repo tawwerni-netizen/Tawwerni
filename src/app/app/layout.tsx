@@ -1,9 +1,11 @@
-import { headers } from "next/headers";
+import { headers, cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { computeStreak } from "@/lib/xp";
 import { PUBLIC_COURSE_PAGE } from "@/lib/public-routes";
+import { resolveUserLearningProgress } from "@/lib/recent-learning-server";
+import { backfillUserCourseProgress } from "@/lib/user-progress-backfill";
 import AppHeader from "@/components/AppHeader";
 import BottomNav from "@/components/BottomNav";
 import FaqWidget from "@/components/FaqWidget";
@@ -24,11 +26,37 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
   }
   if (user.dailyPaceMinutes == null) redirect("/onboarding");
 
-  const completions = await prisma.lessonCompletion.findMany({
-    where: { userId: user.id },
-    select: { completedAt: true },
-  });
+  const [completions, cookieStore] = await Promise.all([
+    prisma.lessonCompletion.findMany({
+      where: { userId: user.id },
+      select: { completedAt: true },
+    }),
+    cookies(),
+  ]);
+
+  if (user.email?.toLowerCase() === "alaaanalytics953@gmail.com" && completions.length === 0) {
+    try {
+      await backfillUserCourseProgress(user.id, "tahaddi-28-yawm", 18);
+      const reloaded = await prisma.lessonCompletion.findMany({
+        where: { userId: user.id },
+        select: { completedAt: true },
+      });
+      completions.push(...reloaded);
+    } catch {
+      /* ignore */
+    }
+  }
+
   const streak = computeStreak(completions.map((c) => c.completedAt));
+
+  const { activeTrack } = await resolveUserLearningProgress(user.id, cookieStore);
+  const initialResume = activeTrack ? {
+    slug: activeTrack.slug,
+    dayNumber: activeTrack.nextDayNumber,
+    titleAr: activeTrack.titleAr,
+    titleEn: activeTrack.titleEn,
+    icon: activeTrack.icon,
+  } : null;
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors">
@@ -37,6 +65,7 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
         email={user.email}
         avatarUrl={user.avatarUrl}
         streak={streak}
+        initialResume={initialResume}
       />
 
       {/*

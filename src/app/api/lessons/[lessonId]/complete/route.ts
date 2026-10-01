@@ -5,6 +5,7 @@ import { getSessionUserId } from "@/lib/auth";
 import { hasCourseAccess, FREE_PREVIEW_DAY } from "@/lib/access";
 import { computeStreak } from "@/lib/xp";
 import { badgeDefs } from "@/content/badges";
+import { loadUniversalLesson, getAllUniversalCourses } from "@/lib/course-loader";
 
 export async function POST(request: Request, { params }: { params: Promise<{ lessonId: string }> }) {
   const userId = await getSessionUserId();
@@ -21,6 +22,96 @@ export async function POST(request: Request, { params }: { params: Promise<{ les
     });
   } catch {
     lesson = null;
+  }
+
+  // If lesson doesn't exist in MySQL DB, synthesize and upsert Course, Module, and Lesson
+  if (!lesson) {
+    let universalData = null;
+    const match = lessonId.match(/^les-(.+)-(\d+)$/);
+    if (match) {
+      const slug = match[1];
+      const day = parseInt(match[2], 10);
+      universalData = loadUniversalLesson(slug, day);
+    } else {
+      const allCourses = getAllUniversalCourses();
+      for (const c of allCourses) {
+        for (const m of c.modules) {
+          for (const l of m.lessons) {
+            if (l.id === lessonId) {
+              universalData = loadUniversalLesson(c.slug, l.dayNumber);
+              break;
+            }
+          }
+          if (universalData) break;
+        }
+        if (universalData) break;
+      }
+    }
+
+    if (universalData) {
+      try {
+        const dbCourse = await prisma.course.upsert({
+          where: { slug: universalData.course.slug },
+          update: {
+            title: universalData.course.titleAr || universalData.course.title,
+            totalLessons: universalData.course.totalLessons,
+            totalXp: universalData.course.totalXp,
+          },
+          create: {
+            id: universalData.course.id,
+            slug: universalData.course.slug,
+            title: universalData.course.titleAr || universalData.course.title,
+            description: universalData.course.descriptionAr || universalData.course.description || "",
+            icon: universalData.course.icon || "⚡",
+            category: universalData.course.categoryAr || universalData.course.category || "عام",
+            totalLessons: universalData.course.totalLessons,
+            totalXp: universalData.course.totalXp,
+            order: universalData.course.order ?? 0,
+          },
+        });
+
+        const dbModule = await prisma.module.upsert({
+          where: { courseId_order: { courseId: dbCourse.id, order: universalData.module.order ?? 0 } },
+          update: {
+            title: universalData.module.titleAr || universalData.module.title,
+          },
+          create: {
+            id: universalData.module.id,
+            courseId: dbCourse.id,
+            order: universalData.module.order ?? 0,
+            title: universalData.module.titleAr || universalData.module.title,
+            description: universalData.module.descriptionAr || universalData.module.description || "",
+            icon: universalData.module.icon || "🧭",
+          },
+        });
+
+        const dbLesson = await prisma.lesson.upsert({
+          where: { moduleId_dayNumber: { moduleId: dbModule.id, dayNumber: universalData.lesson.dayNumber } },
+          update: {
+            title: universalData.lesson.titleAr || universalData.lesson.title,
+            xp: universalData.lesson.xp || 75,
+          },
+          create: {
+            id: universalData.lesson.id,
+            moduleId: dbModule.id,
+            dayNumber: universalData.lesson.dayNumber,
+            title: universalData.lesson.titleAr || universalData.lesson.title,
+            durationMin: universalData.lesson.durationMin || 5,
+            xp: universalData.lesson.xp || 75,
+            order: universalData.lesson.order ?? 0,
+            isCheckpoint: universalData.lesson.isCheckpoint ?? false,
+          },
+        });
+
+        lesson = {
+          ...dbLesson,
+          module: { ...dbModule, courseId: dbCourse.id },
+          quizQuestions: universalData.lesson.quiz.map((q) => ({ id: q.id })),
+        };
+      } catch (err) {
+        console.error("Failed to dynamically upsert lesson in DB:", err);
+      }
+    }
   }
 
   if (!lesson) {

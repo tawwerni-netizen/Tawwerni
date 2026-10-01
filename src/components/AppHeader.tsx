@@ -8,6 +8,7 @@ import LanguageToggle from "@/components/LanguageToggle";
 import Avatar from "@/components/Avatar";
 import { openHelpCentre } from "@/lib/help-centre";
 import { useI18n } from "@/components/LanguageContext";
+import HeaderResumeButton from "@/components/HeaderResumeButton";
 
 function isActive(pathname: string, href: string) {
   return href === "/app" ? pathname === "/app" : pathname.startsWith(href);
@@ -18,11 +19,19 @@ export default function AppHeader({
   email,
   avatarUrl,
   streak,
+  initialResume,
 }: {
   name: string | null;
   email: string;
   avatarUrl: string | null;
   streak: number;
+  initialResume?: {
+    slug: string;
+    dayNumber: number;
+    titleAr?: string;
+    titleEn?: string;
+    icon?: string;
+  } | null;
 }) {
   const pathname = usePathname();
   const { lang } = useI18n();
@@ -63,6 +72,8 @@ export default function AppHeader({
         </nav>
 
         <div className="ms-auto flex items-center gap-2 md:ms-0">
+          <HeaderResumeButton initialResume={initialResume} />
+
           {streak > 0 && (
             <span
               className="streak-chip hidden items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold sm:inline-flex border border-amber-500/25 bg-amber-500/10 text-amber-700 dark:text-amber-300 shadow-2xs"
