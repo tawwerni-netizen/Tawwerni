@@ -2,6 +2,7 @@ import { ALL_100_TRACKS, Track100, getTrackBySlug } from "@/content/tracks100";
 import { allCourses, getCourseBySlug } from "@/content/courses";
 import type { CourseDefinition, LessonContent, ModuleContent } from "@/content/course-types";
 import type { Card } from "@/components/LessonPlayer";
+import { generateUniversalTrackQuiz } from "./dynamic-quiz-engine";
 
 export type UniversalLesson = {
   id: string;
@@ -301,57 +302,16 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
         },
       ];
 
-      const quizAr = [
-        {
-          id: `q-${lessonId}-1`,
-          type: "mcq" as const,
-          question: `ما هو المبدأ الأساسي للنجاح في تطبيق درس اليوم (${titleAr})؟`,
-          options: [
-            "التركيز على إنجاز خطوة عملية ملموسة بدلاً من الانتظار المثالي",
-            "محاولة حفظ كل التفاصيل النظرية دون أي تطبيق عملي",
-            "شراء جميع الأدوات المدفوعة قبل البدء بأي خطوة",
-            "قضاء أيام كاملة في التخطيط دون كتابة سطر واحد",
-          ],
-          correctIndex: 0,
-          explanation:
-            "التطبيق السريع والمستمر هو جوهر التعلم الحقيقي؛ النتيجة الملموسة تبني الثقة وتمنحك تقدماً فورياً.",
-        },
-        {
-          id: `q-${lessonId}-2`,
-          type: "tf" as const,
-          question: `الاستمرار في التعلم لـ 5 إلى 15 دقيقة يومياً يبني مهارة احترافية مستدامة أكثر من جلسات التعلم المتباعدة والمكثفة.`,
-          options: ["صح", "غلط"],
-          correctIndex: 0,
-          explanation:
-            "صحيح تماماً، الأثر التراكمي للعادة اليومية يعيد برمجة المسارات العصبية ويمنع التشتت والاحتراق النفسي.",
-        },
-      ];
-
-      const quizEn = [
-        {
-          id: `q-${lessonId}-1`,
-          type: "mcq" as const,
-          question: `What is the core principle for mastering today's lesson on ${titleEn}?`,
-          options: [
-            "Focusing on tangible, rapid execution and measurable output over perfectionism",
-            "Memorizing theoretical terminology without applying practical exercises",
-            "Purchasing enterprise software before understanding the foundational workflow",
-            "Spending days in planning meetings without creating a single deliverable",
-          ],
-          correctIndex: 0,
-          explanation:
-            "Consistent, rapid application is the cornerstone of true mastery. Tangible results build confidence and momentum.",
-        },
-        {
-          id: `q-${lessonId}-2`,
-          type: "tf" as const,
-          question: `Consistent daily practice of 5 to 15 minutes builds far stronger expertise than sporadic, intensive study sessions.`,
-          options: ["True", "False"],
-          correctIndex: 0,
-          explanation:
-            "True! Daily spaced repetition strengthens neural pathways, prevents burnout, and ensures lifelong retention.",
-        },
-      ];
+      const { quizAr, quizEn } = generateUniversalTrackQuiz({
+        track,
+        day,
+        totalLessons,
+        outcomeAr,
+        outcomeEn,
+        titleAr,
+        titleEn,
+        lessonId,
+      });
 
       moduleLessons.push({
         id: lessonId,
@@ -514,29 +474,48 @@ function convertHandcrafted(def: CourseDefinition, matchingTrack?: Track100): Un
         explanation: q.explanation,
       }));
 
-      const quizEn = [
-        {
-          id: `q-${lessonId}-1`,
-          type: "mcq" as const,
-          question: `What is the most effective approach to mastering Day ${l.day} in ${titleEn}?`,
-          options: [
-            "Executing the hands-on practical task immediately and consistently",
-            "Postponing execution until all theoretical edge-cases are memorized",
-            "Relying on passive reading without building real deliverables",
-            "Skipping daily practice in favor of occasional intensive cramming",
-          ],
-          correctIndex: 0,
-          explanation: "Consistent, active application ensures immediate skill retention and measurable progress.",
-        },
-        {
-          id: `q-${lessonId}-2`,
-          type: "tf" as const,
-          question: `Consistent daily practice of 5 to 15 minutes builds far stronger expertise than sporadic study marathons.`,
-          options: ["True", "False"],
-          correctIndex: 0,
-          explanation: "True! Spaced repetition and daily momentum strengthen neural retention and eliminate friction.",
-        },
-      ];
+      const fallbackTrack: Track100 = matchingTrack ?? {
+        id: 900 + (l.day % 50),
+        slug: meta.slug,
+        order: 1,
+        pillarId: 1,
+        pillarNameAr: meta.category,
+        pillarNameEn: catEn,
+        titleAr: meta.title,
+        titleEn,
+        descriptionAr: meta.description,
+        descriptionEn: descEn,
+        levelAr: "مبتدئ",
+        levelEn: "Beginner",
+        totalLessons,
+        durationHours: 4,
+        totalXp,
+        icon: meta.icon,
+        accentFrom: meta.accentFrom,
+        accentTo: meta.accentTo,
+        outcomesAr: meta.outcomes,
+        outcomesEn: meta.outcomes,
+        realityAr: meta.reality,
+        realityEn: meta.reality,
+        badgeTitleAr: meta.badge || "محترف معتمد",
+        badgeTitleEn: "Certified Specialist",
+      };
+
+      const outcomeEnVal =
+        fallbackTrack.outcomesEn[(l.day - 1) % (fallbackTrack.outcomesEn.length || 1)] || l.title;
+
+      const dynamicEn = generateUniversalTrackQuiz({
+        track: fallbackTrack,
+        day: l.day,
+        totalLessons,
+        outcomeAr: l.title,
+        outcomeEn: outcomeEnVal,
+        titleAr: l.title,
+        titleEn: `Day ${l.day}: ${fallbackTrack.titleEn}`,
+        lessonId,
+      });
+
+      const quizEn = dynamicEn.quizEn;
 
       const lessonTitleEn = matchingTrack?.titleEn 
         ? `Day ${l.day}: Practical Step in ${matchingTrack.titleEn}` 
