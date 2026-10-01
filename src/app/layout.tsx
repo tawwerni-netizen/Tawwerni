@@ -69,9 +69,9 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  // Pinch-zoom stays available: capping it is an accessibility problem, not a
-  // polish detail — plenty of readers need it.
-  maximumScale: 5,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f7faf9" },
     { media: "(prefers-color-scheme: dark)", color: "#0a1210" },

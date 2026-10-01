@@ -5,7 +5,6 @@ import { getCurrentUser } from "@/lib/auth";
 import { computeStreak } from "@/lib/xp";
 import { PUBLIC_COURSE_PAGE } from "@/lib/public-routes";
 import { resolveUserLearningProgress } from "@/lib/recent-learning-server";
-import { backfillUserCourseProgress } from "@/lib/user-progress-backfill";
 import AppHeader from "@/components/AppHeader";
 import BottomNav from "@/components/BottomNav";
 import FaqWidget from "@/components/FaqWidget";
@@ -33,19 +32,6 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
     }),
     cookies(),
   ]);
-
-  if (user.email?.toLowerCase() === "alaaanalytics953@gmail.com" && completions.length === 0) {
-    try {
-      await backfillUserCourseProgress(user.id, "tahaddi-28-yawm", 18);
-      const reloaded = await prisma.lessonCompletion.findMany({
-        where: { userId: user.id },
-        select: { completedAt: true },
-      });
-      completions.push(...reloaded);
-    } catch {
-      /* ignore */
-    }
-  }
 
   const streak = computeStreak(completions.map((c) => c.completedAt));
 

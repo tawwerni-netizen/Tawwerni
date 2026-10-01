@@ -199,9 +199,19 @@ html[data-theme="dark"] .text-white { color: #eef6f3 !important; }
   --font-sans: 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+html {
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+  touch-action: manipulation;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
   /* Stop iOS from silently scaling text up in landscape. */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -239,11 +249,11 @@ body {
  * iOS Safari force-zooms the page whenever a focused field is under 16px.
  * Keep controls at 16px on phones; the visual sizing comes from padding.
  */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   input,
   select,
   textarea {
-    font-size: 16px;
+    font-size: 16px !important;
   }
 }
 
