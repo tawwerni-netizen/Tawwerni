@@ -208,15 +208,15 @@ export default function StudentDashboardView({
 
                   {/* Micro stats tag pills */}
                   <div className="flex flex-wrap items-center gap-2 mb-6">
-                    <span className="inline-flex items-center gap-1 bg-white/15 backdrop-blur-xs px-2.5 py-1 rounded-xl text-xs font-semibold">
+                    <span className="inline-flex items-center gap-1.5 bg-white/15 border border-white/20 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-bold text-white shadow-xs">
                       <span>⏱️</span>
                       <span>{activeTrack.nextDayDuration || 5} {isEn ? "mins" : "دقايق تركيز"}</span>
                     </span>
-                    <span className="inline-flex items-center gap-1 bg-amber-400/25 border border-amber-300/40 text-amber-200 px-2.5 py-1 rounded-xl text-xs font-black">
-                      <span>💎</span>
-                      <span>+{activeTrack.nextDayXp || 75} XP</span>
+                    <span className="inline-flex items-center gap-1.5 bg-white/20 border border-white/30 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-black text-white shadow-xs">
+                      <span className="text-sm">💎</span>
+                      <span className="tracking-wide">+{activeTrack.nextDayXp || 75} XP</span>
                     </span>
-                    <span className="inline-flex items-center gap-1 bg-white/15 backdrop-blur-xs px-2.5 py-1 rounded-xl text-xs font-semibold">
+                    <span className="inline-flex items-center gap-1.5 bg-white/15 border border-white/20 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-bold text-white shadow-xs">
                       <span>🎯</span>
                       <span>{isEn ? "Day 1 Free" : "تطبيق عملي فوري"}</span>
                     </span>
