@@ -95,33 +95,40 @@ export default function ProfileClient(props: Props) {
       <div className="pointer-events-none fixed top-10 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-teal-500/10 dark:bg-teal-500/15 blur-3xl -z-10" />
 
       {/* Header Banner */}
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-black tracking-wider uppercase text-teal-600 dark:text-teal-400">
-              {isEn ? "Learner Profile" : "الملف الشخصي للطالب"}
-            </span>
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/30">
-              {studentLevel}
-            </span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-neutral-900 dark:text-white tracking-tight">
-            {isEn ? "My Account & Settings" : "حسابي وتفضيلات التعلّم"}
-          </h1>
-          <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">
-            {isEn ? "Customize your learning pace, focus tracks, and account security." : "إدارة بياناتك والوتيرة اليومية ومسارات تركيزك المفضلة."}
-          </p>
-        </div>
+      <div className="mb-6">
+        <span className="text-xs font-black tracking-wider uppercase text-teal-600 dark:text-teal-400">
+          {isEn ? "Learner Profile" : "الملف الشخصي للطالب"}
+        </span>
+        <h1 className="text-2xl sm:text-3xl font-black text-neutral-900 dark:text-white tracking-tight mt-1">
+          {isEn ? "My Account & Settings" : "حسابي وتفضيلات التعلّم"}
+        </h1>
+        <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+          {isEn ? "Manage your personal identity, daily learning pace, and account security." : "إدارة بياناتك الشخصية، الوتيرة اليومية، ومسارات تركيزك المفضلة بكل سهولة."}
+        </p>
       </div>
 
       {/* 1. Profile Identity Hero Card */}
-      <div className="rounded-3xl border border-black/5 dark:border-white/10 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl p-6 mb-5 shadow-sm relative overflow-hidden">
-        <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-teal-500/10 blur-xl" />
+      <div className="rounded-3xl border border-black/5 dark:border-teal-900/30 bg-white/95 dark:bg-[#0d1614] backdrop-blur-xl p-6 sm:p-7 mb-5 shadow-sm relative overflow-hidden">
+        <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-teal-500/10 blur-2xl" />
 
-        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
-          <AvatarPicker name={name || null} email={props.email} avatarUrl={props.avatarUrl} />
+        <div className="flex flex-col sm:flex-row items-center sm:items-center gap-6">
+          <div className="shrink-0">
+            <AvatarPicker name={name || null} email={props.email} avatarUrl={props.avatarUrl} />
+          </div>
 
-          <div className="flex-1 text-center sm:text-start min-w-0">
+          <div className="flex-1 text-center sm:text-start min-w-0 w-full">
+            {/* Badges row */}
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-2.5">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/10 dark:bg-teal-500/20 border border-teal-500/30 text-teal-800 dark:text-teal-300 text-xs font-black">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>{isEn ? "Verified Active Member" : "عضو موثق ونشط"}</span>
+              </span>
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black bg-gradient-to-r from-amber-500/15 to-orange-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30 shadow-xs">
+                {studentLevel}
+              </span>
+            </div>
+
+            {/* Name + Edit */}
             {editingName ? (
               <form
                 onSubmit={(e) => {
@@ -129,13 +136,13 @@ export default function ProfileClient(props: Props) {
                   setEditingName(false);
                   save({ name });
                 }}
-                className="flex items-center gap-2 max-w-sm mb-1"
+                className="flex items-center justify-center sm:justify-start gap-2 max-w-sm mb-2"
               >
                 <input
                   autoFocus
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="flex-1 text-sm border border-teal-500 dark:bg-neutral-800 rounded-xl px-3 py-2 text-neutral-900 dark:text-white focus:outline-hidden"
+                  className="flex-1 text-base font-bold border-2 border-teal-500 bg-white dark:bg-neutral-800 rounded-xl px-3 py-1.5 text-neutral-900 dark:text-white focus:outline-hidden"
                 />
                 <button
                   type="submit"
@@ -144,26 +151,34 @@ export default function ProfileClient(props: Props) {
                 >
                   {isEn ? "Save" : "حفظ"}
                 </button>
+                <button
+                  type="button"
+                  onClick={() => setEditingName(false)}
+                  className="rounded-xl border border-black/10 dark:border-white/10 px-3 py-2 text-xs font-bold text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300"
+                >
+                  {isEn ? "Cancel" : "إلغاء"}
+                </button>
               </form>
             ) : (
-              <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
-                <h2 className="text-xl font-black text-neutral-900 dark:text-white">
+              <div className="flex items-center justify-center sm:justify-start gap-2.5 mb-1.5">
+                <h2 className="text-2xl sm:text-3xl font-black text-neutral-900 dark:text-white tracking-tight">
                   {name || (isEn ? "Champion Learner" : "بطل طوّرني")}
                 </h2>
                 <button
                   onClick={() => setEditingName(true)}
-                  className="text-xs text-teal-600 dark:text-teal-400 font-bold hover:underline px-2 py-0.5 rounded-md hover:bg-teal-50 dark:hover:bg-teal-950/40"
+                  className="inline-flex items-center gap-1 text-xs text-teal-600 dark:text-teal-400 font-bold hover:underline px-2.5 py-1 rounded-lg hover:bg-teal-50 dark:hover:bg-teal-950/40 border border-transparent hover:border-teal-500/20 transition-all"
+                  title={isEn ? "Edit display name" : "تعديل الاسم"}
                 >
-                  ✏️ {isEn ? "Edit" : "تعديل"}
+                  <span>✏️</span>
+                  <span>{isEn ? "Edit" : "تعديل"}</span>
                 </button>
               </div>
             )}
 
-            <p className="text-xs text-neutral-400 font-mono mb-3 truncate">{props.email}</p>
-
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 dark:bg-teal-950/60 border border-teal-500/20 text-xs font-bold text-teal-700 dark:text-teal-300">
-              <span className="h-2 w-2 rounded-full bg-teal-500 animate-pulse" />
-              <span>{isEn ? "Verified Active Member" : "عضو موثق ونشط بالمنصة"}</span>
+            {/* Email */}
+            <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 font-mono">
+              <span>✉️</span>
+              <span className="truncate">{props.email}</span>
             </div>
           </div>
         </div>
@@ -193,7 +208,7 @@ export default function ProfileClient(props: Props) {
       </div>
 
       {/* 2. Subscription & Access Card */}
-      <div className="rounded-3xl border border-black/5 dark:border-white/10 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl p-6 mb-5 shadow-sm">
+      <div className="rounded-3xl border border-black/5 dark:border-teal-900/30 bg-white/95 dark:bg-[#0d1614] backdrop-blur-xl p-6 sm:p-7 mb-5 shadow-sm">
         <div className="flex items-center justify-between mb-3">
           <span className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider flex items-center gap-1.5">
             <span>💳</span>
@@ -254,7 +269,7 @@ export default function ProfileClient(props: Props) {
       </div>
 
       {/* 3. Learning Preferences Card */}
-      <div className="rounded-3xl border border-black/5 dark:border-white/10 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl p-6 mb-5 shadow-sm">
+      <div className="rounded-3xl border border-black/5 dark:border-teal-900/30 bg-white/95 dark:bg-[#0d1614] backdrop-blur-xl p-6 sm:p-7 mb-5 shadow-sm">
         <p className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-4 flex items-center gap-1.5">
           <span>⚙️</span>
           <span>{isEn ? "Learning Habits & Preferences" : "تفضيلات العادة اليومية والتعلّم"}</span>
@@ -311,7 +326,7 @@ export default function ProfileClient(props: Props) {
       </div>
 
       {/* 4. Security & Password Card */}
-      <div className="rounded-3xl border border-black/5 dark:border-white/10 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl p-6 mb-6 shadow-sm">
+      <div className="rounded-3xl border border-black/5 dark:border-teal-900/30 bg-white/95 dark:bg-[#0d1614] backdrop-blur-xl p-6 sm:p-7 mb-6 shadow-sm">
         <p className="mb-3 text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider flex items-center gap-1.5">
           <span>🔒</span>
           <span>{isEn ? "Account Security" : "الأمان وكلمة السر"}</span>

@@ -69,10 +69,10 @@ export default function RefundPage() {
               </div>
             </div>
             <span
-              style={{ backgroundColor: '#ffffff', color: '#042f2e' }}
-              className="cta-btn-white inline-block bg-white text-teal-900 font-black text-xs px-3.5 py-1.5 rounded-full shadow-md"
+              style={{ backgroundColor: '#ffffff', color: '#042f2e', border: '1.5px solid #34d399' }}
+              className="pill-guarantee-white inline-block font-black text-xs px-4 py-1.5 rounded-full shadow-md shrink-0"
             >
-              48 ساعة تجربة
+              {isEn ? "48-Hour Free Trial Guarantee" : "48 ساعة تجربة واسترداد كامل"}
             </span>
           </div>
 
@@ -149,13 +149,13 @@ export default function RefundPage() {
                 3
               </div>
               <h3 className="text-base font-black text-neutral-900 dark:text-white">
-                {isEn ? "Resolving Incorrect Transfers" : "حل التحويلات الخاطئة"}
+                {isEn ? "Instant & Frictionless 100% Refund" : "استرداد فوري وسريع وبدون أي قيود"}
               </h3>
             </div>
             <p className="text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed ps-12">
               {isEn
-                ? "If you mistakenly transferred an incorrect amount or sent funds to an unmatched number, immediately alert our support on WhatsApp with your transfer receipt screenshot, and we will reconcile or refund it promptly."
-                : "لو قمت بالتحويل لرقم غير مطابق أو حدث أي التباس في إرسال المبلغ، تواصل معنا فوراً على واتساب مع صورة إيصال التحويل، وسيقوم فريقنا بمطابقة العملية أو رد المبلغ لك في أسرع وقت."}
+                ? "Your learning investment is 100% risk-free. If you decide Tawwerni isn't the perfect fit within your first 48 hours, our dedicated human support team will promptly issue a full 100% refund directly back to your payment method (Vodafone Cash, InstaPay, or Bank Card) with zero hassle and no questions asked."
+                : "حقك في تجربة المنصة مكفول بنسبة 100% وبدون أي مخاطرة مالية. إذا طلبت استرجاع المبلغ خلال الـ 48 ساعة الأولى من التفعيل، يتم رد المبلغ فوراً وبنفس وسيلة الدفع (فودافون كاش، إنستاباي، أو البطاقة البنكية) بكل سلاسة وسرعة وبدون أي شروط تعجيزية أو أسئلة محرجة."}
             </p>
           </div>
         </div>

@@ -240,11 +240,11 @@ export default function StudentDashboardView({
             {activeTrack.nextDayNumber ? (
               <Link
                 href={`/app/learn/${activeTrack.slug}/${activeTrack.nextDayNumber}`}
-                style={{ backgroundColor: '#ffffff', color: '#042f2e' }}
-                className="cta-btn-white group relative overflow-hidden rounded-2xl bg-white text-teal-950 font-black py-4 px-6 text-center text-sm sm:text-base shadow-xl hover:bg-neutral-100 hover:shadow-2xl active:scale-98 transition-all flex items-center justify-center gap-2.5"
+                style={{ backgroundColor: '#ffffff', color: '#042f2e', border: '2px solid #34d399' }}
+                className="btn-resume-mission group relative overflow-hidden rounded-2xl font-black py-4 px-6 text-center text-sm sm:text-base active:scale-98 transition-all flex items-center justify-center gap-2.5 shadow-2xl"
               >
-                <span className="text-lg group-hover:scale-110 transition-transform">🚀</span>
-                <span style={{ color: '#042f2e' }}>
+                <span className="text-xl group-hover:scale-110 transition-transform">🚀</span>
+                <span style={{ color: '#042f2e', fontWeight: 900 }}>
                   {isEn
                     ? `Resume Lesson · Day ${activeTrack.nextDayNumber} →`
                     : `استئناف درس اليوم · اليوم ${activeTrack.nextDayNumber} ←`}

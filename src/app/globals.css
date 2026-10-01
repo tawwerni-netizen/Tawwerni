@@ -106,6 +106,33 @@ html[data-theme="dark"] {
   --tint-warm: rgba(245, 158, 11, 0.16);
 }
 
+/* Dedicated high-dopamine glowing resume mission button & guarantee pill */
+.btn-resume-mission,
+.pill-guarantee-white,
+html[data-theme="dark"] .btn-resume-mission,
+html[data-theme="dark"] .pill-guarantee-white {
+  background-color: #ffffff !important;
+  color: #042f2e !important;
+  border: 2px solid #34d399 !important;
+  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.45), 0 0 20px rgba(52, 211, 153, 0.3) !important;
+}
+
+.btn-resume-mission *,
+.pill-guarantee-white *,
+html[data-theme="dark"] .btn-resume-mission *,
+html[data-theme="dark"] .pill-guarantee-white * {
+  color: #042f2e !important;
+}
+
+.btn-resume-mission:hover,
+html[data-theme="dark"] .btn-resume-mission:hover {
+  background-color: #f0fdf4 !important;
+  color: #022c22 !important;
+  border-color: #10b981 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px -4px rgba(0, 0, 0, 0.5), 0 0 28px rgba(52, 211, 153, 0.45) !important;
+}
+
 /* Preserve solid luminous white buttons on colored banners across all themes */
 .cta-btn-white,
 .btn-white,

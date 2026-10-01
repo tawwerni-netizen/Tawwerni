@@ -124,55 +124,65 @@ export default function AvatarPicker({
   }
 
   return (
-    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-start" dir={isEn ? "ltr" : "rtl"}>
-      <div className="relative shrink-0">
+    <div className="flex flex-col items-center gap-2">
+      <div className="relative group">
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
           disabled={busy}
-          className="avatar-edit relative block rounded-full focus:outline-hidden ring-2 ring-black/5 dark:ring-white/10 hover:ring-brand-500/50 transition-all active:scale-95"
-          aria-label={isEn ? "Change your avatar" : "غيّر صورتك"}
+          className="relative block rounded-full focus:outline-hidden ring-4 ring-teal-500/20 hover:ring-teal-500/50 dark:ring-teal-400/20 dark:hover:ring-teal-400/60 transition-all active:scale-95 shadow-xl hover:shadow-teal-500/20"
+          aria-label={isEn ? "Change your avatar" : "غيّر صورتك الشخصية"}
+          title={isEn ? "Click to change photo" : "اضغط لتغيير الصورة"}
         >
-          <Avatar name={name} email={email} avatarUrl={preview} size={72} />
-          <span className="avatar-edit-badge absolute bottom-0 right-0 bg-neutral-900/80 text-white rounded-full p-1.5 text-xs shadow-md border border-white/20" aria-hidden>
+          <Avatar name={name} email={email} avatarUrl={preview} size={84} glow />
+          
+          {/* Subtle camera hover overlay */}
+          <span className="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xl backdrop-blur-[2px]">
+            📷
+          </span>
+
+          <span
+            className="absolute bottom-0 end-0 bg-teal-600 hover:bg-teal-500 text-white rounded-full p-1.5 text-xs shadow-lg border-2 border-white dark:border-neutral-900 transition-transform group-hover:scale-110"
+            aria-hidden
+          >
             📷
           </span>
         </button>
+
+        {busy && (
+          <div className="absolute inset-0 rounded-full bg-neutral-950/70 backdrop-blur-xs flex items-center justify-center text-white text-xs font-black animate-pulse">
+            ...
+          </div>
+        )}
       </div>
 
-      <div className="min-w-0 flex-1">
-        <p className="mb-1 text-sm font-bold text-neutral-900 dark:text-white">
-          {isEn ? "Profile Picture" : "صورتك الشخصية"}
-        </p>
-        <p className="mb-3 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
-          {isEn ? "JPG or PNG. Tap to choose a new picture." : "دوس على الصورة عشان تغيّرها. JPG أو PNG."}
-        </p>
-        <div className="flex flex-wrap justify-center sm:justify-start gap-2">
+      {/* Compact micro-actions under avatar */}
+      <div className="flex items-center gap-1.5 text-[11px]">
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          disabled={busy}
+          className="px-2.5 py-1 rounded-full bg-teal-500/10 hover:bg-teal-500/20 dark:bg-teal-400/10 dark:hover:bg-teal-400/20 text-teal-700 dark:text-teal-300 font-bold border border-teal-500/20 transition-all active:scale-95"
+        >
+          {preview ? (isEn ? "Change" : "تغيير") : (isEn ? "Upload" : "رفع صورة")}
+        </button>
+        {preview && (
           <button
             type="button"
-            onClick={() => fileRef.current?.click()}
+            onClick={() => {
+              setPreview(null);
+              save(null);
+            }}
             disabled={busy}
-            className="rounded-full bg-teal-600 hover:bg-teal-500 text-white px-4 py-1.5 text-xs font-black disabled:opacity-50 transition-all shadow-md shadow-teal-500/20 active:scale-95 flex items-center gap-1.5"
+            className="px-2 py-1 rounded-full text-neutral-400 hover:text-red-500 hover:bg-red-500/10 dark:hover:bg-red-500/20 transition-all"
+            title={isEn ? "Remove photo" : "حذف الصورة"}
           >
-            <span>📷</span>
-            <span>{busy ? "..." : preview ? (isEn ? "Change photo" : "غيّر الصورة") : (isEn ? "Upload photo" : "ارفع صورة")}</span>
+            {isEn ? "Remove" : "حذف"}
           </button>
-          {preview && (
-            <button
-              type="button"
-              onClick={() => {
-                setPreview(null);
-                save(null);
-              }}
-              disabled={busy}
-              className="rounded-full border border-black/10 dark:border-white/10 px-3.5 py-1.5 text-xs font-bold text-neutral-500 hover:text-red-500 dark:text-neutral-400 dark:hover:text-red-400 disabled:opacity-50 transition-colors"
-            >
-              {isEn ? "Remove" : "شيلها"}
-            </button>
-          )}
-        </div>
-        {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
+        )}
       </div>
+
+      {error && <p className="text-[11px] text-red-500 font-bold max-w-[130px] text-center">{error}</p>}
 
       <input
         ref={fileRef}
