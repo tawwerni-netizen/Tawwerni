@@ -29,8 +29,8 @@ export const pricing = {
   cohortSeatsRemaining: 47,
   offerNote: "عرض فوج التأسيس الأول · وصول لمدة سنة لـ 100 مسار",
   offerNoteEn: "Founding Cohort Offer · 1-Year Access to 100 Tracks",
-  guaranteeNote: "ضمان استرداد كامل خلال 14 يوماً بدون أي أسئلة",
-  guaranteeNoteEn: "14-Day 100% Money-Back Guarantee, No Questions Asked",
+  guaranteeNote: "ضمان استرداد كامل خلال 48 ساعة بدون أي أسئلة",
+  guaranteeNoteEn: "48-Hour 100% Money-Back Guarantee, No Questions Asked",
   grantsAllCourses: true,
 } as const;
 

@@ -541,7 +541,7 @@ export default function LandingPageView() {
                 isEn ? "Fully bilingual content (Arabic & English)" : "محتوى ثنائي اللغة بالكامل (عربي وإنجليزي)",
                 isEn ? "Psychological focus tools (Pomodoro & Alpha waves)" : "أدوات التركيز وبومودورو وموجات ألفا",
                 isEn ? "Verified community wall with 300+ real members" : "حائط المجتمع وقصص نجاح أكثر من ٣٠٠ عضو",
-                isEn ? "14-Day 100% Money-Back Guarantee" : "ضمان استرداد كامل خلال ١٤ يومًا بدون تعقيد",
+                isEn ? "48-Hour 100% Money-Back Guarantee" : "ضمان استرداد كامل خلال 48 ساعة بدون أي تعقيد",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-2">
                   <span className="text-emerald-500 font-bold shrink-0">✓</span>

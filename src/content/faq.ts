@@ -302,8 +302,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "فيه استرجاع للفلوس؟",
         "qEn": "What is the refund policy?",
-        "a": "مفيش استرجاع بعد الدفع — المحتوى رقمي وبيتفتح كامل على طول. عشان كده اليوم الأول من كل مسار مفتوح مجانًا قبل ما تدفع مليم: جرّب درس كامل من كل مسار، ولو مش عاجبك ما تدفعش.",
-        "aEn": "We offer a 100% 14-day money-back guarantee. If you're not satisfied, message us within 14 days for a full refund."
+        "a": "نعم، نقدّم ضمان استرجاع كامل بنسبة 100% خلال 48 ساعة من تاريخ تفعيل اشتراكك. إذا شعرت أن المنصة لا تناسبك لأي سبب، راسلنا ببساطة عبر الواتساب أو الإيميل وسنعيد لك كامل المبلغ فوراً بدون أي تعقيد.",
+        "aEn": "Yes, we offer a 100% money-back guarantee within 48 hours of activation. If you feel the platform isn't right for you for any reason, simply message us via WhatsApp or email for a full, prompt refund with zero hassle."
       },
       {
         "q": "دفعت لرقم غلط، أعمل إيه؟",
