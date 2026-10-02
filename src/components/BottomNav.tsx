@@ -37,7 +37,7 @@ export default function BottomNav() {
               <span className="nav-tab-icon text-lg leading-none" aria-hidden>
                 {item.icon}
               </span>
-              <span className="nav-tab-label">{item.label}</span>
+              <span className="nav-tab-label whitespace-nowrap truncate">{item.label}</span>
             </Link>
           );
         })}

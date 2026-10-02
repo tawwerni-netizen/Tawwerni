@@ -51,22 +51,44 @@ export default function AppHeader({
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-3 px-4">
         <LogoLink size={32} href="/app" />
 
-        <nav className="hidden flex-1 items-center justify-center gap-1 md:flex">
+        <nav className="hidden flex-1 items-center justify-center gap-1 lg:gap-1.5 md:flex">
           {navItems.map((item) => {
             const active = isActive(pathname, item.href);
+            const isVip = item.href === "/app/vip-vault";
+
+            if (isVip) {
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`group relative whitespace-nowrap shrink-0 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs lg:text-sm font-black transition-all cursor-pointer ${
+                    active
+                      ? "bg-gradient-to-r from-amber-500/25 via-yellow-500/30 to-amber-500/25 border border-amber-500/60 text-amber-900 dark:text-amber-200 shadow-xs"
+                      : "border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-800 dark:text-amber-300 hover:border-amber-400 shadow-2xs hover:scale-102"
+                  }`}
+                >
+                  <span className="text-sm lg:text-base leading-none animate-pulse" aria-hidden>
+                    👑
+                  </span>
+                  <span>{item.label}</span>
+                </Link>
+              );
+            }
+
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`nav-pill rounded-full px-3.5 py-1.5 text-sm ${
+                className={`nav-pill whitespace-nowrap shrink-0 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs lg:text-sm font-medium transition-all ${
                   active ? "nav-pill-on font-bold" : ""
                 }`}
               >
-                <span className="me-1.5 text-base leading-none" aria-hidden>
+                <span className="text-sm lg:text-base leading-none" aria-hidden>
                   {item.icon}
                 </span>
-                {item.label}
+                <span>{item.label}</span>
               </Link>
             );
           })}

@@ -800,6 +800,9 @@ html[data-theme="dark"] .app-header {
 /* ---------- Desktop nav pills ---------- */
 .nav-pill {
   color: var(--text-soft);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
   transition: color 0.18s ease, background-color 0.18s ease, transform 0.18s ease;
 }
 .nav-pill:hover {
