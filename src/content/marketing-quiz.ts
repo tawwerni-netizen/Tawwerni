@@ -65,11 +65,11 @@ export const quizQuestions: QuizQuestionDef[] = [
     question: "كم عمرك؟",
     questionEn: "What is your age bracket?",
     options: [
-      { label: "أقل من ٢٥ سنة", labelEn: "Under 25", value: "under25" },
-      { label: "٢٥ – ٣٤ سنة", labelEn: "25 – 34", value: "25-34" },
-      { label: "٣٥ – ٤٤ سنة", labelEn: "35 – 44", value: "35-44" },
-      { label: "٤٥ – ٥٤ سنة", labelEn: "45 – 54", value: "45-54" },
-      { label: "٥٥ سنة فأكثر", labelEn: "55+", value: "55plus" },
+      { icon: "🌱", label: "أقل من ٢٥ سنة", labelEn: "Under 25", value: "under25" },
+      { icon: "🚀", label: "٢٥ – ٣٤ سنة", labelEn: "25 – 34", value: "25-34" },
+      { icon: "⚡", label: "٣٥ – ٤٤ سنة", labelEn: "35 – 44", value: "35-44" },
+      { icon: "👔", label: "٤٥ – ٥٤ سنة", labelEn: "45 – 54", value: "45-54" },
+      { icon: "👑", label: "٥٥ سنة فأكثر", labelEn: "55+", value: "55plus" },
     ],
   },
   {
@@ -111,11 +111,11 @@ export const quizQuestions: QuizQuestionDef[] = [
     questionEn: "Which AI tool are you most familiar with or curious about?",
     options: [
       { icon: "🤔", label: "لسه جديد على كل الأدوات دي", labelEn: "Completely new to these tools", value: "new" },
-      { label: "ChatGPT & OpenAI", labelEn: "ChatGPT & OpenAI", value: "chatgpt" },
-      { label: "Claude AI", labelEn: "Claude AI", value: "claude" },
-      { label: "Google Gemini", labelEn: "Google Gemini", value: "gemini" },
-      { label: "Microsoft Copilot", labelEn: "Microsoft Copilot", value: "copilot" },
-      { label: "Midjourney & Image Gen", labelEn: "Midjourney & Creative AI", value: "midjourney" },
+      { icon: "💬", label: "ChatGPT & OpenAI", labelEn: "ChatGPT & OpenAI", value: "chatgpt" },
+      { icon: "🧠", label: "Claude AI", labelEn: "Claude AI", value: "claude" },
+      { icon: "✨", label: "Google Gemini", labelEn: "Google Gemini", value: "gemini" },
+      { icon: "💻", label: "Microsoft Copilot", labelEn: "Microsoft Copilot", value: "copilot" },
+      { icon: "🎨", label: "Midjourney & Image Gen", labelEn: "Midjourney & Creative AI", value: "midjourney" },
     ],
   },
   {

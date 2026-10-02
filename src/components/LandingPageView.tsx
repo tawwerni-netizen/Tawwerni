@@ -648,12 +648,12 @@ export default function LandingPageView() {
             <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-emerald-400/20 blur-3xl" />
 
             <div className="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40 text-xs font-black mb-4">
-                <span className="text-sm">👑</span>
-                <span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-500/25 via-yellow-500/30 to-amber-500/25 border-2 border-amber-400/80 shadow-lg shadow-amber-500/20 text-xs sm:text-sm font-black mb-4 backdrop-blur-md">
+                <span className="text-base animate-pulse">👑</span>
+                <span className="text-amber-100 font-black tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                   {isEn ? "Exclusive VIP Digital Vault" : "خزنة الـ VIP السرية للشركات والفريلانسرز"}
                 </span>
-                <span className="rounded-md bg-amber-400 text-neutral-950 px-2 py-0.5 text-[10px] font-black">
+                <span className="rounded-full bg-gradient-to-r from-amber-400 to-yellow-300 text-neutral-950 px-2.5 py-0.5 text-[10px] sm:text-[11px] font-black shadow-sm shrink-0">
                   +10,000 Prompts
                 </span>
               </div>

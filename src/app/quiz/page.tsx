@@ -181,6 +181,81 @@ function ConfettiCanvas() {
   );
 }
 
+const QUIZ_OPTION_THEMES = [
+  // 0: Cyan / Sapphire Blue (Strategic, Focus, Professionalism)
+  {
+    border: "border-cyan-500/40 hover:border-cyan-300 focus:border-cyan-300",
+    bg: "bg-gradient-to-r from-cyan-950/40 via-neutral-900/90 to-[#0c1614]",
+    hoverBg: "hover:from-cyan-950/60 hover:to-[#0f211c]",
+    shadow: "shadow-xs hover:shadow-lg hover:shadow-cyan-500/20",
+    letterBg: "bg-cyan-500/20 border-cyan-400/50 text-cyan-200 group-hover:bg-cyan-400 group-hover:text-neutral-950",
+    iconBg: "bg-cyan-500/15 border-cyan-400/30 text-cyan-200",
+    badgeBg: "bg-cyan-400/20 text-cyan-200 border-cyan-400/50",
+    chevronColor: "text-cyan-400",
+    accentBar: "bg-cyan-400",
+  },
+  // 1: Amber / Radiant Gold (Wealth, Expansion, High Demand)
+  {
+    border: "border-amber-500/40 hover:border-amber-300 focus:border-amber-300",
+    bg: "bg-gradient-to-r from-amber-950/40 via-neutral-900/90 to-[#0c1614]",
+    hoverBg: "hover:from-amber-950/60 hover:to-[#1a170f]",
+    shadow: "shadow-xs hover:shadow-lg hover:shadow-amber-500/20",
+    letterBg: "bg-amber-500/20 border-amber-400/50 text-amber-200 group-hover:bg-amber-400 group-hover:text-neutral-950",
+    iconBg: "bg-amber-500/15 border-amber-400/30 text-amber-200",
+    badgeBg: "bg-amber-400/20 text-amber-200 border-amber-400/50",
+    chevronColor: "text-amber-400",
+    accentBar: "bg-amber-400",
+  },
+  // 2: Emerald / Mint Glow (Growth, Action, Achievement)
+  {
+    border: "border-emerald-500/40 hover:border-emerald-300 focus:border-emerald-300",
+    bg: "bg-gradient-to-r from-emerald-950/40 via-neutral-900/90 to-[#0c1614]",
+    hoverBg: "hover:from-emerald-950/60 hover:to-[#0f241d]",
+    shadow: "shadow-xs hover:shadow-lg hover:shadow-emerald-500/20",
+    letterBg: "bg-emerald-500/20 border-emerald-400/50 text-emerald-200 group-hover:bg-emerald-400 group-hover:text-neutral-950",
+    iconBg: "bg-emerald-500/15 border-emerald-400/30 text-emerald-200",
+    badgeBg: "bg-emerald-400/20 text-emerald-200 border-emerald-400/50",
+    chevronColor: "text-emerald-400",
+    accentBar: "bg-emerald-400",
+  },
+  // 3: Purple / Violet Neon (AI Tech, Deep Intelligence, Future)
+  {
+    border: "border-purple-500/40 hover:border-purple-300 focus:border-purple-300",
+    bg: "bg-gradient-to-r from-purple-950/40 via-neutral-900/90 to-[#0c1614]",
+    hoverBg: "hover:from-purple-950/60 hover:to-[#181124]",
+    shadow: "shadow-xs hover:shadow-lg hover:shadow-purple-500/20",
+    letterBg: "bg-purple-500/20 border-purple-400/50 text-purple-200 group-hover:bg-purple-400 group-hover:text-white",
+    iconBg: "bg-purple-500/15 border-purple-400/30 text-purple-200",
+    badgeBg: "bg-purple-400/20 text-purple-200 border-purple-400/50",
+    chevronColor: "text-purple-400",
+    accentBar: "bg-purple-400",
+  },
+  // 4: Rose / Coral Crimson (Creative, Breakthrough, Momentum)
+  {
+    border: "border-rose-500/40 hover:border-rose-300 focus:border-rose-300",
+    bg: "bg-gradient-to-r from-rose-950/40 via-neutral-900/90 to-[#0c1614]",
+    hoverBg: "hover:from-rose-950/60 hover:to-[#221118]",
+    shadow: "shadow-xs hover:shadow-lg hover:shadow-rose-500/20",
+    letterBg: "bg-rose-500/20 border-rose-400/50 text-rose-200 group-hover:bg-rose-400 group-hover:text-white",
+    iconBg: "bg-rose-500/15 border-rose-400/30 text-rose-200",
+    badgeBg: "bg-rose-400/20 text-rose-200 border-rose-400/50",
+    chevronColor: "text-rose-400",
+    accentBar: "bg-rose-400",
+  },
+  // 5: Teal / Aqua Sky (Clarity, Balance, Expansion)
+  {
+    border: "border-teal-500/40 hover:border-teal-300 focus:border-teal-300",
+    bg: "bg-gradient-to-r from-teal-950/40 via-neutral-900/90 to-[#0c1614]",
+    hoverBg: "hover:from-teal-950/60 hover:to-[#0f2422]",
+    shadow: "shadow-xs hover:shadow-lg hover:shadow-teal-500/20",
+    letterBg: "bg-teal-500/20 border-teal-400/50 text-teal-200 group-hover:bg-teal-400 group-hover:text-neutral-950",
+    iconBg: "bg-teal-500/15 border-teal-400/30 text-teal-200",
+    badgeBg: "bg-teal-400/20 text-teal-200 border-teal-400/50",
+    chevronColor: "text-teal-400",
+    accentBar: "bg-teal-400",
+  },
+];
+
 export default function QuizPage() {
   const router = useRouter();
   const { lang } = useI18n();
@@ -426,39 +501,51 @@ export default function QuizPage() {
             </p>
 
             {/* 3 High-Energy Role Cards */}
-            <div className="space-y-3 mb-6">
+            <div className="space-y-3.5 mb-6">
               {[
                 {
                   icon: "👨‍💼",
                   badge: isEn ? "Fast Promotion Track" : "مسار الترقية السريعة",
-                  badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
+                  badgeColor: "bg-cyan-500/20 text-cyan-200 border-cyan-400/50",
+                  cardTheme: "border-cyan-500/40 bg-gradient-to-r from-cyan-950/50 via-neutral-900/95 to-[#0c1614] hover:border-cyan-300 hover:shadow-cyan-500/20",
+                  iconGlow: "from-cyan-500/20 to-blue-500/20 border-cyan-400/30 text-cyan-200",
                   label: isEn ? "Company Professional / Career Climber" : "موظف في شركة / أسعى لترقية وزيادة راتب",
                   desc: isEn
                     ? "Multiply daily productivity, automate workflows, and become indispensable"
                     : "مضاعفة إنتاجيتي اليومية وإتقان أدوات الـ AI لأصبح الشخص الأكثر تميزاً في فريقي",
                   tag: isEn ? "High ROI ⭐" : "الخيار المفضل للمحترفين ⭐",
+                  tagColor: "bg-cyan-500/15 text-cyan-200 border-cyan-400/30",
+                  arrowColor: "text-cyan-400",
                   value: "employee",
                 },
                 {
                   icon: "💰",
                   badge: isEn ? "Income Engine & Freelance" : "مسار الدخل الحر والتوسع",
-                  badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+                  badgeColor: "bg-amber-500/20 text-amber-200 border-amber-400/50",
+                  cardTheme: "border-amber-500/50 bg-gradient-to-r from-amber-950/50 via-neutral-900/95 to-[#0c1614] hover:border-amber-300 hover:shadow-amber-500/25",
+                  iconGlow: "from-amber-500/20 to-yellow-500/20 border-amber-400/30 text-amber-200",
                   label: isEn ? "Founder / Freelancer / Side-Hustler" : "صاحب مشروع / فريلانسر حر / باني دخل إضافي",
                   desc: isEn
                     ? "Launch new services, secure international clients, and build scalable automated income"
                     : "إطلاق خدمات جديدة وأتمتة المهام لرفع أرباحي وجذب عملاء دوليين على Upwork",
                   tag: isEn ? "Most Popular 🔥" : "الأعلى طلباً هذا الشهر 🔥",
+                  tagColor: "bg-amber-500/20 text-amber-100 border-amber-400/50 font-black",
+                  arrowColor: "text-amber-400",
                   value: "founder",
                 },
                 {
                   icon: "🌱",
                   badge: isEn ? "Zero-to-One Mastery" : "مسار التأسيس والتمكن",
-                  badgeColor: "bg-teal-500/20 text-teal-300 border-teal-500/30",
+                  badgeColor: "bg-emerald-500/20 text-emerald-200 border-emerald-400/50",
+                  cardTheme: "border-emerald-500/40 bg-gradient-to-r from-emerald-950/50 via-neutral-900/95 to-[#0c1614] hover:border-emerald-300 hover:shadow-emerald-500/20",
+                  iconGlow: "from-emerald-500/20 to-teal-500/20 border-emerald-400/30 text-emerald-200",
                   label: isEn ? "Student / Seeking a Modern Career Start" : "طالب / أبحث عن بداية مسار دخل جديد",
                   desc: isEn
                     ? "Learn highly-demanded future skills from scratch without complicated coding"
                     : "بناء مهارات تقنية مطلوبة جداً من الصفر وصنع أول مصدر دخل بدون تعقيد",
                   tag: isEn ? "Beginner Friendly 🎯" : "مثالي للمبتدئين 🎯",
+                  tagColor: "bg-emerald-500/15 text-emerald-200 border-emerald-400/30",
+                  arrowColor: "text-emerald-400",
                   value: "exploring",
                 },
               ].map((o) => (
@@ -469,32 +556,32 @@ export default function QuizPage() {
                     setRole(o.value);
                     next();
                   }}
-                  className="group relative w-full flex items-start gap-4 p-4 sm:p-5 rounded-3xl border-2 border-white/10 bg-[#0d1614]/90 hover:border-emerald-400 hover:bg-emerald-950/30 hover:shadow-2xl hover:shadow-emerald-500/20 hover:-translate-y-1 transition-all duration-300 active:scale-98 text-start overflow-hidden backdrop-blur-xl"
+                  className={`group relative w-full flex items-start gap-4 p-4 sm:p-5 rounded-3xl border-2 transition-all duration-300 active:scale-98 text-start overflow-hidden backdrop-blur-xl shadow-lg hover:-translate-y-1 cursor-pointer ${o.cardTheme}`}
                 >
                   {/* Glowing squircle icon */}
-                  <div className="shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-emerald-500/30 transition-transform">
+                  <div className={`shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br border flex items-center justify-center text-3xl group-hover:scale-110 group-hover:shadow-lg transition-transform ${o.iconGlow}`}>
                     {o.icon}
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full border ${o.badgeColor}`}>
+                    <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                      <span className={`text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full border shadow-xs ${o.badgeColor}`}>
                         {o.badge}
                       </span>
-                      <span className="text-[10px] font-bold text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+                      <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border shadow-xs ${o.tagColor}`}>
                         {o.tag}
                       </span>
                     </div>
 
-                    <h3 className="text-sm sm:text-base font-black text-white group-hover:text-emerald-300 transition-colors">
+                    <h3 className="text-sm sm:text-base font-black text-white group-hover:text-white transition-colors">
                       {o.label}
                     </h3>
-                    <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
+                    <p className="text-xs text-neutral-200 mt-1 leading-relaxed">
                       {o.desc}
                     </p>
                   </div>
 
-                  <span className="shrink-0 self-center text-neutral-500 text-lg group-hover:text-emerald-400 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-all">
+                  <span className={`shrink-0 self-center text-lg font-black group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-all ${o.arrowColor}`}>
                     {isEn ? "→" : "←"}
                   </span>
                 </button>
@@ -584,48 +671,68 @@ export default function QuizPage() {
           <div className="animate-fade-in">
             {/* Question Header Card */}
             <div className="mb-5">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-bold text-neutral-300 mb-2">
-                <span className="text-amber-400">⚡ Q{questionNumber}</span>
-                <span>·</span>
-                <span className="text-emerald-400 font-mono">+25 XP</span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-[11px] sm:text-xs font-bold text-neutral-200 mb-2.5 shadow-xs">
+                <span className="text-amber-300 font-black">⚡ Q{questionNumber}</span>
+                <span className="text-neutral-500">·</span>
+                <span className="text-emerald-300 font-mono font-bold">+25 XP</span>
               </div>
 
-              <h2 className="text-lg sm:text-xl font-black text-white leading-snug">
+              <h2 className="text-lg sm:text-2xl font-black text-white leading-snug">
                 {isEn ? quizQuestions[step.qIndex].questionEn : quizQuestions[step.qIndex].question}
               </h2>
 
               {(quizQuestions[step.qIndex].subtitle || quizQuestions[step.qIndex].subtitleEn) && (
-                <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-300 mt-1.5 leading-relaxed">
                   {isEn ? quizQuestions[step.qIndex].subtitleEn : quizQuestions[step.qIndex].subtitle}
                 </p>
               )}
             </div>
 
             {/* Options List */}
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               {quizQuestions[step.qIndex].options.map((opt, idx) => {
+                const theme = QUIZ_OPTION_THEMES[idx % QUIZ_OPTION_THEMES.length];
                 const letter = isEn
                   ? String.fromCharCode(65 + idx)
-                  : ["أ", "ب", "ج", "د", "هـ", "و"][idx] ?? `${idx + 1}`;
+                  : ["أ", "ب", "ج", "د", "هـ", "و", "ز", "ح"][idx] ?? `${idx + 1}`;
                 return (
                   <button
                     key={opt.value}
                     type="button"
                     onClick={() => answerQuestion(quizQuestions[step.qIndex].id, opt.value)}
-                    className={`group w-full flex items-center gap-3.5 rounded-2xl border-2 p-3.5 sm:p-4 text-xs sm:text-sm text-start transition-all duration-200 active:scale-98 ${
+                    className={`group relative w-full flex items-center gap-3.5 sm:gap-4 rounded-2xl border-2 p-3.5 sm:p-4 text-xs sm:text-sm text-start transition-all duration-200 active:scale-98 cursor-pointer overflow-hidden backdrop-blur-md ${
                       opt.highlight
-                        ? "border-emerald-500/40 bg-emerald-950/20 hover:border-emerald-400 hover:bg-emerald-950/40 hover:shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-0.5"
-                        : "border-white/10 bg-[#0d1614]/80 hover:border-emerald-500/60 hover:bg-[#12211d] hover:shadow-md hover:shadow-emerald-500/10 hover:-translate-y-0.5"
+                        ? "border-amber-400/70 bg-gradient-to-r from-amber-950/50 via-[#16140d] to-emerald-950/40 shadow-lg shadow-amber-500/15 hover:border-amber-300 hover:shadow-amber-500/30 hover:-translate-y-0.5"
+                        : `${theme.border} ${theme.bg} ${theme.hoverBg} ${theme.shadow} hover:-translate-y-0.5`
                     }`}
                   >
+                    {/* Visual Active Indicator Bar */}
+                    <span
+                      className={`absolute start-0 top-0 bottom-0 w-1 rounded-s ${
+                        opt.highlight ? "bg-amber-400" : theme.accentBar
+                      }`}
+                    />
+
                     {/* Letter Key Pill */}
-                    <span className="w-8 h-8 rounded-xl bg-white/5 border border-white/10 text-neutral-300 group-hover:bg-emerald-500 group-hover:text-neutral-950 font-bold text-xs flex items-center justify-center shrink-0 transition-colors">
+                    <span
+                      className={`w-9 h-9 rounded-xl border-2 font-black text-xs sm:text-sm flex items-center justify-center shrink-0 transition-all duration-200 shadow-xs ${
+                        opt.highlight
+                          ? "bg-amber-400/25 border-amber-400/60 text-amber-200 group-hover:bg-amber-400 group-hover:text-neutral-950"
+                          : theme.letterBg
+                      }`}
+                    >
                       {letter}
                     </span>
 
-                    {/* Icon */}
+                    {/* Icon in frosted pill */}
                     {opt.icon && (
-                      <span className="text-2xl shrink-0 group-hover:scale-110 transition-transform">
+                      <span
+                        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl border flex items-center justify-center text-xl sm:text-2xl shrink-0 transition-transform duration-200 group-hover:scale-110 ${
+                          opt.highlight
+                            ? "bg-amber-400/15 border-amber-400/30 text-amber-200"
+                            : theme.iconBg
+                        }`}
+                      >
                         {opt.icon}
                       </span>
                     )}
@@ -633,19 +740,36 @@ export default function QuizPage() {
                     {/* Label & Optional Badge */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-bold text-neutral-100 group-hover:text-white">
+                        <span className="font-extrabold text-white text-xs sm:text-sm leading-snug drop-shadow-xs group-hover:text-white">
                           {isEn ? opt.labelEn || opt.label : opt.label}
                         </span>
+
                         {(opt.badge || opt.badgeEn) && (
-                          <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                          <span
+                            className={`text-[10px] sm:text-[11px] font-black px-2.5 py-0.5 rounded-full border shadow-xs ${
+                              opt.highlight
+                                ? "bg-amber-400/25 text-amber-100 border-amber-400/60"
+                                : theme.badgeBg
+                            }`}
+                          >
                             {isEn ? opt.badgeEn : opt.badge}
+                          </span>
+                        )}
+
+                        {opt.highlight && !opt.badge && (
+                          <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-400/25 text-amber-100 border border-amber-400/50">
+                            {isEn ? "Recommended ⭐" : "موصى به ⭐"}
                           </span>
                         )}
                       </div>
                     </div>
 
                     {/* Arrow / Chevron */}
-                    <span className="text-neutral-500 text-sm group-hover:text-emerald-400 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-all">
+                    <span
+                      className={`text-base font-black shrink-0 transition-all duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 ${
+                        opt.highlight ? "text-amber-400" : theme.chevronColor
+                      }`}
+                    >
                       {isEn ? "›" : "‹"}
                     </span>
                   </button>
@@ -660,11 +784,11 @@ export default function QuizPage() {
           <div className="relative text-center animate-fade-in py-2">
             <ConfettiCanvas />
 
-            <div className="inline-block p-4 rounded-3xl bg-gradient-to-br from-amber-500/20 to-emerald-500/20 border-2 border-amber-400/40 text-5xl mb-4 shadow-xl shadow-amber-500/20 animate-bounce">
+            <div className="inline-block p-4 rounded-3xl bg-gradient-to-br from-amber-500/20 to-emerald-500/20 border-2 border-amber-400/50 text-5xl mb-4 shadow-xl shadow-amber-500/20 animate-bounce">
               {quizInterstitials[step.afterN].icon}
             </div>
 
-            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 text-xs font-black mb-3">
+            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-amber-500/20 text-amber-200 border-2 border-amber-400/60 text-xs font-black mb-3 shadow-md">
               <span>🏆</span>
               <span>
                 {isEn ? "Milestone Achieved · Top 20% Tier" : "إنجاز مرحلي · أنت متقدم على 80% من محيطك"}
@@ -675,7 +799,7 @@ export default function QuizPage() {
               {isEn ? quizInterstitials[step.afterN].headingEn : quizInterstitials[step.afterN].heading}
             </h2>
 
-            <p className="text-xs sm:text-sm text-neutral-300 mb-6 leading-relaxed max-w-md mx-auto">
+            <p className="text-xs sm:text-sm text-neutral-200 mb-6 leading-relaxed max-w-md mx-auto">
               {isEn ? quizInterstitials[step.afterN].bodyEn : quizInterstitials[step.afterN].body}
             </p>
 
@@ -1164,7 +1288,7 @@ export default function QuizPage() {
             <div className="text-4xl mb-2">🎁</div>
 
             {/* Scarcity Tag */}
-            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-black mb-3">
+            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-amber-500/25 text-amber-200 border-2 border-amber-400/60 text-xs font-black mb-3 shadow-md shadow-amber-500/10">
               <span>👑</span>
               <span>
                 {isEn
@@ -1216,7 +1340,7 @@ export default function QuizPage() {
               {/* Scarcity Bar */}
               <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-start">
                 <div className="flex items-center justify-between text-[11px] font-bold mb-1.5">
-                  <span className="text-amber-300 flex items-center gap-1.5">
+                  <span className="text-amber-200 font-black flex items-center gap-1.5">
                     <span className="inline-block w-2 h-2 rounded-full bg-red-400 animate-ping" />
                     {isEn ? `Only ${pricing.cohortSeatsRemaining} seats left` : `باقي ${pricing.cohortSeatsRemaining} مقعداً فقط`}
                   </span>
@@ -1231,7 +1355,7 @@ export default function QuizPage() {
             </div>
 
             {/* 👑 High-Dopamine VIP 10,000 Prompts Vault Unlock Card */}
-            <div className="rounded-3xl border-2 border-amber-400/60 bg-gradient-to-br from-amber-950/70 via-[#18140b] to-neutral-900 p-5 mb-5 text-start shadow-2xl shadow-amber-500/20 relative overflow-hidden">
+            <div className="rounded-3xl border-2 border-amber-400/70 bg-gradient-to-br from-amber-950/70 via-[#18140b] to-neutral-900 p-5 mb-5 text-start shadow-2xl shadow-amber-500/25 relative overflow-hidden">
               <div className="pointer-events-none absolute -top-12 -right-12 w-32 h-32 rounded-full bg-amber-400/20 blur-2xl" />
               <div className="flex items-start gap-3.5 relative z-10">
                 <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-amber-400 to-yellow-300 text-neutral-950 flex items-center justify-center text-2xl shrink-0 shadow-lg shadow-amber-500/30 font-black">
@@ -1242,7 +1366,7 @@ export default function QuizPage() {
                     <span className="rounded-full bg-amber-400 text-neutral-950 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider">
                       🔥 {isEn ? "Secret VIP Vault" : "خزنة الـ VIP السرية"}
                     </span>
-                    <span className="text-[11px] font-mono text-amber-300 font-bold">
+                    <span className="text-[11px] font-mono text-amber-200 font-black">
                       {isEn ? "+ 5 Legal Contracts" : "+ 5 عقود فريلانس قانونية"}
                     </span>
                   </div>
