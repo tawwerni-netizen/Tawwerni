@@ -1,0 +1,93 @@
+{
+  "totalTracks": 10,
+  "totalDomains": 100,
+  "totalPrompts": 10000,
+  "generatedAt": "2026-10-02T00:31:13.627Z",
+  "pricing": {
+    "baseCourseEgp": 349,
+    "vipUpgradeBumpEgp": 199,
+    "bundleTotalEgp": 548
+  },
+  "tracks": [
+    {
+      "key": "strategy",
+      "titleAr": "القيادة والاستراتيجية التنفيذية",
+      "titleEn": "Executive Leadership & Corporate Strategy",
+      "icon": "🏛️",
+      "domainsCount": 10,
+      "promptsCount": 1000
+    },
+    {
+      "key": "sales",
+      "titleAr": "المبيعات وإغلاق الصفقات الكبرى (B2B)",
+      "titleEn": "B2B Sales & High-Ticket Closing",
+      "icon": "💼",
+      "domainsCount": 10,
+      "promptsCount": 1000
+    },
+    {
+      "key": "marketing",
+      "titleAr": "التسويق الإعلاني والنمو والتحويل",
+      "titleEn": "Growth Marketing, Media Buying & CRO",
+      "icon": "📈",
+      "domainsCount": 10,
+      "promptsCount": 1000
+    },
+    {
+      "key": "freelance",
+      "titleAr": "العمل الحر واقتناص العملاء الدوليين",
+      "titleEn": "Elite Freelancing & Global Client Hunting",
+      "icon": "🌍",
+      "domainsCount": 10,
+      "promptsCount": 1000
+    },
+    {
+      "key": "engineering",
+      "titleAr": "هندسة البرمجيات والأنظمة والذكاء الاصطناعي",
+      "titleEn": "Software Architecture, Security & AI Systems",
+      "icon": "⚡",
+      "domainsCount": 10,
+      "promptsCount": 1000
+    },
+    {
+      "key": "product",
+      "titleAr": "إدارة المنتجات وتجربة المستخدم (UI/UX)",
+      "titleEn": "Product Management, UX & Activation",
+      "icon": "📱",
+      "domainsCount": 10,
+      "promptsCount": 1000
+    },
+    {
+      "key": "operations",
+      "titleAr": "أتمتة العمليات والـ SOPs الذكية",
+      "titleEn": "Operations, SOPs & AI Workflow Automation",
+      "icon": "⚙️",
+      "domainsCount": 10,
+      "promptsCount": 1000
+    },
+    {
+      "key": "finance",
+      "titleAr": "المالية والتسعير واقتصاديات الوحدة",
+      "titleEn": "Finance, Pricing Strategy & Cashflow",
+      "icon": "💰",
+      "domainsCount": 10,
+      "promptsCount": 1000
+    },
+    {
+      "key": "hr",
+      "titleAr": "الموارد البشرية والتوظيف النخبوي",
+      "titleEn": "HR, Talent Acquisition & People Leadership",
+      "icon": "👥",
+      "domainsCount": 10,
+      "promptsCount": 1000
+    },
+    {
+      "key": "retention",
+      "titleAr": "نجاح العملاء والاحتفاظ وتحليل البيانات",
+      "titleEn": "Customer Success, Churn & Data Intelligence",
+      "icon": "💎",
+      "domainsCount": 10,
+      "promptsCount": 1000
+    }
+  ]
+}

@@ -86,6 +86,10 @@ export default async function AdminUsersPage() {
     const isVip = u.isAdmin || u.orders.some((o) =>
       o.status === "approved" && (
         o.amountEgp >= 440 ||
+        o.amountEgp === 199 ||
+        o.amountEgp === 200 ||
+        o.amountEgp === 99 ||
+        o.amountEgp === 100 ||
         o.method === "admin_vip_grant" ||
         o.method === "vip_upgrade" ||
         o.proofChannel === "vip_vault"
@@ -136,7 +140,7 @@ export default async function AdminUsersPage() {
   const vipCount = rows.filter((r) => r.isVip).length;
   const totalUserCount = Math.max(302, rows.length);
   const activeCount = rows.filter((r) => r.lessonsDone > 0).length;
-  const revenue = paidCount * 349 + vipCount * 99;
+  const revenue = paidCount * 349 + vipCount * 199;
 
   return (
     <AdminShell
@@ -151,7 +155,7 @@ export default async function AdminUsersPage() {
         stats={[
           { label: "مسجّل", labelEn: "Registered", value: totalUserCount, icon: "👥" },
           { label: "مشترك", labelEn: "Subscribers", value: paidCount, icon: "✅", tone: "good", hint: "٣٠٢ مشترك", hintEn: "302 active" },
-          { label: "أعضاء VIP", labelEn: "VIP Members", value: vipCount, icon: "👑", tone: "good", hint: "1000 برومبت", hintEn: "Prompt Vault" },
+          { label: "أعضاء VIP", labelEn: "VIP Members", value: vipCount, icon: "👑", tone: "good", hint: "10,000 برومبت", hintEn: "10,000 Prompts Vault" },
           { label: "نشِط", labelEn: "Active", value: activeCount || 184, icon: "⚡" },
           { label: "الإيرادات", labelEn: "Total Revenue", value: `${revenue.toLocaleString("en-US")} ج.م`, valueEn: `${revenue.toLocaleString("en-US")} EGP`, icon: "💰", tone: "good" },
         ]}

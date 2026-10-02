@@ -244,7 +244,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
               <ul className="space-y-1.5 text-xs text-neutral-200">
                 <li>• {isEn ? "Email:" : "الإيميل:"} <b dir="ltr" className="text-emerald-300">{email}</b></li>
                 <li>• {isEn ? "Starting Track:" : "المسار الأولي:"} <b className="text-white">{selectedTitle}</b></li>
-                <li>• {isEn ? "Amount:" : "المبلغ:"} <b className="font-mono text-emerald-400">{totalPrice} {isEn ? "EGP" : "ج.م"} {withOrderBump ? (isEn ? "(Includes VIP Prompts & Contracts)" : "(شامل حزمة البرومبتات والعقود VIP)") : ""}</b></li>
+                <li>• {isEn ? "Amount:" : "المبلغ:"} <b className="font-mono text-emerald-400">{totalPrice} {isEn ? "EGP" : "ج.م"} {withOrderBump ? (isEn ? "(Includes 10,000 Prompts Database & Legal Contracts VIP)" : "(شامل قاعدة بيانات الـ 10,000 برومبت وعقود الفريلانس VIP)") : ""}</b></li>
                 <li>• {isEn ? "Sender Phone / Wallet Number" : "الرقم أو المحفظة المحوّل منها"}</li>
               </ul>
             </div>
@@ -388,27 +388,45 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
             <div className="flex-1 text-start">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="rounded-md bg-amber-400 text-neutral-950 px-2.5 py-0.5 text-[11px] font-black">
-                  ⚡ {isEn ? "Exclusive VIP Upgrade (Order Bump)" : "ترقية حصرية مضافة لطلبك"}
+                  ⚡ {isEn ? "VIP Vault Upgrade (Save 80%)" : "ترقية حصرية مضافة لطلبك (وفر ٨٠٪)"}
                 </span>
                 <div className="flex items-center gap-1.5 font-mono">
                   <span className="text-xs font-black text-amber-300">
                     +{pricing.orderBumpPriceEgp} {isEn ? "EGP only" : "ج.م فقط"}
                   </span>
                   <span className="text-[10px] text-neutral-400 line-through">
-                    450 {isEn ? "EGP" : "ج.م"}
+                    950 {isEn ? "EGP" : "ج.م"}
                   </span>
                 </div>
               </div>
-              <p className="mt-1.5 text-xs sm:text-sm font-bold text-white leading-snug">
+              <p className="mt-1.5 text-xs sm:text-sm font-black text-white leading-snug">
                 {isEn
-                  ? "Secret 1,000+ Corporate AI Prompts Bank + Verified Freelance Legal Contracts"
+                  ? "Executive 10,000 Corporate Prompts Database (100 Domains × 100 Prompts) + Freelance Legal Contracts Pack"
                   : pricing.orderBumpTitle}
               </p>
               <p className="mt-1 text-[11px] leading-relaxed text-neutral-300">
                 {isEn
-                  ? "A tested vault of 1,000+ high-precision AI prompts for marketing, sales, and software + battle-tested bilingual freelance contracts protecting your fees legally."
-                  : "بنك مكوّن من +1,000 أمر ذكاء اصطناعي احترافي عالي الدقة تم اختباره للبيزنس والمبيعات والبرمجة + صِيغ عقود عمل حر تحمي أتعابك قانونيًا."}
+                  ? "An authentic indexed database of 10,000 executive AI prompts covering 100 corporate domains + 5 verified bilingual freelance legal contracts safeguarding your fees and stopping revisions scope creep."
+                  : "قاعدة بيانات مفهرسة تضم 10,000 أمر ذكاء اصطناعي عملي موزعة على 100 مجال تخصصي للشركات + 5 صِيغ عقود عمل حر ثنائية اللغة تحمي أتعابك قانونيًا وتمنع المماطلة تمامًا."}
               </p>
+              <div className="mt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[10px] sm:text-[11px] text-amber-200/90 font-medium">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-amber-400">✓</span>
+                  <span>{isEn ? "10,000 Prompts across 100 Corporate Domains" : "١٠,٠٠٠ برومبت مقسمة على ١٠٠ مجال شركات"}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-amber-400">✓</span>
+                  <span>{isEn ? "5 Ironclad Bilingual Legal Contracts" : "٥ عقود فريلانس قانونية ملزمة (عربي/إنجليزي)"}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-amber-400">✓</span>
+                  <span>{isEn ? "One-click copy & instant .txt download" : "نسخ مباشر وتحميل فوري بضغطة زر"}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-amber-400">✓</span>
+                  <span>{isEn ? "Lifetime Access & Updates" : "وصول دائم وتحديثات مستمرة في حسابك"}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

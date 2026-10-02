@@ -71,7 +71,7 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
 
   async function handleToggleVip(grant = !user.isVip) {
     const promptMsg = grant
-      ? `هل أنت متأكد من ترقية ${user.name || user.email} إلى VIP ومنحه مكتبة الـ 1,000 برومبت وحزمة العقود القانونية فوراً؟`
+      ? `هل أنت متأكد من ترقية ${user.name || user.email} إلى VIP ومنحه قاعدة بيانات الـ 10,000 برومبت وحزمة العقود القانونية فوراً؟`
       : `هل تريد إلغاء ترقية VIP للمستخدم ${user.name || user.email}؟`;
     if (!confirm(promptMsg)) return;
 
@@ -268,10 +268,10 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
                 ? "bg-amber-500/15 border border-amber-500/30 text-amber-700 dark:text-amber-300 hover:bg-amber-500/25"
                 : "bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 hover:brightness-110 active:scale-95 text-neutral-950 shadow-xs"
             }`}
-            title={user.isVip ? "إلغاء أو تعديل VIP" : "ترقية هذا العضو للحصول على 1,000 برومبت فوراً"}
+            title={user.isVip ? "إلغاء أو تعديل VIP" : "ترقية هذا العضو للحصول على 10,000 برومبت فوراً"}
           >
             <span>👑</span>
-            <span>{togglingVip ? "..." : user.isVip ? "VIP مفعّل ✓" : "ترقية VIP (1000 برومبت)"}</span>
+            <span>{togglingVip ? "..." : user.isVip ? "VIP مفعّل ✓" : "ترقية VIP (10,000 برومبت)"}</span>
           </button>
 
           {!user.paid && (
@@ -431,7 +431,7 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
               <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
                 <p className="text-[11px] font-bold text-neutral-800 dark:text-neutral-200 flex items-center gap-1.5">
                   <span>👑</span>
-                  <span>خزنة VIP وبنك الـ 1,000 برومبت</span>
+                  <span>خزنة VIP وقاعدة الـ 10,000 برومبت</span>
                 </p>
                 <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
                   user.isVip
@@ -443,8 +443,8 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
               </div>
               <p className="text-[11px] leading-relaxed text-neutral-500 dark:text-neutral-400 mb-2">
                 {user.isVip
-                  ? "العضو يمتلك صلاحية الوصول الكاملة لخزنة الـ 1,000 برومبت وعقود الفريلانس القانونية."
-                  : "يمكنك ترقية العضو ومنحه وصولاً فورياً لبنك الـ 1,000 برومبت وحزمة العقود بضغطة زر واحدة."}
+                  ? "العضو يمتلك صلاحية الوصول الكاملة لقاعدة الـ 10,000 برومبت وعقود الفريلانس القانونية."
+                  : "يمكنك ترقية العضو ومنحه وصولاً فورياً لقاعدة الـ 10,000 برومبت وحزمة العقود بضغطة زر واحدة."}
               </p>
               <button
                 type="button"
@@ -457,7 +457,7 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
                 }`}
               >
                 <span>👑</span>
-                <span>{togglingVip ? "جارٍ التحديث..." : user.isVip ? "إلغاء ترقية VIP" : "ترقية فورية إلى VIP (1000 برومبت)"}</span>
+                <span>{togglingVip ? "جارٍ التحديث..." : user.isVip ? "إلغاء ترقية VIP" : "ترقية فورية إلى VIP (10,000 برومبت)"}</span>
               </button>
             </div>
 

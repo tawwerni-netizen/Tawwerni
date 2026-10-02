@@ -741,8 +741,7 @@ export default function LandingPageView() {
               </span>
             </div>
 
-            {/* Referral Cash-Back Guarantee Card */}
-            <div className="mb-6 rounded-2xl bg-teal-50/80 dark:bg-teal-950/40 p-4 text-xs leading-relaxed text-teal-950 dark:text-teal-200 border border-teal-200/60 dark:border-teal-800/60 flex items-start gap-3 text-start">
+            <div className="mb-4 rounded-2xl bg-teal-50/80 dark:bg-teal-950/40 p-4 text-xs leading-relaxed text-teal-950 dark:text-teal-200 border border-teal-200/60 dark:border-teal-800/60 flex items-start gap-3 text-start">
               <span className="text-2xl shrink-0">💸</span>
               <div>
                 <p className="font-bold text-teal-900 dark:text-teal-100 text-sm">
@@ -752,6 +751,28 @@ export default function LandingPageView() {
                   {isEn
                     ? `Refer 5 friends with your personal affiliate link = ${referral.commissionEgp * 5} EGP cash in your pocket. Instant withdrawal starting at ${referral.minPayoutEgp} EGP via Vodafone Cash or InstaPay.`
                     : `٥ أصدقاء يشتركون برابطك الشخصي = ٣٧٥ ج.م كاش فوري في محفظتك (عمولة ٧٥ ج.م عن كل صديق، والسحب فوري من ١٥٠ ج.م عبر فودافون كاش أو إنستاباي).`}
+                </p>
+              </div>
+            </div>
+
+            {/* VIP Prompts Vault & Legal Contracts Hook */}
+            <div className="mb-6 rounded-2xl bg-gradient-to-r from-amber-500/15 via-yellow-500/10 to-amber-500/15 p-4 text-xs leading-relaxed border border-amber-500/30 flex items-start gap-3 text-start">
+              <span className="text-2xl shrink-0">👑</span>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="font-black text-amber-900 dark:text-amber-200 text-sm">
+                    {isEn
+                      ? "Exclusive VIP Upgrade: 10,000 Prompts Database + 5 Freelance Legal Contracts"
+                      : "ترقية VIP الحصرية: قاعدة الـ 10,000 برومبت تنفيذي + 5 عقود فريلانس قانونية"}
+                  </p>
+                  <span className="rounded-md bg-amber-400 text-neutral-950 px-2 py-0.5 text-[10px] font-black">
+                    +{pricing.orderBumpPriceEgp} {isEn ? "EGP" : "ج.م"}
+                  </span>
+                </div>
+                <p className="mt-1 text-neutral-700 dark:text-neutral-300 text-xs leading-relaxed">
+                  {isEn
+                    ? "Available at checkout: 100 specialized business domains × 100 copy-pasteable executive prompts (10,000 total) + 5 bilingual contracts preventing client non-payment and scope creep."
+                    : "متاحة اختياريًا عند الدفع: 100 مجال شركات × 100 برومبت تنفيذي جاهز للنسخ (10,000 برومبت) + 5 عقود عمل حر ثنائية اللغة تحمي أتعابك قانونيًا وتمنع المماطلة."}
                 </p>
               </div>
             </div>

@@ -308,7 +308,12 @@ Under no circumstances shall the Client be provided with raw source code, produc
 ];
 
 import vipPromptsJson from "./vip-prompts-1000.json";
+import domainsIndexJson from "./vip-vault/domains-index.json";
+import vaultSummaryJson from "./vip-vault/vault-summary.json";
 
 export const PROMPTS_VAULT: PromptTemplate[] = vipPromptsJson as unknown as PromptTemplate[];
-export const TOTAL_PROMPTS_COUNT = PROMPTS_VAULT.length;
+export const DOMAINS_INDEX = domainsIndexJson;
+export const VAULT_SUMMARY = vaultSummaryJson;
+export const TOTAL_PROMPTS_COUNT = 10000;
+export const TOTAL_DOMAINS_COUNT = 100;
 

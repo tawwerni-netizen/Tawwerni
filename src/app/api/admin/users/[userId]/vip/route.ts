@@ -42,14 +42,14 @@ export async function POST(
         return NextResponse.json({
           ok: true,
           isVip: true,
-          message: `المستخدم ${user.name || user.email} لديه وصول VIP بالفعل ومكتبة الـ 1000 برومبت مفعّلة!`,
+          message: `المستخدم ${user.name || user.email} لديه وصول VIP بالفعل وقاعدة بيانات الـ 10,000 برومبت مفعّلة!`,
         });
       }
 
       await prisma.order.update({
         where: { id: existingApproved.id },
         data: {
-          amountEgp: 448,
+          amountEgp: 548,
           proofChannel: "vip_vault",
         },
       });
@@ -66,7 +66,7 @@ export async function POST(
         data: {
           userId: user.id,
           courseId: defaultCourse.id,
-          amountEgp: 448,
+          amountEgp: 548,
           method: "admin_vip_grant",
           proofChannel: "vip_vault",
           senderPhone: user.phone || "ADMIN",
@@ -81,13 +81,13 @@ export async function POST(
       action: "user.vip_grant",
       targetType: "user",
       targetId: user.id,
-      detail: `Granted VIP Vault & 1000 Prompts library to ${user.email}`,
+      detail: `Granted VIP Vault & 10000 Prompts database to ${user.email}`,
     });
 
     return NextResponse.json({
       ok: true,
       isVip: true,
-      message: `تمت ترقية ${user.name || user.email} إلى VIP ومنحه مكتبة الـ 1000 برومبت وعقود الفريلانس بنجاح! 👑`,
+      message: `تمت ترقية ${user.name || user.email} إلى VIP ومنحه قاعدة بيانات الـ 10,000 برومبت وعقود الفريلانس بنجاح! 👑`,
     });
   } else {
     for (const order of user.orders) {

@@ -115,19 +115,28 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
     }
   }
 
-  // 1. In Egypt, transfers arrive as 349/350 (Standard) or 448/450 (VIP Upgrade).
+  // 1. In Egypt, transfers arrive as:
+  // - Standard Course: 349 or 350 EGP
+  // - VIP Bundle (Course + 10,000 Prompts Vault): 548, 549, 550 EGP (or legacy 448, 449, 450)
+  // - Standalone VIP Upgrade (for existing learners): 199 or 200 EGP (or legacy 99, 100)
   const standardTierAmounts = [349, 350, pricing.priceEgp];
-  const vipTierAmounts = [448, 449, 450, pricing.priceEgp + pricing.orderBumpPriceEgp];
+  const vipBundleAmounts = [548, 549, 550, pricing.priceEgp + pricing.orderBumpPriceEgp, 448, 449, 450];
+  const vipStandaloneUpgradeAmounts = [199, 200, pricing.orderBumpPriceEgp, 99, 100];
+  const vipTierAmounts = Array.from(new Set([...vipBundleAmounts, ...vipStandaloneUpgradeAmounts]));
 
   const isVipTier = vipTierAmounts.includes(payment.amountEgp);
+  const isVipBundle = vipBundleAmounts.includes(payment.amountEgp);
+  const isStandaloneVipUpgrade = vipStandaloneUpgradeAmounts.includes(payment.amountEgp);
   const isStandardTier = standardTierAmounts.includes(payment.amountEgp);
   const isRecognizedTier = isVipTier || isStandardTier;
 
   // Search across pending subscription orders (including cross-tier in case of upgrade at payment time)
-  const candidateAmounts = isVipTier
-    ? Array.from(new Set([...vipTierAmounts, ...standardTierAmounts]))
+  const candidateAmounts = isVipBundle
+    ? Array.from(new Set([...vipBundleAmounts, ...standardTierAmounts]))
     : isStandardTier
-    ? Array.from(new Set([...standardTierAmounts, ...vipTierAmounts]))
+    ? Array.from(new Set([...standardTierAmounts, ...vipBundleAmounts]))
+    : isStandaloneVipUpgrade
+    ? Array.from(new Set([...vipStandaloneUpgradeAmounts, ...standardTierAmounts, ...vipBundleAmounts]))
     : [payment.amountEgp];
 
   // Fetch pending candidate orders (ordered newest first)
@@ -141,6 +150,48 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
   });
 
   if (candidates.length === 0) {
+    if (isStandaloneVipUpgrade && (senderPhone || payment.senderName)) {
+      // Look for an existing user with an approved order to upgrade
+      const existingUser = await prisma.user.findFirst({
+        where: senderPhone
+          ? {
+              OR: [
+                { phone: { contains: senderPhone.slice(-9) } },
+                { orders: { some: { senderPhone: { contains: senderPhone.slice(-9) } } } },
+              ],
+            }
+          : undefined,
+        include: {
+          orders: { where: { status: "approved" }, orderBy: { createdAt: "desc" } },
+        },
+      });
+
+      if (existingUser && existingUser.orders.length > 0) {
+        const primaryOrder = existingUser.orders[0];
+        await prisma.order.update({
+          where: { id: primaryOrder.id },
+          data: {
+            amountEgp: primaryOrder.amountEgp + payment.amountEgp,
+            proofChannel: "vip_vault",
+          },
+        });
+        await prisma.paymentTransaction.update({
+          where: { id: tx.id },
+          data: {
+            status: "matched",
+            matchedOrderId: primaryOrder.id,
+            matchNote: `ترقية VIP تلقائية لمشترك حالي (${payment.amountEgp} ج.م)`,
+          },
+        });
+        return {
+          result: "activated",
+          transactionId: tx.id,
+          orderId: primaryOrder.id,
+          email: existingUser.email,
+          courseTitle: "خزنة VIP وقاعدة الـ 10,000 برومبت وعقود الفريلانس",
+        };
+      }
+    }
     return park(`مفيش أي طلبات معلّقة بمبلغ ${payment.amountEgp} ج.م`);
   }
 
@@ -236,11 +287,15 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
     );
   }
 
-  // If payment was for VIP tier (>= 448 EGP) and order was at 349 EGP, upgrade order amountEgp!
-  if (isVipTier && matchedOrder.amountEgp < payment.amountEgp) {
+  // If payment was for VIP tier and order was at 349 EGP, upgrade order amountEgp & set proofChannel to vip_vault!
+  if (isVipTier) {
     matchedOrder = await prisma.order.update({
       where: { id: matchedOrder.id },
-      data: { amountEgp: payment.amountEgp, originalPriceEgp: payment.amountEgp },
+      data: {
+        amountEgp: Math.max(matchedOrder.amountEgp, payment.amountEgp),
+        originalPriceEgp: Math.max(matchedOrder.originalPriceEgp, payment.amountEgp),
+        proofChannel: "vip_vault",
+      },
       include: { user: true, course: true },
     });
   }
