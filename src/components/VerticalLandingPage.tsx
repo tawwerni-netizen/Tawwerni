@@ -64,15 +64,15 @@ export default function VerticalLandingPage({
       className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors"
     >
       <header className="sticky top-0 z-40 border-b border-black/5 dark:border-white/10 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md transition-colors">
-        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-5">
+        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-3.5 sm:px-5">
           <LogoLink size={32} href="/" />
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <LanguageToggle />
             <ThemeToggle />
-            <Link href="/login" className="tap px-2.5 py-1 text-xs font-bold text-neutral-600 dark:text-neutral-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
+            <Link href="/login" className="tap px-2 sm:px-2.5 py-1 text-xs font-bold text-neutral-600 dark:text-neutral-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors shrink-0">
               {isEn ? "Sign In" : "دخول"}
             </Link>
-            <Link href="/quiz" className="rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 px-4 py-2 text-xs font-bold text-white shadow-md active:scale-95 transition-all">
+            <Link href="/quiz" className="whitespace-nowrap shrink-0 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 px-3.5 sm:px-4 py-2 text-xs font-bold text-white shadow-md active:scale-95 transition-all">
               <span>{isEn ? "Start Free" : "ابدأ مجانًا"}</span>
             </Link>
           </div>

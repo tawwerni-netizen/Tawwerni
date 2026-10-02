@@ -77,18 +77,18 @@ export default function LandingPageView() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <LanguageToggle />
             <ThemeToggle />
             <Link
               href="/login"
-              className="tap px-2.5 py-2 text-xs font-bold text-neutral-600 dark:text-neutral-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+              className="tap px-2 sm:px-2.5 py-1.5 text-xs font-bold text-neutral-600 dark:text-neutral-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors shrink-0"
             >
               {isEn ? "Sign In" : "دخول"}
             </Link>
             <Link
               href="/quiz"
-              className="rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 text-white font-bold text-xs px-4 sm:px-5 py-2.5 shadow-md hover:brightness-110 active:scale-95 transition-all"
+              className="whitespace-nowrap shrink-0 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 text-white font-black text-xs px-3.5 sm:px-5 py-2 sm:py-2.5 shadow-md hover:brightness-110 active:scale-95 transition-all"
             >
               <span>{isEn ? "Start Free" : "ابدأ مجانًا"}</span>
             </Link>
@@ -402,7 +402,7 @@ export default function LandingPageView() {
 
         {/* ---------- 3.5 ACCREDITED CERTIFICATES SHOWCASE ---------- */}
         <section className="mb-16">
-          <div className="rounded-3xl border-2 border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-neutral-900/60 to-emerald-500/10 p-6 sm:p-10 shadow-2xl relative overflow-hidden backdrop-blur-xl">
+          <div className="rounded-3xl border-2 border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-neutral-100/80 dark:via-neutral-900/60 to-emerald-500/10 p-6 sm:p-10 shadow-2xl relative overflow-hidden backdrop-blur-xl">
             <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-amber-400/20 blur-3xl" />
             <div className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-emerald-500/20 blur-3xl" />
 
@@ -417,17 +417,15 @@ export default function LandingPageView() {
                 <h2 className="text-2xl sm:text-4xl font-black text-neutral-900 dark:text-white leading-tight tracking-tight">
                   {isEn ? (
                     <>
-                      Verified Certificates with Instant QR Code.
-                      <br />
-                      <span className="bg-gradient-to-r from-amber-400 via-amber-300 to-emerald-400 bg-clip-text text-transparent">
-                        100 Tracks = 100 Credentials for Your CV.
+                      <span>Verified Certificates with Instant QR Code.</span>
+                      <span className="block mt-2 text-amber-600 dark:text-amber-300 text-lg sm:text-2xl font-black">
+                        100 Tracks = 100 Credentials for Your CV & LinkedIn.
                       </span>
                     </>
                   ) : (
                     <>
-                      شهادة إتمام معتمدة بكود تحقق QR لكل مسار تنجزه.
-                      <br />
-                      <span className="bg-gradient-to-r from-amber-400 via-amber-300 to-emerald-400 bg-clip-text text-transparent">
+                      <span>شهادة إتمام معتمدة بكود تحقق QR لكل مسار تنجزه.</span>
+                      <span className="block mt-2 text-amber-600 dark:text-amber-300 text-lg sm:text-2xl font-black">
                         ١٠٠ مسار = ١٠٠ شهادة موثقة تثري سيرتك الذاتية و LinkedIn.
                       </span>
                     </>
