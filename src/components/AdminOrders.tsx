@@ -120,6 +120,12 @@ export default function AdminOrders({ orders }: { orders: Order[] }) {
                       <span className={`text-[10px] font-bold rounded-full px-2 py-0.5 ${meta.cls}`}>
                         {isEn ? meta.en : meta.ar}
                       </span>
+                      {order.amountEgp >= 440 && (
+                        <span className="text-[10px] font-black rounded-full px-2.5 py-0.5 bg-gradient-to-r from-amber-500/20 to-yellow-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40 flex items-center gap-1 shadow-2xs">
+                          <span>👑</span>
+                          <span>VIP (1,000 برومبت)</span>
+                        </span>
+                      )}
                     </div>
                     <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 break-all font-mono" dir="ltr">
                       {order.email}
@@ -150,6 +156,11 @@ export default function AdminOrders({ orders }: { orders: Order[] }) {
                     <div className="text-[10px] text-neutral-400">{isEn ? "Amount" : "المبلغ"}</div>
                     <div className="text-xs font-bold text-teal-600 dark:text-teal-400 font-mono mt-0.5">
                       {order.amountEgp} {isEn ? "EGP" : "ج.م"}
+                      {order.amountEgp >= 440 && (
+                        <span className="block text-[9px] font-bold text-amber-600 dark:text-amber-400 font-sans">
+                          {isEn ? "+VIP Vault" : "+خزنة VIP"}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="bg-neutral-50 dark:bg-neutral-800/60 rounded-xl py-2">

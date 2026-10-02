@@ -17,6 +17,7 @@ export type AdminUserRowData = {
   lessonsDone: number;
   paid: boolean;
   pending: boolean;
+  isVip?: boolean;
   isAdmin: boolean;
   progress: { id: string; title: string; icon: string; done: number; total: number; percent: number }[];
 };
@@ -65,6 +66,42 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
   const [syncSuccess, setSyncSuccess] = useState("");
   const [activating, setActivating] = useState(false);
   const [activationSuccess, setActivationSuccess] = useState("");
+  const [togglingVip, setTogglingVip] = useState(false);
+  const [vipSuccess, setVipSuccess] = useState("");
+
+  async function handleToggleVip(grant = !user.isVip) {
+    const promptMsg = grant
+      ? `هل أنت متأكد من ترقية ${user.name || user.email} إلى VIP ومنحه مكتبة الـ 1,000 برومبت وحزمة العقود القانونية فوراً؟`
+      : `هل تريد إلغاء ترقية VIP للمستخدم ${user.name || user.email}؟`;
+    if (!confirm(promptMsg)) return;
+
+    setTogglingVip(true);
+    setError("");
+    setVipSuccess("");
+    try {
+      const res = await fetch(`/api/admin/users/${user.id}/vip`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ grant }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "فشل تحديث صلاحية VIP");
+        return;
+      }
+      setVipSuccess(data.message || (grant ? "تمت ترقية العضو إلى VIP بنجاح!" : "تم إلغاء ترقية VIP"));
+      user.isVip = grant;
+      if (grant) {
+        user.paid = true;
+        user.pending = false;
+      }
+      setTimeout(() => router.refresh(), 1200);
+    } catch {
+      setError("خطأ في الاتصال بالسيرفر");
+    } finally {
+      setTogglingVip(false);
+    }
+  }
 
   async function handleActivateUser() {
     if (!confirm(`هل أنت متأكد من تفعيل اشتراك ${user.name || user.email} فوراً ومنحه وصولاً كاملاً لكل المسارات؟`)) {
@@ -175,41 +212,67 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
   }
 
   return (
-    <div className="rounded-2xl border border-black/5 bg-white p-4">
-      <div className="mb-2 flex items-start gap-3">
-        <Avatar name={user.name} email={user.email} avatarUrl={user.avatarUrl} size={40} />
+    <div className="rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900 p-4 sm:p-5 shadow-xs transition-colors">
+      <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          <Avatar name={user.name} email={user.email} avatarUrl={user.avatarUrl} size={42} />
 
-        <div className="min-w-0 flex-1">
-          <p className="truncate font-bold" dir="ltr">
-            {user.email}
-          </p>
-          <p className="text-sm text-neutral-500">
-            {user.name ?? "بدون اسم"}
-            {user.phone && (
-              <span dir="ltr" className="mr-2 text-neutral-400">
-                · {user.phone}
-              </span>
-            )}
-          </p>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <p className="truncate font-bold text-neutral-900 dark:text-white text-sm sm:text-base" dir="ltr">
+                {user.email}
+              </p>
+              {user.isVip && (
+                <span className="rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40 px-2 py-0.5 text-[10px] font-black flex items-center gap-1">
+                  <span>👑</span>
+                  <span>VIP (1000 برومبت)</span>
+                </span>
+              )}
+            </div>
+            <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">
+              {user.name ?? "بدون اسم"}
+              {user.phone && (
+                <span dir="ltr" className="mr-2 text-neutral-400 font-mono">
+                  · {user.phone}
+                </span>
+              )}
+            </p>
+          </div>
         </div>
 
-        <div className="flex shrink-0 flex-col items-end gap-1.5">
+        <div className="flex shrink-0 flex-wrap items-center gap-1.5 self-end sm:self-auto">
           {user.isAdmin && (
-            <span className="rounded-full bg-brand-50 px-2 py-0.5 text-[10px] font-bold text-brand-800">
+            <span className="rounded-full bg-brand-50 text-brand-800 dark:bg-brand-950/60 dark:text-brand-300 border border-brand-500/30 px-2 py-0.5 text-[10px] font-bold">
               أدمن
             </span>
           )}
           <span
             className={`rounded-full px-2.5 py-1 text-xs font-bold ${
               user.paid
-                ? "bg-green-50 text-green-700 dark:bg-green-950/50 dark:text-green-300"
+                ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300 border border-emerald-500/20"
                 : user.pending
-                  ? "bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"
+                  ? "bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300 border border-amber-500/20"
                   : "bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400"
             }`}
           >
             {user.paid ? "مشترك ✓" : user.pending ? "في الانتظار" : "مجاني"}
           </span>
+
+          {/* 1-Click VIP Upgrade Button */}
+          <button
+            type="button"
+            onClick={() => handleToggleVip(!user.isVip)}
+            disabled={togglingVip}
+            className={`rounded-full px-3 py-1 text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer disabled:opacity-50 select-none ${
+              user.isVip
+                ? "bg-amber-500/15 border border-amber-500/30 text-amber-700 dark:text-amber-300 hover:bg-amber-500/25"
+                : "bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 hover:brightness-110 active:scale-95 text-neutral-950 shadow-xs"
+            }`}
+            title={user.isVip ? "إلغاء أو تعديل VIP" : "ترقية هذا العضو للحصول على 1,000 برومبت فوراً"}
+          >
+            <span>👑</span>
+            <span>{togglingVip ? "..." : user.isVip ? "VIP مفعّل ✓" : "ترقية VIP (1000 برومبت)"}</span>
+          </button>
 
           {!user.paid && (
             <button
@@ -219,7 +282,7 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
               className="rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 hover:brightness-110 active:scale-95 text-white px-3 py-1 text-[11px] font-bold shadow-xs transition-all disabled:opacity-50 flex items-center gap-1 cursor-pointer"
             >
               <span>⚡</span>
-              <span>{activating ? "جارٍ التفعيل..." : "تفعيل الحساب فوراً"}</span>
+              <span>{activating ? "..." : "تفعيل الحساب"}</span>
             </button>
           )}
         </div>
@@ -231,7 +294,14 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
         </div>
       )}
 
-      <div className="mb-3 grid grid-cols-4 gap-1.5 rounded-xl bg-neutral-50 p-2 text-center">
+      {vipSuccess && (
+        <div className="mb-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 p-2.5 text-xs text-amber-800 dark:text-amber-200 font-black animate-pulse flex items-center gap-2">
+          <span>👑</span>
+          <span>{vipSuccess}</span>
+        </div>
+      )}
+
+      <div className="mb-3 grid grid-cols-4 gap-1.5 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 p-2 text-center border border-black/5 dark:border-white/5">
         <Mini label="XP" value={user.totalXp} />
         <Mini label="دروس" value={user.lessonsDone} />
         <Mini label="متتالية" value={`${user.streak}🔥`} />
@@ -356,6 +426,41 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
               {syncSuccess && <p className="text-[11px] text-emerald-600 mt-1 font-semibold">{syncSuccess}</p>}
             </div>
 
+            {/* VIP Vault Management */}
+            <div className="mt-3 border-t border-black/5 dark:border-white/10 pt-3">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                <p className="text-[11px] font-bold text-neutral-800 dark:text-neutral-200 flex items-center gap-1.5">
+                  <span>👑</span>
+                  <span>خزنة VIP وبنك الـ 1,000 برومبت</span>
+                </p>
+                <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                  user.isVip
+                    ? "bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40"
+                    : "bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400"
+                }`}>
+                  {user.isVip ? "مفعّلة ✓" : "غير مفعّلة"}
+                </span>
+              </div>
+              <p className="text-[11px] leading-relaxed text-neutral-500 dark:text-neutral-400 mb-2">
+                {user.isVip
+                  ? "العضو يمتلك صلاحية الوصول الكاملة لخزنة الـ 1,000 برومبت وعقود الفريلانس القانونية."
+                  : "يمكنك ترقية العضو ومنحه وصولاً فورياً لبنك الـ 1,000 برومبت وحزمة العقود بضغطة زر واحدة."}
+              </p>
+              <button
+                type="button"
+                onClick={() => handleToggleVip(!user.isVip)}
+                disabled={togglingVip}
+                className={`rounded-full px-3.5 py-1.5 text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50 ${
+                  user.isVip
+                    ? "bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-600 dark:text-red-400"
+                    : "bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 hover:brightness-110 active:scale-95 text-neutral-950 shadow-xs"
+                }`}
+              >
+                <span>👑</span>
+                <span>{togglingVip ? "جارٍ التحديث..." : user.isVip ? "إلغاء ترقية VIP" : "ترقية فورية إلى VIP (1000 برومبت)"}</span>
+              </button>
+            </div>
+
             {!user.isAdmin && (
               <div className="mt-3 border-t border-black/5 pt-3">
                 {!confirming ? (
@@ -412,10 +517,10 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
 function Mini({ label, value, small }: { label: string; value: number | string; small?: boolean }) {
   return (
     <div className="min-w-0">
-      <div className={`truncate font-bold text-neutral-700 ${small ? "text-xs" : "text-sm"}`}>
+      <div className={`truncate font-bold text-neutral-800 dark:text-neutral-200 ${small ? "text-xs" : "text-sm"}`}>
         {value}
       </div>
-      <div className="truncate text-xs text-neutral-400">{label}</div>
+      <div className="truncate text-xs text-neutral-500 dark:text-neutral-400">{label}</div>
     </div>
   );
 }

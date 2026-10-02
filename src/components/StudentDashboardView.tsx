@@ -110,7 +110,7 @@ export default function StudentDashboardView({
     : (isEn ? "Rising Pioneer 🌱" : "رائد واعد 🌱");
 
   return (
-    <div className="relative px-4 pt-6 sm:pt-8 pb-16 min-h-screen text-neutral-900 dark:text-white" dir={isEn ? "ltr" : "rtl"}>
+    <div className="relative mx-auto max-w-6xl px-4 pt-6 sm:pt-8 pb-16 min-h-screen text-neutral-900 dark:text-white" dir={isEn ? "ltr" : "rtl"}>
       {paidOrder && <PurchasePixel orderId={paidOrder.id} amountEgp={paidOrder.amountEgp} />}
 
       {/* Ambient background glows */}

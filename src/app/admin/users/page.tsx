@@ -25,7 +25,7 @@ export default async function AdminUsersPage() {
       orderBy: { createdAt: "desc" },
       take: 300,
       include: {
-        orders: { select: { status: true, amountEgp: true } },
+        orders: { select: { status: true, amountEgp: true, method: true, proofChannel: true } },
         completions: {
           select: {
             xpEarned: true,
@@ -83,6 +83,14 @@ export default async function AdminUsersPage() {
     const streak = computeStreak(u.completions.map((c) => c.completedAt));
     const paid = u.orders.some((o) => o.status === "approved");
     const pending = u.orders.some((o) => o.status === "pending");
+    const isVip = u.isAdmin || u.orders.some((o) =>
+      o.status === "approved" && (
+        o.amountEgp >= 440 ||
+        o.method === "admin_vip_grant" ||
+        o.method === "vip_upgrade" ||
+        o.proofChannel === "vip_vault"
+      )
+    );
 
     const perCourse = new Map<string, number>();
     for (const c of u.completions) {
@@ -118,22 +126,24 @@ export default async function AdminUsersPage() {
       lessonsDone: u.completions.length,
       paid,
       pending,
+      isVip,
       isAdmin: u.isAdmin,
       progress,
     };
   });
 
   const paidCount = Math.max(302, rows.filter((r) => r.paid).length);
+  const vipCount = rows.filter((r) => r.isVip).length;
   const totalUserCount = Math.max(302, rows.length);
   const activeCount = rows.filter((r) => r.lessonsDone > 0).length;
-  const revenue = paidCount * 349;
+  const revenue = paidCount * 349 + vipCount * 99;
 
   return (
     <AdminShell
       title="المستخدمون"
       titleEn="Learners & Accounts"
-      subtitle={`${totalUserCount} حساب مسجّل · ${paidCount} مشترك`}
-      subtitleEn={`${totalUserCount} registered accounts · ${paidCount} active subscribers`}
+      subtitle={`${totalUserCount} حساب مسجّل · ${paidCount} مشترك · ${vipCount} عضو VIP`}
+      subtitleEn={`${totalUserCount} registered accounts · ${paidCount} subscribers · ${vipCount} VIP members`}
       admin={admin}
       badges={{ "/admin": pendingOrders, "/admin/payouts": pendingPayouts, "/admin/testimonials": pendingTestimonials }}
     >
@@ -141,6 +151,7 @@ export default async function AdminUsersPage() {
         stats={[
           { label: "مسجّل", labelEn: "Registered", value: totalUserCount, icon: "👥" },
           { label: "مشترك", labelEn: "Subscribers", value: paidCount, icon: "✅", tone: "good", hint: "٣٠٢ مشترك", hintEn: "302 active" },
+          { label: "أعضاء VIP", labelEn: "VIP Members", value: vipCount, icon: "👑", tone: "good", hint: "1000 برومبت", hintEn: "Prompt Vault" },
           { label: "نشِط", labelEn: "Active", value: activeCount || 184, icon: "⚡" },
           { label: "الإيرادات", labelEn: "Total Revenue", value: `${revenue.toLocaleString("en-US")} ج.م`, valueEn: `${revenue.toLocaleString("en-US")} EGP`, icon: "💰", tone: "good" },
         ]}

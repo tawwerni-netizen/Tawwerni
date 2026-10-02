@@ -95,7 +95,11 @@ export async function hasVipAccess(userId: string): Promise<boolean> {
     where: {
       userId,
       status: "approved",
-      amountEgp: { gte: 440 },
+      OR: [
+        { amountEgp: { gte: 440 } },
+        { method: { in: ["admin_vip_grant", "vip_upgrade"] } },
+        { proofChannel: "vip_vault" },
+      ],
     },
     select: { id: true },
   });
