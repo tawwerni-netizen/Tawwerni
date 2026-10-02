@@ -694,7 +694,7 @@ export default function LandingPageView() {
               {/* High-Dopamine Giant Action Button */}
               <Link
                 href="/quiz"
-                className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-5 sm:px-12 py-3.5 sm:py-4.5 rounded-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 hover:from-amber-300 hover:to-yellow-400 text-neutral-950 font-black text-xs sm:text-lg shadow-2xl shadow-amber-500/40 hover:shadow-amber-500/60 hover:scale-102 active:scale-98 transition-all"
+                className="btn-amber group inline-flex items-center justify-center gap-2 sm:gap-3 px-5 sm:px-12 py-3.5 sm:py-4.5 rounded-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 hover:from-amber-300 hover:to-yellow-400 text-neutral-950 font-black text-xs sm:text-lg shadow-2xl shadow-amber-500/40 hover:shadow-amber-500/60 hover:scale-102 active:scale-98 transition-all"
               >
                 <span className="text-2xl animate-bounce">📥</span>
                 <span>

@@ -69,33 +69,39 @@ export default function InteractiveDopaminePreview() {
       <div className="space-y-3 mb-6">
         {sampleQuestion.options.map((opt, i) => {
           const isChosen = selectedOption === i;
+          const letterStyles = [
+            "bg-cyan-500/15 border-cyan-400/50 text-cyan-700 dark:text-cyan-300",
+            "bg-emerald-500/15 border-emerald-400/50 text-emerald-700 dark:text-emerald-300",
+            "bg-purple-500/15 border-purple-400/50 text-purple-700 dark:text-purple-300",
+          ][i] || "bg-teal-500/15 border-teal-400/50 text-teal-300";
+
           return (
             <button
               key={i}
               type="button"
               onClick={() => handleSelect(i, opt.correct)}
-              className={`w-full text-start p-3.5 sm:p-4 rounded-2xl border text-xs sm:text-sm transition-all duration-200 cursor-pointer ${
+              className={`w-full text-start p-3.5 sm:p-4 rounded-2xl border-2 text-xs sm:text-sm transition-all duration-200 cursor-pointer ${
                 isChosen
                   ? opt.correct
-                    ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-950 dark:text-emerald-200 shadow-md ring-2 ring-emerald-500/20 font-bold"
-                    : "border-red-400 bg-red-50 dark:bg-red-950/40 text-red-950 dark:text-red-200"
-                  : "border-black/10 dark:border-white/10 bg-white/70 dark:bg-neutral-800/60 text-neutral-800 dark:text-neutral-200 hover:border-teal-500/50 hover:bg-white dark:hover:bg-neutral-800"
+                    ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/70 text-emerald-950 dark:text-white shadow-md ring-2 ring-emerald-500/30 font-bold"
+                    : "border-red-400 bg-red-50 dark:bg-red-950/60 text-red-950 dark:text-white"
+                  : "border-black/10 dark:border-white/15 bg-white dark:bg-[#111c19] text-neutral-900 dark:text-white hover:border-teal-400/70 hover:shadow-md hover:shadow-teal-500/10"
               }`}
             >
               <div className="flex items-start gap-3">
-                <span className={`shrink-0 flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
+                <span className={`shrink-0 flex h-7 w-7 items-center justify-center rounded-xl text-xs font-black border ${
                   isChosen
                     ? opt.correct
-                      ? "bg-emerald-600 text-white"
-                      : "bg-red-500 text-white"
-                    : "bg-black/5 dark:bg-white/10 text-neutral-600 dark:text-neutral-300"
+                      ? "bg-emerald-500 text-neutral-950 border-emerald-400"
+                      : "bg-red-500 text-white border-red-400"
+                    : letterStyles
                 }`}>
                   {isChosen ? (opt.correct ? "✓" : "✗") : String.fromCharCode(65 + i)}
                 </span>
                 <div className="flex-1">
-                  <p className="font-semibold leading-relaxed">{opt.text}</p>
+                  <p className="font-bold leading-relaxed">{opt.text}</p>
                   {isChosen && (
-                    <p className={`mt-1.5 text-xs font-medium ${opt.correct ? "text-emerald-700 dark:text-emerald-300" : "text-red-600 dark:text-red-300"}`}>
+                    <p className={`mt-1.5 text-xs font-bold ${opt.correct ? "text-emerald-600 dark:text-emerald-300" : "text-red-600 dark:text-red-300"}`}>
                       {opt.feedback}
                     </p>
                   )}
@@ -128,9 +134,17 @@ export default function InteractiveDopaminePreview() {
         </div>
       )}
 
-      <p className="text-center text-[11px] text-neutral-400">
-        {isEn ? "Over 1,480 bite-sized practical missions engineered for instant dopamine & real skill growth." : "أكثر من 1,480 درس تطبيقي مصغر صمموا ليعطوك شعور الإنجاز والتقدم من أول دقيقة."}
-      </p>
+      {/* High-Contrast Bottom Mission Count Badge */}
+      <div className="mt-4 pt-4 border-t border-teal-500/20 dark:border-white/10 flex items-center justify-center">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-xs sm:text-sm font-black text-emerald-700 dark:text-emerald-300 shadow-sm text-center">
+          <span className="text-amber-400 text-base animate-pulse">✨</span>
+          <span>
+            {isEn
+              ? "Over 1,480 bite-sized practical missions engineered for instant dopamine & real skill growth."
+              : "أكثر من 1,480 درس تطبيقي مصغر صمموا ليعطوك شعور الإنجاز والتقدم من أول دقيقة."}
+          </span>
+        </div>
+      </div>
     </div>
   );
 }

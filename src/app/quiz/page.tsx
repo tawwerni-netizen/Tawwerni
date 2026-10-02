@@ -182,75 +182,75 @@ function ConfettiCanvas() {
 }
 
 const QUIZ_OPTION_THEMES = [
-  // 0: Cyan / Sapphire Blue (Strategic, Focus, Professionalism)
+  // 0: Sky Blue / Cyan (Strategic, Focus, Professionalism) -> Option A (أ)
   {
-    border: "border-cyan-500/40 hover:border-cyan-300 focus:border-cyan-300",
-    bg: "bg-gradient-to-r from-cyan-950/40 via-neutral-900/90 to-[#0c1614]",
-    hoverBg: "hover:from-cyan-950/60 hover:to-[#0f211c]",
-    shadow: "shadow-xs hover:shadow-lg hover:shadow-cyan-500/20",
-    letterBg: "bg-cyan-500/20 border-cyan-400/50 text-cyan-200 group-hover:bg-cyan-400 group-hover:text-neutral-950",
-    iconBg: "bg-cyan-500/15 border-cyan-400/30 text-cyan-200",
-    badgeBg: "bg-cyan-400/20 text-cyan-200 border-cyan-400/50",
-    chevronColor: "text-cyan-400",
-    accentBar: "bg-cyan-400",
+    border: "border-sky-500/40 hover:border-sky-300 focus:border-sky-300",
+    bg: "bg-gradient-to-r from-sky-950/40 via-neutral-900/90 to-[#0c1614]",
+    hoverBg: "hover:from-sky-950/60 hover:to-[#0f211c]",
+    shadow: "shadow-xs hover:shadow-lg hover:shadow-sky-500/20",
+    letterBg: "bg-sky-500/20 border-sky-400/60 text-sky-200 group-hover:bg-sky-400 group-hover:text-neutral-950",
+    iconBg: "bg-sky-500/15 border-sky-400/30 text-sky-200",
+    badgeBg: "bg-sky-400/20 text-sky-100 border-sky-400/50",
+    chevronColor: "text-sky-400",
+    accentBar: "bg-sky-400",
   },
-  // 1: Amber / Radiant Gold (Wealth, Expansion, High Demand)
-  {
-    border: "border-amber-500/40 hover:border-amber-300 focus:border-amber-300",
-    bg: "bg-gradient-to-r from-amber-950/40 via-neutral-900/90 to-[#0c1614]",
-    hoverBg: "hover:from-amber-950/60 hover:to-[#1a170f]",
-    shadow: "shadow-xs hover:shadow-lg hover:shadow-amber-500/20",
-    letterBg: "bg-amber-500/20 border-amber-400/50 text-amber-200 group-hover:bg-amber-400 group-hover:text-neutral-950",
-    iconBg: "bg-amber-500/15 border-amber-400/30 text-amber-200",
-    badgeBg: "bg-amber-400/20 text-amber-200 border-amber-400/50",
-    chevronColor: "text-amber-400",
-    accentBar: "bg-amber-400",
-  },
-  // 2: Emerald / Mint Glow (Growth, Action, Achievement)
-  {
-    border: "border-emerald-500/40 hover:border-emerald-300 focus:border-emerald-300",
-    bg: "bg-gradient-to-r from-emerald-950/40 via-neutral-900/90 to-[#0c1614]",
-    hoverBg: "hover:from-emerald-950/60 hover:to-[#0f241d]",
-    shadow: "shadow-xs hover:shadow-lg hover:shadow-emerald-500/20",
-    letterBg: "bg-emerald-500/20 border-emerald-400/50 text-emerald-200 group-hover:bg-emerald-400 group-hover:text-neutral-950",
-    iconBg: "bg-emerald-500/15 border-emerald-400/30 text-emerald-200",
-    badgeBg: "bg-emerald-400/20 text-emerald-200 border-emerald-400/50",
-    chevronColor: "text-emerald-400",
-    accentBar: "bg-emerald-400",
-  },
-  // 3: Purple / Violet Neon (AI Tech, Deep Intelligence, Future)
+  // 1: Royal Violet / Electric Purple (High Prestige, Innovation, Future) -> Option B (ب)
   {
     border: "border-purple-500/40 hover:border-purple-300 focus:border-purple-300",
     bg: "bg-gradient-to-r from-purple-950/40 via-neutral-900/90 to-[#0c1614]",
     hoverBg: "hover:from-purple-950/60 hover:to-[#181124]",
     shadow: "shadow-xs hover:shadow-lg hover:shadow-purple-500/20",
-    letterBg: "bg-purple-500/20 border-purple-400/50 text-purple-200 group-hover:bg-purple-400 group-hover:text-white",
+    letterBg: "bg-purple-500/20 border-purple-400/60 text-purple-200 group-hover:bg-purple-400 group-hover:text-white",
     iconBg: "bg-purple-500/15 border-purple-400/30 text-purple-200",
-    badgeBg: "bg-purple-400/20 text-purple-200 border-purple-400/50",
+    badgeBg: "bg-purple-400/20 text-purple-100 border-purple-400/50",
     chevronColor: "text-purple-400",
     accentBar: "bg-purple-400",
   },
-  // 4: Rose / Coral Crimson (Creative, Breakthrough, Momentum)
+  // 2: Vivid Emerald / Mint (Growth, Income, Action) -> Option C (ج)
+  {
+    border: "border-emerald-500/40 hover:border-emerald-300 focus:border-emerald-300",
+    bg: "bg-gradient-to-r from-emerald-950/40 via-neutral-900/90 to-[#0c1614]",
+    hoverBg: "hover:from-emerald-950/60 hover:to-[#0f241d]",
+    shadow: "shadow-xs hover:shadow-lg hover:shadow-emerald-500/20",
+    letterBg: "bg-emerald-500/20 border-emerald-400/60 text-emerald-200 group-hover:bg-emerald-400 group-hover:text-neutral-950",
+    iconBg: "bg-emerald-500/15 border-emerald-400/30 text-emerald-200",
+    badgeBg: "bg-emerald-400/20 text-emerald-100 border-emerald-400/50",
+    chevronColor: "text-emerald-400",
+    accentBar: "bg-emerald-400",
+  },
+  // 3: Luminous Golden Amber (Wealth, Expansion, Mastery) -> Option D (د)
+  {
+    border: "border-amber-500/40 hover:border-amber-300 focus:border-amber-300",
+    bg: "bg-gradient-to-r from-amber-950/40 via-neutral-900/90 to-[#0c1614]",
+    hoverBg: "hover:from-amber-950/60 hover:to-[#1a170f]",
+    shadow: "shadow-xs hover:shadow-lg hover:shadow-amber-500/20",
+    letterBg: "bg-amber-400/20 border-amber-300/60 text-yellow-100 group-hover:bg-amber-300 group-hover:text-neutral-950",
+    iconBg: "bg-amber-500/15 border-amber-400/30 text-yellow-100",
+    badgeBg: "bg-amber-400/20 text-yellow-100 border-amber-300/50",
+    chevronColor: "text-amber-300",
+    accentBar: "bg-amber-400",
+  },
+  // 4: Rose / Coral Crimson (Creative, Breakthrough, Momentum) -> Option E (هـ)
   {
     border: "border-rose-500/40 hover:border-rose-300 focus:border-rose-300",
     bg: "bg-gradient-to-r from-rose-950/40 via-neutral-900/90 to-[#0c1614]",
     hoverBg: "hover:from-rose-950/60 hover:to-[#221118]",
     shadow: "shadow-xs hover:shadow-lg hover:shadow-rose-500/20",
-    letterBg: "bg-rose-500/20 border-rose-400/50 text-rose-200 group-hover:bg-rose-400 group-hover:text-white",
+    letterBg: "bg-rose-500/20 border-rose-400/60 text-rose-200 group-hover:bg-rose-400 group-hover:text-white",
     iconBg: "bg-rose-500/15 border-rose-400/30 text-rose-200",
-    badgeBg: "bg-rose-400/20 text-rose-200 border-rose-400/50",
+    badgeBg: "bg-rose-400/20 text-rose-100 border-rose-400/50",
     chevronColor: "text-rose-400",
     accentBar: "bg-rose-400",
   },
-  // 5: Teal / Aqua Sky (Clarity, Balance, Expansion)
+  // 5: Teal / Aquamarine (Clarity, Balance, Expansion) -> Option F (و)
   {
     border: "border-teal-500/40 hover:border-teal-300 focus:border-teal-300",
     bg: "bg-gradient-to-r from-teal-950/40 via-neutral-900/90 to-[#0c1614]",
     hoverBg: "hover:from-teal-950/60 hover:to-[#0f2422]",
     shadow: "shadow-xs hover:shadow-lg hover:shadow-teal-500/20",
-    letterBg: "bg-teal-500/20 border-teal-400/50 text-teal-200 group-hover:bg-teal-400 group-hover:text-neutral-950",
+    letterBg: "bg-teal-500/20 border-teal-400/60 text-teal-200 group-hover:bg-teal-400 group-hover:text-neutral-950",
     iconBg: "bg-teal-500/15 border-teal-400/30 text-teal-200",
-    badgeBg: "bg-teal-400/20 text-teal-200 border-teal-400/50",
+    badgeBg: "bg-teal-400/20 text-teal-100 border-teal-400/50",
     chevronColor: "text-teal-400",
     accentBar: "bg-teal-400",
   },
@@ -700,26 +700,18 @@ export default function QuizPage() {
                     key={opt.value}
                     type="button"
                     onClick={() => answerQuestion(quizQuestions[step.qIndex].id, opt.value)}
-                    className={`group relative w-full flex items-center gap-3.5 sm:gap-4 rounded-2xl border-2 p-3.5 sm:p-4 text-xs sm:text-sm text-start transition-all duration-200 active:scale-98 cursor-pointer overflow-hidden backdrop-blur-md ${
-                      opt.highlight
-                        ? "border-amber-400/70 bg-gradient-to-r from-amber-950/50 via-[#16140d] to-emerald-950/40 shadow-lg shadow-amber-500/15 hover:border-amber-300 hover:shadow-amber-500/30 hover:-translate-y-0.5"
-                        : `${theme.border} ${theme.bg} ${theme.hoverBg} ${theme.shadow} hover:-translate-y-0.5`
+                    className={`group relative w-full flex items-center gap-3.5 sm:gap-4 rounded-2xl border-2 p-3.5 sm:p-4 text-xs sm:text-sm text-start transition-all duration-200 active:scale-98 cursor-pointer overflow-hidden backdrop-blur-md ${theme.border} ${theme.bg} ${theme.hoverBg} ${theme.shadow} hover:-translate-y-0.5 ${
+                      opt.highlight ? "ring-1 ring-white/20 shadow-lg" : ""
                     }`}
                   >
                     {/* Visual Active Indicator Bar */}
                     <span
-                      className={`absolute start-0 top-0 bottom-0 w-1 rounded-s ${
-                        opt.highlight ? "bg-amber-400" : theme.accentBar
-                      }`}
+                      className={`absolute start-0 top-0 bottom-0 w-1.5 rounded-s ${theme.accentBar}`}
                     />
 
                     {/* Letter Key Pill */}
                     <span
-                      className={`w-9 h-9 rounded-xl border-2 font-black text-xs sm:text-sm flex items-center justify-center shrink-0 transition-all duration-200 shadow-xs ${
-                        opt.highlight
-                          ? "bg-amber-400/25 border-amber-400/60 text-amber-200 group-hover:bg-amber-400 group-hover:text-neutral-950"
-                          : theme.letterBg
-                      }`}
+                      className={`w-9 h-9 rounded-xl border-2 font-black text-xs sm:text-sm flex items-center justify-center shrink-0 transition-all duration-200 shadow-xs ${theme.letterBg}`}
                     >
                       {letter}
                     </span>
@@ -727,11 +719,7 @@ export default function QuizPage() {
                     {/* Icon in frosted pill */}
                     {opt.icon && (
                       <span
-                        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl border flex items-center justify-center text-xl sm:text-2xl shrink-0 transition-transform duration-200 group-hover:scale-110 ${
-                          opt.highlight
-                            ? "bg-amber-400/15 border-amber-400/30 text-amber-200"
-                            : theme.iconBg
-                        }`}
+                        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl border flex items-center justify-center text-xl sm:text-2xl shrink-0 transition-transform duration-200 group-hover:scale-110 ${theme.iconBg}`}
                       >
                         {opt.icon}
                       </span>
@@ -746,18 +734,14 @@ export default function QuizPage() {
 
                         {(opt.badge || opt.badgeEn) && (
                           <span
-                            className={`text-[10px] sm:text-[11px] font-black px-2.5 py-0.5 rounded-full border shadow-xs ${
-                              opt.highlight
-                                ? "bg-amber-400/25 text-amber-100 border-amber-400/60"
-                                : theme.badgeBg
-                            }`}
+                            className={`text-[10px] sm:text-[11px] font-black px-2.5 py-0.5 rounded-full border shadow-xs ${theme.badgeBg}`}
                           >
                             {isEn ? opt.badgeEn : opt.badge}
                           </span>
                         )}
 
                         {opt.highlight && !opt.badge && (
-                          <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-400/25 text-amber-100 border border-amber-400/50">
+                          <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border shadow-xs ${theme.badgeBg}`}>
                             {isEn ? "Recommended ⭐" : "موصى به ⭐"}
                           </span>
                         )}
@@ -766,9 +750,7 @@ export default function QuizPage() {
 
                     {/* Arrow / Chevron */}
                     <span
-                      className={`text-base font-black shrink-0 transition-all duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 ${
-                        opt.highlight ? "text-amber-400" : theme.chevronColor
-                      }`}
+                      className={`text-base font-black shrink-0 transition-all duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 ${theme.chevronColor}`}
                     >
                       {isEn ? "›" : "‹"}
                     </span>
@@ -1423,7 +1405,7 @@ export default function QuizPage() {
             <button
               type="button"
               onClick={next}
-              className="w-full bg-gradient-to-r from-amber-400 via-emerald-400 to-teal-400 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-teal-500/30 hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="btn-amber w-full bg-gradient-to-r from-amber-400 via-emerald-400 to-teal-400 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-teal-500/30 hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <span className="text-xl">🚀</span>
               <span>
