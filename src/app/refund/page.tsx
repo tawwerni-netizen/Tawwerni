@@ -142,22 +142,29 @@ export default function RefundPage() {
             </div>
           </div>
 
-          {/* Card 3 */}
-          <div className="rounded-3xl border border-black/10 dark:border-white/10 bg-white/95 dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-7 shadow-xs hover:border-cyan-500/30 transition-all">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-9 h-9 rounded-2xl bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 flex items-center justify-center font-black text-sm border border-cyan-500/30 shadow-xs shrink-0">
-                3
+            {/* Card 3 */}
+            <div className="rounded-3xl border border-black/10 dark:border-white/10 bg-white/95 dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-7 shadow-xs hover:border-cyan-500/30 transition-all">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-9 h-9 rounded-2xl bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 flex items-center justify-center font-black text-sm border border-cyan-500/30 shadow-xs shrink-0">
+                  3
+                </div>
+                <h3 className="text-base font-black text-neutral-900 dark:text-white">
+                  {isEn ? "Instant & Frictionless 100% Refund" : "استرداد فوري وسريع وبدون أي تعقيد"}
+                </h3>
               </div>
-              <h3 className="text-base font-black text-neutral-900 dark:text-white">
-                {isEn ? "Instant & Frictionless 100% Refund" : "استرداد فوري وسريع وبدون أي قيود"}
-              </h3>
+              <p className="text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed ps-12">
+                {isEn
+                  ? "Your learning investment is 100% risk-free. If you decide Tawwerni isn't the perfect fit within your first 48 hours, our dedicated human support team will promptly issue a full 100% refund directly back to your payment method (Vodafone Cash, InstaPay, or Bank Card) with zero hassle and no questions asked."
+                  : "حقك في تجربة المنصة مكفول بنسبة 100% وبدون أي مخاطرة مالية. إذا طلبت استرجاع المبلغ خلال الـ 48 ساعة الأولى من التفعيل، يتم رد المبلغ فوراً وبنفس وسيلة الدفع (فودافون كاش، إنستاباي، أو البطاقة البنكية) بكل سلاسة وسرعة وبدون أي شروط تعجيزية أو أسئلة محرجة."}
+              </p>
+              <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5 ps-12 text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                <p>
+                  {isEn
+                    ? "⚖️ Digital Assets Fair-Use Standard: The 48-hour satisfaction guarantee applies to platform exploration and daily track learning. In accordance with standard digital asset fair-use policies, accounts that have already exported or downloaded offline master file packages (such as the comprehensive 10,000 Prompts Database or open-format legal contract archives) are not eligible for a refund, as these digital assets cannot be revoked once downloaded."
+                    : "⚖️ معيار الاستخدام العادل للأصول الرقمية: صُمم ضمان الاسترداد لتجربة المنصة ومحتوى المسارات التعليمية بكل طمأنينة. ووفقاً للعرف القانوني المعتمد للأصول الرقمية، يشترط للاستفادة من الاسترداد عدم قيام الحساب بتنزيل أو تصدير الحزم الرقمية الكاملة القابلة للحفظ الدائم خارج المنصة (مثل قاعدة بيانات الـ 10,000 برومبت الشاملة أو ملفات العقود المفتوحة)، حيث تعتبر هذه الأصول مستهلكة نهائياً بمجرد تنزيلها لحماية حقوق الملكية الفكرية ومنع الاستغلال غير العادل."}
+                </p>
+              </div>
             </div>
-            <p className="text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed ps-12">
-              {isEn
-                ? "Your learning investment is 100% risk-free. If you decide Tawwerni isn't the perfect fit within your first 48 hours, our dedicated human support team will promptly issue a full 100% refund directly back to your payment method (Vodafone Cash, InstaPay, or Bank Card) with zero hassle and no questions asked."
-                : "حقك في تجربة المنصة مكفول بنسبة 100% وبدون أي مخاطرة مالية. إذا طلبت استرجاع المبلغ خلال الـ 48 ساعة الأولى من التفعيل، يتم رد المبلغ فوراً وبنفس وسيلة الدفع (فودافون كاش، إنستاباي، أو البطاقة البنكية) بكل سلاسة وسرعة وبدون أي شروط تعجيزية أو أسئلة محرجة."}
-            </p>
-          </div>
         </div>
 
         {/* Transparent Pricing Note */}

@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { getCurrentUser } from "@/lib/auth";
 import { hasVipAccess } from "@/lib/access";
+import { prisma } from "@/lib/prisma";
 
 const VAULT_DIR = path.join(process.cwd(), "src", "content", "vip-vault");
 const TRACKS_DIR = path.join(VAULT_DIR, "tracks");
@@ -34,6 +35,30 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const track = searchParams.get("track") || "all";
   const domain = searchParams.get("domain") || "all";
+
+  // Record download in database so admin panel tracks that this user downloaded the assets
+  try {
+    await prisma.leadMagnetRequest.create({
+      data: {
+        email: user.email.toLowerCase().trim(),
+        name: user.name || user.email,
+        magnetKey: "vault_10000_prompts_download",
+      },
+    });
+
+    await prisma.adminAuditLog.create({
+      data: {
+        adminId: user.id,
+        adminEmail: user.email,
+        action: "user.vault_download",
+        targetType: "vip_vault",
+        targetId: user.id,
+        detail: `User ${user.email} downloaded prompts (track: ${track}, domain: ${domain})`,
+      },
+    });
+  } catch (err) {
+    console.error("Failed to record vault download audit:", err);
+  }
 
   let targetPrompts: any[] = [];
   let fileName = `Tawwerni-10000-Prompts-Vault-${(user.name || "VIP").replace(/\s+/g, "_")}.txt`;

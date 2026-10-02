@@ -20,7 +20,7 @@ export default async function AdminUsersPage() {
   const admin = await adminUser();
   if (!admin) return <AdminLogin />;
 
-  const [users, courses, pendingOrders, pendingPayouts, pendingTestimonials] = await Promise.all([
+  const [users, courses, pendingOrders, pendingPayouts, pendingTestimonials, vaultDownloads] = await Promise.all([
     prisma.user.findMany({
       orderBy: { createdAt: "desc" },
       take: 300,
@@ -44,7 +44,28 @@ export default async function AdminUsersPage() {
     prisma.order.count({ where: { status: "pending" } }),
     prisma.payout.count({ where: { status: "requested" } }),
     prisma.testimonial.count({ where: { status: "pending" } }),
+    prisma.leadMagnetRequest.findMany({
+      where: {
+        magnetKey: {
+          in: [
+            "vault_10000_prompts_download",
+            "vip_vault_10000_prompts",
+            "vip_vault_download",
+          ],
+        },
+      },
+      select: { email: true, createdAt: true },
+      orderBy: { createdAt: "desc" },
+    }),
   ]);
+
+  const vaultDownloadsMap = new Map<string, string>();
+  for (const item of vaultDownloads) {
+    const key = item.email.toLowerCase().trim();
+    if (!vaultDownloadsMap.has(key)) {
+      vaultDownloadsMap.set(key, item.createdAt.toISOString());
+    }
+  }
 
   // Automatic backfill check for customer alaaanalytics953@gmail.com
   const alaaUser = users.find((u) => u.email.toLowerCase() === "alaaanalytics953@gmail.com");
@@ -117,6 +138,9 @@ export default async function AdminUsersPage() {
       })
       .filter((c) => c.done > 0);
 
+    const downloadedVaultAt = vaultDownloadsMap.get(u.email.toLowerCase().trim()) ?? null;
+    const hasDownloadedVault = Boolean(downloadedVaultAt);
+
     return {
       id: u.id,
       email: u.email,
@@ -131,6 +155,8 @@ export default async function AdminUsersPage() {
       paid,
       pending,
       isVip,
+      hasDownloadedVault,
+      downloadedVaultAt,
       isAdmin: u.isAdmin,
       progress,
     };
@@ -138,6 +164,7 @@ export default async function AdminUsersPage() {
 
   const paidCount = Math.max(302, rows.filter((r) => r.paid).length);
   const vipCount = rows.filter((r) => r.isVip).length;
+  const vaultDownloadedCount = rows.filter((r) => r.hasDownloadedVault).length;
   const totalUserCount = Math.max(302, rows.length);
   const activeCount = rows.filter((r) => r.lessonsDone > 0).length;
   const revenue = paidCount * 349 + vipCount * 199;
@@ -146,8 +173,8 @@ export default async function AdminUsersPage() {
     <AdminShell
       title="المستخدمون"
       titleEn="Learners & Accounts"
-      subtitle={`${totalUserCount} حساب مسجّل · ${paidCount} مشترك · ${vipCount} عضو VIP`}
-      subtitleEn={`${totalUserCount} registered accounts · ${paidCount} subscribers · ${vipCount} VIP members`}
+      subtitle={`${totalUserCount} حساب مسجّل · ${paidCount} مشترك · ${vipCount} عضو VIP · ${vaultDownloadedCount} حمّلوا البرومبتات`}
+      subtitleEn={`${totalUserCount} registered accounts · ${paidCount} subscribers · ${vipCount} VIP members · ${vaultDownloadedCount} downloaded vault`}
       admin={admin}
       badges={{ "/admin": pendingOrders, "/admin/payouts": pendingPayouts, "/admin/testimonials": pendingTestimonials }}
     >
@@ -156,6 +183,7 @@ export default async function AdminUsersPage() {
           { label: "مسجّل", labelEn: "Registered", value: totalUserCount, icon: "👥" },
           { label: "مشترك", labelEn: "Subscribers", value: paidCount, icon: "✅", tone: "good", hint: "٣٠٢ مشترك", hintEn: "302 active" },
           { label: "أعضاء VIP", labelEn: "VIP Members", value: vipCount, icon: "👑", tone: "good", hint: "10,000 برومبت", hintEn: "10,000 Prompts Vault" },
+          { label: "حمّلوا البرومبتات", labelEn: "Vault Downloaded", value: vaultDownloadedCount, icon: "📥", tone: vaultDownloadedCount > 0 ? "good" : "neutral", hint: "غير مؤهل للاسترجاع", hintEn: "Non-refundable" },
           { label: "نشِط", labelEn: "Active", value: activeCount || 184, icon: "⚡" },
           { label: "الإيرادات", labelEn: "Total Revenue", value: `${revenue.toLocaleString("en-US")} ج.م`, valueEn: `${revenue.toLocaleString("en-US")} EGP`, icon: "💰", tone: "good" },
         ]}

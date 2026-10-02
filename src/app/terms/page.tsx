@@ -129,6 +129,11 @@ export default function TermsPage() {
                   ? "48-Hour Money-Back Guarantee: If you are unsatisfied with the platform, you may request a 100% full refund within 48 hours from the date of activation by contacting support directly."
                   : "ضمان استرداد الأموال خلال 48 ساعة: نتيح ضمان استرداد كامل للمبلغ بنسبة 100% خلال 48 ساعة من تاريخ تفعيل الاشتراك في حال رغبتك، دون تعقيدات، بالتواصل المباشر مع الدعم الفني."}
               </li>
+              <li className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                {isEn
+                  ? "Fair-Use Standard for Downloadable Assets: In accordance with industry standards for digital products, the 48-hour refund policy covers platform experience and course learning, but does not apply if an account has already downloaded or exported full offline asset packages (such as the 10,000 Prompts Vault or freelance contract templates), as these files cannot be returned once saved."
+                  : "معيار الاستخدام العادل للأصول الرقمية: وفقاً للأعراف القانونية للمنتجات الرقمية، يغطي ضمان الـ 48 ساعة تجربة المنصة ومساراتها التعليمية، وتسقط إمكانية الاسترداد في حال قيام الحساب بتنزيل وحفظ الحزم الرقمية الكاملة غير القابلة للاسترجاع (مثل بنك الـ 10,000 برومبت أو حزم العقود القانونية المفتوحة) حمايةً لحقوق الملكية الفكرية ومنع الاستغلال غير العادل."}
+              </li>
             </ul>
           </section>
 

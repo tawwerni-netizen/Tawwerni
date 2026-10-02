@@ -18,6 +18,8 @@ export type AdminUserRowData = {
   paid: boolean;
   pending: boolean;
   isVip?: boolean;
+  hasDownloadedVault?: boolean;
+  downloadedVaultAt?: string | null;
   isAdmin: boolean;
   progress: { id: string; title: string; icon: string; done: number; total: number; percent: number }[];
 };
@@ -225,7 +227,16 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
               {user.isVip && (
                 <span className="rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40 px-2 py-0.5 text-[10px] font-black flex items-center gap-1">
                   <span>👑</span>
-                  <span>VIP (1000 برومبت)</span>
+                  <span>VIP (10,000 برومبت)</span>
+                </span>
+              )}
+              {user.hasDownloadedVault && (
+                <span
+                  title={user.downloadedVaultAt ? `قام بتحميل قاعدة الـ 10,000 برومبت في: ${fmt(user.downloadedVaultAt)} (يسقط حق الاسترداد)` : "قام بتحميل البرومبتات"}
+                  className="rounded-full bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/40 px-2.5 py-0.5 text-[10px] font-black flex items-center gap-1 shadow-2xs"
+                >
+                  <span className="text-emerald-600 dark:text-emerald-400 font-black">✓</span>
+                  <span>حمّل البرومبتات</span>
                 </span>
               )}
             </div>
@@ -441,6 +452,22 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
                   {user.isVip ? "مفعّلة ✓" : "غير مفعّلة"}
                 </span>
               </div>
+              {user.hasDownloadedVault && (
+                <div className="mb-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 p-2.5 text-xs text-amber-900 dark:text-amber-200 font-bold flex flex-wrap items-center justify-between gap-2 shadow-2xs">
+                  <div className="flex items-center gap-1.5">
+                    <span>📥</span>
+                    <span>
+                      قام بتحميل قاعدة الـ 10,000 برومبت بتاريخ:{" "}
+                      <span className="font-mono text-neutral-900 dark:text-white">
+                        {fmt(user.downloadedVaultAt!)}
+                      </span>
+                    </span>
+                  </div>
+                  <span className="rounded-full bg-red-500/15 text-red-700 dark:text-red-300 border border-red-500/30 px-2 py-0.5 text-[10px] font-black">
+                    غير مؤهل للاسترجاع (أصول محملة) 🚫
+                  </span>
+                </div>
+              )}
               <p className="text-[11px] leading-relaxed text-neutral-500 dark:text-neutral-400 mb-2">
                 {user.isVip
                   ? "العضو يمتلك صلاحية الوصول الكاملة لقاعدة الـ 10,000 برومبت وعقود الفريلانس القانونية."
