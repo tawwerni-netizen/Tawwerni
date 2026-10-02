@@ -703,7 +703,7 @@ export default function VipVaultClient({
                           type="button"
                           onClick={() => copyText(promptText, p.id)}
                           disabled={isLocked}
-                          className={`rounded-xl px-4 py-2 text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                          className={`whitespace-nowrap shrink-0 rounded-xl px-4 py-2 text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
                             copiedId === p.id
                               ? "bg-emerald-600 text-white"
                               : "bg-amber-400 text-neutral-950 hover:bg-amber-300 active:scale-95 shadow-xs"
@@ -808,7 +808,7 @@ export default function VipVaultClient({
                   className={`rounded-2xl p-3 text-start transition-all border cursor-pointer ${
                     selectedContractSlug === c.slug
                       ? "border-emerald-500 bg-emerald-500/10 text-emerald-900 dark:text-white shadow-xs font-black"
-                      : "border-black/5 dark:border-white/5 bg-white/60 dark:bg-neutral-900/40 text-neutral-600 dark:text-neutral-400 hover:border-black/20"
+                      : "border-black/5 dark:border-white/5 bg-white/60 dark:bg-neutral-900/40 text-neutral-600 dark:text-neutral-400 hover:border-black/20 dark:hover:border-white/20"
                   }`}
                 >
                   <span className="block text-base mb-1">📜</span>
@@ -897,15 +897,15 @@ export default function VipVaultClient({
 
                 {/* Rendered Contract Text Area */}
                 <div className="mt-6">
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                     <span className="text-xs font-bold text-neutral-400">
                       {isEn ? "Formatted Legal Agreement Text:" : "النص القانوني الملزم والنهائي للعقد:"}
                     </span>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <button
                         type="button"
                         onClick={() => copyText(getRenderedContract(selectedContract), selectedContract.id)}
-                        className={`rounded-xl px-4 py-2 text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                        className={`whitespace-nowrap shrink-0 rounded-xl px-4 py-2 text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
                           copiedId === selectedContract.id
                             ? "bg-emerald-600 text-white"
                             : "bg-emerald-500 text-white hover:bg-emerald-400 active:scale-95 shadow-xs"
@@ -922,7 +922,7 @@ export default function VipVaultClient({
                       <button
                         type="button"
                         onClick={() => downloadContract(selectedContract)}
-                        className="rounded-xl border border-black/10 dark:border-white/10 px-3.5 py-2 text-xs font-bold text-neutral-700 dark:text-neutral-200 hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer"
+                        className="whitespace-nowrap shrink-0 rounded-xl border border-black/10 dark:border-white/10 px-3.5 py-2 text-xs font-bold text-neutral-700 dark:text-neutral-200 hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer"
                       >
                         💾 {isEn ? "Save .TXT" : "حفظ ملف نصي"}
                       </button>

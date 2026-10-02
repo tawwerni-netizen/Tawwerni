@@ -35,18 +35,18 @@ export default function CommunityPage() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <LanguageToggle />
             <ThemeToggle />
             <Link
               href="/tracks"
-              className="text-xs font-bold text-neutral-700 dark:text-neutral-300 hover:text-teal-600 transition-colors hidden sm:inline"
+              className="text-xs font-bold text-neutral-700 dark:text-neutral-300 hover:text-teal-600 transition-colors hidden sm:inline shrink-0"
             >
               {isEn ? "All 100 Tracks" : "الـ 100 مسار"}
             </Link>
             <Link
               href="/quiz"
-              className="rounded-full bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-500 px-5 py-2 text-xs font-black text-white hover:brightness-110 active:scale-95 transition-all shadow-md shadow-teal-500/20"
+              className="whitespace-nowrap shrink-0 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-500 px-3.5 sm:px-5 py-2 sm:py-2 text-xs font-black text-white hover:brightness-110 active:scale-95 transition-all shadow-md shadow-teal-500/20"
             >
               {isEn ? "Join The Community 🚀" : "انضم لمجتمع الأبطال 🚀"}
             </Link>

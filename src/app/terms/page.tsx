@@ -30,12 +30,12 @@ export default function TermsPage() {
             </span>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             <LanguageToggle />
             <ThemeToggle />
             <Link
               href="/"
-              className="text-xs font-bold px-3 py-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 transition-all"
+              className="whitespace-nowrap shrink-0 text-xs font-bold px-2.5 sm:px-3 py-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 transition-all"
             >
               {isEn ? "Home" : "الرئيسية"}
             </Link>

@@ -48,7 +48,7 @@ export default function CommunityWall() {
               setSelectedArchetype("all");
               setVisibleCount(12);
             }}
-            className={`px-4 py-2 rounded-full text-xs font-black transition-all shrink-0 ${
+            className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-black transition-all shrink-0 ${
               selectedArchetype === "all"
                 ? "bg-gradient-to-r from-teal-600 to-emerald-500 text-white shadow-md shadow-teal-500/20"
                 : "bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
@@ -61,7 +61,7 @@ export default function CommunityWall() {
               setSelectedArchetype("freelancer");
               setVisibleCount(12);
             }}
-            className={`px-4 py-2 rounded-full text-xs font-bold transition-all shrink-0 ${
+            className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all shrink-0 ${
               selectedArchetype === "freelancer"
                 ? "bg-gradient-to-r from-teal-600 to-emerald-500 text-white shadow-md shadow-teal-500/20"
                 : "bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
@@ -74,7 +74,7 @@ export default function CommunityWall() {
               setSelectedArchetype("employee");
               setVisibleCount(12);
             }}
-            className={`px-4 py-2 rounded-full text-xs font-bold transition-all shrink-0 ${
+            className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all shrink-0 ${
               selectedArchetype === "employee"
                 ? "bg-gradient-to-r from-teal-600 to-emerald-500 text-white shadow-md shadow-teal-500/20"
                 : "bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
@@ -87,7 +87,7 @@ export default function CommunityWall() {
               setSelectedArchetype("founder");
               setVisibleCount(12);
             }}
-            className={`px-4 py-2 rounded-full text-xs font-bold transition-all shrink-0 ${
+            className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all shrink-0 ${
               selectedArchetype === "founder"
                 ? "bg-gradient-to-r from-teal-600 to-emerald-500 text-white shadow-md shadow-teal-500/20"
                 : "bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
@@ -100,7 +100,7 @@ export default function CommunityWall() {
               setSelectedArchetype("student");
               setVisibleCount(12);
             }}
-            className={`px-4 py-2 rounded-full text-xs font-bold transition-all shrink-0 ${
+            className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all shrink-0 ${
               selectedArchetype === "student"
                 ? "bg-gradient-to-r from-teal-600 to-emerald-500 text-white shadow-md shadow-teal-500/20"
                 : "bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"

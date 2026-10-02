@@ -130,11 +130,11 @@ export default function StudentDashboardView({
           <h1 className="text-2xl sm:text-3xl font-black text-neutral-900 dark:text-white leading-tight">
             {isEn ? (
               <>
-                Welcome back, <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-500 bg-clip-text text-transparent font-extrabold">{userName || "Champion"}</span> 👋
+                Welcome back, <span className="text-teal-600 dark:text-teal-400 font-extrabold">{userName || "Champion"}</span> 👋
               </>
             ) : (
               <>
-                أهلًا بك، <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-500 bg-clip-text text-transparent font-extrabold">{userName || "يا بطل"}</span> 👋
+                أهلًا بك، <span className="text-teal-600 dark:text-teal-400 font-extrabold">{userName || "يا بطل"}</span> 👋
               </>
             )}
           </h1>
@@ -169,7 +169,7 @@ export default function StudentDashboardView({
         <FocusPlayer />
 
         {/* VIP Vault Feature Banner */}
-        <div className="rounded-3xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-neutral-900/60 to-emerald-500/10 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 backdrop-blur-md shadow-xs">
+        <div className="rounded-3xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-neutral-100/80 dark:via-neutral-900/60 to-emerald-500/10 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 backdrop-blur-md shadow-xs">
           <div className="flex items-center gap-3.5">
             <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-200 text-neutral-950 flex items-center justify-center text-2xl shrink-0 shadow-md shadow-amber-500/20">
               👑
@@ -198,7 +198,7 @@ export default function StudentDashboardView({
 
           <Link
             href="/app/vip-vault"
-            className="shrink-0 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 hover:brightness-105 text-neutral-950 font-black text-xs px-5 py-3 text-center shadow-lg shadow-amber-500/25 active:scale-95 transition-all flex items-center justify-center gap-1.5"
+            className="shrink-0 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 hover:brightness-105 text-neutral-950 font-black text-xs px-5 py-3 text-center shadow-lg shadow-amber-500/25 active:scale-95 transition-all flex items-center justify-center gap-1.5 whitespace-nowrap"
           >
             <span>📥</span>
             <span>{isEn ? "Download 10,000 Prompts & Contracts →" : "تحميل الـ 10,000 برومبت والعقود ←"}</span>

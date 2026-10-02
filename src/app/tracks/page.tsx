@@ -34,12 +34,12 @@ export default function TracksPage() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <LanguageToggle />
             <ThemeToggle />
             <Link
               href="/quiz"
-              className="rounded-full bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-500 px-5 py-2 text-xs font-black text-white hover:brightness-110 active:scale-95 transition-all shadow-md shadow-teal-500/20"
+              className="whitespace-nowrap shrink-0 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-500 px-3.5 sm:px-5 py-2 sm:py-2.5 text-xs font-black text-white hover:brightness-110 active:scale-95 transition-all shadow-md shadow-teal-500/20"
             >
               {isEn ? "Career Quiz · Find My Track 🎯" : "حدد مسارك الأنسب 🎯"}
             </Link>
@@ -63,14 +63,14 @@ export default function TracksPage() {
             {isEn ? (
               <>
                 All Modern Career Skills, <br className="hidden sm:inline" />
-                <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-cyan-500 bg-clip-text text-transparent">
+                <span className="text-teal-600 dark:text-emerald-400 font-black">
                   In One 1-Year Membership
                 </span>
               </>
             ) : (
               <>
                 كل مهارات سوق العمل والذكاء الاصطناعي، <br className="hidden sm:inline" />
-                <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-cyan-500 bg-clip-text text-transparent">
+                <span className="text-teal-600 dark:text-emerald-400 font-black">
                   في اشتراك سنوي واحد شامل
                 </span>
               </>

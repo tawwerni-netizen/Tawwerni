@@ -68,7 +68,7 @@ export default function TrackExplorer() {
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
           <button
             onClick={() => setSelectedLevel("all")}
-            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+            className={`whitespace-nowrap shrink-0 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
               selectedLevel === "all"
                 ? "bg-teal-600 text-white dark:bg-teal-500 dark:text-neutral-950 shadow-md font-bold"
                 : "bg-white dark:bg-neutral-900 border border-black/10 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
@@ -78,7 +78,7 @@ export default function TrackExplorer() {
           </button>
           <button
             onClick={() => setSelectedLevel("beginner")}
-            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+            className={`whitespace-nowrap shrink-0 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
               selectedLevel === "beginner"
                 ? "bg-teal-600 text-white dark:bg-teal-500 dark:text-neutral-950 shadow-md font-bold"
                 : "bg-white dark:bg-neutral-900 border border-black/10 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
@@ -88,7 +88,7 @@ export default function TrackExplorer() {
           </button>
           <button
             onClick={() => setSelectedLevel("intermediate")}
-            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+            className={`whitespace-nowrap shrink-0 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
               selectedLevel === "intermediate"
                 ? "bg-teal-600 text-white dark:bg-teal-500 dark:text-neutral-950 shadow-md font-bold"
                 : "bg-white dark:bg-neutral-900 border border-black/10 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
@@ -98,7 +98,7 @@ export default function TrackExplorer() {
           </button>
           <button
             onClick={() => setSelectedLevel("advanced")}
-            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+            className={`whitespace-nowrap shrink-0 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
               selectedLevel === "advanced"
                 ? "bg-teal-600 text-white dark:bg-teal-500 dark:text-neutral-950 shadow-md font-bold"
                 : "bg-white dark:bg-neutral-900 border border-black/10 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
@@ -113,7 +113,7 @@ export default function TrackExplorer() {
       <div className="mb-8 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
         <button
           onClick={() => setSelectedPillarId(null)}
-          className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition-all ${
+          className={`flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition-all ${
             selectedPillarId === null
               ? "bg-gradient-to-r from-teal-600 to-emerald-500 text-white shadow-md shadow-teal-500/20"
               : "border border-black/10 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
@@ -129,7 +129,7 @@ export default function TrackExplorer() {
             <button
               key={pillar.id}
               onClick={() => setSelectedPillarId(isSelected ? null : pillar.id)}
-              className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition-all ${
+              className={`flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition-all ${
                 isSelected
                   ? "bg-teal-600 text-white dark:bg-teal-400 dark:text-neutral-950 shadow-md"
                   : "border border-black/10 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800"

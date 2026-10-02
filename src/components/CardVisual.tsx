@@ -563,7 +563,7 @@ export default function CardVisual({
       {v.kind === "stat" && (
         <Frame>
           <div className="relative px-5 py-7 text-center">
-            <div className="stat-figure text-5xl font-black bg-gradient-to-r from-teal-600 to-emerald-600 dark:from-teal-400 dark:to-emerald-400 bg-clip-text text-transparent" dir="auto">
+            <div className="stat-figure text-5xl font-black text-teal-600 dark:text-teal-400" dir="auto">
               {v.value}
             </div>
             {v.caption && (

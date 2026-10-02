@@ -274,7 +274,7 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
             type="button"
             onClick={() => handleToggleVip(!user.isVip)}
             disabled={togglingVip}
-            className={`rounded-full px-3 py-1 text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer disabled:opacity-50 select-none ${
+            className={`whitespace-nowrap shrink-0 rounded-full px-3 py-1 text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer disabled:opacity-50 select-none ${
               user.isVip
                 ? "bg-amber-500/15 border border-amber-500/30 text-amber-700 dark:text-amber-300 hover:bg-amber-500/25"
                 : "bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 hover:brightness-110 active:scale-95 text-neutral-950 shadow-xs"
@@ -290,7 +290,7 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
               type="button"
               onClick={handleActivateUser}
               disabled={activating}
-              className="rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 hover:brightness-110 active:scale-95 text-white px-3 py-1 text-[11px] font-bold shadow-xs transition-all disabled:opacity-50 flex items-center gap-1 cursor-pointer"
+              className="whitespace-nowrap shrink-0 rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 hover:brightness-110 active:scale-95 text-white px-3 py-1 text-[11px] font-bold shadow-xs transition-all disabled:opacity-50 flex items-center gap-1 cursor-pointer"
             >
               <span>⚡</span>
               <span>{activating ? "..." : "تفعيل الحساب"}</span>

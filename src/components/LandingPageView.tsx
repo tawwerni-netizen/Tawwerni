@@ -121,7 +121,7 @@ export default function LandingPageView() {
               <>
                 Learn Smart. Apply in Minutes.
                 <br />
-                <span className="bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-sm">
+                <span className="text-teal-600 dark:text-emerald-400 font-black">
                   Build Skills That Actually Pay in the AI Era.
                 </span>
               </>
@@ -129,7 +129,7 @@ export default function LandingPageView() {
               <>
                 تعلّم بذكاء. طبّق في دقائق.
                 <br />
-                <span className="bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-sm">
+                <span className="text-teal-600 dark:text-emerald-400 font-black">
                   واصنع دخلك بمهارات المستقبل والذكاء الاصطناعي.
                 </span>
               </>
@@ -694,7 +694,7 @@ export default function LandingPageView() {
               {/* High-Dopamine Giant Action Button */}
               <Link
                 href="/quiz"
-                className="group inline-flex items-center justify-center gap-3 px-8 sm:px-12 py-4.5 rounded-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 hover:from-amber-300 hover:to-yellow-400 text-neutral-950 font-black text-sm sm:text-lg shadow-2xl shadow-amber-500/40 hover:shadow-amber-500/60 hover:scale-102 active:scale-98 transition-all"
+                className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-5 sm:px-12 py-3.5 sm:py-4.5 rounded-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 hover:from-amber-300 hover:to-yellow-400 text-neutral-950 font-black text-xs sm:text-lg shadow-2xl shadow-amber-500/40 hover:shadow-amber-500/60 hover:scale-102 active:scale-98 transition-all"
               >
                 <span className="text-2xl animate-bounce">📥</span>
                 <span>
@@ -734,7 +734,7 @@ export default function LandingPageView() {
           <h2 className="text-2xl font-black md:text-3xl mb-2 text-neutral-900 dark:text-white">
             {isEn
               ? `Only ${pricing.priceEgp} EGP. One-Time Payment for 1-Year Access.`
-              : `٣٤٩ جنيه فقط. دفعة واحدة لمدة سنة.`}
+              : `${pricing.priceEgp} جنيه فقط. دفعة واحدة لمدة سنة.`}
           </h2>
           <p className="mx-auto mb-7 max-w-md text-xs sm:text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
             {isEn
@@ -989,14 +989,14 @@ export default function LandingPageView() {
             {isEn ? (
               <>
                 Which Day Will You{" "}
-                <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 bg-clip-text text-transparent">
+                <span className="text-emerald-400 font-black">
                   Start?
                 </span>
               </>
             ) : (
               <>
                 أنهي يوم{" "}
-                <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 bg-clip-text text-transparent">
+                <span className="text-emerald-400 font-black">
                   هتبدأ؟
                 </span>
               </>
@@ -1012,7 +1012,7 @@ export default function LandingPageView() {
           {/* Glowing High-Contrast CTA Button */}
           <Link
             href="/quiz"
-            className="group relative inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 text-neutral-950 font-black px-10 py-4.5 text-sm sm:text-base shadow-[0_0_35px_rgba(52,211,153,0.4)] hover:shadow-[0_0_50px_rgba(52,211,153,0.65)] hover:scale-105 active:scale-95 transition-all duration-300"
+            className="group relative inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 text-neutral-950 font-black px-7 sm:px-10 py-3.5 sm:py-4.5 text-sm sm:text-base shadow-[0_0_35px_rgba(52,211,153,0.4)] hover:shadow-[0_0_50px_rgba(52,211,153,0.65)] hover:scale-105 active:scale-95 transition-all duration-300 whitespace-nowrap shrink-0"
           >
             <span>{isEn ? "Start Free Assessment Now →" : "ابدأ التقييم مجانًا الآن ←"}</span>
             <span className="text-lg transition-transform group-hover:translate-x-1">🚀</span>

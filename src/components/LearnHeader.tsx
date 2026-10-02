@@ -21,14 +21,14 @@ export default function LearnHeader() {
         {isEn ? (
           <>
             Explore & Master{" "}
-            <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-cyan-500 bg-clip-text text-transparent">
+            <span className="text-teal-600 dark:text-emerald-400 font-black">
               All 100 Tracks
             </span>
           </>
         ) : (
           <>
             تعلّم وتدرّب في{" "}
-            <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-cyan-500 bg-clip-text text-transparent">
+            <span className="text-teal-600 dark:text-emerald-400 font-black">
               كل الـ 100 مسار
             </span>
           </>

@@ -23,12 +23,12 @@ export default function RefundPage() {
       <header className="sticky top-0 z-40 border-b border-black/5 dark:border-white/10 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md transition-colors">
         <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-5">
           <LogoLink size={34} href="/" />
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <LanguageToggle />
             <ThemeToggle />
             <Link
               href="/"
-              className="px-3 py-1.5 rounded-full text-xs font-bold text-neutral-600 dark:text-neutral-400 hover:text-teal-600 dark:hover:text-teal-400 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 transition-colors"
+              className="whitespace-nowrap shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-bold text-neutral-600 dark:text-neutral-400 hover:text-teal-600 dark:hover:text-teal-400 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 transition-colors"
             >
               {isEn ? "Home" : "الرئيسية"}
             </Link>
@@ -70,7 +70,7 @@ export default function RefundPage() {
             </div>
             <span
               style={{ backgroundColor: '#ffffff', color: '#042f2e', border: '1.5px solid #34d399' }}
-              className="pill-guarantee-white inline-block font-black text-xs px-4 py-1.5 rounded-full shadow-md shrink-0"
+              className="pill-guarantee-white inline-block font-black text-xs px-4 py-1.5 rounded-full shadow-md shrink-0 whitespace-nowrap"
             >
               {isEn ? "7-Day Peace of Mind Guarantee" : "7 أيام تجربة واسترداد كامل"}
             </span>
