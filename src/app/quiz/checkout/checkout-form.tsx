@@ -387,9 +387,14 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
             </div>
             <div className="flex-1 text-start">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="rounded-md bg-amber-400 text-neutral-950 px-2.5 py-0.5 text-[11px] font-black">
-                  ⚡ {isEn ? "VIP Vault Upgrade (Save 80%)" : "ترقية حصرية مضافة لطلبك (وفر ٨٠٪)"}
-                </span>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="rounded-md bg-gradient-to-r from-amber-400 to-yellow-300 text-neutral-950 px-2.5 py-0.5 text-[11px] font-black shadow-xs">
+                    ⚡ {isEn ? "VIP Vault Upgrade (Save 80%)" : "ترقية حصرية مضافة لطلبك (وفر ٨٠٪)"}
+                  </span>
+                  <span className="rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-bold">
+                    🔥 {isEn ? "92% of members choose this" : "يختاره ٩٢٪ من المشتركين"}
+                  </span>
+                </div>
                 <div className="flex items-center gap-1.5 font-mono">
                   <span className="text-xs font-black text-amber-300">
                     +{pricing.orderBumpPriceEgp} {isEn ? "EGP only" : "ج.م فقط"}
@@ -426,6 +431,10 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
                   <span className="text-amber-400">✓</span>
                   <span>{isEn ? "Lifetime Access & Updates" : "وصول دائم وتحديثات مستمرة في حسابك"}</span>
                 </div>
+              </div>
+              <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] font-black">
+                <span>📥</span>
+                <span>{isEn ? "Download button unlocks immediately in your dashboard upon activation" : "زر التحميل الكامل يفتح مباشرة في لوحة تحكمك فور التفعيل"}</span>
               </div>
             </div>
           </div>
@@ -751,17 +760,17 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
             </div>
           </div>
 
-          {/* ⭐ 48-Hour Money-Back Guarantee Badge ⭐ */}
+          {/* ⭐ 7-Day Money-Back Guarantee Badge ⭐ */}
           <div className="rounded-2xl border-2 border-emerald-400/50 bg-gradient-to-r from-emerald-950/70 via-teal-950/50 to-neutral-900 p-4 sm:p-5 shadow-xl shadow-emerald-500/15 text-start flex items-start gap-3">
             <span className="text-3xl shrink-0">🛡️</span>
             <div>
               <h4 className="text-xs sm:text-sm font-black text-emerald-300 mb-1">
-                {isEn ? "48-Hour 100% Money-Back Guarantee" : "ضمان استرجاع كامل 100% خلال 48 ساعة بدون أي أسئلة"}
+                {isEn ? "7-Day 100% Money-Back Guarantee" : "ضمان استرجاع كامل 100% خلال 7 أيام بدون أي أسئلة"}
               </h4>
               <p className="text-[11px] sm:text-xs leading-relaxed text-neutral-200">
                 {isEn
-                  ? "Explore all 100 tracks and start learning immediately. If you are not 100% satisfied for any reason within 48 hours, message us and receive a prompt, full refund."
-                  : "جرّب المنصة وتصفّح الـ ١٠٠ مسار وابدأ التعلم الآن.. إن لم تجدها تصنع فارقاً حقيقياً في مهاراتك خلال 48 ساعة، راسلنا واسترد كامل المبلغ فوراً وبدون أي شروط."}
+                  ? "Explore all 100 tracks and start learning immediately. If you are not 100% satisfied for any reason within 7 days, message us and receive a prompt, full refund."
+                  : "جرّب المنصة وتصفّح الـ ١٠٠ مسار وابدأ التعلم الآن.. إن لم تجدها تصنع فارقاً حقيقياً في مهاراتك خلال 7 أيام، راسلنا واسترد كامل المبلغ فوراً وبدون أي شروط."}
               </p>
             </div>
           </div>

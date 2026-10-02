@@ -51,7 +51,7 @@ export default function RefundPage() {
           </p>
         </div>
 
-        {/* 48-Hour Guarantee High-Dopamine Card */}
+        {/* 7-Day Guarantee High-Dopamine Card */}
         <div className="mb-10 relative overflow-hidden rounded-3xl bg-gradient-to-br from-teal-700 via-emerald-700 to-teal-900 p-6 sm:p-8 text-white shadow-2xl border border-teal-400/30">
           <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-white/15 blur-2xl" />
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
@@ -61,7 +61,7 @@ export default function RefundPage() {
               </div>
               <div>
                 <h2 className="text-lg sm:text-xl font-black text-white">
-                  {isEn ? "48-Hour 100% Money-Back Guarantee" : "ضمان استرداد كامل خلال 48 ساعة"}
+                  {isEn ? "7-Day 100% Money-Back Guarantee" : "ضمان استرداد كامل خلال 7 أيام"}
                 </h2>
                 <p className="text-xs text-teal-100 font-medium">
                   {isEn ? "Zero friction · No questions asked" : "بدون أي تعقيد أو مماطلة · حقك مضمون بالكامل"}
@@ -72,14 +72,14 @@ export default function RefundPage() {
               style={{ backgroundColor: '#ffffff', color: '#042f2e', border: '1.5px solid #34d399' }}
               className="pill-guarantee-white inline-block font-black text-xs px-4 py-1.5 rounded-full shadow-md shrink-0"
             >
-              {isEn ? "48-Hour Free Trial Guarantee" : "48 ساعة تجربة واسترداد كامل"}
+              {isEn ? "7-Day Peace of Mind Guarantee" : "7 أيام تجربة واسترداد كامل"}
             </span>
           </div>
 
           <p className="text-xs sm:text-sm text-teal-50 leading-relaxed">
             {isEn
-              ? "We stand behind the practical quality of our 100 tracks. If you activate your membership and feel the learning experience is not for you, simply contact our direct support team within 48 hours of activation, and we will issue a full 100% refund immediately."
-              : "نحن على ثقة كاملة في القيمة التطبيقية لمساراتنا. إذا اشتركت في المنصة وشعرت خلال 48 ساعة من التفعيل أن المحتوى أو الأسلوب غير مناسب لك لأي سبب، فقط راسلنا وسنعيد لك كامل المبلغ المدفوع فوراً بدون أي استجواب أو تعقيد."}
+              ? "We stand behind the practical quality of our 100 tracks. If you activate your membership and feel the learning experience is not for you, simply contact our direct support team within 7 days of activation, and we will issue a full 100% refund immediately."
+              : "نحن على ثقة كاملة في القيمة التطبيقية لمساراتنا. إذا اشتركت في المنصة وشعرت خلال 7 أيام من التفعيل أن المحتوى أو الأسلوب غير مناسب لك لأي سبب، فقط راسلنا وسنعيد لك كامل المبلغ المدفوع فوراً بدون أي استجواب أو تعقيد."}
           </p>
         </div>
 
@@ -119,7 +119,7 @@ export default function RefundPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 ps-0 sm:ps-12">
               <a
-                href={`https://wa.me/2${payment.supportWhatsapp}?text=${encodeURIComponent("مرحباً، أود طلب استرداد الاشتراك وفق ضمان الـ 48 ساعة")}`}
+                href={`https://wa.me/2${payment.supportWhatsapp}?text=${encodeURIComponent("مرحباً، أود طلب استرداد الاشتراك وفق ضمان الـ 7 أيام")}`}
                 className="flex items-center gap-3 p-3.5 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-950 dark:text-emerald-200 transition-all font-bold text-xs"
               >
                 <span className="text-2xl">💬</span>
@@ -154,14 +154,14 @@ export default function RefundPage() {
               </div>
               <p className="text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed ps-12">
                 {isEn
-                  ? "Your learning investment is 100% risk-free. If you decide Tawwerni isn't the perfect fit within your first 48 hours, our dedicated human support team will promptly issue a full 100% refund directly back to your payment method (Vodafone Cash, InstaPay, or Bank Card) with zero hassle and no questions asked."
-                  : "حقك في تجربة المنصة مكفول بنسبة 100% وبدون أي مخاطرة مالية. إذا طلبت استرجاع المبلغ خلال الـ 48 ساعة الأولى من التفعيل، يتم رد المبلغ فوراً وبنفس وسيلة الدفع (فودافون كاش، إنستاباي، أو البطاقة البنكية) بكل سلاسة وسرعة وبدون أي شروط تعجيزية أو أسئلة محرجة."}
+                  ? "Your learning investment is 100% risk-free. If you decide Tawwerni isn't the perfect fit within your first 7 days, our dedicated human support team will promptly issue a full 100% refund directly back to your payment method (Vodafone Cash, InstaPay, or Bank Card) with zero hassle and no questions asked."
+                  : "حقك في تجربة المنصة مكفول بنسبة 100% وبدون أي مخاطرة مالية. إذا طلبت استرجاع المبلغ خلال الـ 7 أيام الأولى من التفعيل، يتم رد المبلغ فوراً وبنفس وسيلة الدفع (فودافون كاش، إنستاباي، أو البطاقة البنكية) بكل سلاسة وسرعة وبدون أي شروط تعجيزية أو أسئلة محرجة."}
               </p>
               <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5 ps-12 text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
                 <p>
                   {isEn
-                    ? "⚖️ Digital Assets Fair-Use Standard: The 48-hour satisfaction guarantee applies to platform exploration and daily track learning. In accordance with standard digital asset fair-use policies, accounts that have already exported or downloaded offline master file packages (such as the comprehensive 10,000 Prompts Database or open-format legal contract archives) are not eligible for a refund, as these digital assets cannot be revoked once downloaded."
-                    : "⚖️ معيار الاستخدام العادل للأصول الرقمية: صُمم ضمان الاسترداد لتجربة المنصة ومحتوى المسارات التعليمية بكل طمأنينة. ووفقاً للعرف القانوني المعتمد للأصول الرقمية، يشترط للاستفادة من الاسترداد عدم قيام الحساب بتنزيل أو تصدير الحزم الرقمية الكاملة القابلة للحفظ الدائم خارج المنصة (مثل قاعدة بيانات الـ 10,000 برومبت الشاملة أو ملفات العقود المفتوحة)، حيث تعتبر هذه الأصول مستهلكة نهائياً بمجرد تنزيلها لحماية حقوق الملكية الفكرية ومنع الاستغلال غير العادل."}
+                    ? "⚖️ Digital Assets Fair-Use Standard: The 7-day satisfaction guarantee applies to platform exploration and daily track learning. In accordance with standard digital asset fair-use policies, accounts that have already exported or downloaded offline master file packages (such as the comprehensive 10,000 Prompts Database or open-format legal contract archives) are not eligible for a refund, as these digital assets cannot be revoked once downloaded."
+                    : "⚖️ معيار الاستخدام العادل للأصول الرقمية: صُمم ضمان الاسترداد لتجربة المنصة ومحتوى المسارات التعليمية بكل طمأنينة. ووفقاً للعرف القانوني المعتمد للأصول الرقمية، يشترط للاستفادة من ضمان الـ 7 أيام عدم قيام الحساب بتنزيل أو تصدير الحزم الرقمية الكاملة القابلة للحفظ الدائم خارج المنصة (مثل قاعدة بيانات الـ 10,000 برومبت الشاملة أو ملفات العقود المفتوحة)، حيث تعتبر هذه الأصول مستهلكة نهائياً بمجرد تنزيلها لحماية حقوق الملكية الفكرية ومنع الاستغلال غير العادل."}
                 </p>
               </div>
             </div>
@@ -180,7 +180,7 @@ export default function RefundPage() {
       {/* Footer */}
       <footer className="border-t border-black/5 dark:border-neutral-900 py-8 px-4 text-center text-xs text-neutral-500 bg-white/50 dark:bg-neutral-950/50 backdrop-blur-md">
         <div className="mx-auto max-w-xl space-y-2">
-          <p>© {new Date().getFullYear()} {isEn ? brand.nameEn : brand.name} ({brand.domain}) · {isEn ? "48-Hour Peace of Mind Guarantee" : "ضمان راحة البال خلال 48 ساعة"}</p>
+          <p>© {new Date().getFullYear()} {isEn ? brand.nameEn : brand.name} ({brand.domain}) · {isEn ? "7-Day Peace of Mind Guarantee" : "ضمان راحة البال خلال 7 أيام"}</p>
           <div className="flex items-center justify-center gap-4 text-neutral-500 dark:text-neutral-400">
             <Link href="/about" className="hover:text-teal-600 transition-colors">{isEn ? "About Us" : "من نحن"}</Link>
             <span>•</span>

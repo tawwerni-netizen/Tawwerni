@@ -106,7 +106,7 @@ export default function AboutPage() {
               <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-950 dark:text-emerald-200">
                 <span className="text-xl mb-1 block">🛡️</span>
                 <strong className="block font-bold mb-1">
-                  {isEn ? "48-Hour Full Guarantee" : "ضمان استرداد كامل خلال 48 ساعة"}
+                  {isEn ? "7-Day Full Guarantee" : "ضمان استرداد كامل خلال 7 أيام"}
                 </strong>
                 <p className="text-xs text-emerald-800 dark:text-emerald-300">
                   {isEn ? "100% money back if not satisfied, prompt human support." : "استرجاع كامل لأموالك فوراً بدون تعقيد لو لم ترضك التجربة."}
@@ -161,7 +161,7 @@ export default function AboutPage() {
             <span>•</span>
             <Link href="/privacy" className="hover:text-teal-600 transition-colors">{isEn ? "Privacy" : "سياسة الخصوصية"}</Link>
             <span>•</span>
-            <Link href="/refund" className="hover:text-teal-600 transition-colors font-semibold text-teal-700 dark:text-teal-400">{isEn ? "48-Hour Refund Guarantee" : "ضمان الـ 48 ساعة"}</Link>
+            <Link href="/refund" className="hover:text-teal-600 transition-colors font-semibold text-teal-700 dark:text-teal-400">{isEn ? "7-Day Refund Guarantee" : "ضمان الـ 7 أيام"}</Link>
           </div>
         </div>
       </footer>

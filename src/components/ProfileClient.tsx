@@ -269,7 +269,7 @@ export default function ProfileClient(props: Props) {
             <div className="mt-4 pt-3 border-t border-black/5 dark:border-white/5 flex flex-wrap items-center justify-between gap-2 text-xs">
               <span className="text-teal-700 dark:text-teal-300 font-bold flex items-center gap-1.5">
                 <span>🛡️</span>
-                <span>{isEn ? "48-Hour Money-Back Guarantee Included" : "مشمول بضمان استرداد كامل خلال 48 ساعة"}</span>
+                <span>{isEn ? "7-Day Money-Back Guarantee Included" : "مشمول بضمان استرداد كامل خلال 7 أيام"}</span>
               </span>
               <a
                 href={`https://wa.me/2${payment.supportWhatsapp}`}
@@ -287,7 +287,7 @@ export default function ProfileClient(props: Props) {
                 {isEn ? "Free Preview Mode (Day 1 Unlocked)" : "عضوية تجريبية (اليوم الأول مجاني في كل مسار)"}
               </p>
               <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                {isEn ? "Upgrade to unlock all 100 tracks with 48h guarantee." : "اشترك الآن لفتح كافة الـ 100 مسار مع ضمان استرجاع 48 ساعة."}
+                {isEn ? "Upgrade to unlock all 100 tracks with 7-day guarantee." : "اشترك الآن لفتح كافة الـ 100 مسار مع ضمان استرجاع 7 أيام."}
               </p>
             </div>
             <Link
@@ -378,7 +378,7 @@ export default function ProfileClient(props: Props) {
       {/* Footer Assurance */}
       <div className="mt-8 text-center text-xs text-neutral-400 space-y-1">
         <p>
-          {isEn ? "Tawwerni Educational Platform · Protected by 48-Hour Guarantee" : "منصة طوّرني للتعليم العملي · مشمولة بضمان استرداد 48 ساعة"}
+          {isEn ? "Tawwerni Educational Platform · Protected by 7-Day Guarantee" : "منصة طوّرني للتعليم العملي · مشمولة بضمان استرداد 7 أيام"}
         </p>
         <div className="flex items-center justify-center gap-3">
           <Link href="/privacy" className="hover:text-teal-600 underline">{isEn ? "Privacy" : "الخصوصية"}</Link>

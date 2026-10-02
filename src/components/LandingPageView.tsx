@@ -158,12 +158,12 @@ export default function LandingPageView() {
                 : `🔥 عرض فوج التأسيس الأول: ${pricing.priceEgp} ج.م فقط لعام كامل (بدل ${pricing.originalPriceEgp} ج.م) · خصم 71% شامل كافة الـ 100 مسار`}
             </span>
             <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 text-[11px] font-bold border border-amber-500/30">
-              {isEn ? "48-Hour Guarantee" : "ضمان استرداد 48 ساعة"}
+              {isEn ? "7-Day Guarantee" : "ضمان استرداد 7 أيام"}
             </span>
           </div>
 
           {/* Giant Radiant Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-8">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-6">
             <Link
               href="/quiz"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-400 hover:from-teal-400 hover:to-emerald-400 text-white font-black px-9 py-4 text-base shadow-xl shadow-teal-500/30 hover:shadow-2xl hover:shadow-teal-500/50 hover:scale-102 active:scale-98 transition-all text-center"
@@ -180,11 +180,29 @@ export default function LandingPageView() {
             </Link>
           </div>
 
+          {/* Dopamine-Charged VIP Vault Quick Teaser */}
+          <div className="mb-8 flex justify-center">
+            <Link
+              href="/quiz"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-500/15 via-yellow-500/20 to-amber-500/15 border border-amber-500/40 text-amber-900 dark:text-amber-200 text-xs font-black hover:scale-105 active:scale-95 transition-all shadow-md shadow-amber-500/10"
+            >
+              <span className="text-sm animate-bounce">👑</span>
+              <span>
+                {isEn
+                  ? "Bonus: 10,000 Corporate Prompts Vault + Legal Contracts Ready for Instant Download"
+                  : "بونص VIP حصري: بنك الـ 10,000 برومبت السري للشركات + عقود الفريلانس متاح للتحميل"}
+              </span>
+              <span className="rounded-md bg-amber-400 text-neutral-950 px-2 py-0.5 text-[10px] font-black shrink-0">
+                {isEn ? "Claim Now →" : "احصل عليه ←"}
+              </span>
+            </Link>
+          </div>
+
           {/* 4 Pillars of Peace of Mind & Trust */}
           <div className="mx-auto max-w-2xl grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs font-bold text-neutral-700 dark:text-neutral-300 mb-10">
             <div className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
               <span>🛡️</span>
-              <span>{isEn ? "48h Full Guarantee" : "ضمان استرداد 48 ساعة"}</span>
+              <span>{isEn ? "7-Day Guarantee" : "ضمان استرداد 7 أيام"}</span>
             </div>
             <div className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
               <span>🎁</span>
@@ -624,6 +642,91 @@ export default function LandingPageView() {
           </div>
         </section>
 
+        {/* ---------- 5.5 SECRET 10,000 CORPORATE PROMPTS & LEGAL CONTRACTS VAULT ---------- */}
+        <section className="mb-16">
+          <div className="relative overflow-hidden rounded-3xl border-2 border-amber-500/40 bg-gradient-to-br from-amber-950/80 via-neutral-900 to-emerald-950/70 p-6 md:p-10 shadow-2xl shadow-amber-500/15">
+            {/* Ambient Background Lights */}
+            <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-amber-400/20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-emerald-400/20 blur-3xl" />
+
+            <div className="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40 text-xs font-black mb-4">
+                <span className="text-sm">👑</span>
+                <span>
+                  {isEn ? "Exclusive VIP Digital Vault" : "خزنة الـ VIP السرية للشركات والفريلانسرز"}
+                </span>
+                <span className="rounded-md bg-amber-400 text-neutral-950 px-2 py-0.5 text-[10px] font-black">
+                  +10,000 Prompts
+                </span>
+              </div>
+
+              <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight mb-3">
+                {isEn
+                  ? "Download the 10,000 Secret Corporate AI Prompts Bank + 5 Legal Freelance Contracts"
+                  : "بنك الـ 10,000 برومبت السري للشركات + حزمة عقود الفريلانس القانونية"}
+              </h2>
+
+              <p className="text-xs sm:text-base text-neutral-200 leading-relaxed mb-6 max-w-2xl">
+                {isEn
+                  ? "An authentic indexed vault covering 100 enterprise domains × 100 copy-pasteable executive prompts + 5 ironclad bilingual contracts protecting your freelance fees and killing scope creep."
+                  : "قاعدة بيانات مفهرسة تضم ١٠٠ مجال شركات متخصص × ١٠٠ برومبت تنفيذي جاهز للنسخ المباشر = ١٠,٠٠٠ أمر احترافي مطبق عملياً.. بالإضافة إلى ٥ عقود عمل حر ثنائية اللغة تحمي أتعابك قانونياً وتمنع المماطلة تماماً."}
+              </p>
+
+              {/* Sample Domain Pills Showcase */}
+              <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+                {[
+                  { icon: "🤖", ar: "هندسة الأوامر والوكلاء الذكية", en: "Prompt & AI Agent Systems" },
+                  { icon: "📈", ar: "نمو المبيعات و الـ B2B Lead Gen", en: "B2B Sales & Outbound Growth" },
+                  { icon: "⚖️", ar: "٥ عقود فريلانس تحمي أتعابك", en: "5 Ironclad Freelance Contracts" },
+                  { icon: "🎯", ar: "الإعلانات والحملات الممولة", en: "Paid Ads & Media Buying" },
+                  { icon: "💻", ar: "هندسة البرمجيات والـ Full Stack", en: "Full-Stack Development" },
+                  { icon: "📊", ar: "تحليل البيانات والذكاء التجاري", en: "Data Analytics & BI" },
+                  { icon: "🏢", ar: "+ ٩٤ مجالاً إضافياً مفهرساً", en: "+ 94 More Indexed Domains" },
+                ].map((item, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-white/10 border border-white/15 text-neutral-200 backdrop-blur-md shadow-2xs"
+                  >
+                    <span>{item.icon}</span>
+                    <span>{isEn ? item.en : item.ar}</span>
+                  </span>
+                ))}
+              </div>
+
+              {/* High-Dopamine Giant Action Button */}
+              <Link
+                href="/quiz"
+                className="group inline-flex items-center justify-center gap-3 px-8 sm:px-12 py-4.5 rounded-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 hover:from-amber-300 hover:to-yellow-400 text-neutral-950 font-black text-sm sm:text-lg shadow-2xl shadow-amber-500/40 hover:shadow-amber-500/60 hover:scale-102 active:scale-98 transition-all"
+              >
+                <span className="text-2xl animate-bounce">📥</span>
+                <span>
+                  {isEn
+                    ? "Download the 10,000 Prompts Vault & Contracts Pack →"
+                    : "تحميل بنك الـ 10,000 برومبت السري للشركات + العقود ←"}
+                </span>
+                <span className="rounded-full bg-black/10 px-2.5 py-1 text-xs font-black">
+                  {isEn ? "VIP Unlock" : "متاح للـ VIP"}
+                </span>
+              </Link>
+
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs text-neutral-400 font-medium">
+                <span className="flex items-center gap-1 text-emerald-400">
+                  <span>✓</span>
+                  <span>{isEn ? "One-click copy & open .txt download" : "نسخ مباشر وتحميل فوري بصيغة TXT"}</span>
+                </span>
+                <span className="flex items-center gap-1 text-emerald-400">
+                  <span>✓</span>
+                  <span>{isEn ? "Bilingual Arabic & English" : "ثنائي اللغة بالكامل (عربي وإنجليزي)"}</span>
+                </span>
+                <span className="flex items-center gap-1 text-emerald-400">
+                  <span>✓</span>
+                  <span>{isEn ? "Available optionally at checkout (+199 EGP)" : "متاح إضافته عند الاشتراك (+199 ج.م فقط)"}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ---------- 6. THE HONEST PRICE, ANCHORED & TRANSPARENT ---------- */}
         <div className="mx-auto mb-16 max-w-2xl text-center">
           <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-rose-600 via-red-500 to-amber-500 text-white text-xs font-black px-4 py-1.5 rounded-full shadow-md shadow-rose-500/25 border border-white/20 mb-3">
@@ -756,25 +859,34 @@ export default function LandingPageView() {
             </div>
 
             {/* VIP Prompts Vault & Legal Contracts Hook */}
-            <div className="mb-6 rounded-2xl bg-gradient-to-r from-amber-500/15 via-yellow-500/10 to-amber-500/15 p-4 text-xs leading-relaxed border border-amber-500/30 flex items-start gap-3 text-start">
-              <span className="text-2xl shrink-0">👑</span>
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <p className="font-black text-amber-900 dark:text-amber-200 text-sm">
+            <div className="mb-6 rounded-2xl bg-gradient-to-r from-amber-500/15 via-yellow-500/10 to-amber-500/15 p-4 sm:p-5 text-xs leading-relaxed border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-start">
+              <div className="flex items-start gap-3">
+                <span className="text-2xl shrink-0">👑</span>
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="font-black text-amber-900 dark:text-amber-200 text-sm">
+                      {isEn
+                        ? "Exclusive VIP Upgrade: 10,000 Prompts Database + 5 Freelance Legal Contracts"
+                        : "ترقية VIP الحصرية: قاعدة الـ 10,000 برومبت تنفيذي + 5 عقود فريلانس قانونية"}
+                    </p>
+                    <span className="rounded-md bg-amber-400 text-neutral-950 px-2 py-0.5 text-[10px] font-black">
+                      +{pricing.orderBumpPriceEgp} {isEn ? "EGP" : "ج.م"}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-neutral-700 dark:text-neutral-300 text-xs leading-relaxed">
                     {isEn
-                      ? "Exclusive VIP Upgrade: 10,000 Prompts Database + 5 Freelance Legal Contracts"
-                      : "ترقية VIP الحصرية: قاعدة الـ 10,000 برومبت تنفيذي + 5 عقود فريلانس قانونية"}
+                      ? "Available at checkout: 100 specialized business domains × 100 copy-pasteable executive prompts (10,000 total) + 5 bilingual contracts preventing client non-payment and scope creep."
+                      : "متاحة اختياريًا عند الدفع: 100 مجال شركات × 100 برومبت تنفيذي جاهز للنسخ (10,000 برومبت) + 5 عقود عمل حر ثنائية اللغة تحمي أتعابك قانونيًا وتمنع المماطلة."}
                   </p>
-                  <span className="rounded-md bg-amber-400 text-neutral-950 px-2 py-0.5 text-[10px] font-black">
-                    +{pricing.orderBumpPriceEgp} {isEn ? "EGP" : "ج.م"}
-                  </span>
                 </div>
-                <p className="mt-1 text-neutral-700 dark:text-neutral-300 text-xs leading-relaxed">
-                  {isEn
-                    ? "Available at checkout: 100 specialized business domains × 100 copy-pasteable executive prompts (10,000 total) + 5 bilingual contracts preventing client non-payment and scope creep."
-                    : "متاحة اختياريًا عند الدفع: 100 مجال شركات × 100 برومبت تنفيذي جاهز للنسخ (10,000 برومبت) + 5 عقود عمل حر ثنائية اللغة تحمي أتعابك قانونيًا وتمنع المماطلة."}
-                </p>
               </div>
+              <Link
+                href="/quiz"
+                className="shrink-0 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-neutral-950 font-black text-xs hover:brightness-105 active:scale-95 transition-all shadow-md shadow-amber-500/20"
+              >
+                <span>📥</span>
+                <span>{isEn ? "Claim with VIP →" : "احصل عليها مع اشتراكك ←"}</span>
+              </Link>
             </div>
 
             {/* Feature Checklist */}
@@ -785,7 +897,7 @@ export default function LandingPageView() {
                 isEn ? "Fully bilingual content (Arabic & English)" : "محتوى ثنائي اللغة بالكامل (عربي وإنجليزي)",
                 isEn ? "Psychological focus tools (Pomodoro & Alpha waves)" : "أدوات التركيز وبومودورو وموجات ألفا",
                 isEn ? "Verified community wall with 300+ real members" : "حائط المجتمع وقصص نجاح أكثر من ٣٠٠ عضو",
-                isEn ? "48-Hour 100% Money-Back Guarantee" : "ضمان استرداد كامل خلال 48 ساعة بدون أي تعقيد",
+                isEn ? "7-Day 100% Money-Back Guarantee" : "ضمان استرداد كامل خلال 7 أيام بدون أي تعقيد",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-2">
                   <span className="text-emerald-500 font-bold shrink-0">✓</span>

@@ -111,7 +111,7 @@ export default function TermsPage() {
           <section className="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md rounded-2xl p-5 sm:p-6 border border-black/5 dark:border-white/10 shadow-xs border-l-4 border-l-teal-500">
             <h2 className="mb-2 text-base sm:text-lg font-black text-neutral-900 dark:text-white flex items-center gap-2">
               <span className="text-teal-600 dark:text-teal-400">3.</span>
-              <span>{isEn ? "Membership, Fees, and 48-Hour Guarantee" : "الاشتراكات، الرسوم، وضمان الـ 48 ساعة"}</span>
+              <span>{isEn ? "Membership, Fees, and 7-Day Guarantee" : "الاشتراكات، الرسوم، وضمان الـ 7 أيام"}</span>
             </h2>
             <ul className="list-disc ps-5 space-y-2 text-neutral-700 dark:text-neutral-300">
               <li>
@@ -126,13 +126,13 @@ export default function TermsPage() {
               </li>
               <li className="font-bold text-teal-800 dark:text-teal-300">
                 {isEn
-                  ? "48-Hour Money-Back Guarantee: If you are unsatisfied with the platform, you may request a 100% full refund within 48 hours from the date of activation by contacting support directly."
-                  : "ضمان استرداد الأموال خلال 48 ساعة: نتيح ضمان استرداد كامل للمبلغ بنسبة 100% خلال 48 ساعة من تاريخ تفعيل الاشتراك في حال رغبتك، دون تعقيدات، بالتواصل المباشر مع الدعم الفني."}
+                  ? "7-Day Money-Back Guarantee: If you are unsatisfied with the platform, you may request a 100% full refund within 7 days from the date of activation by contacting support directly."
+                  : "ضمان استرداد الأموال خلال 7 أيام: نتيح ضمان استرداد كامل للمبلغ بنسبة 100% خلال 7 أيام من تاريخ تفعيل الاشتراك في حال رغبتك، دون تعقيدات، بالتواصل المباشر مع الدعم الفني."}
               </li>
               <li className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
                 {isEn
-                  ? "Fair-Use Standard for Downloadable Assets: In accordance with industry standards for digital products, the 48-hour refund policy covers platform experience and course learning, but does not apply if an account has already downloaded or exported full offline asset packages (such as the 10,000 Prompts Vault or freelance contract templates), as these files cannot be returned once saved."
-                  : "معيار الاستخدام العادل للأصول الرقمية: وفقاً للأعراف القانونية للمنتجات الرقمية، يغطي ضمان الـ 48 ساعة تجربة المنصة ومساراتها التعليمية، وتسقط إمكانية الاسترداد في حال قيام الحساب بتنزيل وحفظ الحزم الرقمية الكاملة غير القابلة للاسترجاع (مثل بنك الـ 10,000 برومبت أو حزم العقود القانونية المفتوحة) حمايةً لحقوق الملكية الفكرية ومنع الاستغلال غير العادل."}
+                  ? "Fair-Use Standard for Downloadable Assets: In accordance with industry standards for digital products, the 7-day refund policy covers platform experience and course learning, but does not apply if an account has already downloaded or exported full offline asset packages (such as the 10,000 Prompts Vault or freelance contract templates), as these files cannot be returned once saved."
+                  : "معيار الاستخدام العادل للأصول الرقمية: وفقاً للأعراف القانونية للمنتجات الرقمية، يغطي ضمان الـ 7 أيام تجربة المنصة ومساراتها التعليمية، وتسقط إمكانية الاسترداد في حال قيام الحساب بتنزيل وحفظ الحزم الرقمية الكاملة غير القابلة للاسترجاع (مثل بنك الـ 10,000 برومبت أو حزم العقود القانونية المفتوحة) حمايةً لحقوق الملكية الفكرية ومنع الاستغلال غير العادل."}
               </li>
             </ul>
           </section>
@@ -275,7 +275,7 @@ export default function TermsPage() {
             <span>•</span>
             <Link href="/privacy" className="hover:text-teal-600 transition-colors">{isEn ? "Privacy" : "سياسة الخصوصية"}</Link>
             <span>•</span>
-            <Link href="/refund" className="hover:text-teal-600 transition-colors font-semibold text-teal-700 dark:text-teal-400">{isEn ? "48-Hour Refund Guarantee" : "ضمان الـ 48 ساعة"}</Link>
+            <Link href="/refund" className="hover:text-teal-600 transition-colors font-semibold text-teal-700 dark:text-teal-400">{isEn ? "7-Day Refund Guarantee" : "ضمان الـ 7 أيام"}</Link>
           </div>
         </div>
       </footer>

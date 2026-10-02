@@ -179,29 +179,29 @@ export default function StudentDashboardView({
                 <span className="text-xs font-black text-amber-600 dark:text-amber-400">
                   {isEn ? "VIP Members Vault" : "خزنة VIP الحصرية"}
                 </span>
-                <span className="rounded-md bg-amber-400 text-neutral-950 px-1.5 py-0.2 text-[10px] font-black">
-                  +1,000 Prompts
+                <span className="rounded-md bg-amber-400 text-neutral-950 px-2 py-0.5 text-[10px] font-black">
+                  +10,000 Prompts
                 </span>
               </div>
               <h3 className="text-sm sm:text-base font-black text-neutral-900 dark:text-white leading-snug">
                 {isEn
-                  ? "Corporate AI Prompts Bank + Freelance Legal Contracts"
-                  : "بنك أوامر الذكاء الاصطناعي للشركات + حزمة عقود الفريلانس القانونية"}
+                  ? "Corporate 10,000 AI Prompts Vault + Freelance Legal Contracts"
+                  : "بنك الـ 10,000 برومبت السري للشركات + حزمة عقود الفريلانس القانونية"}
               </h3>
               <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
                 {isEn
-                  ? "Tested enterprise prompts & battle-tested contracts protecting your freelance fees."
-                  : "أوامر ذكية جاهزة للنسخ تحمي أتعابك وتضاعف سرعة إنجاز مشاريعك وأرباحك."}
+                  ? "100 corporate domains × 100 executive copy-pasteable prompts + 5 ironclad legal contracts."
+                  : "١٠٠ مجال شركات × ١٠٠ برومبت تنفيذي جاهز للنسخ + ٥ عقود عمل حر تحمي أتعابك قانونياً."}
               </p>
             </div>
           </div>
 
           <Link
             href="/app/vip-vault"
-            className="shrink-0 rounded-2xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-black text-xs px-5 py-3 text-center shadow-md shadow-amber-500/20 active:scale-95 transition-all flex items-center justify-center gap-1.5"
+            className="shrink-0 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 hover:brightness-105 text-neutral-950 font-black text-xs px-5 py-3 text-center shadow-lg shadow-amber-500/25 active:scale-95 transition-all flex items-center justify-center gap-1.5"
           >
-            <span>⚡</span>
-            <span>{isEn ? "Open VIP Vault →" : "افتح خزنة VIP ←"}</span>
+            <span>📥</span>
+            <span>{isEn ? "Download 10,000 Prompts & Contracts →" : "تحميل الـ 10,000 برومبت والعقود ←"}</span>
           </Link>
         </div>
       </div>
@@ -483,11 +483,11 @@ export default function StudentDashboardView({
       {/* Viral Referral & Share Row */}
       <ShareRow className="mt-10" />
 
-      {/* 48-Hour Guarantee Peace-of-Mind Bar */}
+      {/* 7-Day Guarantee Peace-of-Mind Bar */}
       <div className="mt-8 rounded-2xl bg-neutral-100 dark:bg-neutral-900/60 border border-black/5 dark:border-white/10 p-4 text-center text-xs text-neutral-600 dark:text-neutral-400 flex flex-wrap items-center justify-center gap-2 sm:gap-4">
         <span className="font-bold text-teal-700 dark:text-teal-300 flex items-center gap-1.5">
           <span>🛡️</span>
-          <span>{isEn ? "48-Hour 100% Money-Back Guarantee" : "ضمان استرداد كامل بنسبة 100% خلال 48 ساعة"}</span>
+          <span>{isEn ? "7-Day 100% Money-Back Guarantee" : "ضمان استرداد كامل بنسبة 100% خلال 7 أيام"}</span>
         </span>
         <span className="hidden sm:inline text-neutral-300 dark:text-neutral-700">•</span>
         <span>{isEn ? "VIP WhatsApp Support Active 24/7" : "دعم فني مباشر على الواتساب على مدار الساعة"}</span>

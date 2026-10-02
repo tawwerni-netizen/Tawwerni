@@ -114,9 +114,9 @@ export default function TracksPage() {
             </div>
           </div>
 
-          {/* Reassurance 48-Hour Guarantee & Accredited Certificate Pill */}
+          {/* Reassurance 7-Day Guarantee & Accredited Certificate Pill */}
           <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-2 text-xs text-neutral-600 dark:text-neutral-400 bg-teal-50/80 dark:bg-teal-950/40 border border-teal-500/20 px-4 py-2 rounded-full">
-            <span className="font-bold text-teal-800 dark:text-teal-300">🛡️ {isEn ? "48-Hour Money-Back Guarantee" : "ضمان استرداد كامل خلال 48 ساعة"}</span>
+            <span className="font-bold text-teal-800 dark:text-teal-300">🛡️ {isEn ? "7-Day Money-Back Guarantee" : "ضمان استرداد كامل خلال 7 أيام"}</span>
             <span className="text-neutral-400">•</span>
             <span className="font-bold text-amber-700 dark:text-amber-300">🎓 {isEn ? "Verified QR Certificate For Every Track" : "شهادة معتمدة بكود QR لكل مسار تنجزه"}</span>
             <span className="text-neutral-400">•</span>
@@ -141,7 +141,7 @@ export default function TracksPage() {
             <span>•</span>
             <Link href="/privacy" className="hover:text-teal-600 transition-colors">{isEn ? "Privacy" : "سياسة الخصوصية"}</Link>
             <span>•</span>
-            <Link href="/refund" className="hover:text-teal-600 transition-colors font-semibold text-teal-700 dark:text-teal-400">{isEn ? "48-Hour Refund Guarantee" : "ضمان الـ 48 ساعة"}</Link>
+            <Link href="/refund" className="hover:text-teal-600 transition-colors font-semibold text-teal-700 dark:text-teal-400">{isEn ? "7-Day Refund Guarantee" : "ضمان الـ 7 أيام"}</Link>
           </div>
         </div>
       </footer>

@@ -1158,7 +1158,7 @@ export default function QuizPage() {
           </div>
         )}
 
-        {/* ================= STEP: OFFER & 48-HOUR GUARANTEE ================= */}
+        {/* ================= STEP: OFFER & 7-DAY GUARANTEE ================= */}
         {step.kind === "wheel" && (
           <div className="text-center animate-fade-in">
             <div className="text-4xl mb-2">🎁</div>
@@ -1230,20 +1230,61 @@ export default function QuizPage() {
               </div>
             </div>
 
-            {/* ⭐ THE 48-HOUR 100% MONEY-BACK GUARANTEE BADGE ⭐ */}
+            {/* 👑 High-Dopamine VIP 10,000 Prompts Vault Unlock Card */}
+            <div className="rounded-3xl border-2 border-amber-400/60 bg-gradient-to-br from-amber-950/70 via-[#18140b] to-neutral-900 p-5 mb-5 text-start shadow-2xl shadow-amber-500/20 relative overflow-hidden">
+              <div className="pointer-events-none absolute -top-12 -right-12 w-32 h-32 rounded-full bg-amber-400/20 blur-2xl" />
+              <div className="flex items-start gap-3.5 relative z-10">
+                <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-amber-400 to-yellow-300 text-neutral-950 flex items-center justify-center text-2xl shrink-0 shadow-lg shadow-amber-500/30 font-black">
+                  👑
+                </div>
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <span className="rounded-full bg-amber-400 text-neutral-950 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider">
+                      🔥 {isEn ? "Secret VIP Vault" : "خزنة الـ VIP السرية"}
+                    </span>
+                    <span className="text-[11px] font-mono text-amber-300 font-bold">
+                      {isEn ? "+ 5 Legal Contracts" : "+ 5 عقود فريلانس قانونية"}
+                    </span>
+                  </div>
+                  <h3 className="text-sm sm:text-base font-black text-white leading-snug">
+                    {isEn
+                      ? "Executive 10,000 Corporate Prompts Bank + Freelance Legal Contracts Pack"
+                      : "بنك الـ 10,000 برومبت السري للشركات (100 مجال × 100 برومبت) + حزمة عقود الفريلانس"}
+                  </h3>
+                  <p className="mt-1 text-xs text-neutral-300 leading-relaxed">
+                    {isEn
+                      ? "Instant download in open text format. Copy-paste executive workflows in seconds + 5 bilingual contracts that safeguard your freelance income."
+                      : "تحميل فوري بصيغة نصية مباشرة. انسخ أوامر ذكية جاهزة للشركات في ثوانٍ + ٥ عقود قانونية تحمي أتعابك وتمنع المماطلة وتضاعف دخلك."}
+                  </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-200/90 bg-amber-400/10 px-2.5 py-1 rounded-xl border border-amber-400/20">
+                      ✓ {isEn ? "10,000 Prompts (100 Domains)" : "١٠,٠٠٠ برومبت (١٠٠ مجال شركات)"}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-200/90 bg-amber-400/10 px-2.5 py-1 rounded-xl border border-amber-400/20">
+                      ✓ {isEn ? "5 Bilingual Contracts" : "٥ عقود فريلانس قانونية ملزمة"}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-300 bg-emerald-400/10 px-2.5 py-1 rounded-xl border border-emerald-400/20">
+                      ✓ {isEn ? "Instant 1-Click Download" : "تحميل فوري بضغطة واحدة"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ⭐ THE 7-DAY 100% MONEY-BACK GUARANTEE BADGE ⭐ */}
             <div className="rounded-2xl border-2 border-emerald-400/50 bg-gradient-to-r from-emerald-950/70 via-teal-950/50 to-neutral-900 p-4 mb-5 text-start shadow-xl shadow-emerald-500/15">
               <div className="flex items-start gap-3">
                 <span className="text-3xl shrink-0">🛡️</span>
                 <div>
                   <h4 className="text-xs sm:text-sm font-black text-emerald-300 mb-1">
                     {isEn
-                      ? "100% Money-Back Guarantee for 48 Hours"
-                      : "ضمان استرجاع كامل 100% خلال 48 ساعة بدون أي أسئلة"}
+                      ? "100% Money-Back Guarantee for 7 Days"
+                      : "ضمان استرجاع كامل 100% خلال 7 أيام بدون أي أسئلة"}
                   </h4>
                   <p className="text-[11px] sm:text-xs leading-relaxed text-neutral-200">
                     {isEn
-                      ? "Try the platform, explore the 100 tracks, and test the daily lessons. If you don't feel real progress within 48 hours, message us and receive an instant 100% refund — no questions asked."
-                      : "جرّب المنصة وتصفّح الـ ١٠٠ مسار واستمتع بالدروس العملية.. إن لم تجدها تصنع فارقاً حقيقياً في مهاراتك ودخلك، راسلنا واسترد كامل المبلغ فوراً وبدون أي شروط."}
+                      ? "Try the platform, explore the 100 tracks, and test the daily lessons. If you don't feel real progress within 7 days, message us and receive an instant 100% refund — no questions asked."
+                      : "جرّب المنصة وتصفّح الـ ١٠٠ مسار واستمتع بالدروس العملية.. إن لم تجدها تصنع فارقاً حقيقياً في مهاراتك ودخلك، راسلنا خلال 7 أيام واسترد كامل المبلغ فوراً وبدون أي شروط."}
                   </p>
                 </div>
               </div>
@@ -1258,9 +1299,14 @@ export default function QuizPage() {
             <button
               type="button"
               onClick={next}
-              className="w-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/30 hover:brightness-110 active:scale-98 transition-all"
+              className="w-full bg-gradient-to-r from-amber-400 via-emerald-400 to-teal-400 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-teal-500/30 hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              {isEn ? "Claim Offer & Join Cohort Now →" : "احصل على العرض والتحق بالفوج الآن ←"}
+              <span className="text-xl">🚀</span>
+              <span>
+                {isEn
+                  ? "Claim Offer & Unlock 10,000 Prompts Vault →"
+                  : "احصل على العرض وافتح خزنة الـ 10,000 برومبت ←"}
+              </span>
             </button>
           </div>
         )}
@@ -1343,11 +1389,29 @@ export default function QuizPage() {
               </div>
             </div>
 
-            {/* ⭐ 48-Hour Guarantee Highlight ⭐ */}
+            {/* 👑 VIP Bonus Vault Teaser */}
+            <div className="rounded-2xl border border-amber-400/50 bg-gradient-to-r from-amber-500/15 via-yellow-500/10 to-amber-500/15 p-3.5 mb-5 flex items-center justify-between gap-3 text-start">
+              <div className="flex items-center gap-2.5">
+                <span className="text-2xl shrink-0">👑</span>
+                <div>
+                  <p className="text-xs font-black text-amber-200">
+                    {isEn ? "Bonus VIP Vault: 10,000 Prompts + Contracts" : "بونص VIP متاح للتحميل: بنك الـ 10,000 برومبت + العقود"}
+                  </p>
+                  <p className="text-[11px] text-neutral-300">
+                    {isEn ? "100 corporate domains + 5 freelance contracts ready at checkout" : "١٠٠ مجال شركات + ٥ عقود عمل حر ملزمة متاح إضافتها فوراً"}
+                  </p>
+                </div>
+              </div>
+              <span className="shrink-0 text-[10px] font-black bg-amber-400 text-neutral-950 px-2.5 py-1 rounded-full">
+                {isEn ? "Instant Download" : "تحميل فوري"}
+              </span>
+            </div>
+
+            {/* ⭐ 7-Day Guarantee Highlight ⭐ */}
             <div className="rounded-2xl border-2 border-emerald-500/40 bg-emerald-950/30 p-3.5 mb-5 flex items-center gap-3 text-start">
               <span className="text-2xl shrink-0">🛡️</span>
               <p className="text-xs text-neutral-200">
-                <b>{isEn ? "48-Hour Money-Back Guarantee:" : "ضمان استرجاع 100% خلال 48 ساعة:"}</b>{" "}
+                <b>{isEn ? "7-Day Money-Back Guarantee:" : "ضمان استرجاع 100% خلال 7 أيام:"}</b>{" "}
                 {isEn
                   ? "Full instant refund if you aren't satisfied, no questions asked."
                   : "استرداد كامل وفوري إذا لم تكن راضياً بنسبة 100% بدون أي تعقيد."}

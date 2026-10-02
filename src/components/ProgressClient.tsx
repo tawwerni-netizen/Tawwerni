@@ -385,7 +385,7 @@ export default function ProgressClient({
       {/* Footer Assurance */}
       <div className="mt-8 text-center text-xs text-neutral-400 space-y-1">
         <p>
-          {isEn ? "Protected by 48-Hour Money-Back Guarantee · All 100 Tracks Unlocked" : "مشمول بضمان استرداد كامل خلال 48 ساعة · كافة الـ 100 مسار مفتوحة"}
+          {isEn ? "Protected by 7-Day Money-Back Guarantee · All 100 Tracks Unlocked" : "مشمول بضمان استرداد كامل خلال 7 أيام · كافة الـ 100 مسار مفتوحة"}
         </p>
         <div className="flex items-center justify-center gap-3">
           <Link href="/tracks" className="hover:text-teal-600 underline">{isEn ? "All Tracks" : "المسارات"}</Link>
