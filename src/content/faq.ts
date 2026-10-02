@@ -94,8 +94,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "المحتوى بيتحدّث؟",
         "qEn": "Is the content regularly updated?",
-        "a": "أيوة. بنضيف دروس ومحتوى جديد بشكل مستمر، والتحديثات بتوصلك مجانًا من غير أي دفع إضافي.",
-        "aEn": "Yes. We update and add new lessons constantly, and all updates are completely free for all members with zero extra charges."
+        "a": "أيوة. بنضيف دروس ومحتوى جديد بشكل مستمر، والتحديثات بتوصلك مجانًا طوال مدة اشتراكك من غير أي دفع إضافي.",
+        "aEn": "Yes. We update and add new lessons constantly, and all updates are completely free for all active members with zero extra charges."
       },
       {
         "q": "أقدر أشوف محتوى المسار قبل ما أشتري؟",
@@ -204,7 +204,7 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "هل التحديثات والمسارات الإضافية المستقبلية مجانية للمشتركين؟",
         "qEn": "Are future updates and additional courses included for free?",
-        "a": "نعم! اشتراكك هو استثمار لمدة سنة، ويشمل جميع التحديثات الدورية على المسارات الـ 100، بالإضافة إلى أي مسارات جديدة يتم إطلاقها مستقبلاً بدون أي رسوم إضافية إطلاقاً.",
+        "a": "نعم! اشتراكك هو استثمار لمدة سنة، ويشمل جميع التحديثات الدورية على المسارات الـ 100، بالإضافة إلى أي مسارات جديدة يتم إطلاقها طوال فترة اشتراكك بدون أي رسوم إضافية إطلاقاً.",
         "aEn": "Yes! 1-Year membership guarantees free access to all curriculum updates, refreshed tool guides, and brand-new tracks added to the catalog for a full year."
       },
       {
@@ -278,8 +278,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "الاشتراك ده شهري؟",
         "qEn": "Is this a monthly subscription?",
-        "a": "لأ. دفعة واحدة 349 جنيه فقط، ووصول لمدة سنة لكل الـ 100 مسار مع كل تحديثاتها وإضافاتها المستقبلية.",
-        "aEn": "No. A single one-time payment of 349 EGP unlocks 1-year access to all 100 tracks with all future updates included."
+        "a": "لأ. دفعة واحدة 349 جنيه فقط، ووصول لمدة سنة لكل الـ 100 مسار مع كل تحديثاتها وإضافاتها المستقبلية طوال مدة الاشتراك.",
+        "aEn": "No. A single one-time payment of 349 EGP unlocks 1-year access to all 100 tracks with all future updates included for the full year."
       },
       {
         "q": "أقدر أدفع بفيزا؟",
@@ -290,8 +290,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "لو اشتركت، بياخد كل المسارات ولا واحد؟",
         "qEn": "Does the payment unlock all tracks or just one?",
-        "a": "كل المسارات. دفعة واحدة 349 جنيه وكل الـ 100 مسار بتتفتح على حسابك على طول، وأي مسار جديد ننزّله بعد كده كمان مجانًا.",
-        "aEn": "All tracks! A single payment unlocks all 100 tracks immediately and permanently on your account."
+        "a": "كل المسارات. دفعة واحدة 349 جنيه وكل الـ 100 مسار بتتفتح على حسابك لمدة سنة كاملة، وأي مسار جديد ننزّله طوال مدة اشتراكك بيكون متاح مجانًا بدون أي رسوم إضافية.",
+        "aEn": "All tracks! A single payment unlocks all 100 tracks for a full year, and any new track added during your subscription is included completely free."
       },
       {
         "q": "السعر هيفضل 349 ولا هيتغيّر؟",
@@ -400,8 +400,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "أقدر أرجع لدرس قديم؟",
         "qEn": "Can I go back to review completed lessons?",
-        "a": "أيوة. كل الدروس اللي فتحتها بتفضل متاحة ليك للأبد.",
-        "aEn": "Yes! All completed lessons remain permanently available in your library for reference."
+        "a": "أيوة. كل الدروس اللي فتحتها بتفضل متاحة ليك طوال فترة اشتراكك (سنة كاملة) ترجع تراجعها في أي وقت.",
+        "aEn": "Yes! All unlocked lessons remain accessible in your account throughout your 1-year subscription for anytime review."
       },
       {
         "q": "أقدر أقفز لدرس متقدّم؟",

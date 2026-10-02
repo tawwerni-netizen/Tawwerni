@@ -77,7 +77,7 @@ export default function PaywallPrompt({
         ["📚", "١٠٠ مسار احترافي كامل"],
         ["🎯", "مهمة عملية كل يوم"],
         ["🏅", "شارات وشهادات"],
-        ["♾️", "تحديثات مجانية"],
+        ["♾️", "تحديثات مجانية لمدة سنة"],
       ];
 
   return (
@@ -99,12 +99,12 @@ export default function PaywallPrompt({
           {isEn ? (
             <>
               You have <b className="text-white">{Math.max(0, totalLessons - 1)} days</b> remaining in{" "}
-              {courseTitle} — and a single pass unlocks <b className="text-white">all 100 tracks for life</b>.
+              {courseTitle} — and a single pass unlocks <b className="text-white">all 100 tracks for a full year</b>.
             </>
           ) : (
             <>
               فاضلك <b className="text-white">{Math.max(0, totalLessons - 1)} يوم</b> في{" "}
-              {courseTitle} — واشتراك واحد بيفتحلك <b className="text-white">كل المسارات</b>.
+              {courseTitle} — واشتراك واحد بيفتحلك <b className="text-white">كل الـ ١٠٠ مسار لمدة سنة كاملة</b>.
             </>
           )}
         </p>

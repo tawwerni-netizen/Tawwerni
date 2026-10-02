@@ -148,8 +148,8 @@ export default function VerticalLandingPage({
             </div>
             <p className="mb-3 text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
               {isEn
-                ? `Unlocks all ${totalLessons} lessons in this track + all other 99 professional tracks for life.`
-                : `وبيفتحلك كل المسارات التانية كمان (${totalLessons} درس في هذا المسار لوحده)`}
+                ? `Unlocks all ${totalLessons} lessons in this track + all other 99 professional tracks for a full year.`
+                : `وبيفتحلك كل المسارات التانية كمان (${totalLessons} درس في هذا المسار لوحده) لمدة سنة كاملة`}
             </p>
             <p className="mb-4 rounded-2xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900 p-3 text-xs leading-relaxed text-teal-900 dark:text-teal-200">
               {isEn ? (

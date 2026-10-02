@@ -1315,8 +1315,8 @@ export default function QuizPage() {
 
               <p className="text-xs font-bold text-emerald-300 mt-1 mb-4">
                 {isEn
-                  ? `One-time payment · 1-Year access to all 100 tracks · ${totalLessons}+ lessons · All future updates included`
-                  : `دفعة واحدة فقط لسنة كاملة · كل الـ ١٠٠ مسار · أكثر من ${totalLessons}+ درس · التحديثات المستقبلية مجاناً`}
+                  ? `One-time payment · 1-Year access to all 100 tracks · ${totalLessons}+ lessons · All updates included free`
+                  : `دفعة واحدة فقط لسنة كاملة · كل الـ ١٠٠ مسار · أكثر من ${totalLessons}+ درس · التحديثات مشمولة مجاناً`}
               </p>
 
               {/* Scarcity Bar */}

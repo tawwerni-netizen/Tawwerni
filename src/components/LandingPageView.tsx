@@ -599,7 +599,7 @@ export default function LandingPageView() {
                 <span>{isEn ? `With ${brand.name} & The 100 Tracks:` : `مع ${brand.name} ومنظومة الـ 100 مسار:`}</span>
               </p>
               <ul className="space-y-2 text-xs leading-relaxed text-emerald-900 dark:text-emerald-200">
-                <li>• {isEn ? "5 to 15 minutes daily — guaranteed frictionless habit loop" : "٥ إلى ١٥ دقيقة يوميًا — جرعة خفيفة تضمن استمرارك للأبد"}</li>
+                <li>• {isEn ? "5 to 15 minutes daily — guaranteed frictionless habit loop" : "٥ إلى ١٥ دقيقة يوميًا — جرعة خفيفة تضمن استمرارك دون انقطاع"}</li>
                 <li>• {isEn ? "Actionable micro-task in every lesson with zero fluff" : "مهمة عملية وتطبيق مباشر بكل درس بدون حشو نظري"}</li>
                 <li>• {isEn ? "Integrated psychological support (Pomodoro, Alpha waves, Streak Freeze)" : "دعم نفسي متواصل (بومودورو، نغمات ألفا، وتجميد السلسلة)"}</li>
                 <li>• {isEn ? "100 tracks opening doors to freelance income, promotion, and startups" : "١٠٠ مسار تفتح لك أبواب الدخل الحر والترقي ومشاريعك الخاصة"}</li>
@@ -739,7 +739,7 @@ export default function LandingPageView() {
           <p className="mx-auto mb-7 max-w-md text-xs sm:text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
             {isEn
               ? "Not a recurring monthly subscription. Pay once and unlock all 100 tracks plus future updates for a full year."
-              : "مش اشتراك شهري ولا تجديد دوري. تدفع مرة واحدة وتفتح لك كل الـ ١٠٠ مسار وكل التحديثات القادمة مجانًا للأبد."}
+              : "مش اشتراك شهري ولا تجديد دوري. تدفع مرة واحدة وتفتح لك كل الـ ١٠٠ مسار وكل التحديثات والإضافات مشمولة مجانًا طوال فترة اشتراكك (سنة كاملة)."}
           </p>
 
           <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -782,7 +782,7 @@ export default function LandingPageView() {
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-6">
               {isEn
                 ? "One-time investment · Zero recurring subscriptions · Future tracks included for a full year"
-                : "دفعة واحدة فقط · بدون أي اشتراكات دورية أو تجديد شهري · كل التحديثات القادمة مجانًا للأبد"}
+                : "دفعة واحدة فقط · بدون أي اشتراكات دورية أو تجديد شهري · كل التحديثات والإضافات مشمولة مجانًا طوال مدة الاشتراك"}
             </p>
 
             {/* Clear Separated Price Typography */}
@@ -802,7 +802,7 @@ export default function LandingPageView() {
                 </span>
               </div>
               <div className="mt-2 text-xs font-bold text-emerald-700 dark:text-emerald-300">
-                {isEn ? "⚡ Pay Once, Learn Forever" : "⚡ استثمار لمرة واحدة يدوم معك للأبد"}
+                {isEn ? "⚡ Pay Once, Access for a Full Year" : "⚡ استثمار لمرة واحدة لسنة كاملة بدون تجديد تلقائي"}
               </div>
             </div>
 
