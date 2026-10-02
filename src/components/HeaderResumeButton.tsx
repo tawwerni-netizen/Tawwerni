@@ -60,22 +60,26 @@ export default function HeaderResumeButton({ initialResume }: Props) {
       href={`/app/learn/${targetSlug}/${targetDay}`}
       aria-label={isEn ? `Resume Learning: ${courseTitle}` : `استئناف التعلم: ${courseTitle}`}
       title={isEn ? `Resume: ${courseTitle} (Day ${targetDay})` : `استئناف: ${courseTitle} (يوم ${targetDay})`}
-      className="group relative flex items-center gap-1.5 rounded-full px-2.5 sm:px-3 py-1 text-xs font-bold bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white shadow-sm hover:shadow-md active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-teal-400"
+      className="group relative inline-flex items-center gap-1.5 sm:gap-2 rounded-full ps-2 pe-2.5 sm:pe-3 py-1 text-xs font-bold bg-gradient-to-r from-teal-600 via-emerald-600 to-teal-600 hover:brightness-110 text-white shadow-xs hover:shadow-md hover:shadow-teal-500/20 active:scale-95 transition-all outline-hidden border border-white/15 whitespace-nowrap shrink-0"
     >
-      <span className="flex h-2 w-2 relative">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-        <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+      {/* Clean SVG Play Glyph in Translucent Disc */}
+      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 group-hover:bg-white/30 text-white transition-colors shrink-0">
+        <svg
+          className="h-2.5 w-2.5 fill-current ms-0.5"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M8 5v14l11-7z" />
+        </svg>
       </span>
 
-      <span className="text-[11px] leading-none" aria-hidden>
-        ▶️
-      </span>
-
-      <span className="hidden sm:inline font-extrabold tracking-tight">
+      {/* Label */}
+      <span className="font-extrabold tracking-tight whitespace-nowrap">
         {isEn ? "Resume" : "استئناف"}
       </span>
 
-      <span className="font-mono text-[10px] sm:text-[11px] bg-black/25 px-1.5 py-0.5 rounded-full text-white/95">
+      {/* Day Chip - Protected with whitespace-nowrap */}
+      <span className="whitespace-nowrap shrink-0 text-[10px] sm:text-[11px] font-bold rounded-full bg-black/25 dark:bg-black/35 px-2 py-0.5 text-white/95 border border-white/10 font-sans">
         {isEn ? `Day ${targetDay}` : `يوم ${targetDay}`}
       </span>
     </Link>
