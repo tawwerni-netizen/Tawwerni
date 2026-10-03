@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { adminUser } from "@/lib/admin";
 import { prisma } from "@/lib/prisma";
 import AdminLogin from "@/components/AdminLogin";
@@ -8,6 +9,7 @@ import AdminPayments from "@/components/AdminPayments";
 import AdminEmailTest from "@/components/AdminEmailTest";
 import ChangePassword from "@/components/ChangePassword";
 import { emailStatus } from "@/lib/email";
+import { getPaymentConfig, getDefaultPaymentConfig } from "@/lib/payment-config";
 
 export const dynamic = "force-dynamic";
 
@@ -18,16 +20,22 @@ export default async function AdminPage() {
   let orders: Awaited<ReturnType<typeof loadOrders>> = [];
   let unmatched: Awaited<ReturnType<typeof loadUnmatched>> = [];
   let payoutCount = 0;
-
   let pendingTestimonials = 0;
+  let paymentConfig = getDefaultPaymentConfig();
 
   try {
-    [orders, unmatched, payoutCount, pendingTestimonials] = await Promise.all([
+    const [loadedOrders, loadedUnmatched, loadedPayouts, loadedTestimonials, loadedConfig] = await Promise.all([
       loadOrders(),
       loadUnmatched(),
       prisma.payout.count({ where: { status: "requested" } }),
       prisma.testimonial.count({ where: { status: "pending" } }),
+      getPaymentConfig(),
     ]);
+    orders = loadedOrders;
+    unmatched = loadedUnmatched;
+    payoutCount = loadedPayouts;
+    pendingTestimonials = loadedTestimonials;
+    paymentConfig = loadedConfig;
   } catch (err) {
     // Almost always a schema that hasn't caught up with the code. Say so
     // instead of throwing a blank 500 at whoever is trying to run the business.
@@ -157,6 +165,46 @@ export default async function AdminPage() {
         </div>
 
         <aside className="space-y-4">
+          {/* Payment Gateways & Receiving Accounts Card */}
+          <div className="rounded-2xl border border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 p-4 shadow-xs">
+            <div className="flex items-center justify-between mb-2.5">
+              <p className="text-xs font-black text-neutral-900 dark:text-white flex items-center gap-1.5">
+                <span>💳</span>
+                <span>حسابات استقبال الدفع</span>
+              </p>
+              <Link
+                href="/admin/payment-settings"
+                className="text-[11px] font-bold text-teal-600 dark:text-teal-400 hover:underline"
+              >
+                تعديل الأرقام ←
+              </Link>
+            </div>
+            <div className="space-y-2 text-xs">
+              <div className="rounded-xl bg-neutral-50 dark:bg-neutral-950 p-2.5 border border-black/5 dark:border-white/5">
+                <div className="flex items-center justify-between text-[11px] text-neutral-500 dark:text-neutral-400 mb-1">
+                  <span>📱 فودافون كاش ({paymentConfig.vodafoneCash.length})</span>
+                </div>
+                <div className="font-mono font-bold text-neutral-900 dark:text-white text-xs truncate" dir="ltr">
+                  {paymentConfig.vodafoneCash.join(" · ")}
+                </div>
+              </div>
+              <div className="rounded-xl bg-neutral-50 dark:bg-neutral-950 p-2.5 border border-black/5 dark:border-white/5">
+                <div className="flex items-center justify-between text-[11px] text-neutral-500 dark:text-neutral-400 mb-1">
+                  <span>⚡ إنستاباي ({paymentConfig.instapay.length})</span>
+                </div>
+                <div className="font-mono font-bold text-neutral-900 dark:text-white text-xs truncate" dir="ltr">
+                  {paymentConfig.instapay.join(" · ")}
+                </div>
+              </div>
+            </div>
+            <Link
+              href="/admin/payment-settings"
+              className="mt-3 block text-center rounded-xl bg-teal-500/10 hover:bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/20 py-2 text-xs font-bold transition-colors"
+            >
+              ⚙️ إدارة وإضافة وحذف الأرقام
+            </Link>
+          </div>
+
           <AdminEmailTest
             configured={mail.configured}
             via={mail.via}

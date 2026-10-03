@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { brand, pricing, payment } from "@/content/brand";
+import type { PaymentConfig } from "@/lib/payment-config";
 import { trackInitiateCheckout } from "@/lib/analytics";
 import LanguageToggle from "@/components/LanguageToggle";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -116,10 +117,26 @@ function CopyField({
   );
 }
 
-export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
+export default function CheckoutForm({
+  courses,
+  initialPaymentConfig,
+}: {
+  courses: CourseOption[];
+  initialPaymentConfig?: PaymentConfig;
+}) {
   const router = useRouter();
   const { lang } = useI18n();
   const isEn = lang === "en";
+
+  const [paymentConfig, setPaymentConfig] = useState<PaymentConfig>(
+    initialPaymentConfig ?? {
+      vodafoneCash: [...payment.vodafoneCash],
+      instapay: [...payment.instapay],
+      supportWhatsapp: payment.supportWhatsapp,
+      supportEmail: payment.supportEmail,
+      activationHours: payment.activationHours,
+    }
+  );
 
   const [ready, setReady] = useState(false);
   const [email, setEmail] = useState("");
@@ -137,6 +154,16 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
   const totalPrice = pricing.priceEgp + (withOrderBump ? pricing.orderBumpPriceEgp : 0);
 
   useEffect(() => {
+    // Dynamically retrieve active payment receiving accounts
+    fetch("/api/payment-config")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.ok && data.config) {
+          setPaymentConfig(data.config);
+        }
+      })
+      .catch(() => {});
+
     const raw = sessionStorage.getItem("tawwerni_checkout");
     if (raw) {
       try {
@@ -189,8 +216,8 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
         setError(
           data.error ??
             (isEn
-              ? `Server error (${res.status}). Please try again, or WhatsApp us at +${payment.supportWhatsapp}.`
-              : `حصل خطأ في السيرفر (${res.status}). جرّب تاني، ولو فضلت المشكلة كلمنا على واتساب ${payment.supportWhatsapp}.`)
+              ? `Server error (${res.status}). Please try again, or WhatsApp us at +${paymentConfig.supportWhatsapp}.`
+              : `حصل خطأ في السيرفر (${res.status}). جرّب تاني، ولو فضلت المشكلة كلمنا على واتساب ${paymentConfig.supportWhatsapp}.`)
         );
         return;
       }
@@ -228,11 +255,11 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
             <p className="mb-5 text-xs sm:text-sm leading-relaxed text-neutral-300">
               {isEn ? (
                 <>
-                  One final quick step: transfer <b className="text-emerald-400 font-mono">{totalPrice} EGP</b> and send us the payment screenshot. We will activate your account within {payment.activationHours} hours.
+                  One final quick step: transfer <b className="text-emerald-400 font-mono">{totalPrice} EGP</b> and send us the payment screenshot. We will activate your account within {paymentConfig.activationHours} hours.
                 </>
               ) : (
                 <>
-                  خطوة واحدة فقط باقية: حوّل <b className="text-emerald-400 font-mono">{totalPrice} ج.م</b> وأرسل لنا صورة التحويل، وسنفعّل حسابك فورًا خلال {payment.activationHours} ساعة.
+                  خطوة واحدة فقط باقية: حوّل <b className="text-emerald-400 font-mono">{totalPrice} ج.م</b> وأرسل لنا صورة التحويل، وسنفعّل حسابك فورًا خلال {paymentConfig.activationHours} ساعة.
                 </>
               )}
             </p>
@@ -252,8 +279,8 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
             <a
               href={
                 proofChannel === "whatsapp"
-                  ? waLink(payment.supportWhatsapp)
-                  : `mailto:${payment.supportEmail}?subject=${encodeURIComponent("Payment Proof - " + (selectedTitle ?? ""))}&body=${encodeURIComponent(`Email: ${email}\nTrack: ${selectedTitle ?? ""}\nAmount: ${totalPrice} EGP\nSender Phone: `)}`
+                  ? waLink(paymentConfig.supportWhatsapp)
+                  : `mailto:${paymentConfig.supportEmail}?subject=${encodeURIComponent("Payment Proof - " + (selectedTitle ?? ""))}&body=${encodeURIComponent(`Email: ${email}\nTrack: ${selectedTitle ?? ""}\nAmount: ${totalPrice} EGP\nSender Phone: `)}`
               }
               target="_blank"
               rel="noopener noreferrer"
@@ -660,7 +687,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
             </p>
 
             <div className="space-y-2">
-              {(method === "vodafone_cash" ? payment.vodafoneCash : payment.instapay).map((v) => (
+              {(method === "vodafone_cash" ? paymentConfig.vodafoneCash : paymentConfig.instapay).map((v) => (
                 <CopyField
                   key={v}
                   value={v}
@@ -715,7 +742,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
                   {isEn ? "WhatsApp" : "واتساب"}
                 </div>
                 <div className="text-[10px] text-neutral-400 font-mono mt-0.5" dir="ltr">
-                  +{payment.supportWhatsapp}
+                  +{paymentConfig.supportWhatsapp}
                 </div>
               </button>
               <button
@@ -732,7 +759,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
                   {isEn ? "Email" : "إيميل"}
                 </div>
                 <div className="truncate text-[10px] text-neutral-400 font-mono mt-0.5" dir="ltr">
-                  {payment.supportEmail}
+                  {paymentConfig.supportEmail}
                 </div>
               </button>
             </div>
@@ -786,8 +813,8 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
 
           <p className="pb-4 text-center text-xs leading-relaxed text-neutral-400">
             {isEn
-              ? `After sending proof, your account is activated within ${payment.activationHours} hours on your registered email.`
-              : `بعد إرسال الإثبات، سنفعّل حسابك خلال ${payment.activationHours} ساعة على بريدك الإلكتروني.`}
+              ? `After sending proof, your account is activated within ${paymentConfig.activationHours} hours on your registered email.`
+              : `بعد إرسال الإثبات، سنفعّل حسابك خلال ${paymentConfig.activationHours} ساعة على بريدك الإلكتروني.`}
           </p>
         </form>
       </div>
