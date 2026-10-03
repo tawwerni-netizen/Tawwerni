@@ -221,17 +221,15 @@ export default function CareerPathsCatalogView({
                     {/* Dark gradient fade for readability */}
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-black/30" />
 
-                    {/* Top Badges */}
+                    {/* Top Badges - Spacious, Never Overflowing */}
                     <div className="absolute inset-x-3.5 top-3.5 flex items-center justify-between gap-2 z-10">
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-black/75 backdrop-blur-md border border-white/20 px-2.5 py-1 text-2xs font-extrabold text-white shadow-sm shrink-0 whitespace-nowrap">
                         <span className="text-xs">{cp.icon}</span>
-                        <span>{isEn ? cp.levelEn : "كافة المستويات"}</span>
+                        <span>{isEn ? cp.levelEn : cp.levelAr}</span>
                       </span>
 
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-950/85 backdrop-blur-md border border-teal-500/40 px-2.5 py-1 text-2xs font-bold text-teal-300 shadow-sm whitespace-nowrap shrink-0">
                         <span>⏱️ {isEn ? `${cp.estimatedHours}h` : `${cp.estimatedHours} ساعة`}</span>
-                        <span className="text-white/30">•</span>
-                        <span className="text-white">📚 {totalTracks} {isEn ? "Tracks" : "مسارات"}</span>
                       </span>
                     </div>
 
@@ -259,12 +257,20 @@ export default function CareerPathsCatalogView({
                         </p>
                       </div>
 
-                      {/* Target Role Badge */}
-                      <div className="inline-flex items-center gap-1.5 rounded-lg bg-teal-500/10 border border-teal-500/20 px-2.5 py-1 text-2xs font-extrabold text-teal-800 dark:text-teal-300">
-                        <span>💼</span>
-                        <span>
-                          {isEn ? `Role: ${cp.targetRoleEn}` : `الوظيفة: ${cp.targetRoleAr}`}
-                        </span>
+                      {/* Metadata Badges: Target Role + Track Count */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <div className="inline-flex items-center gap-1.5 rounded-lg bg-teal-500/10 border border-teal-500/20 px-2.5 py-1 text-2xs font-extrabold text-teal-800 dark:text-teal-300">
+                          <span>💼</span>
+                          <span>
+                            {isEn ? `Role: ${cp.targetRoleEn}` : `الوظيفة: ${cp.targetRoleAr}`}
+                          </span>
+                        </div>
+                        <div className="inline-flex items-center gap-1.5 rounded-lg bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 px-2.5 py-1 text-2xs font-bold text-neutral-700 dark:text-neutral-200">
+                          <span>📚</span>
+                          <span>
+                            {isEn ? `${totalTracks} Certified Tracks` : `${totalTracks} مسارات تخصصية`}
+                          </span>
+                        </div>
                       </div>
 
                       {/* Tagline */}
@@ -292,32 +298,54 @@ export default function CareerPathsCatalogView({
                         </div>
                       )}
 
-                      {/* Roadmap Stages Preview - High-Contrast & Crystal Clear */}
-                      <div className="roadmap-stages-box rounded-2xl p-3.5 border shadow-inner space-y-2.5">
-                        <div className="flex items-center justify-between text-2xs font-black uppercase tracking-wider">
-                          <span className="roadmap-stage-header flex items-center gap-1.5 font-black">
-                            <span>🧭</span>
-                            <span>{isEn ? "Sequential Roadmap Stages" : "مراحل خريطة الطريق بالترتيب"}</span>
+                      {/* Roadmap Stages Preview - Attractive Connected Stepper */}
+                      <div className="roadmap-stages-box rounded-2xl p-4 border shadow-sm space-y-3">
+                        <div className="flex items-center justify-between gap-2 border-b border-black/10 dark:border-white/10 pb-2.5">
+                          <span className="roadmap-stage-header flex items-center gap-1.5 font-black text-xs">
+                            <span className="text-sm">🧭</span>
+                            <span>{isEn ? "Curriculum Milestones" : "خارطة المراحل التدريبية"}</span>
                           </span>
-                          <span className="rounded-full bg-teal-500/15 border border-teal-500/30 px-2 py-0.5 text-2xs font-bold text-teal-700 dark:text-teal-300 font-mono">
-                            {cp.stages.length} {isEn ? "Stages" : "مراحل"}
+                          <span className="inline-flex items-center gap-1 rounded-full bg-teal-500/15 border border-teal-500/30 px-2.5 py-0.5 text-2xs font-black text-teal-800 dark:text-teal-300 whitespace-nowrap shrink-0 font-mono shadow-xs">
+                            <span>{cp.stages.length}</span>
+                            <span>{isEn ? "Stages" : "مراحل متتالية"}</span>
                           </span>
                         </div>
 
                         <div className="space-y-2 pt-0.5">
-                          {cp.stages.map((st, idx) => (
-                            <div
-                              key={st.id}
-                              className="flex items-center gap-2.5 text-xs"
-                            >
-                              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-500/20 border border-teal-400/40 text-2xs font-black text-teal-800 dark:text-teal-200 shadow-2xs">
-                                {idx + 1}
-                              </span>
-                              <span className="roadmap-stage-text font-bold text-xs leading-snug">
-                                {isEn ? st.titleEn : st.titleAr}
-                              </span>
-                            </div>
-                          ))}
+                          {cp.stages.map((st, idx) => {
+                            const rawTitle = isEn ? st.titleEn : st.titleAr;
+                            let phaseLabel = isEn ? `Stage 0${idx + 1}` : `المرحلة 0${idx + 1}`;
+                            let phaseTopic = rawTitle;
+                            if (rawTitle.includes(":")) {
+                              const parts = rawTitle.split(":");
+                              phaseLabel = parts[0].trim();
+                              phaseTopic = parts.slice(1).join(":").trim() || parts[0].trim();
+                            }
+
+                            return (
+                              <div
+                                key={st.id}
+                                className="group/stage relative flex items-start gap-3 rounded-xl p-2.5 bg-white dark:bg-neutral-900/80 hover:bg-teal-50/50 dark:hover:bg-neutral-900 border border-black/5 dark:border-white/10 hover:border-teal-500/30 transition-all duration-200 shadow-2xs"
+                              >
+                                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-teal-500/15 border border-teal-500/30 font-mono text-2xs font-black text-teal-700 dark:text-teal-300 shadow-2xs group-hover/stage:scale-105 transition-transform mt-0.5">
+                                  0{idx + 1}
+                                </span>
+                                <div className="min-w-0 flex-1">
+                                  <div className="flex items-center justify-between gap-1 mb-0.5">
+                                    <span className="text-3xs font-black uppercase tracking-wider text-teal-700 dark:text-teal-400">
+                                      {phaseLabel}
+                                    </span>
+                                    <span className="text-3xs font-bold text-neutral-500 dark:text-neutral-400 whitespace-nowrap shrink-0">
+                                      {st.tracks.length} {isEn ? "tracks" : (st.tracks.length === 1 ? "مسار" : "مسارات")}
+                                    </span>
+                                  </div>
+                                  <h4 className="roadmap-stage-text font-bold text-xs leading-snug break-words">
+                                    {phaseTopic}
+                                  </h4>
+                                </div>
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
 

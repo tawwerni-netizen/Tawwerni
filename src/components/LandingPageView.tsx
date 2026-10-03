@@ -475,17 +475,15 @@ export default function LandingPageView() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-black/30" />
 
-                    {/* Top Badges */}
-                    <div className="absolute inset-x-3 top-3 flex items-center justify-between gap-2 z-10">
+                    {/* Top Badges - Spacious, Never Overflowing */}
+                    <div className="absolute inset-x-3.5 top-3.5 flex items-center justify-between gap-2 z-10">
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-black/75 backdrop-blur-md border border-white/20 px-2.5 py-1 text-2xs font-extrabold text-white shadow-sm shrink-0 whitespace-nowrap">
                         <span className="text-xs">{cp.icon}</span>
-                        <span>{isEn ? cp.levelEn : "كافة المستويات"}</span>
+                        <span>{isEn ? cp.levelEn : (cp.levelAr || "كافة المستويات")}</span>
                       </span>
 
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-950/85 backdrop-blur-md border border-teal-500/40 px-2.5 py-1 text-2xs font-bold text-teal-300 shadow-sm whitespace-nowrap shrink-0">
                         <span>⏱️ {isEn ? `${cp.estimatedHours}h` : `${cp.estimatedHours} ساعة`}</span>
-                        <span className="text-white/30">•</span>
-                        <span className="text-white">📚 {cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} {isEn ? "Tracks" : "مسارات"}</span>
                       </span>
                     </div>
 
@@ -512,11 +510,20 @@ export default function LandingPageView() {
                         </p>
                       </div>
 
-                      <div className="inline-flex items-center gap-1.5 rounded-lg bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 text-2xs font-extrabold text-teal-800 dark:text-teal-300">
-                        <span>💼</span>
-                        <span>
-                          {isEn ? `Role: ${cp.targetRoleEn}` : `الوظيفة: ${cp.targetRoleAr}`}
-                        </span>
+                      {/* Metadata Badges: Target Role + Track Count */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <div className="inline-flex items-center gap-1.5 rounded-lg bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 text-2xs font-extrabold text-teal-800 dark:text-teal-300">
+                          <span>💼</span>
+                          <span>
+                            {isEn ? `Role: ${cp.targetRoleEn}` : `الوظيفة: ${cp.targetRoleAr}`}
+                          </span>
+                        </div>
+                        <div className="inline-flex items-center gap-1.5 rounded-lg bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 px-2 py-0.5 text-2xs font-bold text-neutral-700 dark:text-neutral-200">
+                          <span>📚</span>
+                          <span>
+                            {isEn ? `${cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} Tracks` : `${cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} مسارات معتمدة`}
+                          </span>
+                        </div>
                       </div>
 
                       <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2">
