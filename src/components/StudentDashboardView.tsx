@@ -1,22 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useI18n } from "./LanguageContext";
 import WeekDot from "@/components/WeekDot";
 import HelpCard from "@/components/HelpCard";
 import CourseTile from "@/components/CourseTile";
 import ShareRow from "@/components/ShareRow";
-import Greeting from "@/components/Greeting";
-import ReminderPrompt from "@/components/ReminderPrompt";
 import PurchasePixel from "@/components/PurchasePixel";
 import MoodCheckIn from "@/components/MoodCheckIn";
 import FocusPlayer from "@/components/FocusPlayer";
+import SkillTreeView from "@/components/SkillTreeView";
+import ProjectsShowcase, { DemonstratedProject } from "@/components/ProjectsShowcase";
+import { TrackSkillTree, SkillNode } from "@/content/skill-trees";
 
 type Props = {
   userName: string;
   totalXp: number;
   streak: number;
+  currentDayNumber: number;
   dailyPaceMinutes: number;
   weekDays: { label: string; labelAr?: string; labelEn?: string; done: boolean; isToday: boolean }[];
   activeTrack: {
@@ -33,6 +35,10 @@ type Props = {
     nextDayDuration?: number;
     nextDayXp?: number;
   } | null;
+  targetSkill: SkillNode;
+  skillTree: TrackSkillTree;
+  weakSkill: SkillNode | null;
+  demonstratedProjects: DemonstratedProject[];
   inProgressTracks?: {
     slug: string;
     title: string;
@@ -71,9 +77,14 @@ export default function StudentDashboardView({
   userName,
   totalXp,
   streak,
+  currentDayNumber,
   dailyPaceMinutes,
   weekDays,
   activeTrack,
+  targetSkill,
+  skillTree,
+  weakSkill,
+  demonstratedProjects,
   inProgressTracks = [],
   tiles,
   paidOrder,
@@ -81,16 +92,38 @@ export default function StudentDashboardView({
 }: Props) {
   const { lang } = useI18n();
   const isEn = lang === "en";
+
+  const [greetingTime, setGreetingTime] = useState<"morning" | "evening">("evening");
+  const [showCatalog, setShowCatalog] = useState(false);
   const [tileSearch, setTileSearch] = useState("");
 
+  useEffect(() => {
+    const hour = new Date().getHours();
+    setGreetingTime(hour >= 4 && hour < 14 ? "morning" : "evening");
+  }, []);
+
+  const dayFormatted = String(currentDayNumber).padStart(2, "0");
   const activeTitle = isEn
     ? activeTrack?.titleEn || activeTrack?.title
     : activeTrack?.titleAr || activeTrack?.title;
-  const nextLessonTitle = isEn
-    ? activeTrack?.nextDayTitleEn || activeTrack?.nextDayTitle
-    : activeTrack?.nextDayTitle;
 
-  // Filtered tiles if search is used
+  const nextMissionTitle = isEn
+    ? activeTrack?.nextDayTitleEn || activeTrack?.nextDayTitle || "Practical Milestone Mission"
+    : activeTrack?.nextDayTitle || "مهمة اليوم التطبيقية";
+
+  const nextMissionDuration = activeTrack?.nextDayDuration || 12;
+
+  // Student level tier for status
+  const studentLevel =
+    totalXp >= 2000
+      ? isEn ? "Elite Practitioner 👑" : "ممارس النخبة 👑"
+      : totalXp >= 1000
+      ? isEn ? "Advanced Pro ⚡" : "محترف متقدم ⚡"
+      : totalXp >= 400
+      ? isEn ? "Active Explorer 🚀" : "مستكشف نشط 🚀"
+      : isEn ? "Rising Pioneer 🌱" : "رائد واعد 🌱";
+
+  // Filtered tiles if catalog search is used
   const filteredTiles = tileSearch.trim()
     ? tiles.filter((t) => {
         const q = tileSearch.toLowerCase();
@@ -103,25 +136,26 @@ export default function StudentDashboardView({
       })
     : tiles;
 
-  // Calculate student level tier for dopamine
-  const studentLevel = totalXp >= 2000 ? (isEn ? "Elite Master 👑" : "خبير النخبة 👑")
-    : totalXp >= 1000 ? (isEn ? "Advanced Pro ⚡" : "محترف متقدم ⚡")
-    : totalXp >= 400 ? (isEn ? "Active Explorer 🚀" : "مستكشف نشط 🚀")
-    : (isEn ? "Rising Pioneer 🌱" : "رائد واعد 🌱");
-
   return (
-    <div className="relative mx-auto max-w-6xl px-4 pt-6 sm:pt-8 pb-16 min-h-screen text-neutral-900 dark:text-white" dir={isEn ? "ltr" : "rtl"}>
+    <div
+      className="relative mx-auto max-w-5xl px-4 pt-6 sm:pt-8 pb-20 min-h-screen text-neutral-900 dark:text-white font-sans"
+      dir={isEn ? "ltr" : "rtl"}
+    >
       {paidOrder && <PurchasePixel orderId={paidOrder.id} amountEgp={paidOrder.amountEgp} />}
 
       {/* Ambient background glows */}
       <div className="pointer-events-none fixed top-0 left-1/4 h-96 w-96 rounded-full bg-teal-500/10 dark:bg-teal-500/15 blur-3xl -z-10" />
       <div className="pointer-events-none fixed bottom-1/3 right-10 h-80 w-80 rounded-full bg-emerald-500/10 dark:bg-emerald-500/10 blur-3xl -z-10" />
 
-      {/* Header Greeting & Dopamine Banner */}
-      <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xl border border-black/5 dark:border-white/10 rounded-3xl p-5 sm:p-6 shadow-sm">
+      {/* ================= 1. GREETING & STATUS HEADER ================= */}
+      <header className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xl border border-black/5 dark:border-white/10 rounded-3xl p-5 sm:p-6 shadow-xs">
         <div>
-          <div className="flex items-center gap-2 mb-1.5">
-            <Greeting className="text-xs font-black tracking-wider uppercase text-teal-600 dark:text-teal-400" />
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-black tracking-wider uppercase text-teal-600 dark:text-teal-400">
+              {greetingTime === "morning"
+                ? isEn ? "Good morning" : "صباح الخير"
+                : isEn ? "Good evening" : "مساء الخير"}
+            </span>
             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/30">
               {studentLevel}
             </span>
@@ -130,371 +164,349 @@ export default function StudentDashboardView({
           <h1 className="text-2xl sm:text-3xl font-black text-neutral-900 dark:text-white leading-tight">
             {isEn ? (
               <>
-                Welcome back, <span className="text-teal-600 dark:text-teal-400 font-extrabold">{userName || "Champion"}</span> 👋
+                {greetingTime === "morning" ? "Good morning" : "Good evening"},{" "}
+                <span className="text-teal-600 dark:text-teal-400 font-extrabold">{userName || "Champion"}</span> 👋
               </>
             ) : (
               <>
-                أهلًا بك، <span className="text-teal-600 dark:text-teal-400 font-extrabold">{userName || "يا بطل"}</span> 👋
+                {greetingTime === "morning" ? "صباح الخير" : "مساء الخير"}،{" "}
+                <span className="text-teal-600 dark:text-teal-400 font-extrabold">{userName || "يا بطل"}</span> 👋
               </>
             )}
           </h1>
           <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1">
             {isEn
-              ? "15 focused minutes today builds an unstoppable career tomorrow."
-              : "١٥ دقيقة تركيز اليوم تصنع مستقبلك المهني وتضاعف مهاراتك خطوة بخطوة."}
+              ? "The system has calibrated your next milestone. One mission at a time."
+              : "النظام قام بمعايرة مهمتك التالية بدقة. مهمة واحدة تلو الأخرى حتى الإتقان الكامل."}
           </p>
         </div>
 
-        {/* Quick Streak Dopamine Badge */}
-        <div className="flex items-center gap-3 bg-gradient-to-r from-teal-500/10 via-emerald-500/10 to-teal-500/10 border border-teal-500/30 dark:border-teal-400/20 rounded-2xl p-3 px-4 shrink-0">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-400 text-white flex items-center justify-center text-xl shadow-md shadow-amber-500/30 animate-pulse">
+        {/* Live Streak & Day Tracker */}
+        <div className="flex items-center gap-3 bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-amber-500/10 border border-amber-500/30 rounded-2xl p-3 px-4 shrink-0">
+          <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-400 text-white flex items-center justify-center text-xl shadow-md shadow-amber-500/20">
             🔥
           </div>
           <div>
-            <div className="text-base font-black text-neutral-900 dark:text-white leading-none">
-              {streak} {isEn ? "Days" : "أيام"}
+            <div className="text-base font-black text-neutral-900 dark:text-white leading-none font-mono">
+              {isEn ? `Day ${dayFormatted}` : `اليوم ${dayFormatted}`}
             </div>
             <div className="text-[11px] font-bold text-amber-600 dark:text-amber-400 mt-0.5">
               {streak > 0
-                ? (isEn ? "Streak Burning! Keep going" : "سلسلتك مشتعلة! استمر")
-                : (isEn ? "Start your streak today!" : "ابدأ سلسلة نجاحك اليوم!")}
+                ? isEn ? `${streak}-Day Streak Active` : `${streak} أيام التزام مستمر`
+                : isEn ? "Start today's streak" : "ابدأ سلسلة التزامك اليوم"}
             </div>
           </div>
         </div>
+      </header>
+
+      {/* ================= 2. YOUR NEXT MISSION (THE HERO FOCUS) ================= */}
+      {activeTrack && (
+        <section className="mb-8">
+          <div className="rounded-3xl bg-gradient-to-br from-teal-900 via-[#0a1e19] to-[#071310] text-white p-6 sm:p-8 shadow-2xl border-2 border-teal-400/40 relative overflow-hidden">
+            {/* Ambient inner glows */}
+            <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-emerald-400/20 blur-3xl" />
+            <div className="pointer-events-none absolute -left-16 -bottom-16 h-56 w-56 rounded-full bg-cyan-400/15 blur-3xl" />
+
+            {/* Header Badge */}
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+              <span className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 px-3.5 py-1 rounded-full text-xs font-black">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                </span>
+                <span>{isEn ? "YOUR NEXT MISSION" : "مهمتك التالية الآن"}</span>
+              </span>
+
+              <span className="text-xs font-bold text-teal-200/90 bg-white/10 px-3 py-1 rounded-full border border-white/10">
+                {activeTrack.icon || "⚡"} {activeTitle}
+              </span>
+            </div>
+
+            {/* Mission Title */}
+            <h2 className="text-2xl sm:text-3xl font-black text-white leading-tight mb-4">
+              {nextMissionTitle}
+            </h2>
+
+            {/* 3 High-Contrast Feature Pills */}
+            <div className="flex flex-wrap items-center gap-2.5 mb-6">
+              <span className="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 px-3.5 py-1.5 rounded-xl text-xs font-bold text-neutral-100 shadow-xs">
+                <span>⏱️</span>
+                <span>{nextMissionDuration} {isEn ? "min" : "دقيقة"}</span>
+              </span>
+
+              <span className="inline-flex items-center gap-1.5 bg-teal-500/20 border border-teal-400/40 px-3.5 py-1.5 rounded-xl text-xs font-black text-teal-200 shadow-xs">
+                <span>{targetSkill.icon}</span>
+                <span>{isEn ? `Skill: ${targetSkill.nameEn}` : `المهارة: ${targetSkill.nameAr}`}</span>
+              </span>
+
+              <span className="inline-flex items-center gap-1.5 bg-amber-500/20 border border-amber-400/40 px-3.5 py-1.5 rounded-xl text-xs font-mono font-black text-amber-200 shadow-xs">
+                <span>💎</span>
+                <span>Reward: +180 XP</span>
+              </span>
+            </div>
+
+            {/* Dominant CTA Button */}
+            <Link
+              href={`/app/learn/${activeTrack.slug}/${currentDayNumber}`}
+              style={{ backgroundColor: "#ffffff", color: "#042f2e" }}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-black text-sm sm:text-base hover:brightness-105 active:scale-98 transition-all shadow-xl shadow-emerald-500/20 cursor-pointer"
+            >
+              <span className="text-xl">🚀</span>
+              <span style={{ color: "#042f2e", fontWeight: 900 }}>
+                {isEn ? "START MISSION →" : "ابدأ المهمة الآن ←"}
+              </span>
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {/* Focus & Well-being Tools Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <FocusPlayer />
+        <MoodCheckIn />
       </div>
 
-      {/* Psychological Well-being & Focus Section */}
-      <div className="space-y-4 mb-6">
-        <MoodCheckIn />
-        <FocusPlayer />
+      {/* ================= 3. CURRENT SKILLS (VISUAL SKILL MAP) ================= */}
+      <section className="mb-8">
+        <SkillTreeView tree={skillTree} />
+      </section>
 
-        {/* VIP Vault Feature Banner */}
-        <div className="rounded-3xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-neutral-100/80 dark:via-neutral-900/60 to-emerald-500/10 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 backdrop-blur-md shadow-xs">
-          <div className="flex items-center gap-3.5">
-            <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-200 text-neutral-950 flex items-center justify-center text-2xl shrink-0 shadow-md shadow-amber-500/20">
-              👑
+      {/* ================= 4. RECENT PROGRESS ================= */}
+      <section className="mb-8 rounded-3xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 p-5 sm:p-7 shadow-xs">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <span className="text-xs font-black text-teal-600 dark:text-teal-400 uppercase tracking-wider">
+              {isEn ? "HABIT CONSISTENCY" : "سجل نشاطك والتزامك"}
+            </span>
+            <h3 className="text-lg sm:text-xl font-black text-neutral-900 dark:text-white mt-0.5">
+              {isEn ? "Weekly Execution Rhythm" : "وتيرة التنفيذ والتطبيق الأسبوعي"}
+            </h3>
+          </div>
+          <span className="text-xs font-bold text-neutral-500 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 px-3 py-1 rounded-full">
+            {streak} {isEn ? "Days in a row" : "أيام متتالية"}
+          </span>
+        </div>
+
+        <div className="flex justify-between bg-neutral-50 dark:bg-neutral-800/40 p-3.5 rounded-2xl border border-black/5 dark:border-white/5 mb-4">
+          {weekDays.map((d, i) => (
+            <WeekDot
+              key={isEn ? WEEK_LABELS_EN[i] ?? i : WEEK_LABELS_AR[i] ?? i}
+              label={isEn ? d.labelEn || WEEK_LABELS_EN[i] : d.labelAr || WEEK_LABELS_AR[i]}
+              letter={isEn ? WEEK_LETTERS_EN[i] : WEEK_LETTERS_AR[i]}
+              done={d.done}
+              isToday={d.isToday}
+              index={i}
+            />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-3 gap-3 text-center">
+          <div className="rounded-2xl bg-teal-50/60 dark:bg-teal-950/20 p-3 border border-teal-500/20">
+            <div className="text-lg sm:text-xl font-black text-teal-700 dark:text-teal-400 font-mono">
+              {totalXp} XP
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-black text-amber-600 dark:text-amber-400">
-                  {isEn ? "VIP Members Vault" : "خزنة VIP الحصرية"}
+            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
+              {isEn ? "Total Experience" : "إجمالي نقاط الخبرة"}
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-amber-50/60 dark:bg-amber-950/20 p-3 border border-amber-500/20">
+            <div className="text-lg sm:text-xl font-black text-amber-700 dark:text-amber-400 font-mono">
+              {activeTrack?.doneCount || 0} / {activeTrack?.totalDays || 24}
+            </div>
+            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
+              {isEn ? "Missions Completed" : "مهمة منجزة"}
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/20 p-3 border border-emerald-500/20">
+            <div className="text-lg sm:text-xl font-black text-emerald-700 dark:text-emerald-400 font-mono">
+              {dailyPaceMinutes} {isEn ? "m/d" : "د/يوم"}
+            </div>
+            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
+              {isEn ? "Daily Habit Pace" : "الوتيرة اليومية"}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= 5. PROJECTS (PROOF OF WORK) ================= */}
+      <section className="mb-8">
+        <ProjectsShowcase projects={demonstratedProjects} />
+      </section>
+
+      {/* ================= 6. WEAK SKILL (TARGETED REINFORCEMENT) ================= */}
+      <section className="mb-8">
+        {weakSkill ? (
+          <div className="rounded-3xl border border-amber-400/40 bg-gradient-to-r from-amber-500/10 via-neutral-50 dark:via-neutral-900/60 to-amber-500/10 p-5 sm:p-6 backdrop-blur-md shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-3.5">
+              <span className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-600 dark:text-amber-300 flex items-center justify-center text-2xl shrink-0">
+                🎯
+              </span>
+              <div>
+                <span className="text-[10px] font-black uppercase text-amber-700 dark:text-amber-400 tracking-wider">
+                  {isEn ? "SKILL REINFORCEMENT" : "نقطة تركيز للتطوير والتقوية"}
                 </span>
-                <span className="rounded-md bg-amber-400 text-neutral-950 px-2 py-0.5 text-[10px] font-black">
-                  +10,000 Prompts
-                </span>
+                <h3 className="text-base font-black text-neutral-900 dark:text-white mt-0.5">
+                  {isEn ? weakSkill.nameEn : weakSkill.nameAr}
+                </h3>
+                <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1 max-w-lg leading-relaxed">
+                  {isEn
+                    ? "You are progressing well! Reinforcing this skill with a quick 3-minute challenge will elevate your mastery score to 100%."
+                    : "أداؤك ممتاز! تقوية هذه المهارة بتطبيق سريع مدته ٣ دقائق سيرفع معدل إتقانك المثبت بنسبة ١٠٠٪."}
+                </p>
               </div>
-              <h3 className="text-sm sm:text-base font-black text-neutral-900 dark:text-white leading-snug">
+            </div>
+
+            <Link
+              href={`/app/learn/${activeTrack?.slug || "tahaddi-28-yawm"}/${weakSkill.unlockedAtDay}`}
+              className="shrink-0 rounded-2xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-black text-xs px-5 py-3 text-center shadow-md active:scale-95 transition"
+            >
+              {isEn ? "Reinforce Skill (3 Mins) →" : "تقوية المهارة (٣ دقائق) ←"}
+            </Link>
+          </div>
+        ) : (
+          <div className="rounded-3xl border border-emerald-500/30 bg-emerald-500/5 p-5 flex items-center gap-3.5 text-xs text-neutral-700 dark:text-neutral-300">
+            <span className="text-2xl">🌟</span>
+            <div>
+              <p className="font-black text-emerald-700 dark:text-emerald-400">
+                {isEn ? "Balanced Competency Profile" : "أداء استثنائي ومتوازن"}
+              </p>
+              <p className="text-neutral-500 dark:text-neutral-400 text-[11px] mt-0.5">
                 {isEn
-                  ? "Corporate 10,000 AI Prompts Vault + Freelance Legal Contracts"
-                  : "بنك الـ 10,000 برومبت السري للشركات + حزمة عقود الفريلانس القانونية"}
-              </h3>
+                  ? "All demonstrated skills are in solid standing. Keep your momentum going on today's mission!"
+                  : "كافة المهارات المعتمدة في سجلّك تحقق درجات إتقان مرتفعة. حافظ على وتيرتك في مهمة اليوم!"}
+              </p>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* ================= 7. NEXT UNLOCK ================= */}
+      <section className="mb-8 rounded-3xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 p-5 sm:p-6 shadow-xs flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          <span className="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/20 text-teal-600 dark:text-teal-400 flex items-center justify-center text-2xl shrink-0">
+            🔓
+          </span>
+          <div>
+            <span className="text-[10px] font-black uppercase text-teal-600 dark:text-teal-400 tracking-wider">
+              {isEn ? "UPCOMING MILESTONE" : "المحطة القادمة في مسارك"}
+            </span>
+            <h4 className="text-sm sm:text-base font-black text-neutral-900 dark:text-white mt-0.5">
+              {isEn
+                ? "Final Capstone Deliverable & Accredited Credential"
+                : "مشروع التخرج المعتمد (Capstone) واعتماد الشهادة الرسمية"}
+            </h4>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+              {isEn
+                ? "Completing your remaining daily missions unlocks your verified portfolio showcase and QR credential."
+                : "إتمام المهام القادمة يفتح بورتفوليو أعمالك العام الموثق مع كود الاعتماد الرسمي."}
+            </p>
+          </div>
+        </div>
+
+        <span className="text-xs font-mono font-bold text-neutral-400 bg-neutral-100 dark:bg-neutral-800 px-3 py-1.5 rounded-full shrink-0">
+          Day {currentDayNumber + 1}
+        </span>
+      </section>
+
+      {/* VIP 10,000 Prompts Vault Quick Access */}
+      <div className="rounded-3xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-neutral-100/80 dark:via-neutral-900/60 to-emerald-500/10 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 backdrop-blur-md shadow-xs mb-8">
+        <div className="flex items-center gap-3.5">
+          <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-200 text-neutral-950 flex items-center justify-center text-2xl shrink-0 shadow-md shadow-amber-500/20">
+            👑
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-black text-amber-600 dark:text-amber-400">
+                {isEn ? "VIP Members Vault" : "خزنة الـ VIP الحصرية"}
+              </span>
+              <span className="rounded-md bg-amber-400 text-neutral-950 px-2 py-0.5 text-[10px] font-black">
+                +10,000 Prompts
+              </span>
+            </div>
+            <h3 className="text-sm sm:text-base font-black text-neutral-900 dark:text-white leading-snug">
+              {isEn
+                ? "Executive 10,000 Corporate Prompts Vault + Legal Contracts"
+                : "بنك الـ 10,000 برومبت التنفيذي للشركات + حزمة عقود الفريلانس"}
+            </h3>
+            <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
+              {isEn
+                ? "Copy-pasteable executive prompts + 5 bilingual freelance contracts ready for instant download."
+                : "١٠٠ مجال شركات × ١٠٠ برومبت تنفيذي جاهز للنسخ + ٥ عقود عمل حر تحمي أتعابك قانونياً."}
+            </p>
+          </div>
+        </div>
+
+        <Link
+          href="/app/vip-vault"
+          className="shrink-0 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-neutral-950 font-black text-xs px-5 py-3 text-center shadow-md active:scale-95 transition-all flex items-center justify-center gap-1.5 whitespace-nowrap"
+        >
+          <span>📥</span>
+          <span>{isEn ? "Access Vault Files →" : "تحميل ملفات الخزنة ←"}</span>
+        </Link>
+      </div>
+
+      {/* ================= 8. COLLAPSIBLE REFERENCE LIBRARY (NOT CLUTTERING HOME) ================= */}
+      <section className="pt-4 border-t border-black/5 dark:border-white/10">
+        <button
+          type="button"
+          onClick={() => setShowCatalog(!showCatalog)}
+          className="w-full flex items-center justify-between p-4 rounded-2xl bg-neutral-100/70 dark:bg-neutral-800/40 hover:bg-neutral-200/60 dark:hover:bg-neutral-800/80 transition-all text-start"
+        >
+          <div className="flex items-center gap-3">
+            <span className="text-xl">📚</span>
+            <div>
+              <p className="text-xs sm:text-sm font-black text-neutral-800 dark:text-neutral-200">
+                {isEn ? "Reference Library (100 Tracks Unlocked)" : "المكتبة المرجعية الشاملة (١٠٠ مسار مفتوحة في باقتك)"}
+              </p>
               <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
                 {isEn
-                  ? "100 corporate domains × 100 executive copy-pasteable prompts + 5 ironclad legal contracts."
-                  : "١٠٠ مجال شركات × ١٠٠ برومبت تنفيذي جاهز للنسخ + ٥ عقود عمل حر تحمي أتعابك قانونياً."}
+                  ? "Your membership grants full access. Click to explore additional specialized paths."
+                  : "اشتراكك يمنحك وصولاً شاملاً. انقر هنا إذا رغبت في استكشاف مسارات تخصصية إضافية."}
               </p>
             </div>
           </div>
 
-          <Link
-            href="/app/vip-vault"
-            className="shrink-0 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 hover:brightness-105 text-neutral-950 font-black text-xs px-5 py-3 text-center shadow-lg shadow-amber-500/25 active:scale-95 transition-all flex items-center justify-center gap-1.5 whitespace-nowrap"
-          >
-            <span>📥</span>
-            <span>{isEn ? "Download 10,000 Prompts & Contracts →" : "تحميل الـ 10,000 برومبت والعقود ←"}</span>
-          </Link>
-        </div>
-      </div>
+          <span className="text-xs font-bold text-teal-600 dark:text-teal-400">
+            {showCatalog ? (isEn ? "Hide ▲" : "إخفاء ▲") : (isEn ? "Explore ▼" : "استعراض ▼")}
+          </span>
+        </button>
 
-      {/* Main Grid: Radiant Active Mission + High-Energy Weekly Progress */}
-      <div className="mb-8 grid grid-cols-1 gap-5 lg:grid-cols-12 lg:items-stretch">
-        {/* Active Mission Card (7 cols) */}
-        {activeTrack && (
-          <div className="lg:col-span-7 rounded-3xl bg-gradient-to-br from-teal-800 via-teal-700 to-emerald-700 text-white p-6 sm:p-7 shadow-xl shadow-teal-900/20 relative overflow-hidden flex flex-col justify-between border border-teal-400/30">
-            {/* Ambient inner glows */}
-            <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-emerald-400/25 blur-2xl" />
-            <div className="pointer-events-none absolute -left-16 -bottom-16 h-48 w-48 rounded-full bg-cyan-400/20 blur-2xl" />
+        {showCatalog && (
+          <div className="mt-4 animate-fade-in space-y-4">
+            <input
+              type="text"
+              value={tileSearch}
+              onChange={(e) => setTileSearch(e.target.value)}
+              placeholder={isEn ? "Search tracks..." : "ابحث في الـ ١٠٠ مسار..."}
+              className="w-full text-xs rounded-xl bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 px-4 py-3 focus:outline-hidden focus:border-teal-500 transition"
+            />
 
-            <div>
-              {/* Header inside card */}
-              <div className="mb-4 flex items-center justify-between text-xs text-white/90">
-                <span className="font-bold flex items-center gap-2 bg-black/25 backdrop-blur-md px-3 py-1 rounded-full border border-white/15">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-300" />
-                  </span>
-                  <span>{isEn ? "Mission In Progress" : "مهمتك الحالية المتزامنة"}</span>
-                </span>
-                <span className="font-mono bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-black">
-                  {activeTrack.doneCount}/{activeTrack.totalDays} {isEn ? "Days Complete" : "يوم مكتمل"}
-                </span>
-              </div>
-
-              {activeTrack.nextDayNumber ? (
-                <>
-                  <div className="inline-flex items-center gap-2 bg-black/30 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white mb-3 border border-white/10">
-                    <span className="text-base">{activeTrack.icon || "⚡"}</span>
-                    <span className="truncate max-w-[280px]">{activeTitle}</span>
-                  </div>
-
-                  <h2 className="text-xl sm:text-2xl font-black mb-2 text-white leading-tight">
-                    {isEn
-                      ? `Day ${activeTrack.nextDayNumber} · ${nextLessonTitle || "Practical Milestone"}`
-                      : `اليوم ${activeTrack.nextDayNumber} · ${nextLessonTitle || "خطوة تطبيقية عملية"}`}
-                  </h2>
-
-                  {/* Micro stats tag pills */}
-                  <div className="flex flex-wrap items-center gap-2 mb-6">
-                    <span className="inline-flex items-center gap-1.5 bg-white/15 border border-white/20 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-bold text-white shadow-xs">
-                      <span>⏱️</span>
-                      <span>{activeTrack.nextDayDuration || 5} {isEn ? "mins" : "دقايق تركيز"}</span>
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 bg-white/20 border border-white/30 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-black text-white shadow-xs">
-                      <span className="text-sm">💎</span>
-                      <span className="tracking-wide">+{activeTrack.nextDayXp || 75} XP</span>
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 bg-white/15 border border-white/20 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-bold text-white shadow-xs">
-                      <span>🎯</span>
-                      <span>{isEn ? "Day 1 Free" : "تطبيق عملي فوري"}</span>
-                    </span>
-                  </div>
-                </>
-              ) : (
-                <div className="py-4">
-                  <h2 className="text-xl sm:text-2xl font-black mb-2 text-white">
-                    {isEn ? `Completed ${activeTitle}! 🎉` : `أتممت ${activeTitle} بنجاح باهر! 🎉`}
-                  </h2>
-                  <p className="mb-6 text-xs sm:text-sm text-white/85 leading-relaxed">
-                    {isEn
-                      ? "Congratulations! Your verified certificate is unlocked, and 99 other career tracks await your exploration."
-                      : "ألف مبروك! شهادتك المعتمدة جاهزة للتحميل، ولديك ٩٩ مسارًا مهنيًا آخر مفتوحًا بالكامل في اشتراكك."}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Radiant CTA Button */}
-            {activeTrack.nextDayNumber ? (
-              <Link
-                href={`/app/learn/${activeTrack.slug}/${activeTrack.nextDayNumber}`}
-                style={{ backgroundColor: '#ffffff', color: '#042f2e', border: '2px solid #34d399' }}
-                className="btn-resume-mission group relative overflow-hidden rounded-2xl font-black py-4 px-6 text-center text-sm sm:text-base active:scale-98 transition-all flex items-center justify-center gap-2.5 shadow-2xl"
-              >
-                <span className="text-xl group-hover:scale-110 transition-transform">🚀</span>
-                <span style={{ color: '#042f2e', fontWeight: 900 }}>
-                  {isEn
-                    ? `Resume Lesson · Day ${activeTrack.nextDayNumber} →`
-                    : `استئناف درس اليوم · اليوم ${activeTrack.nextDayNumber} ←`}
-                </span>
-                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-400/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-              </Link>
-            ) : (
-              <Link
-                href={`/app/learn/${activeTrack.slug}/certificate`}
-                style={{ color: '#451a03' }}
-                className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-400 to-amber-300 text-amber-950 font-black py-4 px-6 text-center text-sm sm:text-base shadow-xl hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-2"
-              >
-                <span>🎓</span>
-                <span style={{ color: '#451a03' }}>{isEn ? "Claim Verified Certificate Now →" : "استلم شهادتك المعتمدة فوراً ←"}</span>
-              </Link>
-            )}
-          </div>
-        )}
-
-        {/* Weekly Activity Box & Stats (5 cols) */}
-        <div className="lg:col-span-5 rounded-3xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 p-6 shadow-sm flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-xs text-neutral-500 dark:text-neutral-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
-                <span>📅</span>
-                <span>{isEn ? "Weekly Activity Streak" : "نشاطك والتزامك هذا الأسبوع"}</span>
-              </span>
-              <span className="text-[11px] font-bold text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/60 px-2 py-0.5 rounded-full border border-teal-500/20">
-                {isEn ? "Daily Habit" : "عادة يومية"}
-              </span>
-            </div>
-
-            <div className="flex justify-between mb-6 bg-neutral-50 dark:bg-neutral-800/40 p-3 rounded-2xl border border-black/5 dark:border-white/5">
-              {weekDays.map((d, i) => (
-                <WeekDot
-                  key={isEn ? (WEEK_LABELS_EN[i] ?? i) : (WEEK_LABELS_AR[i] ?? i)}
-                  label={isEn ? (d.labelEn || WEEK_LABELS_EN[i]) : (d.labelAr || WEEK_LABELS_AR[i])}
-                  letter={isEn ? WEEK_LETTERS_EN[i] : WEEK_LETTERS_AR[i]}
-                  done={d.done}
-                  isToday={d.isToday}
-                  index={i}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {filteredTiles.map((t) => (
+                <CourseTile
+                  key={t.slug}
+                  slug={t.slug}
+                  title={t.title}
+                  titleEn={t.titleEn}
+                  category={t.category}
+                  categoryEn={t.categoryEn}
+                  icon={t.icon}
+                  total={t.total}
+                  done={t.done}
+                  unlocked={t.unlocked}
+                  isActive={t.isActive}
                 />
               ))}
             </div>
           </div>
+        )}
+      </section>
 
-          {/* Gamified 3-Card Stat Metrics */}
-          <div className="grid grid-cols-3 gap-2.5 text-center">
-            <div className="bg-gradient-to-b from-teal-50 to-white dark:from-teal-950/30 dark:to-neutral-900 rounded-2xl p-3 border border-teal-500/20 shadow-xs">
-              <div className="text-xl font-black text-teal-700 dark:text-teal-400 font-mono flex items-center justify-center gap-1">
-                <span>💎</span>
-                <span>{totalXp}</span>
-              </div>
-              <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-bold mt-1">
-                {isEn ? "Total XP" : "نقاط الخبرة"}
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-b from-amber-50 to-white dark:from-amber-950/30 dark:to-neutral-900 rounded-2xl p-3 border border-amber-500/20 shadow-xs">
-              <div className="text-xl font-black text-amber-600 dark:text-amber-400 font-mono flex items-center justify-center gap-1">
-                <span>🔥</span>
-                <span>{streak}</span>
-              </div>
-              <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-bold mt-1">
-                {isEn ? "Streak Days" : "أيام متتالية"}
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950/30 dark:to-neutral-900 rounded-2xl p-3 border border-emerald-500/20 shadow-xs">
-              <div className="text-xl font-black text-emerald-700 dark:text-emerald-400 font-mono flex items-center justify-center gap-1">
-                <span>⚡</span>
-                <span>{dailyPaceMinutes}</span>
-              </div>
-              <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-bold mt-1">
-                {isEn ? "Mins / Day" : "دقيقة / يوم"}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* In-Progress Tracks Shelf */}
-      {inProgressTracks.length > 0 && (
-        <div className="mb-8 rounded-3xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 p-5 sm:p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-black text-neutral-900 dark:text-white flex items-center gap-2">
-              <span className="text-lg">📚</span>
-              <span>{isEn ? "Your In-Progress Tracks" : "مساراتك قيد التعلّم النشطة"}</span>
-            </h3>
-            <span className="text-xs text-neutral-600 dark:text-neutral-400 font-mono font-bold bg-neutral-100 dark:bg-neutral-800 px-3 py-1 rounded-full border border-black/5 dark:border-white/5">
-              {inProgressTracks.length} {isEn ? "active courses" : "مسارات نشطة"}
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {inProgressTracks.map((t) => {
-              const trackTitle = isEn ? t.titleEn : t.titleAr;
-              return (
-                <div
-                  key={t.slug}
-                  className="rounded-2xl border border-black/5 dark:border-white/10 bg-neutral-50/80 dark:bg-neutral-800/50 p-4 flex flex-col justify-between gap-3.5 hover:border-teal-500/40 hover:shadow-md transition-all"
-                >
-                  <div>
-                    <div className="flex items-center gap-2.5 mb-2.5">
-                      <span className="text-2xl p-2 rounded-xl bg-white dark:bg-neutral-800 border border-black/5 dark:border-white/5 shadow-2xs">
-                        {t.icon}
-                      </span>
-                      <h4 className="text-xs sm:text-sm font-black truncate text-neutral-900 dark:text-neutral-100 flex-1">
-                        {trackTitle}
-                      </h4>
-                    </div>
-
-                    <div className="flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400 mb-1.5 font-bold">
-                      <span>{isEn ? `Next: Day ${t.nextDayNumber}` : `التالي: يوم ${t.nextDayNumber}`}</span>
-                      <span className="font-mono text-teal-600 dark:text-teal-400">{t.doneCount}/{t.totalDays} ({t.percent}%)</span>
-                    </div>
-
-                    {/* Progress bar with glow */}
-                    <div className="h-2 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-teal-500 to-emerald-400 transition-all duration-500 rounded-full"
-                        style={{ width: `${t.percent}%` }}
-                      />
-                    </div>
-                  </div>
-
-                  <Link
-                    href={`/app/learn/${t.slug}/${t.nextDayNumber}`}
-                    className="rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-black py-2.5 px-3 text-center shadow-xs transition-all flex items-center justify-center gap-1.5 active:scale-95"
-                  >
-                    <span>▶️</span>
-                    <span>{isEn ? `Resume Day ${t.nextDayNumber}` : `استئناف يوم ${t.nextDayNumber}`}</span>
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* Reminder & Help Prompts */}
-      <div className="mb-8 space-y-4">
-        <ReminderPrompt hasCompletions={hasCompletions} />
+      {/* Footer help */}
+      <div className="mt-8">
         <HelpCard />
-      </div>
-
-      {/* 100 Tracks Showcase Header */}
-      <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/60 border border-teal-500/20 px-3 py-1 rounded-full mb-2">
-            <span>✨</span>
-            <span>{isEn ? "100 Tracks · All 10 Vital Pillars" : "الكتالوج الكامل · 100 مسار مفتوحة مجاناً في باقتك"}</span>
-          </div>
-          <h2 className="text-xl sm:text-2xl font-black text-neutral-900 dark:text-white">
-            {isEn ? "Your Unlocked Catalog" : "جميع مساراتك التخصصية (١٠٠ مسار كامل)"}
-          </h2>
-          <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">
-            {isEn
-              ? "Your annual membership grants unlimited access to all 100 tracks. Start any track anytime."
-              : "اشتراكك السنوي يمنحك وصولاً شاملاً وغير محدود لكافة المسارات. ابدأ أي مسار في أي وقت بحرية تامة."}
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 self-start md:self-auto">
-          {/* Quick search input */}
-          <input
-            type="text"
-            value={tileSearch}
-            onChange={(e) => setTileSearch(e.target.value)}
-            placeholder={isEn ? "Search tracks..." : "ابحث في المسارات..."}
-            className="rounded-full border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900 px-4 py-2 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-hidden focus:border-teal-500 shadow-2xs w-44 sm:w-56"
-          />
-
-          <Link
-            href="/app/learn"
-            className="inline-flex items-center gap-1.5 rounded-full bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 text-xs font-bold shadow-md shadow-teal-500/15 active:scale-95 transition-all shrink-0"
-          >
-            <span>{isEn ? "All Tracks" : "تصفح الكل"}</span>
-            <span>{isEn ? "→" : "←"}</span>
-          </Link>
-        </div>
-      </div>
-
-      {/* Course Tiles Grid */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-        {filteredTiles.map((t) => (
-          <CourseTile key={t.slug} {...t} />
-        ))}
-      </div>
-
-      {filteredTiles.length === 0 && (
-        <div className="text-center py-12 rounded-3xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 mt-4">
-          <p className="text-sm font-bold text-neutral-500">
-            {isEn ? "No tracks match your search." : "لا توجد مسارات مطابقة لبحثك."}
-          </p>
-        </div>
-      )}
-
-      {/* Viral Referral & Share Row */}
-      <ShareRow className="mt-10" />
-
-      {/* 7-Day Guarantee Peace-of-Mind Bar */}
-      <div className="mt-8 rounded-2xl bg-neutral-100 dark:bg-neutral-900/60 border border-black/5 dark:border-white/10 p-4 text-center text-xs text-neutral-600 dark:text-neutral-400 flex flex-wrap items-center justify-center gap-2 sm:gap-4">
-        <span className="font-bold text-teal-700 dark:text-teal-300 flex items-center gap-1.5">
-          <span>🛡️</span>
-          <span>{isEn ? "7-Day 100% Money-Back Guarantee" : "ضمان استرداد كامل بنسبة 100% خلال 7 أيام"}</span>
-        </span>
-        <span className="hidden sm:inline text-neutral-300 dark:text-neutral-700">•</span>
-        <span>{isEn ? "VIP WhatsApp Support Active 24/7" : "دعم فني مباشر على الواتساب على مدار الساعة"}</span>
-        <span className="hidden sm:inline text-neutral-300 dark:text-neutral-700">•</span>
-        <Link href="/refund" className="underline hover:text-teal-600 font-medium">
-          {isEn ? "Refund Policy" : "سياسة الاسترجاع"}
-        </Link>
       </div>
     </div>
   );

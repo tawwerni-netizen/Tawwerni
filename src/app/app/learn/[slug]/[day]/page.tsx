@@ -4,9 +4,18 @@ import { hasCourseAccess, pendingOrderFor, FREE_PREVIEW_DAY } from "@/lib/access
 import { loadUniversalLesson } from "@/lib/course-loader";
 import { ALL_100_TRACKS } from "@/content/tracks100";
 import LessonPlayer from "@/components/LessonPlayer";
+import MissionPlayer from "@/components/MissionPlayer";
+import { loadMission } from "@/lib/mission-adapter";
 
-export default async function LessonPage({ params }: { params: Promise<{ slug: string; day: string }> }) {
+export default async function LessonPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string; day: string }>;
+  searchParams?: Promise<{ mode?: string }>;
+}) {
   const { slug, day } = await params;
+  const sp = searchParams ? await searchParams : {};
   const user = await getCurrentUser();
   if (!user) {
     redirect(`/login?next=/app/learn/${slug}/${day}`);
@@ -44,6 +53,19 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
   }
 
   const accessState = unlocked ? "unlocked" : pending ? "pending" : "unpaid";
+
+  // Check if mission experience is preferred (default is MissionPlayer unless mode === "cards")
+  if (sp.mode !== "cards") {
+    const mission = loadMission(slug, dayNumber);
+    if (mission) {
+      return (
+        <MissionPlayer
+          mission={mission}
+          nextDayNumber={nextLesson?.dayNumber ?? null}
+        />
+      );
+    }
+  }
 
   const promoCourses = ALL_100_TRACKS.filter((t) => t.slug !== course.slug)
     .slice(0, 4)

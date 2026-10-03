@@ -222,7 +222,13 @@ export default function LessonPlayer(props: Props) {
                 : (isEn ? `Day ${props.dayNumber} of ${props.totalDays}` : `يوم ${props.dayNumber} من ${props.totalDays}`)}
             </p>
           </div>
-          <div className="w-4" />
+          <Link
+            href={`/app/learn/${props.courseSlug}/${props.dayNumber}`}
+            className="text-[11px] font-bold text-teal-600 dark:text-teal-400 bg-teal-500/10 px-2 py-1 rounded-md hover:bg-teal-500/20 transition-colors"
+            title={isEn ? "Switch to Mission Mode" : "التبديل إلى نمط المهمة التطبيقية"}
+          >
+            {isEn ? "🎯 Mission" : "🎯 مهمة"}
+          </Link>
         </div>
         {phase === "cards" && (
           <div className="h-1 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden">
