@@ -477,16 +477,21 @@ export default function LandingPageView() {
 
                     {/* Top Badges */}
                     <div className="absolute inset-x-3 top-3 flex items-center justify-between gap-2 z-10">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 px-2.5 py-0.5 text-2xs font-extrabold text-white">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/20 px-2.5 py-1 text-2xs font-extrabold text-white shadow-sm shrink-0 whitespace-nowrap">
                         <span className="text-xs">{cp.icon}</span>
                         <span>{isEn ? cp.levelEn : cp.levelAr}</span>
                       </span>
 
-                      <span className="inline-flex items-center gap-1 rounded-full bg-teal-950/80 backdrop-blur-md border border-teal-500/40 px-2.5 py-0.5 text-2xs font-mono font-bold text-teal-300">
-                        <span>⏱️ {cp.estimatedHours}h</span>
-                        <span>•</span>
-                        <span>📚 {cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} {isEn ? "Tracks" : "مسارات"}</span>
-                      </span>
+                      <div className="flex items-center gap-1.5 shrink-0 whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-teal-950/85 backdrop-blur-md border border-teal-500/40 px-2.5 py-1 text-2xs font-bold text-teal-300 shadow-sm whitespace-nowrap">
+                          <span>⏱️</span>
+                          <span>{isEn ? `${cp.estimatedHours}h` : `${cp.estimatedHours} ساعة`}</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-black/70 backdrop-blur-md border border-white/20 px-2.5 py-1 text-2xs font-bold text-neutral-200 shadow-sm whitespace-nowrap">
+                          <span>📚</span>
+                          <span>{isEn ? `${cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} Tracks` : `${cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} مسارات`}</span>
+                        </span>
+                      </div>
                     </div>
 
                     {/* Speech Bubble - Fully Legible */}

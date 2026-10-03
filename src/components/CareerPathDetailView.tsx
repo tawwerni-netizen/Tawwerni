@@ -128,7 +128,7 @@ export default function CareerPathDetailView({
               </div>
               <div className="p-2">
                 <span className="block text-2xl sm:text-3xl font-black text-amber-300 font-mono">
-                  {careerPath.estimatedHours}h
+                  {careerPath.estimatedHours}{isEn ? "h" : ""}
                 </span>
                 <span className="text-2xs font-bold text-neutral-400">
                   {isEn ? "Estimated" : "ساعة تدريبية"}
