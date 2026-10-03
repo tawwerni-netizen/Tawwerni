@@ -31,7 +31,9 @@ export default function GoogleLoginButton() {
         return;
       }
 
-      window.location.href = data.hasOnboarded ? "/app" : "/onboarding";
+      const searchParams = new URLSearchParams(window.location.search);
+      const nextParam = searchParams.get("next");
+      window.location.href = nextParam ? nextParam : (data.hasOnboarded ? "/app" : "/onboarding");
     } catch {
       setError(isEn ? "Network connection error. Try again." : "مشكلة في الاتصال بالإنترنت. جرّب مجدداً.");
       setLoading(false);

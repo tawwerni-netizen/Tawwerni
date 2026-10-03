@@ -72,8 +72,8 @@ const TEMPLATES: Template[] = [
     trackSlug: "frontend-react-nextjs",
     trackTitleAr: "تطوير واجهات الويب (React 19 & Next.js)",
     trackTitleEn: "Frontend: React 19 & Next.js",
-    quoteAr: "كنت دائماً أبدأ كورسات 40 ساعة وأتوقف في الأسبوع الأول. أسلوب الـ 5 دقائق يومياً في طوّرني جعلني أنهي مسار الـ Next.js بدون أي ملل، ونفذت به أول مشروع بمبلغ 650 دولار على أب ورك.",
-    quoteEn: "I used to buy 40-hour video courses and quit on day 3. Tawwerni's 5-minute daily structure helped me master Next.js without burnout, landing my first $650 contract on Upwork.",
+    quoteAr: "كنت دائماً أبدأ كورسات 40 ساعة وأتوقف في الأسبوع الأول. أسلوب الـ 10 دقائق يومياً والتطبيق الفوري في طوّرني ساعدني على إكمال مسار Next.js بالكامل وبناء أول مشروع حقيقي في معرض أعمالي.",
+    quoteEn: "I used to buy 40-hour video courses and quit on day 3. Tawwerni's 10-minute daily structure helped me finish the full Next.js track and deploy my first live portfolio project.",
   },
   {
     archetype: "student",
@@ -102,8 +102,8 @@ const TEMPLATES: Template[] = [
     trackSlug: "meta-ads-mastery",
     trackTitleAr: "احتراف إعلانات الميتا (Facebook & Instagram Ads)",
     trackTitleEn: "Meta Ads Mastery",
-    quoteAr: "كنت أحرق ميزانية الإعلانات دون تحقيق مبيعات حقيقية. بعد مسار إعلانات ميتا وتطبيق هيكل اختبار الكريتيف، انخفضت تكلفة الشراء لدينا بنسبة 45% وتضاعفت مبيعات المتجر.",
-    quoteEn: "I was burning ad spend with zero returns. After taking the Meta Ads track and applying the creative testing matrix, our acquisition cost dropped 45% while sales doubled.",
+    quoteAr: "كنت أواجه صعوبة في اختبار الإعلانات بطريقة علمية. بعد مسار إعلانات ميتا وتطبيق هيكل اختبار الكريتيف، انخفضت تكلفة الشراء لدينا بنسبة واضحة وارتفعت جودة الطلبات.",
+    quoteEn: "I struggled with testing ad creatives systematically. After taking the Meta Ads track and applying the creative testing matrix, our customer acquisition cost dropped noticeably with higher quality leads.",
   },
   {
     archetype: "freelancer",
@@ -112,8 +112,8 @@ const TEMPLATES: Template[] = [
     trackSlug: "high-converting-copywriting",
     trackTitleAr: "كتابة النصوص الإعلانية والإقناعية",
     trackTitleEn: "High-Converting Sales Copywriting",
-    quoteAr: "المسار لم يعلمني فقط كيف أكتب، بل كيف أفكر في عقل المشتري ومخاوفه. أول نص إعلاني كتبته لعميل في الخليج حقق له مبيعات بقيمة 12 ألف ريال في 48 ساعة فقط.",
-    quoteEn: "The track didn't just teach me how to write, but how to enter the buyer's subconscious mind. My first campaign script generated 12,000 SAR in 48 hours for a Gulf client.",
+    quoteAr: "المسار علمني كيف أصيغ نصوص إعلانات تفهم عقل المشتري ومخاوفه بدقة. أول حملة كتبتها لمتجر محلي حققت معدل تحويل ممتاز وجدد العميل العقد معي فوراً.",
+    quoteEn: "The track taught me how to enter the buyer's mind and address real objections. The first campaign script I wrote for a local brand delivered strong conversion rates and earned me an ongoing retainer.",
   },
   {
     archetype: "employee",

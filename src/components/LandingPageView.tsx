@@ -102,172 +102,257 @@ export default function LandingPageView() {
           {/* Radiant Hero Glow Spotlight */}
           <div className="pointer-events-none absolute left-1/2 -top-16 -translate-x-1/2 w-full max-w-3xl h-80 bg-gradient-to-b from-teal-500/25 via-emerald-500/10 to-transparent blur-3xl -z-10" />
 
-          {/* Top Announcement Pill */}
-          <Link
-            href="/tracks"
-            className="group mb-6 inline-flex items-center gap-2 rounded-full bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 px-4 py-1.5 text-xs font-black text-teal-700 dark:text-teal-300 transition-all hover:scale-105 shadow-sm"
-          >
-            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
+          {/* Focused Positioning Badge */}
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-teal-500/10 border border-teal-500/30 px-4 py-1.5 text-xs font-black text-teal-700 dark:text-teal-300 shadow-xs">
+            <span>🎯</span>
             <span>
               {isEn
-                ? "⚡ The #1 Bilingual Hands-On Learning Platform · 100 Career Tracks →"
-                : "⚡ المنصة الأولى عربياً للتعلم التطبيقي المباشر · الكتالوج الأضخم بـ 100 مسار احترافي ←"}
+                ? "The Guided Daily Learning System for In-Demand Skills"
+                : "منظومة التعلم اليومي الموجه لتحويل مهارات المستقبل إلى دخل"}
             </span>
-          </Link>
+          </div>
 
-          {/* High-Dopamine Punchy Headline */}
-          <h1 className="mb-6 text-4xl sm:text-6xl md:text-7xl font-black leading-[1.14] tracking-tight text-neutral-900 dark:text-white">
+          {/* High-Impact Problem & Outcome Headline */}
+          <h1 className="mb-6 text-3xl sm:text-5xl md:text-6xl font-black leading-[1.2] tracking-tight text-neutral-900 dark:text-white">
             {isEn ? (
               <>
-                Learn Smart. Apply in Minutes.
+                Your problem isn&apos;t learning.
                 <br />
-                <span className="text-teal-600 dark:text-emerald-400 font-black">
-                  Build Skills That Actually Pay in the AI Era.
+                <span className="text-teal-600 dark:text-emerald-400">
+                  It&apos;s knowing where to start and how to stay consistent.
                 </span>
               </>
             ) : (
               <>
-                تعلّم بذكاء. طبّق في دقائق.
+                مشكلتك مش إنك مش بتتعلم.
                 <br />
-                <span className="text-teal-600 dark:text-emerald-400 font-black">
-                  واصنع دخلك بمهارات المستقبل والذكاء الاصطناعي.
+                <span className="text-teal-600 dark:text-emerald-400">
+                  مشكلتك إنك مش عارف تبدأ منين وتستمر إزاي.
                 </span>
               </>
             )}
           </h1>
 
-          {/* Compelling Value Proposition Subtitle */}
-          <p className="mx-auto mb-8 max-w-2xl text-base sm:text-lg leading-relaxed text-neutral-600 dark:text-neutral-300 font-medium">
+          {/* Calm, Direct Subtitle */}
+          <p className="mx-auto mb-8 max-w-2xl text-base sm:text-xl leading-relaxed text-neutral-600 dark:text-neutral-300 font-medium">
             {isEn ? (
               <>
-                <b>100 practical career tracks</b> that take you from beginner to hired or freelancing — zero boring theory, engineered with micro-actions and dopamine loops that give you an instant sense of victory every single day.
+                Tawwerni turns your career goal into a <b>28-day practical execution plan</b> — just <b>10 minutes daily</b> with hands-on missions and zero theoretical fluff.
               </>
             ) : (
               <>
-                <b>١٠٠ مسار مهني وتطبيقي متكامل</b> ينقلك من الصفر حتى اقتناص الفرص والعملاء — بدون حشو نظري، وبنظام جرعات يومية سريعة تمنحك إنجازاً ملموساً وشعوراً فورياً بالانتصار والتفوق كل يوم.
+                طوّرني يحوّل هدفك المهني إلى <b>خطة تعلم عملية لمدة ٢٨ يومًا</b> — <b>١٠ دقائق يوميًا فقط</b> بمهام تطبيقية مباشرة وبدون حشو نظري.
               </>
             )}
           </p>
 
-          {/* VIP Founding Cohort Offer Badge */}
-          <div className="mx-auto mb-8 inline-flex flex-wrap items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-amber-500/15 border border-amber-500/30 px-5 py-2.5 text-xs text-amber-900 dark:text-amber-200 font-black shadow-lg backdrop-blur-md">
-            <span className="flex h-2.5 w-2.5 rounded-full bg-amber-400 animate-pulse" />
-            <span>
-              {isEn
-                ? `🔥 Founding Cohort Special: Only ${pricing.priceEgp} EGP/year (Regular ${pricing.originalPriceEgp} EGP) · 71% OFF · Unlimited 1-Year Access`
-                : `🔥 عرض فوج التأسيس الأول: ${pricing.priceEgp} ج.م فقط لعام كامل (بدل ${pricing.originalPriceEgp} ج.م) · خصم 71% شامل كافة الـ 100 مسار`}
-            </span>
-            <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 text-[11px] font-bold border border-amber-500/30">
-              {isEn ? "7-Day Guarantee" : "ضمان استرداد 7 أيام"}
-            </span>
-          </div>
-
-          {/* Giant Radiant Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-6">
+          {/* Primary Action Button + Reassuring Microcopy */}
+          <div className="flex flex-col items-center justify-center gap-3 mb-8">
             <Link
               href="/quiz"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-400 hover:from-teal-400 hover:to-emerald-400 text-white font-black px-9 py-4 text-base shadow-xl shadow-teal-500/30 hover:shadow-2xl hover:shadow-teal-500/50 hover:scale-102 active:scale-98 transition-all text-center"
-            >
-              <span className="text-xl">🚀</span>
-              <span>{isEn ? "Take Free Assessment & Start Now →" : "ابدأ التقييم وحدد مسارك مجانًا ←"}</span>
-            </Link>
-            <Link
-              href="/tracks"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-black/10 dark:border-white/15 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md hover:border-teal-500/50 px-8 py-4 text-base font-black text-neutral-800 dark:text-neutral-200 hover:text-teal-600 dark:hover:text-teal-400 hover:shadow-lg transition-all text-center"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-400 hover:from-teal-400 hover:to-emerald-400 text-white font-black px-10 py-4.5 text-base sm:text-lg shadow-xl shadow-teal-500/25 hover:shadow-2xl hover:shadow-teal-500/40 hover:scale-102 active:scale-98 transition-all text-center"
             >
               <span>🧭</span>
-              <span>{isEn ? "Explore 100 Tracks (Day 1 Free)" : "استكشف كتالوج الـ 100 مسار 🧭"}</span>
+              <span>{isEn ? "Discover Your Custom Path (Free) →" : "اعرف مسارك المناسب مجانًا ←"}</span>
             </Link>
-          </div>
-
-          {/* Dopamine-Charged VIP Vault Quick Teaser */}
-          <div className="mb-8 flex justify-center">
-            <Link
-              href="/quiz"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-500/15 via-yellow-500/20 to-amber-500/15 border border-amber-500/40 text-amber-900 dark:text-amber-200 text-xs font-black hover:scale-105 active:scale-95 transition-all shadow-md shadow-amber-500/10"
-            >
-              <span className="text-sm animate-bounce">👑</span>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 flex items-center gap-2">
+              <span className="text-emerald-500 font-bold">✓</span>
               <span>
                 {isEn
-                  ? "Bonus: 10,000 Corporate Prompts Vault + Legal Contracts Ready for Instant Download"
-                  : "بونص VIP حصري: بنك الـ 10,000 برومبت السري للشركات + عقود الفريلانس متاح للتحميل"}
+                  ? "Takes only 60 seconds · No credit card required · Day 1 is 100% free"
+                  : "خلال 60 ثانية فقط · بدون أي بطاقة بنكية · اليوم الأول مجاني بالكامل"}
               </span>
-              <span className="rounded-md bg-amber-400 text-neutral-950 px-2 py-0.5 text-[10px] font-black shrink-0">
-                {isEn ? "Claim Now →" : "احصل عليه ←"}
-              </span>
-            </Link>
+            </p>
           </div>
 
-          {/* 4 Pillars of Peace of Mind & Trust */}
-          <div className="mx-auto max-w-2xl grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs font-bold text-neutral-700 dark:text-neutral-300 mb-10">
-            <div className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
-              <span>🛡️</span>
+          {/* 3 Pillars of Frictionless Reassurance */}
+          <div className="mx-auto max-w-xl grid grid-cols-3 gap-2.5 text-center text-xs font-bold text-neutral-700 dark:text-neutral-300 mb-12">
+            <div className="p-3 rounded-2xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 shadow-2xs">
+              <span className="block text-lg mb-1">⏱️</span>
+              <span>{isEn ? "10 Mins / Day" : "١٠ دقائق يوميًا"}</span>
+            </div>
+            <div className="p-3 rounded-2xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 shadow-2xs">
+              <span className="block text-lg mb-1">🛠️</span>
+              <span>{isEn ? "Hands-On Mission" : "مهمة عملية بكل درس"}</span>
+            </div>
+            <div className="p-3 rounded-2xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 shadow-2xs">
+              <span className="block text-lg mb-1">🛡️</span>
               <span>{isEn ? "7-Day Guarantee" : "ضمان استرداد 7 أيام"}</span>
             </div>
-            <div className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
-              <span>🎁</span>
-              <span>{isEn ? "Day 1 Free (No Card)" : "اليوم الأول مجاني بدون كارت"}</span>
-            </div>
-            <div className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
-              <span>🎓</span>
-              <span>{isEn ? "Verified Certificates" : "شهادة معتمدة لكل مسار"}</span>
-            </div>
-            <div className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
-              <span>⚡</span>
-              <span>{isEn ? "15 Mins / Day Only" : "١٥ دقيقة فقط يومياً"}</span>
-            </div>
           </div>
 
-          {/* Top In-Demand Sectors Quick Pills */}
-          <div className="text-center">
-            <p className="text-[11px] font-black uppercase tracking-widest text-neutral-400 dark:text-neutral-500 mb-3">
-              {isEn ? "Top In-Demand Career Tracks You Will Master" : "أبرز التخصصات العملية الأكثر طلباً التي ستحترفها بالمنصة"}
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              {[
-                { icon: "🤖", ar: "هندسة الأوامر والـ AI", en: "Prompt Engineering & AI" },
-                { icon: "💻", ar: "البرمجة وتطوير الويب", en: "Full-Stack Web Dev" },
-                { icon: "📊", ar: "تحليل البيانات والذكاء التجاري", en: "Data Analytics & BI" },
-                { icon: "💼", ar: "العمل الحر واقتناص العملاء", en: "Freelance Mastery" },
-                { icon: "📈", ar: "التسويق الرقمي والمبيعات", en: "Digital Growth & Marketing" },
-                { icon: "🎨", ar: "تصميم الواجهات UI/UX", en: "UI/UX & Creative Media" },
-                { icon: "🏢", ar: "ريادة الأعمال وبناء المشاريع", en: "Business & Startups" },
-              ].map((pillar, idx) => (
+          {/* 3 Hero Acquisition Products Showcase */}
+          <div className="text-start mt-8">
+            <div className="text-center mb-6">
+              <span className="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-300 bg-teal-500/10 px-3 py-1 rounded-full border border-teal-500/20">
+                {isEn ? "3 High-Demand Hero Paths" : "٣ مسارات بطلة تصنع الفارق في دخلك"}
+              </span>
+              <h2 className="mt-2 text-xl sm:text-2xl font-black text-neutral-900 dark:text-white">
+                {isEn ? "Where would you like to start your 28-day challenge?" : "تحب تبدأ تحدي الـ 28 يوم في أنهي مجال؟"}
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Hero 1: AI */}
+              <div className="rounded-3xl border-2 border-teal-500/30 bg-white dark:bg-neutral-900 p-6 shadow-sm hover:shadow-md hover:border-teal-500/60 transition flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-3xl">🤖</span>
+                    <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-teal-500/15 text-teal-700 dark:text-teal-300 border border-teal-500/30">
+                      {isEn ? "Highest Demand" : "الأعلى طلباً"}
+                    </span>
+                  </div>
+                  <h3 className="text-base font-black text-neutral-900 dark:text-white mb-2">
+                    {isEn ? "AI & Workplace Automation" : "الذكاء الاصطناعي في بيئة العمل"}
+                  </h3>
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+                    {isEn
+                      ? "Stop spending hours writing reports and emails. Master prompt engineering and AI tools to complete 80% of routine work in minutes."
+                      : "توقف عن تضييع ساعات في كتابة التقارير والإيميلات. احترف أوامر الذكاء الاصطناعي وأدواته لإنجاز 80% من مهامك اليومية في دقائق."}
+                  </p>
+                </div>
                 <Link
-                  key={idx}
-                  href="/tracks"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 hover:border-teal-500/50 hover:bg-teal-500/10 text-neutral-700 dark:text-neutral-300 hover:text-teal-600 dark:hover:text-teal-400 transition-all hover:scale-105 shadow-2xs"
+                  href="/quiz"
+                  className="w-full text-center py-2.5 px-4 rounded-xl bg-teal-500/10 hover:bg-teal-500/20 text-teal-700 dark:text-teal-300 text-xs font-bold border border-teal-500/30 transition"
                 >
-                  <span>{pillar.icon}</span>
-                  <span>{isEn ? pillar.en : pillar.ar}</span>
+                  {isEn ? "Start AI Path Free →" : "ابدأ مسار الـ AI مجانًا ←"}
                 </Link>
-              ))}
+              </div>
+
+              {/* Hero 2: Freelancing */}
+              <div className="rounded-3xl border-2 border-amber-500/30 bg-white dark:bg-neutral-900 p-6 shadow-sm hover:shadow-md hover:border-amber-500/60 transition flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-3xl">💼</span>
+                    <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
+                      {isEn ? "Direct Income" : "دخل مباشر"}
+                    </span>
+                  </div>
+                  <h3 className="text-base font-black text-neutral-900 dark:text-white mb-2">
+                    {isEn ? "Freelancing: 0 to First Client" : "العمل الحر: من الصفر لأول عميل"}
+                  </h3>
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+                    {isEn
+                      ? "Build an authentic micro-portfolio, write winning proposals on Upwork, and close your first paid gig with zero prior experience."
+                      : "ابنِ معرض أعمال حقيقي، واكتب عروض عمل احترافية على منصات الفريلانس العالمية، واقتنص أول عميل مدفوع بدون خبرة سابقة معقدة."}
+                  </p>
+                </div>
+                <Link
+                  href="/quiz"
+                  className="w-full text-center py-2.5 px-4 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 dark:text-amber-300 text-xs font-bold border border-amber-500/30 transition"
+                >
+                  {isEn ? "Start Freelance Path Free →" : "ابدأ مسار الفريلانس مجانًا ←"}
+                </Link>
+              </div>
+
+              {/* Hero 3: Growth Marketing */}
+              <div className="rounded-3xl border-2 border-emerald-500/30 bg-white dark:bg-neutral-900 p-6 shadow-sm hover:shadow-md hover:border-emerald-500/60 transition flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-3xl">📈</span>
+                    <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                      {isEn ? "Business Growth" : "مبيعات ونمو"}
+                    </span>
+                  </div>
+                  <h3 className="text-base font-black text-neutral-900 dark:text-white mb-2">
+                    {isEn ? "High-Converting Copy & Ads" : "التسويق الرقمي وكتابة الإعلانات"}
+                  </h3>
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+                    {isEn
+                      ? "Learn to write persuasive copy that enters the buyer's subconscious mind and launch profitable paid ad campaigns on Meta."
+                      : "تعلّم كيف تكتب نصوصاً إعلانية تقنع المشتري بمخاوفه الحقيقية وتطلق حملاتك الأولى على ميتا وتيك توك بدون هدر ميزانية."}
+                  </p>
+                </div>
+                <Link
+                  href="/quiz"
+                  className="w-full text-center py-2.5 px-4 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-bold border border-emerald-500/30 transition"
+                >
+                  {isEn ? "Start Marketing Path Free →" : "ابدأ مسار التسويق مجانًا ←"}
+                </Link>
+              </div>
             </div>
+
+            <p className="mt-4 text-center text-xs text-neutral-500 dark:text-neutral-400">
+              {isEn
+                ? "✨ Any path you choose includes Day 1 free, and full membership unlocks all 100 specialized tracks as your permanent deep library."
+                : "✨ أي مسار تختاره اليوم الأول فيه مجاني بالكامل، واشتراكك يفتح لك أيضاً مكتبة الـ ١٠٠ مسار التخصصية بالكامل كعمق دائم."}
+            </p>
           </div>
         </div>
 
-        <div className="text-center mb-8">
-          <LiveSeats />
-        </div>
+        {/* ---------- 1.5 WHY TAWWERNI VS CHATGPT, YOUTUBE & TRADITIONAL COURSES ---------- */}
+        <section className="mb-16 rounded-3xl border border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900/90 p-6 sm:p-10 shadow-sm text-center">
+          <span className="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-300 bg-teal-500/10 px-3.5 py-1 rounded-full border border-teal-500/20">
+            {isEn ? "The True Unfair Advantage" : "الفارق الحقيقي في طوّرني"}
+          </span>
+          <h2 className="mt-3 text-2xl font-black md:text-3xl text-neutral-900 dark:text-white">
+            {isEn
+              ? "Why Tawwerni? (When ChatGPT & YouTube are Free)"
+              : "ليه طوّرني؟ (طالما يوتيوب وChatGPT متاحين مجانًا)"}
+          </h2>
+          <p className="mx-auto mt-2 max-w-xl text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed mb-8">
+            {isEn
+              ? "The internet doesn't lack information. It lacks direction, daily action, and a structured path that stops procrastination."
+              : "المشكلة اليوم ليست نقص المعلومات؛ يوتيوب وChatGPT يملكون مليارات الإجابات. المشكلة هي: ماذا تتعلم أولاً؟ ماذا تطبق اليوم؟ وكيف تضمن أنك أنجزت؟"}
+          </p>
 
-        {/* Interactive Dopamine 30-Second Micro-Mission */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-start">
+            <div className="p-5 rounded-2xl border border-red-500/20 bg-red-50/40 dark:bg-red-950/20">
+              <span className="text-2xl mb-2 block">📺</span>
+              <h3 className="text-sm font-bold text-red-900 dark:text-red-300 mb-1">
+                {isEn ? "YouTube & Free Tutorials" : "فيديوهات يوتيوب المجانية"}
+              </h3>
+              <p className="text-xs text-red-800/80 dark:text-red-300/80 leading-relaxed">
+                {isEn
+                  ? "Endless scattered playlists, zero structured accountability. You watch passively for hours, bookmark 50 videos, and build nothing."
+                  : "محتوى مبعثر وغير مرتب وبدون متابعة. تقضي ساعات في المشاهدة السلبية، تحفظ 50 فيديو في المفضلة، ولا تبني مشروعًا واحدًا."}
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl border border-amber-500/20 bg-amber-50/40 dark:bg-amber-950/20">
+              <span className="text-2xl mb-2 block">🤖</span>
+              <h3 className="text-sm font-bold text-amber-900 dark:text-amber-300 mb-1">
+                {isEn ? "ChatGPT & AI Alone" : "الاعتماد على ChatGPT فقط"}
+              </h3>
+              <p className="text-xs text-amber-800/80 dark:text-amber-300/80 leading-relaxed">
+                {isEn
+                  ? "Great at answering what you ask, but won't tell you what to ask next, how to structure your 28-day milestones, or test your real skill."
+                  : "ممتاز في الإجابة عما تسأله، لكنه لن يحدد لك بالترتيب ماذا تدرس كل يوم، ولن يلزمك بمهمة عملية تقيس مستواك الحقيقي."}
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl border-2 border-emerald-500/40 bg-emerald-50/50 dark:bg-emerald-950/30 ring-1 ring-emerald-500/30">
+              <span className="text-2xl mb-2 block">🎯</span>
+              <h3 className="text-sm font-black text-emerald-900 dark:text-emerald-200 mb-1">
+                {isEn ? "Tawwerni Guided Engine" : "نظام طوّرني الموجه للنتائج"}
+              </h3>
+              <p className="text-xs text-emerald-800 dark:text-emerald-300 leading-relaxed font-medium">
+                {isEn
+                  ? "A battle-tested daily execution system: 10 mins a day · Exact mission to apply · Instant active feedback · Real portfolio outcome."
+                  : "نظام تدريب تطبيقي موجه: ١٠ دقائق يوميًا · مهمة عملية محددة · تأكيد فوري للإنجاز · وتخرج في نهاية المسار بمشروع حقيقي يثري سيرتك."}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Interactive 30-Second Micro-Mission */}
         <InteractiveDopaminePreview />
 
         {/* ---------- 2. PSYCHOLOGICAL ADVANTAGE SUITE ---------- */}
         <section className="mb-16">
           <div className="text-center mb-8">
             <span className="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-300 bg-teal-500/10 px-3.5 py-1 rounded-full border border-teal-500/20">
-              {isEn ? "Behavioral Psychology & Hyper-Learning" : "علم النفس السلوكي والتعلم الفائق"}
+              {isEn ? "Habit Science & Sustainable Momentum" : "علم العادات والاستمرارية المستدامة"}
             </span>
             <h2 className="mt-3 text-2xl font-black md:text-3xl text-neutral-900 dark:text-white">
               {isEn
-                ? "Why Tawwerni Succeeds Where Other Courses Fail"
-                : "ليه طوّرني بتنجح مكان ما كورسات تانية بتفشل؟"}
+                ? "Engineered for People Who Struggle to Finish Courses"
+                : "مصمم لمن يجدون صعوبة في إكمال الكورسات الطويلة"}
             </h2>
             <p className="mx-auto mt-2 max-w-lg text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
               {isEn
-                ? "Engineered with micro-habits, dopamine reinforcement, and focus wave pacing to guarantee consistent daily momentum without burnout."
-                : "صممنا المنصة على أساس هرمونات الدوبامين ونظرية الخطوات الميكرو اليومية لضمان استمرارك بدون إحباط أو تسويف."}
+                ? "Built on atomic habits and frictionless pacing to guarantee consistent daily progress without cognitive overload."
+                : "نظام تدريب يومي قصير مبني على علم العادات الصغيرة (Atomic Habits) لضمان استمرارك يومًا بعد يوم دون تسويف أو انقطاع."}
             </p>
           </div>
 
@@ -281,8 +366,8 @@ export default function LandingPageView() {
               </h3>
               <p className="text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
                 {isEn
-                  ? "Integrated Pomodoro timer with alpha binaural beats engineered to trigger deep flow state and maximize retention."
-                  : "مؤقت بومودورو مدمج مع نغمات ألفا ثنائية التردد للدخول في حالة التدفق الذهني ورفع الاستيعاب بنسبة 300%."}
+                  ? "Integrated Pomodoro timer with alpha binaural beats engineered to trigger deep focus and lock in practical takeaways."
+                  : "مؤقت بومودورو مدمج مع نغمات ألفا للتركيز الذهني العميق وتثبيت المهارة التطبيقية في دقائق معدودة."}
               </p>
             </div>
 
@@ -295,8 +380,8 @@ export default function LandingPageView() {
               </h3>
               <p className="text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
                 {isEn
-                  ? "Smart safety valve protects your hard-earned streak if emergencies strike. Consistent progress becomes an effortless addiction."
-                  : "حماية خاصة تمنع انكسار عزيمتك لو انشغلت يومًا طارئًا. نظام يحفز الدوبامين ويجعل التقدم اليومي إدمانًا إيجابيًا ممتعًا."}
+                  ? "Smart safety valve protects your progress if emergencies strike, allowing seamless resumption without guilt."
+                  : "حماية تضمن استمرارية حماسك لو انشغلت يومًا طارئًا، لتستأنف تقدمك بسهولة وتراكم إنجازاتك."}
               </p>
             </div>
 
@@ -319,12 +404,12 @@ export default function LandingPageView() {
                 🤖
               </div>
               <h3 className="text-sm sm:text-base font-bold text-neutral-900 dark:text-white mb-1.5">
-                {isEn ? "AI Empathetic Coach 'Faheem'" : "كوتش الدعم النفسي «فهيم»"}
+                {isEn ? "AI Empathetic Coach 'Faheem'" : "كوتش الدعم العملي «فهيم»"}
               </h3>
               <p className="text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
                 {isEn
-                  ? "Interactive AI mentor trained to dismantle imposter syndrome and procrastination, keeping you moving forward."
-                  : "ذكاء اصطناعي تفاعلي مدرب على معالجة متلازمة المحتال والتسويف، وتوجيهك خطوة بخطوة."}
+                  ? "Interactive AI mentor trained to review your solutions and answer your technical questions instantly 24/7."
+                  : "ذكاء اصطناعي تفاعلي مدرب على مراجعة مهامك العملية والإجابة على تساؤلاتك ومساعدتك خطوة بخطوة."}
               </p>
             </div>
           </div>
@@ -725,177 +810,66 @@ export default function LandingPageView() {
           </div>
         </section>
 
-        {/* ---------- 6. THE HONEST PRICE, ANCHORED & TRANSPARENT ---------- */}
+        {/* ---------- 6. THE HONEST, CALM & TRANSPARENT PRO MEMBERSHIP ---------- */}
         <div className="mx-auto mb-16 max-w-2xl text-center">
-          <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-rose-600 via-red-500 to-amber-500 text-white text-xs font-black px-4 py-1.5 rounded-full shadow-md shadow-rose-500/25 border border-white/20 mb-3">
-            <span className="text-yellow-200 animate-pulse text-[11px]">⚡</span>
-            <span>{isEn ? "Founding Cohort Offer · 71% OFF" : "عرض فوج التأسيس الأول · خصم 71%"}</span>
+          <span className="inline-flex items-center gap-1.5 bg-teal-500/10 text-teal-800 dark:text-teal-300 text-xs font-black px-4 py-1.5 rounded-full border border-teal-500/30 mb-3">
+            <span>✨</span>
+            <span>{isEn ? "Simple, Transparent Membership" : "عضوية واضحة بدون اشتراكات متكررة"}</span>
           </span>
           <h2 className="text-2xl font-black md:text-3xl mb-2 text-neutral-900 dark:text-white">
             {isEn
-              ? `Only ${pricing.priceEgp} EGP. One-Time Payment for 1-Year Access.`
-              : `${pricing.priceEgp} جنيه فقط. دفعة واحدة لمدة سنة.`}
+              ? `Tawwerni Pro: ${pricing.priceEgp} EGP for Full 1-Year Access`
+              : `طوّرني برو: ${pricing.priceEgp} جنيه فقط لعام كامل`}
           </h2>
           <p className="mx-auto mb-7 max-w-md text-xs sm:text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
             {isEn
-              ? "Not a recurring monthly subscription. Pay once and unlock all 100 tracks plus future updates for a full year."
-              : "مش اشتراك شهري ولا تجديد دوري. تدفع مرة واحدة وتفتح لك كل الـ ١٠٠ مسار وكل التحديثات والإضافات مشمولة مجانًا طوال فترة اشتراكك (سنة كاملة)."}
+              ? "A single one-time payment. Zero recurring monthly fees, zero automatic card rebills. You get full access to your personalized 28-day path, daily missions, and our entire catalog for 12 months."
+              : "دفعة واحدة فقط بدون أي رسوم شهرية خفية وبدون تجديد تلقائي للبطاقات. وصول كامل لمسارك الموجه، مهامك العملية اليومية، وكافة مسارات المنصة لمدة ١٢ شهرًا كاملة."}
           </p>
 
-          <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-            {comparisons.map((c) => (
-              <div
-                key={c.label}
-                className={`rounded-2xl p-4 border text-center transition ${
-                  c.ours
-                    ? "border-teal-500 bg-teal-500/10 dark:bg-teal-950/40 shadow-xs ring-1 ring-teal-500/30"
-                    : "border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900"
-                }`}
-              >
-                <span className="mb-2 block text-3xl" aria-hidden>
-                  {c.icon}
-                </span>
-                <p className="text-sm font-bold text-neutral-900 dark:text-white">{c.label}</p>
-                <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">{c.note}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="rounded-3xl border-2 border-emerald-500/50 bg-white dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-10 shadow-2xl shadow-emerald-500/10 text-center relative overflow-hidden ring-1 ring-emerald-500/30">
+          <div className="rounded-3xl border-2 border-emerald-500/40 bg-white dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-10 shadow-xl shadow-emerald-500/10 text-center relative overflow-hidden ring-1 ring-emerald-500/20">
             {/* Ambient luminous glow effects */}
             <div className="pointer-events-none absolute -top-24 -left-24 w-60 h-60 rounded-full bg-emerald-500/15 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-24 -right-24 w-60 h-60 rounded-full bg-teal-500/15 blur-3xl" />
 
-            {/* Prominent VIP Discount Ribbon */}
-            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-amber-500 text-white border border-white/20 text-xs font-black mb-4 shadow-md shadow-rose-500/25">
-              <span>👑</span>
-              <span>
-                {isEn
-                  ? "Exclusive Founding Cohort · Save 850 EGP (71% OFF)"
-                  : "عرض فوج التأسيس الأول الحصري · وفّرت 850 ج.م (خصم 71%)"}
-              </span>
+            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20 text-xs font-black mb-4">
+              <span>🌟</span>
+              <span>{isEn ? "All-Inclusive Annual Access" : "اشتراك سنوي شامل بدون مصاريف إضافية"}</span>
             </div>
 
             <h3 className="text-xl sm:text-2xl font-black text-neutral-900 dark:text-white mb-1">
-              {isEn ? "1-Year All-Access Pass to 100 Tracks" : "عضوية الوصول الشامل لمدة سنة لـ 100 مسار"}
+              {isEn ? "Tawwerni Pro Annual Pass" : "عضوية طوّرني برو السنوية"}
             </h3>
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-6">
               {isEn
-                ? "One-time investment · Zero recurring subscriptions · Future tracks included for a full year"
-                : "دفعة واحدة فقط · بدون أي اشتراكات دورية أو تجديد شهري · كل التحديثات والإضافات مشمولة مجانًا طوال مدة الاشتراك"}
+                ? "Your full guided path + projects + certificate + deep library of 100 tracks"
+                : "مسارك الموجه بالكامل + المهام التطبيقية + الشهادة المعتمدة + مكتبة الـ ١٠٠ مسار"}
             </p>
 
             {/* Clear Separated Price Typography */}
             <div className="my-5 p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/50 flex flex-col items-center justify-center">
-              <div className="flex items-center gap-2 text-neutral-400 text-sm font-semibold mb-1">
-                <span>{isEn ? "Standard Value:" : "السعر الأصلي:"}</span>
-                <span className="line-through font-mono font-bold text-base">
-                  {pricing.originalPriceEgp} {isEn ? "EGP" : "ج.م"}
-                </span>
-              </div>
               <div className="flex items-baseline justify-center gap-2">
                 <span className="text-5xl sm:text-6xl font-black text-emerald-600 dark:text-emerald-400 font-mono tracking-tight">
                   {pricing.priceEgp}
                 </span>
                 <span className="text-lg font-black text-neutral-800 dark:text-neutral-200">
-                  {isEn ? "EGP" : "ج.م"}
+                  {isEn ? "EGP / Year" : "جنيه / سنة"}
                 </span>
               </div>
-              <div className="mt-2 text-xs font-bold text-emerald-700 dark:text-emerald-300">
-                {isEn ? "⚡ Pay Once, Access for a Full Year" : "⚡ استثمار لمرة واحدة لسنة كاملة بدون تجديد تلقائي"}
+              <div className="mt-2 text-xs font-bold text-neutral-500 dark:text-neutral-400">
+                {isEn ? "One-time payment · 7-Day 100% Money-Back Guarantee" : "دفعة واحدة لعام كامل · مع ضمان استرجاع 100% خلال 7 أيام"}
               </div>
-            </div>
-
-            {/* Visual Animated Scarcity Progress Bar */}
-            <div className="mx-auto max-w-md my-4 p-4 rounded-2xl bg-amber-500/10 dark:bg-amber-950/30 border border-amber-500/30">
-              <div className="flex items-center justify-between text-xs font-bold mb-2">
-                <span className="text-amber-800 dark:text-amber-300 flex items-center gap-1.5">
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
-                  </span>
-                  {isEn
-                    ? `Only ${pricing.cohortSeatsRemaining} seats remaining at this launch price`
-                    : `متبقي ${pricing.cohortSeatsRemaining} مقعدًا فقط بهذا السعر الاستثنائي`}
-                </span>
-                <span className="text-neutral-600 dark:text-neutral-400 text-[11px] font-mono font-bold">
-                  {isEn ? "453 / 500 Claimed" : "٤٥٣ / ٥٠٠ مقعد"}
-                </span>
-              </div>
-              <div className="h-2.5 w-full bg-neutral-200 dark:bg-neutral-800 rounded-full overflow-hidden p-0.5">
-                <div className="h-full rounded-full bg-gradient-to-r from-teal-500 via-emerald-400 to-amber-400 w-[90.6%]" />
-              </div>
-              <p className="mt-2 text-[11px] text-amber-800 dark:text-amber-200 font-medium">
-                {isEn
-                  ? "Once the 500 founding seats are filled, pricing increases to 599 EGP."
-                  : "فور اكتمال الـ ٥٠٠ مقعد الأولى سيتم رفع الاشتراك إلى ٥٩٩ ج.م."}
-              </p>
-            </div>
-
-            {/* Cost-per-lesson Value Anchor */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 text-xs font-bold border border-emerald-300/40 mb-4">
-              <span>💡</span>
-              <span>
-                {isEn
-                  ? `Less than 0.25 EGP per lesson — for 100 tracks and ${totalLessons}+ actionable modules`
-                  : `أقل من ٢٥ قرشًا للدرس الواحد — لـ ١٠٠ مسار و${totalLessons}+ درس تطبيقي كامل`}
-              </span>
-            </div>
-
-            <div className="mb-4 rounded-2xl bg-teal-50/80 dark:bg-teal-950/40 p-4 text-xs leading-relaxed text-teal-950 dark:text-teal-200 border border-teal-200/60 dark:border-teal-800/60 flex items-start gap-3 text-start">
-              <span className="text-2xl shrink-0">💸</span>
-              <div>
-                <p className="font-bold text-teal-900 dark:text-teal-100 text-sm">
-                  {isEn ? "Recover 100% of Your Investment + Profit!" : "استرجع اشتراكك بالكامل وزيادة كاش!"}
-                </p>
-                <p className="mt-1 text-teal-800 dark:text-teal-300 text-xs leading-relaxed">
-                  {isEn
-                    ? `Refer 5 friends with your personal affiliate link = ${referral.commissionEgp * 5} EGP cash in your pocket. Instant withdrawal starting at ${referral.minPayoutEgp} EGP via Vodafone Cash or InstaPay.`
-                    : `٥ أصدقاء يشتركون برابطك الشخصي = ٣٧٥ ج.م كاش فوري في محفظتك (عمولة ٧٥ ج.م عن كل صديق، والسحب فوري من ١٥٠ ج.م عبر فودافون كاش أو إنستاباي).`}
-                </p>
-              </div>
-            </div>
-
-            {/* VIP Prompts Vault & Legal Contracts Hook */}
-            <div className="mb-6 rounded-2xl bg-gradient-to-r from-amber-500/15 via-yellow-500/10 to-amber-500/15 p-4 sm:p-5 text-xs leading-relaxed border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-start">
-              <div className="flex items-start gap-3">
-                <span className="text-2xl shrink-0">👑</span>
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <p className="font-black text-amber-900 dark:text-amber-200 text-sm">
-                      {isEn
-                        ? "Exclusive VIP Upgrade: 10,000 Prompts Database + 5 Freelance Legal Contracts"
-                        : "ترقية VIP الحصرية: قاعدة الـ 10,000 برومبت تنفيذي + 5 عقود فريلانس قانونية"}
-                    </p>
-                    <span className="rounded-md bg-amber-400 text-neutral-950 px-2 py-0.5 text-[10px] font-black">
-                      +{pricing.orderBumpPriceEgp} {isEn ? "EGP" : "ج.م"}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-neutral-700 dark:text-neutral-300 text-xs leading-relaxed">
-                    {isEn
-                      ? "Available at checkout: 100 specialized business domains × 100 copy-pasteable executive prompts (10,000 total) + 5 bilingual contracts preventing client non-payment and scope creep."
-                      : "متاحة اختياريًا عند الدفع: 100 مجال شركات × 100 برومبت تنفيذي جاهز للنسخ (10,000 برومبت) + 5 عقود عمل حر ثنائية اللغة تحمي أتعابك قانونيًا وتمنع المماطلة."}
-                  </p>
-                </div>
-              </div>
-              <Link
-                href="/quiz"
-                className="shrink-0 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-neutral-950 font-black text-xs hover:brightness-105 active:scale-95 transition-all shadow-md shadow-amber-500/20"
-              >
-                <span>📥</span>
-                <span>{isEn ? "Claim with VIP →" : "احصل عليها مع اشتراكك ←"}</span>
-              </Link>
             </div>
 
             {/* Feature Checklist */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-neutral-700 dark:text-neutral-300 mb-6 text-start">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-neutral-700 dark:text-neutral-300 my-6 text-start">
               {[
-                isEn ? "Instant access to all 100 professional tracks" : "فتح فوري لكافة الـ ١٠٠ مسار تخصصي",
-                isEn ? `Over ${totalLessons}+ micro-lessons with visual infographics` : `أكثر من ${totalLessons}+ درس عملي مصغر برسوم بيانية`,
-                isEn ? "Fully bilingual content (Arabic & English)" : "محتوى ثنائي اللغة بالكامل (عربي وإنجليزي)",
-                isEn ? "Psychological focus tools (Pomodoro & Alpha waves)" : "أدوات التركيز وبومودورو وموجات ألفا",
-                isEn ? "Verified community wall with 300+ real members" : "حائط المجتمع وقصص نجاح أكثر من ٣٠٠ عضو",
-                isEn ? "7-Day 100% Money-Back Guarantee" : "ضمان استرداد كامل خلال 7 أيام بدون أي تعقيد",
+                isEn ? "Full 28-day step-by-step roadmap in your chosen path" : "خطة الـ ٢٨ يومًا كاملة خطوة بخطوة في مسارك المختار",
+                isEn ? "Daily practical micro-missions with real-world output" : "مهمة تطبيقية عملية يومية تخرج منها بنتيجة ملموسة",
+                isEn ? "Verified certificate with authentic QR verification code" : "شهادة معتمدة موثقة برابط رسمي وكود QR لكل مسار تنجزه",
+                isEn ? "24/7 AI mentor (Faheem) reviewing your daily tasks" : "كوتش الذكاء الاصطناعي (فهيم) لمساعدتك ومراجعة تطبيقاتك 24/7",
+                isEn ? "Unlimited access to all 100 tracks as your deep library" : "فتح شامل لكافة الـ ١٠٠ مسار التخصصية كمكتبة مرجعية دائمة",
+                isEn ? "100% Money-Back Guarantee within 7 days with zero friction" : "ضمان استرجاع كامل بنسبة 100% خلال 7 أيام بدون أي تعقيد",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-2">
                   <span className="text-emerald-500 font-bold shrink-0">✓</span>
@@ -911,15 +885,15 @@ export default function LandingPageView() {
             >
               <span>
                 {isEn
-                  ? `Enroll Now & Claim Seat for Only ${pricing.priceEgp} EGP →`
-                  : `انضم الآن واحجز مقعدك بـ ${pricing.priceEgp} ج.م فقط ←`}
+                  ? `Discover Your Path & Start Day 1 Free →`
+                  : `اعرف مسارك وابدأ اليوم الأول مجانًا ←`}
               </span>
             </Link>
 
             <p className="mt-3 text-xs text-neutral-500 dark:text-neutral-400">
               {isEn
-                ? "Day 1 of every track is 100% open and free — try it first before paying anything"
-                : "اليوم الأول من كل مسار مفتوح مجانًا بالكامل — جرّب عمليًا قبل ما تدفع أي حاجة"}
+                ? "Try Day 1 hands-on before you decide — no credit card needed"
+                : "جرّب اليوم الأول عمليًا بيدك قبل أن تدفع أي شيء — لا نطلب أي بيانات بنكية"}
             </p>
           </div>
         </div>

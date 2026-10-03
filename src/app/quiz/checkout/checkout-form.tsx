@@ -347,21 +347,20 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
           <div className="mt-3 pt-3 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-neutral-300">
             <p className="flex items-center gap-2">
               <span className="relative flex h-2 w-2 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
               </span>
               <span className="text-[11px] sm:text-xs">
                 {isEn ? (
-                  <>Only <b className="text-amber-300 font-mono font-black">{pricing.cohortSeatsRemaining} seats</b> remaining at this launch price</>
+                  <>1-Year All-Access Pass · All 100 tracks & updates included</>
                 ) : (
-                  <>متبقٍ <b className="text-amber-300 font-mono font-black">{pricing.cohortSeatsRemaining} مقعدًا فقط</b> بهذا السعر المخفض</>
+                  <>عضوية الوصول الشامل لمدة سنة · تشمل كافة المسارات والتحديثات</>
                 )}
               </span>
             </p>
 
             <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-300/90 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2.5 py-0.5">
-              <span>🔒</span>
-              <span>{isEn ? "Guaranteed rate" : "سعر مضمون لك الآن"}</span>
+              <span>🛡️</span>
+              <span>{isEn ? "7-Day Money-Back Guarantee" : "ضمان استرجاع 100% خلال 7 أيام"}</span>
             </span>
           </div>
         </div>
@@ -429,7 +428,7 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className="text-amber-400">✓</span>
-                  <span>{isEn ? "Lifetime Access & Updates" : "وصول دائم وتحديثات مستمرة في حسابك"}</span>
+                  <span>{isEn ? "Permanent download & account updates" : "تحميل دائم وتحديثات مستمرة في حسابك"}</span>
                 </div>
               </div>
               <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] font-black">

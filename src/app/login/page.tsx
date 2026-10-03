@@ -55,7 +55,8 @@ function LoginInner() {
         return;
       }
 
-      window.location.href = data.hasOnboarded ? "/app" : "/onboarding";
+      const nextParam = params.get("next");
+      window.location.href = nextParam ? nextParam : (data.hasOnboarded ? "/app" : "/onboarding");
     } catch {
       setError(isEn ? "No internet connection. Please check your network and try again." : "مفيش اتصال بالإنترنت. اتأكد من الشبكة وجرّب تاني.");
       setLoading(false);
