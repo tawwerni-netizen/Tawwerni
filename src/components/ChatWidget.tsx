@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { brand } from "@/content/brand";
 import { useI18n } from "./LanguageContext";
+import { resolveDomainTheme } from "@/lib/design-system/domain-themes";
 
 type Message = { role: "user" | "assistant"; content: string };
 
@@ -26,6 +27,10 @@ export default function ChatWidget() {
   const isEn = lang === "en";
 
   const pathname = usePathname();
+  const trackSlugMatch = pathname.match(/\/app\/learn\/([^/]+)/);
+  const currentTrackSlug = trackSlugMatch ? trackSlugMatch[1] : null;
+  const domainTheme = currentTrackSlug ? resolveDomainTheme({ trackSlug: currentTrackSlug }) : null;
+
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -99,6 +104,25 @@ export default function ChatWidget() {
               ✕
             </button>
           </div>
+
+          {domainTheme && (
+            <div
+              className="px-3.5 py-1.5 text-[11px] font-bold flex items-center justify-between border-b transition-colors"
+              style={{
+                backgroundColor: `${domainTheme.palette.primary}18`,
+                borderColor: `${domainTheme.palette.primary}33`,
+                color: domainTheme.palette.accent,
+              }}
+            >
+              <span className="flex items-center gap-1.5">
+                <span>{domainTheme.icon}</span>
+                <span>{isEn ? domainTheme.nameEn : domainTheme.nameAr}</span>
+              </span>
+              <span className="text-[10px] opacity-80 font-mono">
+                {isEn ? "Context Active" : "سياق المجال مفعّل"}
+              </span>
+            </div>
+          )}
 
           <div className="flex-1 overflow-y-auto p-3 space-y-2">
             {messages.length === 0 && (

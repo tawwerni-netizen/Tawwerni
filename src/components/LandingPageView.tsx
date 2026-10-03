@@ -15,6 +15,7 @@ import TrackCardVisual from "@/components/TrackCardVisual";
 import FocusPlayer from "@/components/FocusPlayer";
 import InteractiveDopaminePreview from "@/components/InteractiveDopaminePreview";
 import { useI18n } from "./LanguageContext";
+import { resolveDomainTheme } from "@/lib/design-system/domain-themes";
 
 export default function LandingPageView() {
   const { lang } = useI18n();
@@ -442,26 +443,40 @@ export default function LandingPageView() {
 
           {/* 10 Pillars Badge Cloud */}
           <div className="mb-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5">
-            {TRACK_PILLARS.map((p) => (
-              <Link
-                key={p.id}
-                href={`/tracks?pillar=${p.id}`}
-                className="group flex flex-col p-3 rounded-2xl border border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 hover:border-teal-500/40 hover:shadow-md transition text-start"
-              >
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xl group-hover:scale-110 transition-transform">{p.icon}</span>
-                  <span className="text-[10px] font-bold text-neutral-400 group-hover:text-teal-500">
-                    {isEn ? "10 Tracks" : "10 مسارات"}
-                  </span>
-                </div>
-                <p className="text-xs font-bold text-neutral-900 dark:text-white line-clamp-1 group-hover:text-teal-600 transition-colors">
-                  {isEn ? p.nameEn : p.nameAr}
-                </p>
-                <p className="text-[10px] text-neutral-400 line-clamp-1 mt-0.5">
-                  {isEn ? p.nameAr : p.nameEn}
-                </p>
-              </Link>
-            ))}
+            {TRACK_PILLARS.map((p) => {
+              const theme = resolveDomainTheme({ pillarId: p.id });
+              return (
+                <Link
+                  key={p.id}
+                  href={`/tracks?pillar=${p.id}`}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = `${theme.palette.primary}66`;
+                    e.currentTarget.style.boxShadow = `0 12px 28px -10px ${theme.palette.primary}33`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "";
+                    e.currentTarget.style.boxShadow = "";
+                  }}
+                  className="group flex flex-col p-3 rounded-2xl border border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 transition-all text-start"
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-xl group-hover:scale-110 transition-transform">{p.icon}</span>
+                    <span
+                      className="text-[10px] font-bold text-neutral-400 transition-colors"
+                      style={{ color: undefined }}
+                    >
+                      {isEn ? "10 Tracks" : "10 مسارات"}
+                    </span>
+                  </div>
+                  <p className="text-xs font-bold text-neutral-900 dark:text-white line-clamp-1 transition-colors">
+                    {isEn ? p.nameEn : p.nameAr}
+                  </p>
+                  <p className="text-[10px] text-neutral-400 line-clamp-1 mt-0.5">
+                    {isEn ? p.nameAr : p.nameEn}
+                  </p>
+                </Link>
+              );
+            })}
           </div>
 
           {/* 6 Featured Tracks Grid */}

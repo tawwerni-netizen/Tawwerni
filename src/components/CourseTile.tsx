@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useI18n } from "./LanguageContext";
 import { getTrackBySlug } from "@/content/tracks100";
+import { resolveDomainTheme } from "@/lib/design-system/domain-themes";
 
 export default function CourseTile({
   slug,
@@ -33,6 +34,12 @@ export default function CourseTile({
   const track = getTrackBySlug(slug);
   const displayTitle = isEn ? (titleEn || track?.titleEn || title) : (title || track?.titleAr);
   const displayCategory = isEn ? (categoryEn || track?.pillarNameEn || category) : (category || track?.pillarNameAr);
+  const theme = resolveDomainTheme({
+    pillarId: track?.pillarId,
+    trackSlug: slug,
+    category: category || track?.pillarNameEn,
+    title,
+  });
 
   const pct = total ? Math.round((done / total) * 100) : 0;
   const complete = total > 0 && done >= total;
@@ -40,12 +47,27 @@ export default function CourseTile({
   return (
     <Link
       href={`/app/learn/${slug}`}
-      className={`tile-press relative block rounded-2xl border p-3.5 text-center transition-all bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-xs ${
-        isActive ? "border-teal-500 ring-2 ring-teal-500/20" : "border-black/10 dark:border-neutral-800 hover:border-teal-500/40"
-      }`}
+      style={
+        isActive
+          ? {
+              borderColor: theme.palette.primary,
+              boxShadow: `0 0 0 2px ${theme.palette.primary}33`,
+            }
+          : undefined
+      }
+      onMouseEnter={(e) => {
+        if (!isActive) e.currentTarget.style.borderColor = `${theme.palette.primary}66`;
+      }}
+      onMouseLeave={(e) => {
+        if (!isActive) e.currentTarget.style.borderColor = "";
+      }}
+      className="tile-press relative block rounded-2xl border border-black/10 dark:border-neutral-800 p-3.5 text-center transition-all bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-xs"
     >
       {isActive && (
-        <span className="absolute top-2 end-2 rounded-full bg-teal-600 px-2 py-0.5 text-[9px] font-bold text-white shadow-xs">
+        <span
+          className="absolute top-2 end-2 rounded-full px-2 py-0.5 text-[9px] font-bold text-white shadow-xs"
+          style={{ backgroundColor: theme.palette.primary }}
+        >
           {isEn ? "Active" : "شغّال"}
         </span>
       )}
@@ -61,20 +83,30 @@ export default function CourseTile({
       <div className="truncate text-xs font-bold" title={displayTitle}>
         {displayTitle}
       </div>
-      <div className="truncate text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5">
-        {displayCategory}
+      <div className="truncate text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 flex items-center justify-center gap-1">
+        <span
+          className="w-1.5 h-1.5 rounded-full shrink-0"
+          style={{ backgroundColor: theme.palette.primary }}
+        />
+        <span className="truncate">{displayCategory}</span>
       </div>
 
       <div className="mt-2.5">
         <div className="progress-track" role="presentation">
-          <span className="progress-fill" style={{ width: `${pct}%` }} />
+          <span
+            className="progress-fill"
+            style={{ width: `${pct}%`, backgroundColor: theme.palette.primary }}
+          />
         </div>
         <div className="mt-1 text-[10px] text-neutral-400 font-mono">
           {done}/{total} {isEn ? "Days" : "يوم"}
         </div>
       </div>
 
-      <div className="mt-1 text-[10px] font-medium text-teal-600 dark:text-teal-400">
+      <div
+        className="mt-1 text-[10px] font-medium"
+        style={{ color: theme.palette.primary }}
+      >
         {unlocked ? (isEn ? "Unlocked ✓" : "مفتوح ✓") : (isEn ? "Included in Pass" : "ضمن الاشتراك")}
       </div>
     </Link>

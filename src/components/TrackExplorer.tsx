@@ -6,6 +6,7 @@ import { ALL_100_TRACKS, TRACK_PILLARS, Track100 } from "@/content/tracks100";
 import TrackCardVisual from "@/components/TrackCardVisual";
 import { getTrackArtwork } from "@/content/track-artworks";
 import { useI18n } from "@/components/LanguageContext";
+import { resolveDomainTheme } from "@/lib/design-system/domain-themes";
 
 export default function TrackExplorer() {
   const { lang, t } = useI18n();
@@ -125,13 +126,24 @@ export default function TrackExplorer() {
 
         {TRACK_PILLARS.map((pillar) => {
           const isSelected = selectedPillarId === pillar.id;
+          const theme = resolveDomainTheme({ pillarId: pillar.id });
           return (
             <button
               key={pillar.id}
               onClick={() => setSelectedPillarId(isSelected ? null : pillar.id)}
+              style={
+                isSelected
+                  ? {
+                      background: `linear-gradient(135deg, ${theme.palette.primary}, ${theme.palette.secondary})`,
+                      color: "#ffffff",
+                      boxShadow: `0 8px 20px -6px ${theme.palette.primary}66`,
+                      borderColor: theme.palette.accent,
+                    }
+                  : undefined
+              }
               className={`flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition-all ${
                 isSelected
-                  ? "bg-teal-600 text-white dark:bg-teal-400 dark:text-neutral-950 shadow-md"
+                  ? "font-black border shadow-md"
                   : "border border-black/10 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800"
               }`}
             >

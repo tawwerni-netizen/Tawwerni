@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { TrackSkillTree, SkillNode } from "@/content/skill-trees";
 import { useI18n } from "./LanguageContext";
+import { resolveDomainTheme } from "@/lib/design-system/domain-themes";
 
 export default function SkillTreeView({ tree }: { tree: TrackSkillTree }) {
   const { lang } = useI18n();
   const isEn = lang === "en";
 
+  const theme = resolveDomainTheme({ trackSlug: tree.trackSlug, title: tree.titleAr });
   const masteredCount = tree.skills.filter((s) => s.status === "mastered").length;
   const progressPercent = Math.round((masteredCount / tree.skills.length) * 100);
 
@@ -17,7 +19,10 @@ export default function SkillTreeView({ tree }: { tree: TrackSkillTree }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-black text-teal-600 dark:text-teal-400 uppercase tracking-wider">
+            <span
+              className="text-xs font-black uppercase tracking-wider"
+              style={{ color: theme.palette.primary }}
+            >
               {isEn ? "COMPETENCY TREE" : "خريطة المهارات المعتمدة"}
             </span>
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-mono">
@@ -38,7 +43,10 @@ export default function SkillTreeView({ tree }: { tree: TrackSkillTree }) {
             <span>{isEn ? "Mastered ⭐" : "متقنة ⭐"}</span>
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded-full bg-teal-400 shadow-xs" />
+            <span
+              className="w-2.5 h-2.5 rounded-full shadow-xs"
+              style={{ backgroundColor: theme.palette.accent }}
+            />
             <span>{isEn ? "In Progress ⚡" : "قيد التطوير ⚡"}</span>
           </span>
           <span className="flex items-center gap-1">
@@ -63,11 +71,20 @@ export default function SkillTreeView({ tree }: { tree: TrackSkillTree }) {
           return (
             <div
               key={skill.id}
+              style={
+                isInProgress
+                  ? {
+                      backgroundColor: `${theme.palette.primary}12`,
+                      borderColor: `${theme.palette.primary}55`,
+                      boxShadow: `0 0 0 1px ${theme.palette.primary}22`,
+                    }
+                  : undefined
+              }
               className={`relative rounded-2xl p-4 border transition-all flex flex-col justify-between gap-3 ${
                 isMastered
                   ? "bg-amber-500/10 border-amber-400/40 text-neutral-900 dark:text-white shadow-xs"
                   : isInProgress
-                  ? "bg-teal-500/10 border-teal-500/40 text-neutral-900 dark:text-white ring-1 ring-teal-500/20"
+                  ? "text-neutral-900 dark:text-white"
                   : isAvailable
                   ? "bg-neutral-50 dark:bg-neutral-800/40 border-black/5 dark:border-white/10 text-neutral-800 dark:text-neutral-200"
                   : "bg-neutral-100/50 dark:bg-neutral-900/40 border-black/5 dark:border-white/5 opacity-60 text-neutral-400"
@@ -80,11 +97,20 @@ export default function SkillTreeView({ tree }: { tree: TrackSkillTree }) {
                   </span>
 
                   <span
+                    style={
+                      isInProgress
+                        ? {
+                            backgroundColor: `${theme.palette.primary}22`,
+                            color: theme.palette.accent,
+                            borderColor: `${theme.palette.primary}44`,
+                          }
+                        : undefined
+                    }
                     className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${
                       isMastered
                         ? "bg-amber-400 text-neutral-950 border-amber-300 font-bold"
                         : isInProgress
-                        ? "bg-teal-500/20 text-teal-700 dark:text-teal-300 border-teal-500/30"
+                        ? ""
                         : isAvailable
                         ? "bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 border-transparent"
                         : "bg-neutral-200 dark:bg-neutral-800 text-neutral-400 border-transparent"

@@ -10,6 +10,7 @@ import { useI18n } from "./LanguageContext";
 import LanguageToggle from "./LanguageToggle";
 import ThemeToggle from "./ThemeToggle";
 import { LogoLink } from "./Logo";
+import { resolveDomainTheme } from "@/lib/design-system/domain-themes";
 
 type Stage = "objective" | "learn" | "example" | "practice" | "evaluating" | "feedback" | "complete";
 
@@ -94,6 +95,7 @@ export default function MissionPlayer({
   const [error, setError] = useState("");
 
   const skill = mission.targetSkill;
+  const theme = resolveDomainTheme({ trackSlug: mission.slug, title: mission.titleAr });
 
   useEffect(() => {
     recordRecentLearningClient({
@@ -180,7 +182,12 @@ export default function MissionPlayer({
     >
       {/* Ambient background glows */}
       <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-gradient-to-b from-teal-500/15 via-emerald-500/10 to-transparent blur-3xl rounded-full" />
+        <div
+          className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[350px] blur-3xl rounded-full transition-all duration-700"
+          style={{
+            background: `radial-gradient(ellipse at center, ${theme.palette.primary}26 0%, ${theme.palette.secondary}15 50%, transparent 80%)`,
+          }}
+        />
       </div>
 
       {/* Top Mission Cockpit Bar */}
@@ -211,7 +218,14 @@ export default function MissionPlayer({
               </span>
             )}
 
-            <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold">
+            <span
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border transition-colors"
+              style={{
+                backgroundColor: `${theme.palette.primary}20`,
+                borderColor: `${theme.palette.primary}4d`,
+                color: theme.palette.accent,
+              }}
+            >
               <span>{skill.icon}</span>
               <span>{isEn ? skill.nameEn : skill.nameAr}</span>
             </span>
@@ -246,9 +260,19 @@ export default function MissionPlayer({
             return (
               <div
                 key={st.id}
+                style={
+                  isActive
+                    ? {
+                        backgroundColor: `${theme.palette.primary}25`,
+                        borderColor: `${theme.palette.primary}66`,
+                        color: theme.palette.accent,
+                        boxShadow: `0 0 14px ${theme.palette.primary}33`,
+                      }
+                    : undefined
+                }
                 className={`flex items-center gap-1.5 px-3 py-1 rounded-full transition-all text-[11px] sm:text-xs ${
                   isActive
-                    ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-black shadow-xs shadow-emerald-500/20"
+                    ? "border font-black"
                     : isDone
                     ? "text-emerald-400/80 bg-white/5 font-semibold"
                     : "text-neutral-500"
@@ -417,11 +441,19 @@ export default function MissionPlayer({
             </div>
 
             {/* Benchmark display box */}
-            <div className="rounded-3xl bg-black/60 border-2 border-amber-400/40 p-5 sm:p-6 shadow-2xl relative font-mono text-xs sm:text-sm leading-relaxed text-amber-100 whitespace-pre-wrap">
-              <div className="absolute top-3 end-3 text-[10px] font-black uppercase bg-amber-400 text-neutral-950 px-2.5 py-0.5 rounded-full font-sans">
-                ⭐ {isEn ? "Exemplary Benchmark" : "نموذج مثالي"}
+            <div className="rounded-3xl bg-black/60 border-2 border-amber-400/40 p-5 sm:p-6 shadow-2xl">
+              <div className="flex items-center justify-between pb-3 border-b border-amber-400/20 mb-4">
+                <span className="text-xs font-bold text-amber-300/90 flex items-center gap-1.5 font-sans">
+                  <span>💎</span>
+                  <span>{isEn ? "Standard Benchmark Specification" : "مواصفات المخرج المعياري"}</span>
+                </span>
+                <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase bg-amber-400 text-neutral-950 px-3 py-1 rounded-full font-sans shrink-0 shadow-xs">
+                  ⭐ {isEn ? "Exemplary Benchmark" : "نموذج مثالي"}
+                </span>
               </div>
-              {mission.goldenExample.content}
+              <div className="font-mono text-xs sm:text-sm leading-relaxed text-amber-100 whitespace-pre-wrap">
+                {mission.goldenExample.content}
+              </div>
             </div>
 
             <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs text-neutral-300 leading-relaxed">

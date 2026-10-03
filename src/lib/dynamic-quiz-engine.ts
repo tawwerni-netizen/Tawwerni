@@ -1580,7 +1580,10 @@ export function generateUniversalTrackQuiz(params: {
   const { track, day, totalLessons, outcomeAr, outcomeEn, lessonId } = params;
 
   // 1. If this is Prompt Engineering Mastery, return the custom 24-day curriculum!
-  if (track.slug === "prompt-engineering-mastery" && PROMPT_ENGINEERING_CURRICULUM[day]) {
+  if (
+    (track.slug === "prompt-engineering-mastery" || track.slug === "tahaddi-28-yawm") &&
+    PROMPT_ENGINEERING_CURRICULUM[day]
+  ) {
     return PROMPT_ENGINEERING_CURRICULUM[day];
   }
 

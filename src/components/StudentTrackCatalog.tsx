@@ -8,6 +8,7 @@ import { useI18n } from "./LanguageContext";
 import TrackCardVisual from "./TrackCardVisual";
 import { getTrackArtwork } from "@/content/track-artworks";
 import { getRecentLearningClient } from "@/lib/recent-learning";
+import { resolveDomainTheme } from "@/lib/design-system/domain-themes";
 
 type Props = {
   completedTrackSlugs?: string[];
@@ -237,13 +238,24 @@ export default function StudentTrackCatalog({
 
         {TRACK_PILLARS.map((pillar) => {
           const isSelected = selectedPillarId === pillar.id;
+          const theme = resolveDomainTheme({ pillarId: pillar.id });
           return (
             <button
               key={pillar.id}
               onClick={() => setSelectedPillarId(isSelected ? null : pillar.id)}
+              style={
+                isSelected
+                  ? {
+                      background: `linear-gradient(135deg, ${theme.palette.primary}, ${theme.palette.secondary})`,
+                      color: "#ffffff",
+                      boxShadow: `0 8px 20px -6px ${theme.palette.primary}66`,
+                      borderColor: theme.palette.accent,
+                    }
+                  : undefined
+              }
               className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition-all ${
                 isSelected
-                  ? "bg-gradient-to-r from-teal-600 to-emerald-500 text-white shadow-md shadow-teal-500/20 font-black"
+                  ? "font-black border shadow-md"
                   : "border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900/80 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800"
               }`}
             >

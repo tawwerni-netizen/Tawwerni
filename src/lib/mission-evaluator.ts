@@ -1,3 +1,4 @@
+import Anthropic from "@anthropic-ai/sdk";
 import { loadMission, MissionData } from "./mission-adapter";
 
 export type EvaluationResponse = {
@@ -25,16 +26,124 @@ export type EvaluationResponse = {
 };
 
 /**
- * Intelligent deterministic & semantic rubric evaluator for mission submissions.
+ * Calls Anthropic Claude for real semantic evaluation against the mission's rubric criteria.
+ */
+async function evaluateWithLLM(
+  mission: MissionData,
+  submissionText: string
+): Promise<EvaluationResponse | null> {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return null;
+
+  try {
+    const anthropic = new Anthropic({ apiKey });
+    const rubricPrompt = mission.rubric
+      .map((r, i) => `${i + 1}. [Weight ${r.weight}%] ${r.nameAr}: ${r.descriptionAr}`)
+      .join("\n");
+
+    const systemPrompt = `You are an expert pedagogical evaluator and professional mentor for the "Tawwerni" Learning Operating System.
+Your task is to rigorously evaluate a student's hands-on deliverable against explicit rubric standards.
+Threshold for passing: 75/100.
+Be constructively honest. Reward depth, precision, and workplace utility. Penalize superficiality, platitudes, or missing constraints.
+
+Respond ONLY with a valid JSON object matching this schema:
+{
+  "score": number (0-100),
+  "passed": boolean (score >= 75),
+  "headlineAr": string,
+  "headlineEn": string,
+  "wellAr": [string, string],
+  "wellEn": [string, string],
+  "improveAr": [string],
+  "improveEn": [string],
+  "nextMoveAr": string,
+  "nextMoveEn": string
+}`;
+
+    const userPrompt = `MISSION:
+Track: ${mission.titleAr} (${mission.titleEn})
+Day ${mission.dayNumber} Objective: ${mission.objective.accomplishAr}
+Required Artifact: ${mission.objective.produceAr}
+Target Skill: ${mission.targetSkill.nameAr} (${mission.targetSkill.nameEn})
+
+RUBRIC CRITERIA:
+${rubricPrompt}
+
+STUDENT SUBMISSION:
+"""
+${submissionText}
+"""
+
+Evaluate the student's submission now and output the JSON evaluation.`;
+
+    const response = await anthropic.messages.create({
+      model: "claude-3-5-haiku-20241022",
+      max_tokens: 600,
+      temperature: 0.2,
+      system: systemPrompt,
+      messages: [{ role: "user", content: userPrompt }],
+    });
+
+    const textBlock = response.content.find((b) => b.type === "text");
+    if (!textBlock || textBlock.type !== "text") return null;
+
+    const rawJson = textBlock.text.trim().replace(/^```json\s*/i, "").replace(/```$/, "").trim();
+    const parsed = JSON.parse(rawJson);
+
+    if (typeof parsed.score === "number") {
+      const score = Math.min(100, Math.max(0, Math.round(parsed.score)));
+      const passed = score >= 75;
+      const skill = mission.targetSkill;
+
+      return {
+        score,
+        passed,
+        status: passed ? "passed" : "needs_revision",
+        headlineAr: parsed.headlineAr || (passed ? "اكتملت المهمة بنجاح! تم إثبات المهارة ⭐" : "ليس بعد — اقتربت من معايير الإتقان! (Not yet)"),
+        headlineEn: parsed.headlineEn || (passed ? "Mission Complete! Skill Demonstrated ⭐" : "Not yet — You're close to mastery standards!"),
+        wellAr: Array.isArray(parsed.wellAr) && parsed.wellAr.length > 0 ? parsed.wellAr : ["تطبيق متميز ومباشر للمطلوب."],
+        wellEn: Array.isArray(parsed.wellEn) && parsed.wellEn.length > 0 ? parsed.wellEn : ["Direct, practical execution of the mission."],
+        improveAr: Array.isArray(parsed.improveAr) && parsed.improveAr.length > 0 ? parsed.improveAr : ["راجع النموذج المعياري لمزيد من التحديد."],
+        improveEn: Array.isArray(parsed.improveEn) && parsed.improveEn.length > 0 ? parsed.improveEn : ["Review benchmark for higher precision."],
+        nextMoveAr: parsed.nextMoveAr || (passed ? "تم توثيق المهارة بنجاح، انتقل للمهمة التالية." : "أعد المحاولة بعد ضبط الملاحظات أعلاه."),
+        nextMoveEn: parsed.nextMoveEn || (passed ? "Skill verified! Proceed to next mission." : "Try again after applying feedback."),
+        skillId: skill.id,
+        skillNameAr: skill.nameAr,
+        skillNameEn: skill.nameEn,
+        skillIcon: skill.icon,
+        xpEarned: passed ? mission.xpReward : 0,
+        evaluatorMeta: {
+          model: "claude-3-5-haiku-20241022",
+          version: "2.0.0",
+          timestamp: new Date().toISOString(),
+        },
+      };
+    }
+  } catch (err) {
+    console.warn("LLM evaluation fallback to heuristic evaluator:", err);
+  }
+
+  return null;
+}
+
+/**
+ * Intelligent dual-layer evaluator: Real Claude Structured LLM when key is present,
+ * with resilient deterministic rubric scoring fallback.
  */
 export async function evaluateMissionSubmission(
   mission: MissionData,
   submissionText: string,
   userEmail?: string
 ): Promise<EvaluationResponse> {
+  // 1. Try real LLM evaluation first
+  const llmResult = await evaluateWithLLM(mission, submissionText);
+  if (llmResult) {
+    return llmResult;
+  }
+
+  // 2. Deterministic & semantic rubric fallback
   const text = (submissionText || "").trim();
   const wordCount = text.split(/\s+/).filter(Boolean).length;
-  const charCount = text.length;
 
   // Analysis dimensions
   const hasStructure = text.includes("\n") || text.includes(":") || text.includes("-") || text.includes("[");
@@ -84,8 +193,8 @@ export async function evaluateMissionSubmission(
       skillIcon: skill.icon,
       xpEarned: mission.xpReward,
       evaluatorMeta: {
-        model: "claude-sonnet-5/evaluator-v1",
-        version: "1.0.0",
+        model: "heuristic-rubric/v2",
+        version: "2.0.0",
         timestamp: new Date().toISOString(),
       },
     };
@@ -120,8 +229,8 @@ export async function evaluateMissionSubmission(
       skillIcon: skill.icon,
       xpEarned: 0,
       evaluatorMeta: {
-        model: "claude-sonnet-5/evaluator-v1",
-        version: "1.0.0",
+        model: "heuristic-rubric/v2",
+        version: "2.0.0",
         timestamp: new Date().toISOString(),
       },
     };

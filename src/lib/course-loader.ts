@@ -93,11 +93,51 @@ export type UniversalCourse = {
 const courseCache = new Map<string, UniversalCourse>();
 
 /**
- * Finds either a track from ALL_100_TRACKS or a handcrafted course from allCourses.
+ * Bidirectional mapping bridging the 15 deep, handcrafted courses to their
+ * corresponding modern English-kebab slugs in ALL_100_TRACKS.
+ */
+export const HANDCRAFTED_TO_TRACK_SLUG_MAP: Record<string, string> = {
+  "tahaddi-28-yawm": "prompt-engineering-mastery",
+  "ebni-mansetak": "building-launching-mvp",
+  "el-3amal-el-horr": "zero-to-first-dollar-freelancer",
+  "kalod-modeer-ebdaay": "creative-direction-pitching",
+  "enta-fi-ay-makan": "ai-video-creation",
+  "claude-lel-mashroaat": "ai-workplace-productivity",
+  "bina-el-amal": "business-model-canvas-monetization",
+  "nomo-mehany": "career-transitions-adaptability",
+  "el-tasweeq-el-raqamy": "integrated-digital-marketing-strategy",
+  "tahlil-el-bayanat": "data-driven-decision-making",
+  "el-aman-el-raqamy": "personal-cyber-hygiene-opsec",
+  "fan-el-tawasol": "art-of-persuasion-influence",
+  "el-entagiya": "atomic-habits-relentless-focus",
+  "namat-el-nagah": "growth-mindset-psychological-grit",
+  "sehha-w-taqa": "energy-management-sleep-architecture",
+};
+
+export const TRACK_TO_HANDCRAFTED_SLUG_MAP: Record<string, string> = Object.fromEntries(
+  Object.entries(HANDCRAFTED_TO_TRACK_SLUG_MAP).map(([h, t]) => [t, h])
+);
+
+/**
+ * Finds either a track from ALL_100_TRACKS or a handcrafted course from allCourses,
+ * utilizing the bidirectional bridge so handcrafted depth powers the 100 catalog.
  */
 export function findTrackOrHandcrafted(slug: string): { track?: Track100; handcrafted?: CourseDefinition } {
-  const track = getTrackBySlug(slug);
-  const handcrafted = getCourseBySlug(slug);
+  let track = getTrackBySlug(slug);
+  let handcrafted = getCourseBySlug(slug);
+
+  // Cross-resolution via mapping bridge
+  if (track && !handcrafted) {
+    const pairedHandcraftedSlug = TRACK_TO_HANDCRAFTED_SLUG_MAP[slug];
+    if (pairedHandcraftedSlug) {
+      handcrafted = getCourseBySlug(pairedHandcraftedSlug);
+    }
+  } else if (handcrafted && !track) {
+    const pairedTrackSlug = HANDCRAFTED_TO_TRACK_SLUG_MAP[slug];
+    if (pairedTrackSlug) {
+      track = getTrackBySlug(pairedTrackSlug);
+    }
+  }
 
   if (track || handcrafted) {
     return { track, handcrafted };
@@ -108,7 +148,9 @@ export function findTrackOrHandcrafted(slug: string): { track?: Track100; handcr
     (t) => t.slug === slug || t.titleEn.toLowerCase().replace(/[^a-z0-9]+/g, "-") === slug
   );
   if (fallbackTrack) {
-    return { track: fallbackTrack };
+    const pairedHandcraftedSlug = TRACK_TO_HANDCRAFTED_SLUG_MAP[fallbackTrack.slug];
+    const pairedHandcrafted = pairedHandcraftedSlug ? getCourseBySlug(pairedHandcraftedSlug) : undefined;
+    return { track: fallbackTrack, handcrafted: pairedHandcrafted };
   }
 
   return {};
@@ -383,8 +425,9 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
 /**
  * Converts a handcrafted CourseDefinition into our UniversalCourse structure.
  */
-function convertHandcrafted(def: CourseDefinition, matchingTrack?: Track100): UniversalCourse {
+function convertHandcrafted(def: CourseDefinition, matchingTrack?: Track100, requestedSlug?: string): UniversalCourse {
   const meta = def.meta;
+  const finalSlug = requestedSlug || matchingTrack?.slug || meta.slug;
   const totalLessons = def.modules.flatMap((m) => m.lessons).length;
   const totalXp = def.modules.flatMap((m) => m.lessons).reduce((sum, l) => sum + l.xp, 0);
 
@@ -396,9 +439,9 @@ function convertHandcrafted(def: CourseDefinition, matchingTrack?: Track100): Un
   const catEn = matchingTrack?.pillarNameEn || meta.category;
 
   const modules: UniversalModule[] = def.modules.map((m, mIdx) => {
-    const moduleId = `mod-${meta.slug}-${mIdx + 1}`;
+    const moduleId = `mod-${finalSlug}-${mIdx + 1}`;
     const lessons: UniversalLesson[] = m.lessons.map((l, lIdx) => {
-      const lessonId = `les-${meta.slug}-${l.day}`;
+      const lessonId = `les-${finalSlug}-${l.day}`;
       const cardsAr: Card[] = [
         ...l.cards.map((c) => ({
           type: "info" as const,
@@ -563,8 +606,8 @@ function convertHandcrafted(def: CourseDefinition, matchingTrack?: Track100): Un
   });
 
   return {
-    id: `course-${meta.slug}`,
-    slug: meta.slug,
+    id: `course-${finalSlug}`,
+    slug: finalSlug,
     order: matchingTrack?.order || 1,
     title: titleAr,
     titleAr,
@@ -610,7 +653,7 @@ export function loadUniversalCourse(slug: string): UniversalCourse | null {
 
   let course: UniversalCourse;
   if (handcrafted) {
-    course = convertHandcrafted(handcrafted, track);
+    course = convertHandcrafted(handcrafted, track, slug);
   } else if (track) {
     course = synthesizeTrackCourse(track);
   } else {

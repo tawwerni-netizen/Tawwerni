@@ -277,6 +277,19 @@ export function getTrackSkillTree(
   // Check for handcrafted definition or generate dynamically from course content
   let heroTree = HERO_SKILL_TREES[trackSlug];
 
+  if (!heroTree && trackSlug === "prompt-engineering-mastery" && HERO_SKILL_TREES["tahaddi-28-yawm"]) {
+    heroTree = {
+      ...HERO_SKILL_TREES["tahaddi-28-yawm"],
+      trackSlug: "prompt-engineering-mastery",
+      titleAr: "هندسة الأوامر المتقدمة (Prompt Engineering)",
+    };
+  } else if (!heroTree && trackSlug === "el-3amal-el-horr" && HERO_SKILL_TREES["zero-to-first-dollar-freelancer"]) {
+    heroTree = {
+      ...HERO_SKILL_TREES["zero-to-first-dollar-freelancer"],
+      trackSlug: "el-3amal-el-horr",
+    };
+  }
+
   if (!heroTree) {
     const course = loadUniversalCourse(trackSlug);
     if (course) {

@@ -29,16 +29,16 @@ export type Track100 = {
 };
 
 export const TRACK_PILLARS = [
-  { id: 1, nameAr: "الذكاء الاصطناعي وهندسة الأوامر", nameEn: "AI & Prompt Engineering", icon: "🤖", color: "from-emerald-500 to-teal-700" },
-  { id: 2, nameAr: "البرمجة وتطوير البرمجيات", nameEn: "Software & Web Development", icon: "💻", color: "from-blue-500 to-indigo-700" },
-  { id: 3, nameAr: "تحليل البيانات والذكاء التجاري", nameEn: "Data Analytics & BI", icon: "📊", color: "from-cyan-500 to-blue-700" },
-  { id: 4, nameAr: "العمل الحر وبناء الوكالات", nameEn: "Freelancing & Micro-Agencies", icon: "💼", color: "from-amber-500 to-orange-700" },
-  { id: 5, nameAr: "التسويق الرقمي ونمو المبيعات", nameEn: "Digital Marketing & Growth", icon: "🚀", color: "from-rose-500 to-pink-700" },
-  { id: 6, nameAr: "التصميم والوسائط الإبداعية", nameEn: "UI/UX & Creative Media", icon: "🎨", color: "from-purple-500 to-violet-700" },
-  { id: 7, nameAr: "ريادة الأعمال وبناء المشاريع", nameEn: "Entrepreneurship & Startups", icon: "🏢", color: "from-teal-500 to-emerald-800" },
-  { id: 8, nameAr: "الأمن السيبراني وحماية الخصوصية", nameEn: "Cybersecurity & Privacy", icon: "🛡️", color: "from-red-500 to-rose-800" },
-  { id: 9, nameAr: "المهارات الناعمة والقيادة", nameEn: "Soft Skills & Leadership", icon: "🗣️", color: "from-amber-400 to-yellow-600" },
-  { id: 10, nameAr: "الإنتاجية وإدارة الذات والصحة", nameEn: "Productivity & Mindset", icon: "🧠", color: "from-teal-400 to-sky-700" },
+  { id: 1, nameAr: "الذكاء الاصطناعي وهندسة الأوامر", nameEn: "AI & Prompt Engineering", icon: "🤖", color: "from-emerald-500 to-teal-800" },
+  { id: 2, nameAr: "البرمجة وتطوير البرمجيات", nameEn: "Software & Web Development", icon: "💻", color: "from-indigo-500 to-indigo-900" },
+  { id: 3, nameAr: "تحليل البيانات والذكاء التجاري", nameEn: "Data Analytics & BI", icon: "📊", color: "from-cyan-500 to-sky-900" },
+  { id: 4, nameAr: "العمل الحر وبناء الوكالات", nameEn: "Freelancing & Micro-Agencies", icon: "💼", color: "from-amber-500 to-amber-900" },
+  { id: 5, nameAr: "التسويق الرقمي ونمو المبيعات", nameEn: "Digital Marketing & Growth", icon: "🚀", color: "from-rose-500 to-rose-950" },
+  { id: 6, nameAr: "التصميم والوسائط الإبداعية", nameEn: "UI/UX & Creative Media", icon: "🎨", color: "from-purple-500 to-violet-950" },
+  { id: 7, nameAr: "ريادة الأعمال وبناء المشاريع", nameEn: "Entrepreneurship & Startups", icon: "🏢", color: "from-orange-500 to-amber-950" },
+  { id: 8, nameAr: "الأمن السيبراني وحماية الخصوصية", nameEn: "Cybersecurity & Privacy", icon: "🛡️", color: "from-red-500 to-rose-950" },
+  { id: 9, nameAr: "المهارات الناعمة والقيادة", nameEn: "Soft Skills & Leadership", icon: "🗣️", color: "from-yellow-500 to-amber-950" },
+  { id: 10, nameAr: "الإنتاجية وإدارة الذات والصحة", nameEn: "Productivity & Mindset", icon: "🧠", color: "from-teal-500 to-teal-950" },
 ] as const;
 
 export const ALL_100_TRACKS: Track100[] = [

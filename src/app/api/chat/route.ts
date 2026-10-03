@@ -18,7 +18,15 @@ export async function POST(request: Request) {
   const gate = testBypass(request) ? ({ ok: true } as const) : rateLimit(`chat:${userId}`, 30, 3600);
   if (!gate.ok) return tooMany(gate, "أسئلة كتير في وقت قصير. استنى شوية.");
 
-  const { message, lang = "ar" } = await readJson(request);
+  const {
+    message,
+    lang = "ar",
+    activeMissionTitle = null,
+    activeMissionObjective = null,
+    targetSkill = null,
+    weakSkill = null,
+    recentRubricFeedback = null,
+  } = await readJson(request);
   const isEn = lang === "en";
 
   if (typeof message !== "string" || !message.trim()) {
@@ -62,6 +70,11 @@ export async function POST(request: Request) {
         archetype: user?.archetype ?? null,
         currentCourseTitle: latest?.lesson.module.course.title ?? null,
         currentDay: latest?.lesson.dayNumber ?? null,
+        activeMissionTitle: typeof activeMissionTitle === "string" ? activeMissionTitle.slice(0, 150) : null,
+        activeMissionObjective: typeof activeMissionObjective === "string" ? activeMissionObjective.slice(0, 300) : null,
+        targetSkill: typeof targetSkill === "string" ? targetSkill.slice(0, 100) : null,
+        weakSkill: typeof weakSkill === "string" ? weakSkill.slice(0, 100) : null,
+        recentRubricFeedback: typeof recentRubricFeedback === "string" ? recentRubricFeedback.slice(0, 300) : null,
         lang: isEn ? "en" : "ar",
       }
     );
