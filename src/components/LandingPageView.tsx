@@ -72,14 +72,14 @@ export default function LandingPageView() {
             </Link>
             <Link
               href="/tracks"
-              className="text-xs font-bold text-neutral-700 dark:text-neutral-200 hover:text-teal-600 dark:hover:text-teal-300 transition-colors hidden sm:inline-flex items-center gap-1.5 bg-black/5 dark:bg-white/10 border border-black/5 dark:border-white/15 px-3 py-1.5 rounded-full"
+              className="text-xs font-bold text-amber-800 dark:text-amber-300 hover:bg-amber-500/20 transition-all hidden sm:inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/25 px-3 py-1.5 rounded-full shadow-xs"
             >
               <span>🌟</span>
               <span>{isEn ? "100 Tracks" : "الـ 100 مسار"}</span>
             </Link>
             <Link
               href="/community"
-              className="text-xs font-bold text-neutral-700 dark:text-neutral-200 hover:text-teal-600 dark:hover:text-teal-300 transition-colors hidden md:inline-flex items-center gap-1.5 bg-black/5 dark:bg-white/10 border border-black/5 dark:border-white/15 px-3 py-1.5 rounded-full"
+              className="text-xs font-bold text-indigo-800 dark:text-indigo-300 hover:bg-indigo-500/20 transition-all hidden md:inline-flex items-center gap-1.5 bg-indigo-500/10 border border-indigo-500/25 px-3 py-1.5 rounded-full shadow-xs"
             >
               <span>👥</span>
               <span>{isEn ? "Community (300+)" : "المجتمع (٣٠٠+)"}</span>

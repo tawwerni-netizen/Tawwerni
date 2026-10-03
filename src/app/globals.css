@@ -211,15 +211,15 @@ html[data-theme="dark"] .bg-amber-50 { background-color: var(--tint-amber) !impo
 html[data-theme="dark"] .bg-green-50 { background-color: var(--tint-green) !important; }
 html[data-theme="dark"] .bg-red-50 { background-color: var(--tint-red) !important; }
 
-/* In dark mode, all dark text shades MUST invert to legible bright text, unless explicitly inside a white CTA or amber button */
-html[data-theme="dark"] .text-neutral-400 { color: var(--text-faint) !important; }
-html[data-theme="dark"] .text-neutral-500 { color: var(--text-muted) !important; }
-html[data-theme="dark"] .text-neutral-600 { color: var(--text-body) !important; }
-html[data-theme="dark"] .text-neutral-700 { color: var(--text-body) !important; }
-html[data-theme="dark"] .text-neutral-800 { color: var(--text-strong) !important; }
-html[data-theme="dark"] .text-neutral-900:not(.cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, .stay-white, .stay-white *, .dark\:bg-white:not([class*="/"]), [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #f3f4f6 !important; }
-html[data-theme="dark"] .text-neutral-950:not(.cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, .stay-white, .stay-white *, .dark\:bg-white:not([class*="/"]), [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #ffffff !important; }
-html[data-theme="dark"] .text-black:not(.cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, .stay-white, .stay-white *, .dark\:bg-white:not([class*="/"]), [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #ffffff !important; }
+/* In dark mode, all dark text shades invert to legible bright text, unless explicitly given a dark:text- class or inside white CTA */
+html[data-theme="dark"] .text-neutral-400:not([class*="dark:text-"]) { color: var(--text-faint); }
+html[data-theme="dark"] .text-neutral-500:not([class*="dark:text-"]) { color: var(--text-muted); }
+html[data-theme="dark"] .text-neutral-600:not([class*="dark:text-"]) { color: var(--text-body); }
+html[data-theme="dark"] .text-neutral-700:not([class*="dark:text-"]) { color: var(--text-body); }
+html[data-theme="dark"] .text-neutral-800:not([class*="dark:text-"]) { color: var(--text-strong); }
+html[data-theme="dark"] .text-neutral-900:not([class*="dark:text-"], .cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, .stay-white, .stay-white *, .dark\:bg-white:not([class*="/"]), [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #f3f4f6 !important; }
+html[data-theme="dark"] .text-neutral-950:not([class*="dark:text-"], .cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, .stay-white, .stay-white *, .dark\:bg-white:not([class*="/"]), [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #ffffff !important; }
+html[data-theme="dark"] .text-black:not([class*="dark:text-"], .cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, .stay-white, .stay-white *, .dark\:bg-white:not([class*="/"]), [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #ffffff !important; }
 
 /* In dark mode, only solid white surfaces (NOT translucent dark:bg-white/5 or /10) have dark text */
 html[data-theme="dark"] .dark\:bg-white:not([class*="dark:bg-white/"]):not([class*="dark:bg-white\\/"]),
@@ -739,9 +739,9 @@ html[data-theme="dark"] .weekdot-future {
   color: var(--text-muted);
 }
 
-/* Restore the neutral text steps an earlier cleanup dropped. */
-html[data-theme="dark"] .text-neutral-200 { color: #a3b0aa !important; }
-html[data-theme="dark"] .text-neutral-300 { color: #8b9993 !important; }
+/* Restore the neutral text steps to bright crisp tones in dark mode */
+html[data-theme="dark"] .text-neutral-200:not([class*="dark:text-"]) { color: #e5e7eb; }
+html[data-theme="dark"] .text-neutral-300:not([class*="dark:text-"]) { color: #d1d5db; }
 .lesson-row-locked {
   background: var(--surface-sunk);
 }
