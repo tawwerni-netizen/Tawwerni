@@ -308,10 +308,10 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
               <span>{isEn ? "Founding Cohort · 1-Year Access" : "فوج التأسيس الأول · وصول سنوي شامل"}</span>
             </span>
 
-            {/* High-Contrast, Radiant 71% Discount Badge */}
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-amber-500 px-3.5 py-1 text-xs font-black text-white shadow-md shadow-rose-500/30 border border-white/30 whitespace-nowrap shrink-0">
-              <span className="text-[11px] text-yellow-200 animate-pulse">⚡</span>
-              <span className="tracking-wide">{isEn ? "71% OFF" : "خصم 71%"}</span>
+            {/* Launch Membership Badge */}
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-black text-emerald-300 border border-emerald-400/30 whitespace-nowrap shrink-0">
+              <span className="text-[11px] text-emerald-300">⚡</span>
+              <span className="tracking-wide">{isEn ? "Launch All-Access Pass" : "سعر الإطلاق الشامل"}</span>
             </span>
           </div>
 

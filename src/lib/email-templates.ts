@@ -354,3 +354,45 @@ ${brand.name} · ${brand.domain}`;
 
   return { subject: "كلمة السر بتاعة حسابك اتغيّرت", html, text };
 }
+
+/* ------------------------------------------------------------------ */
+
+export function abandonedCheckoutEmail(opts: {
+  name: string | null;
+  courseTitle: string;
+  amountEgp: number;
+}) {
+  const html = shell(
+    `<tr><td style="padding:28px 24px 8px;">
+      <h1 style="margin:0 0 8px;font-size:21px;color:${INK};">هل واجهتك مشكلة في إتمام اشتراكك؟ 👋</h1>
+      <p style="margin:0 0 16px;font-size:14px;color:${MUTED};line-height:1.8;">
+        أهلًا${opts.name ? ` ${opts.name}` : ""}، لاحظنا أنك بدأت خطوات تفعيل اشتراكك في طوّرني للبدء في مسار <b style="color:${INK};">${opts.courseTitle}</b> وتوقفت عند خطوة التحويل.
+      </p>
+      <p style="margin:0 0 20px;font-size:14px;color:${MUTED};line-height:1.8;">
+        إذا واجهتك أي صعوبة في التحويل عبر فودافون كاش أو إنستاباي، أو لديك أي استفسار قبل البدء، فريقنا متاح لمساعدتك فورًا عبر واتساب.
+      </p>
+      ${button(`https://wa.me/2${payment.supportWhatsapp}?text=${encodeURIComponent(`أهلاً، كنت بحجز اشتراكي في مسار ${opts.courseTitle} ومحتاج مساعدة في التحويل`)}`, "تواصل مع الدعم عبر واتساب ←")}
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0 8px;background:#E1F5EE;border-radius:12px;">
+        <tr><td style="padding:14px 16px;">
+          <p style="margin:0;font-size:12px;color:${TEAL_DARK};line-height:1.8;">
+            🛡️ <b>تذكير بالضمان:</b> اشتراكك السنوي (${opts.amountEgp} ج.م) محمي بضمان استرداد كامل 100% لمدة 7 أيام. جرّب المنصة وطبّق الدروس العملية بدون أي مخاطرة.
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>`,
+    "هل واجهتك مشكلة في تفعيل اشتراكك في طوّرني؟"
+  );
+
+  const text = `أهلًا ${opts.name ?? ""}،
+
+لاحظنا أنك بدأت خطوات تفعيل اشتراكك في طوّرني للبدء في مسار ${opts.courseTitle} وتوقفت عند خطوة التحويل.
+
+هل واجهتك أي مشكلة في التحويل أو لديك أي استفسار؟
+تواصل معنا مباشرة عبر واتساب: +${payment.supportWhatsapp}
+
+تذكير: اشتراكك محمي بضمان استرداد كامل لمدة 7 أيام.
+
+${brand.name} · ${brand.domain}`;
+
+  return { subject: "هل واجهتك مشكلة في تفعيل اشتراكك في طوّرني؟ 👋", html, text };
+}

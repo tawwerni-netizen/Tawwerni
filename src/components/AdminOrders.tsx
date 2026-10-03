@@ -184,6 +184,17 @@ export default function AdminOrders({ orders }: { orders: Order[] }) {
                       {busy === order.id ? "..." : isEn ? "Grant Access ✓" : "منح الوصول ✓"}
                     </button>
                   )}
+                  {order.status === "pending" && order.senderPhone && (
+                    <a
+                      href={`https://wa.me/2${order.senderPhone}?text=${encodeURIComponent(`أهلاً ${order.name || ""} 👋، معك فريق طوّرني بخصوص طلب اشتراكك في مسار ${order.courseTitle} (${order.amountEgp} ج.م). هل واجهتك أي مشكلة في التحويل أو تحب نساعدك في التفعيل الآن؟`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3.5 py-2.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 text-xs font-bold inline-flex items-center gap-1.5 transition whitespace-nowrap"
+                    >
+                      <span>💬</span>
+                      <span>{isEn ? "WhatsApp" : "مراسلة واتساب"}</span>
+                    </a>
+                  )}
                   {order.status === "pending" && (
                     <button
                       onClick={() => updateStatus(order.id, "rejected")}
