@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MissionData } from "@/lib/mission-adapter";
 import { EvaluationResponse } from "@/lib/mission-evaluator";
+import { recordRecentLearningClient } from "@/lib/recent-learning";
 import { useI18n } from "./LanguageContext";
 import LanguageToggle from "./LanguageToggle";
 import ThemeToggle from "./ThemeToggle";
@@ -12,12 +13,69 @@ import { LogoLink } from "./Logo";
 
 type Stage = "objective" | "learn" | "example" | "practice" | "evaluating" | "feedback" | "complete";
 
+function playMissionChime(type: "step" | "pass" | "retry") {
+  if (typeof window === "undefined") return;
+  try {
+    const AudioContextClass =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    if (!AudioContextClass) return;
+    const ctx = new AudioContextClass();
+    if (ctx.state === "suspended") ctx.resume().catch(() => {});
+
+    if (type === "step") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(440, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.1);
+    } else if (type === "pass") {
+      [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = "triangle";
+        o.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.07);
+        g.gain.setValueAtTime(0.08, ctx.currentTime + i * 0.07);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.07 + 0.35);
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start(ctx.currentTime + i * 0.07);
+        o.stop(ctx.currentTime + i * 0.07 + 0.35);
+      });
+    } else if (type === "retry") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(320, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(250, ctx.currentTime + 0.12);
+      gain.gain.setValueAtTime(0.06, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.15);
+    }
+  } catch {
+    /* browser audio autoplay policy */
+  }
+}
+
 export default function MissionPlayer({
   mission,
   nextDayNumber,
+  isAlreadyCompleted,
+  previousScore,
 }: {
   mission: MissionData;
   nextDayNumber: number | null;
+  isAlreadyCompleted?: boolean;
+  previousScore?: number;
 }) {
   const router = useRouter();
   const { lang } = useI18n();
@@ -27,10 +85,31 @@ export default function MissionPlayer({
   const [submissionText, setSubmissionText] = useState("");
   const [learnCardIdx, setLearnCardIdx] = useState(0);
   const [evaluation, setEvaluation] = useState<EvaluationResponse | null>(null);
+  const [evalStats, setEvalStats] = useState<{
+    totalXp?: number;
+    streak?: number;
+    newBadges?: { key: string; title: string; icon: string }[];
+  }>({});
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
   const skill = mission.targetSkill;
+
+  useEffect(() => {
+    recordRecentLearningClient({
+      courseSlug: mission.slug,
+      dayNumber: mission.dayNumber,
+      courseTitle: mission.titleAr,
+      courseTitleEn: mission.titleEn,
+      lessonTitle: mission.titleAr,
+      lessonTitleEn: mission.titleEn,
+    });
+  }, [mission]);
+
+  function changeStage(newStage: Stage) {
+    playMissionChime("step");
+    setStage(newStage);
+  }
 
   async function handleEvaluate() {
     if (!submissionText.trim() || submissionText.trim().length < 15) {
@@ -63,9 +142,17 @@ export default function MissionPlayer({
       }
 
       setEvaluation(data.evaluation);
+      setEvalStats({
+        totalXp: data.totalXp,
+        streak: data.streak,
+        newBadges: data.newBadges,
+      });
+
       if (data.evaluation.passed) {
+        playMissionChime("pass");
         setStage("complete");
       } else {
+        playMissionChime("retry");
         setStage("feedback");
       }
     } catch (err) {
@@ -117,6 +204,13 @@ export default function MissionPlayer({
           </div>
 
           <div className="flex items-center gap-2">
+            {isAlreadyCompleted && (
+              <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold">
+                <span>✓</span>
+                <span>{isEn ? `Completed (${previousScore ?? 90}%)` : `منجزة مسبقاً (${previousScore ?? 90}%)`}</span>
+              </span>
+            )}
+
             <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold">
               <span>{skill.icon}</span>
               <span>{isEn ? skill.nameEn : skill.nameAr}</span>
@@ -243,7 +337,7 @@ export default function MissionPlayer({
 
             <button
               type="button"
-              onClick={() => setStage("learn")}
+              onClick={() => changeStage("learn")}
               className="w-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/25 hover:brightness-110 active:scale-98 transition-all cursor-pointer flex items-center justify-center gap-2"
             >
               <span>{isEn ? "I Understand the Objective → Continue to Framework" : "فهمت الهدف والمخرج المطلوب ➔ استمر للشرح العملي"}</span>
@@ -300,7 +394,7 @@ export default function MissionPlayer({
               ) : (
                 <button
                   type="button"
-                  onClick={() => setStage("example")}
+                  onClick={() => changeStage("example")}
                   className="flex-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/25 hover:brightness-110 transition active:scale-98"
                 >
                   {isEn ? "Continue to Golden Benchmark Example →" : "استمر لرؤية النموذج الذهبي المعياري ➔"}
@@ -337,7 +431,7 @@ export default function MissionPlayer({
 
             <button
               type="button"
-              onClick={() => setStage("practice")}
+              onClick={() => changeStage("practice")}
               className="w-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/25 hover:brightness-110 active:scale-98 transition-all cursor-pointer"
             >
               {isEn ? "Ready to Produce My Deliverable →" : "جاهز للتطبيق وإنتاج المخرج بنفسي ➔"}
@@ -386,20 +480,35 @@ export default function MissionPlayer({
 
             {/* Workspace TextArea */}
             <div>
-              <label className="block text-xs font-black text-white mb-2">
-                {isEn ? "Your Deliverable (Artifact Content):" : "مخرجك العملي للتفتيش والتقييم:"}
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-black text-white">
+                  {isEn ? "Your Deliverable (Artifact Content):" : "مخرجك العملي للتفتيش والتقييم:"}
+                </label>
+                <span className="text-[11px] font-mono font-bold">
+                  {submissionText.trim().length >= 15 ? (
+                    <span className="text-emerald-400">✓ {submissionText.trim().length} {isEn ? "chars" : "حرفاً"}</span>
+                  ) : (
+                    <span className="text-amber-400">{submissionText.trim().length} / 15 {isEn ? "min chars" : "حرفاً كحد أدنى"}</span>
+                  )}
+                </span>
+              </div>
               <textarea
                 rows={8}
                 value={submissionText}
                 onChange={(e) => setSubmissionText(e.target.value)}
+                onKeyDown={(e) => {
+                  if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+                    e.preventDefault();
+                    handleEvaluate();
+                  }
+                }}
                 placeholder={isEn ? mission.practice.placeholderEn : mission.practice.placeholderAr}
                 className="w-full rounded-2xl bg-black/60 border-2 border-white/15 p-4 text-xs sm:text-sm text-white placeholder-neutral-500 focus:border-emerald-400 focus:outline-hidden transition leading-relaxed font-mono"
               />
-              <p className="text-[11px] text-neutral-400 mt-1 flex justify-between">
+              <div className="text-[11px] text-neutral-400 mt-1.5 flex justify-between items-center">
                 <span>{isEn ? "Evaluated against: Specificity, Constraints, Workplace Realism" : "المعايير المفحوصة: التحديد، القيود، والقيمة العملية"}</span>
-                <span>{submissionText.trim().split(/\s+/).filter(Boolean).length} {isEn ? "words" : "كلمة"}</span>
-              </p>
+                <span className="hidden sm:inline text-neutral-500 font-mono">({isEn ? "Ctrl+Enter to submit" : "Ctrl+Enter للإرسال السريع"})</span>
+              </div>
             </div>
 
             <button
@@ -484,7 +593,7 @@ export default function MissionPlayer({
 
             <button
               type="button"
-              onClick={() => setStage("practice")}
+              onClick={() => changeStage("practice")}
               className="w-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-amber-500/20 hover:brightness-110 active:scale-98 transition-all cursor-pointer"
             >
               {isEn ? "Try Again (Refine Deliverable) 🔄" : "أعد المحاولة وطبّق الملاحظات (TRY AGAIN) 🔄"}
@@ -513,23 +622,63 @@ export default function MissionPlayer({
             </div>
 
             {/* Achievement Badges Row */}
-            <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
-              <div className="rounded-2xl bg-white/5 border border-white/10 p-4 text-center">
-                <span className="text-2xl">💎</span>
-                <p className="font-mono font-black text-lg text-emerald-400 mt-1">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 max-w-xl mx-auto">
+              <div className="rounded-2xl bg-white/5 border border-white/10 p-3 sm:p-4 text-center">
+                <span className="text-xl sm:text-2xl">💎</span>
+                <p className="font-mono font-black text-base sm:text-lg text-emerald-400 mt-0.5">
                   +{evaluation.xpEarned} XP
                 </p>
-                <p className="text-[10px] text-neutral-400 font-bold">{isEn ? "Experience Earned" : "نقاط خبرة مكتسبة"}</p>
+                <p className="text-[10px] text-neutral-400 font-bold">{isEn ? "XP Earned" : "نقاط خبرة"}</p>
               </div>
 
-              <div className="rounded-2xl bg-white/5 border border-white/10 p-4 text-center">
-                <span className="text-2xl">{evaluation.skillIcon}</span>
-                <p className="font-black text-xs sm:text-sm text-white mt-1 truncate">
+              <div className="rounded-2xl bg-white/5 border border-white/10 p-3 sm:p-4 text-center">
+                <span className="text-xl sm:text-2xl">{evaluation.skillIcon}</span>
+                <p className="font-black text-xs sm:text-sm text-white mt-0.5 truncate">
                   {isEn ? evaluation.skillNameEn : evaluation.skillNameAr}
                 </p>
-                <p className="text-[10px] text-teal-300 font-bold">{isEn ? "Skill Unlocked ⭐" : "مهارة جديدة موثقة ⭐"}</p>
+                <p className="text-[10px] text-teal-300 font-bold">{isEn ? "Skill Unlocked ⭐" : "مهارة موثقة ⭐"}</p>
               </div>
+
+              {evalStats.streak ? (
+                <div className="rounded-2xl bg-white/5 border border-white/10 p-3 sm:p-4 text-center">
+                  <span className="text-xl sm:text-2xl">🔥</span>
+                  <p className="font-mono font-black text-base sm:text-lg text-amber-400 mt-0.5">
+                    {evalStats.streak} {isEn ? "Days" : "أيام"}
+                  </p>
+                  <p className="text-[10px] text-neutral-400 font-bold">{isEn ? "Current Streak" : "استمرارية حية"}</p>
+                </div>
+              ) : null}
+
+              {evalStats.totalXp ? (
+                <div className="rounded-2xl bg-white/5 border border-white/10 p-3 sm:p-4 text-center">
+                  <span className="text-xl sm:text-2xl">⭐</span>
+                  <p className="font-mono font-black text-base sm:text-lg text-teal-300 mt-0.5">
+                    {evalStats.totalXp}
+                  </p>
+                  <p className="text-[10px] text-neutral-400 font-bold">{isEn ? "Account Total XP" : "إجمالي النقاط"}</p>
+                </div>
+              ) : null}
             </div>
+
+            {/* Newly awarded badges notification */}
+            {evalStats.newBadges && evalStats.newBadges.length > 0 && (
+              <div className="max-w-md mx-auto p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-center animate-fade-in">
+                <p className="text-xs font-black text-amber-300 mb-1.5">
+                  🎉 {isEn ? "New Badges Unlocked!" : "أوسمة جديدة تم فتحها في حسابك!"}
+                </p>
+                <div className="flex flex-wrap justify-center gap-2 mt-1">
+                  {evalStats.newBadges.map((b) => (
+                    <span
+                      key={b.key}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/10 text-white text-[11px] font-bold"
+                    >
+                      <span>{b.icon}</span>
+                      <span>{b.title}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Next actions */}
             <div className="space-y-3 max-w-md mx-auto pt-2">

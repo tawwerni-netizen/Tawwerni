@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { hasCourseAccess, pendingOrderFor, FREE_PREVIEW_DAY } from "@/lib/access";
 import { loadUniversalLesson } from "@/lib/course-loader";
 import { ALL_100_TRACKS } from "@/content/tracks100";
@@ -58,10 +59,25 @@ export default async function LessonPage({
   if (sp.mode !== "cards") {
     const mission = loadMission(slug, dayNumber);
     if (mission) {
+      let existingCompletion = null;
+      try {
+        existingCompletion = await prisma.lessonCompletion.findFirst({
+          where: {
+            userId: user.id,
+            lessonId: `les-${slug}-${dayNumber}`,
+          },
+          select: { score: true },
+        });
+      } catch {
+        existingCompletion = null;
+      }
+
       return (
         <MissionPlayer
           mission={mission}
           nextDayNumber={nextLesson?.dayNumber ?? null}
+          isAlreadyCompleted={!!existingCompletion}
+          previousScore={existingCompletion?.score}
         />
       );
     }

@@ -1,3 +1,5 @@
+import { loadUniversalCourse } from "@/lib/course-loader";
+
 export type SkillNodeStatus = "locked" | "available" | "in_progress" | "mastered";
 
 export type SkillNode = {
@@ -272,8 +274,95 @@ export function getTrackSkillTree(
 ): TrackSkillTree {
   const completedSet = new Set(completedDayNumbers);
 
-  // If handcrafted definition exists
-  const heroTree = HERO_SKILL_TREES[trackSlug] || HERO_SKILL_TREES["tahaddi-28-yawm"];
+  // Check for handcrafted definition or generate dynamically from course content
+  let heroTree = HERO_SKILL_TREES[trackSlug];
+
+  if (!heroTree) {
+    const course = loadUniversalCourse(trackSlug);
+    if (course) {
+      const skillsFromModules =
+        course.modules && course.modules.length > 0
+          ? course.modules.slice(0, 5).map((m, idx) => ({
+              id: `skill-${trackSlug}-${m.id || idx + 1}`,
+              nameAr: m.titleAr || m.title,
+              nameEn: m.titleEn || `Core Competency ${idx + 1}`,
+              domain: course.categoryAr || "general",
+              icon: m.icon || course.icon || "⚡",
+              level: Math.min(idx + 1, 4),
+              descriptionAr:
+                m.descriptionAr ||
+                `إتقان وتطبيق تقنيات ${m.titleAr || course.titleAr} على سيناريوهات عمل واقعية.`,
+              descriptionEn:
+                m.descriptionEn ||
+                `Mastering core workflows of ${m.titleEn || course.titleEn} in real scenarios.`,
+              unlockedAtDay: m.lessons[0]?.dayNumber || idx * 5 + 1,
+            }))
+          : [];
+
+      const generatedSkills =
+        skillsFromModules.length > 0
+          ? skillsFromModules
+          : [
+              {
+                id: `skill-${trackSlug}-fundamentals`,
+                nameAr: `الأساسيات والمفاهيم الجوهرية لـ ${course.titleAr}`,
+                nameEn: `Foundations of ${course.titleEn}`,
+                domain: course.categoryAr || "general",
+                icon: course.icon || "🧭",
+                level: 1,
+                descriptionAr: `بناء الفهم الجوهري لمنظومة ${course.titleAr} والبدء في التطبيق العملي.`,
+                descriptionEn: `Building foundational mastery of ${course.titleEn} and practical start.`,
+                unlockedAtDay: 1,
+              },
+              {
+                id: `skill-${trackSlug}-workflow`,
+                nameAr: `إتقان بيئة العمل والأدوات التنفيذية`,
+                nameEn: `Workflow & Tool Mastery`,
+                domain: course.categoryAr || "general",
+                icon: "🛠️",
+                level: 2,
+                descriptionAr: `التعامل مع الأدوات المتخصصة بكفاءة وسرعة لتنفيذ المهام المطلوبة.`,
+                descriptionEn: `Executing workflows and specialized tooling with speed and accuracy.`,
+                unlockedAtDay: 5,
+              },
+              {
+                id: `skill-${trackSlug}-advanced`,
+                nameAr: `التطبيق المتقدم وحل المشكلات المعقدة`,
+                nameEn: `Advanced Problem Solving`,
+                domain: course.categoryAr || "general",
+                icon: "📐",
+                level: 3,
+                descriptionAr: `حل التحديات غير التقليدية وتطبيق أفضل الممارسات المعتمدة في السوق.`,
+                descriptionEn: `Overcoming complex edge-cases using production-level best practices.`,
+                unlockedAtDay: 12,
+              },
+              {
+                id: `skill-${trackSlug}-automation`,
+                nameAr: `هندسة الأنظمة وضبط الجودة الشاملة`,
+                nameEn: `System Architecture & Quality Control`,
+                domain: course.categoryAr || "general",
+                icon: "⚙️",
+                level: 4,
+                descriptionAr: `بناء مخرجات متكاملة تخضع لمعايير الجودة الصارمة وجاهزة للعرض للعملاء.`,
+                descriptionEn: `Constructing verified deliverables matching executive client standards.`,
+                unlockedAtDay: 18,
+              },
+            ];
+
+      heroTree = {
+        trackSlug,
+        titleAr: course.titleAr || course.title,
+        titleEn: course.titleEn || course.title,
+        icon: course.icon || "⚡",
+        finalProjectTitleAr: `مشروع التخرج: إنجاز ملف عمل متكامل وموثق في ${course.titleAr}`,
+        finalProjectTitleEn: `Capstone: Production Deliverable in ${course.titleEn}`,
+        finalProjectUnlocked: false,
+        skills: generatedSkills,
+      };
+    } else {
+      heroTree = HERO_SKILL_TREES["tahaddi-28-yawm"];
+    }
+  }
 
   // Calculate status for each node
   const computedSkills: SkillNode[] = heroTree.skills.map((skill, index) => {
