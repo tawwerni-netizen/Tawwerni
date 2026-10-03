@@ -425,32 +425,33 @@ export default function LandingPageView() {
         </section>
 
         {/* ---------- 2.9 CAREER PATHS ROADMAP SHOWCASE ---------- */}
-        <section className="mb-20 rounded-3xl border-2 border-teal-500/20 bg-gradient-to-b from-teal-500/10 via-neutral-900/40 to-neutral-950/60 p-6 sm:p-10 shadow-xl backdrop-blur-xl relative overflow-hidden">
-          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-teal-500/15 blur-3xl" />
-          <div className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-emerald-500/15 blur-3xl" />
+        <section className="mb-20 rounded-3xl border-2 border-teal-500/30 bg-gradient-to-b from-teal-500/15 via-neutral-900/60 to-neutral-950 p-6 sm:p-10 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-teal-500/20 blur-3xl" />
+          <div className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-emerald-500/20 blur-3xl" />
 
           <div className="relative z-10">
-            <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
-              <div className="text-center sm:text-start">
-                <span className="inline-flex items-center gap-2 rounded-full border border-teal-500/30 bg-teal-500/15 px-3.5 py-1 text-xs font-black text-teal-700 dark:text-teal-300 mb-2">
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-6">
+              <div className="text-center sm:text-start max-w-2xl">
+                <span className="inline-flex items-center gap-2 rounded-full border border-teal-500/40 bg-teal-500/15 px-3.5 py-1 text-xs font-black text-teal-700 dark:text-teal-300 mb-2.5">
                   <span>🧭</span>
                   <span>{isEn ? "Goal-Driven Career Paths" : "المسارات المهنية المتكاملة"}</span>
                 </span>
-                <h2 className="text-2xl font-black md:text-3xl text-neutral-900 dark:text-white">
-                  {isEn
-                    ? "Don't Ask: Which Course to Take? Pick Your Ambition."
-                    : "لا تسأل: أي كورس أبدأ؟ حدد طموحك المهني واتبع الخارطة."}
+                <h2 className="text-2xl sm:text-4xl font-black text-neutral-900 dark:text-white leading-[1.3] tracking-tight">
+                  {isEn ? "Stop Guessing Where to Start." : "لا تسأل: أي كورس أبدأ؟"}
+                  <span className="block mt-1.5 bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                    {isEn ? "Choose Your Goal. Follow the Roadmap." : "حدد هدفك المهني، واتبع خارطة الطريق."}
+                  </span>
                 </h2>
-                <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mt-1 max-w-2xl leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 mt-2 leading-relaxed font-medium">
                   {isEn
                     ? "Step into sequenced roadmaps taking you from foundations to verified capstone projects that prove competence to clients and employers."
-                    : "بدل التشتت، صممنا لك مسارات مرتبة على مراحل واقعية تنتهي ببناء بورتفوليو حقيقي يثبت مهارتك في سوق العمل."}
+                    : "بدل التشتت بين 100 كورس، صممنا لك مسارات مرتبة على مراحل واقعية تنتهي ببناء بورتفوليو حقيقي يثبت مهارتك في سوق العمل."}
                 </p>
               </div>
 
               <Link
                 href="/career-paths"
-                className="shrink-0 inline-flex items-center gap-2 rounded-full bg-teal-600 hover:bg-teal-500 text-white font-black px-6 py-3 text-xs shadow-md transition-all hover:scale-105 active:scale-95"
+                className="shrink-0 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-400 hover:from-teal-400 hover:to-emerald-400 text-white font-black px-7 py-3.5 text-xs sm:text-sm shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-105 active:scale-95 transition-all text-center cursor-pointer"
               >
                 <span>{isEn ? "Explore All 12 Career Paths" : "استكشف كل المسارات المهنية الـ 12"}</span>
                 <span>➔</span>
@@ -458,61 +459,91 @@ export default function LandingPageView() {
             </div>
 
             {/* Grid of 6 Featured Career Paths */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {CAREER_PATHS.slice(0, 6).map((cp) => (
                 <div
                   key={cp.id}
-                  className="group relative flex flex-col justify-between rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900/90 p-5 shadow-xs transition-all hover:border-teal-500/50 hover:shadow-md hover:-translate-y-0.5"
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900/95 shadow-sm transition-all duration-300 hover:border-teal-500/50 hover:shadow-xl hover:-translate-y-1"
                 >
-                  <div>
-                    {/* Goal prompt */}
-                    <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-teal-500/10 border border-teal-500/20 px-2.5 py-1 text-2xs font-bold text-teal-800 dark:text-teal-300">
-                      <span>💬</span>
-                      <span className="line-clamp-1">{isEn ? cp.goalPromptEn : cp.goalPromptAr}</span>
+                  {/* Card Cover Artwork */}
+                  <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-neutral-950">
+                    <img
+                      src={cp.coverImage}
+                      alt={isEn ? cp.titleEn : cp.titleAr}
+                      className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-108 opacity-90"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-black/30" />
+
+                    {/* Top Badges */}
+                    <div className="absolute inset-x-3 top-3 flex items-center justify-between gap-2 z-10">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 px-2.5 py-0.5 text-2xs font-extrabold text-white">
+                        <span className="text-xs">{cp.icon}</span>
+                        <span>{isEn ? cp.levelEn : cp.levelAr}</span>
+                      </span>
+
+                      <span className="inline-flex items-center gap-1 rounded-full bg-teal-950/80 backdrop-blur-md border border-teal-500/40 px-2.5 py-0.5 text-2xs font-mono font-bold text-teal-300">
+                        <span>⏱️ {cp.estimatedHours}h</span>
+                        <span>•</span>
+                        <span>📚 {cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} {isEn ? "Tracks" : "مسارات"}</span>
+                      </span>
                     </div>
 
-                    <div className="flex items-start gap-3">
-                      <div
-                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${cp.accentGradient} text-2xl text-white shadow-xs`}
-                      >
-                        {cp.icon}
+                    {/* Speech Bubble - Fully Legible */}
+                    <div className="absolute inset-x-3 bottom-3 z-10">
+                      <div className="inline-flex items-center gap-2 rounded-xl bg-neutral-950/90 backdrop-blur-md border border-teal-400/40 px-3 py-1.5 text-xs font-bold text-teal-200 shadow-md w-full">
+                        <span className="text-xs shrink-0">💬</span>
+                        <span className="leading-snug text-2xs sm:text-xs">
+                          {isEn ? cp.goalPromptEn : cp.goalPromptAr}
+                        </span>
                       </div>
-                      <div>
-                        <h3 className="text-sm font-black text-neutral-900 dark:text-white group-hover:text-teal-500 transition-colors line-clamp-1">
-                          {isEn ? cp.titleEn : cp.titleAr}
-                        </h3>
-                        <p className="text-2xs font-medium text-neutral-500 mt-0.5 line-clamp-1">
-                          {isEn ? cp.targetRoleEn : cp.targetRoleAr}
-                        </p>
-                      </div>
-                    </div>
-
-                    <p className="mt-3 text-xs text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed">
-                      {isEn ? cp.taglineEn : cp.taglineAr}
-                    </p>
-
-                    {/* Capstone snippet */}
-                    <div className="mt-3.5 rounded-lg bg-black/5 dark:bg-white/5 p-2.5 text-2xs border border-black/5 dark:border-white/10">
-                      <span className="font-extrabold text-neutral-700 dark:text-neutral-300 block mb-0.5">
-                        🏆 {isEn ? "Capstone Deliverable:" : "المشروع الختامي:"}
-                      </span>
-                      <span className="text-neutral-500 dark:text-neutral-400 line-clamp-1">
-                        {isEn ? cp.portfolioProjectEn : cp.portfolioProjectAr}
-                      </span>
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-black/5 dark:border-white/10 flex items-center justify-between">
-                    <span className="text-2xs text-neutral-500">
-                      {cp.stages.length} {isEn ? "stages" : "مراحل"} • {cp.estimatedHours}h
-                    </span>
-                    <Link
-                      href={`/career-paths/${cp.slug}`}
-                      className="inline-flex items-center gap-1 text-xs font-black text-teal-600 dark:text-teal-400 group-hover:underline"
-                    >
-                      <span>{isEn ? "View Roadmap" : "خارطة الطريق"}</span>
-                      <span>➔</span>
-                    </Link>
+                  {/* Card Body */}
+                  <div className="p-5 flex-1 flex flex-col justify-between space-y-3.5">
+                    <div className="space-y-3">
+                      <div>
+                        <h3 className="text-base sm:text-lg font-black text-neutral-900 dark:text-white group-hover:text-teal-400 transition-colors leading-snug">
+                          {isEn ? cp.titleEn : cp.titleAr}
+                        </h3>
+                        <p className="text-2xs font-mono font-bold text-teal-600 dark:text-teal-400/90 mt-0.5">
+                          {isEn ? cp.titleAr : cp.titleEn}
+                        </p>
+                      </div>
+
+                      <div className="inline-flex items-center gap-1.5 rounded-lg bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 text-2xs font-extrabold text-teal-800 dark:text-teal-300">
+                        <span>💼</span>
+                        <span>
+                          {isEn ? `Role: ${cp.targetRoleEn}` : `الوظيفة: ${cp.targetRoleAr}`}
+                        </span>
+                      </div>
+
+                      <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2">
+                        {isEn ? cp.taglineEn : cp.taglineAr}
+                      </p>
+
+                      {/* Capstone Box */}
+                      <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-2xs">
+                        <span className="font-extrabold text-amber-800 dark:text-amber-300 block mb-0.5">
+                          🏆 {isEn ? "Capstone Deliverable:" : "المشروع الختامي للبورتفوليو:"}
+                        </span>
+                        <span className="text-neutral-700 dark:text-neutral-200 font-semibold leading-relaxed block">
+                          {isEn ? cp.portfolioProjectEn : cp.portfolioProjectAr}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* High-Contrast Action Button */}
+                    <div className="pt-3 border-t border-black/10 dark:border-white/10">
+                      <Link
+                        href={`/career-paths/${cp.slug}`}
+                        className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-400 hover:from-teal-400 hover:to-emerald-400 text-white font-black text-xs py-3 px-4 shadow-md shadow-teal-500/20 hover:shadow-teal-500/35 hover:scale-[1.02] active:scale-98 transition-all cursor-pointer text-center"
+                      >
+                        <span>{isEn ? "View Roadmap & Milestones" : "استعرض خارطة الطريق والمراحل"}</span>
+                        <span>➔</span>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               ))}

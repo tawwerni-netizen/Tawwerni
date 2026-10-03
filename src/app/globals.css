@@ -217,9 +217,30 @@ html[data-theme="dark"] .text-neutral-500 { color: var(--text-muted) !important;
 html[data-theme="dark"] .text-neutral-600 { color: var(--text-body) !important; }
 html[data-theme="dark"] .text-neutral-700 { color: var(--text-body) !important; }
 html[data-theme="dark"] .text-neutral-800 { color: var(--text-strong) !important; }
-html[data-theme="dark"] .text-neutral-900:not(.cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #f3f4f6 !important; }
-html[data-theme="dark"] .text-neutral-950:not(.cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #ffffff !important; }
-html[data-theme="dark"] .text-black:not(.cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #ffffff !important; }
+html[data-theme="dark"] .text-neutral-900:not(.cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, [class*="dark:bg-white"], [class*="dark:bg-white"] *, [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #f3f4f6 !important; }
+html[data-theme="dark"] .text-neutral-950:not(.cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, [class*="dark:bg-white"], [class*="dark:bg-white"] *, [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #ffffff !important; }
+html[data-theme="dark"] .text-black:not(.cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, [class*="dark:bg-white"], [class*="dark:bg-white"] *, [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #ffffff !important; }
+
+/* In dark mode, ensure elements with white background ALWAYS have dark readable text */
+html[data-theme="dark"] [class*="dark:bg-white"],
+html[data-theme="dark"] .dark\:bg-white,
+html[data-theme="dark"] button[class*="dark:bg-white"],
+html[data-theme="dark"] a[class*="dark:bg-white"] {
+  color: #09090b !important;
+}
+
+html[data-theme="dark"] [class*="dark:bg-white"] *,
+html[data-theme="dark"] .dark\:bg-white *,
+html[data-theme="dark"] button[class*="dark:bg-white"] *,
+html[data-theme="dark"] a[class*="dark:bg-white"] * {
+  color: #09090b !important;
+}
+
+html[data-theme="dark"] .dark\:text-neutral-900,
+html[data-theme="dark"] .dark\:text-neutral-950,
+html[data-theme="dark"] .dark\:text-black {
+  color: #09090b !important;
+}
 
 /* Dark teal, emerald & amber text utilities in dark mode become luminous, legible colors */
 html[data-theme="dark"] .text-teal-950:not(.cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *) { color: #5eead4 !important; }
