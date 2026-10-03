@@ -13,6 +13,7 @@ import FocusPlayer from "@/components/FocusPlayer";
 import SkillTreeView from "@/components/SkillTreeView";
 import ProjectsShowcase, { DemonstratedProject } from "@/components/ProjectsShowcase";
 import { TrackSkillTree, SkillNode } from "@/content/skill-trees";
+import { ResolvedCareerPathProgress } from "@/lib/career-paths-progress";
 
 type Props = {
   userName: string;
@@ -66,6 +67,7 @@ type Props = {
   }[];
   paidOrder: { id: string; amountEgp: number } | null;
   hasCompletions: boolean;
+  activeCareerPathProgress?: ResolvedCareerPathProgress | null;
 };
 
 const WEEK_LETTERS_EN = ["M", "T", "W", "T", "F", "S", "S"];
@@ -89,6 +91,7 @@ export default function StudentDashboardView({
   tiles,
   paidOrder,
   hasCompletions,
+  activeCareerPathProgress,
 }: Props) {
   const { lang } = useI18n();
   const isEn = lang === "en";
@@ -256,6 +259,68 @@ export default function StudentDashboardView({
                 {isEn ? "START MISSION →" : "ابدأ المهمة الآن ←"}
               </span>
             </Link>
+          </div>
+        </section>
+      )}
+
+      {/* ================= 2.5 ACTIVE CAREER PATH ROADMAP CARD ================= */}
+      {activeCareerPathProgress && (
+        <section className="mb-8 rounded-3xl border border-teal-500/25 bg-white dark:bg-neutral-900/90 p-5 sm:p-6 shadow-xs relative overflow-hidden">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-start sm:items-center gap-3.5">
+              <div
+                className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${activeCareerPathProgress.careerPath.accentGradient} text-2xl text-white shadow-xs`}
+              >
+                {activeCareerPathProgress.careerPath.icon}
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-2xs font-extrabold uppercase tracking-wider text-teal-600 dark:text-teal-400">
+                    🧭 {isEn ? "Your Active Career Roadmap" : "مسارك المهني المعتمد"}
+                  </span>
+                  <span className="rounded-full bg-teal-500/10 px-2 py-0.5 text-2xs font-black text-teal-700 dark:text-teal-300">
+                    {activeCareerPathProgress.percent}%
+                  </span>
+                </div>
+                <h3 className="text-base sm:text-lg font-black text-neutral-900 dark:text-white mt-0.5">
+                  {isEn
+                    ? activeCareerPathProgress.careerPath.titleEn
+                    : activeCareerPathProgress.careerPath.titleAr}
+                </h3>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+                  {activeCareerPathProgress.currentStage
+                    ? (isEn
+                        ? `Current: ${activeCareerPathProgress.currentStage.stage.titleEn} (${activeCareerPathProgress.completedTracksCount}/${activeCareerPathProgress.totalTracksCount} tracks)`
+                        : `المحطة الحالية: ${activeCareerPathProgress.currentStage.stage.titleAr} (${activeCareerPathProgress.completedTracksCount}/${activeCareerPathProgress.totalTracksCount} مسارات منجزة)`)
+                    : (isEn ? "All stages completed" : "تمت جميع المراحل بنجاح")}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <Link
+                href={`/career-paths/${activeCareerPathProgress.careerPath.slug}`}
+                className="inline-flex items-center gap-1.5 rounded-full bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs px-4 py-2 transition-all shadow-xs"
+              >
+                <span>{isEn ? "Roadmap Timeline" : "خارطة الطريق"}</span>
+                <span>➔</span>
+              </Link>
+              <Link
+                href="/career-paths"
+                className="inline-flex items-center gap-1 rounded-full bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-neutral-700 dark:text-neutral-300 font-bold text-xs px-3.5 py-2 transition-all border border-black/5 dark:border-white/10"
+              >
+                <span>🧭</span>
+                <span>{isEn ? "Explore Paths" : "تصفح المسارات"}</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Mini progress line */}
+          <div className="mt-4 h-1.5 w-full rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-teal-500 via-emerald-400 to-cyan-400 transition-all duration-500"
+              style={{ width: `${activeCareerPathProgress.percent}%` }}
+            />
           </div>
         </section>
       )}

@@ -7,6 +7,7 @@ import { getTrackArtwork } from "@/content/track-artworks";
 import type { UniversalCourse } from "@/lib/course-loader";
 import { pricing, payment } from "@/content/brand";
 import { recordRecentLearningClient } from "@/lib/recent-learning";
+import { getCareerPathsForTrack } from "@/content/career-paths";
 
 type Props = {
   course: UniversalCourse;
@@ -168,6 +169,42 @@ export default function CourseDetailClient({
 
       {/* Main Container */}
       <div className="mx-auto max-w-4xl px-4 sm:px-6 pt-6">
+        {/* Associated Career Path Indicator */}
+        {(() => {
+          const matchedCareerPaths = getCareerPathsForTrack(course.slug);
+          if (matchedCareerPaths.length === 0) return null;
+          const primaryPath = matchedCareerPaths[0];
+          return (
+            <div className="rounded-2xl border border-teal-500/20 bg-teal-500/5 dark:bg-teal-500/10 p-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-500/20 text-xl">
+                  🧭
+                </span>
+                <div>
+                  <span className="text-2xs font-extrabold uppercase tracking-wider text-teal-700 dark:text-teal-300">
+                    {isEn ? "Part of a Career Roadmap" : "محطة رئيسية في مسار مهني متكامل"}
+                  </span>
+                  <p className="text-xs font-bold text-neutral-900 dark:text-white">
+                    {isEn ? primaryPath.careerPath.titleEn : primaryPath.careerPath.titleAr}
+                    <span className="text-neutral-500 font-normal">
+                      {" "}
+                      ({isEn ? primaryPath.stage.titleEn : primaryPath.stage.titleAr})
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              <Link
+                href={`/career-paths/${primaryPath.careerPath.slug}`}
+                className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-white dark:bg-neutral-800 border border-teal-500/30 px-3.5 py-1.5 text-xs font-black text-teal-700 dark:text-teal-300 hover:bg-teal-500/10 transition-colors"
+              >
+                <span>{isEn ? "View Full Path Roadmap" : "استعرض خارطة المسار بالكامل"}</span>
+                <span>➔</span>
+              </Link>
+            </div>
+          );
+        })()}
+
         {/* Course Completed Certificate Banner */}
         {unlocked && doneCount >= allLessons.length && (
           <div className="rounded-3xl border-2 border-amber-400/50 bg-gradient-to-r from-amber-500/15 via-teal-900/40 to-emerald-500/15 p-6 mb-6 text-neutral-900 dark:text-white shadow-xl relative overflow-hidden backdrop-blur-md">

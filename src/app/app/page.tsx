@@ -6,6 +6,8 @@ import { approvedCourseIds } from "@/lib/access";
 import { ALL_100_TRACKS } from "@/content/tracks100";
 import { resolveUserLearningProgress } from "@/lib/recent-learning-server";
 import { getTrackSkillTree, getCurrentTargetSkill, getWeakSkill } from "@/content/skill-trees";
+import { getAllCareerPaths, getCareerPathsForTrack } from "@/content/career-paths";
+import { resolveCareerPathProgress, getRecommendedCareerPath } from "@/lib/career-paths-progress";
 import StudentDashboardView from "@/components/StudentDashboardView";
 import type { DemonstratedProject } from "@/components/ProjectsShowcase";
 
@@ -104,6 +106,19 @@ export default async function AppHomePage() {
     };
   });
 
+  // Resolve User's Active Career Path
+  const allCareerPaths = getAllCareerPaths();
+  const matchedPathsForActive = getCareerPathsForTrack(activeSlug);
+  const activeCareerPath =
+    matchedPathsForActive.length > 0
+      ? matchedPathsForActive[0].careerPath
+      : getRecommendedCareerPath(allCareerPaths, completedLessonIds);
+
+  const activeCareerPathProgress = resolveCareerPathProgress(
+    activeCareerPath,
+    completedLessonIds
+  );
+
   return (
     <StudentDashboardView
       userName={user.name || "يا بطل"}
@@ -121,6 +136,7 @@ export default async function AppHomePage() {
       tiles={tiles}
       paidOrder={paidOrder}
       hasCompletions={completionsRaw.length > 0}
+      activeCareerPathProgress={activeCareerPathProgress}
     />
   );
 }

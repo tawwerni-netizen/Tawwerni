@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { brand, pricing, payment, referral, referralsToBreakEven } from "@/content/brand";
 import { ALL_100_TRACKS, TRACK_PILLARS } from "@/content/tracks100";
+import { CAREER_PATHS } from "@/content/career-paths";
 import { LogoLink } from "@/components/Logo";
 import LiveSeats from "@/components/LiveSeats";
 import SocialLinks from "@/components/SocialLinks";
@@ -63,8 +64,15 @@ export default function LandingPageView() {
           <div className="flex items-center gap-3">
             <LogoLink size={34} href="/" />
             <Link
-              href="/tracks"
+              href="/career-paths"
               className="text-xs font-bold text-teal-700 dark:text-teal-300 hover:opacity-80 transition-opacity hidden sm:inline-flex items-center gap-1.5 bg-teal-500/10 border border-teal-500/20 px-3 py-1.5 rounded-full"
+            >
+              <span>🧭</span>
+              <span>{isEn ? "Career Paths" : "المسارات المهنية"}</span>
+            </Link>
+            <Link
+              href="/tracks"
+              className="text-xs font-medium text-neutral-600 dark:text-neutral-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors hidden sm:inline-flex items-center gap-1.5 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 px-3 py-1.5 rounded-full"
             >
               <span>🌟</span>
               <span>{isEn ? "100 Tracks" : "الـ 100 مسار"}</span>
@@ -412,6 +420,102 @@ export default function LandingPageView() {
                   ? "Interactive AI mentor trained to review your solutions and answer your technical questions instantly 24/7."
                   : "ذكاء اصطناعي تفاعلي مدرب على مراجعة مهامك العملية والإجابة على تساؤلاتك ومساعدتك خطوة بخطوة."}
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ---------- 2.9 CAREER PATHS ROADMAP SHOWCASE ---------- */}
+        <section className="mb-20 rounded-3xl border-2 border-teal-500/20 bg-gradient-to-b from-teal-500/10 via-neutral-900/40 to-neutral-950/60 p-6 sm:p-10 shadow-xl backdrop-blur-xl relative overflow-hidden">
+          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-teal-500/15 blur-3xl" />
+          <div className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-emerald-500/15 blur-3xl" />
+
+          <div className="relative z-10">
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
+              <div className="text-center sm:text-start">
+                <span className="inline-flex items-center gap-2 rounded-full border border-teal-500/30 bg-teal-500/15 px-3.5 py-1 text-xs font-black text-teal-700 dark:text-teal-300 mb-2">
+                  <span>🧭</span>
+                  <span>{isEn ? "Goal-Driven Career Paths" : "المسارات المهنية المتكاملة"}</span>
+                </span>
+                <h2 className="text-2xl font-black md:text-3xl text-neutral-900 dark:text-white">
+                  {isEn
+                    ? "Don't Ask: Which Course to Take? Pick Your Ambition."
+                    : "لا تسأل: أي كورس أبدأ؟ حدد طموحك المهني واتبع الخارطة."}
+                </h2>
+                <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mt-1 max-w-2xl leading-relaxed">
+                  {isEn
+                    ? "Step into sequenced roadmaps taking you from foundations to verified capstone projects that prove competence to clients and employers."
+                    : "بدل التشتت، صممنا لك مسارات مرتبة على مراحل واقعية تنتهي ببناء بورتفوليو حقيقي يثبت مهارتك في سوق العمل."}
+                </p>
+              </div>
+
+              <Link
+                href="/career-paths"
+                className="shrink-0 inline-flex items-center gap-2 rounded-full bg-teal-600 hover:bg-teal-500 text-white font-black px-6 py-3 text-xs shadow-md transition-all hover:scale-105 active:scale-95"
+              >
+                <span>{isEn ? "Explore All 12 Career Paths" : "استكشف كل المسارات المهنية الـ 12"}</span>
+                <span>➔</span>
+              </Link>
+            </div>
+
+            {/* Grid of 6 Featured Career Paths */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {CAREER_PATHS.slice(0, 6).map((cp) => (
+                <div
+                  key={cp.id}
+                  className="group relative flex flex-col justify-between rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900/90 p-5 shadow-xs transition-all hover:border-teal-500/50 hover:shadow-md hover:-translate-y-0.5"
+                >
+                  <div>
+                    {/* Goal prompt */}
+                    <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-teal-500/10 border border-teal-500/20 px-2.5 py-1 text-2xs font-bold text-teal-800 dark:text-teal-300">
+                      <span>💬</span>
+                      <span className="line-clamp-1">{isEn ? cp.goalPromptEn : cp.goalPromptAr}</span>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${cp.accentGradient} text-2xl text-white shadow-xs`}
+                      >
+                        {cp.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-black text-neutral-900 dark:text-white group-hover:text-teal-500 transition-colors line-clamp-1">
+                          {isEn ? cp.titleEn : cp.titleAr}
+                        </h3>
+                        <p className="text-2xs font-medium text-neutral-500 mt-0.5 line-clamp-1">
+                          {isEn ? cp.targetRoleEn : cp.targetRoleAr}
+                        </p>
+                      </div>
+                    </div>
+
+                    <p className="mt-3 text-xs text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed">
+                      {isEn ? cp.taglineEn : cp.taglineAr}
+                    </p>
+
+                    {/* Capstone snippet */}
+                    <div className="mt-3.5 rounded-lg bg-black/5 dark:bg-white/5 p-2.5 text-2xs border border-black/5 dark:border-white/10">
+                      <span className="font-extrabold text-neutral-700 dark:text-neutral-300 block mb-0.5">
+                        🏆 {isEn ? "Capstone Deliverable:" : "المشروع الختامي:"}
+                      </span>
+                      <span className="text-neutral-500 dark:text-neutral-400 line-clamp-1">
+                        {isEn ? cp.portfolioProjectEn : cp.portfolioProjectAr}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 pt-3 border-t border-black/5 dark:border-white/10 flex items-center justify-between">
+                    <span className="text-2xs text-neutral-500">
+                      {cp.stages.length} {isEn ? "stages" : "مراحل"} • {cp.estimatedHours}h
+                    </span>
+                    <Link
+                      href={`/career-paths/${cp.slug}`}
+                      className="inline-flex items-center gap-1 text-xs font-black text-teal-600 dark:text-teal-400 group-hover:underline"
+                    >
+                      <span>{isEn ? "View Roadmap" : "خارطة الطريق"}</span>
+                      <span>➔</span>
+                    </Link>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>

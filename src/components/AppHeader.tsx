@@ -42,6 +42,7 @@ export default function AppHeader({
 
   const navItems = [
     { href: "/app", label: lang === "ar" ? "الرئيسية" : "Home", icon: "🏠" },
+    { href: "/career-paths", label: lang === "ar" ? "المسارات المهنية" : "Career Paths", icon: "🧭" },
     { href: "/app/learn", label: lang === "ar" ? "تعلّم" : "Learn", icon: "📚" },
     { href: "/app/progress", label: lang === "ar" ? "تقدّمي" : "Progress", icon: "📊" },
     { href: "/app/vip-vault", label: lang === "ar" ? "خزنة VIP" : "VIP Vault", icon: "👑" },
