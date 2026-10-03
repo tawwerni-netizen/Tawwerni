@@ -51,7 +51,7 @@ export type CareerPath = {
   coverImage: string;
   accentGradient: string;
   badgeBg: string;
-  levelAr: "مبتدئ إلى محترف" | "متوسط إلى متقدم" | "شامل لكل المستويات";
+  levelAr: "مبتدئ إلى محترف" | "متوسط إلى متقدم" | "شامل لكل المستويات" | "كافة المستويات";
   levelEn: "Beginner to Pro" | "Intermediate to Advanced" | "All Levels";
   estimatedHours: number;
   keySkillsAr: string[];
@@ -105,7 +105,7 @@ export const CAREER_PATHS: CareerPath[] = [
     coverImage: "/images/tracks/fullstack-web-modern.jpg",
     accentGradient: "from-blue-600 via-indigo-600 to-indigo-900",
     badgeBg: "bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-500/20",
-    levelAr: "شامل لكل المستويات",
+    levelAr: "كافة المستويات",
     levelEn: "All Levels",
     estimatedHours: 48,
     keySkillsAr: [
@@ -266,7 +266,7 @@ export const CAREER_PATHS: CareerPath[] = [
     coverImage: "/images/tracks/ui-ux-figma-mastery.jpg",
     accentGradient: "from-purple-600 via-violet-600 to-purple-950",
     badgeBg: "bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-500/20",
-    levelAr: "شامل لكل المستويات",
+    levelAr: "كافة المستويات",
     levelEn: "All Levels",
     estimatedHours: 40,
     keySkillsAr: [
@@ -399,7 +399,7 @@ export const CAREER_PATHS: CareerPath[] = [
     coverImage: "/images/tracks/growth-marketing-funnels.jpg",
     accentGradient: "from-rose-600 via-pink-600 to-rose-950",
     badgeBg: "bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-500/20",
-    levelAr: "شامل لكل المستويات",
+    levelAr: "كافة المستويات",
     levelEn: "All Levels",
     estimatedHours: 42,
     keySkillsAr: [
@@ -550,7 +550,7 @@ export const CAREER_PATHS: CareerPath[] = [
     coverImage: "/images/tracks/freelancing-global-income.jpg",
     accentGradient: "from-amber-600 via-yellow-600 to-amber-900",
     badgeBg: "bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/20",
-    levelAr: "شامل لكل المستويات",
+    levelAr: "كافة المستويات",
     levelEn: "All Levels",
     estimatedHours: 36,
     keySkillsAr: [
@@ -701,7 +701,7 @@ export const CAREER_PATHS: CareerPath[] = [
     coverImage: "/images/tracks/autonomous-ai-agents.jpg",
     accentGradient: "from-teal-600 via-emerald-600 to-teal-950",
     badgeBg: "bg-teal-500/10 text-teal-700 dark:text-teal-300 border-teal-500/20",
-    levelAr: "شامل لكل المستويات",
+    levelAr: "كافة المستويات",
     levelEn: "All Levels",
     estimatedHours: 40,
     keySkillsAr: [
@@ -843,7 +843,7 @@ export const CAREER_PATHS: CareerPath[] = [
     coverImage: "/images/tracks/powerbi-tableau-visualization.jpg",
     accentGradient: "from-cyan-600 via-sky-600 to-sky-950",
     badgeBg: "bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border-cyan-500/20",
-    levelAr: "شامل لكل المستويات",
+    levelAr: "كافة المستويات",
     levelEn: "All Levels",
     estimatedHours: 45,
     keySkillsAr: [
@@ -1003,7 +1003,7 @@ export const CAREER_PATHS: CareerPath[] = [
     coverImage: "/images/tracks/pillar-cybersecurity.jpg",
     accentGradient: "from-red-600 via-rose-700 to-red-950",
     badgeBg: "bg-red-500/10 text-red-700 dark:text-red-300 border-red-500/20",
-    levelAr: "شامل لكل المستويات",
+    levelAr: "كافة المستويات",
     levelEn: "All Levels",
     estimatedHours: 42,
     keySkillsAr: [
@@ -1163,7 +1163,7 @@ export const CAREER_PATHS: CareerPath[] = [
     coverImage: "/images/tracks/building-launching-mvp.jpg",
     accentGradient: "from-orange-600 via-amber-600 to-amber-950",
     badgeBg: "bg-orange-500/10 text-orange-700 dark:text-orange-300 border-orange-500/20",
-    levelAr: "شامل لكل المستويات",
+    levelAr: "كافة المستويات",
     levelEn: "All Levels",
     estimatedHours: 42,
     keySkillsAr: [
@@ -1323,7 +1323,7 @@ export const CAREER_PATHS: CareerPath[] = [
     coverImage: "/images/tracks/brand-identity-visual-storytelling.jpg",
     accentGradient: "from-pink-600 via-purple-600 to-indigo-950",
     badgeBg: "bg-pink-500/10 text-pink-700 dark:text-pink-300 border-pink-500/20",
-    levelAr: "شامل لكل المستويات",
+    levelAr: "كافة المستويات",
     levelEn: "All Levels",
     estimatedHours: 38,
     keySkillsAr: [
@@ -1474,7 +1474,7 @@ export const CAREER_PATHS: CareerPath[] = [
     coverImage: "/images/tracks/short-form-video-editing.jpg",
     accentGradient: "from-violet-600 via-fuchsia-600 to-purple-950",
     badgeBg: "bg-violet-500/10 text-violet-700 dark:text-violet-300 border-violet-500/20",
-    levelAr: "شامل لكل المستويات",
+    levelAr: "كافة المستويات",
     levelEn: "All Levels",
     estimatedHours: 36,
     keySkillsAr: [
@@ -1634,7 +1634,7 @@ export const CAREER_PATHS: CareerPath[] = [
     coverImage: "/images/tracks/ai-workplace-productivity.jpg",
     accentGradient: "from-emerald-600 via-teal-600 to-cyan-950",
     badgeBg: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/20",
-    levelAr: "شامل لكل المستويات",
+    levelAr: "كافة المستويات",
     levelEn: "All Levels",
     estimatedHours: 36,
     keySkillsAr: [
@@ -1794,7 +1794,7 @@ export const CAREER_PATHS: CareerPath[] = [
     coverImage: "/images/tracks/ecommerce-store-supply-chain.jpg",
     accentGradient: "from-amber-600 via-orange-600 to-rose-950",
     badgeBg: "bg-orange-500/10 text-orange-700 dark:text-orange-300 border-orange-500/20",
-    levelAr: "شامل لكل المستويات",
+    levelAr: "كافة المستويات",
     levelEn: "All Levels",
     estimatedHours: 40,
     keySkillsAr: [

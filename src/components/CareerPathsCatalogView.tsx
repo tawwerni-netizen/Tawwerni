@@ -293,9 +293,9 @@ export default function CareerPathsCatalogView({
                       )}
 
                       {/* Roadmap Stages Preview - High-Contrast & Crystal Clear */}
-                      <div className="rounded-2xl bg-neutral-100/90 dark:bg-neutral-950/85 p-3.5 border border-black/10 dark:border-teal-500/30 shadow-inner space-y-2.5">
+                      <div className="roadmap-stages-box rounded-2xl p-3.5 border shadow-inner space-y-2.5">
                         <div className="flex items-center justify-between text-2xs font-black uppercase tracking-wider">
-                          <span className="text-neutral-800 dark:text-teal-300 flex items-center gap-1.5">
+                          <span className="roadmap-stage-header flex items-center gap-1.5 font-black">
                             <span>🧭</span>
                             <span>{isEn ? "Sequential Roadmap Stages" : "مراحل خريطة الطريق بالترتيب"}</span>
                           </span>
@@ -313,7 +313,7 @@ export default function CareerPathsCatalogView({
                               <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-500/20 border border-teal-400/40 text-2xs font-black text-teal-800 dark:text-teal-200 shadow-2xs">
                                 {idx + 1}
                               </span>
-                              <span className="font-bold text-xs leading-snug text-neutral-900 dark:text-white">
+                              <span className="roadmap-stage-text font-bold text-xs leading-snug">
                                 {isEn ? st.titleEn : st.titleAr}
                               </span>
                             </div>
