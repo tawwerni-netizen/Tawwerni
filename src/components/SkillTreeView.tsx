@@ -23,7 +23,7 @@ export default function SkillTreeView({ tree }: { tree: TrackSkillTree }) {
               className="text-xs font-black uppercase tracking-wider"
               style={{ color: theme.palette.primary }}
             >
-              {isEn ? "COMPETENCY TREE" : "خريطة المهارات المعتمدة"}
+              {isEn ? "COMPETENCY TREE" : "خريطة المهارات المكتسبة"}
             </span>
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-mono">
               {masteredCount} / {tree.skills.length} {isEn ? "Mastered" : "متقنة"} ({progressPercent}%)
@@ -180,8 +180,8 @@ export default function SkillTreeView({ tree }: { tree: TrackSkillTree }) {
             </h4>
             <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
               {isEn
-                ? "Combines all track skills. Completing this unlocks your certified credential & verified portfolio exhibit."
-                : "يجمع كافة مهارات المسار. عند إنجازه بنجاح يتم توثيق جواز مهاراتك وفتح الشهادة المعتمدة."}
+                ? "Combines all track skills. Completing this unlocks your verified digital credential & portfolio exhibit."
+                : "يجمع كافة مهارات المسار. عند إنجازه بنجاح يتم توثيق جواز مهاراتك وفتح شهادة الإتمام الرقمية الموثقة."}
             </p>
           </div>
         </div>

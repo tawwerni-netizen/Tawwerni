@@ -38,6 +38,12 @@ export function trackLead() {
   google()?.("event", "generate_lead", { currency: CURRENCY });
 }
 
+/** Someone created an account (email signup or Google OAuth). */
+export function trackCompleteRegistration(method: string = "email") {
+  meta()?.("track", "CompleteRegistration", { status: true });
+  google()?.("event", "sign_up", { method });
+}
+
 /** Someone reached the payment screen. */
 export function trackInitiateCheckout(valueEgp: number) {
   meta()?.("track", "InitiateCheckout", { value: valueEgp, currency: CURRENCY });

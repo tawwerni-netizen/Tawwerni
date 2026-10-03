@@ -2422,8 +2422,8 @@ export function generateUniversalTrackQuiz(params: {
 
     case 28:
     default:
-      q1Ar = `مع تخرجك الرسمي وحصولك على الشهادة المعتمدة في "${track.titleAr}"، كيف تعرض إنجازك على LinkedIn وسيرتك الذاتية؟`;
-      q1En = `Upon earning your verified certification in "${track.titleEn}", how do you showcase your credential on LinkedIn and resumes?`;
+      q1Ar = `مع تخرجك الرسمي وحصولك على شهادة الإتمام الرقمية الموثقة في "${track.titleAr}"، كيف تعرض إنجازك على LinkedIn وسيرتك الذاتية؟`;
+      q1En = `Upon earning your verifiable completion credential in "${track.titleEn}", how do you showcase your achievement on LinkedIn and resumes?`;
       q1CorrectAr = `إضافة الشهادة برابط التحقق الرقمي المباشر، مرفقة برابط المشروع الحي ودراسة الحالة في ملف إنجازك`;
       q1CorrectEn = `Adding the credential with its direct digital verification URL, linked directly to the live capstone case study`;
       q1DistractorsAr = [
@@ -2436,11 +2436,11 @@ export function generateUniversalTrackQuiz(params: {
         `Assuming you need no verifiable proof because self-confidence alone wins contracts`,
         `Hiding verification credentials out of anxiety regarding scrutiny`,
       ];
-      q1ExplanationAr = `الشهادة المعتمدة المدعومة بمشروع تطبيقي ورابط تحقق رقمي تمنحك مصداقية فورية تفتح لك أبواب الفرص والتوظيف.`;
-      q1ExplanationEn = `An accredited credential anchored by verifiable capstone artifacts establishes instant professional credibility with employers.`;
+      q1ExplanationAr = `شهادة الإتمام الرقمية الموثقة المدعومة بمشروع تطبيقي ورابط تحقق رقمي QR تمنحك مصداقية فورية تفتح لك أبواب الفرص والتوظيف.`;
+      q1ExplanationEn = `A verifiable digital completion credential anchored by hands-on capstone artifacts and QR verification establishes instant professional credibility with employers.`;
 
       q2Ar = `شهادة الإتمام المقترنة برابط مشروع حقيقي حي ومفحوص تمنحك مصداقية تفوق عشرات الشهادات النظرية المجردة.`;
-      q2En = `An accredited certificate paired with a live verifiable production artifact delivers authoritative credibility unmatched by generic degrees.`;
+      q2En = `A verifiable digital completion certificate paired with a live production artifact delivers authoritative credibility unmatched by generic theoretical certificates.`;
       q2OptionsAr = ["صح", "غلط"];
       q2OptionsEn = ["True", "False"];
       q2CorrectIndex = 0;

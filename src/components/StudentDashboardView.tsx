@@ -475,7 +475,7 @@ export default function StudentDashboardView({
               <p className="text-neutral-500 dark:text-neutral-400 text-[11px] mt-0.5">
                 {isEn
                   ? "All demonstrated skills are in solid standing. Keep your momentum going on today's mission!"
-                  : "كافة المهارات المعتمدة في سجلّك تحقق درجات إتقان مرتفعة. حافظ على وتيرتك في مهمة اليوم!"}
+                  : "كافة المهارات المكتسبة في سجلّك تحقق درجات إتقان مرتفعة. حافظ على وتيرتك في مهمة اليوم!"}
               </p>
             </div>
           </div>
@@ -494,8 +494,8 @@ export default function StudentDashboardView({
             </span>
             <h4 className="text-sm sm:text-base font-black text-neutral-900 dark:text-white mt-0.5">
               {isEn
-                ? "Final Capstone Deliverable & Accredited Credential"
-                : "مشروع التخرج المعتمد (Capstone) واعتماد الشهادة الرسمية"}
+                ? "Final Capstone Deliverable & Verifiable Credential"
+                : "مشروع التخرج العملي (Capstone) وتوثيق شهادة الإتمام الرقمية"}
             </h4>
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
               {isEn

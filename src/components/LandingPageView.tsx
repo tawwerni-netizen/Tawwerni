@@ -175,7 +175,7 @@ export default function LandingPageView() {
           </div>
 
           {/* 3 Pillars of Frictionless Reassurance */}
-          <div className="mx-auto max-w-xl grid grid-cols-3 gap-2.5 text-center text-xs font-bold text-neutral-700 dark:text-neutral-300 mb-12">
+          <div className="mx-auto max-w-xl grid grid-cols-3 gap-2.5 text-center text-xs font-bold text-neutral-700 dark:text-neutral-300 mb-8">
             <div className="p-3 rounded-2xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 shadow-2xs">
               <span className="block text-lg mb-1">⏱️</span>
               <span>{isEn ? "10 Mins / Day" : "١٠ دقائق يوميًا"}</span>
@@ -187,6 +187,61 @@ export default function LandingPageView() {
             <div className="p-3 rounded-2xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 shadow-2xs">
               <span className="block text-lg mb-1">🛡️</span>
               <span>{isEn ? "7-Day Guarantee" : "ضمان استرداد 7 أيام"}</span>
+            </div>
+          </div>
+
+          {/* 3-Tier Time Hierarchy Clarification */}
+          <div className="mx-auto max-w-3xl mb-12 p-4 sm:p-5 rounded-3xl bg-neutral-100/90 dark:bg-neutral-900/90 border border-teal-500/20 backdrop-blur-md">
+            <div className="text-center mb-3.5">
+              <span className="text-[11px] font-black uppercase tracking-wider text-teal-700 dark:text-teal-300">
+                {isEn ? "How Structured Learning Works on Tawwerni · No Burnout, No Guesswork" : "هيكل التعلّم والتطبيق على طوّرني · بدون إرهاق وبدون تشتت"}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-start">
+              <div className="p-3.5 rounded-2xl bg-white dark:bg-neutral-950/70 border border-black/5 dark:border-white/10 shadow-2xs">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-teal-500/15 text-teal-700 dark:text-teal-300 font-black text-xs font-mono">1</span>
+                  <h4 className="text-xs font-black text-neutral-900 dark:text-white">
+                    {isEn ? "Daily Micro-Mission" : "الجرعة اليومية"}
+                  </h4>
+                </div>
+                <p className="text-[11px] font-bold text-teal-600 dark:text-teal-400 mb-1">
+                  {isEn ? "10–15 Mins / Day" : "١٠ إلى ١٥ دقيقة يوميًا"}
+                </p>
+                <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                  {isEn ? "A focused concept + actionable task to build an atomic habit without study fatigue." : "فكرة مركزة + تطبيق عملي مباشر لبناء عادة الاستمرار دون انقطاع أو تسويف."}
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-white dark:bg-neutral-950/70 border border-black/5 dark:border-white/10 shadow-2xs">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-amber-500/15 text-amber-700 dark:text-amber-300 font-black text-xs font-mono">2</span>
+                  <h4 className="text-xs font-black text-neutral-900 dark:text-white">
+                    {isEn ? "28-Day Track Challenge" : "تحدي المسار (٢٨ يومًا)"}
+                  </h4>
+                </div>
+                <p className="text-[11px] font-bold text-amber-600 dark:text-amber-400 mb-1">
+                  {isEn ? "1 Focused Skill / Month" : "إتقان أداة أو مهارة محددة"}
+                </p>
+                <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                  {isEn ? "Master one tool completely and graduate with a finished real-world project & QR certificate." : "تخرج من كل مسار بمشروع تطبيقي حقيقي في بورتفوليو أعمالك وشهادة إتمام رقمية."}
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-white dark:bg-neutral-950/70 border border-black/5 dark:border-white/10 shadow-2xs">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 font-black text-xs font-mono">3</span>
+                  <h4 className="text-xs font-black text-neutral-900 dark:text-white">
+                    {isEn ? "Full Career Path" : "المسار المهني الكامل"}
+                  </h4>
+                </div>
+                <p className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 mb-1">
+                  {isEn ? "48–60 Total Hours (4–8 Tracks)" : "٤٨ إلى ٦٠ ساعة (٤–٨ مسارات)"}
+                </p>
+                <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                  {isEn ? "A comprehensive roadmap taking you from complete beginner to career-ready professional." : "رحلة تراكمية مرتبة من الصفر تؤهلك لسوق العمل والوظائف أو الفريلانس الدولي."}
+                </p>
+              </div>
             </div>
           </div>
 
@@ -521,7 +576,7 @@ export default function LandingPageView() {
                         <div className="inline-flex items-center gap-1.5 rounded-lg bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 px-2 py-0.5 text-2xs font-bold text-neutral-700 dark:text-neutral-200">
                           <span>📚</span>
                           <span>
-                            {isEn ? `${cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} Tracks` : `${cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} مسارات معتمدة`}
+                            {isEn ? `${cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} Tracks` : `${cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} مسارات تدريبية`}
                           </span>
                         </div>
                       </div>
@@ -692,7 +747,7 @@ export default function LandingPageView() {
                     </>
                   ) : (
                     <>
-                      <span>شهادة إتمام معتمدة بكود تحقق QR لكل مسار تنجزه.</span>
+                      <span>شهادة إتمام رقمية موثقة بكود تحقق QR لكل مسار تنجزه.</span>
                       <span className="block mt-2 text-amber-600 dark:text-amber-300 text-lg sm:text-2xl font-black">
                         ١٠٠ مسار = ١٠٠ شهادة موثقة تثري سيرتك الذاتية و LinkedIn.
                       </span>
@@ -782,7 +837,7 @@ export default function LandingPageView() {
                   </div>
 
                   <p className="text-[10px] uppercase tracking-widest text-amber-300/90 font-black mb-1">
-                    {isEn ? "Certificate of Practical Completion" : "شهادة إتمام وتأهيل عملي معتمدة"}
+                    {isEn ? "Certificate of Practical Completion" : "شهادة إتمام وتأهيل عملي موثقة"}
                   </p>
 
                   <div className="h-0.5 bg-gradient-to-r from-amber-400 via-emerald-400 to-transparent my-2" />
@@ -867,7 +922,7 @@ export default function LandingPageView() {
                 <span>{isEn ? `With ${brand.name} & The 100 Tracks:` : `مع ${brand.name} ومنظومة الـ 100 مسار:`}</span>
               </p>
               <ul className="space-y-2 text-xs leading-relaxed text-emerald-900 dark:text-emerald-200">
-                <li>• {isEn ? "5 to 15 minutes daily — guaranteed frictionless habit loop" : "٥ إلى ١٥ دقيقة يوميًا — جرعة خفيفة تضمن استمرارك دون انقطاع"}</li>
+                <li>• {isEn ? "10 to 15 minutes daily — guaranteed frictionless habit loop" : "١٠ إلى ١٥ دقيقة يوميًا — جرعة خفيفة تضمن استمرارك دون انقطاع"}</li>
                 <li>• {isEn ? "Actionable micro-task in every lesson with zero fluff" : "مهمة عملية وتطبيق مباشر بكل درس بدون حشو نظري"}</li>
                 <li>• {isEn ? "Integrated psychological support (Pomodoro, Alpha waves, Streak Freeze)" : "دعم نفسي متواصل (بومودورو، نغمات ألفا، وتجميد السلسلة)"}</li>
                 <li>• {isEn ? "100 tracks opening doors to freelance income, promotion, and startups" : "١٠٠ مسار تفتح لك أبواب الدخل الحر والترقي ومشاريعك الخاصة"}</li>
@@ -1025,8 +1080,8 @@ export default function LandingPageView() {
             </h3>
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-6">
               {isEn
-                ? "Your full guided path + projects + certificate + deep library of 100 tracks"
-                : "مسارك الموجه بالكامل + المهام التطبيقية + الشهادة المعتمدة + مكتبة الـ ١٠٠ مسار"}
+                ? "Your full guided path + projects + verifiable certificate + deep library of 100 tracks"
+                : "مسارك الموجه بالكامل + المهام التطبيقية + شهادة الإتمام الرقمية الموثقة + مكتبة الـ ١٠٠ مسار"}
             </p>
 
             {/* Clear Separated Price Typography */}
@@ -1049,7 +1104,7 @@ export default function LandingPageView() {
               {[
                 isEn ? "Full 28-day step-by-step roadmap in your chosen path" : "خطة الـ ٢٨ يومًا كاملة خطوة بخطوة في مسارك المختار",
                 isEn ? "Daily practical micro-missions with real-world output" : "مهمة تطبيقية عملية يومية تخرج منها بنتيجة ملموسة",
-                isEn ? "Verified certificate with authentic QR verification code" : "شهادة معتمدة موثقة برابط رسمي وكود QR لكل مسار تنجزه",
+                isEn ? "Verified digital completion certificate with authentic QR code" : "شهادة إتمام رقمية موثقة برابط رسمي وكود QR لكل مسار تنجزه",
                 isEn ? "24/7 AI mentor (Faheem) reviewing your daily tasks" : "كوتش الذكاء الاصطناعي (فهيم) لمساعدتك ومراجعة تطبيقاتك 24/7",
                 isEn ? "Unlimited access to all 100 tracks as your deep library" : "فتح شامل لكافة الـ ١٠٠ مسار التخصصية كمكتبة مرجعية دائمة",
                 isEn ? "100% Money-Back Guarantee within 7 days with zero friction" : "ضمان استرجاع كامل بنسبة 100% خلال 7 أيام بدون أي تعقيد",
@@ -1092,8 +1147,8 @@ export default function LandingPageView() {
                 icon: "⏳",
                 title: isEn ? "Super Busy with No Time?" : "مش فاضي خالص؟",
                 body: isEn
-                  ? "5 to 15 minutes a day. Less time than you spend scrolling videos in bed before sleeping."
-                  : "٥ إلى ١٥ دقيقة في اليوم. وقت أقل من اللي بتقضيه في تقليب الفيديوهات على السرير قبل النوم.",
+                  ? "10 to 15 minutes a day. Less time than you spend scrolling videos in bed before sleeping."
+                  : "١٠ إلى ١٥ دقيقة في اليوم. وقت أقل من اللي بتقضيه في تقليب الفيديوهات على السرير قبل النوم.",
               },
               {
                 icon: "🤷",

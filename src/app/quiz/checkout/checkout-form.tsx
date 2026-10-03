@@ -327,8 +327,8 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
                 </span>
               </div>
 
-              <span className="text-sm sm:text-base text-neutral-400 line-through font-mono">
-                {pricing.originalPriceEgp} {isEn ? "EGP" : "ج.م"}
+              <span className="text-xs sm:text-sm font-semibold text-emerald-300/90 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-lg">
+                {isEn ? "Less than 1 EGP / day" : "أقل من ١ ج.م / يوميًا"}
               </span>
             </div>
 
@@ -744,12 +744,12 @@ export default function CheckoutForm({ courses }: { courses: CourseOption[] }) {
             </p>
           )}
 
-          {/* ⭐ Accredited Certificate Trust Badge ⭐ */}
+          {/* ⭐ Verifiable Digital Certificate Trust Badge ⭐ */}
           <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3.5 sm:p-4 text-start flex items-center gap-3">
             <span className="text-2xl sm:text-3xl shrink-0">🎓</span>
             <div>
               <p className="text-xs sm:text-sm font-black text-amber-300">
-                {isEn ? "Verified QR Certificates Included for All 100 Tracks" : "شهادات إتمام معتمدة بكود QR لكافة الـ 100 مسار مشمولة مجاناً"}
+                {isEn ? "Verified Digital QR Certificates Included for All 100 Tracks" : "شهادات إتمام رقمية موثقة بكود QR لكافة الـ 100 مسار مشمولة مجاناً"}
               </p>
               <p className="text-[11px] text-neutral-300 mt-0.5 leading-relaxed">
                 {isEn

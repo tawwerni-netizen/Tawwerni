@@ -37,7 +37,9 @@ export async function POST(request: Request) {
       where: { email },
     });
 
+    let isNewUser = false;
     if (!user) {
+      isNewUser = true;
       user = await prisma.user.create({
         data: {
           email,
@@ -68,6 +70,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       ok: true,
       hasOnboarded: user.dailyPaceMinutes != null,
+      isNewUser,
     });
   } catch (error) {
     console.error("Google Auth Error:", error);

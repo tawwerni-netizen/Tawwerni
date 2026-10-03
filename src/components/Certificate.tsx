@@ -131,7 +131,7 @@ export default function Certificate({
           </div>
 
           <p className="certificate-eyebrow font-black tracking-widest text-xs uppercase text-amber-700 dark:text-amber-300">
-            {isEn ? "Official Verified Certificate of Practical Completion" : "شهادة إتمام وتأهيل عملي معتمدة وموثقة"}
+            {isEn ? "Official Verified Certificate of Practical Completion" : "شهادة إتمام وتأهيل عملي رقمية موثقة"}
           </p>
 
           <div className="certificate-rule my-4" aria-hidden />
@@ -227,7 +227,7 @@ export default function Certificate({
         message={
           isEn
             ? `I just finished "${resolvedTitle}" and earned my verified certificate on ${brand.nameEn}.com! 🎓 Check it out: ${verifyUrl}`
-            : `أتممت مسار "${resolvedTitle}" وحصلت على شهادتي المعتمدة من منصة ${brand.name}.com! 🎓 تقدر تتحقق من الشهادة هنا: ${verifyUrl}`
+            : `أتممت مسار "${resolvedTitle}" وحصلت على شهادة الإتمام الرقمية الموثقة من منصة ${brand.name}.com! 🎓 تقدر تتحقق من الشهادة هنا: ${verifyUrl}`
         }
       />
 

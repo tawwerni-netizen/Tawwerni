@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Script from "next/script";
 import { useI18n } from "./LanguageContext";
+import { trackCompleteRegistration } from "@/lib/analytics";
 
 export default function GoogleLoginButton() {
   const { lang } = useI18n();
@@ -29,6 +30,10 @@ export default function GoogleLoginButton() {
         setError(data.error || (isEn ? "Google sign-in failed. Please try again." : "فشل تسجيل الدخول بجوجل. حاول مرة أخرى."));
         setLoading(false);
         return;
+      }
+
+      if (data.isNewUser) {
+        trackCompleteRegistration("google");
       }
 
       const searchParams = new URLSearchParams(window.location.search);

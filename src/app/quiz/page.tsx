@@ -788,7 +788,7 @@ export default function QuizPage() {
                   },
                   {
                     week: isEn ? "Week 4 (Days 22–28)" : "الأسبوع الرابع (الأيام ٢٢–٢٨)",
-                    title: isEn ? "Monetization, Client Outreach & Certification" : "تسعير الخدمات، اقتناص العملاء والشهادة المعتمدة",
+                    title: isEn ? "Monetization, Client Outreach & Verified Digital Certification" : "تسعير الخدمات، اقتناص العملاء وشهادة الإتمام الرقمية الموثقة",
                     badge: isEn ? "Income 💰" : "دخل واعتماد 🎓",
                   },
                 ].map((item, idx) => (
@@ -880,8 +880,8 @@ export default function QuizPage() {
                     <span className="text-base font-black text-emerald-400">
                       {isEn ? "EGP" : "ج.م"}
                     </span>
-                    <span className="text-sm text-neutral-400 line-through font-mono">
-                      {pricing.originalPriceEgp} {isEn ? "EGP" : "ج.م"}
+                    <span className="text-xs font-bold text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+                      {isEn ? "Annual All-Access Pass" : "عضوية سنوية شاملة"}
                     </span>
                   </div>
                   <p className="text-[11px] text-neutral-400 mt-0.5">
@@ -910,7 +910,7 @@ export default function QuizPage() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-400 font-bold">✓</span>
-                  <span><b>{isEn ? "300+ Verified Community & Certificates" : "مجتمع ٣٠٠+ عضو حقيقي وشهادات إتمام معتمدة"}</b> {isEn ? "for every completed track" : "لكل مسار تنهيه"}</span>
+                  <span><b>{isEn ? "300+ Verified Community & Digital Certificates" : "مجتمع ٣٠٠+ عضو حقيقي وشهادات إتمام رقمية موثقة برمز QR"}</b> {isEn ? "for every completed track" : "لكل مسار تنهيه"}</span>
                 </li>
               </ul>
 

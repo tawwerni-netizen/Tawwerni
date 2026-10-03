@@ -73,7 +73,7 @@ export default function TermsPage() {
             <p className="text-neutral-700 dark:text-neutral-300">
               {isEn
                 ? `${brand.nameEn} provides an interactive online learning platform featuring 100+ practical educational tracks, daily micro-lessons, hands-on projects, digital badges, and verified completion certificates across technology, AI, self-development, and business disciplines.`
-                : `تقدم منصة "${brand.name}" بيئة تعليمية تفاعلية تشمل أكثر من 100 مسار عملي متخصص، ودروساً تطبيقية يومية قصيرة، وأدوات تركيز، واختبارات قياس مستوى، وشهادات إتمام معتمدة قابلة للتحقق في مجالات الذكاء الاصطناعي والتكنولوجيا وتطوير المهارات.`}
+                : `تقدم منصة "${brand.name}" بيئة تعليمية تفاعلية تشمل أكثر من 100 مسار عملي متخصص، ودروساً تطبيقية يومية قصيرة، وأدوات تركيز، واختبارات قياس مستوى، وشهادات إتمام رقمية موثقة قابلة للتحقق في مجالات الذكاء الاصطناعي والتكنولوجيا وتطوير المهارات.`}
             </p>
           </section>
 

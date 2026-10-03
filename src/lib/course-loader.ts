@@ -217,8 +217,8 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
         titleAr = `اليوم الأول: خارطة طريق ${track.titleAr} وتثبيت الأساس`;
         titleEn = `Day 1: The ${track.titleEn} Roadmap & Core Setup`;
       } else if (day === totalLessons) {
-        titleAr = `اليوم الأخير: تسليم المشروع والتخرج بشهادة معتمدة`;
-        titleEn = `Final Day: Project Capstone & Official Certification`;
+        titleAr = `اليوم الأخير: تسليم المشروع والتخرج بشهادة إتمام رقمية موثقة`;
+        titleEn = `Final Day: Project Capstone & Verifiable Completion Certificate`;
       } else if (isCheckpoint) {
         titleAr = `محطة المراجعة والتطبيق: قياس التطور في ${outcomeAr}`;
         titleEn = `Milestone Review: Progress Assessment in ${outcomeEn}`;

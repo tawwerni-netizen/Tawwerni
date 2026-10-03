@@ -9,6 +9,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { LogoLink } from "@/components/Logo";
 import { useI18n } from "@/components/LanguageContext";
 import GoogleLoginButton from "@/components/GoogleLoginButton";
+import { trackCompleteRegistration } from "@/lib/analytics";
 
 type Mode = "login" | "signup";
 
@@ -53,6 +54,10 @@ function LoginInner() {
         setError(data.error ?? (isEn ? `Server error (${res.status}). Please try again.` : `حصل خطأ في السيرفر (${res.status}). جرّب تاني.`));
         setLoading(false);
         return;
+      }
+
+      if (mode === "signup") {
+        trackCompleteRegistration("email");
       }
 
       const nextParam = params.get("next");

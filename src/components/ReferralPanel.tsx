@@ -54,8 +54,8 @@ export default function ReferralPanel(props: Props) {
       : { name: isEn ? "🥉 Bronze Starter" : "🥉 سفير برونزي", bonus: "في الطريق لأول سحب" };
 
   const readyPitch = isEn
-    ? `I'm learning hands-on AI & high-income skills in 5 minutes a day with Tawwerni. Day 1 of all 100 tracks is 100% free — try it out: ${props.shareUrl}`
-    : `أنا بدأت أتعلم مهارات الذكاء الاصطناعي والتكنولوجيا العملية مع منصة "طوّرني".. دروس ٥ دقايق في اليوم عملية جداً ومعاها شهادات معتمدة. اليوم الأول مجاني بالكامل لكل المسارات، جرب بنفسك من اللينك ده: ${props.shareUrl}`;
+    ? `I'm learning hands-on AI & high-income skills in 10 minutes a day with Tawwerni. Day 1 of all 100 tracks is 100% free — try it out: ${props.shareUrl}`
+    : `أنا بدأت أتعلم مهارات الذكاء الاصطناعي والتكنولوجيا العملية مع منصة "طوّرني".. دروس ١٠ دقايق في اليوم عملية جداً ومعاها شهادات إتمام موثقة. اليوم الأول مجاني بالكامل لكل المسارات، جرب بنفسك من اللينك ده: ${props.shareUrl}`;
 
   async function copyLink() {
     try {

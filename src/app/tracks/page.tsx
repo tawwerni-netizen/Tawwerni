@@ -118,7 +118,7 @@ export default function TracksPage() {
           <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-2 text-xs text-neutral-600 dark:text-neutral-400 bg-teal-50/80 dark:bg-teal-950/40 border border-teal-500/20 px-4 py-2 rounded-full">
             <span className="font-bold text-teal-800 dark:text-teal-300">🛡️ {isEn ? "7-Day Money-Back Guarantee" : "ضمان استرداد كامل خلال 7 أيام"}</span>
             <span className="text-neutral-400">•</span>
-            <span className="font-bold text-amber-700 dark:text-amber-300">🎓 {isEn ? "Verified QR Certificate For Every Track" : "شهادة معتمدة بكود QR لكل مسار تنجزه"}</span>
+            <span className="font-bold text-amber-700 dark:text-amber-300">🎓 {isEn ? "Verifiable Digital QR Certificate For Every Track" : "شهادة إتمام رقمية موثقة بكود QR لكل مسار"}</span>
             <span className="text-neutral-400">•</span>
             <span>{isEn ? "Day 1 of every track is 100% free to test" : "اليوم الأول من كل مسار مفتوح مجاناً للتجربة"}</span>
           </div>

@@ -213,7 +213,7 @@ export default function ProgressClient({
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                   <span>🎓</span>
-                  <span>{isEn ? "My Accredited Certificates" : "شهاداتي المعتمدة المكتملة"}</span>
+                  <span>{isEn ? "My Verified Completion Certificates" : "شهادات الإتمام الرقمية الموثقة"}</span>
                 </span>
                 <span className="text-xs font-mono bg-amber-400 text-neutral-950 px-2 py-0.5 rounded-full font-black">
                   {courses.filter((c) => c.completedLessons >= c.totalLessons).length} {isEn ? "Certificates" : "شهادات"}

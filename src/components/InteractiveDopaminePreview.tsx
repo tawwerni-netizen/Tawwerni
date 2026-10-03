@@ -140,7 +140,7 @@ export default function InteractiveDopaminePreview() {
           <span className="text-amber-400 text-base animate-pulse">✨</span>
           <span>
             {isEn
-              ? "Over 1,480 bite-sized practical missions engineered for instant dopamine & real skill growth."
+              ? "Over 1,480 bite-sized practical missions engineered for continuous momentum & real skill growth."
               : "أكثر من 1,480 درس تطبيقي مصغر صمموا ليعطوك شعور الإنجاز والتقدم من أول دقيقة."}
           </span>
         </div>

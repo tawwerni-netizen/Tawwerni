@@ -40,7 +40,7 @@ export default function ProjectsShowcase({
 
           <h3 className="text-lg sm:text-xl font-black text-neutral-900 dark:text-white flex items-center gap-2">
             <span>💼</span>
-            <span>{isEn ? "Your Demonstrated Projects Portfolio" : "مخرجاتك ومشاريعك الواقعية المعتمدة"}</span>
+            <span>{isEn ? "Your Demonstrated Projects Portfolio" : "مخرجاتك ومشاريعك الواقعية المكتملة"}</span>
           </h3>
         </div>
       </div>

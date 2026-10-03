@@ -144,7 +144,7 @@ export default function CourseDetailClient({
                 href={`/app/learn/${course.slug}/certificate`}
                 className="btn-ghost-shine cta-btn-white block rounded-full py-3 text-center text-sm font-bold shadow-xl transition-all"
               >
-                {isEn ? "🎓 View Your Official Certificate" : "🎓 استلم شهادتك المعتمدة"}
+                {isEn ? "🎓 View Your Verified Certificate" : "🎓 استلم شهادتك الرقمية الموثقة"}
               </Link>
             ) : unlocked ? (
               <Link
@@ -219,7 +219,7 @@ export default function CourseDetailClient({
                     ✓ {isEn ? "Track Completed!" : "أتممت هذا المسار بنجاح!"}
                   </div>
                   <h3 className="text-lg sm:text-xl font-black text-neutral-900 dark:text-white leading-tight">
-                    {isEn ? "Your Official Certificate is Ready" : "شهادتك المعتمدة جاهزة للاستلام والتنزيل"}
+                    {isEn ? "Your Verified Certificate is Ready" : "شهادتك الرقمية الموثقة جاهزة للاستلام والتنزيل"}
                   </h3>
                   <p className="text-xs text-neutral-600 dark:text-neutral-300 mt-1">
                     {isEn
@@ -333,7 +333,7 @@ export default function CourseDetailClient({
             </div>
             <div className="flex items-center gap-2.5 p-2 rounded-xl bg-neutral-50 dark:bg-neutral-800/60">
               <span className="text-lg">🎓</span>
-              <span>{isEn ? "Official verified completion certificate" : "شهادة إتمام معتمدة عند إنهاء المسار"}</span>
+              <span>{isEn ? "Official verified completion certificate" : "شهادة إتمام رقمية موثقة عند إنهاء المسار"}</span>
             </div>
           </div>
         </div>

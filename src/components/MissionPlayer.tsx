@@ -763,7 +763,7 @@ export default function MissionPlayer({
                   href={`/app/learn/${mission.slug}/certificate`}
                   className="block w-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-amber-500/25 hover:brightness-110 active:scale-98 transition-all"
                 >
-                  {isEn ? "Claim Verified Certificate 🎓" : "استلم شهادتك المعتمدة 🎓"}
+                  {isEn ? "Claim Verified Certificate 🎓" : "استلم شهادتك الرقمية الموثقة 🎓"}
                 </Link>
               )}
 

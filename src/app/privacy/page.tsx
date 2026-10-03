@@ -91,7 +91,7 @@ export default function PrivacyPage() {
             <ul className="list-disc ps-5 space-y-2 text-neutral-700 dark:text-neutral-300">
               <li>
                 <strong>{isEn ? "Full Name:" : "الاسم الشخصي:"}</strong>{" "}
-                {isEn ? "To personalize your profile and verified certificates." : "لتخصيص حسابك وعرض اسمك على الشهادات المعتمدة."}
+                {isEn ? "To personalize your profile and verified completion certificates." : "لتخصيص حسابك وعرض اسمك على شهادات الإتمام الموثقة."}
               </li>
               <li>
                 <strong>{isEn ? "Email Address:" : "عنوان البريد الإلكتروني:"}</strong>{" "}
