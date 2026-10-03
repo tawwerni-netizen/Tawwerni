@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useI18n } from "@/components/LanguageContext";
 
-export default function BottomNav() {
+export default function BottomNav({ isAdmin }: { isAdmin?: boolean }) {
   const pathname = usePathname();
   const { lang } = useI18n();
 
@@ -12,7 +12,9 @@ export default function BottomNav() {
     { href: "/app", label: lang === "ar" ? "الرئيسية" : "Home", icon: "🏠" },
     { href: "/app/learn", label: lang === "ar" ? "تعلّم" : "Learn", icon: "📚" },
     { href: "/app/progress", label: lang === "ar" ? "تقدّمي" : "Progress", icon: "📊" },
-    { href: "/app/referrals", label: lang === "ar" ? "اكسب" : "Earn", icon: "💰" },
+    ...(isAdmin
+      ? [{ href: "/admin", label: lang === "ar" ? "الإدارة" : "Admin", icon: "🛡️" }]
+      : [{ href: "/app/referrals", label: lang === "ar" ? "اكسب" : "Earn", icon: "💰" }]),
     { href: "/app/profile", label: lang === "ar" ? "حسابي" : "Profile", icon: "👤" },
   ];
 

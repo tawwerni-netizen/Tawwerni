@@ -52,6 +52,7 @@ type Props = {
   totalXp: number;
   streak: number;
   subscription: { method: string; amountEgp: number; createdAt: string } | null;
+  isAdmin?: boolean;
 };
 
 export default function ProfileClient(props: Props) {
@@ -106,6 +107,61 @@ export default function ProfileClient(props: Props) {
           {isEn ? "Manage your personal identity, daily learning pace, and account security." : "إدارة بياناتك الشخصية، الوتيرة اليومية، ومسارات تركيزك المفضلة بكل سهولة."}
         </p>
       </div>
+
+      {/* ⭐ Admin Management Portal Card ⭐ */}
+      {props.isAdmin && (
+        <div className="rounded-3xl border-2 border-red-500/40 bg-gradient-to-br from-red-950/40 via-[#0d1614] to-neutral-900 p-5 sm:p-6 mb-6 shadow-xl shadow-red-500/10">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-500/20 text-2xl border border-red-500/30 text-red-400 shrink-0">
+                🛡️
+              </span>
+              <div>
+                <h3 className="text-base font-black text-white flex items-center gap-2">
+                  <span>{isEn ? "Administrator Portal" : "لوحة إدارة وتحكم المنصة"}</span>
+                  <span className="text-[10px] bg-red-500/20 text-red-300 border border-red-500/30 px-2 py-0.5 rounded-full font-bold">
+                    Admin
+                  </span>
+                </h3>
+                <p className="text-xs text-neutral-400 mt-0.5">
+                  {isEn ? "Full operational and financial control over the platform" : "الوصول الكامل لإدارة الطلبات، المدفوعات، والمستخدمين"}
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/admin"
+              className="inline-flex items-center justify-center gap-1.5 rounded-full bg-red-500 hover:bg-red-600 px-5 py-2.5 text-xs font-black text-white transition-all shadow-md active:scale-95 shrink-0"
+            >
+              <span>{isEn ? "Open Admin Panel" : "فتح لوحة الإدارة"}</span>
+              <span>{isEn ? "→" : "←"}</span>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-1">
+            <Link
+              href="/admin"
+              className="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 p-3 text-center transition-all group"
+            >
+              <div className="text-lg mb-1 group-hover:scale-110 transition-transform">🧾</div>
+              <div className="text-xs font-bold text-white">{isEn ? "Orders & Reviews" : "الطلبات والمراجعة"}</div>
+            </Link>
+            <Link
+              href="/admin/payment-settings"
+              className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 p-3 text-center transition-all group"
+            >
+              <div className="text-lg mb-1 group-hover:scale-110 transition-transform">💳</div>
+              <div className="text-xs font-bold text-emerald-300">{isEn ? "Payment Gateways" : "أرقام الدفع والحسابات"}</div>
+            </Link>
+            <Link
+              href="/admin/users"
+              className="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 p-3 text-center transition-all group col-span-2 sm:col-span-1"
+            >
+              <div className="text-lg mb-1 group-hover:scale-110 transition-transform">👥</div>
+              <div className="text-xs font-bold text-white">{isEn ? "Users Management" : "إدارة المستخدمين"}</div>
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* 1. Profile Identity Hero Card */}
       <div className="rounded-3xl border border-black/5 dark:border-teal-900/30 bg-white/95 dark:bg-[#0d1614] backdrop-blur-xl p-6 sm:p-7 mb-5 shadow-sm relative overflow-hidden">

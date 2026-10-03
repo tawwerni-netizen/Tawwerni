@@ -20,6 +20,7 @@ export default function AppHeader({
   avatarUrl,
   streak,
   initialResume,
+  isAdmin,
 }: {
   name: string | null;
   email: string;
@@ -32,6 +33,7 @@ export default function AppHeader({
     titleEn?: string;
     icon?: string;
   } | null;
+  isAdmin?: boolean;
 }) {
   const pathname = usePathname();
   const { lang } = useI18n();
@@ -48,6 +50,9 @@ export default function AppHeader({
     { href: "/app/vip-vault", label: lang === "ar" ? "خزنة VIP" : "VIP Vault", icon: "👑" },
     { href: "/app/referrals", label: lang === "ar" ? "اكسب" : "Earn", icon: "💰" },
     { href: "/app/profile", label: lang === "ar" ? "حسابي" : "Profile", icon: "👤" },
+    ...(isAdmin
+      ? [{ href: "/admin", label: lang === "ar" ? "لوحة الإدارة" : "Admin Panel", icon: "🛡️", isAdmin: true }]
+      : []),
   ];
 
   return (
@@ -74,6 +79,26 @@ export default function AppHeader({
                 >
                   <span className="text-sm lg:text-base leading-none animate-pulse" aria-hidden>
                     👑
+                  </span>
+                  <span>{item.label}</span>
+                </Link>
+              );
+            }
+
+            if ("isAdmin" in item && item.isAdmin) {
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`group relative whitespace-nowrap shrink-0 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs lg:text-sm font-black transition-all cursor-pointer ${
+                    active
+                      ? "bg-red-600 text-white shadow-xs font-bold"
+                      : "border border-red-500/40 bg-red-500/15 hover:bg-red-500/25 text-red-700 dark:text-red-300 hover:border-red-500 shadow-2xs hover:scale-102"
+                  }`}
+                >
+                  <span className="text-sm lg:text-base leading-none" aria-hidden>
+                    🛡️
                   </span>
                   <span>{item.label}</span>
                 </Link>
@@ -165,6 +190,18 @@ export default function AppHeader({
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand-500 ring-2 ring-white dark:ring-neutral-900" />
             </span>
           </button>
+
+          {isAdmin && (
+            <Link
+              href="/admin"
+              aria-label={isEn ? "Admin Panel" : "لوحة الإدارة"}
+              title={isEn ? "Admin Panel" : "لوحة الإدارة والتحكم"}
+              className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-black border border-red-500/40 bg-red-500/15 text-red-700 dark:text-red-300 hover:bg-red-500/25 hover:border-red-500 hover:scale-105 active:scale-95 transition-all shadow-xs"
+            >
+              <span className="text-sm leading-none" aria-hidden>🛡️</span>
+              <span className="hidden sm:inline font-sans">{isEn ? "Admin" : "لوحة الإدارة"}</span>
+            </Link>
+          )}
 
           <LanguageToggle />
           <ThemeToggle />

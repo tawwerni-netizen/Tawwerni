@@ -48,6 +48,7 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
         name: user.name,
         email: user.email,
         avatarUrl: user.avatarUrl,
+        isAdmin: Boolean(user.isAdmin),
       }}
       streak={streak}
       initialResume={initialResume}

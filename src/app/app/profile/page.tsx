@@ -29,6 +29,7 @@ export default async function ProfilePage() {
           ? { method: latestOrder.method, amountEgp: latestOrder.amountEgp, createdAt: latestOrder.createdAt.toISOString() }
           : null
       }
+      isAdmin={Boolean(user.isAdmin)}
     />
   );
 }

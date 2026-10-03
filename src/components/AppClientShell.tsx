@@ -11,7 +11,7 @@ export default function AppClientShell({
   initialResume,
   children,
 }: {
-  user: { name: string | null; email: string; avatarUrl: string | null };
+  user: { name: string | null; email: string; avatarUrl: string | null; isAdmin?: boolean };
   streak: number;
   initialResume: {
     slug: string;
@@ -42,6 +42,7 @@ export default function AppClientShell({
         avatarUrl={user.avatarUrl}
         streak={streak}
         initialResume={initialResume}
+        isAdmin={user.isAdmin}
       />
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col pb-20 md:pb-8">
@@ -49,7 +50,7 @@ export default function AppClientShell({
       </main>
 
       <FaqWidget />
-      <BottomNav />
+      <BottomNav isAdmin={user.isAdmin} />
     </div>
   );
 }
