@@ -30,7 +30,7 @@ export default function CareerPathsHeader({ isLoggedIn = false }: Props) {
 
           <Link
             href="/tracks"
-            className="text-xs font-medium text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors hidden md:inline-flex items-center gap-1.5"
+            className="text-xs font-bold text-neutral-700 dark:text-neutral-200 hover:text-teal-600 dark:hover:text-teal-300 transition-colors hidden sm:inline-flex items-center gap-1.5 bg-black/5 dark:bg-white/10 border border-black/5 dark:border-white/15 px-3 py-1.5 rounded-full"
           >
             <span>🌟</span>
             <span>{isEn ? "All 100 Tracks" : "الـ 100 مسار"}</span>

@@ -28,7 +28,7 @@ export default function RefundPage() {
             <ThemeToggle />
             <Link
               href="/"
-              className="whitespace-nowrap shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-bold text-neutral-600 dark:text-neutral-400 hover:text-teal-600 dark:hover:text-teal-400 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 transition-colors"
+              className="whitespace-nowrap shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-bold text-neutral-700 dark:text-neutral-200 hover:text-teal-600 dark:hover:text-teal-300 bg-black/5 dark:bg-white/10 border border-black/5 dark:border-white/15 transition-colors"
             >
               {isEn ? "Home" : "الرئيسية"}
             </Link>

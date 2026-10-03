@@ -301,7 +301,7 @@ export default function CareerPathDetailView({
                         <div className="space-y-4">
                           <div className="flex items-start justify-between gap-3">
                             <div className="flex items-center gap-3">
-                              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-black/5 dark:bg-white/5 text-2xl border border-black/5 dark:border-white/10 shadow-2xs">
+                              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-neutral-100/80 dark:bg-neutral-800/80 text-2xl border border-black/5 dark:border-white/10 shadow-2xs">
                                 {track?.icon || "📖"}
                               </span>
                               <div>
@@ -334,11 +334,11 @@ export default function CareerPathDetailView({
 
                           {/* Track Milestone & Deliverable */}
                           <div className="space-y-2.5 text-xs">
-                            <div className="rounded-xl bg-black/5 dark:bg-white/5 p-3 border border-black/5 dark:border-white/10">
-                              <span className="font-extrabold text-neutral-800 dark:text-neutral-200 block text-2xs mb-1">
+                            <div className="rounded-xl bg-neutral-100/80 dark:bg-neutral-950/70 p-3 border border-black/5 dark:border-teal-500/20">
+                              <span className="font-extrabold text-neutral-800 dark:text-teal-300 block text-2xs mb-1">
                                 🎯 {isEn ? "What you will achieve:" : "الهدف المكتسب من هذا المسار:"}
                               </span>
-                              <p className="text-neutral-600 dark:text-neutral-300 text-xs leading-relaxed font-medium">
+                              <p className="text-neutral-700 dark:text-neutral-100 text-xs leading-relaxed font-semibold">
                                 {isEn ? ref.milestoneEn : ref.milestoneAr}
                               </p>
                             </div>
@@ -436,7 +436,7 @@ export default function CareerPathDetailView({
                 href={`/career-paths/${rp.slug}`}
                 className="group flex items-center gap-3.5 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900 p-4 transition-all hover:border-teal-500/50 hover:-translate-y-0.5 shadow-xs"
               >
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-black/5 dark:bg-white/5 text-2xl border border-black/5 dark:border-white/10">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-neutral-100/80 dark:bg-neutral-800/80 text-2xl border border-black/5 dark:border-white/10">
                   {rp.icon}
                 </span>
                 <div className="overflow-hidden">

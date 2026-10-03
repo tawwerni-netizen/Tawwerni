@@ -72,14 +72,14 @@ export default function LandingPageView() {
             </Link>
             <Link
               href="/tracks"
-              className="text-xs font-medium text-neutral-600 dark:text-neutral-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors hidden sm:inline-flex items-center gap-1.5 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 px-3 py-1.5 rounded-full"
+              className="text-xs font-bold text-neutral-700 dark:text-neutral-200 hover:text-teal-600 dark:hover:text-teal-300 transition-colors hidden sm:inline-flex items-center gap-1.5 bg-black/5 dark:bg-white/10 border border-black/5 dark:border-white/15 px-3 py-1.5 rounded-full"
             >
               <span>🌟</span>
               <span>{isEn ? "100 Tracks" : "الـ 100 مسار"}</span>
             </Link>
             <Link
               href="/community"
-              className="text-xs font-bold text-neutral-600 dark:text-neutral-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors hidden md:inline-flex items-center gap-1.5 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 px-3 py-1.5 rounded-full"
+              className="text-xs font-bold text-neutral-700 dark:text-neutral-200 hover:text-teal-600 dark:hover:text-teal-300 transition-colors hidden md:inline-flex items-center gap-1.5 bg-black/5 dark:bg-white/10 border border-black/5 dark:border-white/15 px-3 py-1.5 rounded-full"
             >
               <span>👥</span>
               <span>{isEn ? "Community (300+)" : "المجتمع (٣٠٠+)"}</span>
@@ -477,21 +477,16 @@ export default function LandingPageView() {
 
                     {/* Top Badges */}
                     <div className="absolute inset-x-3 top-3 flex items-center justify-between gap-2 z-10">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/20 px-2.5 py-1 text-2xs font-extrabold text-white shadow-sm shrink-0 whitespace-nowrap">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-black/75 backdrop-blur-md border border-white/20 px-2.5 py-1 text-2xs font-extrabold text-white shadow-sm shrink-0 whitespace-nowrap">
                         <span className="text-xs">{cp.icon}</span>
-                        <span>{isEn ? cp.levelEn : cp.levelAr}</span>
+                        <span>{isEn ? cp.levelEn : "كافة المستويات"}</span>
                       </span>
 
-                      <div className="flex items-center gap-1.5 shrink-0 whitespace-nowrap">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-teal-950/85 backdrop-blur-md border border-teal-500/40 px-2.5 py-1 text-2xs font-bold text-teal-300 shadow-sm whitespace-nowrap">
-                          <span>⏱️</span>
-                          <span>{isEn ? `${cp.estimatedHours}h` : `${cp.estimatedHours} ساعة`}</span>
-                        </span>
-                        <span className="inline-flex items-center gap-1 rounded-full bg-black/70 backdrop-blur-md border border-white/20 px-2.5 py-1 text-2xs font-bold text-neutral-200 shadow-sm whitespace-nowrap">
-                          <span>📚</span>
-                          <span>{isEn ? `${cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} Tracks` : `${cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} مسارات`}</span>
-                        </span>
-                      </div>
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-950/85 backdrop-blur-md border border-teal-500/40 px-2.5 py-1 text-2xs font-bold text-teal-300 shadow-sm whitespace-nowrap shrink-0">
+                        <span>⏱️ {isEn ? `${cp.estimatedHours}h` : `${cp.estimatedHours} ساعة`}</span>
+                        <span className="text-white/30">•</span>
+                        <span className="text-white">📚 {cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} {isEn ? "Tracks" : "مسارات"}</span>
+                      </span>
                     </div>
 
                     {/* Speech Bubble - Fully Legible */}

@@ -223,21 +223,16 @@ export default function CareerPathsCatalogView({
 
                     {/* Top Badges */}
                     <div className="absolute inset-x-3.5 top-3.5 flex items-center justify-between gap-2 z-10">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/20 px-2.5 py-1 text-2xs font-extrabold text-white shadow-sm shrink-0 whitespace-nowrap">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-black/75 backdrop-blur-md border border-white/20 px-2.5 py-1 text-2xs font-extrabold text-white shadow-sm shrink-0 whitespace-nowrap">
                         <span className="text-xs">{cp.icon}</span>
-                        <span>{isEn ? cp.levelEn : cp.levelAr}</span>
+                        <span>{isEn ? cp.levelEn : "كافة المستويات"}</span>
                       </span>
 
-                      <div className="flex items-center gap-1.5 shrink-0 whitespace-nowrap">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-teal-950/85 backdrop-blur-md border border-teal-500/40 px-2.5 py-1 text-2xs font-bold text-teal-300 shadow-sm whitespace-nowrap">
-                          <span>⏱️</span>
-                          <span>{isEn ? `${cp.estimatedHours}h` : `${cp.estimatedHours} ساعة`}</span>
-                        </span>
-                        <span className="inline-flex items-center gap-1 rounded-full bg-black/70 backdrop-blur-md border border-white/20 px-2.5 py-1 text-2xs font-bold text-neutral-200 shadow-sm whitespace-nowrap">
-                          <span>📚</span>
-                          <span>{isEn ? `${totalTracks} Tracks` : `${totalTracks} مسارات`}</span>
-                        </span>
-                      </div>
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-950/85 backdrop-blur-md border border-teal-500/40 px-2.5 py-1 text-2xs font-bold text-teal-300 shadow-sm whitespace-nowrap shrink-0">
+                        <span>⏱️ {isEn ? `${cp.estimatedHours}h` : `${cp.estimatedHours} ساعة`}</span>
+                        <span className="text-white/30">•</span>
+                        <span className="text-white">📚 {totalTracks} {isEn ? "Tracks" : "مسارات"}</span>
+                      </span>
                     </div>
 
                     {/* Speech Bubble - Fully Legible & Prominent */}
@@ -273,15 +268,15 @@ export default function CareerPathsCatalogView({
                       </div>
 
                       {/* Tagline */}
-                      <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                      <p className="text-xs text-neutral-700 dark:text-neutral-200 leading-relaxed font-medium">
                         {isEn ? cp.taglineEn : cp.taglineAr}
                       </p>
 
                       {/* User Progress Bar (if logged in) */}
                       {isLoggedIn && (
-                        <div className="rounded-xl bg-black/5 dark:bg-white/5 p-3 border border-black/5 dark:border-white/10 space-y-1.5">
+                        <div className="rounded-xl bg-neutral-100 dark:bg-neutral-950/80 p-3 border border-black/5 dark:border-teal-500/20 space-y-1.5">
                           <div className="flex items-center justify-between text-2xs font-bold">
-                            <span className="text-neutral-600 dark:text-neutral-400">
+                            <span className="text-neutral-700 dark:text-neutral-300">
                               {isEn ? "Your Path Progress" : "تقدمك في المسار"}
                             </span>
                             <span className={progress.percent > 0 ? "text-teal-600 dark:text-teal-400 font-black" : "text-neutral-400"}>
@@ -297,23 +292,28 @@ export default function CareerPathsCatalogView({
                         </div>
                       )}
 
-                      {/* Roadmap Stages Preview - Full List Without Clipping */}
-                      <div className="rounded-2xl bg-black/5 dark:bg-white/5 p-3.5 border border-black/5 dark:border-white/10 space-y-2">
-                        <div className="flex items-center justify-between text-2xs font-extrabold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
-                          <span>{isEn ? "Sequential Roadmap Stages" : "مراحل خريطة الطريق بالترتيب"}</span>
-                          <span className="text-teal-500 font-mono">{cp.stages.length} {isEn ? "Stages" : "مراحل"}</span>
+                      {/* Roadmap Stages Preview - High-Contrast & Crystal Clear */}
+                      <div className="rounded-2xl bg-neutral-100/90 dark:bg-neutral-950/85 p-3.5 border border-black/10 dark:border-teal-500/30 shadow-inner space-y-2.5">
+                        <div className="flex items-center justify-between text-2xs font-black uppercase tracking-wider">
+                          <span className="text-neutral-800 dark:text-teal-300 flex items-center gap-1.5">
+                            <span>🧭</span>
+                            <span>{isEn ? "Sequential Roadmap Stages" : "مراحل خريطة الطريق بالترتيب"}</span>
+                          </span>
+                          <span className="rounded-full bg-teal-500/15 border border-teal-500/30 px-2 py-0.5 text-2xs font-bold text-teal-700 dark:text-teal-300 font-mono">
+                            {cp.stages.length} {isEn ? "Stages" : "مراحل"}
+                          </span>
                         </div>
 
-                        <div className="space-y-1.5">
+                        <div className="space-y-2 pt-0.5">
                           {cp.stages.map((st, idx) => (
                             <div
                               key={st.id}
-                              className="flex items-center gap-2.5 text-xs text-neutral-700 dark:text-neutral-300"
+                              className="flex items-center gap-2.5 text-xs"
                             >
-                              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-500/15 border border-teal-500/30 text-2xs font-black text-teal-600 dark:text-teal-300">
+                              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-500/20 border border-teal-400/40 text-2xs font-black text-teal-800 dark:text-teal-200 shadow-2xs">
                                 {idx + 1}
                               </span>
-                              <span className="font-medium text-xs leading-tight">
+                              <span className="font-bold text-xs leading-snug text-neutral-900 dark:text-white">
                                 {isEn ? st.titleEn : st.titleAr}
                               </span>
                             </div>
