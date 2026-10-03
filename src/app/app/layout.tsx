@@ -5,9 +5,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { computeStreak } from "@/lib/xp";
 import { PUBLIC_COURSE_PAGE } from "@/lib/public-routes";
 import { resolveUserLearningProgress } from "@/lib/recent-learning-server";
-import AppHeader from "@/components/AppHeader";
-import BottomNav from "@/components/BottomNav";
-import FaqWidget from "@/components/FaqWidget";
+import AppClientShell from "@/components/AppClientShell";
 
 export default async function AppLayout({ children }: LayoutProps<"/app">) {
   const user = await getCurrentUser();
@@ -45,30 +43,16 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
   } : null;
 
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors">
-      <AppHeader
-        name={user.name}
-        email={user.email}
-        avatarUrl={user.avatarUrl}
-        streak={streak}
-        initialResume={initialResume}
-      />
-
-      {/*
-        The app was a 448px column no matter the screen — on a laptop that left
-        two empty gutters wider than the content itself. It now widens in steps:
-        one column on a phone, and up to `max-w-6xl` on a desktop where the
-        pages lay themselves out in grids.
-
-        `pb-20` only below `md`, since that padding exists to clear the bottom
-        tab bar, and the tab bar is gone at that size.
-      */}
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col pb-20 md:pb-8">
-        {children}
-      </main>
-
-      <FaqWidget />
-      <BottomNav />
-    </div>
+    <AppClientShell
+      user={{
+        name: user.name,
+        email: user.email,
+        avatarUrl: user.avatarUrl,
+      }}
+      streak={streak}
+      initialResume={initialResume}
+    >
+      {children}
+    </AppClientShell>
   );
 }

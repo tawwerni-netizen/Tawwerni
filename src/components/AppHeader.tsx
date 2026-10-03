@@ -37,6 +37,9 @@ export default function AppHeader({
   const { lang } = useI18n();
   const isEn = lang === "en";
 
+  // The lesson / mission player is a dedicated focus cockpit — hide global header so it doesn't double-stack.
+  if (/^\/app\/learn\/[^/]+\/\d+$/.test(pathname)) return null;
+
   const navItems = [
     { href: "/app", label: lang === "ar" ? "الرئيسية" : "Home", icon: "🏠" },
     { href: "/app/learn", label: lang === "ar" ? "تعلّم" : "Learn", icon: "📚" },
