@@ -240,49 +240,86 @@ export default function MissionPlayer({
         </div>
       </header>
 
-      {/* Progressive Stage Stepper */}
-      <div className="relative z-20 border-b border-white/5 bg-black/30 py-2.5 px-4 overflow-x-auto">
-        <div className="mx-auto max-w-4xl flex items-center justify-center gap-2 sm:gap-4 text-xs font-bold text-neutral-400 whitespace-nowrap">
-          {[
-            { id: "objective", labelAr: "١. الهدف والمخرج", labelEn: "1. Objective" },
-            { id: "learn", labelAr: "٢. الأساس العملي", labelEn: "2. Framework" },
-            { id: "example", labelAr: "٣. النموذج الذهبي", labelEn: "3. Benchmark" },
-            { id: "practice", labelAr: "٤. التطبيق والتسليم", labelEn: "4. Practice & Submit" },
-            { id: "complete", labelAr: "٥. الإتقان والتوثيق", labelEn: "5. Mastery Pass" },
-          ].map((st) => {
-            const isActive = stage === st.id;
-            const isDone =
-              (st.id === "objective" && stage !== "objective") ||
-              (st.id === "learn" && !["objective", "learn"].includes(stage)) ||
-              (st.id === "example" && ["practice", "evaluating", "feedback", "complete"].includes(stage)) ||
-              (st.id === "practice" && stage === "complete");
-
-            return (
+      {/* Gamified Progressive Stage Stepper */}
+      <div className="relative z-20 border-b border-white/10 bg-neutral-950/85 backdrop-blur-md py-3 px-4 overflow-x-auto scrollbar-none">
+        <div className="mx-auto max-w-3xl min-w-[500px] sm:min-w-0">
+          <div className="relative flex items-center justify-between">
+            {/* Background connecting track line */}
+            <div className="absolute top-4 start-6 end-6 h-1 bg-white/10 rounded-full z-0 overflow-hidden">
               <div
-                key={st.id}
-                style={
-                  isActive
-                    ? {
-                        backgroundColor: `${theme.palette.primary}25`,
-                        borderColor: `${theme.palette.primary}66`,
-                        color: theme.palette.accent,
-                        boxShadow: `0 0 14px ${theme.palette.primary}33`,
-                      }
-                    : undefined
-                }
-                className={`flex items-center gap-1.5 px-3 py-1 rounded-full transition-all text-[11px] sm:text-xs ${
-                  isActive
-                    ? "border font-black"
-                    : isDone
-                    ? "text-emerald-400/80 bg-white/5 font-semibold"
-                    : "text-neutral-500"
-                }`}
-              >
-                <span>{isDone ? "✓" : isActive ? "⚡" : "○"}</span>
-                <span>{isEn ? st.labelEn : st.labelAr}</span>
-              </div>
-            );
-          })}
+                className="h-full bg-gradient-to-r from-teal-500 via-emerald-400 to-cyan-400 transition-all duration-500 rounded-full"
+                style={{
+                  width: `${
+                    stage === "complete"
+                      ? 100
+                      : ["practice", "evaluating", "feedback"].includes(stage)
+                      ? 75
+                      : stage === "example"
+                      ? 50
+                      : stage === "learn"
+                      ? 25
+                      : 0
+                  }%`,
+                }}
+              />
+            </div>
+
+            {/* Step Checkpoint Nodes */}
+            {[
+              { id: "objective", icon: "🎯", labelAr: "الهدف والمخرج", labelEn: "Objective" },
+              { id: "learn", icon: "🧠", labelAr: "الأساس العملي", labelEn: "Framework" },
+              { id: "example", icon: "🏆", labelAr: "النموذج الذهبي", labelEn: "Benchmark" },
+              { id: "practice", icon: "🛠️", labelAr: "التطبيق والتسليم", labelEn: "Practice" },
+              { id: "complete", icon: "🌟", labelAr: "الإتقان والتوثيق", labelEn: "Mastery" },
+            ].map((st) => {
+              const isCurrent =
+                stage === st.id ||
+                (st.id === "practice" && ["evaluating", "feedback"].includes(stage));
+              const isDone =
+                (st.id === "objective" && stage !== "objective") ||
+                (st.id === "learn" && !["objective", "learn"].includes(stage)) ||
+                (st.id === "example" && ["practice", "evaluating", "feedback", "complete"].includes(stage)) ||
+                (st.id === "practice" && stage === "complete");
+              const canClick = isDone;
+
+              return (
+                <button
+                  key={st.id}
+                  type="button"
+                  disabled={!canClick && !isCurrent}
+                  onClick={() => {
+                    if (canClick) changeStage(st.id as Stage);
+                  }}
+                  className={`relative z-10 flex flex-col items-center gap-1.5 transition-all group ${
+                    canClick ? "cursor-pointer" : isCurrent ? "cursor-default" : "cursor-not-allowed opacity-60"
+                  }`}
+                >
+                  <div
+                    className={`flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl text-xs sm:text-sm font-black transition-all shadow-md ${
+                      isDone
+                        ? "bg-emerald-500 text-white shadow-emerald-500/25 border-2 border-emerald-400 group-hover:scale-110"
+                        : isCurrent
+                        ? "bg-neutral-900 text-teal-300 ring-4 ring-teal-400/40 border-2 border-teal-300 animate-node-pulse scale-105"
+                        : "bg-neutral-900/90 text-neutral-400 border border-white/10"
+                    }`}
+                  >
+                    <span>{isDone ? "✓" : st.icon}</span>
+                  </div>
+                  <span
+                    className={`text-[10px] sm:text-xs font-bold transition-colors whitespace-nowrap ${
+                      isCurrent
+                        ? "text-teal-300 font-black"
+                        : isDone
+                        ? "text-emerald-400 group-hover:text-emerald-300"
+                        : "text-neutral-500"
+                    }`}
+                  >
+                    {isEn ? st.labelEn : st.labelAr}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 

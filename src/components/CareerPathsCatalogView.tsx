@@ -299,19 +299,20 @@ export default function CareerPathsCatalogView({
                       )}
 
                       {/* Roadmap Stages Preview - Attractive Connected Stepper */}
-                      <div className="roadmap-stages-box rounded-2xl p-4 border shadow-sm space-y-3">
+                      <div className="roadmap-stages-box rounded-2xl p-4 border shadow-sm space-y-3 relative overflow-hidden">
                         <div className="flex items-center justify-between gap-2 border-b border-black/10 dark:border-white/10 pb-2.5">
                           <span className="roadmap-stage-header flex items-center gap-1.5 font-black text-xs">
                             <span className="text-sm">🧭</span>
-                            <span>{isEn ? "Curriculum Milestones" : "خارطة المراحل التدريبية"}</span>
+                            <span>{isEn ? "Gamified Milestones" : "خارطة المراحل التدريبية"}</span>
                           </span>
                           <span className="inline-flex items-center gap-1 rounded-full bg-teal-500/15 border border-teal-500/30 px-2.5 py-0.5 text-2xs font-black text-teal-800 dark:text-teal-300 whitespace-nowrap shrink-0 font-mono shadow-xs">
                             <span>{cp.stages.length}</span>
-                            <span>{isEn ? "Stages" : "مراحل متتالية"}</span>
+                            <span>{isEn ? "Milestones" : "مراحل متتالية"}</span>
                           </span>
                         </div>
 
-                        <div className="space-y-2 pt-0.5">
+                        {/* Connected Pathway Stepper */}
+                        <div className="relative space-y-2.5 pt-0.5 before:absolute before:top-3 before:bottom-3 before:start-6 before:w-0.5 before:bg-gradient-to-b before:from-teal-500/40 before:via-emerald-500/30 before:to-teal-500/10 before:z-0">
                           {cp.stages.map((st, idx) => {
                             const rawTitle = isEn ? st.titleEn : st.titleAr;
                             let phaseLabel = isEn ? `Stage 0${idx + 1}` : `المرحلة 0${idx + 1}`;
@@ -322,18 +323,39 @@ export default function CareerPathsCatalogView({
                               phaseTopic = parts.slice(1).join(":").trim() || parts[0].trim();
                             }
 
+                            const isFirst = idx === 0;
+                            const isLast = idx === cp.stages.length - 1;
+
                             return (
                               <div
                                 key={st.id}
-                                className="group/stage relative flex items-start gap-3 rounded-xl p-2.5 bg-white dark:bg-neutral-900/80 hover:bg-teal-50/50 dark:hover:bg-neutral-900 border border-black/5 dark:border-white/10 hover:border-teal-500/30 transition-all duration-200 shadow-2xs"
+                                className="group/stage relative z-10 flex items-start gap-3 rounded-xl p-2.5 bg-white dark:bg-neutral-900/80 hover:bg-teal-50/60 dark:hover:bg-neutral-900 border border-black/5 dark:border-white/10 hover:border-teal-500/40 transition-all duration-200 shadow-2xs gamified-stage-card"
                               >
-                                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-teal-500/15 border border-teal-500/30 font-mono text-2xs font-black text-teal-700 dark:text-teal-300 shadow-2xs group-hover/stage:scale-105 transition-transform mt-0.5">
-                                  0{idx + 1}
+                                <span
+                                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg font-mono text-2xs font-black shadow-2xs group-hover/stage:scale-105 transition-transform mt-0.5 border ${
+                                    isLast
+                                      ? "bg-amber-500/20 border-amber-400/40 text-amber-700 dark:text-amber-300"
+                                      : isFirst
+                                      ? "bg-teal-500/20 border-teal-400/40 text-teal-700 dark:text-teal-300 ring-2 ring-teal-400/20"
+                                      : "bg-teal-500/15 border-teal-500/30 text-teal-700 dark:text-teal-300"
+                                  }`}
+                                >
+                                  {isLast ? "🏁" : `0${idx + 1}`}
                                 </span>
                                 <div className="min-w-0 flex-1">
                                   <div className="flex items-center justify-between gap-1 mb-0.5">
-                                    <span className="text-3xs font-black uppercase tracking-wider text-teal-700 dark:text-teal-400">
-                                      {phaseLabel}
+                                    <span className="text-3xs font-black uppercase tracking-wider text-teal-700 dark:text-teal-400 flex items-center gap-1">
+                                      <span>{phaseLabel}</span>
+                                      {isFirst && (
+                                        <span className="text-4xs px-1 py-0.2 bg-teal-500/15 text-teal-800 dark:text-teal-300 rounded font-bold">
+                                          {isEn ? "START" : "البداية"}
+                                        </span>
+                                      )}
+                                      {isLast && (
+                                        <span className="text-4xs px-1 py-0.2 bg-amber-500/20 text-amber-800 dark:text-amber-300 rounded font-bold">
+                                          {isEn ? "MASTERY" : "الإتقان"}
+                                        </span>
+                                      )}
                                     </span>
                                     <span className="text-3xs font-bold text-neutral-500 dark:text-neutral-400 whitespace-nowrap shrink-0">
                                       {st.tracks.length} {isEn ? "tracks" : (st.tracks.length === 1 ? "مسار" : "مسارات")}
@@ -346,6 +368,17 @@ export default function CareerPathsCatalogView({
                               </div>
                             );
                           })}
+                        </div>
+
+                        {/* Milestone Reward Footer */}
+                        <div className="flex items-center justify-between gap-2 pt-2 border-t border-black/5 dark:border-white/10 text-3xs font-extrabold text-teal-800 dark:text-teal-300">
+                          <span className="flex items-center gap-1">
+                            <span>🎁</span>
+                            <span>{isEn ? "Completion Reward:" : "مكافأة إتمام المسار:"}</span>
+                          </span>
+                          <span className="font-mono text-amber-800 dark:text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20 font-bold">
+                            {isEn ? "Certified Portfolio Proof" : "بورتفوليو إنتاجي معتمد"}
+                          </span>
                         </div>
                       </div>
 

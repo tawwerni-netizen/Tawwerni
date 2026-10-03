@@ -300,25 +300,60 @@ export default function StudentDashboardView({
             <div className="flex items-center gap-2 shrink-0">
               <Link
                 href={`/career-paths/${activeCareerPathProgress.careerPath.slug}`}
-                className="inline-flex items-center gap-1.5 rounded-full bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs px-4 py-2 transition-all shadow-xs"
+                className="inline-flex items-center gap-1.5 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-black text-xs px-4 py-2.5 transition-all shadow-md shadow-teal-500/20 hover:scale-[1.02] active:scale-98"
               >
                 <span>{isEn ? "Roadmap Timeline" : "خارطة الطريق"}</span>
                 <span>➔</span>
               </Link>
               <Link
                 href="/career-paths"
-                className="inline-flex items-center gap-1 rounded-full bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-neutral-700 dark:text-neutral-300 font-bold text-xs px-3.5 py-2 transition-all border border-black/5 dark:border-white/10"
+                className="inline-flex items-center gap-1 rounded-2xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-neutral-700 dark:text-neutral-300 font-bold text-xs px-3.5 py-2.5 transition-all border border-black/5 dark:border-white/10"
               >
                 <span>🧭</span>
-                <span>{isEn ? "Explore Paths" : "تصفح المسارات"}</span>
+                <span>{isEn ? "All Paths" : "كافة المسارات"}</span>
               </Link>
             </div>
           </div>
 
+          {/* Gamified Mini Milestones Stepper Strip */}
+          <div className="mt-4 pt-3.5 border-t border-black/5 dark:border-white/10">
+            <div className="flex items-center justify-between text-2xs mb-2">
+              <span className="font-extrabold text-neutral-600 dark:text-neutral-300 flex items-center gap-1.5">
+                <span>📍</span>
+                <span>{isEn ? "Milestone Journey Track:" : "مسار المحطات التدريبية:"}</span>
+              </span>
+              <span className="font-mono font-black text-teal-700 dark:text-teal-300">
+                {activeCareerPathProgress.completedTracksCount} / {activeCareerPathProgress.totalTracksCount} {isEn ? "Tracks Mastered" : "مسارات متقنة"}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+              {activeCareerPathProgress.stagesProgress.map((sp, idx) => (
+                <div key={sp.stageId} className="flex items-center gap-1.5 shrink-0">
+                  <div
+                    className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-3xs font-black transition-all ${
+                      sp.isCompleted
+                        ? "bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 shadow-2xs"
+                        : sp.isCurrent
+                        ? "bg-teal-500/20 border-2 border-teal-400 text-teal-800 dark:text-teal-200 ring-2 ring-teal-400/20 animate-node-pulse shadow-xs"
+                        : "bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 text-neutral-400"
+                    }`}
+                  >
+                    <span>{sp.isCompleted ? "✓" : sp.isCurrent ? "⚡" : `0${idx + 1}`}</span>
+                    <span className="max-w-[120px] truncate">{isEn ? sp.stage.titleEn.split(":")[0] : sp.stage.titleAr.split(":")[0]}</span>
+                  </div>
+                  {idx < activeCareerPathProgress.stagesProgress.length - 1 && (
+                    <span className="text-3xs text-neutral-300 dark:text-neutral-700 font-bold">➔</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Mini progress line */}
-          <div className="mt-4 h-1.5 w-full rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
+          <div className="mt-3.5 h-1.5 w-full rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-teal-500 via-emerald-400 to-cyan-400 transition-all duration-500"
+              className="h-full bg-gradient-to-r from-teal-500 via-emerald-400 to-cyan-400 transition-all duration-500 rounded-full"
               style={{ width: `${activeCareerPathProgress.percent}%` }}
             />
           </div>

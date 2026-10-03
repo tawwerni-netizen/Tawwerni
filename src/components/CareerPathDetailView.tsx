@@ -220,171 +220,191 @@ export default function CareerPathDetailView({
           </p>
         </div>
 
-        {/* Vertical Timeline container */}
-        <div className="relative space-y-12 before:absolute before:inset-0 before:start-4 sm:before:start-6 before:h-full before:w-1 before:bg-gradient-to-b before:from-teal-500 before:via-neutral-300 dark:before:via-neutral-800 before:to-transparent">
+        {/* Gamified Vertical Timeline Container */}
+        <div className="relative space-y-12 before:absolute before:inset-0 before:start-4 sm:before:start-7 before:h-full before:w-1.5 before:bg-gradient-to-b before:from-teal-500 before:via-emerald-400 before:to-neutral-300 dark:before:to-neutral-800 before:rounded-full">
           {progress.stagesProgress.map((stageItem, stageIdx) => {
             const stage = stageItem.stage;
             const isCompleted = stageItem.isCompleted;
             const isCurrent = stageItem.isCurrent;
 
             return (
-              <div key={stageItem.stageId} className="relative ps-11 sm:ps-16 space-y-4">
-                {/* Stage Indicator Node */}
+              <div key={stageItem.stageId} className="relative ps-12 sm:ps-18 space-y-5">
+                {/* Gamified Stage Checkpoint Node */}
                 <div
-                  className={`absolute start-1.5 sm:start-3.5 top-0 flex h-7 w-7 sm:h-8 sm:w-8 -translate-x-1/2 items-center justify-center rounded-full border-2 text-xs font-black transition-all ${
+                  className={`absolute start-1.5 sm:start-4.5 top-0 flex h-9 w-9 sm:h-11 sm:w-11 -translate-x-1/2 items-center justify-center rounded-2xl text-xs sm:text-sm font-black transition-all ${
                     isCompleted
-                      ? "border-emerald-500 bg-emerald-500 text-white shadow-md"
+                      ? "border-2 border-emerald-400 bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/30 animate-golden-shine"
                       : isCurrent
-                      ? "border-teal-400 bg-neutral-900 text-teal-300 ring-4 ring-teal-500/30 animate-pulse shadow-lg"
-                      : "border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-neutral-400"
+                      ? "border-2 border-teal-300 bg-neutral-950 text-teal-300 ring-4 ring-teal-400/40 animate-node-pulse shadow-xl shadow-teal-500/40"
+                      : "border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-neutral-400"
                   }`}
                 >
-                  {isCompleted ? "✓" : stageIdx + 1}
+                  {isCompleted ? "✓" : `0${stageIdx + 1}`}
                 </div>
 
-                {/* Stage Header Info */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-black/10 dark:border-white/10 pb-3.5">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xs font-extrabold uppercase tracking-wider text-teal-600 dark:text-teal-400">
-                        {isEn ? `Stage 0${stageIdx + 1}` : `المرحلة 0${stageIdx + 1}`}
-                      </span>
-                      {isCompleted && (
-                        <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 px-2.5 py-0.5 text-2xs font-bold">
-                          {isEn ? "Stage Completed" : "مرحلة مكتملة ✓"}
+                {/* Stage Header Info Box */}
+                <div className="rounded-2xl border border-black/5 dark:border-white/10 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md p-4 sm:p-5 shadow-xs space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-black/5 dark:border-white/10 pb-3">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xs font-black uppercase tracking-wider text-teal-600 dark:text-teal-400">
+                          {isEn ? `Milestone 0${stageIdx + 1}` : `المرحلة 0${stageIdx + 1}`}
                         </span>
-                      )}
-                      {isCurrent && (
-                        <span className="rounded-full bg-teal-500/15 border border-teal-500/30 text-teal-600 dark:text-teal-400 px-2.5 py-0.5 text-2xs font-bold animate-pulse">
-                          {isEn ? "Active Stage" : "المرحلة الحالية"}
-                        </span>
-                      )}
+                        {isCompleted && (
+                          <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 px-2.5 py-0.5 text-2xs font-extrabold flex items-center gap-1">
+                            <span>✓</span>
+                            <span>{isEn ? "Mastered" : "مرحلة مكتملة ومتقنة"}</span>
+                          </span>
+                        )}
+                        {isCurrent && (
+                          <span className="rounded-full bg-teal-500/15 border border-teal-500/30 text-teal-600 dark:text-teal-400 px-2.5 py-0.5 text-2xs font-extrabold animate-pulse flex items-center gap-1">
+                            <span>⚡</span>
+                            <span>{isEn ? "Current Active Stage" : "المحطة الحالية المفتوحة"}</span>
+                          </span>
+                        )}
+                        {!isCompleted && !isCurrent && (
+                          <span className="rounded-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 px-2 py-0.5 text-3xs font-bold">
+                            {isEn ? "Upcoming" : "المرحلة التالية"}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="text-lg sm:text-xl font-black text-neutral-900 dark:text-white mt-1">
+                        {isEn ? stage.titleEn : stage.titleAr}
+                      </h3>
+                      <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1 max-w-2xl leading-relaxed font-medium">
+                        {isEn ? stage.descriptionEn : stage.descriptionAr}
+                      </p>
                     </div>
-                    <h3 className="text-lg sm:text-xl font-black text-neutral-900 dark:text-white mt-1">
-                      {isEn ? stage.titleEn : stage.titleAr}
-                    </h3>
-                    <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1 max-w-2xl leading-relaxed">
-                      {isEn ? stage.descriptionEn : stage.descriptionAr}
-                    </p>
+
+                    <div className="flex flex-col sm:items-end gap-1 shrink-0">
+                      <span className="text-xs font-mono font-bold text-teal-700 dark:text-teal-300">
+                        {stageItem.completedTracksCount}/{stageItem.totalTracksCount} {isEn ? "tracks done" : "مسارات منجزة"}
+                      </span>
+                      {/* Mini Stage Progress Bar */}
+                      <div className="h-1.5 w-24 rounded-full bg-neutral-200 dark:bg-neutral-800 overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-teal-500 to-emerald-400 transition-all duration-500"
+                          style={{
+                            width: `${(stageItem.completedTracksCount / Math.max(1, stageItem.totalTracksCount)) * 100}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  <span className="text-xs font-mono font-bold text-neutral-500 dark:text-neutral-400 shrink-0">
-                    {stageItem.completedTracksCount}/{stageItem.totalTracksCount} {isEn ? "tracks done" : "مسار منجز"}
-                  </span>
-                </div>
+                  {/* Stage Tracks Cards */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                    {stageItem.tracks.map((trackItem) => {
+                      const track = trackItem.track;
+                      const ref = trackItem.trackRef;
+                      const isTrackDone = trackItem.isCompleted;
+                      const isTrackCurrent = trackItem.isCurrent;
+                      const isTrackStarted = trackItem.isStarted;
 
-                {/* Stage Tracks Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
-                  {stageItem.tracks.map((trackItem) => {
-                    const track = trackItem.track;
-                    const ref = trackItem.trackRef;
-                    const isTrackDone = trackItem.isCompleted;
-                    const isTrackCurrent = trackItem.isCurrent;
-                    const isTrackStarted = trackItem.isStarted;
+                      const learnUrl = isTrackDone
+                        ? `/app/learn/${ref.trackSlug}`
+                        : `/app/learn/${ref.trackSlug}/${trackItem.nextDayNumber}`;
 
-                    const learnUrl = isTrackDone
-                      ? `/app/learn/${ref.trackSlug}`
-                      : `/app/learn/${ref.trackSlug}/${trackItem.nextDayNumber}`;
-
-                    return (
-                      <div
-                        key={ref.trackSlug}
-                        className={`group relative flex flex-col justify-between rounded-2xl border p-5 transition-all shadow-sm ${
-                          isTrackDone
-                            ? "border-emerald-500/40 bg-emerald-500/5 dark:bg-emerald-950/20"
-                            : isTrackCurrent
-                            ? "border-teal-500 bg-white dark:bg-neutral-900 ring-2 ring-teal-500/40 shadow-lg"
-                            : "border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900/80"
-                        }`}
-                      >
-                        {/* Top row */}
-                        <div className="space-y-4">
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="flex items-center gap-3">
-                              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-neutral-100/80 dark:bg-neutral-800/80 text-2xl border border-black/5 dark:border-white/10 shadow-2xs">
-                                {track?.icon || "📖"}
-                              </span>
-                              <div>
-                                <h4 className="text-sm sm:text-base font-black text-neutral-900 dark:text-white group-hover:text-teal-400 transition-colors leading-snug">
-                                  {track ? (isEn ? track.titleEn : track.titleAr) : ref.trackSlug}
-                                </h4>
-                                <div className="flex items-center gap-2 text-2xs font-bold text-neutral-500 mt-1">
-                                  <span>{track ? (isEn ? track.levelEn : track.levelAr) : "مبتدئ"}</span>
-                                  <span>•</span>
-                                  <span>{trackItem.totalLessons} {isEn ? "missions" : "مهمة"}</span>
+                      return (
+                        <div
+                          key={ref.trackSlug}
+                          className={`group relative flex flex-col justify-between rounded-2xl border p-5 transition-all shadow-sm ${
+                            isTrackDone
+                              ? "border-emerald-500/40 bg-emerald-500/5 dark:bg-emerald-950/20"
+                              : isTrackCurrent
+                              ? "border-teal-500 bg-white dark:bg-neutral-900 ring-2 ring-teal-500/40 shadow-lg"
+                              : "border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900/80"
+                          }`}
+                        >
+                          {/* Top row */}
+                          <div className="space-y-4">
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="flex items-center gap-3">
+                                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-neutral-100/80 dark:bg-neutral-800/80 text-2xl border border-black/5 dark:border-white/10 shadow-2xs group-hover:scale-105 transition-transform">
+                                  {track?.icon || "📖"}
+                                </span>
+                                <div>
+                                  <h4 className="text-sm sm:text-base font-black text-neutral-900 dark:text-white group-hover:text-teal-400 transition-colors leading-snug">
+                                    {track ? (isEn ? track.titleEn : track.titleAr) : ref.trackSlug}
+                                  </h4>
+                                  <div className="flex items-center gap-2 text-2xs font-bold text-neutral-500 mt-1">
+                                    <span>{track ? (isEn ? track.levelEn : track.levelAr) : "مبتدئ"}</span>
+                                    <span>•</span>
+                                    <span>{trackItem.totalLessons} {isEn ? "missions" : "مهمة"}</span>
+                                  </div>
                                 </div>
                               </div>
+
+                              {/* Status Pill */}
+                              {isTrackDone ? (
+                                <span className="shrink-0 rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-1 text-2xs font-extrabold text-emerald-600 dark:text-emerald-400">
+                                  ✓ {isEn ? "Completed" : "مكتمل"}
+                                </span>
+                              ) : isTrackCurrent ? (
+                                <span className="shrink-0 rounded-full bg-teal-500/15 border border-teal-500/30 px-2.5 py-1 text-2xs font-extrabold text-teal-600 dark:text-teal-400">
+                                  ● {isEn ? "Current" : "قيد التعلم"}
+                                </span>
+                              ) : isTrackStarted ? (
+                                <span className="shrink-0 rounded-full bg-amber-500/15 border border-amber-500/30 px-2.5 py-1 text-2xs font-mono font-bold text-amber-700 dark:text-amber-300">
+                                  {trackItem.percent}%
+                                </span>
+                              ) : null}
                             </div>
 
-                            {/* Status Pill */}
-                            {isTrackDone ? (
-                              <span className="shrink-0 rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-1 text-2xs font-extrabold text-emerald-600 dark:text-emerald-400">
-                                ✓ {isEn ? "Completed" : "مكتمل"}
-                              </span>
-                            ) : isTrackCurrent ? (
-                              <span className="shrink-0 rounded-full bg-teal-500/15 border border-teal-500/30 px-2.5 py-1 text-2xs font-extrabold text-teal-600 dark:text-teal-400">
-                                ● {isEn ? "Current" : "قيد التعلم"}
-                              </span>
-                            ) : isTrackStarted ? (
-                              <span className="shrink-0 rounded-full bg-amber-500/15 border border-amber-500/30 px-2.5 py-1 text-2xs font-mono font-bold text-amber-700 dark:text-amber-300">
-                                {trackItem.percent}%
-                              </span>
-                            ) : null}
+                            {/* Track Milestone & Deliverable */}
+                            <div className="space-y-2.5 text-xs">
+                              <div className="rounded-xl bg-neutral-100/80 dark:bg-neutral-950/70 p-3 border border-black/5 dark:border-teal-500/20">
+                                <span className="font-extrabold text-neutral-800 dark:text-teal-300 block text-2xs mb-1">
+                                  🎯 {isEn ? "What you will achieve:" : "الهدف المكتسب من هذا المسار:"}
+                                </span>
+                                <p className="text-neutral-700 dark:text-neutral-100 text-xs leading-relaxed font-semibold">
+                                  {isEn ? ref.milestoneEn : ref.milestoneAr}
+                                </p>
+                              </div>
+
+                              <div className="rounded-xl bg-teal-500/10 border border-teal-500/25 p-3">
+                                <span className="font-extrabold text-teal-800 dark:text-teal-300 block text-2xs mb-1">
+                                  📦 {isEn ? "Required Deliverable:" : "المخرج العملي المطلوب:"}
+                                </span>
+                                <p className="text-neutral-700 dark:text-neutral-200 text-xs leading-relaxed font-semibold">
+                                  {isEn ? ref.deliverableEn : ref.deliverableAr}
+                                </p>
+                              </div>
+                            </div>
                           </div>
 
-                          {/* Track Milestone & Deliverable */}
-                          <div className="space-y-2.5 text-xs">
-                            <div className="rounded-xl bg-neutral-100/80 dark:bg-neutral-950/70 p-3 border border-black/5 dark:border-teal-500/20">
-                              <span className="font-extrabold text-neutral-800 dark:text-teal-300 block text-2xs mb-1">
-                                🎯 {isEn ? "What you will achieve:" : "الهدف المكتسب من هذا المسار:"}
-                              </span>
-                              <p className="text-neutral-700 dark:text-neutral-100 text-xs leading-relaxed font-semibold">
-                                {isEn ? ref.milestoneEn : ref.milestoneAr}
-                              </p>
-                            </div>
-
-                            <div className="rounded-xl bg-teal-500/10 border border-teal-500/25 p-3">
-                              <span className="font-extrabold text-teal-800 dark:text-teal-300 block text-2xs mb-1">
-                                📦 {isEn ? "Required Deliverable:" : "المخرج العملي المطلوب:"}
-                              </span>
-                              <p className="text-neutral-700 dark:text-neutral-200 text-xs leading-relaxed font-semibold">
-                                {isEn ? ref.deliverableEn : ref.deliverableAr}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Bottom Track Action CTA - High Contrast & Never White-on-White */}
-                        <div className="mt-5 border-t border-black/10 dark:border-white/10 pt-3.5 flex items-center justify-between">
-                          <span className="text-2xs font-mono font-bold text-neutral-500">
-                            {isTrackDone
-                              ? (isEn ? "All missions done" : "جميع المهمات منجزة")
-                              : `${trackItem.completedLessonsCount}/${trackItem.totalLessons} ${isEn ? "missions" : "مهمة"}`}
-                          </span>
-
-                          <Link
-                            href={learnUrl}
-                            className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-black transition-all cursor-pointer ${
-                              isTrackCurrent
-                                ? "bg-gradient-to-r from-teal-500 to-emerald-500 text-white shadow-md shadow-teal-500/25 hover:from-teal-400 hover:to-emerald-400 ring-2 ring-teal-400/40"
-                                : isTrackDone
-                                ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30"
-                                : "bg-neutral-800 hover:bg-neutral-700 text-neutral-100 border border-white/10 hover:border-teal-500/40 shadow-xs"
-                            }`}
-                          >
-                            <span>
+                          {/* Bottom Track Action CTA - High Contrast & Never White-on-White */}
+                          <div className="mt-5 border-t border-black/10 dark:border-white/10 pt-3.5 flex items-center justify-between">
+                            <span className="text-2xs font-mono font-bold text-neutral-500">
                               {isTrackDone
-                                ? (isEn ? "Review Track" : "مراجعة المسار")
-                                : isTrackStarted
-                                ? (isEn ? `Day ${trackItem.nextDayNumber}` : `الدرس ${trackItem.nextDayNumber}`)
-                                : (isEn ? "Start Track" : "ابدأ المسار")}
+                                ? (isEn ? "All missions done" : "جميع المهمات منجزة")
+                                : `${trackItem.completedLessonsCount}/${trackItem.totalLessons} ${isEn ? "missions" : "مهمة"}`}
                             </span>
-                            <span>➔</span>
-                          </Link>
+
+                            <Link
+                              href={learnUrl}
+                              className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-black transition-all cursor-pointer ${
+                                isTrackCurrent
+                                  ? "bg-gradient-to-r from-teal-500 to-emerald-500 text-white shadow-md shadow-teal-500/25 hover:from-teal-400 hover:to-emerald-400 ring-2 ring-teal-400/40 hover:scale-[1.02] active:scale-98"
+                                  : isTrackDone
+                                  ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30"
+                                  : "bg-neutral-800 hover:bg-neutral-700 text-neutral-100 border border-white/10 hover:border-teal-500/40 shadow-xs hover:scale-[1.02] active:scale-98"
+                              }`}
+                            >
+                              <span>
+                                {isTrackDone
+                                  ? (isEn ? "Review Track" : "مراجعة المسار")
+                                  : isTrackStarted
+                                  ? (isEn ? `Day ${trackItem.nextDayNumber}` : `الدرس ${trackItem.nextDayNumber}`)
+                                  : (isEn ? "Start Track" : "ابدأ المسار")}
+                              </span>
+                              <span>➔</span>
+                            </Link>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             );

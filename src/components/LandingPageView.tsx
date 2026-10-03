@@ -530,6 +530,32 @@ export default function LandingPageView() {
                         {isEn ? cp.taglineEn : cp.taglineAr}
                       </p>
 
+                      {/* Mini Milestone Pathway Preview */}
+                      <div className="flex items-center gap-1.5 py-1 px-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
+                        {cp.stages.slice(0, 4).map((st, sIdx) => (
+                          <div key={st.id} className="flex items-center gap-1">
+                            <span
+                              className={`flex h-5 w-5 items-center justify-center rounded-md font-mono text-3xs font-black border ${
+                                sIdx === 0
+                                  ? "bg-teal-500/20 border-teal-400/40 text-teal-700 dark:text-teal-300"
+                                  : "bg-black/5 dark:bg-white/5 border-black/5 dark:border-white/10 text-neutral-500 dark:text-neutral-400"
+                              }`}
+                            >
+                              0{sIdx + 1}
+                            </span>
+                            {sIdx < Math.min(cp.stages.length, 4) - 1 && (
+                              <span className="text-3xs text-neutral-300 dark:text-neutral-600">➔</span>
+                            )}
+                          </div>
+                        ))}
+                        {cp.stages.length > 4 && (
+                          <span className="text-3xs text-neutral-400 font-bold">+{cp.stages.length - 4}</span>
+                        )}
+                        <span className="ms-auto text-3xs font-extrabold text-teal-700 dark:text-teal-300">
+                          {cp.stages.length} {isEn ? "milestones" : "مراحل متتالية"}
+                        </span>
+                      </div>
+
                       {/* Capstone Box */}
                       <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-2xs">
                         <span className="font-extrabold text-amber-800 dark:text-amber-300 block mb-0.5">
