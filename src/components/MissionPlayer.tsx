@@ -200,13 +200,6 @@ export default function MissionPlayer({
             >
               {isEn ? "‹ Exit to Cockpit" : "‹ لوحة التحكم"}
             </Link>
-            <Link
-              href={`/app/learn/${mission.slug}/${mission.dayNumber}?mode=cards`}
-              className="hidden md:inline-flex text-[11px] font-medium text-neutral-400 hover:text-neutral-200 transition-colors py-1 px-2 rounded hover:bg-white/5 border border-white/5"
-              title={isEn ? "Switch to Classic Cards" : "عرض البطاقات الكلاسيكي"}
-            >
-              {isEn ? "🃏 Cards" : "🃏 بطاقات"}
-            </Link>
             <LogoLink size={26} href="/app" />
           </div>
 
@@ -438,7 +431,7 @@ export default function MissionPlayer({
                 <button
                   type="button"
                   onClick={() => setLearnCardIdx((i) => i - 1)}
-                  className="px-5 py-3.5 rounded-full border border-white/10 text-xs font-bold text-neutral-300 hover:bg-white/5 transition"
+                  className="px-6 py-4 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 text-xs sm:text-sm font-bold text-neutral-300 hover:text-white transition-all active:scale-[0.98] cursor-pointer"
                 >
                   {isEn ? "‹ Previous" : "السابق"}
                 </button>
@@ -448,15 +441,17 @@ export default function MissionPlayer({
                 <button
                   type="button"
                   onClick={() => setLearnCardIdx((i) => i + 1)}
-                  className="flex-1 bg-white/10 hover:bg-white/15 text-white font-bold rounded-full py-4 text-sm transition"
+                  className="flex-1 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 hover:from-emerald-300 hover:via-teal-200 hover:to-emerald-300 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2 group border border-emerald-300/40"
                 >
-                  {isEn ? "Next Point →" : "النقطة التالية ➔"}
+                  <span className="transition-transform group-hover:translate-x-0.5 duration-200">
+                    {isEn ? "Next Point →" : "النقطة التالية ➔"}
+                  </span>
                 </button>
               ) : (
                 <button
                   type="button"
                   onClick={() => changeStage("example")}
-                  className="flex-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/25 hover:brightness-110 transition active:scale-98"
+                  className="flex-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/25 hover:brightness-110 transition active:scale-98 cursor-pointer"
                 >
                   {isEn ? "Continue to Golden Benchmark Example →" : "استمر لرؤية النموذج الذهبي المعياري ➔"}
                 </button>

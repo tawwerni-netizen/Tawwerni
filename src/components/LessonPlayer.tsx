@@ -511,7 +511,7 @@ export default function LessonPlayer(props: Props) {
           )}
           <button
             onClick={phase === "cards" ? nextCard : () => setPhase("quiz")}
-            className="flex-1 bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-500 hover:to-emerald-400 text-white font-bold rounded-full py-3.5 text-sm shadow-md active:scale-98 transition-all"
+            className="flex-1 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 hover:from-emerald-300 hover:via-teal-200 hover:to-emerald-300 text-neutral-950 font-black rounded-full py-3.5 text-sm shadow-xl shadow-emerald-500/25 active:scale-98 transition-all cursor-pointer"
           >
             {phase === "quizIntro"
               ? (isEn ? "Start Quiz →" : "ابدأ الكويز ←")
@@ -526,7 +526,7 @@ export default function LessonPlayer(props: Props) {
         <div className="lesson-actions px-4 pb-4 pt-3 border-t border-black/5 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md">
           <button
             onClick={nextQuestion}
-            className="w-full bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-500 hover:to-emerald-400 text-white font-bold rounded-full py-3.5 text-sm shadow-md active:scale-98 transition-all"
+            className="w-full bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 hover:from-emerald-300 hover:via-teal-200 hover:to-emerald-300 text-neutral-950 font-black rounded-full py-3.5 text-sm shadow-xl shadow-emerald-500/25 active:scale-98 transition-all cursor-pointer"
           >
             {qIndex < quiz.length - 1
               ? (isEn ? "Next Question →" : "السؤال التالي ‹")

@@ -55,32 +55,30 @@ export default async function LessonPage({
 
   const accessState = unlocked ? "unlocked" : pending ? "pending" : "unpaid";
 
-  // Check if mission experience is preferred (default is MissionPlayer unless mode === "cards")
-  if (sp.mode !== "cards") {
-    const mission = loadMission(slug, dayNumber);
-    if (mission) {
-      let existingCompletion = null;
-      try {
-        existingCompletion = await prisma.lessonCompletion.findFirst({
-          where: {
-            userId: user.id,
-            lessonId: `les-${slug}-${dayNumber}`,
-          },
-          select: { score: true },
-        });
-      } catch {
-        existingCompletion = null;
-      }
-
-      return (
-        <MissionPlayer
-          mission={mission}
-          nextDayNumber={nextLesson?.dayNumber ?? null}
-          isAlreadyCompleted={!!existingCompletion}
-          previousScore={existingCompletion?.score}
-        />
-      );
+  // Universal Mission Stepper Experience: all courses and tracks deliver practical hands-on missions
+  const mission = loadMission(slug, dayNumber);
+  if (mission) {
+    let existingCompletion = null;
+    try {
+      existingCompletion = await prisma.lessonCompletion.findFirst({
+        where: {
+          userId: user.id,
+          lessonId: `les-${slug}-${dayNumber}`,
+        },
+        select: { score: true },
+      });
+    } catch {
+      existingCompletion = null;
     }
+
+    return (
+      <MissionPlayer
+        mission={mission}
+        nextDayNumber={nextLesson?.dayNumber ?? null}
+        isAlreadyCompleted={!!existingCompletion}
+        previousScore={existingCompletion?.score}
+      />
+    );
   }
 
   const promoCourses = ALL_100_TRACKS.filter((t) => t.slug !== course.slug)

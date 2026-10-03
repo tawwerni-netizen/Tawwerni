@@ -50,6 +50,25 @@ export type MissionData = {
   rubric: MissionRubricCriterion[];
 };
 
+/**
+ * Domain classifier to customize deliverables, golden models, and practice templates
+ */
+function getDomainClassification(pillarOrCategory: string): {
+  type: "ai" | "dev" | "data" | "freelance" | "marketing" | "design" | "business" | "cyber" | "soft" | "productivity";
+} {
+  const p = pillarOrCategory.toLowerCase();
+  if (p.includes("ذكاء") || p.includes("أوامر") || p.includes("ai") || p.includes("prompt")) return { type: "ai" };
+  if (p.includes("برمج") || p.includes("كود") || p.includes("تطوير") || p.includes("dev") || p.includes("software")) return { type: "dev" };
+  if (p.includes("بيانات") || p.includes("تحليل") || p.includes("مالي") || p.includes("data") || p.includes("kpi")) return { type: "data" };
+  if (p.includes("حر") || p.includes("freelanc") || p.includes("عملاء")) return { type: "freelance" };
+  if (p.includes("تسويق") || p.includes("إعلان") || p.includes("market") || p.includes("مبيعات")) return { type: "marketing" };
+  if (p.includes("تصميم") || p.includes("ميديا") || p.includes("فيديو") || p.includes("design") || p.includes("video")) return { type: "design" };
+  if (p.includes("أعمال") || p.includes("رياد") || p.includes("بزنس") || p.includes("business") || p.includes("startup")) return { type: "business" };
+  if (p.includes("أمن") || p.includes("سيبران") || p.includes("cyber") || p.includes("حماي")) return { type: "cyber" };
+  if (p.includes("ناعم") || p.includes("تواصل") || p.includes("إقناع") || p.includes("soft")) return { type: "soft" };
+  return { type: "productivity" };
+}
+
 export function loadMission(slug: string, dayNumber: number): MissionData | null {
   const lessonData = loadUniversalLesson(slug, dayNumber);
   if (!lessonData) return null;
@@ -65,13 +84,62 @@ export function loadMission(slug: string, dayNumber: number): MissionData | null
     lines: c.type === "info" ? c.body.lines : c.body.instructions,
   }));
 
-  // Derive tangible deliverable and objectives based on track & day
-  let deliverableAr = `صياغة مخرج عملي متكامل يطبق مهارة ${targetSkill.nameAr}`;
-  let deliverableEn = `Production deliverable applying ${targetSkill.nameEn}`;
-  let accomplishAr = `إتقان ${targetSkill.nameAr} وتطبيقها على مهمة واقعية مباشرة دون تنظير.`;
-  let accomplishEn = `Mastering ${targetSkill.nameEn} and applying it directly to a production task.`;
+  const domain = getDomainClassification(course.categoryAr || targetSkill.domain || "");
+  const lessonTitleAr = lesson.titleAr || `يوم ${dayNumber}: مهارة عملية في ${course.titleAr}`;
+  const lessonTitleEn = lesson.titleEn || `Day ${dayNumber}: Practical Skill in ${course.titleEn}`;
 
-  // Specific high-impact mappings for hero tracks
+  // Tailored tangible deliverable and objectives
+  let deliverableAr = `صياغة مخرج عملي متكامل يطبق مهارات "${lessonTitleAr}"`;
+  let deliverableEn = `Production deliverable applying "${lessonTitleEn}"`;
+  let accomplishAr = `إتقان ${targetSkill.nameAr} وتطبيقها عملياً على مهمة تنفيذية مباشرة في ${course.titleAr}.`;
+  let accomplishEn = `Mastering ${targetSkill.nameEn} and applying it directly to a production task in ${course.titleEn}.`;
+
+  // Domain-specific deliverable naming
+  switch (domain.type) {
+    case "ai":
+      deliverableAr = `صياغة برومبت تنفيذي متقدم (RTCC) أو سلسلة أوامر ذكاء اصطناعي موجهة لـ "${lessonTitleAr}" مع معايير جودة صارمة.`;
+      deliverableEn = `Production prompt architecture (RTCC) or automated workflow for "${lessonTitleEn}".`;
+      break;
+    case "dev":
+      deliverableAr = `بناء كود برمجي أو مكون تقني متكامل يطبق "${lessonTitleAr}" مع معالجة سيناريوهات الأخطاء.`;
+      deliverableEn = `Functional code component or API module applying "${lessonTitleEn}" with error handling.`;
+      break;
+    case "data":
+      deliverableAr = `بناء مصفوفة مؤشرات أداء (KPIs) أو نموذج تحليلي لحساب وتقييم "${lessonTitleAr}".`;
+      deliverableEn = `Quantitative KPI framework or analytic data model evaluating "${lessonTitleEn}".`;
+      break;
+    case "freelance":
+      deliverableAr = `صياغة مسودة مقترح عمل رابح (Winning Proposal) أو نطاق عمل رسمي لمشروع يخص "${lessonTitleAr}".`;
+      deliverableEn = `Winning client proposal or project scope document applying "${lessonTitleEn}".`;
+      break;
+    case "marketing":
+      deliverableAr = `صياغة نص تسويقي تحويلي (High-Converting Copy) أو خطة حملة إعلانية مخصصة لـ "${lessonTitleAr}".`;
+      deliverableEn = `High-converting campaign copy or growth framework applying "${lessonTitleEn}".`;
+      break;
+    case "design":
+      deliverableAr = `تصميم مخطط بصري أو سكريبت فيديو وبرومبتات لقطات سينمائية لتنفيذ "${lessonTitleAr}".`;
+      deliverableEn = `Visual storyboard, prompt system, or video direction asset for "${lessonTitleEn}".`;
+      break;
+    case "business":
+      deliverableAr = `إعداد وثيقة نموذج عمل (Business Canvas) أو دراسة جدوى استراتيجية لتطبيق "${lessonTitleAr}".`;
+      deliverableEn = `Business model canvas or strategic feasibility blueprint applying "${lessonTitleEn}".`;
+      break;
+    case "cyber":
+      deliverableAr = `إعداد مصفوفة تدقيق أمني وضبط صلاحيات وسياسات حماية لـ "${lessonTitleAr}".`;
+      deliverableEn = `Security audit matrix and credential protection policy for "${lessonTitleEn}".`;
+      break;
+    case "soft":
+      deliverableAr = `صياغة سيناريو إقناع أو إطار تفاوض استراتيجي لتطبيق "${lessonTitleAr}".`;
+      deliverableEn = `Persuasion scenario or negotiation framework applying "${lessonTitleEn}".`;
+      break;
+    case "productivity":
+    default:
+      deliverableAr = `بناء نظام تشغيل شخصي (SOP) وجدول زمني لحصار المشتتات وتطبيق "${lessonTitleAr}".`;
+      deliverableEn = `Personal standard operating procedure (SOP) and execution habit system for "${lessonTitleEn}".`;
+      break;
+  }
+
+  // Specific high-impact overrides for flagship courses
   if (slug === "tahaddi-28-yawm" || slug === "prompt-engineering-mastery") {
     if (dayNumber === 1) {
       accomplishAr = "فهم منطق عمل نماذج الذكاء الاصطناعي وبناء أول حوار توجيهي مخصص لعملك.";
@@ -86,7 +154,7 @@ export function loadMission(slug: string, dayNumber: number): MissionData | null
       accomplishAr = "مشروع التخرج: هندسة سلسلة وكلاء ذكاء اصطناعي تدير مشروعاً كاملاً من الألف إلى الياء.";
       deliverableAr = "ملف نظام عمل ذكي (Executive AI Pipeline) كامل وجاهز للنشر في بورتفوليو أعمالك.";
     }
-  } else if (slug === "zero-to-first-dollar-freelancer") {
+  } else if (slug === "zero-to-first-dollar-freelancer" || slug === "el-3amal-el-horr") {
     if (dayNumber === 1) {
       accomplishAr = "تحديد تخصصك الدقيق وتحديد المشكلة التي يدفع العملاء لحلها فوراً.";
       deliverableAr = "بيان تحديد التخصص والقيمة (Niche Statement) من سطرين يوضح مجالك وجمهورك.";
@@ -96,37 +164,125 @@ export function loadMission(slug: string, dayNumber: number): MissionData | null
     }
   }
 
-  // Golden standard example
+  // Domain-specific Golden Standard Benchmarks (100/100 Model)
+  let goldenContent = "";
+  let starterTemplate = "";
+  let placeholderAr = "";
+
+  switch (domain.type) {
+    case "ai":
+      goldenContent = [
+        `[الدور المطلوب]: أنت كبير مستشاري استراتيجيات الأعمال والذكاء الاصطناعي بخبرة 15 عاماً.`,
+        `[السياق والمجال]: تطبيق أساليب ${lessonTitleAr} على بيئة عمل إنتاجية وتطوير تدفق عمل حقيقي.`,
+        `[المهمة الأساسية]: حلل المعطيات المقدمة واستخرج خطة العمل التنفيذية من 3 محطات محددة.`,
+        `[القيود الصارمة (Negative Constraints)]: ممنوع استخدام العبارات الإنشائية العامة، ركّز فقط على أرقام وحلول قابلة للقياس، واذكر المخاطر وكيفية معالجتها.`,
+        `[صيغة المخرج النهائي]: جدول من 4 أعمدة (الخطوة التنفيذية، الأداة المستخدمة، مؤشر النجاح، الإجراء البديل).`,
+      ].join("\n");
+      starterTemplate = `[الدور المطلوب]: عين هوية الخبير وخبرته...\n[السياق والمجال]: اذكر مجالك وخلفية المهمة...\n[المهمة الأساسية]: وضح المطلوب بدقة...\n[القيود الصارمة]: اذكر ما يجب تجنبه (Negative Constraints)...\n[صيغة المخرج النهائي]: حدد شكل المخرج (جدول/نقاط/كود)...`;
+      placeholderAr = "اكتب هنا برومبتك التنفيذي المتكامل وفق معايير RTCC...";
+      break;
+
+    case "dev":
+      goldenContent = [
+        `// ========================================================`,
+        `// نموذج ذهبي معياري: تطبيق ${lessonTitleAr}`,
+        `// ========================================================`,
+        `export async function handleProductionService(payload: ServiceRequest): Promise<ServiceResponse> {`,
+        `  // 1. التحقق الصارم من صحة المدخلات`,
+        `  if (!payload || !payload.id || payload.amount <= 0) {`,
+        `    throw new Error("Invalid request payload: Schema validation failed.");`,
+        `  }`,
+        `  `,
+        `  // 2. التنفيذ الفعلي مع معالجة سيناريوهات الأخطاء`,
+        `  try {`,
+        `    const result = await executeCoreOperation(payload);`,
+        `    return { success: true, code: 200, data: result };`,
+        `  } catch (error) {`,
+        `    logger.error("Operation failed gracefully", { error });`,
+        `    return { success: false, code: 500, fallback: triggerGracefulFallback(payload) };`,
+        `  }`,
+        `}`,
+      ].join("\n");
+      starterTemplate = `// [الهدف]: وصف ما ينفذه الكود هنا...\n// [المدخلات والمخرجات]: حدد نوع البيانات المتوقعة...\n// [المنطق والتنفيذ]: اكتب هنا الدالة أو المكون البرمجي...\n// [معالجة الأخطاء]: حدد سيناريوهات الاستثناء (Edge cases)...`;
+      placeholderAr = "اكتب هنا الكود أو المعمارية البرمجية المنفذة للمهمة...";
+      break;
+
+    case "data":
+      goldenContent = [
+        `[مصفوفة مؤشرات الأداء والتحليل المالي: ${lessonTitleAr}]`,
+        `---------------------------------------------------------------------`,
+        `• المؤشر الأول (CAC): تكلفة الاستحواذ = نفقات التسويق ÷ العملاء الجدد = $42`,
+        `• المؤشر الثاني (LTV): القيمة الدائمة للعميل = متوسط الفاتورة × التكرار = $210`,
+        `• نسبة الصحة المالية (LTV:CAC): 5.0x (تتجاوز المعيار العالمي المطلوب 3.0x)`,
+        `• التوصية التنفيذية: تركيز 70% من الميزانية على القناة الأكثر ربحية، وإلغاء القناة ذات العائد السلبي.`,
+      ].join("\n");
+      starterTemplate = `[المؤشر والهدف التحليلي]: حدد ما تقيسه ولماذا...\n[مصدر البيانات والمدخلات]: اذكر الأعمدة والبيانات المطلوبة...\n[المعادلة ومنطق الحساب]: اشرح طريقة استخراج النتيجة...\n[القرار التنفيذي المقترح]: ما هو الإجراء الموصى به بناءً على الأرقام...`;
+      placeholderAr = "اكتب هنا مصفوفة المؤشرات والتحليل الرقمي للمهمة...";
+      break;
+
+    case "freelance":
+      goldenContent = [
+        `مرحباً [اسم العميل]،`,
+        `قرأت متطلبات مشروعك حول ${lessonTitleAr} ولاحظت أن العائق الأكبر أمامك هو [المشكلة التشغيلية الحقيقية].`,
+        `نفذت مشروعاً مطابقاً مؤخراً حقق [النتيجة بالأرقام]، وهذه خطتي لتنفيذ طلبك بدقة:`,
+        `1. تحليل وتشخيص أولي للمتطلبات (يوم واحد).`,
+        `2. تسليم مسودة العمل الأولى للمراجعة (3 أيام).`,
+        `3. الضبط النهائي وتدريب فريقك على التشغيل (يومان).`,
+        `إذا كان وقتك يسمح بمحادثة سريعة لـ 10 دقائق، يمكنني إرسال نموذج أولي مخصص مجاناً اليوم.`,
+      ].join("\n");
+      starterTemplate = `[تشخيص مشكلة العميل]: أظهر فهمك العميق لألمه التشغيلي...\n[خطة التنفيذ ومحطات التسليم]: حدد الخطوات الزمنية لتنفيذ الحل...\n[سابقة الأعمال والإثبات العملي]: اذكر نتائج سابقة تبرهن كفاءتك...\n[عرض السعر ودعوة للبدء]: قدم الخيارات والخطوة التالية...`;
+      placeholderAr = "اكتب هنا مسودة مقترح العمل (Proposal) أو خطة تقديم الخدمة للعميل...";
+      break;
+
+    case "marketing":
+      goldenContent = [
+        `[الهوك الصادم (Hook - أول 3 ثوان)]: 80% من الشركات تهدر ميزانياتها الإعلانية بسبب خطأ واحد في ${lessonTitleAr}...`,
+        `[المشكلة المؤلمة (Pain Point)]: الاعتماد على أساليب عشوائية يرفع تكلفة الإعلان دون أي عائد ملموس.`,
+        `[الحل وعرض القيمة (UVP)]: نظامنا يمنحك تدفق عمل مجرب يضاعف العائد على الإنفاق الإعلاني (ROAS) بنسبة 3x.`,
+        `[الدعوة للفعل وضمان عدم المخاطرة (CTA)]: احجز استشارتك الآن مع ضمان استرداد كامل إذا لم تحقق هدفك.`,
+      ].join("\n");
+      starterTemplate = `[الجمهور المستهدف وشريحة العميل]: حدد بدقة من تخاطب...\n[المشكلة المؤلمة والعقبة الأساسية]: صف الألم الذي يعاني منه العميل...\n[الحل وعرض القيمة الفريد (UVP)]: كيف يحل منتجك/خدمتك هذه المشكلة جذرياً...\n[الدعوة للفعل وضمان عدم المخاطرة (CTA & Risk Reversal)]: اطلب الخطوة القادمة بوضوح...`;
+      placeholderAr = "اكتب هنا النص التسويقي أو زاوية الحملة الإعلانية للمهمة...";
+      break;
+
+    default:
+      goldenContent = [
+        `[إطار العمل التنفيذي: ${lessonTitleAr}]`,
+        `---------------------------------------------------------------------`,
+        `• الهدف الاستراتيجي: تحقيق نتيجة قابلة للقياس خلال 10 دقائق من العمل المركز.`,
+        `• الخطوة الأولى: التجهيز وحصار المشتتات والبدء بنسخة أولية مبسطة (MVP).`,
+        `• الخطوة الثانية: تطبيق أفضل الممارسات المعتمدة وتجنب العشوائية.`,
+        `• المخرج النهائي: ملف موثق جاهز للاستخدام الفوري وإضافته لبورتفوليو الإنجازات.`,
+      ].join("\n");
+      starterTemplate = `[السياق والمجال]: اكتب هنا مجالك وسياق المهمة...\n[الهدف المباشر]: وضح المطلوب بدقة...\n[الخطوات التنفيذية]: اذكر ما ستطبقه خطوة بخطوة...\n[المخرج النهائي]: حدد شكل الإنجاز الذي حققته...`;
+      placeholderAr = "اكتب هنا مخرجك العملي التطبيقي للمهمة...";
+      break;
+  }
+
   const goldenExample = {
-    titleAr: `النموذج الذهبي المعياري لمهمة اليوم:`,
-    titleEn: `Golden Standard Reference Benchmark:`,
-    content: lesson.quiz[0]?.explanation || [
-      `[الدور]: أنت كبير مستشاري استراتيجيات الأعمال بخبرة 15 عاماً في قيادة نمو الشركات.`,
-      `[المهمة]: قم بتحليل البيانات المرفقة واستخرج أهم 3 فرص نمو غير مستغلة.`,
-      `[القيود]: ممنوع استخدام المصطلحات الإنشائية العامة، ركّز فقط على أرقام قابلة للقياس، واذكر المخاطر المحتملة لكل فرصة.`,
-      `[المخرج]: جدول مقارنة من 4 أعمدة (الفرصة، العائد المتوقع، المخاطر، خطوة البداية اليوم).`,
-    ].join("\n"),
-    explanationAr: "لاحظ كيف يحتوي النموذج على هوية محددة، مهمة مباشرة، قيود سلبية تمنع السطحية، وشكل إخراج نهائي واضح تماماً.",
-    explanationEn: "Notice the clear persona instantiation, direct directive, negative constraints, and explicit output schema.",
+    titleAr: `النموذج الذهبي المعياري لمهمة اليوم (تقييم 100/100):`,
+    titleEn: `Golden Standard Reference Benchmark (100/100 Score):`,
+    content: goldenContent,
+    explanationAr: "لاحظ كيف يحتوي النموذج على تحديد دقيق، خلو تام من الحشو والإنشاء، قيود واضحة، ومخرج نهائي جاهز للاستخدام العملي الفوري.",
+    explanationEn: "Notice the surgical precision, lack of ambiguous fluff, clear constraints, and directly actionable output format.",
   };
 
-  // Practice specifications
   const practice = {
     instructionsAr: [
-      "اقرأ النموذج الذهبي أعلاه جيداً ولاحظ هيكل الصياغة.",
+      "اقرأ النموذج الذهبي أعلاه جيداً ولاحظ هيكل الصياغة واكتمال عناصره.",
       "افتح مساحة العمل أدناه وطبّق المهارة على مجال عملك أو تخصصك الحقيقي.",
       "تأكد من توافر معايير التقييم المعلنة (الوضوح، القيود، وتحديد المخرج).",
-      "اضغط زر «إرسال للتفتيش والتقييم الذكي» لتحصل على مراجعة فورية لمستواك.",
+      "اضغط زر «إرسال للتفتيش والتقييم الذكي» لتحصل على مراجعة فورية ومفصلة لأدائك.",
     ],
     instructionsEn: [
-      "Review the golden standard above and examine its structural components.",
+      "Review the golden benchmark above and examine its structural components.",
       "Use the workspace below to apply this exact skill to your own domain.",
       "Ensure all published rubric criteria are fulfilled before submission.",
       "Click 'Submit for AI Evaluation' to receive instant structured feedback.",
     ],
-    starterTemplate: `[السياق والمجال]: اكتب هنا مجالك وسياق المهمة...\n[الدور المطلوب]: عين هوية الخبير...\n[المهمة الأساسية]: وضح المطلوب بدقة...\n[القيود الصارمة]: اذكر ما يجب تجنبه...\n[صيغة المخرج النهائي]: حدد شكل الإجابة...`,
-    placeholderAr: "اكتب هنا مخرجك العملي التطبيقي للمهمة (البرومبت، العرض، المسودة، أو الكود)...",
-    placeholderEn: "Write your tangible mission deliverable here (prompt, proposal, copy, or code)...",
+    starterTemplate,
+    placeholderAr,
+    placeholderEn: "Write your tangible mission deliverable here...",
   };
 
   const rubric: MissionRubricCriterion[] = [
@@ -161,9 +317,9 @@ export function loadMission(slug: string, dayNumber: number): MissionData | null
     slug,
     dayNumber,
     totalDays: course.totalLessons,
-    titleAr: lesson.titleAr,
-    titleEn: lesson.titleEn,
-    estimatedMinutes: Math.max(10, lesson.durationMin || 12),
+    titleAr: lessonTitleAr,
+    titleEn: lessonTitleEn,
+    estimatedMinutes: Math.max(10, lesson.durationMin || 10),
     xpReward: 180,
     isCapstone,
     targetSkill,

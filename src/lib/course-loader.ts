@@ -244,6 +244,63 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
         titleEn = `Day ${day}: ${subTopicsEn[subIdx]}`;
       }
 
+      const moduleStepsAr = [
+        [
+          `١. افتح مساحة عملك وجهز بيئة التدريب لتطبيق "${outcomeAr}" في دقائق معدودة.`,
+          `٢. ابدأ بنسخة أولية مبسطة تركز على المفهوم الجوهري وتمنحك أول إنجاز ملموس اليوم.`,
+          `٣. دوّن ملاحظاتك الأولى عن المخرجات وقارنها بالمعايير المهنية المتبعة في ${track.titleAr}.`,
+          `٤. ركّز على كسر حاجز البداية؛ 10 دقائق من التنفيذ الحقيقي تهزم ساعات من التردد والتنظير.`,
+        ],
+        [
+          `١. ادمج الأدوات المتخصصة في ${track.titleAr} لبناء تدفق عمل شبه آلي حول "${outcomeAr}".`,
+          `٢. طبّق أفضل الممارسات وضبط المتغيرات للحصول على مخرجات دقيقة وتجنب الهدر والبطء.`,
+          `٣. احفظ الأوامر والقوالب الناجحة في مكتبتك الشخصية لتختصر وقت العمل في المستقبل.`,
+          `٤. اختبر حدود الأداة واكتشف الحالات الاستثنائية لتبني فهماً عميقاً يتجاوز الاستخدام السطحي.`,
+        ],
+        [
+          `١. حوّل تطبيقك لـ "${outcomeAr}" إلى جزء متكامل من مشروع حقيقي يحاكي طلبات سوق العمل.`,
+          `٢. أجرِ اختباراً شاملاً للتأكد من خلو المخرج من الأخطاء وجاهزيته للعرض أمام العملاء.`,
+          `٣. جهّز ملف التوثيق ودراسة الحالة التي تبرز القيمة العملية التي بنيتها بيدك.`,
+          `٤. اطلب مراجعة أو قارن مخرجك بالنموذج الذهبي لتضمن وصولك لمستوى الاحتراف الكامل.`,
+        ],
+        [
+          `١. حدد القيمة التجارية لـ "${outcomeAr}" وكيف تترجمها لعرض عمل أو تسعير مجزٍ للعملاء.`,
+          `٢. صغ مقترحاً أو دراسة حالة تركز على حل المشكلات وخفض التكاليف للمستفيد النهائي.`,
+          `٣. ضع نظاماً أسبوعياً لمتابعة تحديثات ${track.titleAr} وتطوير خدماتك باستمرار.`,
+          `٤. وثّق إنجازاتك في بورتفوليو احترافي لتبني سمعة مهنية تجذب إليك أفضل الفرص.`,
+        ],
+      ];
+
+      const moduleStepsEn = [
+        [
+          `1. Configure your workspace and eliminate setup friction to apply "${outcomeEn}" rapidly.`,
+          `2. Build a minimal viable prototype focused strictly on the core mechanic for today's win.`,
+          `3. Benchmark initial outputs against industry standards in ${track.titleEn}.`,
+          `4. Value momentum over hesitation — 10 minutes of execution outperforms hours of overthinking.`,
+        ],
+        [
+          `1. Integrate dedicated toolchains in ${track.titleEn} into an automated pipeline for "${outcomeEn}".`,
+          `2. Calibrate parameters and apply production safeguards to ensure pristine output quality.`,
+          `3. Save battle-tested templates and scripts into your vault to compound your daily velocity.`,
+          `4. Stress-test edge cases to build architectural depth beyond superficial tool familiarity.`,
+        ],
+        [
+          `1. Contextualize your work in "${outcomeEn}" into a client-grade deliverable addressing real needs.`,
+          `2. Conduct end-to-end regression testing to ensure your build is deployment-ready.`,
+          `3. Document architectural decisions and measurable metrics to construct an authoritative case study.`,
+          `4. Audit outputs against the golden standard benchmark to ensure 100/100 workplace fidelity.`,
+        ],
+        [
+          `1. Articulate the commercial ROI of "${outcomeEn}" to command premium service rates.`,
+          `2. Frame proposals around quantifiable client risk reduction and operational cost savings.`,
+          `3. Institute recurring weekly sprints to benchmark newly emerging updates in ${track.titleEn}.`,
+          `4. Publish deliverables to your portfolio to build magnetic inbound professional reputation.`,
+        ],
+      ];
+
+      const activeStepsAr = moduleStepsAr[Math.min(mIdx, moduleStepsAr.length - 1)];
+      const activeStepsEn = moduleStepsEn[Math.min(mIdx, moduleStepsEn.length - 1)];
+
       const cardsAr: Card[] = [
         {
           type: "info",
@@ -261,12 +318,7 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
           type: "info",
           heading: `خطوات التنفيذ العملي خطوة بخطوة`,
           body: {
-            lines: [
-              `١. افتح مساحة عملك وحدد النتيجة المستهدفة بدقة قبل أن تبدأ في استخدام أي أداة.`,
-              `٢. طبّق التكنيك خطوة بخطوة مع مراعاة أعلى معايير الجودة وسرعة الإنجاز.`,
-              `٣. وثّق ما نفذته وما تعلمته في ملف إنجازك الشخصي لترجع إليه وقت الحاجة.`,
-              `٤. لا تبحث عن الكمال الزائف؛ الإنجاز المكتمل بنسبة 80% أفضل بكثير من خطة مثالية لم تُنفّذ.`,
-            ],
+            lines: activeStepsAr,
           },
         },
         {
@@ -289,7 +341,7 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
               `سجل النتيجة أو خذ لقطة شاشة لإنجازك لتثبيت العادة في عقلك وترسيخ المهارة.`,
               `اضغط على زر إتمام الكويز بالأسفل لتثبيت تقدمك وحصد نقاط الـ XP.`,
             ],
-            prompt: `كيف أطبّق ${outcomeAr} بأفضل الممارسات المتبعة في عام 2026؟`,
+            prompt: `كيف أطبّق ${outcomeAr} بأفضل الممارسات المتبعة في عام 2026 في ${track.titleAr}؟`,
           },
         },
       ];
@@ -311,12 +363,7 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
           type: "info",
           heading: `Step-by-Step Practical Blueprint`,
           body: {
-            lines: [
-              `1. Open your workspace and clearly define the exact target deliverable for ${outcomeEn} before touching any tool.`,
-              `2. Apply the technique step-by-step, prioritizing high production quality, speed, and real-world utility.`,
-              `3. Document your finished solution and reusable prompts in your personal portfolio for future reuse.`,
-              `4. Prioritize momentum over perfection — an 80% complete, executed deliverable beats an unexecuted plan every time.`,
-            ],
+            lines: activeStepsEn,
           },
         },
         {
@@ -339,7 +386,7 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
               `Save your deliverable or screenshot your completed workflow to lock in muscle memory.`,
               `Click the quiz button below to test your understanding, lock in your progress, and claim your XP.`,
             ],
-            prompt: `How do I apply ${outcomeEn} using modern industry best practices and automated workflows?`,
+            prompt: `How do I apply ${outcomeEn} using modern industry best practices and automated workflows in ${track.titleEn}?`,
           },
         },
       ];

@@ -2013,8 +2013,8 @@ export function generateUniversalTrackQuiz(params: {
       q1ExplanationAr = `المخطط الهيكلي المسبق يوفر ما يصل إلى 50% من الوقت المستهلك في إعادة العمل ويمنع الانحراف عن الأهداف الرئيسية.`;
       q1ExplanationEn = `A deliberate architecture specification prevents scope drift and eliminates up to 50% of wasted re-work hours.`;
 
-      q2Ar = `البدء الفوري في التنفيذ دون مخطط هيكلي واضح يؤدي حتماً إلى إهدار ساعات طويلة في إعادة العمل والتعديلات العشوائية.`;
-      q2En = `Rushing into execution without a structured blueprint invariably wastes hours on re-work and unstructured firefighting.`;
+      q2Ar = `التخطيط الهيكلي المسبق لخطوات "${outcomeAr}" يوفر ما يصل إلى 50% من الوقت المستهلك في إعادة العمل العشوائي في ${track.titleAr}.`;
+      q2En = `Methodical upfront architecture for "${outcomeEn}" cuts wasted engineering rework by up to 50% across ${track.titleEn}.`;
       q2OptionsAr = ["صح", "غلط"];
       q2OptionsEn = ["True", "False"];
       q2CorrectIndex = 0;
@@ -2104,8 +2104,8 @@ export function generateUniversalTrackQuiz(params: {
       q1ExplanationAr = `النظام القوي هو الذي يصمد أمام المدخلات المشوهة والظروف الاستثنائية دون أن يفقد اتزانه أو يسرب بيانات.`;
       q1ExplanationEn = `Resilient architectures gracefully catch malformed payloads without crashing runtime processes.`;
 
-      q2Ar = `الأنظمة الاحترافية تصمم بحيث تفشل بنعومة (Graceful Degradation) وتوفر مسارات بديلة بدلاً من الانهيار التام.`;
-      q2En = `Robust production architectures incorporate graceful degradation patterns and clear telemetry instead of catastrophic crashes.`;
+      q2Ar = `تصميم حلول "${outcomeAr}" بمسارات بديلة وتغذية راجعة استباقية لحالات الخطأ يضمن استقرار مخرجات ${track.titleAr} وتجنب الانهيار المفاجئ.`;
+      q2En = `Engineering resilient fallbacks and telemetry for "${outcomeEn}" prevents unhandled crashes in production ${track.titleEn} workflows.`;
       q2OptionsAr = ["صح", "غلط"];
       q2OptionsEn = ["True", "False"];
       q2CorrectIndex = 0;
@@ -2158,8 +2158,8 @@ export function generateUniversalTrackQuiz(params: {
       q1ExplanationAr = `التحسين الفعال يبدأ بالقياس الدقيق لنقاط الاختناق؛ معالجة السبب الجذري يمنحك أداءً خارقاً بأقل التكاليف.`;
       q1ExplanationEn = `Effective optimization starts with precise profiling; addressing core bottlenecks yields maximum ROI.`;
 
-      q2Ar = `التحسين المفرط المبكر قبل اكتمال الوظائف الأساسية (Premature Optimization) قد يضيع وقتاً ثميناً دون جدوى حقيقية.`;
-      q2En = `Premature optimization before core functionality stabilizes wastes precious engineering sprints without meaningful returns.`;
+      q2Ar = `في مرحلة تنفيذ "${outcomeAr}"، إتمام الوظيفة الأساسية وضمان صحة المخرج أولى من الغرق في تحسينات جانبية مبكرة تعطل إطلاق ${track.titleAr}.`;
+      q2En = `When shipping "${outcomeEn}", stabilizing core functional correctness takes precedence over premature optimizations in ${track.titleEn}.`;
       q2OptionsAr = ["صح", "غلط"];
       q2OptionsEn = ["True", "False"];
       q2CorrectIndex = 0;
@@ -2185,8 +2185,8 @@ export function generateUniversalTrackQuiz(params: {
       q1ExplanationAr = `الشركات تستثمر في الحلول التي تؤثر على ميزانيتها وأرباحها؛ التعبير عن مهارتك بلغة العائد الاستثماري (ROI) هو مفتاح الصفقات الكبرى.`;
       q1ExplanationEn = `Enterprises invest in solutions that move the needle on financial statements; articulating ROI unlocks premium contracts.`;
 
-      q2Ar = `الشركات وأصحاب الأعمال لا يدفعون مقابل ساعات الجهد، بل يدفعون مقابل حل المشكلات المؤلمة وتوفير التكاليف وزيادة الأرباح.`;
-      q2En = `Decision-makers do not buy effort hours; they invest in quantifiable risk reduction, cost elimination, and revenue acceleration.`;
+      q2Ar = `الشركات وأصحاب الأعمال يدفعون مقابل النتائج الملموسة والقيمة التجارية التي تحققها عبر "${outcomeAr}"، وليس لمجرد ساعات الجهد المنقضية في ${track.titleAr}.`;
+      q2En = `Clients and stakeholders invest in the bottom-line business value generated via "${outcomeEn}", rather than passive billable hours in ${track.titleEn}.`;
       q2OptionsAr = ["صح", "غلط"];
       q2OptionsEn = ["True", "False"];
       q2CorrectIndex = 0;
@@ -2212,8 +2212,8 @@ export function generateUniversalTrackQuiz(params: {
       q1ExplanationAr = `العرض الفائز هو الذي يشعر العميل بأنك فهمت ألمه التشغيلي بدقة وأنك تملك الحل الهندسي المحكم لإنهائه.`;
       q1ExplanationEn = `Winning proposals demonstrate profound empathetic comprehension of client pain, paired with surgical execution clarity.`;
 
-      q2Ar = `إرسال عروض عامة مكررة لا تذكر تفاصيل مشكلة العميل واحتياجه الخاص يؤدي لتجاهل عرضك بنسبة تتجاوز 90%.`;
-      q2En = `Blasting boilerplate copy-pasted proposals that fail to diagnose the client's explicit pain points guarantees a 90%+ rejection rate.`;
+      q2Ar = `تخصيص عرضك وتوضيح كيفية تطبيق "${outcomeAr}" لحل المشكلة المحددة للعميل يرفع نسبة الفوز بمشاريع ${track.titleAr} إلى الضعف.`;
+      q2En = `Tailoring your proposal to demonstrate how "${outcomeEn}" directly resolves the client's bottleneck doubles your win rate in ${track.titleEn}.`;
       q2OptionsAr = ["صح", "غلط"];
       q2OptionsEn = ["True", "False"];
       q2CorrectIndex = 0;
@@ -2239,8 +2239,8 @@ export function generateUniversalTrackQuiz(params: {
       q1ExplanationAr = `الجاهزية التجارية تجمع بين الكفاءة التقنية والنضج الإداري لحماية نفسك والعميل وضمان استمرارية النجاح.`;
       q1ExplanationEn = `Commercial readiness pairs technical competence with operational discipline, safeguarding margins and client trust.`;
 
-      q2Ar = `تذكر الواقع المهني: "${track.realityAr}" — كيف تضع حدوداً واضحة لتوقعات العميل لتفادي الخلافات والنزاعات؟`;
-      q2En = `Heed the industry reality: "${track.realityEn}" — How do you set transparent boundary expectations to prevent disputes?`;
+      q2Ar = `تذكر الواقع المهني: "${track.realityAr}" — كيف تضع حدوداً واضحة لتوقعات العميل لتفادي الخلافات والنزاعات في ${track.titleAr}؟`;
+      q2En = `Heed the industry reality: "${track.realityEn}" — How do you set transparent boundary expectations to prevent disputes in ${track.titleEn}?`;
       q2OptionsAr = [
         `إعطاء وعود خيالية غير واقعية لإرضاء العميل لحظياً ثم الصدمة عند التسليم`,
         `شرح الحدود والنتائج المتوقعة بمصداقية وصراحة في وثيقة نطاق العمل قبل توقيع العقد`,
@@ -2276,8 +2276,8 @@ export function generateUniversalTrackQuiz(params: {
       q1ExplanationAr = `حماية النطاق بأسلوب مهني ولبق تضمن لك ربحية المشروع وتحفظ احترام العميل لاحترافيتك وتقديره لوقتك.`;
       q1ExplanationEn = `Firm, diplomatic scope management preserves project profitability and cements client respect for your professional boundaries.`;
 
-      q2Ar = `تقسيم المدفوعات على مراحل تسليم واضحة وموثقة (Milestones) يحفظ حقوق الطرفين ويضمن تدفقاً نقدياً آمناً.`;
-      q2En = `Tying payment disbursements to explicit, documented milestone deliverables protects both parties and eliminates payment disputes.`;
+      q2Ar = `ربط تسليم مراحل "${outcomeAr}" بدفعات مالية موثقة ومعلنة يحمي حقوقك المهنية ويضمن تدفقاً نقدياً مستقراً لمشاريع ${track.titleAr}.`;
+      q2En = `Tying phased delivery of "${outcomeEn}" to milestone-gated disbursements secures cash flow and enforces scope clarity in ${track.titleEn}.`;
       q2OptionsAr = ["صح", "غلط"];
       q2OptionsEn = ["True", "False"];
       q2CorrectIndex = 0;
@@ -2303,8 +2303,8 @@ export function generateUniversalTrackQuiz(params: {
       q1ExplanationAr = `دراسات الحالة الموثقة هي التي تصنع لك سلطة مهنية وتجعل إقناع العملاء الجدد سهلاً وسريعاً للغاية.`;
       q1ExplanationEn = `Compelling case studies serve as permanent inbound marketing assets, dramatically reducing sales cycles with future clients.`;
 
-      q2Ar = `توثيق دراسة الحالة بالأرقام والمقارنات قبل وبعد هو أقوى أداة تسويقية تضمن لك تدفقاً مستمراً من العملاء والفرص.`;
-      q2En = `A quantified before-and-after case study serves as permanent inbound proof that attracts premium inbound opportunities.`;
+      q2Ar = `توثيق مخرجات مشروع "${outcomeAr}" كدراسة حالة مدعومة بمؤشرات واقعية قبل وبعد هو أقوى وسيلة لإثبات كفاءتك في ${track.titleAr}.`;
+      q2En = `Packaging your completed "${outcomeEn}" artifact as a quantified before-and-after case study creates permanent inbound authority in ${track.titleEn}.`;
       q2OptionsAr = ["صح", "غلط"];
       q2OptionsEn = ["True", "False"];
       q2CorrectIndex = 0;
@@ -2330,8 +2330,8 @@ export function generateUniversalTrackQuiz(params: {
       q1ExplanationAr = `التسليم الاحترافي المكتمل يترك انطباعاً استثنائياً ويدفع العميل لتوصيتك لشبكة معارفه والتعاقد معك مجدداً.`;
       q1ExplanationEn = `Excellence at project handover cements lasting client delight, unlocking repeat retainers and high-value referrals.`;
 
-      q2Ar = `الوصول لليوم الأخير ليس نهاية المطاف، بل هو بداية الاحتراف الحقيقي والانطلاق لتطبيق المهارة في مشاريع أكبر.`;
-      q2En = `Completing this track marks the inception of real mastery, equipping you to deploy high-leverage systems across ambitious projects.`;
+      q2Ar = `إنجاز مشروع التخرج في "${track.titleAr}" يزودك بنموذج عمل حي موثق يثبت جاهزيتك الكاملة لسوق العمل والفرص المتقدمة.`;
+      q2En = `Delivering the capstone project in "${track.titleEn}" provides live verified proof of production readiness for elite workplace opportunities.`;
       q2OptionsAr = ["صح", "غلط"];
       q2OptionsEn = ["True", "False"];
       q2CorrectIndex = 0;
@@ -2357,8 +2357,8 @@ export function generateUniversalTrackQuiz(params: {
       q1ExplanationAr = `المحترف الحقيقي يحافظ على مرونته المعرفية؛ متابعة الميدان تمنحك ميزة استباقية تجعلك دائماً متقدماً على المنافسين.`;
       q1ExplanationEn = `Ongoing deliberate curiosity keeps your technical arsenal sharp and maintains competitive superiority.`;
 
-      q2Ar = `تخصيص ساعة أسبوعياً للاطلاع على أحدث الأدوات والبحوث في مجالك يمنحك ميزة تنافسية دائمة لا تزول.`;
-      q2En = `Dedication of a recurring weekly sprint to inspect frontier tools and documentation sustains lasting technical leadership.`;
+      q2Ar = `تخصيص وقت أسبوعي لاختبار أحدث أدوات ومنهجيات "${track.titleAr}" يضمن استدامة ميزتك التنافسية وتفوقك على الممارسين التقليديين.`;
+      q2En = `Dedicating a weekly block to benchmark frontier breakthroughs in "${track.titleEn}" sustains your competitive edge over static practitioners.`;
       q2OptionsAr = ["صح", "غلط"];
       q2OptionsEn = ["True", "False"];
       q2CorrectIndex = 0;
@@ -2384,8 +2384,8 @@ export function generateUniversalTrackQuiz(params: {
       q1ExplanationAr = `مشاركة المعرفة العملية وبناء السمعة علناً يبني سلطة مهنية تجعل العملاء يثقون بك ويسعون للتعاقد معك.`;
       q1ExplanationEn = `Transparently demonstrating competence in public builds magnetic authority and generates recurring inbound client pipeline.`;
 
-      q2Ar = `مشاركة ما تتعلمه وتبنيه علناً (Build in Public) يجذب إليك الفرص والشراكات دون الحاجة للإعلانات المدفوعة.`;
-      q2En = `Building in public and publishing architectural breakdowns attracts organic inbound enterprise contracts effortlessly.`;
+      q2Ar = `مشاركة كواليس ما تبنيه وتطبقه في "${track.titleAr}" عبر المنصات المهنية يجذب إليك عملاء وشراكات نوعية دون الحاجة لإعلانات مدفوعة.`;
+      q2En = `Sharing architectural walkthroughs and execution insights from "${track.titleEn}" publicly generates high-value organic partnerships.`;
       q2OptionsAr = ["صح", "غلط"];
       q2OptionsEn = ["True", "False"];
       q2CorrectIndex = 0;
@@ -2411,8 +2411,8 @@ export function generateUniversalTrackQuiz(params: {
       q1ExplanationAr = `مراجعات الأقران تفتح عينيك على زوايا خفية وممارسات فضلى قد تحتاج لسنوات لاكتشافها بمفردك.`;
       q1ExplanationEn = `Rigorous peer reviews reveal blind spots and expose you to battle-tested workflows cultivated across diverse teams.`;
 
-      q2Ar = `الانعزال عن مجتمع الممارسين يجعلك تكرر أخطاء شائعة تجاوزها الآخرون منذ سنوات.`;
-      q2En = `Working in total isolation causes costly regression into well-documented pitfalls that peer networks solved years ago.`;
+      q2Ar = `التواصل الفعال مع مجتمعات الخبراء في "${track.titleAr}" وتبادل مراجعات الأداء يختصر عليك سنوات من التجربة والخطأ المكلف.`;
+      q2En = `Engaging with top practitioner networks in "${track.titleEn}" and participating in technical peer reviews cuts years of costly trial and error.`;
       q2OptionsAr = ["صح", "غلط"];
       q2OptionsEn = ["True", "False"];
       q2CorrectIndex = 0;
@@ -2439,8 +2439,8 @@ export function generateUniversalTrackQuiz(params: {
       q1ExplanationAr = `شهادة الإتمام الرقمية الموثقة المدعومة بمشروع تطبيقي ورابط تحقق رقمي QR تمنحك مصداقية فورية تفتح لك أبواب الفرص والتوظيف.`;
       q1ExplanationEn = `A verifiable digital completion credential anchored by hands-on capstone artifacts and QR verification establishes instant professional credibility with employers.`;
 
-      q2Ar = `شهادة الإتمام المقترنة برابط مشروع حقيقي حي ومفحوص تمنحك مصداقية تفوق عشرات الشهادات النظرية المجردة.`;
-      q2En = `A verifiable digital completion certificate paired with a live production artifact delivers authoritative credibility unmatched by generic theoretical certificates.`;
+      q2Ar = `شهادة الإتمام الرقمية الموثقة في "${track.titleAr}"، المدعومة برابط مشروعك الحقيقي، تمنحك مصداقية فورية أمام أصحاب العمل والعملاء.`;
+      q2En = `Your verifiable completion credential in "${track.titleEn}", anchored by your live production artifact, establishes immediate trust with employers.`;
       q2OptionsAr = ["صح", "غلط"];
       q2OptionsEn = ["True", "False"];
       q2CorrectIndex = 0;
