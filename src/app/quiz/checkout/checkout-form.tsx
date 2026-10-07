@@ -5,7 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { brand, pricing, payment } from "@/content/brand";
 import type { PaymentConfig } from "@/lib/payment-config";
-import { trackInitiateCheckout } from "@/lib/analytics";
+import {
+  trackInitiateCheckout,
+  trackPaymentMethodSelected,
+  trackPaymentInstructionsViewed,
+  trackPaymentInitiated,
+  trackWhatsAppSupportClicked,
+} from "@/lib/analytics";
 import LanguageToggle from "@/components/LanguageToggle";
 import ThemeToggle from "@/components/ThemeToggle";
 import { LogoLink } from "@/components/Logo";
@@ -57,6 +63,7 @@ function CopyField({
       return;
     }
     setCopied(true);
+    trackPaymentInstructionsViewed(method || "general", 0);
     setTimeout(() => setCopied(false), 1600);
   }
 
@@ -167,6 +174,7 @@ export default function CheckoutForm({
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const [createdOrderId, setCreatedOrderId] = useState<string>("");
 
   // Price calculation
   const basePrice =
@@ -282,6 +290,12 @@ export default function CheckoutForm({
         ? selectedCareerPathSlug
         : selectedTrackSlug;
 
+    let utmData = null;
+    try {
+      const storedUtm = sessionStorage.getItem("tawwerni_utm") || localStorage.getItem("tawwerni_utm");
+      if (storedUtm) utmData = JSON.parse(storedUtm);
+    } catch {}
+
     try {
       const res = await fetch("/api/orders", {
         method: "POST",
@@ -297,11 +311,12 @@ export default function CheckoutForm({
           method,
           proofChannel,
           withOrderBump,
+          utm: utmData,
         }),
       });
 
       const raw = await res.text();
-      let data: { error?: string } = {};
+      let data: { error?: string; orderId?: string } = {};
       try {
         data = raw ? JSON.parse(raw) : {};
       } catch {
@@ -318,6 +333,9 @@ export default function CheckoutForm({
         return;
       }
 
+      const returnedOrderId = data.orderId || "";
+      setCreatedOrderId(returnedOrderId);
+      trackPaymentInitiated(method, totalPrice, productType, returnedOrderId);
       sessionStorage.removeItem("tawwerni_checkout");
       setDone(true);
     } catch {
@@ -334,6 +352,13 @@ export default function CheckoutForm({
   if (!ready) return null;
 
   if (done) {
+    const displayOrderId = createdOrderId ? `#${createdOrderId.slice(0, 8).toUpperCase()}` : "#TW-ORDER";
+    const waMessage = isEn
+      ? `Hello Tawwerni Support, I just submitted an order for ${currentTitle} (Order ID: ${displayOrderId}) for ${totalPrice} EGP via ${method === "vodafone_cash" ? "Vodafone Cash" : "InstaPay"}. Here is my payment transfer screenshot to activate my account.`
+      : `أهلاً فريق طوّرني، قمت الآن بطلب «${currentTitle}» (رقم الطلب: ${displayOrderId}) بقيمة ${totalPrice} ج.م عبر ${method === "vodafone_cash" ? "فودافون كاش" : "إنستاباي"}. مرفق صورة إثبات التحويل لتفعيل حسابي.`;
+
+    const waHref = `https://wa.me/20${paymentConfig.supportWhatsapp.replace(/^0/, "")}?text=${encodeURIComponent(waMessage)}`;
+
     return (
       <div
         dir={isEn ? "ltr" : "rtl"}
@@ -344,87 +369,85 @@ export default function CheckoutForm({
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-emerald-500/15 blur-3xl rounded-full" />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-md w-full">
-          <div className="rounded-3xl border-2 border-emerald-500/40 bg-[#0d1614]/95 p-7 text-center shadow-2xl shadow-emerald-500/20 backdrop-blur-xl">
+        <div className="relative z-10 mx-auto max-w-lg w-full">
+          <div className="rounded-3xl border-2 border-emerald-500/40 bg-[#0d1614]/95 p-6 sm:p-8 text-center shadow-2xl shadow-emerald-500/20 backdrop-blur-xl">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/20 border border-emerald-500/30 text-3xl shadow-lg shadow-emerald-500/20 animate-pulse">
               🎉
             </div>
-            <h1 className="mb-2 text-2xl font-black text-white">
+            <h1 className="mb-1 text-2xl sm:text-3xl font-black text-white">
               {isEn ? "Order Registered Successfully!" : "سجّلنا طلبك بنجاح!"}
             </h1>
-            <p className="mb-5 text-xs sm:text-sm leading-relaxed text-neutral-300">
-              {isEn ? (
-                <>
-                  One final quick step: transfer{" "}
-                  <b className="text-emerald-400 font-mono">{totalPrice} EGP</b> and send us the
-                  payment screenshot. We will activate your account within {paymentConfig.activationHours} hours.
-                </>
-              ) : (
-                <>
-                  خطوة واحدة فقط باقية: حوّل{" "}
-                  <b className="text-emerald-400 font-mono">{totalPrice} ج.م</b> وأرسل لنا صورة
-                  التحويل، وسنفعّل حسابك فورًا خلال {paymentConfig.activationHours} ساعة.
-                </>
-              )}
+            <p className="text-xs text-emerald-400 font-bold mb-5 flex items-center justify-center gap-1.5">
+              <span>⏳</span>
+              <span>{isEn ? "Status: Pending Transfer Verification" : "الحالة: في انتظار التحويل وتأكيد العملية"}</span>
             </p>
 
-            <div className="mb-5 rounded-2xl border border-white/10 bg-white/5 p-4 text-start">
-              <p className="mb-2 text-xs font-bold text-neutral-400">
-                {isEn ? "When sending confirmation, include:" : "عند إرسال الإثبات، اكتب معه:"}
-              </p>
-              <ul className="space-y-1.5 text-xs text-neutral-200">
-                <li>
-                  • {isEn ? "Email:" : "الإيميل:"}{" "}
-                  <b dir="ltr" className="text-emerald-300">
-                    {email}
-                  </b>
-                </li>
-                <li>
-                  • {productType === "career_path" ? (isEn ? "Career Path:" : "المسار المهني:") : (isEn ? "Track:" : "المسار:")}{" "}
-                  <b className="text-white">{currentTitle}</b>
-                </li>
-                <li>
-                  • {isEn ? "Amount:" : "المبلغ:"}{" "}
-                  <b className="font-mono text-emerald-400">
-                    {totalPrice} {isEn ? "EGP" : "ج.م"}{" "}
-                    {withOrderBump
-                      ? isEn
-                        ? "(Includes 10,000 Prompts Database & Legal Contracts VIP)"
-                        : "(شامل قاعدة بيانات الـ 10,000 برومبت وعقود الفريلانس VIP)"
-                      : ""}
-                  </b>
-                </li>
-                <li>• {isEn ? "Sender Phone / Wallet Number" : "الرقم أو المحفظة المحوّل منها"}</li>
-              </ul>
+            {/* Structured Order Information Card */}
+            <div className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-4 text-start space-y-2.5 text-xs">
+              <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                <span className="text-neutral-400 font-bold">{isEn ? "Order Reference:" : "رقم الطلب:"}</span>
+                <span className="font-mono font-black text-emerald-300 text-sm">{displayOrderId}</span>
+              </div>
+              <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                <span className="text-neutral-400 font-bold">{isEn ? "Product:" : "المنتج:"}</span>
+                <span className="font-bold text-white max-w-[200px] truncate text-end">{currentTitle}</span>
+              </div>
+              <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                <span className="text-neutral-400 font-bold">{isEn ? "Amount to Transfer:" : "المبلغ المطلوب:"}</span>
+                <span className="font-mono font-black text-emerald-400 text-base">{totalPrice} {isEn ? "EGP" : "ج.م"}</span>
+              </div>
+              <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                <span className="text-neutral-400 font-bold">{isEn ? "Registered Email:" : "الإيميل المسجل:"}</span>
+                <span className="font-mono text-neutral-200" dir="ltr">{email}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-neutral-400 font-bold">{isEn ? "Selected Method:" : "طريقة الدفع:"}</span>
+                <span className="font-bold text-neutral-200">{method === "vodafone_cash" ? "فودافون كاش" : "إنستاباي"}</span>
+              </div>
             </div>
 
+            {/* Next Steps List */}
+            <div className="mb-6 rounded-2xl bg-black/40 border border-emerald-500/20 p-4 text-start">
+              <p className="text-xs font-black text-emerald-300 mb-2.5 flex items-center gap-1.5">
+                <span>📋</span>
+                <span>{isEn ? "Next Steps to Complete Activation:" : "الخطوات المتبقية لتفعيل حسابك:"}</span>
+              </p>
+              <ol className="space-y-2 text-xs text-neutral-300 leading-relaxed list-decimal list-inside">
+                <li>
+                  {isEn
+                    ? `Transfer exactly ${totalPrice} EGP to the official account.`
+                    : `قم بتحويل مبلغ ${totalPrice} ج.م بدقة إلى الرقم أو الحساب المحدد.`}
+                </li>
+                <li>
+                  {isEn
+                    ? "Click the button below to send your screenshot on WhatsApp (pre-filled with your order ID)."
+                    : "اضغط الزر بالأسفل لإرسال لقطة شاشة التحويل عبر واتساب (الرسالة مجهزة تلقائيًا برقم طلبك)."}
+                </li>
+                <li>
+                  {isEn
+                    ? `Our team verifies and unlocks your dashboard within ${paymentConfig.activationHours} hours.`
+                    : `يقوم فريقنا بمطابقة العملية وتفعيل وصولك الكامل فورًا خلال ${paymentConfig.activationHours} ساعة.`}
+                </li>
+              </ol>
+            </div>
+
+            {/* 1-Click WhatsApp Support / Proof Button */}
             <a
-              href={
-                proofChannel === "whatsapp"
-                  ? waLink(paymentConfig.supportWhatsapp)
-                  : `mailto:${paymentConfig.supportEmail}?subject=${encodeURIComponent(
-                      "Payment Proof - " + (currentTitle ?? "")
-                    )}&body=${encodeURIComponent(
-                      `Email: ${email}\nProduct: ${currentTitle ?? ""}\nAmount: ${totalPrice} EGP\nSender Phone: `
-                    )}`
-              }
+              href={waHref}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackWhatsAppSupportClicked(createdOrderId, "checkout_order_proof")}
               className="mb-3 block w-full rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 py-4 font-black text-neutral-950 shadow-xl shadow-emerald-500/25 hover:brightness-110 active:scale-98 transition-all text-sm"
             >
-              {proofChannel === "whatsapp"
-                ? isEn
-                  ? "Send Screenshot on WhatsApp →"
-                  : "ابعت الإثبات على واتساب الآن ←"
-                : isEn
-                ? "Send Screenshot via Email →"
-                : "ابعت الإثبات بالإيميل الآن ←"}
+              <span>💬 </span>
+              <span>{isEn ? "Send Screenshot on WhatsApp (Pre-Filled) →" : "إرسال إثبات التحويل عبر واتساب الآن ←"}</span>
             </a>
+
             <button
               onClick={() => router.push(`/login?email=${encodeURIComponent(email)}`)}
               className="w-full rounded-full border border-white/15 py-3 text-xs sm:text-sm font-bold text-neutral-300 hover:bg-white/5 transition-colors"
             >
-              {isEn ? "Create / Access My Account Now" : "أنشئ حسابي الآن"}
+              {isEn ? "Access My Account & Dashboard" : "الدخول إلى حسابي ومتابعة التفعيل"}
             </button>
           </div>
         </div>
@@ -1012,7 +1035,10 @@ export default function CheckoutForm({
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
-                onClick={() => setMethod("vodafone_cash")}
+                onClick={() => {
+                  setMethod("vodafone_cash");
+                  trackPaymentMethodSelected("vodafone_cash", totalPrice);
+                }}
                 className={`flex flex-col items-center justify-center p-3 rounded-2xl border-2 transition-all cursor-pointer ${
                   method === "vodafone_cash"
                     ? "border-emerald-400 bg-emerald-950/40 text-white shadow-md shadow-emerald-500/10"
@@ -1027,7 +1053,10 @@ export default function CheckoutForm({
 
               <button
                 type="button"
-                onClick={() => setMethod("instapay")}
+                onClick={() => {
+                  setMethod("instapay");
+                  trackPaymentMethodSelected("instapay", totalPrice);
+                }}
                 className={`flex flex-col items-center justify-center p-3 rounded-2xl border-2 transition-all cursor-pointer ${
                   method === "instapay"
                     ? "border-emerald-400 bg-emerald-950/40 text-white shadow-md shadow-emerald-500/10"

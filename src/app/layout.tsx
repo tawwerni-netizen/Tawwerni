@@ -122,6 +122,24 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 document.cookie='tawwerni_ref='+encodeURIComponent(cleanRef)+';path=/;max-age=2592000;SameSite=Lax';
                 localStorage.setItem('tawwerni_ref',cleanRef);
               }
+
+              var utmKeys=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'];
+              var utmData={};
+              var foundUtm=false;
+              for(var k=0;k<utmKeys.length;k++){
+                var key=utmKeys[k];
+                var val=u.get(key);
+                if(val){
+                  utmData[key]=val.slice(0,80);
+                  foundUtm=true;
+                }
+              }
+              if(foundUtm){
+                var utmJson=JSON.stringify(utmData);
+                document.cookie='tawwerni_utm='+encodeURIComponent(utmJson)+';path=/;max-age=2592000;SameSite=Lax';
+                localStorage.setItem('tawwerni_utm',utmJson);
+                sessionStorage.setItem('tawwerni_utm',utmJson);
+              }
             }catch(e){document.documentElement.dataset.theme='dark';document.documentElement.classList.add('dark');}})();`,
           }}
         />

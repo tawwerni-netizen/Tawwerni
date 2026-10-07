@@ -122,3 +122,32 @@ export function trackCertificateEarned(courseSlug: string) {
 export function trackReferralShared(channel: "whatsapp" | "native" | "copy") {
   google()?.("event", "referral_shared", { channel });
 }
+
+/** Someone selected a payment method (Vodafone Cash vs InstaPay). */
+export function trackPaymentMethodSelected(method: string, valueEgp: number) {
+  google()?.("event", "payment_method_selected", { method, value: valueEgp, currency: CURRENCY });
+}
+
+/** Someone viewed or copied account transfer instructions. */
+export function trackPaymentInstructionsViewed(method: string, valueEgp: number) {
+  google()?.("event", "payment_instructions_viewed", { method, value: valueEgp, currency: CURRENCY });
+}
+
+/** Order submitted to backend, awaiting customer funds transfer. */
+export function trackPaymentInitiated(method: string, valueEgp: number, productType: string, orderId?: string) {
+  google()?.("event", "payment_initiated", {
+    method,
+    value: valueEgp,
+    currency: CURRENCY,
+    product_type: productType,
+    order_id: orderId,
+  });
+}
+
+/** Customer clicked 1-click WhatsApp support or proof transmission. */
+export function trackWhatsAppSupportClicked(orderId?: string, source?: string) {
+  google()?.("event", "whatsapp_support_clicked", {
+    order_id: orderId,
+    source: source || "checkout",
+  });
+}

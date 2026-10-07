@@ -31,6 +31,7 @@ export async function POST(request: Request) {
     method,
     proofChannel,
     withOrderBump,
+    utm,
   } = await readJson(request);
 
   if (typeof email !== "string" || !email.includes("@")) {

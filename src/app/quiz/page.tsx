@@ -277,6 +277,11 @@ export default function QuizPage() {
   }, [primarySlug]);
   const primaryCareerPath = relatedCareerPaths[0]?.careerPath;
 
+  const selectedGoalDef = useMemo(() => {
+    const goalQ = quizQuestions.find((q) => q.id === "goal");
+    return goalQ?.options.find((o) => o.value === answers["goal"]);
+  }, [answers]);
+
   function next() {
     setStepIndex((i) => Math.min(steps.length - 1, i + 1));
   }
@@ -714,6 +719,45 @@ export default function QuizPage() {
                     : "تشخيصك يثبت أنك جاهز لتحويل ١٠ إلى ١٥ دقيقة يومياً من التطبيق المباشر إلى مهارة قوية قابلة للتسييل وبناء السمعة المهنية."}
                 </p>
               </div>
+            </div>
+
+            {/* Clear Strategic Recommendation Rationale ("Why this recommendation") */}
+            <div className="rounded-3xl bg-gradient-to-br from-teal-950/60 via-[#0d1c18] to-emerald-950/40 border-2 border-teal-500/40 p-5 sm:p-6 mb-5 text-start shadow-xl shadow-teal-500/10 relative overflow-hidden">
+              <div className="flex items-center gap-2 mb-2.5">
+                <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-teal-500/20 text-teal-300 text-sm">
+                  🎯
+                </span>
+                <span className="text-xs font-black text-teal-300 uppercase tracking-wider">
+                  {isEn ? "Why This Exact Recommendation For You?" : "لماذا هذا الترشيح تحديدًا لخطة نجاحك؟"}
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-neutral-200 leading-relaxed font-medium">
+                {isEn ? (
+                  <>
+                    Because your stated priority is{" "}
+                    <b className="text-white">
+                      &ldquo;{selectedGoalDef?.labelEn || "Mastering high-impact skills"}&rdquo;
+                    </b>
+                    , the essential foundational skill you need first is{" "}
+                    <b className="text-emerald-300">
+                      &ldquo;{primaryTrack?.titleEn || archetype.titleEn}&rdquo;
+                    </b>
+                    . Instead of getting overwhelmed by dozens of scattered tutorials, Day 1 gives you a focused 10-minute micro-mission so you experience real momentum today.
+                  </>
+                ) : (
+                  <>
+                    لأنك حددت أولويتك الأساسية:{" "}
+                    <b className="text-white">
+                      «{selectedGoalDef?.label || "تطوير مهارات عملية جديدة"}»
+                    </b>
+                    ، فإن المهارة الأولى والحاسمة التي تحتاج لإتقانها أولاً هي:{" "}
+                    <b className="text-emerald-300">
+                      «{primaryTrack?.titleAr || archetype.title}»
+                    </b>
+                    . وبدل التشتت بين مئات الفيديوهات والمصادر غير المرتبة، اليوم الأول يضعك أمام مهمة تطبيقية واحدة مدتها ١٠ دقائق لتخرج بأول نتيجة حقيقية بيدك اليوم.
+                  </>
+                )}
+              </p>
             </div>
 
             {/* Archetype Profile Card */}
