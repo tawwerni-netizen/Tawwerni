@@ -84,7 +84,7 @@ export default function LandingPageView() {
               className="text-xs font-bold text-indigo-800 dark:text-indigo-300 hover:bg-indigo-500/20 transition-all hidden md:inline-flex items-center gap-1.5 bg-indigo-500/10 border border-indigo-500/25 px-3 py-1.5 rounded-full shadow-xs"
             >
               <span>👥</span>
-              <span>{isEn ? "Community (300+)" : "المجتمع (٣٠٠+)"}</span>
+              <span>{isEn ? "Practical Projects" : "مشاريع عملية"}</span>
             </Link>
           </div>
 
@@ -940,7 +940,7 @@ export default function LandingPageView() {
           </div>
         </div>
 
-        {/* ---------- 5. COMMUNITY OF 300+ MEMBERS ---------- */}
+        {/* ---------- 5. PRACTICAL PROJECTS SHOWCASE ---------- */}
         <section className="mb-16">
           <div className="rounded-3xl border border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 p-6 md:p-8 shadow-sm">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">

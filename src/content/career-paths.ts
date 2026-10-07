@@ -487,7 +487,7 @@ export const CAREER_PATHS: CareerPath[] = [
         titleAr: "المرحلة الثالثة: قمع المبيعات وأتمتة البريد الإلكتروني",
         titleEn: "Stage 3: Sales Funnels & Email Retention",
         descriptionAr: "تحويل الزائر العابر إلى مشترٍ متكرر، مضاعفة معدل التحويل، وبناء أصول التسويق الذاتي.",
-        descriptionEn: "Maximize customer lifetime value through high-converting funnels and automated flows.",
+        descriptionEn: "Maximize customer value and retention through high-converting funnels and automated flows.",
         tracks: [
           {
             trackSlug: "sales-funnels-cro",

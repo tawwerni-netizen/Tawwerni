@@ -16,7 +16,7 @@ export const ar = {
   logout: "تسجيل الخروج",
   startNow: "ابدأ الآن مجاناً",
   subscribe: "اشترك الآن",
-  lifetimeAccess: "وصول لمدة سنة",
+  yearlyAccess: "وصول لمدة سنة",
 
   // Psychological & Mindset
   focusMode: "وضع التركيز والتدفق",
@@ -84,12 +84,12 @@ export const ar = {
   freeFirstDay: "اليوم الأول متاح مجاناً",
 
   // Community & Social Proof
-  communityTitle: "قصص نجاح من مجتمع طوّرني",
-  communitySubtitle: "أكثر من 300 عضو حقيقي يطورون مهاراتهم يومياً بدون تسويف",
+  communityTitle: "مشاريع عملية ومخرجات حقيقية",
+  communitySubtitle: "نماذج تطبيقية ومهام عملية ينجزها المتعلمون عبر مسارات طوّرني",
   filterByTrack: "فلترة حسب التخصص",
-  verifiedLearner: "عضو موثق",
-  readStory: "اقرأ التجربة",
-  ratingStars: "تقييم 5 نجوم",
+  verifiedLearner: "مشروع تطبيقي",
+  readStory: "عرض تفاصيل المشروع",
+  ratingStars: "تقييم عملي",
 
   // Coach "Faheem"
   askCoach: "تحدث مع فهيم (المدرب الذكي)",
@@ -134,7 +134,7 @@ export const en: Translations = {
   logout: "Sign Out",
   startNow: "Start Free",
   subscribe: "Unlock Everything",
-  lifetimeAccess: "1-Year Access",
+  yearlyAccess: "1-Year Access",
 
   // Psychological & Mindset
   focusMode: "Focus & Flow Mode",
@@ -202,12 +202,12 @@ export const en: Translations = {
   freeFirstDay: "Day 1 is completely free",
 
   // Community & Social Proof
-  communityTitle: "Success Stories from Tawwerni Community",
-  communitySubtitle: "Over 300 authentic members upskilling daily without burnout",
+  communityTitle: "Practical Projects & Deliverables",
+  communitySubtitle: "Hands-on projects and deliverables built across Tawwerni tracks",
   filterByTrack: "Filter by Discipline",
-  verifiedLearner: "Verified Member",
-  readStory: "Read Story",
-  ratingStars: "5-Star Review",
+  verifiedLearner: "Capstone Project",
+  readStory: "View Project Details",
+  ratingStars: "Applied Evaluation",
 
   // Coach "Faheem"
   askCoach: "Chat with Faheem (AI Coach)",
