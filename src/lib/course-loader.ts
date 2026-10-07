@@ -3,6 +3,7 @@ import { allCourses, getCourseBySlug } from "@/content/courses";
 import type { CourseDefinition, LessonContent, ModuleContent } from "@/content/course-types";
 import type { Card } from "@/components/LessonPlayer";
 import { generateUniversalTrackQuiz } from "./dynamic-quiz-engine";
+import { getDayArchetype } from "@/content/day-archetypes";
 
 export type UniversalLesson = {
   id: string;
@@ -210,8 +211,10 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
       const outcomeAr = track.outcomesAr[outcomeIndex] || track.titleAr;
       const outcomeEn = track.outcomesEn[outcomeIndex] || track.titleEn;
 
-      let titleAr = `يوم ${day}: خطوة عملية في ${track.titleAr}`;
-      let titleEn = `Day ${day}: Practical Step in ${track.titleEn}`;
+      const archetype = getDayArchetype(day, totalLessons);
+
+      let titleAr = `يوم ${day}: ${archetype.titleAr} (${outcomeAr})`;
+      let titleEn = `Day ${day}: ${archetype.titleEn} (${outcomeEn})`;
 
       if (day === 1) {
         titleAr = `اليوم الأول: خارطة طريق ${track.titleAr} وتثبيت الأساس`;
@@ -220,97 +223,16 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
         titleAr = `اليوم الأخير: تسليم المشروع والتخرج بشهادة إتمام رقمية موثقة`;
         titleEn = `Final Day: Project Capstone & Verifiable Completion Certificate`;
       } else if (isCheckpoint) {
-        titleAr = `محطة المراجعة والتطبيق: قياس التطور في ${outcomeAr}`;
-        titleEn = `Milestone Review: Progress Assessment in ${outcomeEn}`;
-      } else {
-        const subTopicsAr = [
-          `تطبيق تقنية ${outcomeAr}`,
-          `حل المعضلات الشائعة وسرعة التنفيذ`,
-          `أتمتة الخطوات المكررة وتوفير الساعات`,
-          `اختبار المخرجات وفق أعلى المعايير`,
-          `دمج الأدوات في تدفق عمل واحد سلس`,
-          `تجهيز نموذج العرض والمشاركة مع الفريق`,
-        ];
-        const subTopicsEn = [
-          `Mastering: ${outcomeEn}`,
-          `Overcoming Pitfalls & Execution Speed`,
-          `Automating Repetitive Tasks & Saving Hours`,
-          `Benchmarking Outputs with Industry Standards`,
-          `Integrating Tools into One Cohesive Pipeline`,
-          `Packaging Deliverables for Clients & Team`,
-        ];
-        const subIdx = (day - 2) % subTopicsAr.length;
-        titleAr = `يوم ${day}: ${subTopicsAr[subIdx]}`;
-        titleEn = `Day ${day}: ${subTopicsEn[subIdx]}`;
+        titleAr = `محطة المراجعة والتطبيق: ${archetype.titleAr}`;
+        titleEn = `Milestone Review: ${archetype.titleEn}`;
       }
-
-      const moduleStepsAr = [
-        [
-          `١. افتح مساحة عملك وجهز بيئة التدريب لتطبيق "${outcomeAr}" في دقائق معدودة.`,
-          `٢. ابدأ بنسخة أولية مبسطة تركز على المفهوم الجوهري وتمنحك أول إنجاز ملموس اليوم.`,
-          `٣. دوّن ملاحظاتك الأولى عن المخرجات وقارنها بالمعايير المهنية المتبعة في ${track.titleAr}.`,
-          `٤. ركّز على كسر حاجز البداية؛ 10 دقائق من التنفيذ الحقيقي تهزم ساعات من التردد والتنظير.`,
-        ],
-        [
-          `١. ادمج الأدوات المتخصصة في ${track.titleAr} لبناء تدفق عمل شبه آلي حول "${outcomeAr}".`,
-          `٢. طبّق أفضل الممارسات وضبط المتغيرات للحصول على مخرجات دقيقة وتجنب الهدر والبطء.`,
-          `٣. احفظ الأوامر والقوالب الناجحة في مكتبتك الشخصية لتختصر وقت العمل في المستقبل.`,
-          `٤. اختبر حدود الأداة واكتشف الحالات الاستثنائية لتبني فهماً عميقاً يتجاوز الاستخدام السطحي.`,
-        ],
-        [
-          `١. حوّل تطبيقك لـ "${outcomeAr}" إلى جزء متكامل من مشروع حقيقي يحاكي طلبات سوق العمل.`,
-          `٢. أجرِ اختباراً شاملاً للتأكد من خلو المخرج من الأخطاء وجاهزيته للعرض أمام العملاء.`,
-          `٣. جهّز ملف التوثيق ودراسة الحالة التي تبرز القيمة العملية التي بنيتها بيدك.`,
-          `٤. اطلب مراجعة أو قارن مخرجك بالنموذج الذهبي لتضمن وصولك لمستوى الاحتراف الكامل.`,
-        ],
-        [
-          `١. حدد القيمة التجارية لـ "${outcomeAr}" وكيف تترجمها لعرض عمل أو تسعير مجزٍ للعملاء.`,
-          `٢. صغ مقترحاً أو دراسة حالة تركز على حل المشكلات وخفض التكاليف للمستفيد النهائي.`,
-          `٣. ضع نظاماً أسبوعياً لمتابعة تحديثات ${track.titleAr} وتطوير خدماتك باستمرار.`,
-          `٤. وثّق إنجازاتك في بورتفوليو احترافي لتبني سمعة مهنية تجذب إليك أفضل الفرص.`,
-        ],
-      ];
-
-      const moduleStepsEn = [
-        [
-          `1. Configure your workspace and eliminate setup friction to apply "${outcomeEn}" rapidly.`,
-          `2. Build a minimal viable prototype focused strictly on the core mechanic for today's win.`,
-          `3. Benchmark initial outputs against industry standards in ${track.titleEn}.`,
-          `4. Value momentum over hesitation — 10 minutes of execution outperforms hours of overthinking.`,
-        ],
-        [
-          `1. Integrate dedicated toolchains in ${track.titleEn} into an automated pipeline for "${outcomeEn}".`,
-          `2. Calibrate parameters and apply production safeguards to ensure pristine output quality.`,
-          `3. Save battle-tested templates and scripts into your vault to compound your daily velocity.`,
-          `4. Stress-test edge cases to build architectural depth beyond superficial tool familiarity.`,
-        ],
-        [
-          `1. Contextualize your work in "${outcomeEn}" into a client-grade deliverable addressing real needs.`,
-          `2. Conduct end-to-end regression testing to ensure your build is deployment-ready.`,
-          `3. Document architectural decisions and measurable metrics to construct an authoritative case study.`,
-          `4. Audit outputs against the golden standard benchmark to ensure 100/100 workplace fidelity.`,
-        ],
-        [
-          `1. Articulate the commercial ROI of "${outcomeEn}" to command premium service rates.`,
-          `2. Frame proposals around quantifiable client risk reduction and operational cost savings.`,
-          `3. Institute recurring weekly sprints to benchmark newly emerging updates in ${track.titleEn}.`,
-          `4. Publish deliverables to your portfolio to build magnetic inbound professional reputation.`,
-        ],
-      ];
-
-      const activeStepsAr = moduleStepsAr[Math.min(mIdx, moduleStepsAr.length - 1)];
-      const activeStepsEn = moduleStepsEn[Math.min(mIdx, moduleStepsEn.length - 1)];
 
       const cardsAr: Card[] = [
         {
           type: "info",
-          heading: `المفهوم الجوهري: ${outcomeAr}`,
+          heading: `المفهوم الجوهري: ${archetype.subTopicAr}`,
           body: {
-            lines: [
-              `الهدف الأساسي من خطوة اليوم هو إتقان: ${outcomeAr}.`,
-              `لا تحتاج لساعات طويلة من التنظير؛ القاعدة الذهبية هي التركيز على خطوة واحدة واضحة وقابلة للقياس والتنفيذ الفوري.`,
-              `الأدوات والتقنيات تتغير باستمرار، لكن المبادئ المنهجية التي تكتسبها هنا تمنحك ميزة تنافسية دائمة في ${track.titleAr}.`,
-            ],
+            lines: archetype.coreConceptAr(track.titleAr, outcomeAr),
             tools: [track.titleEn.split(" ")[0]],
           },
         },
@@ -318,30 +240,22 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
           type: "info",
           heading: `خطوات التنفيذ العملي خطوة بخطوة`,
           body: {
-            lines: activeStepsAr,
+            lines: archetype.stepsAr(track.titleAr, outcomeAr),
           },
         },
         {
           type: "info",
           heading: `الحقيقة الواقعية وتجنب الفخاخ`,
           body: {
-            lines: [
-              `⚠️ تذكر دائماً: ${track.realityAr}`,
-              `الشعور بالتردد أو الصعوبة في البداية طبيعي تماماً ويصيب كل من يتعلم مهارة جديدة ومتطورة.`,
-              `الاستمرار اليومي لمدة 5 إلى 15 دقيقة يمنحك نتائج تراكمية مضاعفة 10 مرات مقارنة بحماس يوم واحد ينقطع بعده.`,
-            ],
+            lines: archetype.pitfallAr(track.realityAr),
           },
         },
         {
           type: "task",
-          heading: `تحدي اليوم التطبيقي (5 دقائق)`,
+          heading: `تحدي اليوم التطبيقي (5-10 دقائق)`,
           body: {
-            instructions: [
-              `قم بتنفيذ تمرين اليوم العملي حول: "${outcomeAr}".`,
-              `سجل النتيجة أو خذ لقطة شاشة لإنجازك لتثبيت العادة في عقلك وترسيخ المهارة.`,
-              `اضغط على زر إتمام الكويز بالأسفل لتثبيت تقدمك وحصد نقاط الـ XP.`,
-            ],
-            prompt: `كيف أطبّق ${outcomeAr} بأفضل الممارسات المتبعة في عام 2026 في ${track.titleAr}؟`,
+            instructions: archetype.challengeAr(outcomeAr),
+            prompt: archetype.promptQuery(track.titleAr, outcomeAr),
           },
         },
       ];
@@ -349,13 +263,9 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
       const cardsEn: Card[] = [
         {
           type: "info",
-          heading: `Core Concept: ${outcomeEn}`,
+          heading: `Core Concept: ${archetype.subTopicEn}`,
           body: {
-            lines: [
-              `The primary objective of today's lesson is mastering: ${outcomeEn}.`,
-              `You do not need endless hours of theory; the proven standard is focused, measurable, and rapid execution.`,
-              `While tools and software evolve constantly, the architectural thinking and workflow discipline you build here give you a permanent competitive edge in ${track.titleEn}.`,
-            ],
+            lines: archetype.coreConceptEn(track.titleEn, outcomeEn),
             tools: [track.titleEn.split(" ")[0]],
           },
         },
@@ -363,30 +273,22 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
           type: "info",
           heading: `Step-by-Step Practical Blueprint`,
           body: {
-            lines: activeStepsEn,
+            lines: archetype.stepsEn(track.titleEn, outcomeEn),
           },
         },
         {
           type: "info",
           heading: `Industry Reality & Pitfall Avoidance`,
           body: {
-            lines: [
-              `⚠️ Pro Reality Check: ${track.realityEn}`,
-              `Feeling cognitive resistance or friction when adopting a new workflow is completely normal — it indicates real skill acquisition.`,
-              `Consistent 5 to 15-minute daily focused practice yields 10x higher compounding returns than sporadic, exhausting marathon sessions.`,
-            ],
+            lines: archetype.pitfallEn(track.realityEn),
           },
         },
         {
           type: "task",
-          heading: `Today's Hands-on Challenge (5-10 Minutes)`,
+          heading: `Today's Practical Mission (5-10 Minutes)`,
           body: {
-            instructions: [
-              `Execute today's practical exercise focusing on: "${outcomeEn}".`,
-              `Save your deliverable or screenshot your completed workflow to lock in muscle memory.`,
-              `Click the quiz button below to test your understanding, lock in your progress, and claim your XP.`,
-            ],
-            prompt: `How do I apply ${outcomeEn} using modern industry best practices and automated workflows in ${track.titleEn}?`,
+            instructions: archetype.challengeEn(outcomeEn),
+            prompt: `How do I master ${outcomeEn} and apply ${archetype.subTopicEn} in ${track.titleEn}?`,
           },
         },
       ];

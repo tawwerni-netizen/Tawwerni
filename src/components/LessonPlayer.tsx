@@ -512,13 +512,13 @@ export default function LessonPlayer(props: Props) {
           )}
           <button
             onClick={phase === "cards" ? nextCard : () => setPhase("quiz")}
-            className="flex-1 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 hover:from-emerald-300 hover:via-teal-200 hover:to-emerald-300 text-neutral-950 font-black rounded-full py-3.5 text-sm shadow-xl shadow-emerald-500/25 active:scale-98 transition-all cursor-pointer"
+            className="flex-1 bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 hover:from-emerald-300 hover:via-teal-200 hover:to-cyan-300 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-[0_0_28px_rgba(45,212,191,0.5)] hover:shadow-[0_0_42px_rgba(45,212,191,0.75)] hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer border-2 border-emerald-200/60 flex items-center justify-center gap-2"
           >
             {phase === "quizIntro"
-              ? (isEn ? "Start Quiz →" : "ابدأ الكويز ←")
+              ? (isEn ? "Start Quiz ➔" : "ابدأ الكويز ➔")
               : card.type === "task"
-              ? (isEn ? "Take Quiz →" : "ابدأ الكويز ←")
-              : (isEn ? "Next Card →" : "التالي ‹")}
+              ? (isEn ? "Take Quiz ➔" : "ابدأ الكويز ➔")
+              : (isEn ? "Next Card ➔" : "النقطة التالية ➔")}
           </button>
         </div>
       )}
@@ -527,10 +527,10 @@ export default function LessonPlayer(props: Props) {
         <div className="lesson-actions px-4 pb-4 pt-3 border-t border-black/5 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md">
           <button
             onClick={nextQuestion}
-            className="w-full bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 hover:from-emerald-300 hover:via-teal-200 hover:to-emerald-300 text-neutral-950 font-black rounded-full py-3.5 text-sm shadow-xl shadow-emerald-500/25 active:scale-98 transition-all cursor-pointer"
+            className="w-full bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 hover:from-emerald-300 hover:via-teal-200 hover:to-cyan-300 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-[0_0_28px_rgba(45,212,191,0.5)] hover:shadow-[0_0_42px_rgba(45,212,191,0.75)] hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer border-2 border-emerald-200/60"
           >
             {qIndex < quiz.length - 1
-              ? (isEn ? "Next Question →" : "السؤال التالي ‹")
+              ? (isEn ? "Next Question ➔" : "السؤال التالي ➔")
               : (isEn ? "View Results 🎉" : "شوف النتيجة 🎉")}
           </button>
         </div>

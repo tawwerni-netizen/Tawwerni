@@ -119,7 +119,7 @@ export const TRACKS_1_50: Track100[] = [
     descriptionEn: "Cut your workday in half by automating emails, reports, summaries, and meeting notes.",
     levelAr: "مبتدئ",
     levelEn: "Beginner",
-    totalLessons: 18,
+    totalLessons: 17,
     durationHours: 2.5,
     totalXp: 1500,
     icon: "⏱️",

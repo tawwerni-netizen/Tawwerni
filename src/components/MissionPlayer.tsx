@@ -392,9 +392,9 @@ export default function MissionPlayer({
             <button
               type="button"
               onClick={() => changeStage("learn")}
-              className="w-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/25 hover:brightness-110 active:scale-98 transition-all cursor-pointer flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 hover:from-emerald-300 hover:via-teal-200 hover:to-cyan-300 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-[0_0_28px_rgba(45,212,191,0.45)] hover:shadow-[0_0_42px_rgba(45,212,191,0.7)] hover:scale-[1.01] active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 border-2 border-emerald-200/60"
             >
-              <span>{isEn ? "I Understand the Objective → Continue to Framework" : "فهمت الهدف والمخرج المطلوب ➔ استمر للشرح العملي"}</span>
+              <span>{isEn ? "I Understand the Objective → Continue to Framework" : "فهمت الهدف والمخرج المطلوب ➔ استمر للشرح العملي 💡"}</span>
             </button>
           </div>
         )}
@@ -441,19 +441,24 @@ export default function MissionPlayer({
                 <button
                   type="button"
                   onClick={() => setLearnCardIdx((i) => i + 1)}
-                  className="flex-1 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 hover:from-emerald-300 hover:via-teal-200 hover:to-emerald-300 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2 group border border-emerald-300/40"
+                  className="flex-1 bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 hover:from-emerald-300 hover:via-teal-200 hover:to-cyan-300 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-[0_0_28px_rgba(45,212,191,0.5)] hover:shadow-[0_0_45px_rgba(45,212,191,0.75)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 group border-2 border-emerald-200/60 ring-2 ring-emerald-400/20"
                 >
-                  <span className="transition-transform group-hover:translate-x-0.5 duration-200">
+                  <span className="text-base group-hover:scale-125 transition-transform duration-200">✨</span>
+                  <span className="tracking-tight text-neutral-950 font-black">
                     {isEn ? "Next Point →" : "النقطة التالية ➔"}
+                  </span>
+                  <span className="inline-block transition-transform group-hover:translate-x-1 duration-200 font-bold">
+                    ➔
                   </span>
                 </button>
               ) : (
                 <button
                   type="button"
                   onClick={() => changeStage("example")}
-                  className="flex-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/25 hover:brightness-110 transition active:scale-98 cursor-pointer"
+                  className="flex-1 bg-gradient-to-r from-amber-400 via-yellow-300 to-emerald-400 hover:from-amber-300 hover:via-yellow-200 hover:to-emerald-300 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-[0_0_30px_rgba(251,191,36,0.45)] hover:shadow-[0_0_45px_rgba(251,191,36,0.7)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 group border-2 border-amber-200/60"
                 >
-                  {isEn ? "Continue to Golden Benchmark Example →" : "استمر لرؤية النموذج الذهبي المعياري ➔"}
+                  <span className="text-base group-hover:rotate-12 transition-transform duration-200">💎</span>
+                  <span>{isEn ? "Continue to Golden Benchmark Example →" : "استمر لرؤية النموذج الذهبي المعياري ➔"}</span>
                 </button>
               )}
             </div>
@@ -496,9 +501,10 @@ export default function MissionPlayer({
             <button
               type="button"
               onClick={() => changeStage("practice")}
-              className="w-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/25 hover:brightness-110 active:scale-98 transition-all cursor-pointer"
+              className="w-full bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 hover:from-emerald-300 hover:via-teal-200 hover:to-cyan-300 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-[0_0_30px_rgba(45,212,191,0.45)] hover:shadow-[0_0_45px_rgba(45,212,191,0.7)] hover:scale-[1.01] active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 group border-2 border-emerald-200/60"
             >
-              {isEn ? "Ready to Produce My Deliverable →" : "جاهز للتطبيق وإنتاج المخرج بنفسي ➔"}
+              <span className="text-base group-hover:rotate-12 transition-transform duration-200">🛠️</span>
+              <span>{isEn ? "Ready to Produce My Deliverable →" : "جاهز للتطبيق وإنتاج المخرج بنفسي ➔"}</span>
             </button>
           </div>
         )}
@@ -579,9 +585,9 @@ export default function MissionPlayer({
               type="button"
               disabled={submitting}
               onClick={handleEvaluate}
-              className="w-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/30 hover:brightness-110 active:scale-98 transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 hover:from-emerald-300 hover:via-teal-200 hover:to-cyan-300 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-[0_0_30px_rgba(45,212,191,0.5)] hover:shadow-[0_0_45px_rgba(45,212,191,0.75)] hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2 border-2 border-emerald-200/60"
             >
-              <span>🚀</span>
+              <span className="text-lg">🚀</span>
               <span>{isEn ? "Submit for AI Evaluation →" : "إرسال للتفتيش والتقييم الذكي ➔"}</span>
             </button>
           </div>
@@ -658,7 +664,7 @@ export default function MissionPlayer({
             <button
               type="button"
               onClick={() => changeStage("practice")}
-              className="w-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-amber-500/20 hover:brightness-110 active:scale-98 transition-all cursor-pointer"
+              className="w-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 hover:from-amber-300 hover:via-yellow-200 hover:to-amber-300 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-[0_0_30px_rgba(251,191,36,0.45)] hover:shadow-[0_0_45px_rgba(251,191,36,0.7)] hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer border-2 border-amber-200/60"
             >
               {isEn ? "Try Again (Refine Deliverable) 🔄" : "أعد المحاولة وطبّق الملاحظات (TRY AGAIN) 🔄"}
             </button>
@@ -749,14 +755,14 @@ export default function MissionPlayer({
               {nextDayNumber ? (
                 <Link
                   href={`/app/learn/${mission.slug}/${nextDayNumber}`}
-                  className="block w-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/25 hover:brightness-110 active:scale-98 transition-all"
+                  className="block w-full bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 hover:from-emerald-300 hover:via-teal-200 hover:to-cyan-300 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-[0_0_35px_rgba(45,212,191,0.5)] hover:shadow-[0_0_50px_rgba(45,212,191,0.75)] hover:scale-[1.01] active:scale-98 transition-all text-center border-2 border-emerald-200/60"
                 >
-                  {isEn ? `Next Mission (Day ${nextDayNumber}) →` : `المهمة التالية (يوم ${nextDayNumber}) ➔`}
+                  {isEn ? `Next Mission (Day ${nextDayNumber}) ➔` : `المهمة التالية (يوم ${nextDayNumber}) ➔`}
                 </Link>
               ) : (
                 <Link
                   href={`/app/learn/${mission.slug}/certificate`}
-                  className="block w-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-amber-500/25 hover:brightness-110 active:scale-98 transition-all"
+                  className="block w-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 hover:from-amber-300 hover:via-yellow-200 hover:to-amber-300 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-[0_0_35px_rgba(251,191,36,0.5)] hover:shadow-[0_0_50px_rgba(251,191,36,0.75)] hover:scale-[1.01] active:scale-98 transition-all text-center border-2 border-amber-200/60"
                 >
                   {isEn ? "Claim Verified Certificate 🎓" : "استلم شهادتك الرقمية الموثقة 🎓"}
                 </Link>

@@ -1,5 +1,6 @@
 import { loadUniversalLesson, findTrackOrHandcrafted } from "@/lib/course-loader";
 import { getTrackSkillTree, getCurrentTargetSkill, SkillNode } from "@/content/skill-trees";
+import { getDayArchetype } from "@/content/day-archetypes";
 
 export type MissionRubricCriterion = {
   id: string;
@@ -87,12 +88,13 @@ export function loadMission(slug: string, dayNumber: number): MissionData | null
   const domain = getDomainClassification(course.categoryAr || targetSkill.domain || "");
   const lessonTitleAr = lesson.titleAr || `يوم ${dayNumber}: مهارة عملية في ${course.titleAr}`;
   const lessonTitleEn = lesson.titleEn || `Day ${dayNumber}: Practical Skill in ${course.titleEn}`;
+  const archetype = getDayArchetype(dayNumber, course.totalLessons);
 
   // Tailored tangible deliverable and objectives
-  let deliverableAr = `صياغة مخرج عملي متكامل يطبق مهارات "${lessonTitleAr}"`;
-  let deliverableEn = `Production deliverable applying "${lessonTitleEn}"`;
-  let accomplishAr = `إتقان ${targetSkill.nameAr} وتطبيقها عملياً على مهمة تنفيذية مباشرة في ${course.titleAr}.`;
-  let accomplishEn = `Mastering ${targetSkill.nameEn} and applying it directly to a production task in ${course.titleEn}.`;
+  let deliverableAr = `صياغة ${archetype.subTopicAr} وفق المعايير التنفيذية لتطبيق "${lessonTitleAr}"`;
+  let deliverableEn = `Production deliverable applying "${lessonTitleEn}" (${archetype.subTopicEn})`;
+  let accomplishAr = `إتقان ${archetype.subTopicAr} في ${targetSkill.nameAr} وتطبيقها عملياً على مهمة تنفيذية مباشرة في ${course.titleAr}.`;
+  let accomplishEn = `Mastering ${archetype.subTopicEn} in ${targetSkill.nameEn} and applying it directly to a production task in ${course.titleEn}.`;
 
   // Domain-specific deliverable naming
   switch (domain.type) {
@@ -260,26 +262,16 @@ export function loadMission(slug: string, dayNumber: number): MissionData | null
   }
 
   const goldenExample = {
-    titleAr: `النموذج الذهبي المعياري لمهمة اليوم (تقييم 100/100):`,
-    titleEn: `Golden Standard Reference Benchmark (100/100 Score):`,
+    titleAr: `النموذج الذهبي المعياري لمهمة اليوم: ${archetype.titleAr} (تقييم 100/100):`,
+    titleEn: `Golden Standard Reference Benchmark: ${archetype.titleEn} (100/100 Score):`,
     content: goldenContent,
     explanationAr: "لاحظ كيف يحتوي النموذج على تحديد دقيق، خلو تام من الحشو والإنشاء، قيود واضحة، ومخرج نهائي جاهز للاستخدام العملي الفوري.",
     explanationEn: "Notice the surgical precision, lack of ambiguous fluff, clear constraints, and directly actionable output format.",
   };
 
   const practice = {
-    instructionsAr: [
-      "اقرأ النموذج الذهبي أعلاه جيداً ولاحظ هيكل الصياغة واكتمال عناصره.",
-      "افتح مساحة العمل أدناه وطبّق المهارة على مجال عملك أو تخصصك الحقيقي.",
-      "تأكد من توافر معايير التقييم المعلنة (الوضوح، القيود، وتحديد المخرج).",
-      "اضغط زر «إرسال للتفتيش والتقييم الذكي» لتحصل على مراجعة فورية ومفصلة لأدائك.",
-    ],
-    instructionsEn: [
-      "Review the golden benchmark above and examine its structural components.",
-      "Use the workspace below to apply this exact skill to your own domain.",
-      "Ensure all published rubric criteria are fulfilled before submission.",
-      "Click 'Submit for AI Evaluation' to receive instant structured feedback.",
-    ],
+    instructionsAr: archetype.stepsAr(course.titleAr, archetype.subTopicAr),
+    instructionsEn: archetype.stepsEn(course.titleEn, archetype.subTopicEn),
     starterTemplate,
     placeholderAr,
     placeholderEn: "Write your tangible mission deliverable here...",
