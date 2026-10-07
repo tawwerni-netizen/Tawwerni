@@ -42,6 +42,8 @@ export default function CourseDetailClient({
   const nextLesson = allLessons.find((l) => !doneSet.has(l.id)) ?? allLessons[0];
   const FREE_PREVIEW_DAY = 1;
   const canOpen = (dayNumber: number) => unlocked || dayNumber === FREE_PREVIEW_DAY;
+  const matchedCareerPaths = getCareerPathsForTrack(course.slug);
+  const primaryCareerPath = matchedCareerPaths[0]?.careerPath;
 
   const title = isEn ? course.titleEn : course.titleAr;
   const description = isEn ? course.descriptionEn : course.descriptionAr;
@@ -170,40 +172,35 @@ export default function CourseDetailClient({
       {/* Main Container */}
       <div className="mx-auto max-w-4xl px-4 sm:px-6 pt-6">
         {/* Associated Career Path Indicator */}
-        {(() => {
-          const matchedCareerPaths = getCareerPathsForTrack(course.slug);
-          if (matchedCareerPaths.length === 0) return null;
-          const primaryPath = matchedCareerPaths[0];
-          return (
-            <div className="rounded-2xl border border-teal-500/20 bg-teal-500/5 dark:bg-teal-500/10 p-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
-              <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-500/20 text-xl">
-                  🧭
+        {primaryCareerPath && (
+          <div className="rounded-2xl border border-teal-500/20 bg-teal-500/5 dark:bg-teal-500/10 p-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-500/20 text-xl">
+                🧭
+              </span>
+              <div>
+                <span className="text-2xs font-extrabold uppercase tracking-wider text-teal-700 dark:text-teal-300">
+                  {isEn ? "Part of a Career Roadmap" : "محطة رئيسية في مسار مهني متكامل"}
                 </span>
-                <div>
-                  <span className="text-2xs font-extrabold uppercase tracking-wider text-teal-700 dark:text-teal-300">
-                    {isEn ? "Part of a Career Roadmap" : "محطة رئيسية في مسار مهني متكامل"}
+                <p className="text-xs font-bold text-neutral-900 dark:text-white">
+                  {isEn ? primaryCareerPath.titleEn : primaryCareerPath.titleAr}
+                  <span className="text-neutral-500 font-normal">
+                    {" "}
+                    ({isEn ? matchedCareerPaths[0]?.stage.titleEn : matchedCareerPaths[0]?.stage.titleAr})
                   </span>
-                  <p className="text-xs font-bold text-neutral-900 dark:text-white">
-                    {isEn ? primaryPath.careerPath.titleEn : primaryPath.careerPath.titleAr}
-                    <span className="text-neutral-500 font-normal">
-                      {" "}
-                      ({isEn ? primaryPath.stage.titleEn : primaryPath.stage.titleAr})
-                    </span>
-                  </p>
-                </div>
+                </p>
               </div>
-
-              <Link
-                href={`/career-paths/${primaryPath.careerPath.slug}`}
-                className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-white dark:bg-neutral-800 border border-teal-500/30 px-3.5 py-1.5 text-xs font-black text-teal-700 dark:text-teal-300 hover:bg-teal-500/10 transition-colors"
-              >
-                <span>{isEn ? "View Full Path Roadmap" : "استعرض خارطة المسار بالكامل"}</span>
-                <span>➔</span>
-              </Link>
             </div>
-          );
-        })()}
+
+            <Link
+              href={`/career-paths/${primaryCareerPath.slug}`}
+              className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-white dark:bg-neutral-800 border border-teal-500/30 px-3.5 py-1.5 text-xs font-black text-teal-700 dark:text-teal-300 hover:bg-teal-500/10 transition-colors"
+            >
+              <span>{isEn ? "View Full Path Roadmap" : "استعرض خارطة المسار بالكامل"}</span>
+              <span>➔</span>
+            </Link>
+          </div>
+        )}
 
         {/* Course Completed Certificate Banner */}
         {unlocked && doneCount >= allLessons.length && (
@@ -245,34 +242,51 @@ export default function CourseDetailClient({
           pendingOrder ? (
             <div className="rounded-2xl border border-amber-300 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-950/20 p-4 mb-6">
               <p className="text-sm font-bold text-amber-900 dark:text-amber-200 mb-1">
-                ⏳ {isEn ? "Your Payment Is Under Verification" : "طلبك تحت المراجعة"}
+                ⏳ {isEn ? "Your Payment Is Under Verification" : "طلبك قيد المراجعة والتفعيل"}
               </p>
               <p className="text-xs leading-relaxed text-amber-800 dark:text-amber-300/80">
                 {isEn
-                  ? `Once payment proof is received, all 100 tracks are unlocked within ${payment.activationHours} hours. Reach us on WhatsApp at `
-                  : `لو أرسلت إثبات التحويل، هنفعّل الـ 100 مسار خلال ${payment.activationHours} ساعة. للاستفسار عبر واتساب `}
+                  ? `Once payment proof is received, your track will be added to your inventory within ${payment.activationHours} hours. WhatsApp: `
+                  : `فور مراجعة التحويل، سيتم تفعيل المسار في مكتبتك التعليمية خلال دقائق إلى ${payment.activationHours} ساعة. واتساب: `}
                 <b dir="ltr">{payment.supportWhatsapp}</b>.
               </p>
             </div>
           ) : (
-            <div className="rounded-3xl border border-teal-500/20 bg-gradient-to-r from-teal-600 to-emerald-600 p-5 mb-6 text-white shadow-lg">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="rounded-3xl border border-emerald-500/30 bg-gradient-to-br from-[#0c241e] via-[#0b1e19] to-[#071310] p-6 mb-6 text-white shadow-xl relative overflow-hidden">
+              <div className="pointer-events-none absolute -top-16 -right-16 w-36 h-36 rounded-full bg-emerald-500/15 blur-2xl" />
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
                 <div>
-                  <p className="text-base font-bold mb-1">
-                    🔓 {isEn ? "Unlock All 100 Tracks (1-Year Access)" : "افتح جميع الـ 100 مسار لمدة سنة"}
-                  </p>
-                  <p className="text-xs text-white/90 max-w-xl leading-relaxed">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-2xs font-bold mb-2">
+                    <span>✨</span>
+                    <span>{isEn ? "Modular Lifetime Access" : "امتلاك دائم بدون اشتراكات متكررة"}</span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-black text-white mb-1">
+                    {isEn ? `Own ${title} for only ${pricing.trackPriceEgp} EGP` : `امتلك مسار ${title} بـ ${pricing.trackPriceEgp} ج.م فقط`}
+                  </h3>
+                  <p className="text-xs text-neutral-300 max-w-xl leading-relaxed">
                     {isEn
-                      ? `Day 1 is 100% free. A single one-time payment of ${pricing.priceEgp} EGP unlocks all ${allLessons.length} days in this track, plus ALL other 99 professional tracks for a full year.`
-                      : `اليوم الأول مجاني. اشتراك واحد بقيمة ${pricing.priceEgp} ج.م يفتحلك باقي الـ ${allLessons.length - 1} يوم هنا وجميع الـ 100 مسار التانية بالكامل لمدة سنة.`}
+                      ? `Day 1 is 100% free. Unlock all ${allLessons.length} days, hands-on missions, AI mentor feedback, and verified certificate forever.`
+                      : `اليوم الأول متاح للتجربة مجاناً. امتلك باقي الـ ${allLessons.length - 1} يوماً والمهام التطبيقية ومتابعة الذكاء الاصطناعي والشهادة المعتمدة للأبد.`}
                   </p>
                 </div>
-                <Link
-                  href="/quiz/checkout"
-                  className="btn-ghost-shine shrink-0 rounded-full bg-white px-6 py-2.5 text-center text-xs font-bold text-teal-800 shadow-md hover:bg-neutral-50 active:scale-95 transition-all"
-                >
-                  {isEn ? "Subscribe Now →" : "اشترك الآن ←"}
-                </Link>
+
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5 shrink-0">
+                  <Link
+                    href={`/quiz/checkout?type=track&slug=${encodeURIComponent(course.slug)}`}
+                    className="rounded-full bg-white hover:bg-neutral-100 text-teal-950 font-black px-5 py-2.5 text-xs shadow-md active:scale-95 transition-all text-center whitespace-nowrap"
+                  >
+                    {isEn ? `Own This Track (${pricing.trackPriceEgp} EGP) →` : `امتلك هذا المسار (${pricing.trackPriceEgp} ج.م) ←`}
+                  </Link>
+
+                  {primaryCareerPath && (
+                    <Link
+                      href={`/quiz/checkout?type=career_path&slug=${encodeURIComponent(primaryCareerPath.slug)}`}
+                      className="rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 hover:brightness-110 text-neutral-950 font-black px-5 py-2.5 text-xs shadow-md active:scale-95 transition-all text-center whitespace-nowrap"
+                    >
+                      {isEn ? `Career Path (${pricing.careerPathPriceEgp} EGP) →` : `المسار المهني الشامل (${pricing.careerPathPriceEgp} ج.م) ←`}
+                    </Link>
+                  )}
+                </div>
               </div>
             </div>
           )

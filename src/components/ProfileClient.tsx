@@ -268,13 +268,15 @@ export default function ProfileClient(props: Props) {
         <div className="flex items-center justify-between mb-3">
           <span className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider flex items-center gap-1.5">
             <span>💳</span>
-            <span>{isEn ? "Membership & Access Plan" : "خطة العضوية والاشتراك"}</span>
+            <span>{isEn ? "Membership & Learning Inventory" : "العضوية والمخزون التعليمي"}</span>
           </span>
-          {props.subscription && (
-            <span className="text-[11px] font-black text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
-              {isEn ? "Active 1-Year Access" : "اشتراك نشط لمدة عام"}
-            </span>
-          )}
+          <Link
+            href="/app/inventory"
+            className="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
+          >
+            <span>📚</span>
+            <span>{isEn ? "Go to My Library →" : "انتقل لمكتبتي التعليمية ←"}</span>
+          </Link>
         </div>
 
         {props.subscription ? (
@@ -282,11 +284,11 @@ export default function ProfileClient(props: Props) {
             <div className="flex items-center gap-2 mb-1">
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
               <p className="text-base font-black text-neutral-900 dark:text-white">
-                {isEn ? `${brand.nameEn} Pro · Unlimited 1-Year Membership` : `${brand.name} برو · اشتراك سنوي شامل الـ 100 مسار`}
+                {isEn ? `${brand.nameEn} Pro · Active Membership` : `${brand.name} برو · عضوية ومسارات نشطة`}
               </p>
             </div>
             <p className="text-xs text-neutral-600 dark:text-neutral-300">
-              {paymentLabel} · {props.subscription.amountEgp} {isEn ? "EGP (All 100 Tracks Unlocked)" : "جنيه (كافة الـ 100 مسار مفتوحة بالكامل)"}
+              {paymentLabel} · {props.subscription.amountEgp} {isEn ? "EGP · Added to your permanent inventory" : "جنيه · مضافة لمخزونك ومكتبتك التعليمية الدائمة"}
             </p>
 
             {/* VIP Status Badge */}
@@ -343,15 +345,23 @@ export default function ProfileClient(props: Props) {
                 {isEn ? "Free Preview Mode (Day 1 Unlocked)" : "عضوية تجريبية (اليوم الأول مجاني في كل مسار)"}
               </p>
               <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                {isEn ? "Upgrade to unlock all 100 tracks with 7-day guarantee." : "اشترك الآن لفتح كافة الـ 100 مسار مع ضمان استرجاع 7 أيام."}
+                {isEn ? "Own individual tracks for 50 EGP or complete Career Paths for 100 EGP." : "امتلك مسارات تخصصية مستقلة بـ 50 ج.م أو مسارات مهنية شاملة بـ 100 ج.م مع ضمان استرجاع 7 أيام."}
               </p>
             </div>
-            <Link
-              href="/quiz"
-              className="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 text-white font-black text-xs shadow-md shadow-teal-500/20 active:scale-95 transition-all shrink-0"
-            >
-              {isEn ? "Upgrade to Pro →" : "اشترك في برو الآن ←"}
-            </Link>
+            <div className="flex items-center gap-2 shrink-0">
+              <Link
+                href="/app/inventory"
+                className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-800 dark:text-neutral-200 font-bold text-xs transition"
+              >
+                {isEn ? "My Library" : "مكتبتي"}
+              </Link>
+              <Link
+                href="/career-paths"
+                className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 text-white font-black text-xs shadow-md shadow-teal-500/20 active:scale-95 transition-all"
+              >
+                {isEn ? "Explore Paths →" : "استكشف المسارات ←"}
+              </Link>
+            </div>
           </div>
         )}
       </div>

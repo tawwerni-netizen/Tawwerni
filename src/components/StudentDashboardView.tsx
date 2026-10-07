@@ -306,8 +306,15 @@ export default function StudentDashboardView({
                 <span>➔</span>
               </Link>
               <Link
+                href="/app/inventory"
+                className="inline-flex items-center gap-1.5 rounded-2xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold text-xs px-3.5 py-2.5 transition-all border border-emerald-500/25"
+              >
+                <span>📚</span>
+                <span>{isEn ? "My Library" : "مكتبتي"}</span>
+              </Link>
+              <Link
                 href="/career-paths"
-                className="inline-flex items-center gap-1 rounded-2xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-neutral-700 dark:text-neutral-300 font-bold text-xs px-3.5 py-2.5 transition-all border border-black/5 dark:border-white/10"
+                className="inline-flex items-center gap-1 rounded-2xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-neutral-700 dark:text-neutral-300 font-bold text-xs px-3 py-2.5 transition-all border border-black/5 dark:border-white/10"
               >
                 <span>🧭</span>
                 <span>{isEn ? "All Paths" : "كافة المسارات"}</span>
@@ -558,12 +565,12 @@ export default function StudentDashboardView({
             <span className="text-xl">📚</span>
             <div>
               <p className="text-xs sm:text-sm font-black text-neutral-800 dark:text-neutral-200">
-                {isEn ? "Reference Library (100 Tracks Unlocked)" : "المكتبة المرجعية الشاملة (١٠٠ مسار مفتوحة في باقتك)"}
+                {isEn ? "Master Catalog (100 Specialized Tracks)" : "كتالوج الـ ١٠٠ مسار التخصصية"}
               </p>
               <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
                 {isEn
-                  ? "Your membership grants full access. Click to explore additional specialized paths."
-                  : "اشتراكك يمنحك وصولاً شاملاً. انقر هنا إذا رغبت في استكشاف مسارات تخصصية إضافية."}
+                  ? "Explore all specialized tracks, try Day 1 free, or access your owned inventory."
+                  : "استكشف كافة المسارات التخصصية، جرّب اليوم الأول مجاناً، أو استعرض مساراتك الممتلكة في مكتبتك."}
               </p>
             </div>
           </div>

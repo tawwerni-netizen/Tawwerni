@@ -478,6 +478,7 @@ export default function LessonPlayer(props: Props) {
                 state={props.accessState}
                 totalLessons={props.totalDays}
                 courseTitle={courseTitle}
+                courseSlug={props.courseSlug}
               />
             ) : props.nextDayNumber ? (
               <Link
