@@ -39,8 +39,8 @@ export const quizQuestions: QuizQuestionDef[] = [
         label: "أبدأ العمل الحر (Freelancing) وأجيب أول عميل مدفوع",
         labelEn: "Start freelancing and land my first paid client",
         value: "freelance-client",
-        badge: "دخل مباشر 💰",
-        badgeEn: "Direct Income",
+        badge: "مهارة عالية الطلب 💼",
+        badgeEn: "High-Demand Skill",
         highlight: true,
       },
       {

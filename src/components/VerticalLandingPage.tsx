@@ -97,20 +97,20 @@ export default function VerticalLandingPage({
 
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
-              href="/quiz"
-              className="w-full sm:w-auto rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 px-9 py-3.5 text-sm font-bold text-white shadow-lg shadow-teal-500/20 hover:brightness-110 active:scale-98 transition-all"
+              href={`/app/learn/${courseSlug}/1`}
+              className="w-full sm:w-auto rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 px-9 py-3.5 text-sm font-bold text-white shadow-lg shadow-teal-500/20 hover:brightness-110 active:scale-98 transition-all text-center"
             >
-              <span>{displayPrimaryCta}</span>
+              <span>{isEn ? "Try Day 1 Free →" : "جرّب اليوم الأول مجانًا ←"}</span>
             </Link>
             <Link
-              href="/login?signup=1"
-              className="w-full sm:w-auto rounded-full border border-black/10 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-7 py-3.5 text-sm font-bold text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 active:scale-98 transition-all"
+              href="/quiz"
+              className="w-full sm:w-auto rounded-full border border-black/10 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-7 py-3.5 text-sm font-bold text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 active:scale-98 transition-all text-center"
             >
-              {isEn ? "Try Day 1 Free" : "جرّب اليوم الأول مجانًا"}
+              {isEn ? "Discover Your Path" : "اعرف مسارك المناسب"}
             </Link>
           </div>
           <p className="mt-4 text-xs text-neutral-500 dark:text-neutral-400">
-            {isEn ? "No credit card required · Day 1 is 100% unlocked" : "من غير بطاقة بنكية · اليوم الأول مفتوح"}
+            {isEn ? "Immediate access · No credit card required · Day 1 is 100% unlocked" : "دخول فوري بدون بطاقة بنكية · اليوم الأول مفتوح مجانًا بالكامل"}
           </p>
         </div>
 

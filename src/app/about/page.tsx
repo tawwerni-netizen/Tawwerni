@@ -96,7 +96,7 @@ export default function AboutPage() {
               <div className="p-3.5 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-black/5 dark:border-white/5">
                 <span className="text-xl mb-1 block">🎁</span>
                 <strong className="block text-neutral-900 dark:text-white mb-1">
-                  {isEn ? "Free Day 1 Preview" : "اليوم الأول مجاني دائماً"}
+                  {isEn ? "Free Day 1 Preview" : "اليوم الأول مجاني لكل مسار"}
                 </strong>
                 <p className="text-neutral-500 dark:text-neutral-400 text-xs">
                   {isEn ? "Available in all 100 tracks without credit cards." : "مفتوح مجاناً في كل الـ 100 مسار لتجربة المحتوى قبل الشراء."}

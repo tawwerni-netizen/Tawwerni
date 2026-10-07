@@ -136,7 +136,7 @@ export default function CourseDetailClient({
           <div className="mt-6 max-w-md">
             {!isLoggedIn ? (
               <Link
-                href="/login?signup=1"
+                href={`/app/learn/${course.slug}/${FREE_PREVIEW_DAY}`}
                 className="btn-ghost-shine cta-btn-white block text-center font-bold rounded-full py-3 text-sm shadow-xl active:scale-98 transition-all"
               >
                 {isEn ? "Start Day 1 Free Now →" : "جرّب اليوم الأول مجانًا الآن ←"}

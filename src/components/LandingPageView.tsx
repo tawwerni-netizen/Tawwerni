@@ -155,24 +155,31 @@ export default function LandingPageView() {
             )}
           </p>
 
-          {/* Primary Action Button + Reassuring Microcopy */}
-          <div className="flex flex-col items-center justify-center gap-3 mb-8">
+          {/* Primary Action Button + Secondary Action Button */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-4">
+            <Link
+              href="/app/learn/prompt-engineering-mastery/1"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-400 hover:from-teal-400 hover:to-emerald-400 text-white font-black px-9 py-4 text-base sm:text-lg shadow-xl shadow-teal-500/25 hover:shadow-2xl hover:shadow-teal-500/40 hover:scale-102 active:scale-98 transition-all text-center"
+            >
+              <span>🚀</span>
+              <span>{isEn ? "Try Day 1 for Free →" : "جرّب اليوم الأول مجانًا ←"}</span>
+            </Link>
             <Link
               href="/quiz"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-400 hover:from-teal-400 hover:to-emerald-400 text-white font-black px-10 py-4.5 text-base sm:text-lg shadow-xl shadow-teal-500/25 hover:shadow-2xl hover:shadow-teal-500/40 hover:scale-102 active:scale-98 transition-all text-center"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-teal-500/40 bg-white/5 hover:bg-white/10 text-neutral-800 dark:text-neutral-200 font-bold px-7 py-4 text-sm sm:text-base transition-all text-center"
             >
               <span>🧭</span>
-              <span>{isEn ? "Discover Your Custom Path (Free) →" : "اعرف مسارك المناسب مجانًا ←"}</span>
+              <span>{isEn ? "Find the Right Path for You" : "اعرف المسار المناسب لك"}</span>
             </Link>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400 flex items-center gap-2">
-              <span className="text-emerald-500 font-bold">✓</span>
-              <span>
-                {isEn
-                  ? "Takes only 60 seconds · No credit card required · Day 1 is 100% free"
-                  : "خلال 60 ثانية فقط · بدون أي بطاقة بنكية · اليوم الأول مجاني بالكامل"}
-              </span>
-            </p>
           </div>
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 flex items-center justify-center gap-2 mb-8">
+            <span className="text-emerald-500 font-bold">✓</span>
+            <span>
+              {isEn
+                ? "Immediate access · No credit card required · Day 1 is 100% free"
+                : "دخول فوري ومجاني لليوم الأول · بدون أي بطاقة بنكية · بدون تجديد تلقائي"}
+            </span>
+          </p>
 
           {/* 3 Pillars of Frictionless Reassurance */}
           <div className="mx-auto max-w-xl grid grid-cols-3 gap-2.5 text-center text-xs font-bold text-neutral-700 dark:text-neutral-300 mb-8">
@@ -276,10 +283,10 @@ export default function LandingPageView() {
                   </p>
                 </div>
                 <Link
-                  href="/quiz"
+                  href="/app/learn/prompt-engineering-mastery/1"
                   className="w-full text-center py-2.5 px-4 rounded-xl bg-teal-500/10 hover:bg-teal-500/20 text-teal-700 dark:text-teal-300 text-xs font-bold border border-teal-500/30 transition"
                 >
-                  {isEn ? "Start AI Path Free →" : "ابدأ مسار الـ AI مجانًا ←"}
+                  {isEn ? "Try AI Day 1 Free →" : "جرّب اليوم الأول في الـ AI مجانًا ←"}
                 </Link>
               </div>
 
@@ -289,7 +296,7 @@ export default function LandingPageView() {
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-3xl">💼</span>
                     <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
-                      {isEn ? "Direct Income" : "دخل مباشر"}
+                      {isEn ? "High-Demand Skill" : "مهارة عالية الطلب"}
                     </span>
                   </div>
                   <h3 className="text-base font-black text-neutral-900 dark:text-white mb-2">
@@ -302,10 +309,10 @@ export default function LandingPageView() {
                   </p>
                 </div>
                 <Link
-                  href="/quiz"
+                  href="/app/learn/freelance-client-acquisition/1"
                   className="w-full text-center py-2.5 px-4 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 dark:text-amber-300 text-xs font-bold border border-amber-500/30 transition"
                 >
-                  {isEn ? "Start Freelance Path Free →" : "ابدأ مسار الفريلانس مجانًا ←"}
+                  {isEn ? "Try Freelance Day 1 Free →" : "جرّب اليوم الأول في الفريلانس مجانًا ←"}
                 </Link>
               </div>
 
@@ -328,10 +335,10 @@ export default function LandingPageView() {
                   </p>
                 </div>
                 <Link
-                  href="/quiz"
+                  href="/app/learn/high-conversion-copywriting/1"
                   className="w-full text-center py-2.5 px-4 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-bold border border-emerald-500/30 transition"
                 >
-                  {isEn ? "Start Marketing Path Free →" : "ابدأ مسار التسويق مجانًا ←"}
+                  {isEn ? "Try Marketing Day 1 Free →" : "جرّب اليوم الأول في التسويق مجانًا ←"}
                 </Link>
               </div>
             </div>
@@ -740,16 +747,16 @@ export default function LandingPageView() {
                 <h2 className="text-2xl sm:text-4xl font-black text-neutral-900 dark:text-white leading-tight tracking-tight">
                   {isEn ? (
                     <>
-                      <span>Verified Certificates with Instant QR Code.</span>
+                      <span>Digital Certificates of Completion with QR Verification.</span>
                       <span className="block mt-2 text-amber-600 dark:text-amber-300 text-lg sm:text-2xl font-black">
-                        100 Tracks = 100 Credentials for Your CV & LinkedIn.
+                        100 Tracks = Verified Completion Certificate for Each Finished Track.
                       </span>
                     </>
                   ) : (
                     <>
-                      <span>شهادة إتمام رقمية موثقة بكود تحقق QR لكل مسار تنجزه.</span>
+                      <span>شهادة إتمام رقمية قابلة للتحقق عبر QR توثق إتمامك للمسار.</span>
                       <span className="block mt-2 text-amber-600 dark:text-amber-300 text-lg sm:text-2xl font-black">
-                        ١٠٠ مسار = ١٠٠ شهادة موثقة تثري سيرتك الذاتية و LinkedIn.
+                        ١٠٠ مسار = شهادة إتمام رقمية لكل مسار تنجز تحدياته ومشروعه العملي.
                       </span>
                     </>
                   )}
@@ -757,8 +764,8 @@ export default function LandingPageView() {
 
                 <p className="mt-3 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed font-medium">
                   {isEn
-                    ? "Unlike platforms that charge extra hundreds for certificates or hand them out for passive video watching — every track on Tawwerni earns you a tamper-proof digital completion certificate backed by a permanent verification URL with QR code and real hands-on milestone completions."
-                    : "على عكس المنصات التي تطلب مئات الدولارات الإضافية لكل شهادة أو تمنحها لمجرد المشاهدة الصامتة — كل مسار تنهيه في طوّرني يمنحك شهادة إتمام رقمية برابط تحقق دائم وكود QR تثبت للعملاء وأصحاب العمل أنك نفذت التطبيقات العملية بيدك."}
+                    ? "Every track on Tawwerni earns you a digital certificate of completion backed by a verifiable QR code, documenting your completed roadmap, daily missions, and practical project. You can share it on LinkedIn or your CV as proof of completed coursework."
+                    : "شهادة إتمام رقمية قابلة للتحقق عبر QR توثق إتمامك للمسار والمهام والمشروع العملي. يمكنك مشاركة رابط الشهادة في سيرتك الذاتية ولينكد إن كتوثيق لإتمامك للمشاريع والتحديات."}
                 </p>
 
                 {/* 4 Feature Cards */}
@@ -766,40 +773,40 @@ export default function LandingPageView() {
                   <div className="rounded-2xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-neutral-950/60 p-3.5">
                     <div className="flex items-center gap-2 font-black text-xs text-neutral-900 dark:text-white mb-1">
                       <span>📱</span>
-                      <span>{isEn ? "Instant QR Verification" : "تحقق فوري بكاميرا الهاتف (QR)"}</span>
+                      <span>{isEn ? "Instant QR Verification" : "تحقق فوري عبر كود الـ QR"}</span>
                     </div>
                     <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                      {isEn ? "Employers scan the QR to see your authentic graduate record on tawwerni.com." : "أي عميل يمسح الكود يتأكد فوراً من سجل إتمامك الموثق وتاريخ إنجازك بدون أي مجال للتزييف."}
+                      {isEn ? "Anyone scanning the QR code can verify your graduation record directly on tawwerni.com." : "أي شخص يمسح كود الـ QR يمكنه التحقق مباشرة من سجل وتاريخ إتمامك للمسار على tawwerni.com."}
                     </p>
                   </div>
 
                   <div className="rounded-2xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-neutral-950/60 p-3.5">
                     <div className="flex items-center gap-2 font-black text-xs text-neutral-900 dark:text-white mb-1">
                       <span>💼</span>
-                      <span>{isEn ? "1-Click LinkedIn Integration" : "إضافة مباشرة لـ LinkedIn و CV"}</span>
+                      <span>{isEn ? "Shareable on LinkedIn & CV" : "مشاركة في LinkedIn والسيرة الذاتية"}</span>
                     </div>
                     <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                      {isEn ? "Add to your Licenses & Certifications section in 1 click to showcase your completed practical projects." : "بنقرة واحدة تضاف إلى قسم الشهادات والتراخيص بملفك الشخصي لتوثيق مشاريعك وتطبيقاتك العملية."}
+                      {isEn ? "Share your verified certificate URL on your CV and LinkedIn as tangible evidence of finished projects." : "يمكنك إضافة رابط الشهادة إلى سيرتك الذاتية وLinkedIn كإثبات لإنجازك للمهام والتطبيقات العملية."}
                     </p>
                   </div>
 
                   <div className="rounded-2xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-neutral-950/60 p-3.5">
                     <div className="flex items-center gap-2 font-black text-xs text-neutral-900 dark:text-white mb-1">
                       <span>⚡</span>
-                      <span>{isEn ? "Proof of Hands-On Work" : "إثبات تطبيقي وليس نظرياً"}</span>
+                      <span>{isEn ? "Milestone-Based Issuance" : "توثيق مبني على الإنجاز الفعلي"}</span>
                     </div>
                     <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                      {isEn ? "Issued only after completing all daily challenges and quiz masteries." : "لا تصدر إلا بعد إنجاز كافة المهام التفاعلية والكويزات، مما يعطيها وزناً حقيقياً أمام العملاء."}
+                      {isEn ? "Issued only after completing all daily challenges and project milestones." : "لا تصدر إلا بعد إنجاز كافة التحديات اليومية والمهمات العملية الخاصة بالمسار."}
                     </p>
                   </div>
 
                   <div className="rounded-2xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-neutral-950/60 p-3.5">
                     <div className="flex items-center gap-2 font-black text-xs text-neutral-900 dark:text-white mb-1">
                       <span>🖨️</span>
-                      <span>{isEn ? "Print-Ready Vector PDF" : "طباعة وتصدير عالي الدقة PDF"}</span>
+                      <span>{isEn ? "Print-Ready Vector PDF" : "تصدير عالي الدقة PDF"}</span>
                     </div>
                     <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                      {isEn ? "Engineered with guilloche borders and print styles for physical portfolios." : "مهيأة للطباعة المباشرة بأبعاد عالية الدقة وبوردرات ملكية لملفك الورقي والمقابلات."}
+                      {isEn ? "Export crisp high-resolution certificates ready for print and offline portfolios." : "تصدير رقمي عالي الدقة مهيأ للطباعة والإضافة المباشرة لملف سابقة أعمالك."}
                     </p>
                   </div>
                 </div>

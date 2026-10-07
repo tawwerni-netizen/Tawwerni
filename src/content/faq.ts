@@ -584,7 +584,7 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "فين الشهادة بتاعتي؟",
         "qEn": "Where is my certificate located?",
-        "a": "من صفحة المسار، لما تخلّص كل أيامه، الزرار اللي فوق بيتحوّل لـ\"شوف شهادتك 🎓\". أو ادخل مباشرة على صفحة المسار وهتلاقي لينك الشهادة في قايمة \"الكورس يشمل\".",
+        "a": "من صفحة المسار، لما تخلّص كل أيامه، الزرار اللي فوق بيتحوّل لـ\"شوف شهادتك 🎓\". أو ادخل مباشرة على صفحة المسار وهتلاقي لينك الشهادة في قايمة \"محتويات المسار\".",
         "aEn": "Once all days in a track are complete, tap 'View Certificate' at the top of the track page or visit the certificate link in the menu."
       },
       {

@@ -337,9 +337,7 @@ export default function QuizPage() {
 
   function startMissionOne() {
     const targetUrl = `/app/learn/${primarySlug}/1`;
-    router.push(
-      `/login?email=${encodeURIComponent(email)}&signup=1&next=${encodeURIComponent(targetUrl)}`
-    );
+    router.push(targetUrl);
   }
 
   const questionNumber = step.kind === "question" ? step.qIndex + 1 : 0;

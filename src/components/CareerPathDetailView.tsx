@@ -38,7 +38,8 @@ export default function CareerPathDetailView({
   const nextTrack = progress.nextActionableTrack;
   const nextTrackUrl = nextTrack
     ? `/app/learn/${nextTrack.trackSlug}/${nextTrack.nextDayNumber}`
-    : `/app/learn/${careerPath.stages[0]?.tracks[0]?.trackSlug || "prompt-engineering-mastery"}`;
+    : `/app/learn/${careerPath.stages[0]?.tracks[0]?.trackSlug || "prompt-engineering-mastery"}/1`;
+
 
   return (
     <div className="space-y-12 pb-16">
@@ -164,18 +165,18 @@ export default function CareerPathDetailView({
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto shrink-0">
-                <Link
-                  href={`/quiz/checkout?type=career_path&slug=${careerPath.slug}`}
-                  className="w-full sm:w-auto whitespace-nowrap rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 px-6 py-3.5 text-xs sm:text-sm font-black text-neutral-950 shadow-lg hover:brightness-110 active:scale-98 transition-all text-center cursor-pointer"
-                >
-                  {isEn ? `Start 1-Year Access (${pricing.careerPathPriceEgp} EGP) ➔` : `اشترك في المسار المهني (${pricing.careerPathPriceEgp} ج.م / سنة) ➔`}
-                </Link>
+              <div className="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto shrink-0">
                 <Link
                   href={nextTrackUrl}
-                  className="w-full sm:w-auto whitespace-nowrap rounded-full border border-white/20 bg-white/5 hover:bg-white/10 px-4 py-3 text-xs font-bold text-neutral-300 text-center"
+                  className="w-full sm:w-auto whitespace-nowrap rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 px-6 py-3.5 text-xs sm:text-sm font-black text-neutral-950 shadow-lg hover:brightness-110 active:scale-98 transition-all text-center cursor-pointer"
                 >
-                  {isEn ? "Free Day 1 Preview" : "تجربة مجانية لليوم الأول"}
+                  {isEn ? "Try Stage 1 for Free ➔" : "جرّب المرحلة الأولى مجانًا ➔"}
+                </Link>
+                <Link
+                  href={`/quiz/checkout?type=career_path&slug=${careerPath.slug}`}
+                  className="w-full sm:w-auto whitespace-nowrap rounded-full border border-white/20 bg-white/5 hover:bg-white/10 px-5 py-3 text-xs font-bold text-neutral-300 text-center"
+                >
+                  {isEn ? `Subscribe to Career Path (${pricing.careerPathPriceEgp} EGP / yr)` : `اشترك في المسار المهني (${pricing.careerPathPriceEgp} ج.م / سنة)`}
                 </Link>
               </div>
             </div>
@@ -221,11 +222,21 @@ export default function CareerPathDetailView({
               >
                 <span>
                   {progress.completedLessonsCount === 0
-                    ? (isEn ? "Start Stage 1" : "ابدأ المرحلة الأولى")
+                    ? (isEn ? "Try Stage 1 for Free" : "جرّب المرحلة الأولى مجانًا")
                     : (isEn ? "Resume Current Mission" : "استأنف المهمة الحالية")}
                 </span>
                 <span>➔</span>
               </Link>
+            </div>
+
+            {/* Structure clarity note */}
+            <div className="pt-1 text-2xs text-teal-300/80 border-t border-teal-500/20 flex items-center gap-1.5">
+              <span>💡</span>
+              <span>
+                {isEn
+                  ? "Every Track inside is built as a 28-day challenge, while the Career Path unites multiple Tracks into a single structured roadmap."
+                  : "كل Track داخله مبني كتحدي 28 يومًا، بينما المسار المهني يجمع عدة Tracks في خارطة طريق واحدة."}
+              </span>
             </div>
 
             {/* Progress line */}
@@ -471,7 +482,7 @@ export default function CareerPathDetailView({
         <div className="relative z-10 space-y-4">
           <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/50 bg-amber-500/20 px-4 py-1.5 text-xs font-black text-amber-800 dark:text-amber-300">
             <span>🏆</span>
-            <span>{isEn ? "Capstone Portfolio Proof" : "المشروع الختامي للبورتفوليو وإثبات الكفاءة"}</span>
+            <span>{isEn ? "Capstone Portfolio Project" : "المشروع الختامي للبورتفوليو والتطبيق العملي"}</span>
           </div>
 
           <h3 className="text-xl sm:text-3xl font-black text-neutral-900 dark:text-white leading-snug">
@@ -480,8 +491,8 @@ export default function CareerPathDetailView({
 
           <p className="text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed max-w-3xl font-medium">
             {isEn
-              ? "At Tawwerni, completion is not about watching hours of video. It is about building a verified project you can put in your portfolio, present in job interviews, or showcase to clients as tangible proof of competence."
-              : "في طوّرني، الإنجاز ليس مجرد شهادة ورقية أو مشاهدة فيديوهات. الإنجاز هو أن تخرج بهذا المشروع النهائي متكاملاً، وتضعه في رابط سابقة أعمالك (Portfolio)، ليكون دليلاً حاسماً يثبت مهارتك أمام أصحاب العمل والعملاء."}
+              ? "At Tawwerni, completion is driven by execution. You build a practical capstone project and document it in your portfolio to demonstrate hands-on mastery of the tools and workflows."
+              : "في طوّرني، الإنجاز يعتمد على التطبيق الفعلي. تخرج بهذا المشروع النهائي متكاملاً، وتوثقه في سابقة أعمالك (Portfolio)، كإثبات عملي على قدرتك على إنجاز المهام المطلوبة."}
           </p>
 
           <div className="rounded-2xl bg-white/80 dark:bg-neutral-900/80 p-4 sm:p-5 border border-black/10 dark:border-white/10 max-w-2xl text-xs space-y-2 shadow-xs">

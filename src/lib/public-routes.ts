@@ -1,14 +1,13 @@
+import { FREE_PREVIEW_DAY } from "./access";
+
 /**
- * `/app/learn/<slug>` — the course overview and curriculum outline — is not
- * really part of the authenticated app; it is the page the sitemap submits
- * for indexing on the strength of its public curriculum. Only that exact
- * shape matches: `/app/learn/<slug>/<day>` (actual lesson content),
- * `/app/learn` (the bare "your courses" list), and everything else under
- * `/app` stay behind the login wall.
+ * Public routes inside `/app` that do not require an active session:
+ * 1) `/app/learn/<slug>` — Course curriculum & outline overview (public for SEO / prospective students)
+ * 2) `/app/learn/<slug>/1` — Day 1 Free Preview experience (100% cardless, no login barrier)
  *
- * Shared between `proxy.ts` (skips the redirect) and `app/app/layout.tsx`
- * (skips its own, independent auth check) — two different gates that both
- * used to hard-block anonymous visitors here, so both need the same answer
- * to "is this page public" or one of them silently wins.
+ * Day 2+ (/app/learn/<slug>/2..) remains strictly protected behind authentication & entitlement check.
+ *
+ * Shared between `proxy.ts` (skips redirect) and `app/app/layout.tsx` (skips auth check).
  */
-export const PUBLIC_COURSE_PAGE = /^\/app\/learn\/[^/]+\/?$/;
+export const PUBLIC_COURSE_PAGE = new RegExp(`^\\/app\\/learn\\/[^/]+(\\/${FREE_PREVIEW_DAY})?\\/?$`);
+

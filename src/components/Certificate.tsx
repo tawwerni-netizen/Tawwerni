@@ -233,8 +233,8 @@ export default function Certificate({
 
       <p className="no-print mx-auto mt-4 max-w-2xl text-center text-[11px] leading-relaxed text-neutral-400">
         {isEn
-          ? `This verified certificate confirms hands-on mastery on ${brand.domain}. Permanent verification record hosted securely at ${brand.domain}.`
-          : `هذه الشهادة تثبت إتمام التطبيق العملي لكافة دروس وتحديات المسار على ${brand.domain}. سجل التحقق دائم ومتاح لأصحاب العمل والعملاء.`}
+          ? `This digital certificate of completion documents the execution of all track lessons, missions, and practical project on ${brand.domain}. Verifiable online via QR code.`
+          : `شهادة إتمام رقمية توثق إنجاز كافة دروس وتحديات المسار والمشروع العملي على ${brand.domain}. يمكن التحقق من صحة السجل مباشرة عبر رمز الـ QR.`}
       </p>
     </div>
   );
