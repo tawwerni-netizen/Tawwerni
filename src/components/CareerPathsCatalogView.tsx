@@ -97,7 +97,7 @@ export default function CareerPathsCatalogView({
             </span>
             <span className="inline-flex items-center gap-2 rounded-full bg-white/80 dark:bg-neutral-900/80 px-4 py-2 border border-black/5 dark:border-white/10 shadow-2xs">
               <span className="text-amber-500 text-sm">🏆</span>
-              <span>{isEn ? "Verified Capstone Deliverables" : "مشاريع بورتفوليو فعلية للاعتماد"}</span>
+              <span>{isEn ? "Hands-on Capstone Projects" : "مشاريع بورتفوليو عملية موثقة"}</span>
             </span>
           </div>
         </div>
@@ -410,7 +410,7 @@ export default function CareerPathsCatalogView({
                         <span>
                           {hasStarted
                             ? (isEn ? "Resume Roadmap" : "استأنف خارطة الطريق")
-                            : (isEn ? `Own Career Path (${pricing.careerPathPriceEgp} EGP) ➔` : `امتلك المسار المهني بـ ${pricing.careerPathPriceEgp} ج.م ➔`)}
+                            : (isEn ? `Subscribe to Career Path (${pricing.careerPathPriceEgp} EGP / Year) ➔` : `اشترك في المسار المهني (${pricing.careerPathPriceEgp} ج.م / سنة) ➔`)}
                         </span>
                         <span className="text-base">➔</span>
                       </Link>

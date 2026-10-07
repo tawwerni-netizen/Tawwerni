@@ -17,12 +17,7 @@ type Props = {
   openRequestEgp: number | null;
 };
 
-const LIVE_PAYOUT_TICKER = [
-  { name: "عمر خ.", amount: 300, method: "InstaPay", time: "منذ 9 دقائق" },
-  { name: "سارة م.", amount: 150, method: "Vodafone Cash", time: "منذ 24 دقيقة" },
-  { name: "أحمد ح.", amount: 450, method: "InstaPay", time: "منذ ساعة" },
-  { name: "محمود ع.", amount: 750, method: "Vodafone Cash", time: "منذ ساعتين" },
-];
+
 
 export default function ReferralPanel(props: Props) {
   const { lang } = useI18n();
@@ -112,15 +107,15 @@ export default function ReferralPanel(props: Props) {
 
   return (
     <div className="space-y-6" dir={isEn ? "ltr" : "rtl"}>
-      {/* Live Social Proof Ticker */}
-      <div className="overflow-hidden rounded-2xl bg-teal-500/10 dark:bg-teal-500/5 border border-teal-500/20 px-3 py-2">
+      {/* Referral Policy Reassurance */}
+      <div className="overflow-hidden rounded-2xl bg-teal-500/10 dark:bg-teal-500/5 border border-teal-500/20 px-3.5 py-2.5">
         <div className="flex items-center gap-2 text-xs">
-          <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
+          <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
           <span className="font-bold text-teal-700 dark:text-teal-300 shrink-0">
-            {isEn ? "Live Activity:" : "نشاط مباشر:"}
+            {isEn ? "Program Policy:" : "قواعد المكافأة الرسمية:"}
           </span>
-          <div className="truncate text-neutral-600 dark:text-neutral-300">
-            <span>🔥 {LIVE_PAYOUT_TICKER[0].name} سحب {LIVE_PAYOUT_TICKER[0].amount} ج.م عبر {LIVE_PAYOUT_TICKER[0].method} {LIVE_PAYOUT_TICKER[0].time}</span>
+          <div className="truncate text-neutral-600 dark:text-neutral-300 font-medium">
+            <span>{isEn ? "Earn 25 EGP per qualified paid referral · Minimum withdrawal: 100 EGP to Vodafone Cash or InstaPay" : "اكسب 25 ج.م عن كل إحالة مؤهلة ومدفوعة · الحد الأدنى للسحب 100 ج.م على فودافون كاش أو إنستاباي"}</span>
           </div>
         </div>
       </div>
@@ -171,7 +166,7 @@ export default function ReferralPanel(props: Props) {
 
         {!props.canWithdraw && (
           <p className="text-[11px] text-teal-200/80 mt-1">
-            💡 {isEn ? `Just ${friendsNeeded} friend(s) subscribing unlocks your instant withdrawal!` : `صاحبين اتنين بس يشتركوا وتفتح السحب الفوري فوراً!` }
+            💡 {isEn ? `Just ${friendsNeeded} qualified referral(s) needed to reach the minimum payout (${props.minPayoutEgp} EGP)` : `تحتاج إلى ${friendsNeeded} إحالة مؤهلة للوصول إلى الحد الأدنى للسحب (${props.minPayoutEgp} ج.م)`}
           </p>
         )}
       </div>
@@ -247,7 +242,7 @@ export default function ReferralPanel(props: Props) {
           </div>
           <div className="text-end">
             <span className="inline-block bg-emerald-500/20 text-emerald-300 text-[11px] font-bold px-2.5 py-1 rounded-full border border-emerald-500/30">
-              {calcFriends >= 5 ? "تغطية اشتراكك + ربح إضافي!" : "سحب فوري متاح"}
+              {calcFriends * props.commissionEgp >= props.minPayoutEgp ? (isEn ? "Eligible for payout (100+ EGP)" : "مؤهل للسحب الفوري (100+ ج.م)") : (isEn ? "Accumulating balance" : "رصيد تراكمي مستمر")}
             </span>
           </div>
         </div>

@@ -298,7 +298,7 @@ export default function TrackExplorer() {
                   href={`/quiz/checkout?type=track&slug=${activeModalTrack.slug}`}
                   className="w-full sm:flex-1 py-3 text-center rounded-full font-black text-sm bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 hover:brightness-110 text-neutral-950 shadow-lg active:scale-95 transition-all cursor-pointer"
                 >
-                  {lang === "ar" ? `امتلك المسار بـ ${pricing.trackPriceEgp} ج.م فقط ➔` : `Own Track (${pricing.trackPriceEgp} EGP) ➔`}
+                  {lang === "ar" ? `اشترك في المسار بـ ${pricing.trackPriceEgp} ج.م / سنة ➔` : `Subscribe to Track (${pricing.trackPriceEgp} EGP / Year) ➔`}
                 </Link>
                 <Link
                   href={`/app/learn/${activeModalTrack.slug}`}
@@ -320,8 +320,8 @@ export default function TrackExplorer() {
                   className="text-[11px] font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
                 >
                   {lang === "ar"
-                    ? `💡 أو امتلك المسار المهني الشامل المتضمن له بـ ${pricing.careerPathPriceEgp} ج.م فقط (حزمة متكاملة)`
-                    : `💡 Or get the complete Career Path roadmap for ${pricing.careerPathPriceEgp} EGP (full bundle)`}
+                    ? `💡 أو اشترك في المسار المهني الشامل بـ ${pricing.careerPathPriceEgp} ج.م / سنة (حزمة متكاملة)`
+                    : `💡 Or subscribe to the Career Path roadmap for ${pricing.careerPathPriceEgp} EGP / Year (full bundle)`}
                 </Link>
               </div>
             </div>

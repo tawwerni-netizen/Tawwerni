@@ -345,7 +345,7 @@ export default function ProfileClient(props: Props) {
                 {isEn ? "Free Preview Mode (Day 1 Unlocked)" : "عضوية تجريبية (اليوم الأول مجاني في كل مسار)"}
               </p>
               <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                {isEn ? `Own individual tracks for ${pricing.trackPriceEgp} EGP, Career Paths for ${pricing.careerPathPriceEgp} EGP, or All-Access for ${pricing.allAccessPriceEgp} EGP.` : `امتلك مسارات تخصصية بـ ${pricing.trackPriceEgp} ج.م، مسارات مهنية بـ ${pricing.careerPathPriceEgp} ج.م، أو الوصول الشامل بـ ${pricing.allAccessPriceEgp} ج.م.`}
+                {isEn ? `Subscribe to individual tracks for ${pricing.trackPriceEgp} EGP/yr, Career Paths for ${pricing.careerPathPriceEgp} EGP/yr, or All-Access for ${pricing.allAccessPriceEgp} EGP/yr.` : `اشترك في مسارات تخصصية بـ ${pricing.trackPriceEgp} ج.م/سنة، مسارات مهنية بـ ${pricing.careerPathPriceEgp} ج.م/سنة، أو الوصول الشامل بـ ${pricing.allAccessPriceEgp} ج.م/سنة.`}
               </p>
             </div>
             <div className="flex items-center gap-2 shrink-0">

@@ -220,8 +220,8 @@ export default function CourseDetailClient({
                   </h3>
                   <p className="text-xs text-neutral-600 dark:text-neutral-300 mt-1">
                     {isEn
-                      ? "Includes permanent verification QR code and 1-click addition to your LinkedIn profile."
-                      : "تحمل كود تحقق QR رسمي دائم ويمكنك إضافتها مباشرة لملفك على لينكد إن وسيرتك الذاتية."}
+                      ? "Includes a verifiable QR code documenting your completed track and milestones for LinkedIn and your CV."
+                      : "تحمل كود تحقق QR يوثق إتمامك للمسار والمهام العملية، ويمكنك إضافتها مباشرة لملفك على لينكد إن وسيرتك الذاتية."}
                   </p>
                 </div>
               </div>

@@ -116,7 +116,7 @@ export default function TracksPage() {
 
           {/* Reassurance 1-Year Access & Digital QR Certificate Pill */}
           <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-2 text-xs text-neutral-600 dark:text-neutral-400 bg-teal-50/80 dark:bg-teal-950/40 border border-teal-500/20 px-4 py-2 rounded-full">
-            <span className="font-bold text-teal-800 dark:text-teal-300">👑 {isEn ? "1-Year Full Access (365 Days)" : "اشتراك سنوي لمدة 365 يوماً"}</span>
+            <span className="font-bold text-teal-800 dark:text-teal-300">👑 {isEn ? "Annual Subscription · 365 Days" : "اشتراك سنوي · 365 يومًا"}</span>
             <span className="text-neutral-400">•</span>
             <span className="font-bold text-amber-700 dark:text-amber-300">🎓 {isEn ? "Verifiable Digital QR Certificate For Every Track" : "شهادة إتمام رقمية موثقة بكود QR لكل مسار"}</span>
             <span className="text-neutral-400">•</span>

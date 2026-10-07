@@ -1126,8 +1126,8 @@ export default function LandingPageView() {
                 >
                   <span>
                     {isEn
-                      ? `Own Track for ${pricing.trackPriceEgp} EGP →`
-                      : `امتلك المسار بـ${pricing.trackPriceEgp} ج.م`}
+                      ? `Subscribe to Track (${pricing.trackPriceEgp} EGP / Year) →`
+                      : `اشترك في المسار (${pricing.trackPriceEgp} ج.م / سنة) ←`}
                   </span>
                 </Link>
                 <div className="text-center mt-2 text-3xs text-neutral-400">
@@ -1195,8 +1195,8 @@ export default function LandingPageView() {
                 >
                   <span>
                     {isEn
-                      ? `Own Career Path for ${pricing.careerPathPriceEgp} EGP →`
-                      : `امتلك الطريق المهني بـ${pricing.careerPathPriceEgp} ج.م`}
+                      ? `Subscribe to Career Path (${pricing.careerPathPriceEgp} EGP / Year) →`
+                      : `اشترك في المسار المهني (${pricing.careerPathPriceEgp} ج.م / سنة) ←`}
                   </span>
                 </Link>
                 <div className="text-center mt-2 text-3xs text-neutral-400">
@@ -1263,8 +1263,8 @@ export default function LandingPageView() {
                 >
                   <span>
                     {isEn
-                      ? `Unlock All Tawwerni for ${pricing.allAccessPriceEgp} EGP →`
-                      : `افتح كل Tawwerni بـ${pricing.allAccessPriceEgp} ج.م`}
+                      ? `Subscribe to All-Access (${pricing.allAccessPriceEgp} EGP / Year) →`
+                      : `اشترك في الوصول الشامل (${pricing.allAccessPriceEgp} ج.م / سنة) ←`}
                   </span>
                 </Link>
                 <div className="text-center mt-2 text-3xs text-neutral-400">
