@@ -18,9 +18,9 @@ const siteUrl = process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ?? `https://${bran
  */
 const total100Lessons = ALL_100_TRACKS.reduce((sum, t) => sum + t.totalLessons, 0);
 
-const shareTitle = `${brand.name} — تعلّم بذكاء، طبّق في دقائق، واصنع دخلك بالذكاء الاصطناعي`;
+const shareTitle = `${brand.name} — تعلّم بذكاء، طبّق في دقائق، وابنِ مهاراتك العملية`;
 
-const description = `١٠٠ مسار احترافي وأكثر من ${total100Lessons} درس تطبيقي بالعربية والإنجليزية، ١٠ إلى ١٥ دقيقة يومياً. اشتراك سنوي بأسعار تبدأ من ${pricing.trackPriceEgp} ج.م للمسار و${pricing.careerPathPriceEgp} ج.م للمسار المهني — واليوم الأول من كل مسار مجانًا.`;
+const description = `١٠٠ مسار احترافي وأكثر من ${total100Lessons} درس تطبيقي بالعربية والإنجليزية، ١٠ إلى ١٥ دقيقة يومياً. اشتراك سنوي بأسعار تبدأ من ${pricing.trackPriceEgp} ج.م للمسار و${pricing.careerPathPriceEgp} ج.م للمسار المهني — واليوم الأول من كل مسار مجانًا بدون تسجيل مسبق.`;
 
 /**
  * Metadata, including the link preview card.
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     "كورسات عربية",
     "ChatGPT بالعربي",
     "كلود لمديري المشاريع",
-    "دخل إضافي",
+    "مهارات عملية",
   ],
   authors: [{ name: brand.name }],
   alternates: { canonical: "/" },
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
         url: "/opengraph-image.jpg",
         width: 1200,
         height: 630,
-        alt: `${brand.name} — تعلّم بذكاء، طبّق في دقائق، واصنع دخلك`,
+        alt: `${brand.name} — تعلّم بذكاء، طبّق في دقائق، وابنِ مهاراتك`,
       },
     ],
   },

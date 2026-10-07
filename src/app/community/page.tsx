@@ -7,6 +7,8 @@ import LanguageToggle from "@/components/LanguageToggle";
 import ThemeToggle from "@/components/ThemeToggle";
 import { LogoLink } from "@/components/Logo";
 import { useI18n } from "@/components/LanguageContext";
+import { CONTENT_METRICS, FORMATTED_METRICS } from "@/lib/content-metrics";
+import { getTrackDayOneUrl } from "@/lib/canonical-routes";
 
 export default function CommunityPage() {
   const { lang } = useI18n();
@@ -42,13 +44,13 @@ export default function CommunityPage() {
               href="/tracks"
               className="text-xs font-bold text-neutral-700 dark:text-neutral-300 hover:text-teal-600 transition-colors hidden sm:inline shrink-0"
             >
-              {isEn ? "All 100 Tracks" : "الـ 100 مسار"}
+              {isEn ? `All ${CONTENT_METRICS.tracks} Tracks` : `الـ ${CONTENT_METRICS.tracks} مسار`}
             </Link>
             <Link
               href="/quiz"
               className="whitespace-nowrap shrink-0 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-500 px-3.5 sm:px-5 py-2 sm:py-2 text-xs font-black text-white hover:brightness-110 active:scale-95 transition-all shadow-md shadow-teal-500/20"
             >
-              {isEn ? "Join The Community 🚀" : "انضم لمجتمع الأبطال 🚀"}
+              {isEn ? "Find Your Path 🎯" : "اعرف المسار المناسب لك 🎯"}
             </Link>
           </div>
         </div>
@@ -58,27 +60,27 @@ export default function CommunityPage() {
       <section className="relative overflow-hidden py-14 sm:py-16 px-4 sm:px-6 border-b border-black/5 dark:border-white/5 text-center">
         <div className="mx-auto max-w-3xl relative z-10">
           <span className="inline-flex items-center gap-2 rounded-full border border-teal-500/30 bg-teal-500/10 px-4 py-1.5 text-xs font-black text-teal-700 dark:text-teal-300 mb-5 shadow-2xs">
-            <span className="text-base animate-pulse">👥</span>
+            <span className="text-base">🛠️</span>
             <span>
               {isEn
-                ? "Tawwerni Learning Community · 100 Tracks & 12 Roadmaps"
-                : "مجتمع طوّرني للتعلّم التطبيقي · 100 مسار و 12 مساراً مهنياً"}
+                ? `Practical Projects & Missions · ${CONTENT_METRICS.tracks} Tracks & ${CONTENT_METRICS.careerPaths} Career Paths`
+                : `مشاريع ومهام تطبيقية واقعية · ${CONTENT_METRICS.tracks} مسار و ${CONTENT_METRICS.careerPaths} مساراً مهنياً`}
             </span>
           </span>
 
           <h1 className="text-3xl font-black sm:text-5xl lg:text-6xl tracking-tight text-neutral-900 dark:text-white mb-4 leading-tight">
             {isEn ? (
               <>
-                Learn With Peers, <br className="hidden sm:inline" />
+                Practical Projects & Deliverables <br className="hidden sm:inline" />
                 <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-cyan-500 bg-clip-text text-transparent">
-                  Grow Without Friction
+                  You Build and Document
                 </span>
               </>
             ) : (
               <>
-                تعلّم مع نخبة من الطموحين، <br className="hidden sm:inline" />
+                نماذج من المشاريع والمهام <br className="hidden sm:inline" />
                 <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-cyan-500 bg-clip-text text-transparent">
-                  وحقق أهدافك بلا تسويف
+                  التي يمكن للمتعلم تنفيذها
                 </span>
               </>
             )}
@@ -86,41 +88,41 @@ export default function CommunityPage() {
 
           <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto leading-relaxed mb-8">
             {isEn
-              ? "Explore practical learning scenarios and skill applications from learners building their daily habits across vital domains on Tawwerni."
-              : "اكتشف تجارب تطبيقية ونماذج واقعية لمتدربين يبنون مهاراتهم اليومية وينجزون مشاريعهم التطبيقية عبر منصة طوّرني."}
+              ? "Every track on Tawwerni culminates in real, hands-on capstones you can document and showcase directly in your portfolio — moving beyond passive video watching to verifiable mastery."
+              : "كل مسار في طوّرني ينتهي بمنتج ومخرج عملي ملموس يمكنك توثيقه وإضافته إلى ملف أعمالك، بعيداً عن الفيديوهات السلبية والمحاضرات النظرية."}
           </p>
 
-          {/* Metrics Bar */}
+          {/* Canonical Metrics Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto text-center">
             <div className="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md rounded-2xl p-3 border border-black/5 dark:border-white/10 shadow-xs">
-              <div className="text-2xl font-black text-teal-600 dark:text-teal-400 font-mono">100</div>
+              <div className="text-2xl font-black text-teal-600 dark:text-teal-400 font-mono">{CONTENT_METRICS.tracks}</div>
               <div className="text-xs text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
                 {isEn ? "Specialized Tracks" : "مسار تخصصي"}
               </div>
             </div>
             <div className="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md rounded-2xl p-3 border border-black/5 dark:border-white/10 shadow-xs">
-              <div className="text-2xl font-black text-amber-500 font-mono">12</div>
+              <div className="text-2xl font-black text-amber-500 font-mono">{CONTENT_METRICS.careerPaths}</div>
               <div className="text-xs text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
                 {isEn ? "Career Roadmaps" : "مساراً مهنياً متكاملاً"}
               </div>
             </div>
             <div className="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md rounded-2xl p-3 border border-black/5 dark:border-white/10 shadow-xs">
-              <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">10–15</div>
+              <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">{FORMATTED_METRICS.lessons}</div>
               <div className="text-xs text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
-                {isEn ? "Minutes / Day" : "دقيقة يومياً فقط"}
+                {isEn ? "Lessons & Missions" : "درس ومهمة تطبيقية"}
               </div>
             </div>
             <div className="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md rounded-2xl p-3 border border-black/5 dark:border-white/10 shadow-xs">
-              <div className="text-2xl font-black text-cyan-600 dark:text-cyan-400 font-mono">365</div>
+              <div className="text-2xl font-black text-cyan-600 dark:text-cyan-400 font-mono">100%</div>
               <div className="text-xs text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
-                {isEn ? "Days Access" : "يوماً صلاحية الاشتراك"}
+                {isEn ? "Free Day 1 (No Sign Up)" : "اليوم الأول مجاناً بلا تسجيل"}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Main Content */}
+      {/* Main Content: Practical Projects Showcase */}
       <main className="flex-1">
         <CommunityWall />
       </main>
@@ -132,26 +134,26 @@ export default function CommunityPage() {
           <div className="pointer-events-none absolute -left-16 -bottom-16 h-48 w-48 rounded-full bg-cyan-400/20 blur-2xl" />
 
           <h2 className="text-2xl sm:text-4xl font-black mb-3">
-            {isEn ? "Ready to Build Your Next Skill?" : "جاهز لبناء مهارتك العملية القادمة؟"}
+            {isEn ? "Ready to Build Your First Practical Project?" : "جاهز لتنفيذ أول مشروع ومهمة عملية لك؟"}
           </h2>
           <p className="text-xs sm:text-sm text-neutral-300 max-w-xl mx-auto mb-6 leading-relaxed">
             {isEn
-              ? "Join learners leveling up their capabilities daily. Day 1 of every track is 100% free, followed by 365-day access with no automatic rebills."
-              : "انضم إلى المتدربين الذين يطورون مهاراتهم يوميًا. اليوم الأول مجانًا بالكامل لكافة المسارات، يليه اشتراك سنوي لمدة 365 يوماً دون أي تجديد تلقائي إجباري."}
+              ? "Try Day 1 of any track 100% free with zero prior registration. Experience actionable micro-learning and execute real tasks immediately."
+              : "جرّب اليوم الأول من أي مسار مجانًا بدون تسجيل مسبق. اختبر بنفسك أسلوب التعلّم بالتطبيق المباشر ونفّذ أول مهمة عملية فوراً."}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
-              href="/quiz"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 text-neutral-950 font-black text-sm shadow-xl hover:brightness-110 active:scale-95 transition-all"
+              href={getTrackDayOneUrl("prompt-engineering-mastery")}
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 text-neutral-950 font-black text-sm shadow-xl hover:brightness-110 active:scale-95 transition-all text-center"
             >
-              {isEn ? "Start Your Journey Today →" : "ابدأ رحلتك التعليمية الآن ←"}
+              {isEn ? "Try Day 1 Free Now →" : "جرّب اليوم الأول مجانًا ←"}
             </Link>
             <Link
-              href="/tracks"
-              className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm backdrop-blur-md active:scale-95 transition-all"
+              href="/quiz"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm backdrop-blur-md active:scale-95 transition-all text-center"
             >
-              {isEn ? "Explore All 100 Tracks" : "استكشف كل الـ 100 مسار"}
+              {isEn ? "Find The Best Path For You" : "اعرف المسار المناسب لك"}
             </Link>
           </div>
         </div>
@@ -160,7 +162,7 @@ export default function CommunityPage() {
       {/* Footer */}
       <footer className="border-t border-black/5 dark:border-neutral-900 py-8 px-4 text-center text-xs text-neutral-500 bg-white/50 dark:bg-neutral-950/50 backdrop-blur-md">
         <div className="mx-auto max-w-xl space-y-2">
-          <p>© {new Date().getFullYear()} {isEn ? brand.nameEn : brand.name} ({brand.domain}) · {isEn ? "Early Adopter Community" : "مجتمع الرواد الأوائل"}</p>
+          <p>© {new Date().getFullYear()} {isEn ? brand.nameEn : brand.name} ({brand.domain}) · {isEn ? "Practical Educational Platform" : "منصة طوّرني للتعلّم التطبيقي"}</p>
           <div className="flex items-center justify-center gap-4 text-neutral-500 dark:text-neutral-400">
             <Link href="/about" className="hover:text-teal-600 transition-colors">{isEn ? "About Us" : "من نحن"}</Link>
             <span>•</span>

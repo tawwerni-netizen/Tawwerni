@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import VerticalLandingPage from "@/components/VerticalLandingPage";
 
 export const metadata: Metadata = {
-  title: "تعلّم العمل الحر بالعربي — من مهارة لأول عميل مش نظريات",
+  title: "تعلّم العمل الحر بالعربي — بناء خدمات وبورتفوليو مهني",
   description:
-    "مسار 28 يوم يحوّل مهارة عندك بالفعل لدخل حقيقي. اختيار خدمة، بناء بروفايل، وأول عميل — خطوة بخطوة.",
+    "مسار 28 يوم يحوّل مهارة عندك لخدمات عملية قابلة للعرض. اختيار خدمة، بناء بروفايل، وصياغة عروض مقنعة — خطوة بخطوة.",
   alternates: { canonical: "/freelancing" },
 };
 
@@ -12,14 +12,14 @@ export default function FreelancingLandingPage() {
   return (
     <VerticalLandingPage
       courseSlug="el-3amal-el-horr"
-      eyebrow="💻 28 يوم · من مهارة لأول عميل"
-      eyebrowEn="💻 28 Days · From Skill to Paying Clients"
-      headline="حوّل مهارة عندك بالفعل"
-      headlineEn="Turn Skills You Already Have"
-      headlineAccent="لدخل حقيقي من العمل الحر."
-      headlineAccentEn="Into Substantial Freelance Income."
-      subhead="مش كلام عام عن الفريلانسينج — خطوات عملية: اختيار خدمة تقدر تبيعها، بناء بروفايل يقنع، وكتابة عرض يوصلك لأول عميل حقيقي."
-      subheadEn="No generic advice: packaged high-demand offers, magnetic portfolio positioning, client acquisition proposals, and pricing protecting your work."
+      eyebrow="💻 28 يوم · بناء خدماتك ومعرض أعمالك"
+      eyebrowEn="💻 28 Days · Package Services & Build Portfolio"
+      headline="حوّل مهاراتك الشخصية"
+      headlineEn="Turn Your Specialized Skills"
+      headlineAccent="لخدمات احترافية في العمل الحر."
+      headlineAccentEn="Into Professional Freelance Services."
+      subhead="مش كلام عام عن الفريلانسينج — خطوات عملية: اختيار خدمة تتقنها، بناء بروفايل مقنع، وصياغة عروض مشاريع احترافية."
+      subheadEn="No generic fluff: packaged service offerings, magnetic portfolio positioning, and structured client proposals."
       primaryCta="ابدأ مسار العمل الحر ←"
       primaryCtaEn="Start Freelancing Track Now →"
     />

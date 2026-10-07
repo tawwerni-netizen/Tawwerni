@@ -845,8 +845,8 @@ export default function QuizPage() {
                   },
                   {
                     week: isEn ? "Week 4 (Days 22–28)" : "الأسبوع الرابع (الأيام ٢٢–٢٨)",
-                    title: isEn ? "Monetization, Client Outreach & Verified Digital Certification" : "تسعير الخدمات، اقتناص العملاء وشهادة الإتمام الرقمية الموثقة",
-                    badge: isEn ? "Income 💰" : "دخل وشهادة إتمام 🎓",
+                    title: isEn ? "Service Packaging, Client Communication & Verifiable Completion Certificate" : "تسعير الخدمات، التواصل المهني مع العملاء وشهادة الإتمام الرقمية الموثقة",
+                    badge: isEn ? "Capstone & Certificate 🎓" : "مشروع التخرج والشهادة 🎓",
                   },
                 ].map((item, idx) => (
                   <div key={idx} className="p-3 rounded-2xl bg-white/5 border border-white/5 flex flex-col justify-between">

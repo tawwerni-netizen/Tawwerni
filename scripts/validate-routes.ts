@@ -24,6 +24,7 @@ import {
 } from "../src/lib/canonical-routes";
 import { loadUniversalLesson } from "../src/lib/course-loader";
 import { loadMission } from "../src/lib/mission-adapter";
+import { PRACTICAL_PROJECTS } from "../src/content/practical-projects";
 
 interface ValidationResult {
   category: string;
@@ -168,6 +169,25 @@ for (const vp of verticalPages) {
 
   const mission = loadMission(vp.canonicalSlug, 1);
   record("Vertical Landing Day 1 Mission", vp.path, Boolean(mission?.objective), "Day 1 mission failed");
+}
+
+// 6. Audit Practical Projects Showcase (Community & Home)
+console.log(`\n💼 [6/6] Auditing Practical Projects Deliverables Showcase...`);
+record("Practical Projects List", "NotEmpty", PRACTICAL_PROJECTS.length > 0, "No practical projects found");
+
+for (const proj of PRACTICAL_PROJECTS) {
+  const track = resolveCanonicalTrack(proj.trackSlug);
+  record("Practical Project Track Exists", `${proj.id} (${proj.trackSlug})`, Boolean(track), `Track ${proj.trackSlug} not found in catalog`);
+
+  const dayOneUrl = getTrackDayOneUrl(proj.trackSlug);
+  const expectedUrl = `/app/learn/${proj.trackSlug}/1`;
+  record("Practical Project Day 1 Route", proj.id, dayOneUrl === expectedUrl, `Expected ${expectedUrl}, got ${dayOneUrl}`);
+
+  const lesson = loadUniversalLesson(proj.trackSlug, 1);
+  record("Practical Project Day 1 Lesson", proj.id, Boolean(lesson?.lesson), "Day 1 lesson failed");
+
+  const mission = loadMission(proj.trackSlug, 1);
+  record("Practical Project Day 1 Mission", proj.id, Boolean(mission?.objective), "Day 1 mission failed");
 }
 
 console.log("\n========================================================");

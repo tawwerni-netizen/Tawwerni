@@ -324,10 +324,10 @@ export const faqCategories: FaqCategory[] = [
         "aEn": "Never. We do not store, process, or have access to any banking PINs or card numbers."
       },
       {
-        "q": "ليه مفيش استرجاع؟",
-        "qEn": "Can I try before I pay?",
-        "a": "لأن المحتوى بيتفتح كله فور التفعيل — مفيش جزء بيتقفل بعد كده. بدل ما نوعد بحاجة بعد الدفع، بنخليك تجرّب قبله: اليوم الأول من كل مسار مفتوح لأي حساب مجانًا.",
-        "aEn": "Yes! Day 1 of all 100 tracks is completely free for every registered user without entering any payment information."
+        "q": "هل يمكنني تجربة المحتوى قبل الشراء؟",
+        "qEn": "Can I try the content before paying?",
+        "a": "نعم بكل تأكيد! اليوم الأول من كل مسار مفتوح مجاناً بالكامل بدون دفع أو تسجيل مسبق، لتجربة جودة المهام والشرح بنفسك، بالإضافة لضمان استرجاع كامل خلال 3 أيام وفق شروط الاستهلاك العادل.",
+        "aEn": "Yes, absolutely! Day 1 of every single track is 100% free with zero registration required. In addition, we provide a 3-day money-back guarantee subject to fair-consumption terms."
       },
       {
         "q": "أقدر أهدي مسار أو حساب لحد؟",

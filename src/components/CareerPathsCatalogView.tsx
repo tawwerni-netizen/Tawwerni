@@ -67,7 +67,7 @@ export default function CareerPathsCatalogView({
             <span>
               {isEn
                 ? "Outcome-Driven Career Roadmaps"
-                : "خرائط طريق تخصصية موجهة نحو التوظيف وبناء الدخل"}
+                : "خرائط طريق تخصصية موجهة نحو إتقان المهارات وبناء المشاريع"}
             </span>
           </div>
 
@@ -82,8 +82,8 @@ export default function CareerPathsCatalogView({
           {/* Subtitle */}
           <p className="mx-auto max-w-2xl text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed font-medium">
             {isEn
-              ? "Instead of wandering across 100 detached courses, step into sequential career paths. Each roadmap guides you through foundational logic, core toolkits, real project deliverables, and capstone portfolio proof."
-              : "بدل التشتت بين 100 كورس منفصل؛ صممنا لك مسارات مهنية مرتبة على مراحل واقعية (تأسيس ← مهارات جوهرية ← تطبيق عملي متقدم ← مشاريع بورتفوليو تثبت كفاءتك لأصحاب الأعمال والعملاء)."}
+              ? "Instead of wandering across 100 detached courses, step into sequential career paths. Each roadmap guides you through foundational logic, core toolkits, and capstone projects you can document and showcase in your portfolio."
+              : "بدل التشتت بين 100 كورس منفصل؛ صممنا لك مسارات مهنية مرتبة على مراحل واقعية (تأسيس ← مهارات جوهرية ← تطبيق عملي متقدم ← تنتهي بمشاريع عملية يمكنك توثيقها وعرضها ضمن ملف أعمالك)."}
           </p>
 
           {/* 3 Dopamine Reassurance Pills */}

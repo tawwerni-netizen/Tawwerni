@@ -126,8 +126,8 @@ export default function TermsPage() {
               </li>
               <li className="font-bold text-teal-800 dark:text-teal-300">
                 {isEn
-                  ? "Digital Products & Final Sale Policy: Due to the instant and irrevocable nature of digital educational content, exercises, prompt banks, and digital completion certificates, all purchases are final and non-refundable once unlocked and activated on your account."
-                  : "سياسة المنتجات الرقمية: نظراً لطبيعة المنتجات الرقمية التعليمية والوصول الفوري غير القابل للإلغاء إلى المناهج التفاعلية وبنك البرومبتات وشهادات الإتمام الرقمية الموثقة بكود QR، فإن عمليات الشراء نهائية وغير قابلة للاسترداد بمجرد التفعيل على الحساب."}
+                  ? "Digital Products & Refund Policy: We provide a full 3-day money-back guarantee subject to our fair-consumption condition (the learner must not have completed more than 3 hands-on missions or generated a verified completion certificate). Beyond 3 days or upon exceeding fair use, purchases are final."
+                  : "سياسة الاسترجاع والمنتجات الرقمية: نقدم ضمان استرجاع كامل المبلغ خلال 3 أيام من تاريخ الشراء وفق شرط الاستهلاك العادل (ألا يكون المتدرب قد أتم أكثر من 3 مهام تطبيقية أو أصدر شهادة إتمام رقمية). بعد مرور 3 أيام أو استهلاك المحتوى، تعد العمليات نهائية."}
               </li>
               <li className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
                 {isEn

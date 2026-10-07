@@ -40,12 +40,12 @@ export default function LandingPageView() {
     ? [
         { icon: "☕", label: "3 Specialty Coffees", note: "Consumed in an hour" },
         { icon: "🍔", label: "Takeout Meal for Two", note: "Gone in 30 minutes" },
-        { icon: "🌟", label: `100 Tracks & ${totalLessons}+ Lessons`, note: "1-year access unlocking high-demand market skills", ours: true },
+        { icon: "🌟", label: `100 Tracks & ${FORMATTED_METRICS.lessons} Lessons`, note: "1-year access unlocking practical skills & real portfolio projects", ours: true },
       ]
     : [
         { icon: "☕", label: "٣ قعدات قهوة", note: "تنتهي في ساعة واحدة" },
         { icon: "🍔", label: "وجبة سريعة لشخصين", note: "تنتهي في نصف ساعة" },
-        { icon: "🌟", label: `١٠٠ مسار و${totalLessons}+ درس`, note: "اشتراك سنوي شامل يفتح لك مهارات وفرص دخل حقيقية", ours: true },
+        { icon: "🌟", label: `١٠٠ مسار و${FORMATTED_METRICS.lessons} درس ومهمة`, note: "اشتراك سنوي شامل يفتح لك مهارات عملية ومشاريع بورتفوليو حقيقية", ours: true },
       ];
 
   return (
@@ -118,8 +118,8 @@ export default function LandingPageView() {
             <span>🎯</span>
             <span>
               {isEn
-                ? "The Guided Daily Learning System for In-Demand Skills"
-                : "منظومة التعلم اليومي الموجه لتحويل مهارات المستقبل إلى دخل"}
+                ? "The Guided Daily Learning System for In-Demand Practical Skills"
+                : "منظومة التعلم اليومي الموجه لإتقان مهارات المستقبل عملياً"}
             </span>
           </div>
 
@@ -258,7 +258,7 @@ export default function LandingPageView() {
           <div className="text-start mt-8">
             <div className="text-center mb-6">
               <span className="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-300 bg-teal-500/10 px-3 py-1 rounded-full border border-teal-500/20">
-                {isEn ? "3 High-Demand Hero Paths" : "٣ مسارات بطلة تصنع الفارق في دخلك"}
+                {isEn ? "3 High-Demand Practical Paths" : "٣ مسارات بطلة تبني أهم مهاراتك المطلوبة"}
               </span>
               <h2 className="mt-2 text-xl sm:text-2xl font-black text-neutral-900 dark:text-white">
                 {isEn ? "Where would you like to start your 28-day challenge?" : "تحب تبدأ تحدي الـ 28 يوم في أنهي مجال؟"}
@@ -907,8 +907,8 @@ export default function LandingPageView() {
           </h2>
           <p className="mx-auto mb-7 max-w-lg text-center text-xs sm:text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
             {isEn
-              ? "The only question: Where will you stand? In the exact same spot, or owning future skills that transform your income?"
-              : "السؤال الوحيد: أين ستكون حينها؟ في نفس المكان بنفس الدخل، أم متسلحًا بمهارات تغير مستقبلك المالي؟"}
+              ? "The only question: Where will you stand? In the exact same spot, or owning practical capabilities and tangible portfolio projects?"
+              : "السؤال الوحيد: أين ستكون حينها؟ في نفس المكان بنفس التردد، أم متسلحًا بمهارات عملية ومشاريع ترفع كفاءتك؟"}
           </p>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -921,7 +921,7 @@ export default function LandingPageView() {
                 <li>• {isEn ? "Start a long course, get motivated for 2 days, abandon it by day 3" : "تبدأ كورس طويل، تتحمس يومين، وتسيبه بعد ٣ أيام"}</li>
                 <li>• {isEn ? "Bookmark dozens of tutorials without writing a single line of practice" : "تحفظ فيديوهات وبوستات كثيرة وما تنفذش تطبيق واحد"}</li>
                 <li>• {isEn ? "Watch peers adopt new tech while your skill set stagnates" : "تشوف زملاءك بيتعلموا أدوات المستقبل وأنت واقف مكانك"}</li>
-                <li>• {isEn ? "Find yourself in 12 months with the exact same income and overwhelm" : "بعد سنة تلاقي نفسك بنفس الدخل ونفس التشتت"}</li>
+                <li>• {isEn ? "Find yourself in 12 months with the exact same hesitation and overwhelm" : "بعد سنة تلاقي نفسك بنفس التردد ونفس التشتت"}</li>
               </ul>
             </div>
 
@@ -934,7 +934,7 @@ export default function LandingPageView() {
                 <li>• {isEn ? "10 to 15 minutes daily — guaranteed frictionless habit loop" : "١٠ إلى ١٥ دقيقة يوميًا — جرعة خفيفة تضمن استمرارك دون انقطاع"}</li>
                 <li>• {isEn ? "Actionable micro-task in every lesson with zero fluff" : "مهمة عملية وتطبيق مباشر بكل درس بدون حشو نظري"}</li>
                 <li>• {isEn ? "Integrated psychological support (Pomodoro, Alpha waves, Streak Freeze)" : "دعم نفسي متواصل (بومودورو، نغمات ألفا، وتجميد السلسلة)"}</li>
-                <li>• {isEn ? "100 tracks opening doors to freelance income, promotion, and startups" : "١٠٠ مسار تفتح لك أبواب الدخل الحر والترقي ومشاريعك الخاصة"}</li>
+                <li>• {isEn ? "100 tracks opening doors to freelance services, career readiness, and your own projects" : "١٠٠ مسار تفتح لك آفاق العمل الحر والجاهزية المهنية وبناء مشاريعك الخاصة"}</li>
               </ul>
             </div>
           </div>
@@ -946,17 +946,17 @@ export default function LandingPageView() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-300 bg-teal-500/10 px-3.5 py-1 rounded-full border border-teal-500/20">
-                  {isEn ? "Practical Application & Learning Models" : "تطبيقات ونماذج عملية"}
+                  {isEn ? "Practical Projects & Deliverables" : "مشاريع عملية ومخرجات حقيقية"}
                 </span>
                 <h2 className="mt-3 text-2xl font-black md:text-3xl text-neutral-900 dark:text-white">
                   {isEn
-                    ? "Applied Learning Models & Hands-on Student Projects"
-                    : "مجتمع المتعلمين ونماذج التطبيق العملي"}
+                    ? "Practical Projects and Tasks You Build on Tawwerni"
+                    : "نماذج من المشاريع والمهام التي يمكن للمتعلم تنفيذها"}
                 </h2>
                 <p className="mt-1 text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
                   {isEn
-                    ? "See how learners build consistent daily learning habits and ship real portfolio projects across 10 vital domains."
-                    : "شاهد كيف يبني المتدربون عادات دراسية يومية وينجزون مشاريع حقيقية لسيرهم الذاتية في مختلف المجالات."}
+                    ? "See how each track ends with a tangible, portfolio-ready deliverable you build step by step across 10 vital domains."
+                    : "استكشف كيف ينتهي كل مسار بمخرج تطبيقي ملموس تبنيه خطوة بخطوة وتوثقه في ملف أعمالك الشخصي."}
                 </p>
               </div>
 
@@ -964,7 +964,7 @@ export default function LandingPageView() {
                 href="/community"
                 className="shrink-0 px-6 py-3 text-xs font-bold rounded-full border border-teal-500/30 hover:bg-teal-500/10 text-teal-700 dark:text-teal-300 transition"
               >
-                {isEn ? "Explore Learning Community →" : "استكشف تجارب ومشاريع المجتمع ←"}
+                {isEn ? "Explore All Practical Projects →" : "استكشف كافة المشاريع والمهام التطبيقية ←"}
               </Link>
             </div>
 
@@ -986,20 +986,20 @@ export default function LandingPageView() {
                   {isEn ? "Exclusive VIP Digital Vault" : "خزنة الـ VIP السرية للشركات والفريلانسرز"}
                 </span>
                 <span className="rounded-full bg-gradient-to-r from-amber-400 to-yellow-300 text-neutral-950 px-2.5 py-0.5 text-[10px] sm:text-[11px] font-black shadow-sm shrink-0">
-                  +10,000 Prompts
+                  +{FORMATTED_METRICS.prompts} Prompts
                 </span>
               </div>
 
               <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight mb-3">
                 {isEn
-                  ? "Download the 10,000 Secret Corporate AI Prompts Bank + 5 Legal Freelance Contracts"
-                  : "بنك الـ 10,000 برومبت السري للشركات + حزمة عقود الفريلانس القانونية"}
+                  ? `Download the ${FORMATTED_METRICS.prompts} Corporate AI Prompts Bank + ${CONTENT_METRICS.contracts} Legal Freelance Contracts`
+                  : `بنك الـ ${FORMATTED_METRICS.prompts} برومبت للشركات + حزمة ${CONTENT_METRICS.contracts} عقود فريلانس قانونية`}
               </h2>
 
               <p className="text-xs sm:text-base text-neutral-200 leading-relaxed mb-6 max-w-2xl">
                 {isEn
-                  ? "An authentic indexed vault covering 100 enterprise domains × 100 copy-pasteable executive prompts + 5 ironclad bilingual contracts protecting your freelance fees and killing scope creep."
-                  : "قاعدة بيانات مفهرسة تضم ١٠٠ مجال شركات متخصص × ١٠٠ برومبت تنفيذي جاهز للنسخ المباشر = ١٠,٠٠٠ أمر احترافي مطبق عملياً.. بالإضافة إلى ٥ عقود عمل حر ثنائية اللغة تحمي أتعابك قانونياً وتمنع المماطلة تماماً."}
+                  ? `An authentic indexed vault covering ${FORMATTED_METRICS.prompts} copy-pasteable executive prompts + ${CONTENT_METRICS.contracts} ironclad bilingual contracts protecting your freelance fees and killing scope creep.`
+                  : `قاعدة بيانات مفهرسة تضم ${FORMATTED_METRICS.prompts} أمر تنفيذي جاهز للنسخ المباشر.. بالإضافة إلى ${CONTENT_METRICS.contracts} عقود عمل حر ثنائية اللغة تحمي أتعابك قانونياً وتمنع المماطلة تماماً.`}
               </p>
 
               {/* Sample Domain Pills Showcase */}
@@ -1371,8 +1371,8 @@ export default function LandingPageView() {
 
           <p className="mx-auto mb-8 max-w-xl text-xs sm:text-sm text-teal-100/90 leading-relaxed">
             {isEn
-              ? "Every day you delay is a day you could have completed your first track, built a real project, and acquired a high-income skill. 100 tracks are ready for you right now."
-              : "كل يوم بتأجّل فيه هو يوم كان ممكن تخلّص فيه أول مسار لك، وتطبّق أول مشروع، وتكسب مهارة تفتح لك فرص دخل جديدة. الـ ١٠٠ مسار بانتظارك واليوم الأول متاح للتجربة فورًا."}
+              ? "Every day you delay is a day you could have completed your first track, built a real project, and acquired an in-demand practical capability. 100 tracks are ready for you right now — Day 1 is 100% free with no sign-up required."
+              : "كل يوم بتأجّل فيه هو يوم كان ممكن تخلّص فيه أول مسار لك، وتطبّق أول مشروع، وتكسب مهارة تفتح لك آفاقاً عملية جديدة. الـ ١٠٠ مسار بانتظارك واليوم الأول متاح للتجربة فورًا بدون تسجيل مسبق."}
           </p>
 
           {/* Glowing High-Contrast CTA Button */}

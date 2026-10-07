@@ -48,7 +48,7 @@ export default function AboutPage() {
             {isEn ? `Who is behind ${brand.nameEn}?` : `من وراء منصة ${brand.name}؟`}
           </h1>
           <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
-            {isEn ? "Transforming micro-learning into real-world career & income progress." : "حوّل تعلّمك اليومي المصغّر لتقدّم حقيقي في مهاراتك ودخلك."}
+            {isEn ? "Transforming micro-learning into real-world practical skills & portfolio progress." : "حوّل تعلّمك اليومي المصغّر لتقدّم حقيقي في مهاراتك وملف أعمالك."}
           </p>
         </div>
 
@@ -77,10 +77,10 @@ export default function AboutPage() {
               <div className="p-3.5 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-black/5 dark:border-white/5">
                 <span className="text-xl mb-1 block">🎯</span>
                 <strong className="block text-neutral-900 dark:text-white mb-1">
-                  {isEn ? "Zero Inflated Numbers" : "مفيش أرقام وهمية"}
+                  {isEn ? "Authentic Practical Deliverables" : "مخرجات عملية حقيقية"}
                 </strong>
                 <p className="text-neutral-500 dark:text-neutral-400 text-xs">
-                  {isEn ? "Every track, student, and community story is real." : "كل مسار وتدريب وعضو في المجتمع حقيقي وموثق بالكامل."}
+                  {isEn ? "Every track, lesson, and project deliverable is grounded in reality." : "كل مسار ومهمة ومشروع تطبيقي مبني على معايير تنفيذية واقعية."}
                 </p>
               </div>
 

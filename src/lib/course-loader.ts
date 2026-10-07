@@ -182,15 +182,15 @@ function synthesizeTrackCourse(track: Track100): UniversalCourse {
     {
       titleAr: "المشاريع الواقعية والتنفيذ الشامل",
       titleEn: "Real-World Projects & Production Delivery",
-      descriptionAr: "بناء نماذج أعمال حقيقية وملفات إنجاز تثبت كفاءتك أمام العملاء وسوق العمل.",
+      descriptionAr: "بناء نماذج أعمال حقيقية وملفات إنجاز يمكنك توثيقها وعرضها ضمن ملف أعمالك.",
       descriptionEn: "Execute complete client-ready case studies and build a tangible portfolio of deliverables.",
       icon: "🛠️",
     },
     {
-      titleAr: "تحقيق الدخل، التسويق، والاحتراف المستدام",
-      titleEn: "Monetization, Client Acquisition & Sustainable Mastery",
-      descriptionAr: "تحويل المهارة لعائد مادي حقيقي، تسعير خدماتك، وبناء عادات تدريب مستمرة بدون احتراق.",
-      descriptionEn: "Monetize your expertise, price your services, acquire paying clients, and sustain long-term growth.",
+      titleAr: "تقديم الخدمات، التواصل، والتطوير المستدام",
+      titleEn: "Service Packaging, Client Comms & Sustainable Mastery",
+      descriptionAr: "تسعير خدماتك الاحترافية، والتواصل مع العملاء، وبناء عادات ممارسة مستمرة بدون احتراق.",
+      descriptionEn: "Package and price your professional services, communicate effectively, and sustain long-term growth.",
       icon: "🚀",
     },
   ];
