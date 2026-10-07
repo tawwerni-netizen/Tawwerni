@@ -131,7 +131,7 @@ export default function Certificate({
           </div>
 
           <p className="certificate-eyebrow font-black tracking-widest text-xs uppercase text-amber-700 dark:text-amber-300">
-            {isEn ? "Official Verified Certificate of Practical Completion" : "شهادة إتمام وتأهيل عملي رقمية موثقة"}
+            {isEn ? "Digital Certificate of Practical Course Completion" : "شهادة إتمام رقمية قابلة للتحقق عبر QR"}
           </p>
 
           <div className="certificate-rule my-4" aria-hidden />
@@ -147,7 +147,7 @@ export default function Certificate({
           <p className="mx-auto mb-2 max-w-md text-xs sm:text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">
             {isEn
               ? "has successfully completed all intensive curriculum milestones and real-world project challenges in"
-              : "قَدْ أَتَمَّ بِنَجَاحٍ كَافَّةَ مَرَاحِلِ وَتَطْبِيقَاتِ المَسَارِ المِهْنِيِّ التَّطْبِيقِيِّ"}
+              : "قَدْ أَتَمَّ بِنَجَاحٍ كَافَّةَ مَرَاحِلِ وَمَهَامِ المَسَارِ التَّطْبِيقِيِّ"}
           </p>
 
           <h2 className="certificate-course text-xl sm:text-2xl font-black text-brand-700 dark:text-emerald-400 my-2">
@@ -168,7 +168,7 @@ export default function Certificate({
           {/* Signatures & Seal */}
           <div className="certificate-foot flex items-center justify-between text-start pt-2">
             <div>
-              <p className="certificate-foot-label text-[10px] text-neutral-400 uppercase font-bold">{isEn ? "Completion Date" : "تاريخ الإتمام والتخرج"}</p>
+              <p className="certificate-foot-label text-[10px] text-neutral-400 uppercase font-bold">{isEn ? "Completion Date" : "تاريخ الإتمام"}</p>
               <p className="certificate-foot-value text-xs font-bold text-neutral-800 dark:text-neutral-200">{formatDate(finishedAt, isEn)}</p>
             </div>
 

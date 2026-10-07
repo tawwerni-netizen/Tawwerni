@@ -288,7 +288,7 @@ export default function ProfileClient(props: Props) {
               </p>
             </div>
             <p className="text-xs text-neutral-600 dark:text-neutral-300">
-              {paymentLabel} · {props.subscription.amountEgp} {isEn ? "EGP · Added to your permanent inventory" : "جنيه · مضافة لمخزونك ومكتبتك التعليمية الدائمة"}
+              {paymentLabel} · {props.subscription.amountEgp} {isEn ? "EGP · 365-day full access active" : "جنيه · اشتراك سنوي نشط لمدة 365 يوماً"}
             </p>
 
             {/* VIP Status Badge */}

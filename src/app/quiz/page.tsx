@@ -779,14 +779,14 @@ export default function QuizPage() {
                 {isEn ? archetype.subtitleEn : archetype.subtitle}
               </p>
 
-              {/* Income Potential Pill */}
-              <div className="mb-4 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center gap-2.5">
-                <span className="text-xl">💰</span>
+              {/* Market Demand Pill */}
+              <div className="mb-4 p-3 rounded-2xl bg-teal-500/10 border border-teal-500/30 flex items-center gap-2.5">
+                <span className="text-xl">📈</span>
                 <div>
-                  <p className="text-[10px] font-bold text-amber-300">
-                    {isEn ? "Target Supplemental Income Potential:" : "الدخل المهني الإضافي المستهدف لهذا المسار:"}
+                  <p className="text-[10px] font-bold text-teal-300">
+                    {isEn ? "Market Demand & Practical Application:" : "مستوى الطلب وسوق التطبيق العملي:"}
                   </p>
-                  <p className="text-sm font-black text-white font-mono">
+                  <p className="text-xs sm:text-sm font-black text-white">
                     {isEn ? archetype.salaryRangeEn : archetype.salaryRangeAr}
                   </p>
                 </div>

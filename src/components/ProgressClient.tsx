@@ -236,7 +236,7 @@ export default function ProgressClient({
                             {isEn ? (certCourse.titleEn || certCourse.titleAr) : certCourse.titleAr}
                           </p>
                           <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold mt-0.5">
-                            ✓ {isEn ? "100% Completed · Verified QR" : "مكتمل ١٠٠٪ · كود QR معتمد"}
+                            ✓ {isEn ? "100% Completed · Verifiable QR" : "مكتمل ١٠٠٪ · كود QR للتحقق"}
                           </p>
                         </div>
                       </div>

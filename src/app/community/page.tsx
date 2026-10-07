@@ -86,34 +86,34 @@ export default function CommunityPage() {
 
           <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto leading-relaxed mb-8">
             {isEn
-              ? "Discover genuine feedback, real-world earnings, and career transformations from learners across 10 vital industries using Tawwerni daily."
-              : "اكتشف تجارب حقيقية ونتائج موثقة لطلاب، مستقلين، ورواد أعمال يبنون مهاراتهم اليومية عبر منصة طوّرني ويحققون دخلاً حقيقيًا."}
+              ? "Explore practical learning scenarios and skill applications from learners building their daily habits across vital domains on Tawwerni."
+              : "اكتشف تجارب تطبيقية ونماذج واقعية لمتدربين يبنون مهاراتهم اليومية وينجزون مشاريعهم التطبيقية عبر منصة طوّرني."}
           </p>
 
           {/* Metrics Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto text-center">
             <div className="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md rounded-2xl p-3 border border-black/5 dark:border-white/10 shadow-xs">
-              <div className="text-2xl font-black text-teal-600 dark:text-teal-400 font-mono">300+</div>
+              <div className="text-2xl font-black text-teal-600 dark:text-teal-400 font-mono">100</div>
               <div className="text-xs text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
-                {isEn ? "Verified Members" : "عضو مؤسس موثق"}
+                {isEn ? "Specialized Tracks" : "مسار تخصصي"}
               </div>
             </div>
             <div className="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md rounded-2xl p-3 border border-black/5 dark:border-white/10 shadow-xs">
-              <div className="text-2xl font-black text-amber-500 font-mono">4.9 / 5</div>
+              <div className="text-2xl font-black text-amber-500 font-mono">12</div>
               <div className="text-xs text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
-                {isEn ? "Average Rating" : "تقييم الرضا العام"}
+                {isEn ? "Career Roadmaps" : "مساراً مهنياً متكاملاً"}
               </div>
             </div>
             <div className="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md rounded-2xl p-3 border border-black/5 dark:border-white/10 shadow-xs">
-              <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">94%</div>
+              <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">10–15</div>
               <div className="text-xs text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
-                {isEn ? "Completion Rate" : "نسبة الالتزام بالعادة"}
+                {isEn ? "Minutes / Day" : "دقيقة يومياً فقط"}
               </div>
             </div>
             <div className="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md rounded-2xl p-3 border border-black/5 dark:border-white/10 shadow-xs">
-              <div className="text-2xl font-black text-cyan-600 dark:text-cyan-400 font-mono">∞</div>
+              <div className="text-2xl font-black text-cyan-600 dark:text-cyan-400 font-mono">365</div>
               <div className="text-xs text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
-                {isEn ? "Lifetime Ownership" : "ملكية دائمة مدى الحياة"}
+                {isEn ? "Days Access" : "يوماً صلاحية الاشتراك"}
               </div>
             </div>
           </div>
@@ -132,12 +132,12 @@ export default function CommunityPage() {
           <div className="pointer-events-none absolute -left-16 -bottom-16 h-48 w-48 rounded-full bg-cyan-400/20 blur-2xl" />
 
           <h2 className="text-2xl sm:text-4xl font-black mb-3">
-            {isEn ? "Ready to Write Your Own Success Story?" : "جاهز لكتابة قصة نجاحك الخاصة؟"}
+            {isEn ? "Ready to Build Your Next Skill?" : "جاهز لبناء مهارتك العملية القادمة؟"}
           </h2>
           <p className="text-xs sm:text-sm text-neutral-300 max-w-xl mx-auto mb-6 leading-relaxed">
             {isEn
-              ? "Join hundreds of ambitious professionals leveling up their careers daily. Day 1 is 100% free with instant lifetime ownership upon enrollment."
-              : "انضم إلى مئات المحترفين والطلاب الذين يطورون مهاراتهم يوميًا. اليوم الأول مجانًا بالكامل وتملك دائم لمهاراتك مدى الحياة فور التفعيل."}
+              ? "Join learners leveling up their capabilities daily. Day 1 of every track is 100% free, followed by 365-day access with no automatic rebills."
+              : "انضم إلى المتدربين الذين يطورون مهاراتهم يوميًا. اليوم الأول مجانًا بالكامل لكافة المسارات، يليه اشتراك سنوي لمدة 365 يوماً دون أي تجديد تلقائي إجباري."}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">

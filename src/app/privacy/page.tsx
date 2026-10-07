@@ -47,14 +47,14 @@ export default function PrivacyPage() {
         {/* Top badge */}
         <span className="inline-flex items-center gap-2 rounded-full border border-teal-500/30 bg-teal-500/10 px-3.5 py-1 text-xs font-bold text-teal-700 dark:text-teal-300 mb-4 shadow-2xs">
           <span>🔒</span>
-          <span>{isEn ? "User Data Protection & Google Compliance" : "حماية البيانات وامتثال جوجل المعتمد"}</span>
+          <span>{isEn ? "User Data Protection & Google Compliance" : "حماية البيانات وامتثال معايير جوجل"}</span>
         </span>
 
         <h1 className="mb-2 text-3xl sm:text-4xl font-black text-neutral-900 dark:text-white tracking-tight">
           {isEn ? "Privacy Policy" : "سياسة الخصوصية"}
         </h1>
         <p className="mb-6 text-xs text-neutral-500 dark:text-neutral-400 font-medium">
-          {isEn ? "Last updated: October 2026 · Official Document" : "آخر تحديث: أكتوبر 2026 · وثيقة رسمية معتمدة"}
+          {isEn ? "Last updated: October 2026 · Official Document" : "آخر تحديث: أكتوبر 2026 · وثيقة رسمية منشورة"}
         </p>
 
         <div className="p-4 rounded-2xl bg-teal-50/80 dark:bg-teal-950/40 border border-teal-500/20 text-teal-900 dark:text-teal-200 text-xs sm:text-sm mb-8 leading-relaxed">

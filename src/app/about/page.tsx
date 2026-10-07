@@ -104,12 +104,12 @@ export default function AboutPage() {
               </div>
 
               <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-950 dark:text-emerald-200">
-                <span className="text-xl mb-1 block">♾️</span>
+                <span className="text-xl mb-1 block">👑</span>
                 <strong className="block font-bold mb-1">
-                  {isEn ? "Lifetime Ownership" : "ملكية دائمة مدى الحياة"}
+                  {isEn ? "1-Year Full Access (365 Days)" : "اشتراك سنوي شامل (365 يوماً)"}
                 </strong>
                 <p className="text-xs text-emerald-800 dark:text-emerald-300">
-                  {isEn ? "One-time payment, permanent access to your track and updates without recurring subscriptions." : "دفع لمرة واحدة، ووصول دائم وشامل لمسارك وتحديثاته بدون أي اشتراكات متجددة."}
+                  {isEn ? "One payment per product with full access for 365 days and zero recurring rebills." : "دفعة واحدة لكل منتج مع صلاحية كاملة لمدة 365 يوماً وبدون أي تجديد تلقائي إجباري."}
                 </p>
               </div>
             </div>

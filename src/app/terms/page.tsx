@@ -54,7 +54,7 @@ export default function TermsPage() {
           {isEn ? "Application Terms of Service" : "شروط وأحكام استخدام المنصة"}
         </h1>
         <p className="mb-6 text-xs text-neutral-500 dark:text-neutral-400 font-medium">
-          {isEn ? "Last updated: October 2026 · Official Document" : "آخر تحديث: أكتوبر 2026 · وثيقة رسمية معتمدة"}
+          {isEn ? "Last updated: October 2026 · Official Document" : "آخر تحديث: أكتوبر 2026 · وثيقة رسمية منشورة"}
         </p>
 
         <div className="p-4 rounded-2xl bg-teal-50/80 dark:bg-teal-950/40 border border-teal-500/20 text-teal-900 dark:text-teal-200 text-xs sm:text-sm mb-8 leading-relaxed">
@@ -116,8 +116,8 @@ export default function TermsPage() {
             <ul className="list-disc ps-5 space-y-2 text-neutral-700 dark:text-neutral-300">
               <li>
                 {isEn
-                  ? `Modular Ownership Model: Platform access is provided via transparent one-time purchases: Individual Skill Track (${pricing.trackPriceEgp} EGP), Career Path Roadmap (${pricing.careerPathPriceEgp} EGP), or All-Access Pass (${pricing.allAccessPriceEgp} EGP). All purchases grant permanent lifetime ownership with zero recurring subscriptions or hidden rebills.`
-                  : `نموذج الملكية المعيارية: يتم شراء المحتوى عبر دفعات لمرة واحدة واضحة: المسار التخصصي الفردي (${pricing.trackPriceEgp} ج.م)، المسار المهني الشامل (${pricing.careerPathPriceEgp} ج.م)، أو المفتاح الشامل لكافة المسارات (${pricing.allAccessPriceEgp} ج.م). كافة المشتريات تمنح ملكية دائمة مدى الحياة دون أي اشتراكات متجددة تلقائياً.`}
+                  ? `1-Year Modular Access Model: Platform access is provided via transparent one-time payments: Individual Skill Track (${pricing.trackPriceEgp} EGP), Career Path Roadmap (${pricing.careerPathPriceEgp} EGP), or All-Access Pass (${pricing.allAccessPriceEgp} EGP). All purchases grant full access for 365 days with zero recurring subscriptions or hidden rebills.`
+                  : `نموذج الاشتراك السنوي الشفاف: يتم الاشتراك في المحتوى عبر دفعات لمرة واحدة واضحة: المسار التخصصي الفردي (${pricing.trackPriceEgp} ج.م)، المسار المهني الشامل (${pricing.careerPathPriceEgp} ج.م)، أو المفتاح الشامل لكافة المسارات (${pricing.allAccessPriceEgp} ج.م). كافة الاشتراكات تمنح وصولاً كاملاً لمدة 365 يوماً دون أي اشتراكات متجددة تلقائياً أو رسوم خفية.`}
               </li>
               <li>
                 {isEn
@@ -126,8 +126,8 @@ export default function TermsPage() {
               </li>
               <li className="font-bold text-teal-800 dark:text-teal-300">
                 {isEn
-                  ? "Digital Products & Final Sale Policy: Due to the instant and irrevocable nature of digital educational content, exercises, prompt banks, and verified certificates, all purchases are final and non-refundable once unlocked and activated on your account."
-                  : "سياسة المنتجات الرقمية: نظراً لطبيعة المنتجات الرقمية التعليمية والوصول الفوري غير القابل للإلغاء إلى المناهج التفاعلية وبنك البرومبتات والشهادات المعتمدة، فإن عمليات الشراء نهائية وغير قابلة للاسترداد بمجرد التفعيل على الحساب."}
+                  ? "Digital Products & Final Sale Policy: Due to the instant and irrevocable nature of digital educational content, exercises, prompt banks, and digital completion certificates, all purchases are final and non-refundable once unlocked and activated on your account."
+                  : "سياسة المنتجات الرقمية: نظراً لطبيعة المنتجات الرقمية التعليمية والوصول الفوري غير القابل للإلغاء إلى المناهج التفاعلية وبنك البرومبتات وشهادات الإتمام الرقمية الموثقة بكود QR، فإن عمليات الشراء نهائية وغير قابلة للاسترداد بمجرد التفعيل على الحساب."}
               </li>
               <li className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
                 {isEn

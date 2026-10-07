@@ -271,8 +271,8 @@ export default function LandingPageView() {
                   </h3>
                   <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
                     {isEn
-                      ? "Stop spending hours writing reports and emails. Master prompt engineering and AI tools to complete 80% of routine work in minutes."
-                      : "توقف عن تضييع ساعات في كتابة التقارير والإيميلات. احترف أوامر الذكاء الاصطناعي وأدواته لإنجاز 80% من مهامك اليومية في دقائق."}
+                      ? "Stop spending hours writing repetitive reports and emails. Master prompt engineering and AI tools to automate routine work in minutes."
+                      : "توقف عن تضييع ساعات في كتابة التقارير والإيميلات. احترف أوامر الذكاء الاصطناعي وأدواته لأتمتة المهام الروتينية المتكررة في دقائق."}
                   </p>
                 </div>
                 <Link
@@ -734,7 +734,7 @@ export default function LandingPageView() {
               <div className="lg:col-span-7">
                 <span className="inline-flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/15 px-3.5 py-1 text-xs font-black text-amber-700 dark:text-amber-300 mb-4">
                   <span>🎓</span>
-                  <span>{isEn ? "Digital Proof of Work & Skill Verification" : "إثبات مهني رقمي يثبت كفاءتك للشركات"}</span>
+                  <span>{isEn ? "Digital Proof of Completion & QR Verification" : "شهادة إتمام رقمية قابلة للتحقق عبر QR"}</span>
                 </span>
 
                 <h2 className="text-2xl sm:text-4xl font-black text-neutral-900 dark:text-white leading-tight tracking-tight">
@@ -779,7 +779,7 @@ export default function LandingPageView() {
                       <span>{isEn ? "1-Click LinkedIn Integration" : "إضافة مباشرة لـ LinkedIn و CV"}</span>
                     </div>
                     <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                      {isEn ? "Add to your Licenses & Certifications section in 1 click to attract recruiters." : "بنقرة واحدة تضاف إلى قسم الشهادات والتراخيص بملفك الشخصي لجذب مسؤولي التوظيف."}
+                      {isEn ? "Add to your Licenses & Certifications section in 1 click to showcase your completed practical projects." : "بنقرة واحدة تضاف إلى قسم الشهادات والتراخيص بملفك الشخصي لتوثيق مشاريعك وتطبيقاتك العملية."}
                     </p>
                   </div>
 
@@ -937,17 +937,17 @@ export default function LandingPageView() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-300 bg-teal-500/10 px-3.5 py-1 rounded-full border border-teal-500/20">
-                  {isEn ? "Authentic Network & Full Credibility" : "شبكة حقيقية ومصداقية كاملة"}
+                  {isEn ? "Practical Application & Learning Models" : "تطبيقات ونماذج عملية"}
                 </span>
                 <h2 className="mt-3 text-2xl font-black md:text-3xl text-neutral-900 dark:text-white">
                   {isEn
-                    ? "Over 300 Verified Members & Real Success Stories"
-                    : "أكثر من ٣٠٠ عضو حقيقي وقصص نجاح موثقة"}
+                    ? "Applied Learning Models & Hands-on Student Projects"
+                    : "مجتمع المتعلمين ونماذج التطبيق العملي"}
                 </h2>
                 <p className="mt-1 text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
                   {isEn
-                    ? "Join an active community of engineers, freelancers, founders, and students across the Arab world."
-                    : "انضم إلى مجتمع نشط من المطورين، الفريلانسرز، رواد الأعمال، والطلبة من كافة العواصم العربية."}
+                    ? "See how learners build consistent daily learning habits and ship real portfolio projects across 10 vital domains."
+                    : "شاهد كيف يبني المتدربون عادات دراسية يومية وينجزون مشاريع حقيقية لسيرهم الذاتية في مختلف المجالات."}
                 </p>
               </div>
 
@@ -955,7 +955,7 @@ export default function LandingPageView() {
                 href="/community"
                 className="shrink-0 px-6 py-3 text-xs font-bold rounded-full border border-teal-500/30 hover:bg-teal-500/10 text-teal-700 dark:text-teal-300 transition"
               >
-                {isEn ? "View Community Wall (300+ Members) →" : "شاهد حائط المجتمع (٣٠٠+ عضو) ←"}
+                {isEn ? "Explore Learning Community →" : "استكشف تجارب ومشاريع المجتمع ←"}
               </Link>
             </div>
 
@@ -1039,9 +1039,13 @@ export default function LandingPageView() {
                   <span>✓</span>
                   <span>{isEn ? "Bilingual Arabic & English" : "ثنائي اللغة بالكامل (عربي وإنجليزي)"}</span>
                 </span>
-                <span className="flex items-center gap-1 text-emerald-400">
-                  <span>✓</span>
-                  <span>{isEn ? "Included free with All-Access Pass · Or optional add-on (+199 EGP)" : "مشمول مجانًا ضمن باقة الوصول الشامل · أو كإضافة اختيارية (+199 ج.م)"}</span>
+                <span className="flex items-center gap-1 text-emerald-300">
+                  <span>👑</span>
+                  <span>{isEn ? "All-Access Pass (399 EGP): Included Free" : "الوصول الشامل (399 ج.م): مشمول مجاناً بالكامل"}</span>
+                </span>
+                <span className="flex items-center gap-1 text-teal-300">
+                  <span>➕</span>
+                  <span>{isEn ? "Track / Career Path: Optional Add-on (+199 EGP)" : "المسار الفردي أو المهني: إضافة اختيارية (+199 ج.م)"}</span>
                 </span>
               </div>
             </div>

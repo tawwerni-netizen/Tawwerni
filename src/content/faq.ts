@@ -214,7 +214,7 @@ export const faqCategories: FaqCategory[] = [
         "aEn": "Tawwerni is engineered mobile-first and runs flawlessly on any smartphone, tablet, or desktop browser. You can even install it to your home screen as a standalone web app."
       },
       {
-        "q": "إزاي أصحاب العمل والشركات بيتحققوا من صحة الشهادة المعتمدة؟",
+        "q": "إزاي أصحاب العمل والشركات بيتحققوا من صحة شهادة الإتمام الرقمية؟",
         "qEn": "How do employers verify the authenticity of my completion certificate?",
         "a": "تحمل كل شهادة رابط تحقق عام وكوداً خاصاً. يمكن لأي جهة أو مدير توظيف زيارة tawwerni.com/verify وإدخال الرمز لمشاهدة تفاصيل الطالب والمسار وتاريخ الإصدار والدروس المكتملة فورياً.",
         "aEn": "Every certificate features a unique public verification URL and verification code. Employers can visit tawwerni.com/verify to inspect your verified credential, track details, issue date, and completion score."
