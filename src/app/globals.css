@@ -2007,7 +2007,7 @@ html[data-theme="dark"] .loss-list li::before { color: var(--ink-red); }
   0%, 82%, 100% { transform: rotate(0deg); }
   86%           { transform: rotate(-12deg); }
   90%           { transform: rotate(9deg); }
-  94%           { transform: rotate(-5deg); }
+  95%           { transform: rotate(-5deg); }
 }
 
 /* ==================================================================
