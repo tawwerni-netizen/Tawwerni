@@ -40,8 +40,8 @@ export function resolveProduct(
       slug: "all_access",
       titleAr: "الوصول الشامل لكافة الكورسات والمسارات المهنية (All-Access Pass)",
       titleEn: "All-Access Pass (All 100 Tracks & Career Paths)",
-      descriptionAr: "فتح فوري لكافة الـ 100 مسار تخصصي وجميع المسارات المهنية الـ 12 ومحتويات المنصة مدى الحياة",
-      descriptionEn: "Unrestricted lifetime access to all 100 tracks, all 12 career paths, and future content",
+      descriptionAr: "فتح فوري لكافة الـ 100 مسار تخصصي وجميع المسارات المهنية الـ 12 ومحتويات المنصة لمدة سنة كاملة (365 يوماً)",
+      descriptionEn: "Unrestricted 1-year access (365 days) to all 100 tracks, all 12 career paths, and updates during your subscription",
       icon: "👑",
       priceEgp: pricing.allAccessPriceEgp, // strictly 399 EGP
       originalPriceEgp: pricing.allAccessPriceEgp,
@@ -108,7 +108,7 @@ export function calculateOrderPrice({
   if (!product) return null;
 
   const basePriceEgp = product.priceEgp;
-  const orderBumpPriceEgp = withOrderBump ? pricing.orderBumpPriceEgp : 0;
+  const orderBumpPriceEgp = withOrderBump && product.type !== "all_access" ? pricing.orderBumpPriceEgp : 0;
   const totalPriceEgp = basePriceEgp + orderBumpPriceEgp;
 
   return {

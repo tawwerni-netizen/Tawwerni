@@ -140,16 +140,16 @@ export default function VerticalLandingPage({
         <div className="mx-auto mb-14 max-w-md">
           <div className="rounded-3xl border border-teal-500/20 bg-gradient-to-br from-white to-teal-50/20 dark:from-neutral-900 dark:to-neutral-900 p-6 text-center shadow-lg">
             <p className="mb-1 text-xs font-bold tracking-wide text-teal-700 dark:text-teal-400">
-              {isEn ? "Individual Track Lifetime Ownership" : "امتلاك دائم لهذا المسار التخصصي"}
+              {isEn ? "Individual Track · 1-Year Full Access" : "اشتراك لمدة عام كامل (365 يوماً)"}
             </p>
             <div className="mb-2 flex items-baseline justify-center gap-2">
               <span className="text-5xl font-black font-mono text-neutral-900 dark:text-white" dir="ltr">{pricing.trackPriceEgp}</span>
-              <span className="text-sm font-bold text-neutral-600 dark:text-neutral-400">{isEn ? "EGP" : "ج.م فقط"}</span>
+              <span className="text-sm font-bold text-neutral-600 dark:text-neutral-400">{isEn ? "EGP / Year" : "ج.م / سنة"}</span>
             </div>
             <p className="mb-3 text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
               {isEn
-                ? `Master all ${totalLessons} daily missions in this track, complete your practical portfolio project, and receive your QR-verified certificate. Lifetime access, zero subscriptions.`
-                : `أتقن كافة الـ ${totalLessons} مهمة عملية في هذا المسار، وأنجز مشروعك العملي، واحصل على شهادة إتمام رقمية برمز QR. امتلاك دائم مدى الحياة وبدون أي اشتراكات متكررة.`}
+                ? `Master all ${totalLessons} daily missions in this track, complete your practical portfolio project, and receive your QR-verified certificate. 1-year full access, zero hidden fees.`
+                : `أتقن كافة الـ ${totalLessons} مهمة عملية في هذا المسار، وأنجز مشروعك العملي، واحصل على شهادة إتمام رقمية برمز QR. اشتراك سنوي كامل (365 يوماً) وبدون أي مصاريف خفية.`}
             </p>
             <p className="mb-4 rounded-2xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900 p-3 text-xs leading-relaxed text-teal-900 dark:text-teal-200">
               {isEn ? (
@@ -166,7 +166,7 @@ export default function VerticalLandingPage({
               href={`/quiz/checkout?type=track&slug=${courseSlug}`}
               className="block w-full rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 py-3.5 text-sm font-bold text-white shadow-md hover:brightness-110 active:scale-98 transition-all"
             >
-              <span>{isEn ? `Own Track for ${pricing.trackPriceEgp} EGP →` : `امتلك المسار بـ ${pricing.trackPriceEgp} ج.م ←`}</span>
+              <span>{isEn ? `Subscribe to Track for ${pricing.trackPriceEgp} EGP / Year →` : `اشترك في المسار بـ ${pricing.trackPriceEgp} ج.م / سنة ←`}</span>
             </Link>
             <div className="mt-3 flex items-center justify-center gap-3 text-2xs text-neutral-500 dark:text-neutral-400">
               <Link href="/career-paths" className="underline hover:text-teal-500">

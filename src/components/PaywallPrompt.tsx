@@ -9,7 +9,7 @@ import { getCareerPathsForTrack } from "@/content/career-paths";
  * Shown right after a learner finishes the free preview day, or when accessing
  * locked content in a track.
  * Presents clear V3 modular options:
- * 1. Own this Track for 59 EGP (lifetime)
+ * 1. Subscribe to this Track for 59 EGP (1-Year Access)
  * 2. Own the full Career Path Bundle for 149 EGP
  * 3. Own the All-Access Pass for 399 EGP
  */
@@ -95,16 +95,16 @@ export default function PaywallPrompt({
           {isEn ? "Day 1 Complete · Ready for Next Steps!" : "أنهيت اليوم الأول بنجاح · جاهز للخطوة التالية!"}
         </p>
         <h2 className="mb-2 text-xl sm:text-2xl font-black text-white">
-          {isEn ? `Own ${courseTitle} Forever` : `امتلك مسار ${courseTitle} للأبد`}
+          {isEn ? `Unlock ${courseTitle} (1-Year Access)` : `اشترك في مسار ${courseTitle} (سنة كاملة)`}
         </h2>
         <p className="mx-auto mb-6 max-w-sm text-xs sm:text-sm leading-relaxed text-neutral-300">
           {isEn ? (
             <>
-              You have <b className="text-white">{Math.max(0, totalLessons - 1)} practical days</b> remaining. Choose between owning just this single track, or unlocking the complete career path roadmap.
+              You have <b className="text-white">{Math.max(0, totalLessons - 1)} practical days</b> remaining. Choose between subscribing to just this single track, or unlocking the complete career path roadmap for 1 full year.
             </>
           ) : (
             <>
-              متبقي لك <b className="text-white">{Math.max(0, totalLessons - 1)} مهمة عملية</b>. يمكنك امتلاك هذا المسار التخصصي بمفرده، أو فتح المسار المهني الشامل بالكامل بامتلاك دائم لجميع مساراته.
+              متبقي لك <b className="text-white">{Math.max(0, totalLessons - 1)} مهمة عملية</b>. يمكنك الاشتراك في هذا المسار التخصصي بمفرده، أو فتح المسار المهني الشامل بالكامل باشتراك سنوي لكافة مساراته.
             </>
           )}
         </p>
@@ -135,7 +135,7 @@ export default function PaywallPrompt({
               href={trackCheckoutUrl}
               className="w-full block text-center rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold py-2.5 text-xs transition border border-white/20"
             >
-              {isEn ? `Own This Track (${pricing.trackPriceEgp} EGP) →` : `امتلك هذا المسار فقط (${pricing.trackPriceEgp} ج.م) ←`}
+              {isEn ? `Subscribe to Track (${pricing.trackPriceEgp} EGP / Year) →` : `اشترك في هذا المسار (${pricing.trackPriceEgp} ج.م / سنة) ←`}
             </Link>
           </div>
 
@@ -157,15 +157,15 @@ export default function PaywallPrompt({
               </h3>
               <p className="text-3xs text-emerald-200/80 mb-3">
                 {isEn
-                  ? "Unlocks this track + ALL companion roadmap tracks permanently"
-                  : "يفتح هذا المسار + كافة مسارات التخصص المندرجة للأبد"}
+                  ? "Unlocks this track + ALL companion roadmap tracks for 1 full year"
+                  : "يفتح هذا المسار + كافة مسارات التخصص المندرجة لمدة عام كامل (365 يوماً)"}
               </p>
             </div>
             <Link
               href={careerPathCheckoutUrl}
               className="w-full block text-center rounded-xl bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 text-neutral-950 font-black py-2.5 text-xs shadow-md hover:brightness-110 active:scale-98 transition"
             >
-              {isEn ? `Get Full Path (${pricing.careerPathPriceEgp} EGP) →` : `المسار المهني الشامل (${pricing.careerPathPriceEgp} ج.م) ←`}
+              {isEn ? `Get Full Path (${pricing.careerPathPriceEgp} EGP / Year) →` : `المسار المهني الشامل (${pricing.careerPathPriceEgp} ج.م / سنة) ←`}
             </Link>
           </div>
         </div>
@@ -173,8 +173,8 @@ export default function PaywallPrompt({
         {/* Ownership Callout */}
         <p className="text-2xs text-neutral-400 mb-1">
           {isEn
-            ? "✓ One-time payment · Lifetime ownership · Instant access"
-            : "✓ دفعة واحدة لمرة واحدة · امتلاك دائم مدى الحياة · تفعيل فوري ومباشر"}
+            ? "✓ 1-Year Full Access · 365 Days · Instant activation"
+            : "✓ اشتراك سنوي كامل · 365 يوماً · تفعيل فوري ومباشر"}
         </p>
       </div>
 
@@ -183,8 +183,8 @@ export default function PaywallPrompt({
         {[
           ["🎯", isEn ? "Practical Micro-Tasks" : "مهام تطبيقية يومية"],
           ["🤖", isEn ? "24/7 AI Coach (Faheem)" : "كوتش الذكاء الاصطناعي فهيم"],
-          ["🏅", isEn ? "Verifiable QR Certificate" : "شهادة إتمام معتمدة بكود QR"],
-          ["♾️", isEn ? "Lifetime Ownership" : "امتلاك دائم بدون تجديد تلقائي"],
+          ["🏅", isEn ? "Verifiable QR Certificate" : "شهادة إتمام رقمية موثقة بكود QR"],
+          ["💎", isEn ? "1-Year Full Access" : "اشتراك سنوي كامل (365 يوماً)"],
         ].map(([icon, label]) => (
           <li key={label} className="flex items-center gap-2 bg-[#061511] px-4 py-2.5">
             <span aria-hidden>{icon}</span>

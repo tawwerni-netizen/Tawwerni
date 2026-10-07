@@ -802,7 +802,7 @@ export default function QuizPage() {
                   {
                     week: isEn ? "Week 4 (Days 22–28)" : "الأسبوع الرابع (الأيام ٢٢–٢٨)",
                     title: isEn ? "Monetization, Client Outreach & Verified Digital Certification" : "تسعير الخدمات، اقتناص العملاء وشهادة الإتمام الرقمية الموثقة",
-                    badge: isEn ? "Income 💰" : "دخل واعتماد 🎓",
+                    badge: isEn ? "Income 💰" : "دخل وشهادة إتمام 🎓",
                   },
                 ].map((item, idx) => (
                   <div key={idx} className="p-3 rounded-2xl bg-white/5 border border-white/5 flex flex-col justify-between">
@@ -879,8 +879,8 @@ export default function QuizPage() {
               </h3>
               <p className="text-xs text-neutral-300 mt-1 leading-relaxed">
                 {isEn
-                  ? "Unlocks your recommended track PLUS all included companion tracks with permanent lifetime ownership."
-                  : "يفتح مسارك الموصى به بالكامل بالإضافة إلى كافة المسارات التخصصية المندرجة في هذا التخصص بامتلاك دائم."}
+                  ? "Unlocks your recommended track PLUS all included companion tracks with a 1-year full access pass."
+                  : "يفتح مسارك الموصى به بالكامل بالإضافة إلى كافة المسارات التخصصية المندرجة في هذا التخصص باشتراك سنوي كامل (365 يوماً)."}
               </p>
 
               {/* Price Banner */}
@@ -895,7 +895,7 @@ export default function QuizPage() {
                     </span>
                   </div>
                   <p className="text-[11px] text-neutral-400 mt-0.5">
-                    {isEn ? "One-time payment · Lifetime ownership · Unlocks all bundle tracks" : "دفعة واحدة لمرة واحدة · امتلاك دائم · تفتح كافة مسارات الحزمة"}
+                    {isEn ? "1-Year Full Access · 365 Days · Unlocks all bundle tracks" : "اشتراك لمدة عام كامل · 365 يوماً · يفتح كافة مسارات الحزمة"}
                   </p>
                 </div>
               </div>
@@ -926,7 +926,7 @@ export default function QuizPage() {
                 className="w-full bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/30 hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>⚡</span>
-                <span>{isEn ? `Get Full Career Path (${pricing.careerPathPriceEgp} EGP) →` : `امتلك المسار المهني المتكامل (${pricing.careerPathPriceEgp} ج.م فقط) ←`}</span>
+                <span>{isEn ? `Get Full Career Path (${pricing.careerPathPriceEgp} EGP / Year) →` : `اشترك في المسار المهني المتكامل (${pricing.careerPathPriceEgp} ج.م / سنة) ←`}</span>
               </button>
             </div>
 
@@ -935,10 +935,10 @@ export default function QuizPage() {
               <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 text-neutral-300 border border-white/10 text-xs font-bold">
                   <span>🎯</span>
-                  <span>{isEn ? "Or Get Just This Single Track" : "أو امتلك هذا المسار الفردي فقط"}</span>
+                  <span>{isEn ? "Or Get Just This Single Track" : "أو اشترك في هذا المسار الفردي فقط"}</span>
                 </span>
                 <span className="text-xs font-mono font-bold text-teal-400">
-                  {pricing.trackPriceEgp} {isEn ? "EGP" : "ج.م فقط"}
+                  {pricing.trackPriceEgp} {isEn ? "EGP" : "ج.م / سنة"}
                 </span>
               </div>
 
@@ -948,7 +948,7 @@ export default function QuizPage() {
               <p className="text-xs text-neutral-400 mb-4">
                 {isEn
                   ? "Master this single specific skill with its full 28-day roadmap, practical mission outputs, and verifiable completion certificate."
-                  : "أتقن هذه المهارة المحددة بمفردها مع خطتها الـ 28 يومًا ومشاريعها وشهادتها الرقمية المعتمدة."}
+                  : "أتقن هذه المهارة المحددة بمفردها مع خطتها الـ 28 يومًا ومشاريعها وشهادتها الرقمية الموثقة برمز QR."}
               </p>
 
               <button
@@ -956,7 +956,7 @@ export default function QuizPage() {
                 onClick={() => goCheckout("track")}
                 className="w-full bg-white/10 hover:bg-white/15 text-white font-bold rounded-full py-3 text-xs sm:text-sm border border-white/20 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>{isEn ? `Get Single Track Only (${pricing.trackPriceEgp} EGP) →` : `امتلك هذا المسار فقط (${pricing.trackPriceEgp} ج.م) ←`}</span>
+                <span>{isEn ? `Get Single Track Only (${pricing.trackPriceEgp} EGP / Year) →` : `اشترك في هذا المسار فقط (${pricing.trackPriceEgp} ج.م / سنة) ←`}</span>
               </button>
             </div>
 
@@ -968,7 +968,7 @@ export default function QuizPage() {
                   <span>{isEn ? "All-Access Pass · Full Library" : "المفتاح الشامل · كل المنصة"}</span>
                 </span>
                 <span className="text-xs font-mono font-bold text-amber-400">
-                  {pricing.allAccessPriceEgp} {isEn ? "EGP" : "ج.م مدى الحياة"}
+                  {pricing.allAccessPriceEgp} {isEn ? "EGP / Year" : "ج.م / سنة"}
                 </span>
               </div>
 
@@ -977,8 +977,8 @@ export default function QuizPage() {
               </h4>
               <p className="text-xs text-neutral-300 mb-4">
                 {isEn
-                  ? "Unlock all 100 practical tracks, all 12 career paths, the 10,000 Prompts Vault, and all future updates forever."
-                  : "المفتاح الذهبي لفتح كافة الـ 100 مسار، والـ 12 مساراً مهنياً، وبنك الـ 10,000 برومبت وكافة التحديثات القادمة مدى الحياة."}
+                  ? "Unlock all 100 practical tracks, all 12 career paths, the 10,000 Prompts Vault, and continuous updates for 1 full year."
+                  : "المفتاح الذهبي لفتح كافة الـ 100 مسار، والـ 12 مساراً مهنياً، وبنك الـ 10,000 برومبت وكافة التحديثات لمدة عام كامل (365 يوماً)."}
               </p>
 
               <button
@@ -987,21 +987,21 @@ export default function QuizPage() {
                 className="w-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-neutral-950 font-black rounded-full py-3.5 text-xs sm:text-sm shadow-lg shadow-amber-500/20 hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>👑</span>
-                <span>{isEn ? `Get All-Access Pass (${pricing.allAccessPriceEgp} EGP) →` : `امتلك الوصول الشامل لكافة الكورسات (${pricing.allAccessPriceEgp} ج.م) ←`}</span>
+                <span>{isEn ? `Get All-Access Pass (${pricing.allAccessPriceEgp} EGP / Year) →` : `اشترك في الوصول الشامل لكافة الكورسات (${pricing.allAccessPriceEgp} ج.م / سنة) ←`}</span>
               </button>
             </div>
 
-            {/* ⭐ Lifetime Ownership & Free Trial Reassurance ⭐ */}
+            {/* 💎 1-Year Full Access & Free Preview Reassurance 💎 */}
             <div className="rounded-2xl border border-teal-400/40 bg-teal-500/10 p-3.5 mb-5 flex items-start gap-2.5">
-              <span className="text-2xl shrink-0">♾️</span>
+              <span className="text-2xl shrink-0">💎</span>
               <div>
                 <p className="text-xs font-bold text-teal-300">
-                  {isEn ? "Lifetime Ownership · Day 1 Free Preview" : "ملكية دائمة مدى الحياة · اليوم الأول مجاني بالكامل"}
+                  {isEn ? "1-Year Full Access · Day 1 Free Preview" : "اشتراك لمدة عام كامل (365 يومًا) · اليوم الأول مجاني بالكامل"}
                 </p>
                 <p className="text-[11px] text-neutral-300 mt-0.5 leading-relaxed">
                   {isEn
-                    ? "One-time payment with no recurring subscriptions. You can start Day 1 completely free before checkout. All digital assets and updates are yours forever."
-                    : "دفع لمرة واحدة بدون أي اشتراكات متجددة. يمكنك تجربة اليوم الأول مجاناً بالكامل قبل الشراء. كافة الدروس والمشاريع والتحديثات ملكك للأبد."}
+                    ? "Full access for 365 days from activation with zero hidden fees. You can start Day 1 completely free before checkout. Verified digital certificates and all updates during your year are included."
+                    : "صلاحية وصول كاملة لمدة 365 يوماً من تاريخ التفعيل بدون أي رسوم خفية. يمكنك تجربة اليوم الأول مجاناً بالكامل قبل الدفع. شهادات الإتمام الموثقة برمز QR وكافة تحديثات المنصة مشمولة طوال فترة اشتراكك."}
                 </p>
               </div>
             </div>

@@ -64,14 +64,14 @@ export default function TracksPage() {
               <>
                 Master Any Skill, <br className="hidden sm:inline" />
                 <span className="text-teal-600 dark:text-emerald-400 font-black">
-                  Own It Forever At Your Own Pace
+                  1-Year Full Access At Your Own Pace
                 </span>
               </>
             ) : (
               <>
-                امتلك المهارة التي تحتاجها، <br className="hidden sm:inline" />
+                أتقن المهارة التي تحتاجها، <br className="hidden sm:inline" />
                 <span className="text-teal-600 dark:text-emerald-400 font-black">
-                  ملكية دائمة وتعلّم فوري بالسرعة التي تناسبك
+                  اشتراك لمدة سنة كاملة وتعلّم بالسرعة التي تناسبك
                 </span>
               </>
             )}

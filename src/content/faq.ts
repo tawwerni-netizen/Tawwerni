@@ -16,8 +16,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "إزاي أبدأ في المنصة؟",
         "qEn": "How do I get started on Tawwerni?",
-        "a": "اعمل حساب بإيميلك وكلمة سر، وهتلاقي اليوم الأول من كل مسار مفتوح مجانًا على طول. لو عجبك، يمكنك شراء أي مسار تخصصي فردي بـ 59 ج.م فقط، أو مسار مهني شامل يضم عدة مسارات بـ 149 ج.م، أو الوصول الشامل لكافة المسارات بـ 399 ج.م بامتلاك دائم بدون أي اشتراكات متكررة.",
-        "aEn": "Sign up with your email and password, and Day 1 of every track is immediately unlocked for free. When you're ready, purchase an individual track for 59 EGP, an entire career path bundle for 149 EGP, or the All-Access Pass for 399 EGP with lifetime ownership and zero recurring fees."
+        "a": "اعمل حساب بإيميلك وكلمة سر، وهتلاقي اليوم الأول من كل مسار مفتوح مجانًا على طول. لو عجبك، يمكنك شراء أي مسار تخصصي فردي بـ 59 ج.م فقط، أو مسار مهني شامل يضم عدة مسارات بـ 149 ج.م، أو الوصول الشامل لكافة المسارات بـ 399 ج.م باشتراك سنوي كامل (365 يوماً) بدون أي مصاريف خفية.",
+        "aEn": "Sign up with your email and password, and Day 1 of every track is immediately unlocked for free. When you're ready, purchase an individual track for 59 EGP, an entire career path bundle for 149 EGP, or the All-Access Pass for 399 EGP for 1 full year (365 days) with zero hidden fees."
       },
       {
         "q": "إزاي أعمل حساب؟",
@@ -94,8 +94,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "المحتوى بيتحدّث؟",
         "qEn": "Is the content regularly updated?",
-        "a": "أيوة. بنضيف دروس ومحتوى جديد بشكل مستمر، والتحديثات بتوصلك مجانًا لجميع المسارات التي تمتلكها مدى الحياة من غير أي دفع إضافي.",
-        "aEn": "Yes. We update and add new lessons constantly, and all updates are completely free for all tracks you own with zero extra charges."
+        "a": "أيوة. بنضيف دروس ومحتوى جديد بشكل مستمر، والتحديثات بتوصلك مجانًا لجميع المسارات المشترك بها طوال فترة اشتراكك من غير أي دفع إضافي.",
+        "aEn": "Yes. We update and add new lessons constantly, and all updates are completely free for all tracks you are enrolled in during your subscription with zero extra charges."
       },
       {
         "q": "أقدر أشوف محتوى المسار قبل ما أشتري؟",
@@ -156,13 +156,13 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "كيف أمتلك المسارات والمسارات المهنية؟",
         "qEn": "How do track and career path purchases work?",
-        "a": "نظام طوّرني مرن وموجّه: يمكنك شراء أي مسار تخصصي فردي بـ 59 ج.م فقط، أو شراء مسار مهني متكامل يضم حزمة مسارات بـ 149 ج.م فقط، أو الوصول الشامل بـ 399 ج.م بامتلاك دائم وبدون أي اشتراكات متكررة. كل مسار تشتريه يضاف لمكتبتك التعليمية ويفتح جميع مهامه وكويزاته وشهادته الموثقة.",
-        "aEn": "Tawwerni features modular ownership: purchase any individual track for just 59 EGP, an all-in-one Career Path bundle for 149 EGP, or the All-Access Pass for 399 EGP with lifetime ownership and zero recurring fees. Every product you buy is added to your learning inventory with all lessons, tasks, quizzes, and verified certificates unlocked."
+        "a": "نظام طوّرني مرن وموجّه: يمكنك شراء أي مسار تخصصي فردي بـ 59 ج.م فقط، أو شراء مسار مهني متكامل يضم حزمة مسارات بـ 149 ج.م فقط، أو الوصول الشامل بـ 399 ج.م باشتراك سنوي كامل (365 يوماً) وبدون أي مصاريف خفية. كل مسار تشترك به يضاف لمخزونك التعليمي ويفتح جميع مهامه وكويزاته وشهادته الرقمية الموثقة برمز QR.",
+        "aEn": "Tawwerni features modular ownership: purchase any individual track for just 59 EGP, an all-in-one Career Path bundle for 149 EGP, or the All-Access Pass for 399 EGP for 1 full year (365 days) with zero hidden fees. Every product you subscribe to is added to your learning inventory with all lessons, tasks, quizzes, and verified certificates unlocked."
       },
       {
-        "q": "هل أحصل على شهادة معتمدة لكل مسار من الـ 100؟",
+        "q": "هل أحصل على شهادة إتمام رقمية موثقة لكل مسار من الـ 100؟",
         "qEn": "Do I receive a verified certificate for each of the 100 tracks?",
-        "a": "نعم! لكل مسار من الـ 100 مسار شهادة إتمام خاصة به تحمل كود تحقق رسمي فريد ورابط فحص علني (/verify/[code]). بمجرد إتمام دروس المسار بنجاح، تفتح شهادتك المعتمدة مباشرة باللغتين العربية والإنجليزية.",
+        "a": "نعم! لكل مسار من الـ 100 مسار شهادة إتمام رقمية خاصة به تحمل كود تحقق فريد ورمز QR ورابط فحص علني (/verify/[code]). بمجرد إتمام دروس المسار بنجاح، تفتح شهادتك مباشرة باللغتين العربية والإنجليزية.",
         "aEn": "Yes! Every single track in the 100-course catalog includes an independent completion certificate with a unique verification code and public validation link (/verify/[code]). Once you finish a track, your certificate unlocks instantly in both English and Arabic."
       },
       {
@@ -204,8 +204,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "هل التحديثات والمسارات الإضافية المستقبلية مجانية؟",
         "qEn": "Are future updates and additional content included for free?",
-        "a": "نعم! ملكيتك لأي مسار أو مسار مهني أو الوصول الشامل تشمل جميع التحديثات الدورية على المحتوى والتمارين بدون أي رسوم إضافية إطلاقاً.",
-        "aEn": "Yes! Lifetime ownership of any track, career path, or All-Access Pass includes all periodic updates and refreshed resources with zero additional fees."
+        "a": "نعم! اشتراكك في أي مسار أو مسار مهني أو الوصول الشامل يشمل جميع التحديثات الدورية على المحتوى والتمارين طوال فترة الاشتراك (365 يوماً) بدون أي رسوم إضافية إطلاقاً.",
+        "aEn": "Yes! Your 1-year access to any track, career path, or All-Access Pass includes all periodic updates and refreshed resources with zero additional fees during your subscription."
       },
       {
         "q": "هل أقدر أدرس وأتابع المسارات من الموبايل بسهولة؟",
@@ -248,8 +248,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "الأسعار ونظام الشراء كام؟",
         "qEn": "What are the prices and ownership options?",
-        "a": "نوفر ثلاثة مستويات بامتلاك دائم: مسار تخصصي فردي بـ 59 جنيه فقط، أو مسار مهني متكامل يضم حزمة مسارات بـ 149 جنيه فقط، أو الوصول الشامل لكافة المسارات بـ 399 جنيه فقط. دفعة واحدة لمرة واحدة بدون أي اشتراكات شهرية أو تجديد تلقائي.",
-        "aEn": "We offer three transparent tiers with lifetime ownership: an Individual Track for 59 EGP, a Complete Career Path bundle for 149 EGP, or the All-Access Pass for 399 EGP. A single one-time payment with zero recurring fees."
+        "a": "نوفر ثلاثة مستويات واضحة باشتراك لمدة عام كامل (365 يوماً): مسار تخصصي فردي بـ 59 جنيه فقط، أو مسار مهني متكامل يضم حزمة مسارات بـ 149 جنيه فقط، أو الوصول الشامل لكافة المسارات بـ 399 جنيه فقط. دفعة سنوية واحدة بدون أي مصاريف خفية.",
+        "aEn": "We offer three transparent tiers with 1-year full access (365 days): an Individual Track for 59 EGP, a Complete Career Path bundle for 149 EGP, or the All-Access Pass for 399 EGP. A single upfront fee per year with zero hidden fees."
       },
       {
         "q": "الدفع بيتم إزاي؟",
@@ -278,8 +278,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "هل فيه أي رسوم متكررة أو اشتراك شهري؟",
         "qEn": "Are there any recurring monthly charges?",
-        "a": "إطلاقاً! لا توجد أي رسوم شهرية أو سنوية متكررة. كل عملية شراء (59 ج.م للمسار، 149 ج.م للمسار المهني، أو 399 ج.م للوصول الشامل) تمنحك امتلاكاً دائماً للمحتوى ومكتبتك التعليمية مع كافة التحديثات.",
-        "aEn": "Absolutely not! Zero monthly or annual recurring fees. Each purchase (59 EGP for a Track, 149 EGP for a Career Path, or 399 EGP for All-Access) gives you permanent lifetime access to the content and your learning inventory."
+        "a": "إطلاقاً! لا توجد أي رسوم شهرية متكررة أو مصاريف خفية. كل اشتراك (59 ج.م للمسار، 149 ج.م للمسار المهني، أو 399 ج.م للوصول الشامل) يمنحك وصولاً كاملاً لمدة سنة كاملة (365 يوماً) للمحتوى ومخزونك التعليمي مع كافة التحديثات.",
+        "aEn": "Absolutely not! Zero hidden or monthly recurring fees. Each subscription (59 EGP for a Track, 149 EGP for a Career Path, or 399 EGP for All-Access) provides full 1-year access (365 days) to the content and your learning inventory with all updates included."
       },
       {
         "q": "أقدر أدفع بفيزا؟",
@@ -290,14 +290,14 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "ما الفرق بين المسار الفردي والمسار المهني والوصول الشامل؟",
         "qEn": "What is the difference between an Individual Track, a Career Path, and All-Access?",
-        "a": "المسار الفردي (59 ج.م) يركز على مهارة تخصصية محددة من الصفر حتى مشروع عملي وشهادة موثقة. أما المسار المهني المتكامل (149 ج.م) فيضم خريطة طريق متكاملة من عدة مسارات تؤهلك لدور وظيفي كامل في سوق العمل. والوصول الشامل (399 ج.م) يفتح كافة الـ 100 مسار وجميع المسارات المهنية بامتلاك دائم مدى الحياة.",
-        "aEn": "An Individual Track (59 EGP) focuses on a specific skill from zero to a portfolio project and verified certificate. A Career Path bundle (149 EGP) includes a complete roadmap of interconnected tracks qualifying you for a complete job role. The All-Access Pass (399 EGP) unlocks all 100 tracks and career roadmaps with lifetime ownership."
+        "a": "المسار الفردي (59 ج.م) يركز على مهارة تخصصية محددة من الصفر حتى مشروع عملي وشهادة موثقة لمدة سنة. أما المسار المهني المتكامل (149 ج.م) فيضم خريطة طريق متكاملة من عدة مسارات تؤهلك لدور وظيفي كامل في سوق العمل لمدة سنة. والوصول الشامل (399 ج.م) يفتح كافة الـ 100 مسار وجميع المسارات المهنية الـ 12 وبنك البرومبتات لمدة عام كامل (365 يوماً).",
+        "aEn": "An Individual Track (59 EGP) focuses on a specific skill from zero to a portfolio project and verified certificate for 1 full year. A Career Path bundle (149 EGP) includes a complete roadmap of interconnected tracks qualifying you for a complete job role for 1 full year. The All-Access Pass (399 EGP) unlocks all 100 tracks, 12 career roadmaps, and the Prompt Bank for 1 full year (365 days)."
       },
       {
         "q": "هل المشتركون السابقون يحتفظون بوصولهم؟",
         "qEn": "Do legacy/existing members keep their full access?",
-        "a": "نعم بكل تأكيد! يحصل جميع المشتركين الحاليين والسابقين على وصول كامل مدى الحياة (Legacy Full Access) لكافة المسارات والمحتوى دون دفع أي مليم إضافي ودون فقدان لأي تقدم أو نقاط XP.",
-        "aEn": "Yes, absolutely! All existing and legacy subscribers maintain perpetual full access (Legacy Full Access) across all tracks and content with zero additional fees and zero progress or XP loss."
+        "a": "نعم بكل تأكيد! يحفظ جميع المشتركين الحاليين والسابقين كامل حقوقهم وصلاحياتهم السابقة (Legacy Full Access) لكافة المسارات والمحتوى دون دفع أي مليم إضافي ودون فقدان لأي تقدم أو نقاط XP.",
+        "aEn": "Yes, absolutely! All existing and legacy subscribers maintain their established full access privileges (Legacy Full Access) across all tracks and content with zero additional fees and zero progress or XP loss."
       },
       {
         "q": "ما هي سياسة الاسترجاع والمنتجات الرقمية؟",
@@ -400,8 +400,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "أقدر أرجع لدرس قديم؟",
         "qEn": "Can I go back to review completed lessons?",
-        "a": "أيوة. كل المسارات والدروس التي تمتلكها بتفضل متاحة ليك مدى الحياة ترجع تراجعها في أي وقت بدون أي انتهاء صلاحية.",
-        "aEn": "Yes! All tracks and lessons you own remain accessible in your account permanently for lifetime review."
+        "a": "أيوة. كل المسارات والدروس المشترك بها تظل متاحة في حسابك طوال فترة اشتراكك (سنة كاملة / 365 يوماً) ترجع تراجعها في أي وقت.",
+        "aEn": "Yes! All tracks and lessons you are enrolled in remain fully accessible in your account throughout your 1-year subscription period (365 days)."
       },
       {
         "q": "أقدر أقفز لدرس متقدّم؟",

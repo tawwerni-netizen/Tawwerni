@@ -34,12 +34,12 @@ export const pricing = {
   orderBumpTitle: "قاعدة بيانات الـ 10,000 برومبت التنفيذي للشركات (100 مجال × 100 برومبت) + حزمة عقود الفريلانس القانونية",
   orderBumpTitleEn: "Executive 10,000 Corporate Prompts Vault (100 Domains × 100 Prompts) + Freelance Legal Contracts",
   cohortSeatsTotal: 500,
-  offerNote: "امتلك مسارك التعليمي بـ 59 ج.م، المسار المهني بـ 149 ج.م، أو الوصول الشامل بـ 399 ج.م",
-  offerNoteEn: "Own a track for 59 EGP, Career Path for 149 EGP, or All-Access Pass for 399 EGP",
+  offerNote: "اشتراك لمدة سنة كاملة: المسار الفردي بـ 59 ج.م، المسار المهني بـ 149 ج.م، أو الوصول الشامل بـ 399 ج.م",
+  offerNoteEn: "1-Year access: Single Track for 59 EGP, Career Path for 149 EGP, or All-Access Pass for 399 EGP",
   allAccessTitle: "الوصول الشامل لكافة الكورسات والمسارات المهنية",
   allAccessTitleEn: "All-Access Pass (All 100 Tracks & All Career Paths)",
-  guaranteeNote: "ملكية دائمة مدى الحياة وتفعيل فوري · اليوم الأول متاح مجاناً للتجربة",
-  guaranteeNoteEn: "Instant lifetime ownership · Free Day 1 preview on all tracks",
+  guaranteeNote: "اشتراك لمدة سنة كاملة (365 يوماً) وتفعيل فوري · اليوم الأول متاح مجاناً للتجربة",
+  guaranteeNoteEn: "1-Year full access (365 days) · Free Day 1 preview on all tracks",
   grantsAllCourses: false,
 } as const;
 

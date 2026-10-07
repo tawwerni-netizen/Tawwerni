@@ -64,7 +64,7 @@ export default function RefundPage() {
                   {isEn ? "Try Before You Pay · Transparent Terms" : "جرّب بنفسك مجاناً قبل الدفع · وضوح وشفافية تامة"}
                 </h2>
                 <p className="text-xs text-teal-100 font-medium">
-                  {isEn ? "Free Day 1 Preview on all 100 tracks · Immediate permanent access" : "اليوم الأول متاح للتجربة في كافة المسارات · تفعيل فوري وملكية دائمة"}
+                  {isEn ? "Free Day 1 Preview on all 100 tracks · Immediate 1-year full access" : "اليوم الأول متاح للتجربة في كافة المسارات · تفعيل فوري واشتراك سنوي كامل (365 يوماً)"}
                 </p>
               </div>
             </div>
@@ -79,7 +79,7 @@ export default function RefundPage() {
           <p className="text-xs sm:text-sm text-teal-50 leading-relaxed">
             {isEn
               ? "Because Tawwerni delivers immediate, irrevocable access to interactive coding environments, AI evaluations, proprietary course missions, and verifiable credentials, digital purchases are final and non-refundable once activated. To ensure total confidence, Day 1 of every single course is open 100% free with zero payment requirements."
-              : "نظراً لأن منصة طوّرني تقدم وصولاً فورياً وغير قابل للإلغاء للمناهج التفاعلية وبيئات التدريب البرمجية وكويزات الذكاء الاصطناعي والمشاريع العملية والشهادات الرقمية المعتمدة، فإن عمليات الشراء تعتبر نهائية وغير قابلة للاسترداد بمجرد التفعيل. ولضمان ثقتك واطمئنانك الكامل، جعلنا اليوم الأول من كل مسار مفتوحاً ومجاناً بالكامل للتجربة قبل اتخاذ أي قرار شراء."}
+              : "نظراً لأن منصة طوّرني تقدم وصولاً فورياً وغير قابل للإلغاء للمناهج التفاعلية وبيئات التدريب البرمجية وكويزات الذكاء الاصطناعي والمشاريع العملية والشهادات الرقمية الموثقة برمز QR، فإن عمليات الشراء تعتبر نهائية وغير قابلة للاسترداد بمجرد التفعيل. ولضمان ثقتك واطمئنانك الكامل، جعلنا اليوم الأول من كل مسار مفتوحاً ومجاناً بالكامل للتجربة قبل اتخاذ أي قرار شراء."}
           </p>
         </div>
 
@@ -108,13 +108,13 @@ export default function RefundPage() {
                 2
               </div>
               <h3 className="text-base font-black text-neutral-900 dark:text-white">
-                {isEn ? "Immediate Activation & Permanent Lifetime Ownership" : "التفعيل الفوري والملكية الدائمة مدى الحياة"}
+                {isEn ? "Immediate Activation & 1-Year Full Access" : "التفعيل الفوري والوصول الشامل لمدة عام كامل"}
               </h3>
             </div>
             <p className="text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed ps-12">
               {isEn
-                ? `Once your payment transfer is verified, your purchased tracks (${pricing.trackPriceEgp} EGP), career paths (${pricing.careerPathPriceEgp} EGP), or All-Access pass (${pricing.allAccessPriceEgp} EGP) are permanently added to your personal learning inventory with lifetime access and zero recurring monthly fees.`
-                : `بمجرد تأكيد تحويلك المالي، تتم إضافة المسار التخصصي (${pricing.trackPriceEgp} ج.م) أو المسار المهني (${pricing.careerPathPriceEgp} ج.م) أو باقة الوصول الشامل (${pricing.allAccessPriceEgp} ج.م) فوراً لمخزونك التعليمي مع ملكية دائمة مدى الحياة بدون أي رسوم اشتراك شهرية متكررة.`}
+                ? `Once your payment transfer is verified, your purchased tracks (${pricing.trackPriceEgp} EGP), career paths (${pricing.careerPathPriceEgp} EGP), or All-Access pass (${pricing.allAccessPriceEgp} EGP) are immediately added to your personal learning inventory with full 1-year access (365 days) and zero hidden fees.`
+                : `بمجرد تأكيد تحويلك المالي، تتم إضافة المسار التخصصي (${pricing.trackPriceEgp} ج.م) أو المسار المهني (${pricing.careerPathPriceEgp} ج.م) أو باقة الوصول الشامل (${pricing.allAccessPriceEgp} ج.م) فوراً لمخزونك التعليمي مع وصول كامل لمدة سنة كاملة (365 يوماً) بدون أي مصاريف إضافية.`}
             </p>
           </div>
 

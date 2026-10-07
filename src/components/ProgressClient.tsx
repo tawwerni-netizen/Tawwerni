@@ -385,7 +385,7 @@ export default function ProgressClient({
       {/* Footer Assurance */}
       <div className="mt-8 text-center text-xs text-neutral-400 space-y-1">
         <p>
-          {isEn ? "Lifetime Ownership · Day 1 Free Preview · Certified Badges" : "ملكية دائمة مدى الحياة · تجربة مجانية لليوم الأول · شهادات موثقة"}
+          {isEn ? "1-Year Full Access · Day 1 Free Preview · QR-Verified Certificates" : "اشتراك سنوي كامل (365 يوماً) · تجربة مجانية لليوم الأول · شهادات إتمام موثقة برمز QR"}
         </p>
         <div className="flex items-center justify-center gap-3">
           <Link href="/tracks" className="hover:text-teal-600 underline">{isEn ? "All Tracks" : "المسارات"}</Link>

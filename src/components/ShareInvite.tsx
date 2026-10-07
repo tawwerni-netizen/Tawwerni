@@ -43,15 +43,11 @@ Day 1 of every single track is 100% free — try it without spending a dime.`
       <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mb-4 leading-relaxed">
         {isEn ? (
           <>
-            Send them Day 1 free. If they enroll, you earn{" "}
-            <b className="text-teal-600 dark:text-teal-400">{referral.commissionEgp} EGP</b> — just{" "}
-            {referralsToBreakEven} friends cover your entire membership!
+            Earn <b className="text-teal-600 dark:text-teal-400">{referral.commissionEgp} EGP</b> for every qualified paid referral. Request withdrawal anytime once your balance reaches {referral.minPayoutEgp} EGP.
           </>
         ) : (
           <>
-            شارك معه اليوم الأول المجاني. وإذا اشترك، تحصل على{" "}
-            <b className="text-teal-600 dark:text-teal-400">{referral.commissionEgp} ج.م كاش</b> — و
-            {referralsToBreakEven} أصدقاء يغطون اشتراكك بالكامل وزيادة.
+            اكسب <b className="text-teal-600 dark:text-teal-400">{referral.commissionEgp} ج.م</b> عن كل إحالة مؤهلة ومدفوعة. يمكنك طلب السحب مباشرة عند وصول رصيدك إلى {referral.minPayoutEgp} ج.م.
           </>
         )}
       </p>
@@ -79,8 +75,8 @@ Day 1 of every single track is 100% free — try it without spending a dime.`
 
       <p className="text-[11px] text-neutral-400 dark:text-neutral-500 leading-relaxed">
         {isEn
-          ? `Your referral earnings link directly to your account. Friends get full free preview, and 1-year membership is just ${pricing.priceEgp} EGP.`
-          : `العمولة تُحسب عبر رابطك المخصص الذي يتولد فور التسجيل. المشاركة تمنح صديقك التجربة المجانية، والاشتراك الكامل ${pricing.priceEgp} ج.م لمرة واحدة فقط.`}
+          ? `Your referral earnings link directly to your account. Friends get full free preview, and 1-year track access is just ${pricing.trackPriceEgp} EGP.`
+          : `العمولة تُحسب عبر رابطك المخصص الذي يتولد فور التسجيل. المشاركة تمنح صديقك التجربة المجانية، واشتراك المسار لسنة كاملة بـ ${pricing.trackPriceEgp} ج.م فقط.`}
       </p>
     </div>
   );

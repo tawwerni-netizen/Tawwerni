@@ -240,8 +240,8 @@ export default function VipVaultClient({
               <span>
                 {isVip
                   ? isEn
-                    ? "VIP Vault · Enterprise Lifetime Access Unlocked"
-                    : "خزنة VIP · وصول تنفيذي غير محدود مدى الحياة"
+                    ? "VIP Vault · Enterprise Access Unlocked"
+                    : "خزنة VIP · وصول تنفيذي غير محدود طوال اشتراكك"
                   : isEn
                     ? "VIP Vault · Upgrade Required (+199 EGP)"
                     : "خزنة VIP · خاصة بالمشتركين في ترقية الـ 199 ج.م"}
@@ -286,8 +286,8 @@ export default function VipVaultClient({
                 </h2>
                 <p className="mt-2 text-xs sm:text-sm text-neutral-300 leading-relaxed">
                   {isEn
-                    ? `Upgrade with a one-time fee of +${pricing.orderBumpPriceEgp} EGP for permanent access to the complete 10,000 executive prompts catalog and downloadable contracts pack.`
-                    : `احصل على خزنة VIP بالكامل بدفع (+199 ج.م فقط) واحمِ مستحقاتك وضاعف مبيعاتك وسرعة إنجازك مدى الحياة.`}
+                    ? `Upgrade with an add-on fee of +${pricing.orderBumpPriceEgp} EGP for full access to the complete 10,000 executive prompts catalog and downloadable contracts pack.`
+                    : `احصل على خزنة VIP بالكامل بإضافة (+199 ج.م فقط) واحمِ مستحقاتك وضاعف مبيعاتك وسرعة إنجازك طوال اشتراكك.`}
                 </p>
 
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-amber-200/90 font-medium">
@@ -305,7 +305,7 @@ export default function VipVaultClient({
                   </div>
                   <div className="flex items-center gap-1.5">
                     <span className="text-amber-400">✓</span>
-                    <span>{isEn ? "Lifetime Access & Updates Included" : "وصول دائم وتحديثات مستمرة في حسابك"}</span>
+                    <span>{isEn ? "Full Access & Updates Included" : "وصول شامل وتحديثات مستمرة في حسابك"}</span>
                   </div>
                 </div>
               </div>

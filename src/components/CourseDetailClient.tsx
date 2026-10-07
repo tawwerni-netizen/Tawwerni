@@ -258,15 +258,15 @@ export default function CourseDetailClient({
                 <div>
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-2xs font-bold mb-2">
                     <span>✨</span>
-                    <span>{isEn ? "Modular Lifetime Access" : "امتلاك دائم بدون اشتراكات متكررة"}</span>
+                    <span>{isEn ? "1-Year Full Access" : "اشتراك لمدة عام كامل (365 يوماً)"}</span>
                   </div>
                   <h3 className="text-base sm:text-lg font-black text-white mb-1">
-                    {isEn ? `Own ${title} for only ${pricing.trackPriceEgp} EGP` : `امتلك مسار ${title} بـ ${pricing.trackPriceEgp} ج.م فقط`}
+                    {isEn ? `Unlock ${title} for only ${pricing.trackPriceEgp} EGP / Year` : `اشترك في مسار ${title} بـ ${pricing.trackPriceEgp} ج.م / سنة`}
                   </h3>
                   <p className="text-xs text-neutral-300 max-w-xl leading-relaxed">
                     {isEn
-                      ? `Day 1 is 100% free. Unlock all ${allLessons.length} days, hands-on missions, AI mentor feedback, and verified certificate forever.`
-                      : `اليوم الأول متاح للتجربة مجاناً. امتلك باقي الـ ${allLessons.length - 1} يوماً والمهام التطبيقية ومتابعة الذكاء الاصطناعي والشهادة المعتمدة للأبد.`}
+                      ? `Day 1 is 100% free. Unlock all ${allLessons.length} days, hands-on missions, AI mentor feedback, and QR-verified certificate for 1 full year.`
+                      : `اليوم الأول متاح للتجربة مجاناً. اشترك في باقي الـ ${allLessons.length - 1} يوماً والمهام التطبيقية ومتابعة الذكاء الاصطناعي والشهادة الرقمية الموثقة برمز QR لمدة عام كامل.`}
                   </p>
                 </div>
 
@@ -275,7 +275,7 @@ export default function CourseDetailClient({
                     href={`/quiz/checkout?type=track&slug=${encodeURIComponent(course.slug)}`}
                     className="rounded-full bg-white hover:bg-neutral-100 text-teal-950 font-black px-5 py-2.5 text-xs shadow-md active:scale-95 transition-all text-center whitespace-nowrap"
                   >
-                    {isEn ? `Own This Track (${pricing.trackPriceEgp} EGP) →` : `امتلك هذا المسار (${pricing.trackPriceEgp} ج.م) ←`}
+                    {isEn ? `Subscribe to Track (${pricing.trackPriceEgp} EGP / Year) →` : `اشترك في هذا المسار (${pricing.trackPriceEgp} ج.م / سنة) ←`}
                   </Link>
 
                   {primaryCareerPath && (
@@ -283,7 +283,7 @@ export default function CourseDetailClient({
                       href={`/quiz/checkout?type=career_path&slug=${encodeURIComponent(primaryCareerPath.slug)}`}
                       className="rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 hover:brightness-110 text-neutral-950 font-black px-5 py-2.5 text-xs shadow-md active:scale-95 transition-all text-center whitespace-nowrap"
                     >
-                      {isEn ? `Career Path (${pricing.careerPathPriceEgp} EGP) →` : `المسار المهني الشامل (${pricing.careerPathPriceEgp} ج.م) ←`}
+                      {isEn ? `Career Path (${pricing.careerPathPriceEgp} EGP / Year) →` : `المسار المهني الشامل (${pricing.careerPathPriceEgp} ج.م / سنة) ←`}
                     </Link>
                   )}
                 </div>

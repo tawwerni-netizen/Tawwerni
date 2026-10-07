@@ -38,12 +38,12 @@ export default function LandingPageView() {
     ? [
         { icon: "☕", label: "3 Specialty Coffees", note: "Consumed in an hour" },
         { icon: "🍔", label: "Takeout Meal for Two", note: "Gone in 30 minutes" },
-        { icon: "🌟", label: `100 Tracks & ${totalLessons}+ Lessons`, note: "Continuous investment unlocking lifelong income", ours: true },
+        { icon: "🌟", label: `100 Tracks & ${totalLessons}+ Lessons`, note: "1-year access unlocking high-demand market skills", ours: true },
       ]
     : [
         { icon: "☕", label: "٣ قعدات قهوة", note: "تنتهي في ساعة واحدة" },
         { icon: "🍔", label: "وجبة سريعة لشخصين", note: "تنتهي في نصف ساعة" },
-        { icon: "🌟", label: `١٠٠ مسار و${totalLessons}+ درس`, note: "استثمار دائم يفتح لك مصادر دخل مستمرة", ours: true },
+        { icon: "🌟", label: `١٠٠ مسار و${totalLessons}+ درس`, note: "اشتراك سنوي شامل يفتح لك مهارات وفرص دخل حقيقية", ours: true },
       ];
 
   return (
@@ -186,7 +186,7 @@ export default function LandingPageView() {
             </div>
             <div className="p-3 rounded-2xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 shadow-2xs">
               <span className="block text-lg mb-1">👑</span>
-              <span>{isEn ? "Lifetime Access" : "ملكية دائمة مدى الحياة"}</span>
+              <span>{isEn ? "1-Year Full Access" : "اشتراك لمدة عام كامل"}</span>
             </div>
           </div>
 
@@ -338,8 +338,8 @@ export default function LandingPageView() {
 
             <p className="mt-4 text-center text-xs text-neutral-500 dark:text-neutral-400">
               {isEn
-                ? `✨ Any path you choose includes Day 1 free. Own individual tracks for ${pricing.trackPriceEgp} EGP or complete Career Path bundles for ${pricing.careerPathPriceEgp} EGP with lifetime ownership.`
-                : `✨ أي مسار تختاره اليوم الأول فيه مجاني بالكامل. امتلك مسارك الفردي بـ ${pricing.trackPriceEgp} ج.م فقط أو المسار المهني الشامل بـ ${pricing.careerPathPriceEgp} ج.م بامتلاك دائم وبدون أي اشتراكات متكررة.`}
+                ? `✨ Any path you choose includes Day 1 free. Unlock individual tracks for ${pricing.trackPriceEgp} EGP or complete Career Path bundles for ${pricing.careerPathPriceEgp} EGP with 1-year full access.`
+                : `✨ أي مسار تختاره اليوم الأول فيه مجاني بالكامل. اشترك في مسارك الفردي بـ ${pricing.trackPriceEgp} ج.م فقط أو المسار المهني الشامل بـ ${pricing.careerPathPriceEgp} ج.م بصلاحية كاملة لمدة سنة وبدون تجديد تلقائي إجباري.`}
             </p>
           </div>
         </div>
@@ -1041,7 +1041,7 @@ export default function LandingPageView() {
                 </span>
                 <span className="flex items-center gap-1 text-emerald-400">
                   <span>✓</span>
-                  <span>{isEn ? "Available optionally at checkout (+199 EGP)" : "متاح إضافته عند إتمام الطلب (+199 ج.م فقط)"}</span>
+                  <span>{isEn ? "Included free with All-Access Pass · Or optional add-on (+199 EGP)" : "مشمول مجانًا ضمن باقة الوصول الشامل · أو كإضافة اختيارية (+199 ج.م)"}</span>
                 </span>
               </div>
             </div>
@@ -1052,17 +1052,17 @@ export default function LandingPageView() {
         <div className="mx-auto mb-16 max-w-6xl text-center">
           <span className="inline-flex items-center gap-1.5 bg-teal-500/10 text-teal-800 dark:text-teal-300 text-xs font-black px-4 py-1.5 rounded-full border border-teal-500/30 mb-3">
             <span>✨</span>
-            <span>{isEn ? "Transparent Ownership · Zero Recurring Subscriptions" : "ملكية واضحة · امتلاك دائم بدون اشتراكات متكررة"}</span>
+            <span>{isEn ? "Transparent 1-Year Access · Zero Recurring Surprises" : "اشتراك سنوي شفاف · بدون تجديد تلقائي إجباري"}</span>
           </span>
           <h2 className="text-2xl font-black md:text-3xl mb-2 text-neutral-900 dark:text-white">
             {isEn
-              ? "Choose Your Path · Own It Forever"
-              : "اختر ما تحتاجه بدقة · وامتلكه للأبد"}
+              ? "Choose Your Path · 1-Year Full Access"
+              : "اختر ما تحتاجه بدقة · اشتراك لمدة عام كامل"}
           </h2>
           <p className="mx-auto mb-10 max-w-2xl text-xs sm:text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
             {isEn
-              ? "One-time payment per product with zero recurring monthly fees. Start with a focused skill track, unlock an entire career roadmap, or get the complete master key to all 100 courses."
-              : "دفعة واحدة لمرة واحدة بدون أي اشتراكات شهرية متجددة أو رسوم خفية. ابدأ بمهارة محددة، أو امتلك مساراً مهنياً متكاملاً، أو احصل على المفتاح الشامل لكافة الـ 100 كورس."}
+              ? "One payment per product with full access for 365 days. Start with a focused skill track, unlock an entire career roadmap, or get the complete master key to all 100 courses."
+              : "دفعة واحدة وصلاحية كاملة لمدة 365 يوماً بدون أي رسوم خفية أو سحب تلقائي مفاجئ. ابدأ بمهارة محددة، أو افتح مساراً مهنياً متكاملاً، أو احصل على المفتاح الشامل لكافة الـ 100 كورس."}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-start">
@@ -1071,10 +1071,10 @@ export default function LandingPageView() {
               <div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/10 text-teal-800 dark:text-teal-300 border border-teal-500/20 text-2xs font-black mb-3">
                   <span>🎯</span>
-                  <span>{isEn ? "Individual Skill Track" : "مسار تخصصي فردي"}</span>
+                  <span>{isEn ? "Individual Skill Track (1 Year)" : "مسار تخصصي فردي (سنة كاملة)"}</span>
                 </div>
                 <h3 className="text-lg font-black text-neutral-900 dark:text-white mb-1">
-                  {isEn ? "Single Track Access" : "امتلاك مسار تخصصي فردي"}
+                  {isEn ? "Single Track (1-Year Access)" : "اشتراك مسار تخصصي فردي"}
                 </h3>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-5 min-h-[32px]">
                   {isEn
@@ -1093,7 +1093,7 @@ export default function LandingPageView() {
                     </span>
                   </div>
                   <div className="text-2xs font-semibold text-neutral-500 dark:text-neutral-400 mt-1">
-                    {isEn ? "One-time payment · Lifetime ownership" : "دفعة واحدة لمرة واحدة · امتلاك دائم مدى الحياة"}
+                    {isEn ? "One payment · Full access for 1 year (365 days)" : "دفعة واحدة · وصول كامل للمسار لمدة سنة (365 يوماً)"}
                   </div>
                 </div>
 
@@ -1127,7 +1127,7 @@ export default function LandingPageView() {
                   </span>
                 </Link>
                 <div className="text-center mt-2 text-3xs text-neutral-400">
-                  {isEn ? "Added to your permanent learning inventory" : "يضاف فوراً لمكتبتك التعليمية الدائمة"}
+                  {isEn ? "Active in your learning inventory for 1 full year" : "متاح في مكتبتك التعليمية لمدة سنة كاملة"}
                 </div>
               </div>
             </div>
@@ -1140,10 +1140,10 @@ export default function LandingPageView() {
               <div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 text-2xs font-black mb-3">
                   <span>🌟</span>
-                  <span>{isEn ? "Career Roadmap Bundle" : "المسار المهني الشامل"}</span>
+                  <span>{isEn ? "Career Roadmap Bundle (1 Year)" : "المسار المهني الشامل (سنة كاملة)"}</span>
                 </div>
                 <h3 className="text-lg font-black text-neutral-900 dark:text-white mb-1">
-                  {isEn ? "Career Path Bundle" : "المسار المهني المتكامل"}
+                  {isEn ? "Career Path (1-Year Access)" : "المسار المهني المتكامل"}
                 </h3>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-5 min-h-[32px]">
                   {isEn
@@ -1162,7 +1162,7 @@ export default function LandingPageView() {
                     </span>
                   </div>
                   <div className="text-2xs font-bold text-emerald-600 dark:text-emerald-400 mt-1">
-                    {isEn ? "One-time payment · Unlocks ALL included tracks" : "دفعة واحدة لمرة واحدة · تفتح كافة المسارات المندرجة للأبد"}
+                    {isEn ? "Annual plan · Unlocks ALL included tracks for 1 year" : "اشتراك سنوي · فتح شامل لكافة المسارات المندرجة لمدة عام"}
                   </div>
                 </div>
 
@@ -1196,7 +1196,7 @@ export default function LandingPageView() {
                   </span>
                 </Link>
                 <div className="text-center mt-2 text-3xs text-neutral-400">
-                  {isEn ? "Best value for full career preparation" : "الخيار الأفضل لإتقان مهنة كاملة"}
+                  {isEn ? "Best value for full 1-year career preparation" : "الخيار الأفضل لإتقان مهنة كاملة لمدة عام"}
                 </div>
               </div>
             </div>
@@ -1208,15 +1208,15 @@ export default function LandingPageView() {
               <div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30 text-2xs font-black mb-3">
                   <span>👑</span>
-                  <span>{isEn ? "All-Access Master Key" : "الوصول الشامل الأقصى"}</span>
+                  <span>{isEn ? "All-Access Master Key (1 Year)" : "الوصول الشامل الأقصى (سنة كاملة)"}</span>
                 </div>
                 <h3 className="text-lg font-black text-neutral-900 dark:text-white mb-1">
-                  {isEn ? "All-Access Pass" : "الوصول الشامل لكافة الكورسات"}
+                  {isEn ? "All-Access Pass (1-Year Access)" : "الوصول الشامل لكافة الكورسات"}
                 </h3>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-5 min-h-[32px]">
                   {isEn
-                    ? "Unlocks all 100 tracks, all 12 career paths, and all future content additions."
-                    : "المفتاح الكامل لجميع الـ 100 مسار تخصصي وكافة المسارات المهنية الـ 12 للأبد."}
+                    ? "Unlocks all 100 tracks, all 12 career paths, and the Prompt Bank for a full year."
+                    : "المفتاح الكامل لجميع الـ 100 مسار تخصصي وكافة المسارات المهنية الـ 12 وبنك البرومبت لمدة عام كامل."}
                 </p>
 
                 {/* Clean Price Display */}
@@ -1230,19 +1230,19 @@ export default function LandingPageView() {
                     </span>
                   </div>
                   <div className="text-2xs font-bold text-amber-600 dark:text-amber-400 mt-1">
-                    {isEn ? "One-time payment · Complete library lifetime access" : "دفعة واحدة لمرة واحدة · وصول شامل لجميع المحتويات مدى الحياة"}
+                    {isEn ? "Annual subscription · Complete library access for 365 days" : "اشتراك سنوي شامل · وصول لكامل المحتوى لمدة 365 يوماً"}
                   </div>
                 </div>
 
                 {/* Features */}
                 <ul className="space-y-2.5 text-xs text-neutral-700 dark:text-neutral-300 mb-6">
                   {[
-                    isEn ? "Permanent access to ALL 100 specialized tracks" : "فتح فوري لكافة الـ 100 مسار تخصصي (2,800 مهمة وكويز)",
+                    isEn ? "Full access to ALL 100 specialized tracks for 1 year" : "فتح فوري لكافة الـ 100 مسار تخصصي (2,800 مهمة وكويز)",
                     isEn ? "ALL 12 complete career paths & portfolio capstones" : "جميع المسارات المهنية الـ 12 ومشاريع البورتفوليو الكبرى",
                     isEn ? "Verified digital certificates with QR validation for all" : "شهادات إتمام رقمية لجميع المسارات مع روابط تحقق وأكواد QR",
-                    isEn ? "All future course launches and updates included free" : "جميع التحديثات والكورسات الجديدة مستقبلاً بدون أي رسوم",
+                    isEn ? "Full access to current library & continuous updates per product policy" : "الوصول الشامل للكتالوج المشمول، والتحديثات المقررة بسياسة المنتج خلال فترة الاشتراك",
                     isEn ? "10,000 Corporate AI Prompts Vault & Contracts included" : "قاعدة بيانات الـ 10,000 برومبت وعقود الفريلانس مشمولة",
-                    isEn ? "Priority AI feedback and human support channel" : "أولوية عليا في المراجعة الذكية والدعم الفني المباشر",
+                    isEn ? "Priority AI feedback and direct support" : "أولوية عليا في المراجعة الذكية والدعم الفني المباشر",
                   ].map((feat, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span className="text-amber-500 font-bold shrink-0 mt-0.5">✓</span>

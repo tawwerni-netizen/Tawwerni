@@ -154,13 +154,13 @@ export default function CareerPathDetailView({
                 </div>
                 <h3 className="text-base sm:text-lg font-black text-white">
                   {isEn
-                    ? `Unlock ${careerPath.titleEn} Roadmap for ${pricing.careerPathPriceEgp} EGP`
-                    : `امتلك مسار ${careerPath.titleAr} بالكامل بـ ${pricing.careerPathPriceEgp} ج.م فقط`}
+                    ? `Unlock ${careerPath.titleEn} Roadmap · 1-Year Access for ${pricing.careerPathPriceEgp} EGP`
+                    : `اشترك في مسار ${careerPath.titleAr} بالكامل · سنة كاملة بـ ${pricing.careerPathPriceEgp} ج.م فقط`}
                 </h3>
                 <p className="text-xs text-neutral-300 mt-1 max-w-xl leading-relaxed">
                   {isEn
-                    ? "Get lifetime ownership of all roadmap tracks, daily missions, quizzes, and verified portfolio proofs with zero recurring fees."
-                    : "امتلك وصولاً دائماً لكافة مسارات خريطة الطريق والمهمات اليومية ومشاريع البورتفوليو والشهادات الرقمية الموثقة برمز QR، ملكية دائمة مدى الحياة بدون أي رسوم متجددة."}
+                    ? "Get 1-year full access (365 days) to all roadmap tracks, daily missions, quizzes, and QR-verified completion certificates with zero recurring fees."
+                    : "اشتراك سنوي كامل (365 يومًا) يشمل كافة مسارات خريطة الطريق والمهمات اليومية والاختبارات التفاعلية وشهادات الإتمام الرقمية الموثقة برمز QR، وصول شامل لمدة عام كامل بدون أي مصاريف إضافية."}
                 </p>
               </div>
 
@@ -169,7 +169,7 @@ export default function CareerPathDetailView({
                   href={`/quiz/checkout?type=career_path&slug=${careerPath.slug}`}
                   className="w-full sm:w-auto whitespace-nowrap rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 px-6 py-3.5 text-xs sm:text-sm font-black text-neutral-950 shadow-lg hover:brightness-110 active:scale-98 transition-all text-center cursor-pointer"
                 >
-                  {isEn ? `Own Career Path (${pricing.careerPathPriceEgp} EGP) ➔` : `امتلك المسار المهني (${pricing.careerPathPriceEgp} ج.م) ➔`}
+                  {isEn ? `Start 1-Year Access (${pricing.careerPathPriceEgp} EGP) ➔` : `اشترك في المسار المهني (${pricing.careerPathPriceEgp} ج.م / سنة) ➔`}
                 </Link>
                 <Link
                   href={nextTrackUrl}
@@ -183,7 +183,7 @@ export default function CareerPathDetailView({
             <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 px-5 flex items-center justify-between gap-3 text-xs">
               <span className="text-emerald-300 font-bold flex items-center gap-2">
                 <span>✓</span>
-                <span>{isEn ? "You own this complete Career Path" : "أنت تمتلك هذا المسار المهني بالكامل في حسابك"}</span>
+                <span>{isEn ? "You have active access to this Career Path" : "لديك وصول نشط إلى هذا المسار المهني في حسابك"}</span>
               </span>
               <span className="text-neutral-400 font-mono text-[11px]">
                 {progress.completedTracksCount}/{progress.totalTracksCount} {isEn ? "tracks completed" : "مسار مكتمل"}

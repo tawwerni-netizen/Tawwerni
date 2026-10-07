@@ -303,7 +303,7 @@ export default function ProfileClient(props: Props) {
                   </p>
                   <p className="text-[10px] text-neutral-500">
                     {props.subscription.amountEgp >= 440
-                      ? isEn ? "Lifetime access to enterprise prompts & legal contracts" : "وصول دائم لأوامر الذكاء الاصطناعي وعقود العمل الحر"
+                      ? isEn ? "Full access to enterprise prompts & legal contracts" : "وصول شامل لأوامر الذكاء الاصطناعي وعقود العمل الحر"
                       : isEn ? "Unlock the 1,000 prompts bank and legal contract pack" : "احصل على بنك الأوامر وعقود العمل الحر لحماية أتعابك"}
                   </p>
                 </div>
@@ -327,7 +327,7 @@ export default function ProfileClient(props: Props) {
             <div className="mt-4 pt-3 border-t border-black/5 dark:border-white/5 flex flex-wrap items-center justify-between gap-2 text-xs">
               <span className="text-teal-700 dark:text-teal-300 font-bold flex items-center gap-1.5">
                 <span>👑</span>
-                <span>{isEn ? "Lifetime Ownership Included" : "ملكية دائمة مدى الحياة"}</span>
+                <span>{isEn ? "1-Year Full Access Included" : "اشتراك سنوي كامل لمدة عام"}</span>
               </span>
               <a
                 href={`https://wa.me/2${payment.supportWhatsapp}`}

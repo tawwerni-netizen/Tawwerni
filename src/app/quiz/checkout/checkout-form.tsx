@@ -176,7 +176,7 @@ export default function CheckoutForm({
       ? pricing.careerPathPriceEgp // 149 EGP
       : pricing.trackPriceEgp; // 59 EGP
 
-  const totalPrice = basePrice + (withOrderBump ? pricing.orderBumpPriceEgp : 0);
+  const totalPrice = basePrice + (withOrderBump && productType !== "all_access" ? pricing.orderBumpPriceEgp : 0);
 
   useEffect(() => {
     // Dynamically retrieve active payment receiving accounts
@@ -605,8 +605,8 @@ export default function CheckoutForm({
                 </h3>
                 <p className="text-[11px] text-neutral-300 leading-relaxed">
                   {isEn
-                    ? "Unlocks all 100 tracks & all 12 career paths permanently."
-                    : "فتح شامل لجميع الـ 100 تراك وكافة المسارات المهنية الـ 12."}
+                    ? "Unlocks all 100 tracks & all 12 career paths for 1 full year (365 days)."
+                    : "فتح شامل لجميع الـ 100 مسار وكافة المسارات المهنية الـ 12 لمدة سنة كاملة (365 يوماً)."}
                 </p>
               </div>
 
@@ -636,21 +636,21 @@ export default function CheckoutForm({
               <span>
                 {productType === "all_access"
                   ? isEn
-                    ? "All-Access Pass (Lifetime)"
-                    : "باقة الوصول الشامل لجميع الكورسات"
+                    ? "All-Access Pass (1-Year Access)"
+                    : "باقة الوصول الشامل لجميع الكورسات (سنة كاملة)"
                   : productType === "career_path"
                   ? isEn
-                    ? "Career Path Bundle Access"
-                    : "حزمة المسار المهني الشامل"
+                    ? "Career Path Bundle Access (1-Year Access)"
+                    : "حزمة المسار المهني الشامل (سنة كاملة)"
                   : isEn
-                  ? "Single Track Mastery"
-                  : "تملّك المسار التخصصي الفردي"}
+                  ? "Single Track Mastery (1-Year Access)"
+                  : "المسار التخصصي الفردي (سنة كاملة)"}
               </span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-black text-emerald-300 border border-emerald-400/30 whitespace-nowrap shrink-0">
               <span>✓</span>
-              <span>{isEn ? "Lifetime Ownership" : "ملكية دائمة مدى الحياة"}</span>
+              <span>{isEn ? "1-Year Full Access" : "اشتراك لمدة عام كامل"}</span>
             </span>
           </div>
 
@@ -695,9 +695,9 @@ export default function CheckoutForm({
               </span>
               <span className="text-[11px] sm:text-xs">
                 {isEn ? (
-                  <>Immediate activation · Added permanently to your learning inventory</>
+                  <>Immediate activation · 1-year full access to your learning inventory</>
                 ) : (
-                  <>تفعيل فوري · إضافة دائمة لمخزونك التعليمي في لوحة تحكمك</>
+                  <>تفعيل فوري · وصول شامل لمدة سنة كاملة لمخزونك التعليمي في لوحة تحكمك</>
                 )}
               </span>
             </p>
@@ -710,53 +710,71 @@ export default function CheckoutForm({
         </div>
 
         {/* Order Bump (VIP Prompts & Contracts) */}
-        <div
-          onClick={() => setWithOrderBump(!withOrderBump)}
-          className={`mb-5 cursor-pointer rounded-2xl border-2 p-4 transition-all ${
-            withOrderBump
-              ? "border-amber-400 bg-amber-500/15 shadow-lg shadow-amber-500/15 ring-2 ring-amber-400/20"
-              : "border-dashed border-amber-400/40 bg-amber-500/5 hover:border-amber-400"
-          }`}
-        >
-          <div className="flex items-start gap-3">
-            <div className="pt-0.5">
-              <input
-                type="checkbox"
-                checked={withOrderBump}
-                onChange={(e) => setWithOrderBump(e.target.checked)}
-                onClick={(e) => e.stopPropagation()}
-                className="h-5 w-5 rounded border-neutral-600 bg-neutral-900 text-amber-500 focus:ring-amber-500 cursor-pointer"
-              />
+        {productType === "all_access" ? (
+          <div className="mb-5 rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/10 p-4 shadow-lg shadow-emerald-500/10 text-start">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="rounded-md bg-gradient-to-r from-emerald-400 to-teal-300 text-neutral-950 px-2.5 py-0.5 text-[11px] font-black">
+                ✨ {isEn ? "Included Free" : "مشمول مجاناً"}
+              </span>
+              <span className="text-xs font-black text-emerald-300">
+                {isEn ? "Prompt Bank + Legal Contracts Included" : "بنك الـ 10,000 برومبت + صِيغ العقود القانونية مشمولة مجاناً"}
+              </span>
             </div>
-            <div className="flex-1 text-start">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="rounded-md bg-gradient-to-r from-amber-400 to-yellow-300 text-neutral-950 px-2.5 py-0.5 text-[11px] font-black shadow-xs">
-                    ⚡ {isEn ? "Executive AI Vault Add-on" : "إضافة اختيارية: حزمة الأصول التنفيذية"}
-                  </span>
-                  <span className="rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-bold">
-                    🔥 {isEn ? "Recommended for Professionals" : "قيمة إضافية للمحترفين"}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5 font-mono">
-                  <span className="text-xs font-black text-amber-300">
-                    +{pricing.orderBumpPriceEgp} {isEn ? "EGP" : "ج.م"}
-                  </span>
-                </div>
+            <p className="text-[11px] text-neutral-300 leading-relaxed">
+              {isEn
+                ? "Your 399 EGP All-Access Pass already includes full access to the 10,000 Corporate Prompts Vault and 5 Freelance Legal Contract Templates at zero extra charge."
+                : "باقتك للوصول الشامل (399 ج.م) تتضمن بالفعل بنك أوامر الذكاء الاصطناعي الـ 10,000 ونماذج العقود القانونية الـ 5 بدون أي مصاريف إضافية."}
+            </p>
+          </div>
+        ) : (
+          <div
+            onClick={() => setWithOrderBump(!withOrderBump)}
+            className={`mb-5 cursor-pointer rounded-2xl border-2 p-4 transition-all ${
+              withOrderBump
+                ? "border-amber-400 bg-amber-500/15 shadow-lg shadow-amber-500/15 ring-2 ring-amber-400/20"
+                : "border-dashed border-amber-400/40 bg-amber-500/5 hover:border-amber-400"
+            }`}
+          >
+            <div className="flex items-start gap-3">
+              <div className="pt-0.5">
+                <input
+                  type="checkbox"
+                  checked={withOrderBump}
+                  onChange={(e) => setWithOrderBump(e.target.checked)}
+                  onClick={(e) => e.stopPropagation()}
+                  className="h-5 w-5 rounded border-neutral-600 bg-neutral-900 text-amber-500 focus:ring-amber-500 cursor-pointer"
+                />
               </div>
-              <p className="mt-1.5 text-xs sm:text-sm font-black text-white leading-snug">
-                {isEn
-                  ? "Executive 10,000 Corporate Prompts Database (100 Domains × 100 Prompts) + Freelance Legal Contracts Pack"
-                  : pricing.orderBumpTitle}
-              </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-neutral-300">
-                {isEn
-                  ? "An authentic indexed database of 10,000 executive AI prompts covering 100 corporate domains + 5 verified bilingual freelance legal contracts safeguarding your fees."
-                  : "قاعدة بيانات مفهرسة تضم 10,000 أمر ذكاء اصطناعي عملي موزعة على 100 مجال تخصصي للشركات + 5 صِيغ عقود عمل حر ثنائية اللغة تحمي أتعابك قانونيًا."}
-              </p>
+              <div className="flex-1 text-start">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="rounded-md bg-gradient-to-r from-amber-400 to-yellow-300 text-neutral-950 px-2.5 py-0.5 text-[11px] font-black shadow-xs">
+                      ⚡ {isEn ? "Executive AI Vault Add-on" : "إضافة اختيارية: حزمة الأصول التنفيذية"}
+                    </span>
+                    <span className="rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-bold">
+                      🔥 {isEn ? "Recommended for Professionals" : "قيمة إضافية للمحترفين"}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 font-mono">
+                    <span className="text-xs font-black text-amber-300">
+                      +{pricing.orderBumpPriceEgp} {isEn ? "EGP" : "ج.م"}
+                    </span>
+                  </div>
+                </div>
+                <p className="mt-1.5 text-xs sm:text-sm font-black text-white leading-snug">
+                  {isEn
+                    ? "Executive 10,000 Corporate Prompts Database (100 Domains × 100 Prompts) + Freelance Legal Contracts Pack"
+                    : pricing.orderBumpTitle}
+                </p>
+                <p className="mt-1 text-[11px] leading-relaxed text-neutral-300">
+                  {isEn
+                    ? "An authentic indexed database of 10,000 executive AI prompts covering 100 corporate domains + 5 verified bilingual freelance legal contracts safeguarding your fees."
+                    : "قاعدة بيانات مفهرسة تضم 10,000 أمر ذكاء اصطناعي عملي موزعة على 100 مجال تخصصي للشركات + 5 صِيغ عقود عمل حر ثنائية اللغة تحمي أتعابك قانونيًا."}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <form onSubmit={submit} className="space-y-4">
           {/* PRODUCT SELECTION ACCORDING TO TYPE */}
@@ -773,8 +791,8 @@ export default function CheckoutForm({
               </div>
               <p className="mb-3 text-xs leading-relaxed text-neutral-300">
                 {isEn
-                  ? "No need to choose a single track or path. You will immediately unlock all 100 specialized tracks, all 12 career paths, quizzes, and future additions permanently."
-                  : "لا داعي لاختيار مسار منفرد. سيتم تفعيل وصولك لكافة الـ 100 مسار وجميع المسارات المهنية الـ 12 ومشاريعها وكافة التحديثات القادمة فوراً ومدى الحياة."}
+                  ? "No need to choose a single track or path. You will immediately unlock all 100 specialized tracks, all 12 career paths, quizzes, and continuous updates for 1 full year (365 days)."
+                  : "لا داعي لاختيار مسار منفرد. سيتم تفعيل وصولك لكافة الـ 100 مسار وجميع المسارات المهنية الـ 12 ومشاريعها وكافة التحديثات لمدة عام كامل (365 يوماً)."}
               </p>
               <div className="rounded-2xl border border-white/5 bg-black/40 p-3 space-y-1.5 text-xs text-neutral-300">
                 <div className="flex items-center gap-2 text-emerald-300">
@@ -803,8 +821,8 @@ export default function CheckoutForm({
               </div>
               <p className="mb-3 text-xs leading-relaxed text-neutral-300">
                 {isEn
-                  ? "Select the career destination you want to reach. You will own the full roadmap and all contained tracks."
-                  : "اختر الوجهة المهنية التي تسعى للوصول إليها. ستتملك خريطة الطريق بالكامل وكافة مساراتها المتخصصة."}
+                  ? "Select the career destination you want to reach. You get 1-year full access to the roadmap and all contained tracks."
+                  : "اختر الوجهة المهنية التي تسعى للوصول إليها. ستحصل على اشتراك سنوي كامل (365 يوماً) في خريطة الطريق وكافة مساراتها المتخصصة."}
               </p>
               <div className="space-y-2">
                 {careerPaths.map((cp) => (

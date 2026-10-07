@@ -100,8 +100,8 @@ export default function StudentTrackCatalog({
           <span>{isEn ? `${totalLessonsCount}+ Hands-on Lessons` : `أكثر من ${totalLessonsCount} درس تطبيقي`}</span>
         </span>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1.5 font-bold text-emerald-800 dark:text-emerald-300 shadow-2xs">
-          <span>♾️</span>
-          <span>{isEn ? "Lifetime Ownership" : "ملكية دائمة مدى الحياة"}</span>
+          <span>📅</span>
+          <span>{isEn ? "1-Year Full Access" : "صلاحية كاملة لمدة سنة"}</span>
         </span>
       </div>
 
@@ -298,8 +298,8 @@ export default function StudentTrackCatalog({
       {/* Reassurance Footer Bar */}
       <div className="mt-12 rounded-3xl bg-neutral-100 dark:bg-neutral-900/70 border border-black/5 dark:border-white/10 p-5 text-center text-xs text-neutral-600 dark:text-neutral-400 flex flex-wrap items-center justify-center gap-3 sm:gap-6">
         <span className="font-bold text-teal-700 dark:text-teal-300 flex items-center gap-1.5">
-          <span>♾️</span>
-          <span>{isEn ? "Lifetime Ownership" : "ملكية دائمة مدى الحياة"}</span>
+          <span>📅</span>
+          <span>{isEn ? "1-Year Full Access" : "صلاحية كاملة لمدة سنة"}</span>
         </span>
         <span className="hidden sm:inline text-neutral-300 dark:text-neutral-700">•</span>
         <span>{isEn ? "Includes all practical projects & QR-verified digital credentials" : "شامل كافة المشاريع التطبيقية والشهادات الرقمية الموثقة برمز QR"}</span>
