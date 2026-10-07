@@ -9,6 +9,7 @@ import TrackCardVisual from "./TrackCardVisual";
 import { getTrackArtwork } from "@/content/track-artworks";
 import { getRecentLearningClient } from "@/lib/recent-learning";
 import { resolveDomainTheme } from "@/lib/design-system/domain-themes";
+import { CONTENT_METRICS, FORMATTED_METRICS } from "@/lib/content-metrics";
 
 type Props = {
   completedTrackSlugs?: string[];
@@ -60,10 +61,8 @@ export default function StudentTrackCatalog({
     }
   }, [resumeTrack]);
 
-  const totalTracksCount = ALL_100_TRACKS.length;
-  const totalLessonsCount = useMemo(() => {
-    return ALL_100_TRACKS.reduce((sum, t) => sum + t.totalLessons, 0);
-  }, []);
+  const totalTracksCount = CONTENT_METRICS.tracks;
+  const totalLessonsCount = CONTENT_METRICS.lessons;
 
   const filteredTracks = useMemo(() => {
     return ALL_100_TRACKS.filter((track) => {

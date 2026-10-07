@@ -9,6 +9,7 @@ import SocialLinks from "@/components/SocialLinks";
 import { useI18n } from "@/components/LanguageContext";
 import LanguageToggle from "@/components/LanguageToggle";
 import ThemeToggle from "@/components/ThemeToggle";
+import { getTrackDayOneUrl } from "@/lib/canonical-routes";
 
 export default function VerticalLandingPage({
   courseSlug,
@@ -97,7 +98,7 @@ export default function VerticalLandingPage({
 
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
-              href={`/app/learn/${courseSlug}/1`}
+              href={getTrackDayOneUrl(courseSlug)}
               className="w-full sm:w-auto rounded-full bg-gradient-to-r from-teal-600 to-emerald-500 px-9 py-3.5 text-sm font-bold text-white shadow-lg shadow-teal-500/20 hover:brightness-110 active:scale-98 transition-all text-center"
             >
               <span>{isEn ? "Try Day 1 Free →" : "جرّب اليوم الأول مجانًا ←"}</span>

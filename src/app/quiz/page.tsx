@@ -16,8 +16,10 @@ import { useI18n } from "@/components/LanguageContext";
 import LanguageToggle from "@/components/LanguageToggle";
 import ThemeToggle from "@/components/ThemeToggle";
 import { LogoLink } from "@/components/Logo";
+import { getTrackDayOneUrl } from "@/lib/canonical-routes";
+import { CONTENT_METRICS } from "@/lib/content-metrics";
 
-const totalLessons = ALL_100_TRACKS.reduce((sum, t) => sum + t.totalLessons, 0);
+const totalLessons = CONTENT_METRICS.lessons;
 
 type Step =
   | { kind: "question"; qIndex: number }
@@ -336,7 +338,7 @@ export default function QuizPage() {
   }
 
   function startMissionOne() {
-    const targetUrl = `/app/learn/${primarySlug}/1`;
+    const targetUrl = getTrackDayOneUrl(primarySlug);
     router.push(targetUrl);
   }
 

@@ -10,6 +10,7 @@ import {
 } from "@/content/career-paths";
 import { resolveCareerPathProgress } from "@/lib/career-paths-progress";
 import { pricing } from "@/content/brand";
+import { CONTENT_METRICS } from "@/lib/content-metrics";
 
 type Props = {
   careerPaths: CareerPath[];
@@ -89,7 +90,7 @@ export default function CareerPathsCatalogView({
           <div className="flex flex-wrap items-center justify-center gap-3 pt-3 text-xs font-bold text-neutral-700 dark:text-neutral-200">
             <span className="inline-flex items-center gap-2 rounded-full bg-white dark:bg-neutral-900/80 px-4 py-2 border border-teal-500/20 dark:border-white/10 shadow-xs">
               <span className="text-teal-600 dark:text-teal-400 text-sm font-black">✓</span>
-              <span>{isEn ? "12 Curated Specializations" : "12 مسار مهني متكامل"}</span>
+              <span>{isEn ? `${CONTENT_METRICS.careerPaths} Curated Specializations` : `${CONTENT_METRICS.careerPaths} مسار مهني متكامل`}</span>
             </span>
             <span className="inline-flex items-center gap-2 rounded-full bg-white dark:bg-neutral-900/80 px-4 py-2 border border-emerald-500/20 dark:border-white/10 shadow-xs">
               <span className="text-emerald-600 dark:text-emerald-400 text-sm font-black">✓</span>

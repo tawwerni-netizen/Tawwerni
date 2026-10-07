@@ -10,6 +10,7 @@
     "db:seed": "tsx prisma/seed.ts",
     "db:seed-community": "tsx scripts/seed-community-300.ts",
     "db:setup": "prisma db push && tsx prisma/seed.ts",
+    "test:routes": "tsx scripts/validate-routes.ts",
     "postinstall": "prisma generate"
   },
   "//": "Hostinger installs with devDependencies omitted, so anything the BUILD touches has to live in dependencies — Tailwind's PostCSS plugin, the TypeScript compiler and its @types, and prisma+dotenv for the postinstall generate. Only the tools that never run on the server stay below.",

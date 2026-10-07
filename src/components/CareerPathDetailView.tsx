@@ -6,6 +6,7 @@ import { useI18n } from "@/components/LanguageContext";
 import { CareerPath } from "@/content/career-paths";
 import { resolveCareerPathProgress } from "@/lib/career-paths-progress";
 import { pricing } from "@/content/brand";
+import { getCareerPathFirstDayUrl } from "@/lib/canonical-routes";
 
 type Props = {
   careerPath: CareerPath;
@@ -38,7 +39,7 @@ export default function CareerPathDetailView({
   const nextTrack = progress.nextActionableTrack;
   const nextTrackUrl = nextTrack
     ? `/app/learn/${nextTrack.trackSlug}/${nextTrack.nextDayNumber}`
-    : `/app/learn/${careerPath.stages[0]?.tracks[0]?.trackSlug || "prompt-engineering-mastery"}/1`;
+    : getCareerPathFirstDayUrl(careerPath.slug);
 
 
   return (

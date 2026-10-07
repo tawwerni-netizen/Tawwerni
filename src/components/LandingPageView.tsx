@@ -17,12 +17,14 @@ import FocusPlayer from "@/components/FocusPlayer";
 import InteractiveDopaminePreview from "@/components/InteractiveDopaminePreview";
 import { useI18n } from "./LanguageContext";
 import { resolveDomainTheme } from "@/lib/design-system/domain-themes";
+import { getTrackDayOneUrl } from "@/lib/canonical-routes";
+import { CONTENT_METRICS, FORMATTED_METRICS } from "@/lib/content-metrics";
 
 export default function LandingPageView() {
   const { lang } = useI18n();
   const isEn = lang === "en";
 
-  const totalLessons = ALL_100_TRACKS.reduce((s, t) => s + t.totalLessons, 0);
+  const totalLessons = CONTENT_METRICS.lessons;
 
   // 6 featured tracks
   const featuredTracks = [
@@ -158,7 +160,7 @@ export default function LandingPageView() {
           {/* Primary Action Button + Secondary Action Button */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-4">
             <Link
-              href="/app/learn/prompt-engineering-mastery/1"
+              href={getTrackDayOneUrl(1)}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-400 hover:from-teal-400 hover:to-emerald-400 text-white font-black px-9 py-4 text-base sm:text-lg shadow-xl shadow-teal-500/25 hover:shadow-2xl hover:shadow-teal-500/40 hover:scale-102 active:scale-98 transition-all text-center"
             >
               <span>🚀</span>
@@ -283,7 +285,7 @@ export default function LandingPageView() {
                   </p>
                 </div>
                 <Link
-                  href="/app/learn/prompt-engineering-mastery/1"
+                  href={getTrackDayOneUrl(1)}
                   className="w-full text-center py-2.5 px-4 rounded-xl bg-teal-500/10 hover:bg-teal-500/20 text-teal-700 dark:text-teal-300 text-xs font-bold border border-teal-500/30 transition"
                 >
                   {isEn ? "Try AI Day 1 Free →" : "جرّب اليوم الأول في الـ AI مجانًا ←"}
@@ -309,7 +311,7 @@ export default function LandingPageView() {
                   </p>
                 </div>
                 <Link
-                  href="/app/learn/freelance-client-acquisition/1"
+                  href={getTrackDayOneUrl(31)}
                   className="w-full text-center py-2.5 px-4 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 dark:text-amber-300 text-xs font-bold border border-amber-500/30 transition"
                 >
                   {isEn ? "Try Freelance Day 1 Free →" : "جرّب اليوم الأول في الفريلانس مجانًا ←"}
@@ -335,7 +337,7 @@ export default function LandingPageView() {
                   </p>
                 </div>
                 <Link
-                  href="/app/learn/high-conversion-copywriting/1"
+                  href={getTrackDayOneUrl(46)}
                   className="w-full text-center py-2.5 px-4 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-bold border border-emerald-500/30 transition"
                 >
                   {isEn ? "Try Marketing Day 1 Free →" : "جرّب اليوم الأول في التسويق مجانًا ←"}
@@ -1248,8 +1250,8 @@ export default function LandingPageView() {
                 {/* Features */}
                 <ul className="space-y-2.5 text-xs text-neutral-700 dark:text-neutral-300 mb-6">
                   {[
-                    isEn ? "Full access to ALL 100 specialized tracks for 1 year" : "فتح فوري لكافة الـ 100 مسار تخصصي (2,800 مهمة وكويز)",
-                    isEn ? "ALL 12 complete career paths & portfolio capstones" : "جميع المسارات المهنية الـ 12 ومشاريع البورتفوليو الكبرى",
+                    isEn ? `Full access to ALL ${CONTENT_METRICS.tracks} specialized tracks for 1 year` : `فتح فوري لكافة الـ ${CONTENT_METRICS.tracks} مسار تخصصي (${FORMATTED_METRICS.lessons} درس ومهمة تطبيقية)`,
+                    isEn ? `ALL ${CONTENT_METRICS.careerPaths} complete career paths & portfolio capstones` : `جميع المسارات المهنية الـ ${CONTENT_METRICS.careerPaths} ومشاريع البورتفوليو الكبرى`,
                     isEn ? "Verified digital certificates with QR validation for all" : "شهادات إتمام رقمية لجميع المسارات مع روابط تحقق وأكواد QR",
                     isEn ? "Full access to current library & continuous updates per product policy" : "الوصول الشامل للكتالوج المشمول، والتحديثات المقررة بسياسة المنتج خلال فترة الاشتراك",
                     isEn ? "10,000 Corporate AI Prompts Vault & Contracts included" : "قاعدة بيانات الـ 10,000 برومبت وعقود الفريلانس مشمولة",

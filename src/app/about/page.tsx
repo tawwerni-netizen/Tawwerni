@@ -7,6 +7,7 @@ import SocialLinks from "@/components/SocialLinks";
 import LanguageToggle from "@/components/LanguageToggle";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useI18n } from "@/components/LanguageContext";
+import { CONTENT_METRICS, FORMATTED_METRICS } from "@/lib/content-metrics";
 
 export default function AboutPage() {
   const { lang } = useI18n();
@@ -63,8 +64,8 @@ export default function AboutPage() {
             </p>
             <p className="text-neutral-600 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed">
               {isEn
-                ? "The platform includes 100 comprehensive practical tracks across 10 vital disciplines — over 1,480 hands-on lessons with infographic guides and integrated behavioral psychology focus tools."
-                : "تضم المنصة ١٠٠ مسار تطبيقي شامل في ١٠ مجالات حيوية (ذكاء اصطناعي، برمجة، بيانات، فريلانس، تسويق، تصميم، بيزنس وغيرها) — أكثر من ١,٤٨٠ درس عملي مدعوم بإنفوجرافيك وأدوات دعم نفسي وتركيز ذهني."}
+                ? `The platform includes ${CONTENT_METRICS.tracks} comprehensive practical tracks across 10 vital disciplines — over ${FORMATTED_METRICS.lessons} hands-on lessons with infographic guides and integrated behavioral psychology focus tools.`
+                : `تضم المنصة ${CONTENT_METRICS.tracks} مسار تطبيقي شامل في ١٠ مجالات حيوية — أكثر من ${FORMATTED_METRICS.lessons} درس ومهمة عملية مدعومة بإنفوجرافيك وأدوات دعم نفسي وتركيز ذهني.`}
             </p>
           </div>
 

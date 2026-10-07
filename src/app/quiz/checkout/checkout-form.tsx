@@ -16,6 +16,7 @@ import LanguageToggle from "@/components/LanguageToggle";
 import ThemeToggle from "@/components/ThemeToggle";
 import { LogoLink } from "@/components/Logo";
 import { useI18n } from "@/components/LanguageContext";
+import { CONTENT_METRICS, FORMATTED_METRICS } from "@/lib/content-metrics";
 
 export type CourseOption = {
   slug: string;
@@ -820,11 +821,11 @@ export default function CheckoutForm({
               <div className="rounded-2xl border border-white/5 bg-black/40 p-3 space-y-1.5 text-xs text-neutral-300">
                 <div className="flex items-center gap-2 text-emerald-300">
                   <span>✓</span>
-                  <span>{isEn ? "All 100 Tracks with 2,800 daily interactive missions" : "جميع الـ 100 تراك مع 2,800 مهمة تدريبية تطبيقية"}</span>
+                  <span>{isEn ? `All ${CONTENT_METRICS.tracks} Tracks with ${FORMATTED_METRICS.lessons} daily interactive missions` : `جميع الـ ${CONTENT_METRICS.tracks} مسار مع ${FORMATTED_METRICS.lessons} مهمة تدريبية تطبيقية`}</span>
                 </div>
                 <div className="flex items-center gap-2 text-emerald-300">
                   <span>✓</span>
-                  <span>{isEn ? "All 12 Career Path Roadmaps & Capstone Portfolio Projects" : "جميع المسارات المهنية الـ 12 ومشاريع البورتفوليو الكبرى"}</span>
+                  <span>{isEn ? `All ${CONTENT_METRICS.careerPaths} Career Path Roadmaps & Capstone Portfolio Projects` : `جميع المسارات المهنية الـ ${CONTENT_METRICS.careerPaths} ومشاريع البورتفوليو الكبرى`}</span>
                 </div>
                 <div className="flex items-center gap-2 text-emerald-300">
                   <span>✓</span>

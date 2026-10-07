@@ -141,7 +141,7 @@ export const TRACKS_51_100: Track100[] = [
     pillarNameEn: "Design & Media",
     titleAr: "تصميم الموشن جرافيكس للإعلانات (After Effects)",
     titleEn: "Motion Graphics with After Effects",
-    descriptionAr: "تحريك العناصر والرسومات وتصميم إعلانات موشن جرافيكس حركية مذهلة تزيد من مبيعات المنتجات.",
+    descriptionAr: "تحريك العناصر والرسومات وتصميم إعلانات موشن جرافيكس حركية احترافية تبرز مزايا المنتجات وتجذب المشاهد.",
     descriptionEn: "Bring illustrations to life with After Effects keyframe animations, typography, and visual dynamics.",
     levelAr: "متوسط",
     levelEn: "Intermediate",

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useI18n } from "./LanguageContext";
+import { FORMATTED_METRICS } from "@/lib/content-metrics";
 
 export default function InteractiveDopaminePreview() {
   const { lang } = useI18n();
@@ -140,8 +141,8 @@ export default function InteractiveDopaminePreview() {
           <span className="text-amber-400 text-base animate-pulse">✨</span>
           <span>
             {isEn
-              ? "Over 1,480 bite-sized practical missions engineered for continuous momentum & real skill growth."
-              : "أكثر من 1,480 درس تطبيقي مصغر صمموا ليعطوك شعور الإنجاز والتقدم من أول دقيقة."}
+              ? `Over ${FORMATTED_METRICS.lessons} bite-sized practical missions engineered for continuous momentum & real skill growth.`
+              : `أكثر من ${FORMATTED_METRICS.lessons} درس ومهمة تطبيقية صُمموا ليعطوك شعور الإنجاز والتقدم من أول دقيقة.`}
           </span>
         </div>
       </div>
