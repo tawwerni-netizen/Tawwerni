@@ -111,9 +111,9 @@ export default function CommunityPage() {
               </div>
             </div>
             <div className="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md rounded-2xl p-3 border border-black/5 dark:border-white/10 shadow-xs">
-              <div className="text-2xl font-black text-cyan-600 dark:text-cyan-400 font-mono">7d</div>
+              <div className="text-2xl font-black text-cyan-600 dark:text-cyan-400 font-mono">∞</div>
               <div className="text-xs text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
-                {isEn ? "Full Guarantee" : "ضمان استرداد كامل"}
+                {isEn ? "Lifetime Ownership" : "ملكية دائمة مدى الحياة"}
               </div>
             </div>
           </div>
@@ -136,8 +136,8 @@ export default function CommunityPage() {
           </h2>
           <p className="text-xs sm:text-sm text-neutral-300 max-w-xl mx-auto mb-6 leading-relaxed">
             {isEn
-              ? "Join hundreds of ambitious professionals leveling up their careers daily. Day 1 is 100% free with a 7-day money-back guarantee."
-              : "انضم إلى مئات المحترفين والطلاب الذين يطورون مهاراتهم يوميًا. اليوم الأول مجانًا بالكامل وضمان استرداد 100% خلال 7 أيام."}
+              ? "Join hundreds of ambitious professionals leveling up their careers daily. Day 1 is 100% free with instant lifetime ownership upon enrollment."
+              : "انضم إلى مئات المحترفين والطلاب الذين يطورون مهاراتهم يوميًا. اليوم الأول مجانًا بالكامل وتملك دائم لمهاراتك مدى الحياة فور التفعيل."}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -168,7 +168,7 @@ export default function CommunityPage() {
             <span>•</span>
             <Link href="/privacy" className="hover:text-teal-600 transition-colors">{isEn ? "Privacy" : "سياسة الخصوصية"}</Link>
             <span>•</span>
-            <Link href="/refund" className="hover:text-teal-600 transition-colors font-semibold text-teal-700 dark:text-teal-400">{isEn ? "7-Day Refund Guarantee" : "ضمان الـ 7 أيام"}</Link>
+            <Link href="/refund" className="hover:text-teal-600 transition-colors font-semibold text-teal-700 dark:text-teal-400">{isEn ? "Digital Products Policy" : "سياسة المنتجات الرقمية"}</Link>
           </div>
         </div>
       </footer>

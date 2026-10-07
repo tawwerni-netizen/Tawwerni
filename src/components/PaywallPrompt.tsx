@@ -169,11 +169,11 @@ export default function PaywallPrompt({
           </div>
         </div>
 
-        {/* Guarantee Callout */}
+        {/* Ownership Callout */}
         <p className="text-2xs text-neutral-400 mb-1">
           {isEn
-            ? "✓ One-time payment · Lifetime ownership · 7-Day 100% money-back guarantee"
-            : "✓ دفعة واحدة لمرة واحدة · امتلاك دائم مدى الحياة · ضمان استرجاع 100% خلال 7 أيام"}
+            ? "✓ One-time payment · Lifetime ownership · Instant access"
+            : "✓ دفعة واحدة لمرة واحدة · امتلاك دائم مدى الحياة · تفعيل فوري ومباشر"}
         </p>
       </div>
 

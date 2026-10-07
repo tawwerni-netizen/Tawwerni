@@ -158,8 +158,8 @@ export default function CareerPathDetailView({
                 </h3>
                 <p className="text-xs text-neutral-300 mt-1 max-w-xl leading-relaxed">
                   {isEn
-                    ? "Get lifetime ownership of all roadmap tracks, daily missions, quizzes, and verified portfolio proofs with a 7-day money-back guarantee."
-                    : "امتلك وصولاً دائماً لكافة مسارات خريطة الطريق والمهمات اليومية ومشاريع البورتفوليو والشهادات المعتمدة، مع ضمان استرداد ٧ أيام."}
+                    ? "Get lifetime ownership of all roadmap tracks, daily missions, quizzes, and verified portfolio proofs with zero recurring fees."
+                    : "امتلك وصولاً دائماً لكافة مسارات خريطة الطريق والمهمات اليومية ومشاريع البورتفوليو والشهادات المعتمدة، ملكية دائمة مدى الحياة بدون أي رسوم متجددة."}
                 </p>
               </div>
 
@@ -168,7 +168,7 @@ export default function CareerPathDetailView({
                   href={`/quiz/checkout?type=career_path&slug=${careerPath.slug}`}
                   className="w-full sm:w-auto whitespace-nowrap rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 px-6 py-3.5 text-xs sm:text-sm font-black text-neutral-950 shadow-lg hover:brightness-110 active:scale-98 transition-all text-center cursor-pointer"
                 >
-                  {isEn ? "Own Career Path (100 EGP) ➔" : "اشترك في المسار المهني (١٠٠ ج.م) ➔"}
+                  {isEn ? "Own Career Path (100 EGP) ➔" : "امتلك المسار المهني (١٠٠ ج.م) ➔"}
                 </Link>
                 <Link
                   href={nextTrackUrl}

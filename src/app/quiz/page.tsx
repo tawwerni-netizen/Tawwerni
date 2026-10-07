@@ -315,10 +315,12 @@ export default function QuizPage() {
     }
   }
 
-  function goCheckout(productType: "track" | "career_path" = "career_path", customSlug?: string) {
+  function goCheckout(productType: "track" | "career_path" | "all_access" = "career_path", customSlug?: string) {
     const slug =
       customSlug ||
-      (productType === "career_path" && primaryCareerPath
+      (productType === "all_access"
+        ? "all-access"
+        : productType === "career_path" && primaryCareerPath
         ? primaryCareerPath.slug
         : primarySlug);
     sessionStorage.setItem(
@@ -891,9 +893,6 @@ export default function QuizPage() {
                     <span className="text-base font-black text-emerald-400">
                       {isEn ? "EGP" : "ج.م"}
                     </span>
-                    <span className="text-xs text-neutral-400 line-through">
-                      {pricing.originalCareerPathPriceEgp} {isEn ? "EGP" : "ج.م"}
-                    </span>
                   </div>
                   <p className="text-[11px] text-neutral-400 mt-0.5">
                     {isEn ? "One-time payment · Lifetime ownership · Unlocks all bundle tracks" : "دفعة واحدة لمرة واحدة · امتلاك دائم · تفتح كافة مسارات الحزمة"}
@@ -961,17 +960,48 @@ export default function QuizPage() {
               </button>
             </div>
 
-            {/* ⭐ 7-Day Guarantee Callout ⭐ */}
-            <div className="rounded-2xl border border-emerald-400/40 bg-emerald-500/10 p-3.5 mb-5 flex items-start gap-2.5">
-              <span className="text-2xl shrink-0">🛡️</span>
+            {/* ================= HERO ACTION 4: ALL-ACCESS PASS (350 EGP) ================= */}
+            <div className="rounded-3xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-[#14120e] to-[#0a0f0d] p-5 sm:p-6 mb-5 text-start shadow-xl relative">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold">
+                  <span>👑</span>
+                  <span>{isEn ? "All-Access Pass · Full Library" : "المفتاح الشامل · كل المنصة"}</span>
+                </span>
+                <span className="text-xs font-mono font-bold text-amber-400">
+                  {pricing.allAccessPriceEgp} {isEn ? "EGP" : "ج.م مدى الحياة"}
+                </span>
+              </div>
+
+              <h4 className="text-base font-bold text-white mb-1">
+                {isEn ? "All-Access Pass (All 100 Tracks & 11 Career Paths)" : "الوصول الشامل لكافة الكورسات والمسارات المهنية"}
+              </h4>
+              <p className="text-xs text-neutral-300 mb-4">
+                {isEn
+                  ? "Unlock all 100 practical tracks, all 11 career paths, the 10,000 Prompts Vault, and all future updates forever."
+                  : "المفتاح الذهبي لفتح كافة الـ 100 مسار، والـ 11 مساراً مهنياً، وبنك الـ 10,000 برومبت وكافة التحديثات القادمة مدى الحياة."}
+              </p>
+
+              <button
+                type="button"
+                onClick={() => goCheckout("all_access")}
+                className="w-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-neutral-950 font-black rounded-full py-3.5 text-xs sm:text-sm shadow-lg shadow-amber-500/20 hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>👑</span>
+                <span>{isEn ? `Get All-Access Pass (${pricing.allAccessPriceEgp} EGP) →` : `امتلك الوصول الشامل لكافة الكورسات (${pricing.allAccessPriceEgp} ج.م) ←`}</span>
+              </button>
+            </div>
+
+            {/* ⭐ Lifetime Ownership & Free Trial Reassurance ⭐ */}
+            <div className="rounded-2xl border border-teal-400/40 bg-teal-500/10 p-3.5 mb-5 flex items-start gap-2.5">
+              <span className="text-2xl shrink-0">♾️</span>
               <div>
-                <p className="text-xs font-bold text-emerald-300">
-                  {isEn ? "7-Day 100% Money-Back Guarantee" : "ضمان استرجاع كامل 100% خلال 7 أيام"}
+                <p className="text-xs font-bold text-teal-300">
+                  {isEn ? "Lifetime Ownership · Day 1 Free Preview" : "ملكية دائمة مدى الحياة · اليوم الأول مجاني بالكامل"}
                 </p>
                 <p className="text-[11px] text-neutral-300 mt-0.5 leading-relaxed">
                   {isEn
-                    ? "Explore your path and daily tasks. If you feel it's not right for you, contact us within 7 days for a full, instant refund with zero questions asked."
-                    : "جرّب مسارك والمهام اليومية.. إن لم تصنع فارقاً حقيقياً في مهاراتك، راسلنا خلال 7 أيام واسترد كامل المبلغ فوراً بدون أي تعقيد."}
+                    ? "One-time payment with no recurring subscriptions. You can start Day 1 completely free before checkout. All digital assets and updates are yours forever."
+                    : "دفع لمرة واحدة بدون أي اشتراكات متجددة. يمكنك تجربة اليوم الأول مجاناً بالكامل قبل الشراء. كافة الدروس والمشاريع والتحديثات ملكك للأبد."}
                 </p>
               </div>
             </div>

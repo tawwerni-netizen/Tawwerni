@@ -152,7 +152,7 @@ export default function CheckoutForm({
   );
 
   const [ready, setReady] = useState(false);
-  const [productType, setProductType] = useState<"track" | "career_path">("career_path");
+  const [productType, setProductType] = useState<"track" | "career_path" | "all_access">("career_path");
   const [selectedTrackSlug, setSelectedTrackSlug] = useState(courses[0]?.slug ?? "");
   const [selectedCareerPathSlug, setSelectedCareerPathSlug] = useState(careerPaths[0]?.slug ?? "");
   const [searchFilter, setSearchFilter] = useState("");
@@ -170,14 +170,11 @@ export default function CheckoutForm({
 
   // Price calculation
   const basePrice =
-    productType === "career_path"
+    productType === "all_access"
+      ? pricing.allAccessPriceEgp // 350 EGP
+      : productType === "career_path"
       ? pricing.careerPathPriceEgp // 100 EGP
       : pricing.trackPriceEgp; // 50 EGP
-
-  const originalPrice =
-    productType === "career_path"
-      ? pricing.originalCareerPathPriceEgp // 600 EGP
-      : pricing.originalTrackPriceEgp; // 250 EGP
 
   const totalPrice = basePrice + (withOrderBump ? pricing.orderBumpPriceEgp : 0);
 
@@ -198,7 +195,9 @@ export default function CheckoutForm({
       const typeParam = params.get("type");
       const slugParam = params.get("slug");
 
-      if (typeParam === "track" && slugParam) {
+      if (typeParam === "all_access" || slugParam === "all_access" || slugParam === "all-access") {
+        setProductType("all_access");
+      } else if (typeParam === "track" && slugParam) {
         setProductType("track");
         setSelectedTrackSlug(slugParam);
       } else if (typeParam === "career_path" && slugParam) {
@@ -226,7 +225,7 @@ export default function CheckoutForm({
         if (data.productType) setProductType(data.productType);
         if (data.productSlug) {
           if (data.productType === "career_path") setSelectedCareerPathSlug(data.productSlug);
-          else setSelectedTrackSlug(data.productSlug);
+          else if (data.productType === "track") setSelectedTrackSlug(data.productSlug);
         } else if (data.courseSlug) {
           setSelectedTrackSlug(data.courseSlug);
         }
@@ -241,7 +240,11 @@ export default function CheckoutForm({
     careerPaths.find((cp) => cp.slug === selectedCareerPathSlug) || careerPaths[0];
 
   const currentTitle =
-    productType === "career_path"
+    productType === "all_access"
+      ? isEn
+        ? "All-Access Pass (All 100 Tracks & Career Paths)"
+        : "الوصول الشامل لكافة الـ 100 كورس والمسارات المهنية"
+      : productType === "career_path"
       ? isEn
         ? selectedCareerPath?.titleEn || selectedCareerPath?.title
         : selectedCareerPath?.title
@@ -272,7 +275,12 @@ export default function CheckoutForm({
 
     setLoading(true);
 
-    const activeSlug = productType === "career_path" ? selectedCareerPathSlug : selectedTrackSlug;
+    const activeSlug =
+      productType === "all_access"
+        ? "all_access"
+        : productType === "career_path"
+        ? selectedCareerPathSlug
+        : selectedTrackSlug;
 
     try {
       const res = await fetch("/api/orders", {
@@ -468,7 +476,52 @@ export default function CheckoutForm({
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {/* Individual Track Option */}
+            <button
+              type="button"
+              onClick={() => setProductType("track")}
+              className={`relative rounded-2xl border-2 p-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
+                productType === "track"
+                  ? "border-emerald-400 bg-emerald-950/40 shadow-lg shadow-emerald-500/15 ring-2 ring-emerald-400/20"
+                  : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-lg">🎯</span>
+                  <div className="flex items-baseline gap-1 font-mono" dir="ltr">
+                    <span className="text-2xl font-black text-white">{pricing.trackPriceEgp}</span>
+                    <span className="text-xs font-bold text-emerald-400">
+                      {isEn ? "EGP" : "ج.م"}
+                    </span>
+                  </div>
+                </div>
+
+                <h3 className="text-xs sm:text-sm font-black text-white mb-1">
+                  {isEn ? "Individual Track" : "مسار تخصصي فردي"}
+                </h3>
+                <p className="text-[11px] text-neutral-300 leading-relaxed">
+                  {isEn
+                    ? "Master 1 specific skill with missions and project."
+                    : "إتقان مهارة محددة من الصفر حتى مشروع جاهز."}
+                </p>
+              </div>
+
+              <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px] text-neutral-300 font-bold">
+                <span>{isEn ? "1 Track · 28 Days" : "مسار واحد · ٢٨ يوماً"}</span>
+                <span
+                  className={`h-4 w-4 rounded-full border-2 flex items-center justify-center ${
+                    productType === "track"
+                      ? "border-emerald-400 bg-emerald-400 text-neutral-950 text-[10px]"
+                      : "border-neutral-600"
+                  }`}
+                >
+                  {productType === "track" && "✓"}
+                </span>
+              </div>
+            </button>
+
             {/* Career Path Option (Recommended) */}
             <button
               type="button"
@@ -480,7 +533,7 @@ export default function CheckoutForm({
               }`}
             >
               <div className="absolute -top-2.5 start-3 bg-gradient-to-r from-emerald-500 to-teal-400 text-neutral-950 text-[10px] font-black px-2 py-0.5 rounded-full shadow-xs">
-                ⭐ {isEn ? "Best Value (Save 75%)" : "الأكثر طلباً · أفضل قيمة"}
+                ⭐ {isEn ? "Career Roadmap" : "خارطة مهنية شاملة"}
               </div>
 
               <div>
@@ -496,18 +549,18 @@ export default function CheckoutForm({
                   </div>
                 </div>
 
-                <h3 className="text-sm font-black text-white mb-1">
-                  {isEn ? "Complete Career Path" : "مسار مهني متكامل (حزمة)"}
+                <h3 className="text-xs sm:text-sm font-black text-white mb-1">
+                  {isEn ? "Career Path" : "مسار مهني متكامل"}
                 </h3>
                 <p className="text-[11px] text-neutral-300 leading-relaxed">
                   {isEn
-                    ? "Full roadmap containing multiple specialized tracks from zero to job readiness."
-                    : "خريطة طريق شاملة تضم عدة مسارات تخصصية مترابطة تؤهلك لسوق العمل."}
+                    ? "Full roadmap containing multiple specialized tracks."
+                    : "خريطة شاملة تضم عدة مسارات تخصصية مترابطة."}
                 </p>
               </div>
 
               <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px] text-emerald-300 font-bold">
-                <span>{isEn ? "✓ Includes all roadmap tracks" : "✓ يفتح كل مسارات التخصص معاً"}</span>
+                <span>{isEn ? "4-8 Tracks Included" : "يشمل ٤ إلى ٨ مسارات"}</span>
                 <span
                   className={`h-4 w-4 rounded-full border-2 flex items-center justify-center ${
                     productType === "career_path"
@@ -520,47 +573,53 @@ export default function CheckoutForm({
               </div>
             </button>
 
-            {/* Individual Track Option */}
+            {/* All-Access Pass Option (350 EGP) */}
             <button
               type="button"
-              onClick={() => setProductType("track")}
+              onClick={() => setProductType("all_access")}
               className={`relative rounded-2xl border-2 p-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
-                productType === "track"
-                  ? "border-emerald-400 bg-emerald-950/40 shadow-lg shadow-emerald-500/15 ring-2 ring-emerald-400/20"
+                productType === "all_access"
+                  ? "border-amber-400 bg-amber-950/40 shadow-lg shadow-amber-500/15 ring-2 ring-amber-400/20"
                   : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
               }`}
             >
+              <div className="absolute -top-2.5 start-3 bg-gradient-to-r from-amber-400 to-yellow-300 text-neutral-950 text-[10px] font-black px-2 py-0.5 rounded-full shadow-xs">
+                👑 {isEn ? "All 100 Tracks" : "الوصول الشامل الأقصى"}
+              </div>
+
               <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-lg">🎓</span>
+                <div className="flex items-center justify-between mt-1 mb-1.5">
+                  <span className="text-lg">👑</span>
                   <div className="flex items-baseline gap-1 font-mono" dir="ltr">
-                    <span className="text-2xl font-black text-white">{pricing.trackPriceEgp}</span>
-                    <span className="text-xs font-bold text-emerald-400">
+                    <span className="text-2xl font-black text-amber-300">
+                      {pricing.allAccessPriceEgp}
+                    </span>
+                    <span className="text-xs font-bold text-amber-400">
                       {isEn ? "EGP" : "ج.م"}
                     </span>
                   </div>
                 </div>
 
-                <h3 className="text-sm font-black text-white mb-1">
-                  {isEn ? "Single Focused Track" : "مسار تخصصي فردي"}
+                <h3 className="text-xs sm:text-sm font-black text-white mb-1">
+                  {isEn ? "All-Access Pass" : "الوصول الشامل لكافة الكورسات"}
                 </h3>
                 <p className="text-[11px] text-neutral-300 leading-relaxed">
                   {isEn
-                    ? "Focus on mastering one practical in-demand skill with missions and project."
-                    : "إتقان مهارة عملية واحدة مع مهماتها اليومية وبناء مشروع للبورتفوليو."}
+                    ? "Unlocks all 100 tracks & all 11 career paths permanently."
+                    : "فتح شامل لجميع الـ 100 تراك وكافة المسارات المهنية."}
                 </p>
               </div>
 
-              <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px] text-neutral-300 font-bold">
-                <span>{isEn ? "Single skill mastery" : "إتقان مهارة محددة"}</span>
+              <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px] text-amber-300 font-bold">
+                <span>{isEn ? "100 Tracks · All Paths" : "الـ ١٠٠ مسار كاملة"}</span>
                 <span
                   className={`h-4 w-4 rounded-full border-2 flex items-center justify-center ${
-                    productType === "track"
-                      ? "border-emerald-400 bg-emerald-400 text-neutral-950 text-[10px]"
+                    productType === "all_access"
+                      ? "border-amber-400 bg-amber-400 text-neutral-950 text-[10px]"
                       : "border-neutral-600"
                   }`}
                 >
-                  {productType === "track" && "✓"}
+                  {productType === "all_access" && "✓"}
                 </span>
               </div>
             </button>
@@ -571,27 +630,31 @@ export default function CheckoutForm({
         <div className="mb-6 rounded-3xl border-2 border-emerald-500/30 bg-[#0d1614] p-4 sm:p-5 shadow-2xl shadow-emerald-500/10">
           <div className="flex items-center justify-between gap-2 mb-3">
             <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-black text-emerald-300">
-              <span className="text-base">{productType === "career_path" ? "🚀" : "🎯"}</span>
+              <span className="text-base">
+                {productType === "all_access" ? "👑" : productType === "career_path" ? "🚀" : "🎯"}
+              </span>
               <span>
-                {productType === "career_path"
+                {productType === "all_access"
+                  ? isEn
+                    ? "All-Access Pass (Lifetime)"
+                    : "باقة الوصول الشامل لجميع الكورسات"
+                  : productType === "career_path"
                   ? isEn
                     ? "Career Path Bundle Access"
                     : "حزمة المسار المهني الشامل"
                   : isEn
                   ? "Single Track Mastery"
-                  : "تملّك المسار التخصصي"}
+                  : "تملّك المسار التخصصي الفردي"}
               </span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-black text-emerald-300 border border-emerald-400/30 whitespace-nowrap shrink-0">
-              <span className="text-[11px] text-emerald-300">⚡</span>
-              <span className="tracking-wide font-mono">
-                {isEn ? `Save ${originalPrice - basePrice} EGP` : `وفّر ${originalPrice - basePrice} ج.م`}
-              </span>
+              <span>✓</span>
+              <span>{isEn ? "Lifetime Ownership" : "ملكية دائمة مدى الحياة"}</span>
             </span>
           </div>
 
-          {/* Hero Symmetrical Price & Value Showcase */}
+          {/* Clean, Honest Price Display */}
           <div className="my-3 rounded-2xl bg-black/40 border border-white/10 p-3.5 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="flex items-baseline gap-2.5">
               <div className="flex items-baseline gap-1.5" dir="ltr">
@@ -602,29 +665,29 @@ export default function CheckoutForm({
                   {isEn ? "EGP" : "ج.م"}
                 </span>
               </div>
-
-              <span className="text-xs sm:text-sm font-semibold text-emerald-300/90 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-lg line-through text-neutral-400 font-mono">
-                {originalPrice} {isEn ? "EGP" : "ج.م"}
-              </span>
             </div>
 
             <div className="flex items-center gap-2 self-stretch sm:self-auto justify-between sm:justify-end border-t border-white/5 pt-2.5 sm:border-0 sm:pt-0">
               <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 rounded-full px-3 py-1">
                 <span>🔓</span>
                 <span>
-                  {productType === "career_path"
+                  {productType === "all_access"
+                    ? isEn
+                      ? "All 100 Tracks & 11 Career Paths"
+                      : "كافة الـ 100 مسار وجميع المسارات المهنية"
+                    : productType === "career_path"
                     ? isEn
                       ? `Includes ${selectedCareerPath?.tracksCount || 4} Specialized Tracks`
                       : `يشمل ${selectedCareerPath?.tracksCount || 4} مسارات متخصصة`
                     : isEn
-                    ? "Full 28-Day Mission Stepper"
-                    : "الـ ٢٨ يوماً والمشروع بالكامل"}
+                    ? "Full 28-Day Mission Stepper & Project"
+                    : "الـ ٢٨ يوماً والمشروع العملي والشهادة"}
                 </span>
               </span>
             </div>
           </div>
 
-          {/* Guarantee */}
+          {/* Transparent Digital Access Note */}
           <div className="mt-3 pt-3 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-neutral-300">
             <p className="flex items-center gap-2">
               <span className="relative flex h-2 w-2 shrink-0">
@@ -632,7 +695,7 @@ export default function CheckoutForm({
               </span>
               <span className="text-[11px] sm:text-xs">
                 {isEn ? (
-                  <>Immediate activation · Lifetime entitlement in your learning inventory</>
+                  <>Immediate activation · Added permanently to your learning inventory</>
                 ) : (
                   <>تفعيل فوري · إضافة دائمة لمخزونك التعليمي في لوحة تحكمك</>
                 )}
@@ -640,8 +703,8 @@ export default function CheckoutForm({
             </p>
 
             <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-300/90 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2.5 py-0.5">
-              <span>🛡️</span>
-              <span>{isEn ? "7-Day Money-Back Guarantee" : "ضمان استرجاع 100% خلال 7 أيام"}</span>
+              <span>⚡</span>
+              <span>{isEn ? "Free Day 1 Preview on all tracks" : "اليوم الأول متاح مجاناً للتجربة"}</span>
             </span>
           </div>
         </div>
@@ -669,18 +732,15 @@ export default function CheckoutForm({
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span className="rounded-md bg-gradient-to-r from-amber-400 to-yellow-300 text-neutral-950 px-2.5 py-0.5 text-[11px] font-black shadow-xs">
-                    ⚡ {isEn ? "VIP Vault Upgrade (Save 80%)" : "ترقية حصرية مضافة لطلبك (وفر ٨٠٪)"}
+                    ⚡ {isEn ? "Executive AI Vault Add-on" : "إضافة اختيارية: حزمة الأصول التنفيذية"}
                   </span>
                   <span className="rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-bold">
-                    🔥 {isEn ? "92% of members choose this" : "يختاره ٩٢٪ من المشتركين"}
+                    🔥 {isEn ? "Recommended for Professionals" : "قيمة إضافية للمحترفين"}
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 font-mono">
                   <span className="text-xs font-black text-amber-300">
-                    +{pricing.orderBumpPriceEgp} {isEn ? "EGP only" : "ج.م فقط"}
-                  </span>
-                  <span className="text-[10px] text-neutral-400 line-through">
-                    950 {isEn ? "EGP" : "ج.م"}
+                    +{pricing.orderBumpPriceEgp} {isEn ? "EGP" : "ج.م"}
                   </span>
                 </div>
               </div>
@@ -700,7 +760,38 @@ export default function CheckoutForm({
 
         <form onSubmit={submit} className="space-y-4">
           {/* PRODUCT SELECTION ACCORDING TO TYPE */}
-          {productType === "career_path" ? (
+          {productType === "all_access" ? (
+            <div className="rounded-3xl border-2 border-amber-400/30 bg-[#0d1614] p-4 sm:p-5 shadow-xs">
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs sm:text-sm font-black text-white flex items-center gap-2">
+                  <span>👑</span>
+                  <span>{isEn ? "All-Access Pass Selected (350 EGP)" : "باقة الوصول الشامل المختارة (٣٥٠ ج.م)"}</span>
+                </label>
+                <span className="text-[10px] text-amber-300 font-bold bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
+                  {isEn ? "All 100 Tracks Unlocked" : "فتح كافة الـ 100 مسار"}
+                </span>
+              </div>
+              <p className="mb-3 text-xs leading-relaxed text-neutral-300">
+                {isEn
+                  ? "No need to choose a single track or path. You will immediately unlock all 100 specialized tracks, all 11 career paths, quizzes, and future additions permanently."
+                  : "لا داعي لاختيار مسار منفرد. سيتم تفعيل وصولك لكافة الـ 100 مسار وجميع المسارات المهنية الـ 11 ومشاريعها وكافة التحديثات القادمة فوراً ومدى الحياة."}
+              </p>
+              <div className="rounded-2xl border border-white/5 bg-black/40 p-3 space-y-1.5 text-xs text-neutral-300">
+                <div className="flex items-center gap-2 text-emerald-300">
+                  <span>✓</span>
+                  <span>{isEn ? "All 100 Tracks with 2,800 daily interactive missions" : "جميع الـ 100 تراك مع 2,800 مهمة تدريبية تطبيقية"}</span>
+                </div>
+                <div className="flex items-center gap-2 text-emerald-300">
+                  <span>✓</span>
+                  <span>{isEn ? "All 11 Career Path Roadmaps & Capstone Portfolio Projects" : "جميع المسارات المهنية الـ 11 ومشاريع البورتفوليو الكبرى"}</span>
+                </div>
+                <div className="flex items-center gap-2 text-emerald-300">
+                  <span>✓</span>
+                  <span>{isEn ? "Verified QR-linked Certificates for every completed track" : "شهادات إتمام رقمية معتمدة لكل مسار تنجزه"}</span>
+                </div>
+              </div>
+            </div>
+          ) : productType === "career_path" ? (
             <div className="rounded-3xl border border-white/10 bg-[#0d1614] p-4 sm:p-5 shadow-xs">
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-xs sm:text-sm font-black text-white">
@@ -1044,8 +1135,8 @@ export default function CheckoutForm({
 
         <p className="mt-4 text-center text-[11px] text-neutral-400">
           {isEn
-            ? "By completing this order, you agree to Tawwerni's Terms of Service and 7-day money-back guarantee."
-            : "بتأكيد الطلب، أنت توافق على شروط خدمة طوّرني وضمان الاسترجاع الكامل خلال 7 أيام."}
+            ? "By completing this order, you agree to Tawwerni's Terms of Service and Digital Educational Goods Policy."
+            : "بتأكيد الطلب، أنت توافق على شروط خدمة طوّرني وسياسة المنتجات والخدمات التعليمية الرقمية."}
         </p>
       </div>
     </div>

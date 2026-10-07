@@ -28,11 +28,18 @@ export async function activateOrder(orderId: string, note: string) {
 
   // Grant V2 Entitlements
   try {
-    const isLegacyAmount = order.amountEgp >= 300;
+    const isAllAccess = order.productType === "all_access" || order.productType === "all_access_pass" || order.amountEgp >= 300;
     const isCareerPath = order.productType === "career_path";
 
-    if (isLegacyAmount) {
-      // Legacy 349/350 EGP subscription -> full library access
+    if (isAllAccess) {
+      // All-Access Pass (350 EGP) / Legacy -> full library access
+      await grantUserEntitlement({
+        userId: order.userId,
+        productType: "all_access",
+        productSlug: "global_all_access",
+        source: "order_activation",
+        orderId: order.id,
+      });
       await grantUserEntitlement({
         userId: order.userId,
         productType: "legacy_full_access",
@@ -73,7 +80,10 @@ export async function activateOrder(orderId: string, note: string) {
   let displayTitle = order.course.title;
   let displaySlug = order.course.slug;
 
-  if (order.productType === "career_path" && order.productSlug) {
+  if (order.productType === "all_access" || order.amountEgp >= 300) {
+    displayTitle = "الوصول الشامل لكافة الكورسات والمسارات المهنية (All-Access Pass)";
+    displaySlug = "all_access";
+  } else if (order.productType === "career_path" && order.productSlug) {
     const cp = getCareerPathBySlug(order.productSlug);
     if (cp) {
       displayTitle = `المسار المهني: ${cp.titleAr}`;

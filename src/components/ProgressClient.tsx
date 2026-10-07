@@ -385,12 +385,12 @@ export default function ProgressClient({
       {/* Footer Assurance */}
       <div className="mt-8 text-center text-xs text-neutral-400 space-y-1">
         <p>
-          {isEn ? "Protected by 7-Day Money-Back Guarantee · All 100 Tracks Unlocked" : "مشمول بضمان استرداد كامل خلال 7 أيام · كافة الـ 100 مسار مفتوحة"}
+          {isEn ? "Lifetime Ownership · Day 1 Free Preview · Certified Badges" : "ملكية دائمة مدى الحياة · تجربة مجانية لليوم الأول · شهادات موثقة"}
         </p>
         <div className="flex items-center justify-center gap-3">
           <Link href="/tracks" className="hover:text-teal-600 underline">{isEn ? "All Tracks" : "المسارات"}</Link>
           <span>•</span>
-          <Link href="/refund" className="hover:text-teal-600 underline">{isEn ? "Refund Policy" : "سياسة الاسترجاع"}</Link>
+          <Link href="/refund" className="hover:text-teal-600 underline">{isEn ? "Digital Products Policy" : "سياسة المنتجات الرقمية"}</Link>
         </div>
       </div>
     </div>

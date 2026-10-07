@@ -300,10 +300,10 @@ export const faqCategories: FaqCategory[] = [
         "aEn": "Yes, absolutely! All existing and legacy subscribers maintain perpetual full access (Legacy Full Access) across all tracks and content with zero additional fees and zero progress or XP loss."
       },
       {
-        "q": "فيه استرجاع للفلوس؟",
-        "qEn": "What is the refund policy?",
-        "a": "نعم، نقدّم ضمان استرجاع كامل بنسبة 100% خلال 7 أيام من تاريخ تفعيل اشتراكك. إذا شعرت أن المنصة لا تناسبك لأي سبب، راسلنا ببساطة عبر الواتساب أو الإيميل وسنعيد لك كامل المبلغ فوراً بدون أي تعقيد.",
-        "aEn": "Yes, we offer a 100% money-back guarantee within 7 days of activation. If you feel the platform isn't right for you for any reason, simply message us via WhatsApp or email for a full, prompt refund with zero hassle."
+        "q": "ما هي سياسة الاسترجاع والمنتجات الرقمية؟",
+        "qEn": "What is the digital products and refund policy?",
+        "a": "نظراً لأن تفعيل المسار يمنح وصولاً فورياً وغير قابل للإلغاء لكافة الدروس التفاعلية والمشاريع وبنك البرومبتات، فإن عمليات الشراء نهائية وغير قابلة للاسترداد بعد التفعيل. ولضمان ثقتك الكاملة، جعلنا اليوم الأول من كل مسار مفتوحاً ومجاناً بنسبة 100% لتجربة المنهج بالكامل قبل أي دفع. وفي حالة وجود أي خطأ تقني في التحويل، يتدخل الدعم الفني فوراً لحله.",
+        "aEn": "Because purchasing unlocks immediate, irrevocable access to interactive lessons, code workspaces, prompt vaults, and certified badges, purchases are final and non-refundable once activated. To ensure total confidence, Day 1 of every single track is 100% free to preview before paying. If any technical transfer error occurs, support resolves it immediately."
       },
       {
         "q": "دفعت لرقم غلط، أعمل إيه؟",

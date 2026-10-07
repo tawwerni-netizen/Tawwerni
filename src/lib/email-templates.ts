@@ -375,7 +375,7 @@ export function abandonedCheckoutEmail(opts: {
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0 8px;background:#E1F5EE;border-radius:12px;">
         <tr><td style="padding:14px 16px;">
           <p style="margin:0;font-size:12px;color:${TEAL_DARK};line-height:1.8;">
-            🛡️ <b>تذكير بالضمان:</b> اشتراكك السنوي (${opts.amountEgp} ج.م) محمي بضمان استرداد كامل 100% لمدة 7 أيام. جرّب المنصة وطبّق الدروس العملية بدون أي مخاطرة.
+            ♾️ <b>ملكية دائمة مدى الحياة:</b> دفعة واحدة (${opts.amountEgp} ج.م) تمنحك وصولاً دائماً لكافة مهام المسار، مشاريعه، وتحديثاته القادمة بدون أي اشتراكات دورية.
           </p>
         </td></tr>
       </table>
@@ -390,7 +390,7 @@ export function abandonedCheckoutEmail(opts: {
 هل واجهتك أي مشكلة في التحويل أو لديك أي استفسار؟
 تواصل معنا مباشرة عبر واتساب: +${payment.supportWhatsapp}
 
-تذكير: اشتراكك محمي بضمان استرداد كامل لمدة 7 أيام.
+تذكير: ملكية دائمة لمهاراتك مدى الحياة فور التفعيل وبدون أي اشتراكات متجددة.
 
 ${brand.name} · ${brand.domain}`;
 

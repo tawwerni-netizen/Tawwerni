@@ -81,8 +81,8 @@ export function getDeterministicRecommendation(
           ctaTextEn: "Unlock Full Career Path (100 EGP) ➔",
           ctaHref: `/quiz/checkout?type=career_path&slug=${careerPath.slug}`,
           icon: careerPath.icon || "🚀",
-          badgeAr: "ترقية حزمة التخصص · وفر 75%",
-          badgeEn: "Bundle Upgrade · Save 75%",
+          badgeAr: "ترقية حزمة التخصص المهني",
+          badgeEn: "Career Path Bundle",
           priceEgp: 100,
         };
       }

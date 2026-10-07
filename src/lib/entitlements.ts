@@ -10,11 +10,12 @@ import { ALL_100_TRACKS, getTrackBySlug, type Track100 } from "@/content/tracks1
 
 export const FREE_PREVIEW_DAY = 1;
 
-export type ProductType = "track" | "career_path" | "legacy_full_access";
+export type ProductType = "track" | "career_path" | "legacy_full_access" | "all_access";
 
 export type AccessReason =
   | "ADMIN"
   | "LEGACY_FULL_ACCESS"
+  | "ALL_ACCESS_PASS"
   | "DIRECT_TRACK"
   | "CAREER_PATH_BUNDLE"
   | "ORDER_APPROVED"
@@ -46,7 +47,7 @@ export type OwnedTrackItem = {
   completedLessons: number;
   progressPct: number;
   isCompleted: boolean;
-  source: "direct" | "career_path" | "legacy";
+  source: "direct" | "career_path" | "legacy" | "all_access";
   viaCareerPathSlug?: string;
   viaCareerPathTitleAr?: string;
   viaCareerPathTitleEn?: string;
@@ -71,6 +72,8 @@ export type OwnedCareerPathItem = {
 export type UserInventory = {
   userId: string;
   isLegacyFullAccess: boolean;
+  isAllAccess: boolean;
+  userPaidAmountEgp: number;
   isAdmin: boolean;
   ownedCareerPaths: OwnedCareerPathItem[];
   ownedTracks: OwnedTrackItem[];
@@ -79,6 +82,7 @@ export type UserInventory = {
   totalCompletedTracks: number;
   totalCompletedLessons: number;
   totalEarnedXp: number;
+  lastActiveTrackSlug?: string;
 };
 
 let tableInitialized = false;
@@ -158,20 +162,20 @@ export async function hasLegacyFullAccess(userId: string): Promise<boolean> {
     const legacyEntitlement = await prisma.userEntitlement.findFirst({
       where: {
         userId,
-        productType: "legacy_full_access",
+        productType: { in: ["legacy_full_access", "all_access", "all_access_pass"] },
       },
       select: { id: true },
     });
     if (legacyEntitlement) return true;
 
-    // Backward-compatibility fallback: check if user has any approved legacy order >= 300 EGP
+    // Backward-compatibility fallback: check if user has any approved legacy order >= 300 EGP or all_access
     const legacyOrder = await prisma.order.findFirst({
       where: {
         userId,
         status: "approved",
         OR: [
           { amountEgp: { gte: 300 } },
-          { productType: "legacy_full_access" },
+          { productType: { in: ["legacy_full_access", "all_access", "all_access_pass"] } },
           { proofChannel: "vip_vault" },
         ],
       },
@@ -211,9 +215,9 @@ export async function canUserAccessTrack(
     return { hasAccess: true, reason: "ADMIN" };
   }
 
-  // 2. Legacy full access check
+  // 2. Legacy / All-Access pass check
   if (await hasLegacyFullAccess(userId)) {
-    return { hasAccess: true, reason: "LEGACY_FULL_ACCESS" };
+    return { hasAccess: true, reason: "ALL_ACCESS_PASS" };
   }
 
   await ensureEntitlementsTable();
@@ -346,7 +350,7 @@ export async function grantUserEntitlement({
 }): Promise<void> {
   await ensureEntitlementsTable();
 
-  if (productType === "legacy_full_access") {
+  if (productType === "legacy_full_access" || productType === "all_access") {
     await prisma.user.update({
       where: { id: userId },
       data: { hasLegacyAccess: true },
@@ -468,7 +472,9 @@ export async function getUserInventory(userId: string): Promise<UserInventory> {
     where: { userId, status: "approved" },
     include: { course: true },
   });
+  let userPaidAmountEgp = 0;
   for (const order of approvedOrders) {
+    userPaidAmountEgp += order.amountEgp;
     if (order.productType === "career_path" && order.productSlug) {
       careerPathEntitlements.add(order.productSlug);
     } else if (order.productSlug) {
@@ -478,11 +484,17 @@ export async function getUserInventory(userId: string): Promise<UserInventory> {
     }
   }
 
+  const isAllAccess =
+    isAdmin ||
+    isLegacy ||
+    entitlements.some((e) => e.productType === "all_access" || e.productType === "legacy_full_access") ||
+    approvedOrders.some((o) => o.productType === "all_access" || o.amountEgp >= 300);
+
   const unlockedTrackSlugs = new Set<string>();
   const unlockedCareerPathSlugs = new Set<string>();
 
-  // If Admin or Legacy, every career path and every track is unlocked!
-  if (isAdmin || isLegacy) {
+  // If Admin, Legacy, or All-Access, every career path and every track is unlocked!
+  if (isAdmin || isLegacy || isAllAccess) {
     for (const cp of CAREER_PATHS) {
       unlockedCareerPathSlugs.add(cp.slug);
     }
@@ -513,7 +525,7 @@ export async function getUserInventory(userId: string): Promise<UserInventory> {
 
   // Build owned career paths items
   const ownedCareerPaths: OwnedCareerPathItem[] = [];
-  const targetCareerPaths = (isAdmin || isLegacy)
+  const targetCareerPaths = (isAdmin || isLegacy || isAllAccess)
     ? CAREER_PATHS
     : CAREER_PATHS.filter((cp) => unlockedCareerPathSlugs.has(cp.slug));
 
@@ -574,13 +586,15 @@ export async function getUserInventory(userId: string): Promise<UserInventory> {
     if (isCompleted) totalCompletedTracks++;
     totalCompletedLessons += completedLessons;
 
-    let source: "direct" | "career_path" | "legacy" = "direct";
+    let source: "direct" | "career_path" | "legacy" | "all_access" = "direct";
     let viaCareerPathSlug: string | undefined;
     let viaCareerPathTitleAr: string | undefined;
     let viaCareerPathTitleEn: string | undefined;
 
     if (isAdmin || isLegacy) {
       source = "legacy";
+    } else if (isAllAccess) {
+      source = "all_access";
     } else if (directTrackEntitlements.has(trackSlug)) {
       source = "direct";
     } else {
@@ -623,9 +637,22 @@ export async function getUserInventory(userId: string): Promise<UserInventory> {
     return b.progressPct - a.progressPct;
   });
 
+  // Calculate last active track slug
+  let lastActiveTrackSlug: string | undefined;
+  if (completions.length > 0) {
+    const lastComp = completions[completions.length - 1];
+    lastActiveTrackSlug = lastComp?.lesson?.module?.course?.slug;
+  }
+  if (!lastActiveTrackSlug && ownedTracks.length > 0) {
+    const inProgress = ownedTracks.find((t) => t.progressPct > 0 && !t.isCompleted);
+    lastActiveTrackSlug = inProgress?.slug || ownedTracks[0]?.slug;
+  }
+
   return {
     userId,
     isLegacyFullAccess: isLegacy,
+    isAllAccess,
+    userPaidAmountEgp,
     isAdmin,
     ownedCareerPaths,
     ownedTracks,
@@ -634,5 +661,6 @@ export async function getUserInventory(userId: string): Promise<UserInventory> {
     totalCompletedTracks,
     totalCompletedLessons,
     totalEarnedXp,
+    lastActiveTrackSlug,
   };
 }

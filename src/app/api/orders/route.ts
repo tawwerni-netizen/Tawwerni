@@ -58,14 +58,23 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "قناة تواصل غير صالحة" }, { status: 400 });
   }
 
-  const resolvedSlug = (typeof productSlug === "string" && productSlug) || (typeof courseSlug === "string" && courseSlug) || "";
-  const resolvedType = (typeof productType === "string" && productType === "career_path") ? "career_path" : "track";
+  const resolvedType =
+    typeof productType === "string" && (productType === "all_access" || productType === "all_access_pass")
+      ? "all_access"
+      : typeof productType === "string" && productType === "career_path"
+      ? "career_path"
+      : "track";
+
+  const resolvedSlug =
+    resolvedType === "all_access"
+      ? "all_access"
+      : (typeof productSlug === "string" && productSlug) || (typeof courseSlug === "string" && courseSlug) || "";
 
   if (!resolvedSlug) {
     return NextResponse.json({ error: "اختر المسار أو التخصص أولاً" }, { status: 400 });
   }
 
-  // Calculate pricing strictly server-side (50 EGP Track, 100 EGP Career Path)
+  // Calculate pricing strictly server-side (50 EGP Track, 100 EGP Career Path, 350 EGP All-Access)
   const priceCalc = calculateOrderPrice({
     productType: resolvedType,
     productSlug: resolvedSlug,
@@ -80,7 +89,9 @@ export async function POST(request: Request) {
 
   // Determine course to link in database for foreign key integrity
   let courseLinkSlug = product.slug;
-  if (product.type === "career_path") {
+  if (product.type === "all_access") {
+    courseLinkSlug = "fullstack-web-developer";
+  } else if (product.type === "career_path") {
     const cp = getCareerPathBySlug(product.slug);
     const firstTrack = cp?.stages?.[0]?.tracks?.[0]?.trackSlug || "fullstack-web-developer";
     courseLinkSlug = firstTrack;

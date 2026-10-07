@@ -111,28 +111,28 @@ export default function TermsPage() {
           <section className="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md rounded-2xl p-5 sm:p-6 border border-black/5 dark:border-white/10 shadow-xs border-l-4 border-l-teal-500">
             <h2 className="mb-2 text-base sm:text-lg font-black text-neutral-900 dark:text-white flex items-center gap-2">
               <span className="text-teal-600 dark:text-teal-400">3.</span>
-              <span>{isEn ? "Membership, Fees, and 7-Day Guarantee" : "الاشتراكات، الرسوم، وضمان الـ 7 أيام"}</span>
+              <span>{isEn ? "Ownership Models, Fees, and Digital Goods Policy" : "نماذج الملكية، الرسوم، وسياسة المنتجات الرقمية"}</span>
             </h2>
             <ul className="list-disc ps-5 space-y-2 text-neutral-700 dark:text-neutral-300">
               <li>
                 {isEn
-                  ? `Access Model: Premium access is granted via a transparent, one-time payment of ${pricing.priceEgp} EGP (or equivalent in supported currencies) for 1 full year of unlimited access to all 100 tracks. No automatic recurring rebills or hidden surcharges.`
-                  : `آلية الاشتراك: يتم تفعيل الوصول الشامل لجميع الـ 100 مسار عبر دفعة واحدة واضحة بقيمة ${pricing.priceEgp} جنيه مصري (أو ما يعادلها) لمدة عام كامل. لا توجد أي اشتراكات دورية خفية أو تجديد تلقائي للبطاقات.`}
+                  ? `Modular Ownership Model: Platform access is provided via transparent one-time purchases: Individual Skill Track (${pricing.trackPriceEgp} EGP), Career Path Roadmap (${pricing.careerPathPriceEgp} EGP), or All-Access Pass (${pricing.allAccessPriceEgp} EGP). All purchases grant permanent lifetime ownership with zero recurring subscriptions or hidden rebills.`
+                  : `نموذج الملكية المعيارية: يتم شراء المحتوى عبر دفعات لمرة واحدة واضحة: المسار التخصصي الفردي (${pricing.trackPriceEgp} ج.م)، المسار المهني الشامل (${pricing.careerPathPriceEgp} ج.م)، أو المفتاح الشامل لكافة المسارات (${pricing.allAccessPriceEgp} ج.م). كافة المشتريات تمنح ملكية دائمة مدى الحياة دون أي اشتراكات متجددة تلقائياً.`}
               </li>
               <li>
                 {isEn
-                  ? "Free Trial Period: The first day of every single track is 100% free for all registered users to test the learning experience before making any financial commitment."
-                  : "التجربة المجانية: اليوم الأول من كل مسار متاح مجاناً بنسبة 100% لجميع المسجلين لتجربة جودة المحتوى وطريقة الشرح قبل الدفع."}
+                  ? "Free Trial Period: The first day of every single track is 100% free for all users to test the learning experience, exercises, and project quality before making any financial commitment."
+                  : "التجربة المجانية المسبقة: اليوم الأول من كل مسار متاح مجاناً بنسبة 100% لجميع المتعلمين لتجربة جودة المحتوى وطريقة التطبيق العملي قبل الدفع."}
               </li>
               <li className="font-bold text-teal-800 dark:text-teal-300">
                 {isEn
-                  ? "7-Day Money-Back Guarantee: If you are unsatisfied with the platform, you may request a 100% full refund within 7 days from the date of activation by contacting support directly."
-                  : "ضمان استرداد الأموال خلال 7 أيام: نتيح ضمان استرداد كامل للمبلغ بنسبة 100% خلال 7 أيام من تاريخ تفعيل الاشتراك في حال رغبتك، دون تعقيدات، بالتواصل المباشر مع الدعم الفني."}
+                  ? "Digital Products & Final Sale Policy: Due to the instant and irrevocable nature of digital educational content, exercises, prompt banks, and verified certificates, all purchases are final and non-refundable once unlocked and activated on your account."
+                  : "سياسة المنتجات الرقمية: نظراً لطبيعة المنتجات الرقمية التعليمية والوصول الفوري غير القابل للإلغاء إلى المناهج التفاعلية وبنك البرومبتات والشهادات المعتمدة، فإن عمليات الشراء نهائية وغير قابلة للاسترداد بمجرد التفعيل على الحساب."}
               </li>
               <li className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
                 {isEn
-                  ? "Fair-Use Standard for Downloadable Assets: In accordance with industry standards for digital products, the 7-day refund policy covers platform experience and course learning, but does not apply if an account has already downloaded or exported full offline asset packages (such as the 10,000 Prompts Vault or freelance contract templates), as these files cannot be returned once saved."
-                  : "معيار الاستخدام العادل للأصول الرقمية: وفقاً للأعراف القانونية للمنتجات الرقمية، يغطي ضمان الـ 7 أيام تجربة المنصة ومساراتها التعليمية، وتسقط إمكانية الاسترداد في حال قيام الحساب بتنزيل وحفظ الحزم الرقمية الكاملة غير القابلة للاسترجاع (مثل بنك الـ 10,000 برومبت أو حزم العقود القانونية المفتوحة) حمايةً لحقوق الملكية الفكرية ومنع الاستغلال غير العادل."}
+                  ? "Billing Assistance: If any unintended duplicate transaction or technical payment processing error occurs, our support team will promptly investigate and rectify the discrepancy."
+                  : "المساعدة في المعاملات المالية: في حالة حدوث أي خطأ تقني بالتحويل أو تكرار غير مقصود للعملية، يتكفل فريق الدعم الفني بمعالجة الخطأ فوراً وتصحيح الموقف دون تأخير."}
               </li>
             </ul>
           </section>
@@ -275,7 +275,7 @@ export default function TermsPage() {
             <span>•</span>
             <Link href="/privacy" className="hover:text-teal-600 transition-colors">{isEn ? "Privacy" : "سياسة الخصوصية"}</Link>
             <span>•</span>
-            <Link href="/refund" className="hover:text-teal-600 transition-colors font-semibold text-teal-700 dark:text-teal-400">{isEn ? "7-Day Refund Guarantee" : "ضمان الـ 7 أيام"}</Link>
+            <Link href="/refund" className="hover:text-teal-600 transition-colors font-semibold text-teal-700 dark:text-teal-400">{isEn ? "Digital Products Policy" : "سياسة المنتجات الرقمية"}</Link>
           </div>
         </div>
       </footer>

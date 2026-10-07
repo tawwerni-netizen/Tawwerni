@@ -326,8 +326,8 @@ export default function ProfileClient(props: Props) {
             {/* Guarantee and Support badge */}
             <div className="mt-4 pt-3 border-t border-black/5 dark:border-white/5 flex flex-wrap items-center justify-between gap-2 text-xs">
               <span className="text-teal-700 dark:text-teal-300 font-bold flex items-center gap-1.5">
-                <span>🛡️</span>
-                <span>{isEn ? "7-Day Money-Back Guarantee Included" : "مشمول بضمان استرداد كامل خلال 7 أيام"}</span>
+                <span>👑</span>
+                <span>{isEn ? "Lifetime Ownership Included" : "ملكية دائمة مدى الحياة"}</span>
               </span>
               <a
                 href={`https://wa.me/2${payment.supportWhatsapp}`}
@@ -345,7 +345,7 @@ export default function ProfileClient(props: Props) {
                 {isEn ? "Free Preview Mode (Day 1 Unlocked)" : "عضوية تجريبية (اليوم الأول مجاني في كل مسار)"}
               </p>
               <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                {isEn ? "Own individual tracks for 50 EGP or complete Career Paths for 100 EGP." : "امتلك مسارات تخصصية مستقلة بـ 50 ج.م أو مسارات مهنية شاملة بـ 100 ج.م مع ضمان استرجاع 7 أيام."}
+                {isEn ? "Own individual tracks for 50 EGP, Career Paths for 100 EGP, or All-Access for 350 EGP." : "امتلك مسارات تخصصية بـ 50 ج.م، مسارات مهنية بـ 100 ج.م، أو الوصول الشامل بـ 350 ج.م."}
               </p>
             </div>
             <div className="flex items-center gap-2 shrink-0">
@@ -444,14 +444,14 @@ export default function ProfileClient(props: Props) {
       {/* Footer Assurance */}
       <div className="mt-8 text-center text-xs text-neutral-400 space-y-1">
         <p>
-          {isEn ? "Tawwerni Educational Platform · Protected by 7-Day Guarantee" : "منصة طوّرني للتعليم العملي · مشمولة بضمان استرداد 7 أيام"}
+          {isEn ? "Tawwerni Educational Platform · Single Transparent Payments" : "منصة طوّرني للتعليم العملي · دفعات شفافة بدون أي اشتراكات متكررة"}
         </p>
         <div className="flex items-center justify-center gap-3">
           <Link href="/privacy" className="hover:text-teal-600 underline">{isEn ? "Privacy" : "الخصوصية"}</Link>
           <span>•</span>
           <Link href="/terms" className="hover:text-teal-600 underline">{isEn ? "Terms" : "الشروط"}</Link>
           <span>•</span>
-          <Link href="/refund" className="hover:text-teal-600 underline">{isEn ? "Refund Policy" : "الاسترجاع"}</Link>
+          <Link href="/refund" className="hover:text-teal-600 underline">{isEn ? "Digital Goods Policy" : "المنتجات الرقمية"}</Link>
         </div>
       </div>
     </div>

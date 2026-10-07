@@ -40,46 +40,46 @@ export default function RefundPage() {
         {/* Top Tag */}
         <div className="text-center mb-6">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-500/10 dark:bg-teal-500/20 px-3.5 py-1 text-xs font-black text-teal-700 dark:text-teal-300 border border-teal-500/20 mb-3">
-            <span>🛡️</span>
-            <span>{isEn ? "100% Money-Back Guarantee" : "ضمان راحة البال واسترداد الأموال"}</span>
+            <span>📜</span>
+            <span>{isEn ? "Digital Products & Access Terms" : "سياسة المنتجات الرقمية وشروط الوصول"}</span>
           </span>
           <h1 className="text-3xl sm:text-4xl font-black text-neutral-900 dark:text-white tracking-tight">
-            {isEn ? "Refund Policy & Guarantee" : "سياسة الاسترجاع والضمان"}
+            {isEn ? "Digital Goods & Educational Policy" : "سياسة المنتجات الرقمية والخدمات التعليمية"}
           </h1>
           <p className="mt-2 text-xs text-neutral-400">
             {isEn ? "Last updated: October 2026" : "آخر تحديث: أكتوبر 2026"}
           </p>
         </div>
 
-        {/* 7-Day Guarantee High-Dopamine Card */}
-        <div className="mb-10 relative overflow-hidden rounded-3xl bg-gradient-to-br from-teal-700 via-emerald-700 to-teal-900 p-6 sm:p-8 text-white shadow-2xl border border-teal-400/30">
+        {/* High-Clarity Policy Highlight Card */}
+        <div className="mb-10 relative overflow-hidden rounded-3xl bg-gradient-to-br from-teal-800 via-emerald-800 to-teal-950 p-6 sm:p-8 text-white shadow-2xl border border-teal-400/30">
           <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-white/15 blur-2xl" />
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-md text-2xl shadow-inner">
-                ⚡
+                💡
               </div>
               <div>
                 <h2 className="text-lg sm:text-xl font-black text-white">
-                  {isEn ? "7-Day 100% Money-Back Guarantee" : "ضمان استرداد كامل خلال 7 أيام"}
+                  {isEn ? "Try Before You Pay · Transparent Terms" : "جرّب بنفسك مجاناً قبل الدفع · وضوح وشفافية تامة"}
                 </h2>
                 <p className="text-xs text-teal-100 font-medium">
-                  {isEn ? "Zero friction · No questions asked" : "بدون أي تعقيد أو مماطلة · حقك مضمون بالكامل"}
+                  {isEn ? "Free Day 1 Preview on all 100 tracks · Immediate permanent access" : "اليوم الأول متاح للتجربة في كافة المسارات · تفعيل فوري وملكية دائمة"}
                 </p>
               </div>
             </div>
             <span
               style={{ backgroundColor: '#ffffff', color: '#042f2e', border: '1.5px solid #34d399' }}
-              className="pill-guarantee-white inline-block font-black text-xs px-4 py-1.5 rounded-full shadow-md shrink-0 whitespace-nowrap"
+              className="inline-block font-black text-xs px-4 py-1.5 rounded-full shadow-md shrink-0 whitespace-nowrap"
             >
-              {isEn ? "7-Day Peace of Mind Guarantee" : "7 أيام تجربة واسترداد كامل"}
+              {isEn ? "Free Day 1 Preview" : "اليوم الأول مجاني 100%"}
             </span>
           </div>
 
           <p className="text-xs sm:text-sm text-teal-50 leading-relaxed">
             {isEn
-              ? "We stand behind the practical quality of our 100 tracks. If you activate your membership and feel the learning experience is not for you, simply contact our direct support team within 7 days of activation, and we will issue a full 100% refund immediately."
-              : "نحن على ثقة كاملة في القيمة التطبيقية لمساراتنا. إذا اشتركت في المنصة وشعرت خلال 7 أيام من التفعيل أن المحتوى أو الأسلوب غير مناسب لك لأي سبب، فقط راسلنا وسنعيد لك كامل المبلغ المدفوع فوراً بدون أي استجواب أو تعقيد."}
+              ? "Because Tawwerni delivers immediate, irrevocable access to interactive coding environments, AI evaluations, proprietary course missions, and verifiable credentials, digital purchases are final and non-refundable once activated. To ensure total confidence, Day 1 of every single course is open 100% free with zero payment requirements."
+              : "نظراً لأن منصة طوّرني تقدم وصولاً فورياً وغير قابل للإلغاء للمناهج التفاعلية وبيئات التدريب البرمجية وكويزات الذكاء الاصطناعي والمشاريع العملية والشهادات الرقمية المعتمدة، فإن عمليات الشراء تعتبر نهائية وغير قابلة للاسترداد بمجرد التفعيل. ولضمان ثقتك واطمئنانك الكامل، جعلنا اليوم الأول من كل مسار مفتوحاً ومجاناً بالكامل للتجربة قبل اتخاذ أي قرار شراء."}
           </p>
         </div>
 
@@ -91,13 +91,13 @@ export default function RefundPage() {
                 1
               </div>
               <h3 className="text-base font-black text-neutral-900 dark:text-white">
-                {isEn ? "Free Day 1 Preview Before You Pay" : "اليوم الأول مجاني بالكامل قبل أن تدفع"}
+                {isEn ? "Day 1 Free Preview in Every Track" : "اليوم الأول مجاني بالكامل في جميع الـ 100 مسار"}
               </h3>
             </div>
             <p className="text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed ps-12">
               {isEn
-                ? "To ensure complete satisfaction, Day 1 of every single one of our 100 tracks is open 100% free for all registered users without credit card requirements. You can test our interactive infographics, focus tools, and lesson quizzes firsthand."
-                : "لتتأكد من مناسبة المنصة لك قبل الدفع، جعلنا اليوم الأول من كل مسار من الـ 100 مسار مفتوحاً ومجانياً تماماً بدون الحاجة لبطاقة بنكية. يمكنك تجربة أسلوب الشرح التفاعلي والمهام اليومية واختبار الكويزات بنفسك."}
+                ? "Every registered learner can explore Day 1 of any track without entering any credit card or financial information. You can test our interactive infographics, step-by-step missions, and quiz engine firsthand before paying anything."
+                : "يمكن لأي مستخدم مسجل استكشاف وتجربة اليوم الأول من أي مسار تخصصي بدون إدخال أي بطاقة بنكية أو بيانات دفع. يمكنك تقييم أسلوب الشرح التفاعلي وجودة المهام التطبيقية والكويزات بنفسك وبكل راحة قبل اتخاذ قرار الشراء."}
             </p>
           </div>
 
@@ -108,18 +108,35 @@ export default function RefundPage() {
                 2
               </div>
               <h3 className="text-base font-black text-neutral-900 dark:text-white">
-                {isEn ? "How to Request Your Refund" : "كيف تطلب استرداد المبلغ؟"}
+                {isEn ? "Immediate Activation & Permanent Lifetime Ownership" : "التفعيل الفوري والملكية الدائمة مدى الحياة"}
+              </h3>
+            </div>
+            <p className="text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed ps-12">
+              {isEn
+                ? "Once your payment transfer is verified, your purchased tracks, career paths, or All-Access pass are permanently added to your personal learning inventory with lifetime access and zero recurring monthly fees."
+                : "بمجرد تأكيد تحويلك المالي، تتم إضافة المسار التخصصي (50 ج.م) أو المسار المهني (100 ج.م) أو باقة الوصول الشامل (350 ج.م) فوراً لمخزونك التعليمي مع ملكية دائمة مدى الحياة بدون أي رسوم اشتراك شهرية متكررة."}
+            </p>
+          </div>
+
+          {/* Card 3 */}
+          <div className="rounded-3xl border border-black/10 dark:border-white/10 bg-white/95 dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-7 shadow-xs hover:border-cyan-500/30 transition-all">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-9 h-9 rounded-2xl bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 flex items-center justify-center font-black text-sm border border-cyan-500/30 shadow-xs shrink-0">
+                3
+              </div>
+              <h3 className="text-base font-black text-neutral-900 dark:text-white">
+                {isEn ? "Payment Errors & Duplicate Transfer Protection" : "معالجة أخطاء التحويل والمبالغ الزائدة"}
               </h3>
             </div>
             <p className="text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm mb-4 leading-relaxed ps-12">
               {isEn
-                ? "No lengthy dispute tickets or automated bots. Simply message our human support with your registered email and transfer details:"
-                : "لا توجد أي استمارات معقدة أو إجراءات مطولة. كل ما عليك هو مراسلة فريق الدعم البشري المباشر بإيميلك المسجل وبيانات التحويل:"}
+                ? "If you accidentally make a duplicate transfer, send an incorrect amount, or face a network transaction glitch, our dedicated support team is available 24/7 to resolve the issue or immediately return any surplus funds."
+                : "إذا قمت بتحويل مكرر عن طريق الخطأ، أو حوّلت مبلغاً بالزيادة، أو واجهت أي تعثر تقني أثناء عملية الدفع، فإن فريق الدعم الفني متواجد على مدار الساعة لحل المشكلة فوراً أو إعادة أي مبالغ محولة بالخطأ بدون أي تأخير."}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 ps-0 sm:ps-12">
               <a
-                href={`https://wa.me/2${payment.supportWhatsapp}?text=${encodeURIComponent("مرحباً، أود طلب استرداد الاشتراك وفق ضمان الـ 7 أيام")}`}
+                href={`https://wa.me/2${payment.supportWhatsapp}?text=${encodeURIComponent("مرحباً، لدي استفسار بخصوص عملية تحويل أو تفعيل في منصة طوّرني")}`}
                 className="flex items-center gap-3 p-3.5 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-950 dark:text-emerald-200 transition-all font-bold text-xs"
               >
                 <span className="text-2xl">💬</span>
@@ -130,7 +147,7 @@ export default function RefundPage() {
               </a>
 
               <a
-                href={`mailto:${payment.supportEmail}?subject=Refund%20Request`}
+                href={`mailto:${payment.supportEmail}?subject=Payment%20Support`}
                 className="flex items-center gap-3 p-3.5 rounded-2xl border border-teal-500/30 bg-teal-500/10 hover:bg-teal-500/20 text-teal-950 dark:text-teal-200 transition-all font-bold text-xs"
               >
                 <span className="text-2xl">📧</span>
@@ -141,38 +158,14 @@ export default function RefundPage() {
               </a>
             </div>
           </div>
-
-            {/* Card 3 */}
-            <div className="rounded-3xl border border-black/10 dark:border-white/10 bg-white/95 dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-7 shadow-xs hover:border-cyan-500/30 transition-all">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-9 h-9 rounded-2xl bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 flex items-center justify-center font-black text-sm border border-cyan-500/30 shadow-xs shrink-0">
-                  3
-                </div>
-                <h3 className="text-base font-black text-neutral-900 dark:text-white">
-                  {isEn ? "Instant & Frictionless 100% Refund" : "استرداد فوري وسريع وبدون أي تعقيد"}
-                </h3>
-              </div>
-              <p className="text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed ps-12">
-                {isEn
-                  ? "Your learning investment is 100% risk-free. If you decide Tawwerni isn't the perfect fit within your first 7 days, our dedicated human support team will promptly issue a full 100% refund directly back to your payment method (Vodafone Cash, InstaPay, or Bank Card) with zero hassle and no questions asked."
-                  : "حقك في تجربة المنصة مكفول بنسبة 100% وبدون أي مخاطرة مالية. إذا طلبت استرجاع المبلغ خلال الـ 7 أيام الأولى من التفعيل، يتم رد المبلغ فوراً وبنفس وسيلة الدفع (فودافون كاش، إنستاباي، أو البطاقة البنكية) بكل سلاسة وسرعة وبدون أي شروط تعجيزية أو أسئلة محرجة."}
-              </p>
-              <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5 ps-12 text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                <p>
-                  {isEn
-                    ? "⚖️ Digital Assets Fair-Use Standard: The 7-day satisfaction guarantee applies to platform exploration and daily track learning. In accordance with standard digital asset fair-use policies, accounts that have already exported or downloaded offline master file packages (such as the comprehensive 10,000 Prompts Database or open-format legal contract archives) are not eligible for a refund, as these digital assets cannot be revoked once downloaded."
-                    : "⚖️ معيار الاستخدام العادل للأصول الرقمية: صُمم ضمان الاسترداد لتجربة المنصة ومحتوى المسارات التعليمية بكل طمأنينة. ووفقاً للعرف القانوني المعتمد للأصول الرقمية، يشترط للاستفادة من ضمان الـ 7 أيام عدم قيام الحساب بتنزيل أو تصدير الحزم الرقمية الكاملة القابلة للحفظ الدائم خارج المنصة (مثل قاعدة بيانات الـ 10,000 برومبت الشاملة أو ملفات العقود المفتوحة)، حيث تعتبر هذه الأصول مستهلكة نهائياً بمجرد تنزيلها لحماية حقوق الملكية الفكرية ومنع الاستغلال غير العادل."}
-                </p>
-              </div>
-            </div>
         </div>
 
         {/* Transparent Pricing Note */}
         <div className="mt-8 rounded-2xl bg-neutral-100 dark:bg-neutral-900/60 border border-black/5 dark:border-white/5 p-4 text-xs text-neutral-600 dark:text-neutral-400 text-center">
           <p>
             {isEn
-              ? `Tawwerni membership is a single transparent payment of ${pricing.priceEgp} EGP granting 1 full year of unlimited access. There are strictly zero recurring subscriptions or hidden rebills.`
-              : `اشتراك طوّرني هو دفعة واحدة فقط بقيمة ${pricing.priceEgp} ج.م لعام كامل لجميع الـ 100 مسار — لا توجد أي اشتراكات دورية خفية أو تجديد تلقائي للبطاقات.`}
+              ? `Tawwerni offers single one-time payments: 50 EGP per track, 100 EGP per career path, or 350 EGP for the All-Access pass. There are strictly zero recurring subscriptions or hidden charges.`
+              : `أسعار طوّرني واضحة وثابتة: 50 ج.م للمسار التخصصي، 100 ج.م للمسار المهني الشامل، و350 ج.م لباقة الوصول الشامل — بدون أي اشتراكات متجددة أو رسوم خفية.`}
           </p>
         </div>
       </main>
@@ -180,7 +173,7 @@ export default function RefundPage() {
       {/* Footer */}
       <footer className="border-t border-black/5 dark:border-neutral-900 py-8 px-4 text-center text-xs text-neutral-500 bg-white/50 dark:bg-neutral-950/50 backdrop-blur-md">
         <div className="mx-auto max-w-xl space-y-2">
-          <p>© {new Date().getFullYear()} {isEn ? brand.nameEn : brand.name} ({brand.domain}) · {isEn ? "7-Day Peace of Mind Guarantee" : "ضمان راحة البال خلال 7 أيام"}</p>
+          <p>© {new Date().getFullYear()} {isEn ? brand.nameEn : brand.name} ({brand.domain}) · {isEn ? "Digital Educational Goods Policy" : "سياسة المنتجات والخدمات الرقمية"}</p>
           <div className="flex items-center justify-center gap-4 text-neutral-500 dark:text-neutral-400">
             <Link href="/about" className="hover:text-teal-600 transition-colors">{isEn ? "About Us" : "من نحن"}</Link>
             <span>•</span>

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useI18n } from "./LanguageContext";
 import type { UserInventory } from "@/lib/entitlements";
 import type { NextStepRecommendation } from "@/lib/recommendations";
+import { pricing } from "@/lib/pricing";
+import { TRACK_PILLARS } from "@/content/tracks100";
 
 export default function InventoryView({
   inventory,
@@ -20,10 +22,44 @@ export default function InventoryView({
 
   const [activeTab, setActiveTab] = useState<"all" | "in_progress" | "completed">("all");
   const [selectedCareerPathFilter, setSelectedCareerPathFilter] = useState<string | null>(null);
+  const [selectedPillarFilter, setSelectedPillarFilter] = useState<number | null>(null);
+
+  // Active track to resume learning
+  const lastActiveTrack =
+    (inventory.lastActiveTrackSlug &&
+      inventory.ownedTracks.find((t) => t.slug === inventory.lastActiveTrackSlug)) ||
+    inventory.ownedTracks.find((t) => t.progressPct > 0 && !t.isCompleted) ||
+    inventory.ownedTracks[0];
+
+  // Smart upgrade calculations
+  const showSmartUpgrade = !inventory.isAllAccess && !inventory.isLegacyFullAccess && !inventory.isAdmin;
+  const userPaid = inventory.userPaidAmountEgp || 0;
+  const upgradeDelta = Math.max(50, pricing.allAccessPriceEgp - userPaid);
+
+  // Pillar statistics for Skill Graph
+  const pillarStats = TRACK_PILLARS.map((pillar) => {
+    const tracksInPillar = inventory.ownedTracks.filter((t) => t.pillarId === pillar.id);
+    const completedTracksInPillar = tracksInPillar.filter((t) => t.isCompleted).length;
+    const completedLessonsInPillar = tracksInPillar.reduce((sum, t) => sum + t.completedLessons, 0);
+    const avgProgress =
+      tracksInPillar.length > 0
+        ? Math.round(tracksInPillar.reduce((sum, t) => sum + t.progressPct, 0) / tracksInPillar.length)
+        : 0;
+    return {
+      ...pillar,
+      tracksCount: tracksInPillar.length,
+      completedTracksCount: completedTracksInPillar,
+      completedLessons: completedLessonsInPillar,
+      masteryPct: avgProgress,
+    };
+  });
 
   // Filtered tracks
   const filteredTracks = inventory.ownedTracks.filter((track) => {
     if (selectedCareerPathFilter && track.viaCareerPathSlug !== selectedCareerPathFilter) {
+      return false;
+    }
+    if (selectedPillarFilter && track.pillarId !== selectedPillarFilter) {
       return false;
     }
     if (activeTab === "in_progress") {
@@ -52,6 +88,10 @@ export default function InventoryView({
                 <span className="text-xs font-bold text-indigo-300 bg-indigo-500/15 border border-indigo-500/30 px-3 py-1 rounded-full">
                   🛡️ {isEn ? "Platform Admin" : "مشرف المنصة"}
                 </span>
+              ) : inventory.isAllAccess ? (
+                <span className="text-xs font-bold text-amber-300 bg-amber-500/15 border border-amber-500/30 px-3 py-1 rounded-full flex items-center gap-1">
+                  👑 {isEn ? "All-Access Master Key" : "المفتاح الشامل لكافة الكورسات"}
+                </span>
               ) : inventory.isLegacyFullAccess ? (
                 <span className="text-xs font-bold text-amber-300 bg-amber-500/15 border border-amber-500/30 px-3 py-1 rounded-full flex items-center gap-1">
                   👑 {isEn ? "Founding Full Access Member" : "عضو مؤسس · وصول شامل لجميع الـ 100 مسار"}
@@ -67,10 +107,10 @@ export default function InventoryView({
               {isEn ? `Welcome back, ${userName}` : `أهلاً بك، ${userName}`}
             </h1>
             <p className="mt-1 text-xs sm:text-sm text-neutral-300 max-w-2xl leading-relaxed">
-              {inventory.isLegacyFullAccess
+              {inventory.isAllAccess || inventory.isLegacyFullAccess
                 ? isEn
-                  ? "As a founding member, you have unrestricted access to all 100 individual tracks and complete career paths."
-                  : "بصفتك مشتركاً مؤسساً، تمتلك وصولاً كاملاً غير مقيد لكافة الـ 100 مسار تخصصي وجميع المسارات المهنية الشاملة."
+                  ? "You have permanent master access across all 100 specialized tracks and 11 complete career paths."
+                  : "تمتلك وصولاً دائماً وشاملاً لكافة الـ 100 مسار تخصصي وجميع الـ 11 مساراً مهنياً مدى الحياة."
                 : isEn
                 ? "Manage your owned career roadmaps and specialized tracks. Track your independent milestones and certifications."
                 : "هنا تجد كافة المسارات المهنية والتخصصية التي تمتلكها، مع متابعة تقدمك وإنجازاتك اليومية وشهاداتك المعتمدة."}
@@ -84,7 +124,7 @@ export default function InventoryView({
                 {isEn ? "Career Paths" : "المسارات المهنية"}
               </span>
               <span className="block text-xl font-black text-emerald-400 font-mono mt-0.5">
-                {inventory.isLegacyFullAccess ? "11" : inventory.ownedCareerPaths.length}
+                {inventory.isAllAccess || inventory.isLegacyFullAccess ? "11" : inventory.ownedCareerPaths.length}
               </span>
             </div>
 
@@ -93,7 +133,7 @@ export default function InventoryView({
                 {isEn ? "Owned Tracks" : "المسارات الممتلكة"}
               </span>
               <span className="block text-xl font-black text-white font-mono mt-0.5">
-                {inventory.isLegacyFullAccess ? "100" : inventory.ownedTracks.length}
+                {inventory.isAllAccess || inventory.isLegacyFullAccess ? "100" : inventory.ownedTracks.length}
               </span>
             </div>
 
@@ -118,7 +158,171 @@ export default function InventoryView({
         </div>
       </div>
 
-      {/* 2. Deterministic Next Step Recommendation Card */}
+      {/* 2. Resume Active Learning Banner (High-Dopamine Cosmic Focus Card) */}
+      {lastActiveTrack && (
+        <div className="rounded-3xl border border-teal-400/40 bg-gradient-to-br from-teal-900 via-teal-950 to-emerald-950 text-white p-5 sm:p-6 shadow-xl relative overflow-hidden">
+          <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-emerald-400/20 blur-xl" />
+          <div className="pointer-events-none absolute -left-12 -bottom-12 h-36 w-36 rounded-full bg-cyan-400/20 blur-xl" />
+
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
+            <div className="flex items-center gap-4">
+              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-3xl shrink-0 backdrop-blur-md border border-white/15">
+                {lastActiveTrack.icon}
+              </span>
+              <div>
+                <div className="flex items-center gap-2 flex-wrap mb-1">
+                  <span className="rounded-full bg-emerald-400/20 text-emerald-300 border border-emerald-400/30 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider">
+                    ⚡ {isEn ? "Continue Today's Momentum" : "استكمل تعلّمك اليوم"}
+                  </span>
+                  <span className="text-[11px] text-teal-200">
+                    {isEn ? lastActiveTrack.pillarNameEn : lastActiveTrack.pillarNameAr}
+                  </span>
+                </div>
+                <h2 className="text-base sm:text-lg md:text-xl font-black">
+                  {isEn ? lastActiveTrack.titleEn : lastActiveTrack.titleAr}
+                </h2>
+                <p className="text-xs text-teal-100/80 mt-0.5">
+                  {lastActiveTrack.completedLessons} / {lastActiveTrack.totalLessons} {isEn ? "missions completed" : "مهمة منجزة"} ({lastActiveTrack.progressPct}%)
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 w-full md:w-auto shrink-0">
+              <div className="hidden sm:block w-36 space-y-1">
+                <div className="h-2 w-full rounded-full bg-black/40 overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-cyan-300 transition-all duration-500"
+                    style={{ width: `${lastActiveTrack.progressPct}%` }}
+                  />
+                </div>
+              </div>
+              <Link
+                href={`/app/learn/${lastActiveTrack.slug}`}
+                className="w-full md:w-auto whitespace-nowrap rounded-full bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 text-neutral-950 font-black px-6 py-3 text-xs sm:text-sm shadow-lg hover:brightness-110 active:scale-95 transition-all text-center cursor-pointer"
+              >
+                {lastActiveTrack.progressPct > 0
+                  ? isEn ? "Continue Next Lesson ➔" : "تابع الدرس التالي ➔"
+                  : isEn ? "Start Lesson #1 ➔" : "ابدأ الدرس الأول ➔"}
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 3. Smart Credit-Based Upgrade Banner (If not all-access) */}
+      {showSmartUpgrade && (
+        <div className="rounded-3xl border border-amber-500/40 bg-gradient-to-br from-amber-500/10 via-[#18140c] to-[#0e0c08] p-5 sm:p-6 shadow-xl relative overflow-hidden">
+          <div className="pointer-events-none absolute -top-16 -end-16 w-56 h-56 bg-amber-500/15 rounded-full blur-3xl" />
+
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-5 relative z-10">
+            <div className="flex items-start gap-4">
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30 text-2xl shrink-0">
+                👑
+              </span>
+              <div>
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-500/30">
+                    {isEn ? "Smart Credit Upgrade" : "ترقية ذكية بخصم رصيدك السابق"}
+                  </span>
+                  {userPaid > 0 && (
+                    <span className="text-[11px] text-amber-200 font-bold">
+                      {isEn ? `You already invested ${userPaid} EGP` : `تم خصم ${userPaid} ج.م استثمرتها سابقاً`}
+                    </span>
+                  )}
+                </div>
+                <h3 className="text-base sm:text-lg font-black text-white">
+                  {isEn
+                    ? `Upgrade to All-Access Pass for just ${upgradeDelta} EGP`
+                    : `رقّ حسابك للمفتاح الشامل (All-Access Pass) بـ ${upgradeDelta} ج.م فقط`}
+                </h3>
+                <p className="mt-1 text-xs text-neutral-300 max-w-2xl leading-relaxed">
+                  {isEn
+                    ? `We credit 100% of your previous payments (${userPaid} EGP). Pay only the difference to unlock all 100 practical tracks, all 11 career paths, and future updates for life.`
+                    : `نخصم لك 100% من مدفوعاتك السابقة (${userPaid} ج.م). ادفع الفارق فقط لتملك كافة الـ 100 مسار، والـ 11 مساراً مهنياً، وبنك الـ 10,000 برومبت مدى الحياة.`}
+                </p>
+              </div>
+            </div>
+
+            <Link
+              href="/quiz/checkout?type=all_access&slug=all-access"
+              className="w-full md:w-auto whitespace-nowrap rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-neutral-950 font-black px-6 py-3.5 text-xs sm:text-sm shadow-lg shadow-amber-500/20 hover:brightness-110 active:scale-95 transition-all text-center shrink-0 cursor-pointer"
+            >
+              {isEn ? `Upgrade Now (${upgradeDelta} EGP) 👑` : `ترقية حسابي الآن (${upgradeDelta} ج.م) 👑`}
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {/* 4. Skill Graph / Domain Mastery Breakdown */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+              <span>📊</span>
+              <span>{isEn ? "Skill Graph & Domain Mastery" : "خريطة المهارات ومؤشر الإتقان حسب المجالات"}</span>
+            </h2>
+            <p className="text-xs text-neutral-400 mt-0.5">
+              {isEn
+                ? "Track your progress across specialized learning pillars and skill categories."
+                : "راقب توزيع مهاراتك ونسب الإنجاز في مختلف مجالات المعرفة والتطبيق."}
+            </p>
+          </div>
+
+          {selectedPillarFilter && (
+            <button
+              type="button"
+              onClick={() => setSelectedPillarFilter(null)}
+              className="text-xs font-bold text-neutral-400 hover:text-white transition-colors cursor-pointer"
+            >
+              {isEn ? "Clear Pillar Filter ✕" : "إلغاء تصفية المجال ✕"}
+            </button>
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          {pillarStats.map((pillar) => {
+            const isSelected = selectedPillarFilter === pillar.id;
+            return (
+              <button
+                type="button"
+                key={pillar.id}
+                onClick={() => setSelectedPillarFilter(isSelected ? null : pillar.id)}
+                className={`rounded-2xl p-3.5 text-start border transition-all cursor-pointer ${
+                  isSelected
+                    ? "border-emerald-400 bg-emerald-500/15 shadow-md shadow-emerald-500/20"
+                    : "border-white/10 bg-[#0d1614] hover:border-white/25"
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-2xl">{pillar.icon}</span>
+                  <span className="text-xs font-mono font-bold text-emerald-400">
+                    {pillar.masteryPct}%
+                  </span>
+                </div>
+                <h4 className="text-xs font-bold text-white line-clamp-1">
+                  {isEn ? pillar.nameEn : pillar.nameAr}
+                </h4>
+                <div className="flex items-center justify-between text-[10px] text-neutral-400 mt-1">
+                  <span>
+                    {pillar.tracksCount} {isEn ? "tracks" : "مسار"}
+                  </span>
+                  <span>
+                    {pillar.completedLessons} {isEn ? "done" : "درس"}
+                  </span>
+                </div>
+                <div className="h-1.5 w-full rounded-full bg-white/5 overflow-hidden mt-2">
+                  <div
+                    className="h-full rounded-full bg-emerald-400 transition-all duration-300"
+                    style={{ width: `${pillar.masteryPct}%` }}
+                  />
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* 5. Deterministic Next Step Recommendation Card */}
       {recommendation && (
         <div className="rounded-3xl border-2 border-emerald-500/30 bg-[#0d1614] p-5 sm:p-6 shadow-xl relative overflow-hidden">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -156,7 +360,7 @@ export default function InventoryView({
         </div>
       )}
 
-      {/* 3. Owned Career Paths Section */}
+      {/* 6. Owned Career Paths Section */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
@@ -175,7 +379,7 @@ export default function InventoryView({
             href="/career-paths"
             className="text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-colors hidden sm:inline-flex items-center gap-1"
           >
-            <span>{isEn ? "Explore All Career Paths (100 EGP)" : "تصفح كل المسارات المهنية (١٠٠ ج.م)"}</span>
+            <span>{isEn ? `Explore All Career Paths (${pricing.careerPathPriceEgp} EGP)` : `تصفح كل المسارات المهنية (${pricing.careerPathPriceEgp} ج.م)`}</span>
             <span>➔</span>
           </Link>
         </div>
@@ -188,14 +392,14 @@ export default function InventoryView({
             </h3>
             <p className="text-xs text-neutral-400 max-w-md mx-auto leading-relaxed">
               {isEn
-                ? "Career paths combine multiple specialized tracks into a structured milestone roadmap for just 100 EGP."
-                : "المسار المهني يجمع عدة مسارات تخصصية مترابطة في خريطة عمل واحدة تؤهلك لسوق العمل بـ ١٠٠ ج.م فقط."}
+                ? `Career paths combine multiple specialized tracks into a structured milestone roadmap for just ${pricing.careerPathPriceEgp} EGP.`
+                : `المسار المهني يجمع عدة مسارات تخصصية مترابطة في خريطة عمل واحدة تؤهلك لسوق العمل بـ ${pricing.careerPathPriceEgp} ج.م فقط.`}
             </p>
             <Link
               href="/career-paths"
               className="inline-block rounded-full bg-emerald-500 px-5 py-2.5 text-xs font-black text-neutral-950 hover:bg-emerald-400 transition-all cursor-pointer"
             >
-              {isEn ? "Explore Career Paths (100 EGP) ➔" : "استكشف المسارات المهنية (١٠٠ ج.م) ➔"}
+              {isEn ? `Explore Career Paths (${pricing.careerPathPriceEgp} EGP) ➔` : `استكشف المسارات المهنية (${pricing.careerPathPriceEgp} ج.م) ➔`}
             </Link>
           </div>
         ) : (
@@ -279,7 +483,7 @@ export default function InventoryView({
         )}
       </section>
 
-      {/* 4. Owned Specialized Tracks Section */}
+      {/* 7. Owned Specialized Tracks Section */}
       <section className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
@@ -335,17 +539,22 @@ export default function InventoryView({
           </div>
         </div>
 
-        {selectedCareerPathFilter && (
+        {(selectedCareerPathFilter || selectedPillarFilter) && (
           <div className="flex items-center justify-between p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-xs">
             <span className="text-emerald-300 font-bold">
-              {isEn ? "Filtered by Career Path" : "معروض فقط مسارات المسار المهني المحدد"}
+              {selectedCareerPathFilter && (isEn ? "Filtered by Career Path" : "مصفى حسب المسار المهني")}
+              {selectedCareerPathFilter && selectedPillarFilter && " · "}
+              {selectedPillarFilter && (isEn ? "Filtered by Domain Pillar" : "مصفى حسب المجال")}
             </span>
             <button
               type="button"
-              onClick={() => setSelectedCareerPathFilter(null)}
+              onClick={() => {
+                setSelectedCareerPathFilter(null);
+                setSelectedPillarFilter(null);
+              }}
               className="text-xs font-bold text-neutral-400 hover:text-white transition-colors cursor-pointer"
             >
-              {isEn ? "Clear Filter ✕" : "إلغاء التصفية ✕"}
+              {isEn ? "Clear All Filters ✕" : "إلغاء كافة التصفيات ✕"}
             </button>
           </div>
         )}
@@ -358,14 +567,14 @@ export default function InventoryView({
             </h3>
             <p className="text-xs text-neutral-400 max-w-md mx-auto leading-relaxed">
               {isEn
-                ? "You can unlock any specialized track for 50 EGP or get complete Career Paths for 100 EGP."
-                : "يمكنك تملك أي مسار تخصصي منفرد بـ ٥٠ ج.م فقط أو الحصول على مسار مهني متكامل بـ ١٠٠ ج.م."}
+                ? `You can unlock any specialized track for ${pricing.trackPriceEgp} EGP or get complete Career Paths for ${pricing.careerPathPriceEgp} EGP.`
+                : `يمكنك تملك أي مسار تخصصي منفرد بـ ${pricing.trackPriceEgp} ج.م فقط أو الحصول على مسار مهني متكامل بـ ${pricing.careerPathPriceEgp} ج.م.`}
             </p>
             <Link
               href="/tracks"
               className="inline-block rounded-full bg-emerald-500 px-5 py-2.5 text-xs font-black text-neutral-950 hover:bg-emerald-400 transition-all cursor-pointer"
             >
-              {isEn ? "Browse 100 Tracks (50 EGP) ➔" : "تصفح الـ ١٠٠ مسار (٥٠ ج.م) ➔"}
+              {isEn ? `Browse 100 Tracks (${pricing.trackPriceEgp} EGP) ➔` : `تصفح الـ ١٠٠ مسار (${pricing.trackPriceEgp} ج.م) ➔`}
             </Link>
           </div>
         ) : (
@@ -387,13 +596,17 @@ export default function InventoryView({
                         ? isEn
                           ? `Via ${track.viaCareerPathTitleEn || "Path"}`
                           : `ضمن مسار ${track.viaCareerPathTitleAr || "المهني"}`
+                        : track.source === "all_access"
+                        ? isEn
+                          ? "All-Access"
+                          : "وصول شامل"
                         : track.source === "legacy"
                         ? isEn
                           ? "Founding Member"
                           : "وصول مؤسس شامل"
                         : isEn
-                        ? "Direct Purchase (50 EGP)"
-                        : "مملوك مباشرة (٥٠ ج.م)"}
+                        ? `Direct (${pricing.trackPriceEgp} EGP)`
+                        : `مملوك مباشرة (${pricing.trackPriceEgp} ج.م)`}
                     </span>
                   </div>
 
@@ -451,28 +664,28 @@ export default function InventoryView({
         )}
       </section>
 
-      {/* 5. Catalog Upsell & Expansion Card */}
+      {/* 8. Catalog Upsell & Expansion Card */}
       <div className="rounded-3xl border border-white/10 bg-[#0d1614] p-6 text-center space-y-3">
         <h3 className="text-base sm:text-lg font-black text-white">
           {isEn ? "Want to expand your knowledge base?" : "هل تريد توسيع مخزونك التعليمي؟"}
         </h3>
         <p className="text-xs text-neutral-300 max-w-xl mx-auto leading-relaxed">
           {isEn
-            ? "Add any focused track for 50 EGP, or grab complete career roadmaps with multiple certified tracks for 100 EGP."
-            : "يمكنك إضافة أي مسار تخصصي جديد بـ ٥٠ ج.م فقط، أو الحصول على مسار مهني متكامل يضم حزمة مسارات بـ ١٠٠ ج.م."}
+            ? `Add any focused track for ${pricing.trackPriceEgp} EGP, or grab complete career roadmaps with multiple certified tracks for ${pricing.careerPathPriceEgp} EGP.`
+            : `يمكنك إضافة أي مسار تخصصي جديد بـ ${pricing.trackPriceEgp} ج.م فقط، أو الحصول على مسار مهني متكامل يضم حزمة مسارات بـ ${pricing.careerPathPriceEgp} ج.م.`}
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <Link
             href="/tracks"
             className="rounded-full border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 px-5 py-2.5 text-xs font-bold text-emerald-300 transition-all cursor-pointer"
           >
-            {isEn ? "Browse 100 Tracks (50 EGP each)" : "تصفح الـ ١٠٠ مسار (٥٠ ج.م للمسار) ➔"}
+            {isEn ? `Browse 100 Tracks (${pricing.trackPriceEgp} EGP each)` : `تصفح الـ ١٠٠ مسار (${pricing.trackPriceEgp} ج.م للمسار) ➔`}
           </Link>
           <Link
             href="/career-paths"
             className="rounded-full bg-emerald-500 hover:bg-emerald-400 px-5 py-2.5 text-xs font-black text-neutral-950 transition-all cursor-pointer shadow-md"
           >
-            {isEn ? "Explore Career Paths (100 EGP bundle)" : "استكشف المسارات المهنية (١٠٠ ج.م للحزمة) ➔"}
+            {isEn ? `Explore Career Paths (${pricing.careerPathPriceEgp} EGP bundle)` : `استكشف المسارات المهنية (${pricing.careerPathPriceEgp} ج.م للحزمة) ➔`}
           </Link>
         </div>
       </div>

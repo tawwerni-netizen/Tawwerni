@@ -185,8 +185,8 @@ export default function LandingPageView() {
               <span>{isEn ? "Hands-On Mission" : "مهمة عملية بكل درس"}</span>
             </div>
             <div className="p-3 rounded-2xl bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 shadow-2xs">
-              <span className="block text-lg mb-1">🛡️</span>
-              <span>{isEn ? "7-Day Guarantee" : "ضمان استرداد 7 أيام"}</span>
+              <span className="block text-lg mb-1">👑</span>
+              <span>{isEn ? "Lifetime Access" : "ملكية دائمة مدى الحياة"}</span>
             </div>
           </div>
 
@@ -1048,41 +1048,41 @@ export default function LandingPageView() {
           </div>
         </section>
 
-        {/* ---------- 6. THE HONEST, CALM & TRANSPARENT MODULAR OWNERSHIP ---------- */}
-        <div className="mx-auto mb-16 max-w-4xl text-center">
+        {/* ---------- 6. THE HONEST, CALM & TRANSPARENT 3-TIER PRICING ---------- */}
+        <div className="mx-auto mb-16 max-w-6xl text-center">
           <span className="inline-flex items-center gap-1.5 bg-teal-500/10 text-teal-800 dark:text-teal-300 text-xs font-black px-4 py-1.5 rounded-full border border-teal-500/30 mb-3">
             <span>✨</span>
-            <span>{isEn ? "Simple, Modular Ownership · Zero Recurring Fees" : "ملكية موديولار واضحة · امتلاك دائم بدون اشتراكات متكررة"}</span>
+            <span>{isEn ? "Transparent Ownership · Zero Recurring Subscriptions" : "ملكية واضحة · امتلاك دائم بدون اشتراكات متكررة"}</span>
           </span>
           <h2 className="text-2xl font-black md:text-3xl mb-2 text-neutral-900 dark:text-white">
             {isEn
               ? "Choose Your Path · Own It Forever"
               : "اختر ما تحتاجه بدقة · وامتلكه للأبد"}
           </h2>
-          <p className="mx-auto mb-10 max-w-xl text-xs sm:text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+          <p className="mx-auto mb-10 max-w-2xl text-xs sm:text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
             {isEn
-              ? "Single one-time payment per product. Zero recurring monthly fees, zero surprise rebills. Start with a focused skill track or unlock an entire complete career roadmap."
-              : "دفعة واحدة فقط لمرة واحدة بدون أي رسوم شهرية خفية وبدون أي تجديد تلقائي. ابدأ بمسار تخصصي مستقل لمهارة محددة، أو اختر مساراً مهنياً متكاملاً يؤهلك لسوق العمل بالكامل."}
+              ? "One-time payment per product with zero recurring monthly fees. Start with a focused skill track, unlock an entire career roadmap, or get the complete master key to all 100 courses."
+              : "دفعة واحدة لمرة واحدة بدون أي اشتراكات شهرية متجددة أو رسوم خفية. ابدأ بمهارة محددة، أو امتلك مساراً مهنياً متكاملاً، أو احصل على المفتاح الشامل لكافة الـ 100 كورس."}
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-start">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-start">
             {/* Card 1: Individual Track (50 EGP) */}
-            <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-8 shadow-lg flex flex-col justify-between relative">
+            <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-7 shadow-lg flex flex-col justify-between relative">
               <div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/10 text-teal-800 dark:text-teal-300 border border-teal-500/20 text-2xs font-black mb-3">
                   <span>🎯</span>
                   <span>{isEn ? "Individual Skill Track" : "مسار تخصصي فردي"}</span>
                 </div>
-                <h3 className="text-xl font-black text-neutral-900 dark:text-white mb-1">
+                <h3 className="text-lg font-black text-neutral-900 dark:text-white mb-1">
                   {isEn ? "Single Track Access" : "امتلاك مسار تخصصي فردي"}
                 </h3>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-5">
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-5 min-h-[32px]">
                   {isEn
-                    ? "Master one specific in-demand skill from zero to a portfolio project"
-                    : "إتقان مهارة تخصصية محددة من الصفر حتى مشروع عملي جاهز للبورتفوليو"}
+                    ? "Master one specific in-demand skill with 28 daily missions and a verified portfolio project."
+                    : "إتقان مهارة تخصصية محددة من الصفر حتى مشروع عملي جاهز للبورتفوليو."}
                 </p>
 
-                {/* Price Display */}
+                {/* Clean Price Display */}
                 <div className="mb-6 p-4 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/50">
                   <div className="flex items-baseline gap-2">
                     <span className="text-4xl font-black text-teal-600 dark:text-teal-400 font-mono">
@@ -1090,9 +1090,6 @@ export default function LandingPageView() {
                     </span>
                     <span className="text-sm font-bold text-neutral-700 dark:text-neutral-300">
                       {isEn ? "EGP" : "جنيه فقط"}
-                    </span>
-                    <span className="text-xs text-neutral-400 line-through">
-                      {pricing.originalTrackPriceEgp} {isEn ? "EGP" : "ج.م"}
                     </span>
                   </div>
                   <div className="text-2xs font-semibold text-neutral-500 dark:text-neutral-400 mt-1">
@@ -1107,8 +1104,8 @@ export default function LandingPageView() {
                     isEn ? "Hands-on micro-tasks with real output" : "مهام يومية تطبيقية تنتهي بمشروع عملي حقيقي",
                     isEn ? "Verified digital certificate with authentic QR link" : "شهادة إتمام رقمية معتمدة برابط رسمي وكود QR",
                     isEn ? "24/7 AI mentor (Faheem) reviewing your submissions" : "كوتش الذكاء الاصطناعي (فهيم) يتابعك ويراجع تطبيقاتك",
-                    isEn ? "Day 1 100% free to try with no obligations" : "اليوم الأول مفتوح للتجربة العملية مجاناً بالكامل",
-                    isEn ? "7-day 100% money-back guarantee" : "ضمان استرجاع كامل 100% خلال 7 أيام",
+                    isEn ? "Day 1 100% free to try before paying" : "اليوم الأول مفتوح للتجربة العملية مجاناً بالكامل",
+                    isEn ? "Upgradeable anytime: paid amount is credited" : "قابل للترقية في أي وقت: يُخصم ما دفعته من الباقات الأكبر",
                   ].map((feat, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span className="text-teal-500 font-bold shrink-0 mt-0.5">✓</span>
@@ -1125,8 +1122,8 @@ export default function LandingPageView() {
                 >
                   <span>
                     {isEn
-                      ? `Browse Tracks (50 EGP) →`
-                      : `استعرض المسارات التخصصية (50 ج.م) ←`}
+                      ? `Browse Tracks (${pricing.trackPriceEgp} EGP) →`
+                      : `استعرض المسارات التخصصية (${pricing.trackPriceEgp} ج.م) ←`}
                   </span>
                 </Link>
                 <div className="text-center mt-2 text-3xs text-neutral-400">
@@ -1136,25 +1133,25 @@ export default function LandingPageView() {
             </div>
 
             {/* Card 2: Complete Career Path (100 EGP) - Best Value */}
-            <div className="rounded-3xl border-2 border-emerald-500 bg-white dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-8 shadow-xl shadow-emerald-500/10 flex flex-col justify-between relative ring-2 ring-emerald-500/20 overflow-hidden">
+            <div className="rounded-3xl border-2 border-emerald-500 bg-white dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-7 shadow-xl shadow-emerald-500/10 flex flex-col justify-between relative ring-2 ring-emerald-500/20 overflow-hidden">
               <div className="pointer-events-none absolute -top-20 -right-20 w-48 h-48 rounded-full bg-emerald-500/15 blur-3xl" />
               <div className="pointer-events-none absolute -bottom-20 -left-20 w-48 h-48 rounded-full bg-teal-500/15 blur-3xl" />
 
               <div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 text-2xs font-black mb-3">
                   <span>🌟</span>
-                  <span>{isEn ? "Most Popular · Complete Career Bundle (Save 75%+)" : "الأكثر طلباً · المسار المهني المتكامل (وفّر أكثر من 75%)"}</span>
+                  <span>{isEn ? "Career Roadmap Bundle" : "المسار المهني الشامل"}</span>
                 </div>
-                <h3 className="text-xl font-black text-neutral-900 dark:text-white mb-1">
+                <h3 className="text-lg font-black text-neutral-900 dark:text-white mb-1">
                   {isEn ? "Career Path Bundle" : "المسار المهني المتكامل"}
                 </h3>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-5">
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-5 min-h-[32px]">
                   {isEn
-                    ? "Full career roadmap unlocking all bundled tracks, multiple projects & credentials"
-                    : "خارطة طريق وظيفية شاملة تفتح جميع المسارات التخصصية المندرجة تحتها"}
+                    ? "Full career roadmap unlocking all bundled tracks, multiple projects & credentials."
+                    : "خارطة طريق وظيفية شاملة تفتح جميع المسارات التخصصية المندرجة تحتها."}
                 </p>
 
-                {/* Price Display */}
+                {/* Clean Price Display */}
                 <div className="mb-6 p-4 rounded-2xl bg-emerald-500/5 dark:bg-emerald-950/30 border border-emerald-500/30">
                   <div className="flex items-baseline gap-2">
                     <span className="text-4xl font-black text-emerald-600 dark:text-emerald-400 font-mono">
@@ -1163,24 +1160,21 @@ export default function LandingPageView() {
                     <span className="text-sm font-bold text-neutral-700 dark:text-neutral-300">
                       {isEn ? "EGP" : "جنيه فقط"}
                     </span>
-                    <span className="text-xs text-neutral-400 line-through">
-                      {pricing.originalCareerPathPriceEgp} {isEn ? "EGP" : "ج.م"}
-                    </span>
                   </div>
                   <div className="text-2xs font-bold text-emerald-600 dark:text-emerald-400 mt-1">
-                    {isEn ? "One-time payment · Unlocks ALL included tracks permanently" : "دفعة واحدة لمرة واحدة · تفتح كافة المسارات المندرجة للأبد"}
+                    {isEn ? "One-time payment · Unlocks ALL included tracks" : "دفعة واحدة لمرة واحدة · تفتح كافة المسارات المندرجة للأبد"}
                   </div>
                 </div>
 
                 {/* Features */}
                 <ul className="space-y-2.5 text-xs text-neutral-700 dark:text-neutral-300 mb-6">
                   {[
-                    isEn ? "Unlocks ALL specialized tracks inside this career path" : "فتح شامل لكافة المسارات التخصصية المندرجة في المسار المهني",
-                    isEn ? "Combined overall roadmap + independent per-track progress" : "خارطة شاملة ومتابعة دقيقة لتقدم المسار المهني والمسارات الفرعية",
+                    isEn ? "Unlocks ALL 4 to 8 tracks inside this career path" : "فتح شامل لـ ٤ إلى ٨ مسارات تخصصية مندرجة في المسار",
+                    isEn ? "Combined overall roadmap + per-track independent progress" : "خارطة شاملة ومتابعة دقيقة لتقدم المسار المهني والمسارات الفرعية",
                     isEn ? "Multi-project portfolio qualifying you for freelance & jobs" : "بورتفوليو مشاريع متكامل يؤهلك للعمل الحر والوظائف",
                     isEn ? "Verified digital certificates for each completed track" : "شهادات إتمام رقمية معتمدة بروابط وأكواد QR لكل مسار منجز",
                     isEn ? "24/7 AI mentor (Faheem) for personalized guidance" : "كوتش الذكاء الاصطناعي (فهيم) يرشدك في مسارك المهني 24/7",
-                    isEn ? "100% money-back guarantee within 7 days" : "ضمان استرجاع كامل 100% خلال 7 أيام بدون أي مخاطرة",
+                    isEn ? "Upgradeable to All-Access: paid amount credited" : "قابل للترقية للوصول الشامل في أي وقت بدفع الفارق فقط",
                   ].map((feat, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span className="text-emerald-500 font-bold shrink-0 mt-0.5">✓</span>
@@ -1197,12 +1191,80 @@ export default function LandingPageView() {
                 >
                   <span>
                     {isEn
-                      ? `Explore Career Paths (100 EGP) →`
-                      : `استعرض المسارات المهنية الشاملة (100 ج.م) ←`}
+                      ? `Explore Career Paths (${pricing.careerPathPriceEgp} EGP) →`
+                      : `استعرض المسارات المهنية (${pricing.careerPathPriceEgp} ج.م) ←`}
                   </span>
                 </Link>
                 <div className="text-center mt-2 text-3xs text-neutral-400">
-                  {isEn ? "Best value for full career preparation" : "الخيار الأفضل والأشمل لإتقان مسار مهني متكامل"}
+                  {isEn ? "Best value for full career preparation" : "الخيار الأفضل لإتقان مهنة كاملة"}
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3: All-Access Pass (350 EGP) - Complete Mastery */}
+            <div className="rounded-3xl border-2 border-amber-400/50 bg-white dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-7 shadow-xl shadow-amber-500/10 flex flex-col justify-between relative ring-2 ring-amber-400/20 overflow-hidden">
+              <div className="pointer-events-none absolute -top-20 -right-20 w-48 h-48 rounded-full bg-amber-500/15 blur-3xl" />
+
+              <div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30 text-2xs font-black mb-3">
+                  <span>👑</span>
+                  <span>{isEn ? "All-Access Master Key" : "الوصول الشامل الأقصى"}</span>
+                </div>
+                <h3 className="text-lg font-black text-neutral-900 dark:text-white mb-1">
+                  {isEn ? "All-Access Pass" : "الوصول الشامل لكافة الكورسات"}
+                </h3>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-5 min-h-[32px]">
+                  {isEn
+                    ? "Unlocks all 100 tracks, all 11 career paths, and all future content additions."
+                    : "المفتاح الكامل لجميع الـ 100 مسار تخصصي وكافة المسارات المهنية الـ 11 للأبد."}
+                </p>
+
+                {/* Clean Price Display */}
+                <div className="mb-6 p-4 rounded-2xl bg-amber-500/5 dark:bg-amber-950/30 border border-amber-500/30">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-4xl font-black text-amber-500 dark:text-amber-400 font-mono">
+                      {pricing.allAccessPriceEgp}
+                    </span>
+                    <span className="text-sm font-bold text-neutral-700 dark:text-neutral-300">
+                      {isEn ? "EGP" : "جنيه فقط"}
+                    </span>
+                  </div>
+                  <div className="text-2xs font-bold text-amber-600 dark:text-amber-400 mt-1">
+                    {isEn ? "One-time payment · Complete library lifetime access" : "دفعة واحدة لمرة واحدة · وصول شامل لجميع المحتويات مدى الحياة"}
+                  </div>
+                </div>
+
+                {/* Features */}
+                <ul className="space-y-2.5 text-xs text-neutral-700 dark:text-neutral-300 mb-6">
+                  {[
+                    isEn ? "Permanent access to ALL 100 specialized tracks" : "فتح فوري لكافة الـ 100 مسار تخصصي (2,800 مهمة وكويز)",
+                    isEn ? "ALL 11 complete career paths & portfolio capstones" : "جميع المسارات المهنية الـ 11 ومشاريع البورتفوليو الكبرى",
+                    isEn ? "Verified digital certificates with QR validation for all" : "شهادات إتمام معتمدة لجميع المسارات مع روابط التحقق الرسمية",
+                    isEn ? "All future course launches and updates included free" : "جميع التحديثات والكورسات الجديدة مستقبلاً بدون أي رسوم",
+                    isEn ? "10,000 Corporate AI Prompts Vault & Contracts included" : "قاعدة بيانات الـ 10,000 برومبت وعقود الفريلانس مشمولة",
+                    isEn ? "Priority AI feedback and human support channel" : "أولوية عليا في المراجعة الذكية والدعم الفني المباشر",
+                  ].map((feat, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-amber-500 font-bold shrink-0 mt-0.5">✓</span>
+                      <span>{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <Link
+                  href="/quiz/checkout?type=all_access"
+                  className="w-full inline-flex items-center justify-center py-3.5 px-6 rounded-2xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-neutral-950 font-black text-xs sm:text-sm shadow-xl shadow-amber-500/25 hover:shadow-amber-500/40 hover:brightness-110 active:scale-98 transition-all text-center"
+                >
+                  <span>
+                    {isEn
+                      ? `Get All-Access Pass (${pricing.allAccessPriceEgp} EGP) →`
+                      : `احصل على الوصول الشامل (${pricing.allAccessPriceEgp} ج.م) ←`}
+                  </span>
+                </Link>
+                <div className="text-center mt-2 text-3xs text-neutral-400">
+                  {isEn ? "The ultimate pass for serious learners & professionals" : "الخيار الأقصى للمتعلمين الجادين والباحثين عن التميز"}
                 </div>
               </div>
             </div>
@@ -1349,7 +1411,7 @@ export default function LandingPageView() {
             <Link href="/community" className="hover:text-teal-600 transition">{isEn ? "Community" : "المجتمع"}</Link>
             <Link href="/terms" className="hover:text-teal-600 transition">{isEn ? "Terms" : "الشروط والأحكام"}</Link>
             <Link href="/privacy" className="hover:text-teal-600 transition">{isEn ? "Privacy" : "سياسة الخصوصية"}</Link>
-            <Link href="/refund" className="hover:text-teal-600 transition">{isEn ? "Refund Policy" : "سياسة الاسترجاع"}</Link>
+            <Link href="/refund" className="hover:text-teal-600 transition">{isEn ? "Digital Goods Policy" : "سياسة المنتجات الرقمية"}</Link>
           </nav>
           <p className="mt-5 text-xs text-neutral-400">
             {brand.name}
