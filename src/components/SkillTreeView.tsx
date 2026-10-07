@@ -163,7 +163,7 @@ export default function SkillTreeView({ tree }: { tree: TrackSkillTree }) {
           <div>
             <div className="flex items-center gap-2 mb-0.5">
               <span className="text-xs font-black uppercase text-amber-700 dark:text-amber-300">
-                {isEn ? "FINAL CAPSTONE PROJECT" : "مشروع التخرج المعتمد (CAPSTONE)"}
+                {isEn ? "FINAL CAPSTONE PROJECT" : "مشروع التخرج التطبيقي (CAPSTONE)"}
               </span>
               <span
                 className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${

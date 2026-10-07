@@ -18,12 +18,14 @@ export default async function LessonPage({
   const { slug, day } = await params;
   const sp = searchParams ? await searchParams : {};
   const user = await getCurrentUser();
-  if (!user) {
-    redirect(`/login?next=/app/learn/${slug}/${day}`);
-  }
-
   const dayNumber = Number(day);
   if (isNaN(dayNumber) || dayNumber < 1) notFound();
+
+  // Day 1 is 100% free with zero login or payment barrier.
+  // Day 2+ requires account authentication and active access.
+  if (!user && dayNumber !== FREE_PREVIEW_DAY) {
+    redirect(`/login?next=/app/learn/${slug}/${day}`);
+  }
 
   const lessonData = loadUniversalLesson(slug, dayNumber);
   if (!lessonData) notFound();
@@ -31,10 +33,12 @@ export default async function LessonPage({
   const { course, module, lesson, allLessons, nextLesson } = lessonData;
 
   let unlocked = false;
-  try {
-    unlocked = await hasCourseAccess(user.id, course.id);
-  } catch {
-    unlocked = false;
+  if (user) {
+    try {
+      unlocked = await hasCourseAccess(user.id, course.id);
+    } catch {
+      unlocked = false;
+    }
   }
 
   // Day 1 is a free preview; everything after it needs an approved order or admin role.
@@ -44,7 +48,7 @@ export default async function LessonPage({
 
   // Drives the prompt shown after the free day finishes.
   let pending = false;
-  if (!unlocked) {
+  if (user && !unlocked) {
     try {
       const p = await pendingOrderFor(user.id, course.id);
       pending = p !== null;
@@ -59,16 +63,18 @@ export default async function LessonPage({
   const mission = loadMission(slug, dayNumber);
   if (mission) {
     let existingCompletion = null;
-    try {
-      existingCompletion = await prisma.lessonCompletion.findFirst({
-        where: {
-          userId: user.id,
-          lessonId: `les-${slug}-${dayNumber}`,
-        },
-        select: { score: true },
-      });
-    } catch {
-      existingCompletion = null;
+    if (user) {
+      try {
+        existingCompletion = await prisma.lessonCompletion.findFirst({
+          where: {
+            userId: user.id,
+            lessonId: `les-${slug}-${dayNumber}`,
+          },
+          select: { score: true },
+        });
+      } catch {
+        existingCompletion = null;
+      }
     }
 
     return (

@@ -302,8 +302,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "ما هي سياسة الاسترجاع والمنتجات الرقمية؟",
         "qEn": "What is the digital products and refund policy?",
-        "a": "نظراً لأن تفعيل المسار يمنح وصولاً فورياً وغير قابل للإلغاء لكافة الدروس التفاعلية والمشاريع وبنك البرومبتات، فإن عمليات الشراء نهائية وغير قابلة للاسترداد بعد التفعيل. ولضمان ثقتك الكاملة، جعلنا اليوم الأول من كل مسار مفتوحاً ومجاناً بنسبة 100% لتجربة المنهج بالكامل قبل أي دفع. وفي حالة وجود أي خطأ تقني في التحويل، يتدخل الدعم الفني فوراً لحله.",
-        "aEn": "Because purchasing unlocks immediate, irrevocable access to interactive lessons, code workspaces, prompt vaults, and certified badges, purchases are final and non-refundable once activated. To ensure total confidence, Day 1 of every single track is 100% free to preview before paying. If any technical transfer error occurs, support resolves it immediately."
+        "a": "نقدم ضمان استرجاع كامل المبلغ خلال ٣ أيام من تاريخ الاشتراك وفق شرط الاستهلاك العادل (ألا يكون المتدرب قد أتم أكثر من ٣ مهام تطبيقية أو أصدر شهادة إتمام رقمية، لحماية الأصول الرقمية للمنصة). بالإضافة إلى ذلك، جعلنا اليوم الأول من كل مسار مفتوحاً ومجاناً بنسبة 100% لتجربة المنهج العملي بنفسك قبل اتخاذ أي قرار دفع.",
+        "aEn": "We provide a 3-day money-back guarantee subject to our fair-consumption condition (the learner must not have completed more than 3 hands-on missions or generated a verified certificate, protecting proprietary digital assets). In addition, Day 1 of every single track is 100% free to preview before paying."
       },
       {
         "q": "دفعت لرقم غلط، أعمل إيه؟",

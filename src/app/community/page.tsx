@@ -61,8 +61,8 @@ export default function CommunityPage() {
             <span className="text-base animate-pulse">👥</span>
             <span>
               {isEn
-                ? "The Founding Cohort · 300+ Verified Success Stories"
-                : "فوج التأسيس الأول · أكثر من 300 قصة نجاح موثقة"}
+                ? "Tawwerni Learning Community · 100 Tracks & 12 Roadmaps"
+                : "مجتمع طوّرني للتعلّم التطبيقي · 100 مسار و 12 مساراً مهنياً"}
             </span>
           </span>
 

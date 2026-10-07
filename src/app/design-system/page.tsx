@@ -393,7 +393,7 @@ function DomainDetailSection({
 
           <div className="text-end">
             <span className="text-2xl font-black font-mono">{tracksInPillar.length}</span>
-            <span className="block text-xs opacity-80">{isEn ? "Tracks in Pillar" : "مسار معتمد"}</span>
+            <span className="block text-xs opacity-80">{isEn ? "Tracks in Pillar" : "مسار تخصصي"}</span>
           </div>
         </div>
       </div>

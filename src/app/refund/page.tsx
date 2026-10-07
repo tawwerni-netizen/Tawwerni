@@ -78,8 +78,8 @@ export default function RefundPage() {
 
           <p className="text-xs sm:text-sm text-teal-50 leading-relaxed">
             {isEn
-              ? "Because Tawwerni delivers immediate, irrevocable access to interactive coding environments, AI evaluations, proprietary course missions, and verifiable credentials, digital purchases are final and non-refundable once activated. To ensure total confidence, Day 1 of every single course is open 100% free with zero payment requirements."
-              : "نظراً لأن منصة طوّرني تقدم وصولاً فورياً وغير قابل للإلغاء للمناهج التفاعلية وبيئات التدريب البرمجية وكويزات الذكاء الاصطناعي والمشاريع العملية والشهادات الرقمية الموثقة برمز QR، فإن عمليات الشراء تعتبر نهائية وغير قابلة للاسترداد بمجرد التفعيل. ولضمان ثقتك واطمئنانك الكامل، جعلنا اليوم الأول من كل مسار مفتوحاً ومجاناً بالكامل للتجربة قبل اتخاذ أي قرار شراء."}
+              ? "We provide a 3-day money-back guarantee subject to our fair-consumption condition (the learner must not have completed more than 3 hands-on missions or generated a verified certificate, protecting proprietary digital assets). In addition, Day 1 of every single course is open 100% free with zero payment requirements so you can test the practical value before subscribing."
+              : "نقدم ضمان استرجاع كامل المبلغ خلال ٣ أيام من تاريخ الاشتراك وفق شرط الاستهلاك العادل (ألا يكون المتدرب قد أتم أكثر من ٣ مهام تطبيقية أو أصدر شهادة إتمام رقمية، لحماية الأصول الرقمية للمنصة). بالإضافة إلى ذلك، جعلنا اليوم الأول من كل مسار مفتوحاً ومجاناً بالكامل للتجربة العملية قبل اتخاذ أي قرار شراء."}
           </p>
         </div>
 

@@ -276,7 +276,7 @@ export default function StudentDashboardView({
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-2xs font-extrabold uppercase tracking-wider text-teal-600 dark:text-teal-400">
-                    🧭 {isEn ? "Your Active Career Roadmap" : "مسارك المهني المعتمد"}
+                    🧭 {isEn ? "Your Active Career Roadmap" : "مسارك المهني النشط"}
                   </span>
                   <span className="rounded-full bg-teal-500/10 px-2 py-0.5 text-2xs font-black text-teal-700 dark:text-teal-300">
                     {activeCareerPathProgress.percent}%

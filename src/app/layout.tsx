@@ -139,6 +139,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 document.cookie='tawwerni_utm='+encodeURIComponent(utmJson)+';path=/;max-age=2592000;SameSite=Lax';
                 localStorage.setItem('tawwerni_utm',utmJson);
                 sessionStorage.setItem('tawwerni_utm',utmJson);
+                if(!localStorage.getItem('tawwerni_utm_first')){
+                  localStorage.setItem('tawwerni_utm_first',utmJson);
+                  document.cookie='tawwerni_utm_first='+encodeURIComponent(utmJson)+';path=/;max-age=2592000;SameSite=Lax';
+                }
               }
             }catch(e){document.documentElement.dataset.theme='dark';document.documentElement.classList.add('dark');}})();`,
           }}

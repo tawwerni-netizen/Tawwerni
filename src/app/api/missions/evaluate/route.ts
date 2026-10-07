@@ -12,11 +12,7 @@ import { badgeDefs } from "@/content/badges";
 
 export async function POST(request: Request) {
   const userId = await getSessionUserId();
-  if (!userId) {
-    return NextResponse.json({ error: "لازم تسجل دخول أولاً" }, { status: 401 });
-  }
-
-  const user = await getCurrentUser();
+  const user = userId ? await getCurrentUser() : null;
   const body = await readJson(request);
   const slug = typeof body.slug === "string" ? body.slug.trim() : "";
   const submissionText = typeof body.submissionText === "string" ? body.submissionText.trim() : "";
@@ -24,6 +20,12 @@ export async function POST(request: Request) {
 
   if (!slug || isNaN(dayNumber) || dayNumber < 1) {
     return NextResponse.json({ error: "بيانات المهمة غير صالحة" }, { status: 400 });
+  }
+
+  // Day 1 is 100% free with zero login or payment barrier.
+  // Day 2+ requires account authentication and active access.
+  if (!userId && dayNumber !== FREE_PREVIEW_DAY) {
+    return NextResponse.json({ error: "لازم تسجل دخول أولاً" }, { status: 401 });
   }
 
   const mission = loadMission(slug, dayNumber);
@@ -36,19 +38,19 @@ export async function POST(request: Request) {
   const courseId = dbCourse ? dbCourse.id : slug;
 
   // Access check
-  if (dayNumber !== FREE_PREVIEW_DAY && !(await hasCourseAccess(userId, courseId))) {
+  if (dayNumber !== FREE_PREVIEW_DAY && (!userId || !(await hasCourseAccess(userId, courseId)))) {
     return NextResponse.json({ error: "المسار مش مفعّل على حسابك" }, { status: 403 });
   }
 
   // Evaluate submission
   const evaluation = await evaluateMissionSubmission(mission, submissionText, user?.email);
 
-  let totalXp = 0;
+  let totalXp = evaluation.passed ? 50 : 0;
   let streak = 1;
   const awardedBadges: { key: string; title: string; icon: string }[] = [];
 
-  // If passed, record completion in LessonCompletion to maintain 100% backward compatibility
-  if (evaluation.passed) {
+  // If passed and user is logged in, record completion in LessonCompletion to maintain 100% backward compatibility
+  if (evaluation.passed && userId) {
     try {
       const lessonId = `les-${slug}-${dayNumber}`;
 
