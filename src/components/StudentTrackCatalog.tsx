@@ -302,7 +302,7 @@ export default function StudentTrackCatalog({
           <span>{isEn ? "Lifetime Ownership" : "ملكية دائمة مدى الحياة"}</span>
         </span>
         <span className="hidden sm:inline text-neutral-300 dark:text-neutral-700">•</span>
-        <span>{isEn ? "Includes all practical projects & certified QR badges" : "شامل كافة المشاريع التطبيقية والشهادات الرقمية المعتمدة"}</span>
+        <span>{isEn ? "Includes all practical projects & QR-verified digital credentials" : "شامل كافة المشاريع التطبيقية والشهادات الرقمية الموثقة برمز QR"}</span>
         <span className="hidden sm:inline text-neutral-300 dark:text-neutral-700">•</span>
         <Link href="/refund" className="underline hover:text-teal-600 font-bold">
           {isEn ? "Digital Products Policy" : "سياسة المنتجات الرقمية"}

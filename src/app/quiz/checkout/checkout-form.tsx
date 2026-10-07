@@ -464,7 +464,7 @@ export default function CheckoutForm({
           </div>
         </div>
 
-        {/* STEP 0: PRODUCT MODEL SELECTION (Track 50 EGP vs Career Path 100 EGP) */}
+        {/* STEP 0: PRODUCT MODEL SELECTION (Track 59 EGP vs Career Path 149 EGP) */}
         <div className="mb-6 rounded-3xl border border-white/10 bg-[#0d1614] p-4 sm:p-5 shadow-xl">
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs sm:text-sm font-black text-white flex items-center gap-2">
@@ -573,7 +573,7 @@ export default function CheckoutForm({
               </div>
             </button>
 
-            {/* All-Access Pass Option (350 EGP) */}
+            {/* All-Access Pass Option (399 EGP) */}
             <button
               type="button"
               onClick={() => setProductType("all_access")}
@@ -605,8 +605,8 @@ export default function CheckoutForm({
                 </h3>
                 <p className="text-[11px] text-neutral-300 leading-relaxed">
                   {isEn
-                    ? "Unlocks all 100 tracks & all 11 career paths permanently."
-                    : "فتح شامل لجميع الـ 100 تراك وكافة المسارات المهنية."}
+                    ? "Unlocks all 100 tracks & all 12 career paths permanently."
+                    : "فتح شامل لجميع الـ 100 تراك وكافة المسارات المهنية الـ 12."}
                 </p>
               </div>
 
@@ -673,8 +673,8 @@ export default function CheckoutForm({
                 <span>
                   {productType === "all_access"
                     ? isEn
-                      ? "All 100 Tracks & 11 Career Paths"
-                      : "كافة الـ 100 مسار وجميع المسارات المهنية"
+                      ? "All 100 Tracks & 12 Career Paths"
+                      : "كافة الـ 100 مسار وجميع الـ 12 مساراً مهنياً"
                     : productType === "career_path"
                     ? isEn
                       ? `Includes ${selectedCareerPath?.tracksCount || 4} Specialized Tracks`
@@ -773,8 +773,8 @@ export default function CheckoutForm({
               </div>
               <p className="mb-3 text-xs leading-relaxed text-neutral-300">
                 {isEn
-                  ? "No need to choose a single track or path. You will immediately unlock all 100 specialized tracks, all 11 career paths, quizzes, and future additions permanently."
-                  : "لا داعي لاختيار مسار منفرد. سيتم تفعيل وصولك لكافة الـ 100 مسار وجميع المسارات المهنية الـ 11 ومشاريعها وكافة التحديثات القادمة فوراً ومدى الحياة."}
+                  ? "No need to choose a single track or path. You will immediately unlock all 100 specialized tracks, all 12 career paths, quizzes, and future additions permanently."
+                  : "لا داعي لاختيار مسار منفرد. سيتم تفعيل وصولك لكافة الـ 100 مسار وجميع المسارات المهنية الـ 12 ومشاريعها وكافة التحديثات القادمة فوراً ومدى الحياة."}
               </p>
               <div className="rounded-2xl border border-white/5 bg-black/40 p-3 space-y-1.5 text-xs text-neutral-300">
                 <div className="flex items-center gap-2 text-emerald-300">
@@ -783,11 +783,11 @@ export default function CheckoutForm({
                 </div>
                 <div className="flex items-center gap-2 text-emerald-300">
                   <span>✓</span>
-                  <span>{isEn ? "All 11 Career Path Roadmaps & Capstone Portfolio Projects" : "جميع المسارات المهنية الـ 11 ومشاريع البورتفوليو الكبرى"}</span>
+                  <span>{isEn ? "All 12 Career Path Roadmaps & Capstone Portfolio Projects" : "جميع المسارات المهنية الـ 12 ومشاريع البورتفوليو الكبرى"}</span>
                 </div>
                 <div className="flex items-center gap-2 text-emerald-300">
                   <span>✓</span>
-                  <span>{isEn ? "Verified QR-linked Certificates for every completed track" : "شهادات إتمام رقمية معتمدة لكل مسار تنجزه"}</span>
+                  <span>{isEn ? "Verified QR-linked Certificates for every completed track" : "شهادات إتمام رقمية قابلة للتحقق عبر QR لكل مسار تنجزه"}</span>
                 </div>
               </div>
             </div>

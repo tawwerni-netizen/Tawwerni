@@ -9,6 +9,7 @@ import {
   CAREER_GOAL_FILTERS,
 } from "@/content/career-paths";
 import { resolveCareerPathProgress } from "@/lib/career-paths-progress";
+import { pricing } from "@/content/brand";
 
 type Props = {
   careerPaths: CareerPath[];
@@ -271,6 +272,12 @@ export default function CareerPathsCatalogView({
                             {isEn ? `${totalTracks} Certified Tracks` : `${totalTracks} مسارات تخصصية`}
                           </span>
                         </div>
+                        <div className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 text-2xs font-extrabold text-emerald-800 dark:text-emerald-300">
+                          <span>💎</span>
+                          <span>
+                            {isEn ? `Own forever · ${pricing.careerPathPriceEgp} EGP` : `امتلاك دائم · ${pricing.careerPathPriceEgp} ج.م`}
+                          </span>
+                        </div>
                       </div>
 
                       {/* Tagline */}
@@ -377,7 +384,7 @@ export default function CareerPathsCatalogView({
                             <span>{isEn ? "Completion Reward:" : "مكافأة إتمام المسار:"}</span>
                           </span>
                           <span className="font-mono text-amber-800 dark:text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20 font-bold">
-                            {isEn ? "Certified Portfolio Proof" : "بورتفوليو إنتاجي معتمد"}
+                            {isEn ? "Verified Portfolio Proof" : "بورتفوليو إنتاجي موثق"}
                           </span>
                         </div>
                       </div>
@@ -403,7 +410,7 @@ export default function CareerPathsCatalogView({
                         <span>
                           {hasStarted
                             ? (isEn ? "Resume Roadmap" : "استأنف خارطة الطريق")
-                            : (isEn ? "View Roadmap & Milestones" : "استعرض خارطة الطريق والمراحل")}
+                            : (isEn ? `Own Career Path (${pricing.careerPathPriceEgp} EGP) ➔` : `امتلك المسار المهني بـ ${pricing.careerPathPriceEgp} ج.م ➔`)}
                         </span>
                         <span className="text-base">➔</span>
                       </Link>

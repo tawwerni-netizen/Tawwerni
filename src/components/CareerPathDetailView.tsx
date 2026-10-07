@@ -160,7 +160,7 @@ export default function CareerPathDetailView({
                 <p className="text-xs text-neutral-300 mt-1 max-w-xl leading-relaxed">
                   {isEn
                     ? "Get lifetime ownership of all roadmap tracks, daily missions, quizzes, and verified portfolio proofs with zero recurring fees."
-                    : "امتلك وصولاً دائماً لكافة مسارات خريطة الطريق والمهمات اليومية ومشاريع البورتفوليو والشهادات المعتمدة، ملكية دائمة مدى الحياة بدون أي رسوم متجددة."}
+                    : "امتلك وصولاً دائماً لكافة مسارات خريطة الطريق والمهمات اليومية ومشاريع البورتفوليو والشهادات الرقمية الموثقة برمز QR، ملكية دائمة مدى الحياة بدون أي رسوم متجددة."}
                 </p>
               </div>
 

@@ -109,11 +109,11 @@ export default function InventoryView({
             <p className="mt-1 text-xs sm:text-sm text-neutral-300 max-w-2xl leading-relaxed">
               {inventory.isAllAccess || inventory.isLegacyFullAccess
                 ? isEn
-                  ? "You have permanent master access across all 100 specialized tracks and 11 complete career paths."
-                  : "تمتلك وصولاً دائماً وشاملاً لكافة الـ 100 مسار تخصصي وجميع الـ 11 مساراً مهنياً مدى الحياة."
+                  ? "You have permanent master access across all 100 specialized tracks and 12 complete career paths."
+                  : "تمتلك وصولاً دائماً وشاملاً لكافة الـ 100 مسار تخصصي وجميع الـ 12 مساراً مهنياً مدى الحياة."
                 : isEn
                 ? "Manage your owned career roadmaps and specialized tracks. Track your independent milestones and certifications."
-                : "هنا تجد كافة المسارات المهنية والتخصصية التي تمتلكها، مع متابعة تقدمك وإنجازاتك اليومية وشهاداتك المعتمدة."}
+                : "هنا تجد كافة المسارات المهنية والتخصصية التي تمتلكها، مع متابعة تقدمك وإنجازاتك اليومية وشهاداتك الرقمية الموثقة."}
             </p>
           </div>
 
@@ -124,7 +124,7 @@ export default function InventoryView({
                 {isEn ? "Career Paths" : "المسارات المهنية"}
               </span>
               <span className="block text-xl font-black text-emerald-400 font-mono mt-0.5">
-                {inventory.isAllAccess || inventory.isLegacyFullAccess ? "11" : inventory.ownedCareerPaths.length}
+                {inventory.isAllAccess || inventory.isLegacyFullAccess ? "12" : inventory.ownedCareerPaths.length}
               </span>
             </div>
 
@@ -237,8 +237,8 @@ export default function InventoryView({
                 </h3>
                 <p className="mt-1 text-xs text-neutral-300 max-w-2xl leading-relaxed">
                   {isEn
-                    ? `We credit 100% of your previous payments (${userPaid} EGP). Pay only the difference to unlock all 100 practical tracks, all 11 career paths, and future updates for life.`
-                    : `نخصم لك 100% من مدفوعاتك السابقة (${userPaid} ج.م). ادفع الفارق فقط لتملك كافة الـ 100 مسار، والـ 11 مساراً مهنياً، وبنك الـ 10,000 برومبت مدى الحياة.`}
+                    ? `We credit 100% of your previous payments (${userPaid} EGP). Pay only the difference to unlock all 100 practical tracks, all 12 career paths, and future updates for life.`
+                    : `نخصم لك 100% من مدفوعاتك السابقة (${userPaid} ج.م). ادفع الفارق فقط لتملك كافة الـ 100 مسار، والـ 12 مساراً مهنياً، وبنك الـ 10,000 برومبت مدى الحياة.`}
                 </p>
               </div>
             </div>

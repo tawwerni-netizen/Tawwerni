@@ -734,7 +734,7 @@ export default function LandingPageView() {
               <div className="lg:col-span-7">
                 <span className="inline-flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/15 px-3.5 py-1 text-xs font-black text-amber-700 dark:text-amber-300 mb-4">
                   <span>🎓</span>
-                  <span>{isEn ? "Career Credibility & Proof of Work" : "توثيق مهني رسمي يثبت كفاءتك للشركات"}</span>
+                  <span>{isEn ? "Digital Proof of Work & Skill Verification" : "إثبات مهني رقمي يثبت كفاءتك للشركات"}</span>
                 </span>
 
                 <h2 className="text-2xl sm:text-4xl font-black text-neutral-900 dark:text-white leading-tight tracking-tight">
@@ -757,8 +757,8 @@ export default function LandingPageView() {
 
                 <p className="mt-3 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed font-medium">
                   {isEn
-                    ? "Unlike platforms that charge extra hundreds for certificates or hand them out for passive video watching — every track on Tawwerni earns you a tamper-proof digital certificate backed by an official verification URL and real hands-on milestone completions."
-                    : "على عكس المنصات التي تطلب مئات الدولارات الإضافية لكل شهادة أو تمنحها لمجرد المشاهدة الصامتة — كل مسار تنهيه في طوّرني يمنحك شهادة رقمية رسمية برابط تحقق دائم تثبت للعملاء وأصحاب العمل أنك نفذت التطبيقات العملية بيدك."}
+                    ? "Unlike platforms that charge extra hundreds for certificates or hand them out for passive video watching — every track on Tawwerni earns you a tamper-proof digital completion certificate backed by a permanent verification URL with QR code and real hands-on milestone completions."
+                    : "على عكس المنصات التي تطلب مئات الدولارات الإضافية لكل شهادة أو تمنحها لمجرد المشاهدة الصامتة — كل مسار تنهيه في طوّرني يمنحك شهادة إتمام رقمية برابط تحقق دائم وكود QR تثبت للعملاء وأصحاب العمل أنك نفذت التطبيقات العملية بيدك."}
                 </p>
 
                 {/* 4 Feature Cards */}
@@ -769,7 +769,7 @@ export default function LandingPageView() {
                       <span>{isEn ? "Instant QR Verification" : "تحقق فوري بكاميرا الهاتف (QR)"}</span>
                     </div>
                     <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                      {isEn ? "Employers scan the QR to see your authentic graduate record on tawwerni.com." : "أي عميل يمسح الكود يتأكد فوراً من سجلك الرسمي وتاريخ تخرجك بدون أي مجال للتزييف."}
+                      {isEn ? "Employers scan the QR to see your authentic graduate record on tawwerni.com." : "أي عميل يمسح الكود يتأكد فوراً من سجل إتمامك الموثق وتاريخ إنجازك بدون أي مجال للتزييف."}
                     </p>
                   </div>
 
@@ -880,7 +880,7 @@ export default function LandingPageView() {
                       </div>
                     </div>
                     <span className="rounded-full bg-emerald-500/20 text-emerald-300 px-2 py-0.5 font-bold border border-emerald-500/30">
-                      ✓ {isEn ? "Verified" : "موثقة رسميًا"}
+                      ✓ {isEn ? "QR Verified" : "موثقة برمز QR"}
                     </span>
                   </div>
                 </div>
@@ -1041,7 +1041,7 @@ export default function LandingPageView() {
                 </span>
                 <span className="flex items-center gap-1 text-emerald-400">
                   <span>✓</span>
-                  <span>{isEn ? "Available optionally at checkout (+199 EGP)" : "متاح إضافته عند الاشتراك (+199 ج.م فقط)"}</span>
+                  <span>{isEn ? "Available optionally at checkout (+199 EGP)" : "متاح إضافته عند إتمام الطلب (+199 ج.م فقط)"}</span>
                 </span>
               </div>
             </div>
@@ -1102,7 +1102,7 @@ export default function LandingPageView() {
                   {[
                     isEn ? "Full 28-day actionable missions in your track" : "خطة الـ 28 يوماً العملية خطوة بخطوة في المسار المختار",
                     isEn ? "Hands-on micro-tasks with real output" : "مهام يومية تطبيقية تنتهي بمشروع عملي حقيقي",
-                    isEn ? "Verified digital certificate with authentic QR link" : "شهادة إتمام رقمية معتمدة برابط رسمي وكود QR",
+                    isEn ? "Verified digital certificate with authentic QR link" : "شهادة إتمام رقمية قابلة للتحقق عبر QR وكود مباشر",
                     isEn ? "24/7 AI mentor (Faheem) reviewing your submissions" : "كوتش الذكاء الاصطناعي (فهيم) يتابعك ويراجع تطبيقاتك",
                     isEn ? "Day 1 100% free to try before paying" : "اليوم الأول مفتوح للتجربة العملية مجاناً بالكامل",
                     isEn ? "Upgradeable anytime: paid amount is credited" : "قابل للترقية في أي وقت: يُخصم ما دفعته من الباقات الأكبر",
@@ -1122,8 +1122,8 @@ export default function LandingPageView() {
                 >
                   <span>
                     {isEn
-                      ? `Browse Tracks (${pricing.trackPriceEgp} EGP) →`
-                      : `استعرض المسارات التخصصية (${pricing.trackPriceEgp} ج.م) ←`}
+                      ? `Own Track for ${pricing.trackPriceEgp} EGP →`
+                      : `امتلك المسار بـ${pricing.trackPriceEgp} ج.م`}
                   </span>
                 </Link>
                 <div className="text-center mt-2 text-3xs text-neutral-400">
@@ -1172,7 +1172,7 @@ export default function LandingPageView() {
                     isEn ? "Unlocks ALL 4 to 8 tracks inside this career path" : "فتح شامل لـ ٤ إلى ٨ مسارات تخصصية مندرجة في المسار",
                     isEn ? "Combined overall roadmap + per-track independent progress" : "خارطة شاملة ومتابعة دقيقة لتقدم المسار المهني والمسارات الفرعية",
                     isEn ? "Multi-project portfolio qualifying you for freelance & jobs" : "بورتفوليو مشاريع متكامل يؤهلك للعمل الحر والوظائف",
-                    isEn ? "Verified digital certificates for each completed track" : "شهادات إتمام رقمية معتمدة بروابط وأكواد QR لكل مسار منجز",
+                    isEn ? "Verified digital certificates with authentic QR link for each completed track" : "شهادات إتمام رقمية قابلة للتحقق عبر QR لكل مسار منجز",
                     isEn ? "24/7 AI mentor (Faheem) for personalized guidance" : "كوتش الذكاء الاصطناعي (فهيم) يرشدك في مسارك المهني 24/7",
                     isEn ? "Upgradeable to All-Access: paid amount credited" : "قابل للترقية للوصول الشامل في أي وقت بدفع الفارق فقط",
                   ].map((feat, i) => (
@@ -1191,8 +1191,8 @@ export default function LandingPageView() {
                 >
                   <span>
                     {isEn
-                      ? `Explore Career Paths (${pricing.careerPathPriceEgp} EGP) →`
-                      : `استعرض المسارات المهنية (${pricing.careerPathPriceEgp} ج.م) ←`}
+                      ? `Own Career Path for ${pricing.careerPathPriceEgp} EGP →`
+                      : `امتلك الطريق المهني بـ${pricing.careerPathPriceEgp} ج.م`}
                   </span>
                 </Link>
                 <div className="text-center mt-2 text-3xs text-neutral-400">
@@ -1215,8 +1215,8 @@ export default function LandingPageView() {
                 </h3>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-5 min-h-[32px]">
                   {isEn
-                    ? "Unlocks all 100 tracks, all 11 career paths, and all future content additions."
-                    : "المفتاح الكامل لجميع الـ 100 مسار تخصصي وكافة المسارات المهنية الـ 11 للأبد."}
+                    ? "Unlocks all 100 tracks, all 12 career paths, and all future content additions."
+                    : "المفتاح الكامل لجميع الـ 100 مسار تخصصي وكافة المسارات المهنية الـ 12 للأبد."}
                 </p>
 
                 {/* Clean Price Display */}
@@ -1238,8 +1238,8 @@ export default function LandingPageView() {
                 <ul className="space-y-2.5 text-xs text-neutral-700 dark:text-neutral-300 mb-6">
                   {[
                     isEn ? "Permanent access to ALL 100 specialized tracks" : "فتح فوري لكافة الـ 100 مسار تخصصي (2,800 مهمة وكويز)",
-                    isEn ? "ALL 11 complete career paths & portfolio capstones" : "جميع المسارات المهنية الـ 11 ومشاريع البورتفوليو الكبرى",
-                    isEn ? "Verified digital certificates with QR validation for all" : "شهادات إتمام معتمدة لجميع المسارات مع روابط التحقق الرسمية",
+                    isEn ? "ALL 12 complete career paths & portfolio capstones" : "جميع المسارات المهنية الـ 12 ومشاريع البورتفوليو الكبرى",
+                    isEn ? "Verified digital certificates with QR validation for all" : "شهادات إتمام رقمية لجميع المسارات مع روابط تحقق وأكواد QR",
                     isEn ? "All future course launches and updates included free" : "جميع التحديثات والكورسات الجديدة مستقبلاً بدون أي رسوم",
                     isEn ? "10,000 Corporate AI Prompts Vault & Contracts included" : "قاعدة بيانات الـ 10,000 برومبت وعقود الفريلانس مشمولة",
                     isEn ? "Priority AI feedback and human support channel" : "أولوية عليا في المراجعة الذكية والدعم الفني المباشر",
@@ -1259,8 +1259,8 @@ export default function LandingPageView() {
                 >
                   <span>
                     {isEn
-                      ? `Get All-Access Pass (${pricing.allAccessPriceEgp} EGP) →`
-                      : `احصل على الوصول الشامل (${pricing.allAccessPriceEgp} ج.م) ←`}
+                      ? `Unlock All Tawwerni for ${pricing.allAccessPriceEgp} EGP →`
+                      : `افتح كل Tawwerni بـ${pricing.allAccessPriceEgp} ج.م`}
                   </span>
                 </Link>
                 <div className="text-center mt-2 text-3xs text-neutral-400">

@@ -132,8 +132,8 @@ const TEMPLATES: Template[] = [
     trackSlug: "zero-to-first-dollar-freelancer",
     trackTitleAr: "إطلاق مسار الفريلانس من الصفر",
     trackTitleEn: "Zero to First Dollar Freelancer",
-    quoteAr: "تخرجت وأنا محتارة كيف أبدأ. المسار وضع يدي على أول خطوة، وبنيت معرض أعمالي في أسبوعين. اليوم أعمل مستقلة بدخل يتجاوز ضعف الراتب التقليدي الذي عُرض علي.",
-    quoteEn: "I graduated feeling completely lost. This track guided my first steps, and I launched my portfolio in 14 days. Today my freelance income is more than double the starting local salary offered to me.",
+    quoteAr: "المسار وضع يدي على خطوات الانطلاق الصحيحة: كيف أجهز بورتفوليو مهني، وأعرض خدماتي بوضوح، وأتعامل مع طلبات العملاء باحترافية.",
+    quoteEn: "The track guided my first steps into freelancing: building a solid portfolio, packaging my services clearly, and communicating professionally with clients.",
   },
   {
     archetype: "founder",
@@ -142,8 +142,8 @@ const TEMPLATES: Template[] = [
     trackSlug: "high-ticket-pricing-packaging",
     trackTitleAr: "تسعير الخدمات وباقات القيمة المرتفعة",
     trackTitleEn: "High-Ticket Pricing & Packaging",
-    quoteAr: "غيرنا نظام التسعير من الساعات إلى القيمة المضافة كما يشرح المسار تماماً. رفعنا أسعار باقاتنا 3 أضعاف، والمفاجأة أن العملاء أصبحوا أكثر التزاماً وجدية في التعامل.",
-    quoteEn: "We pivoted from hourly rates to value pricing exactly as taught. We tripled our service packages, and to our surprise, clients became far more respectful and committed.",
+    quoteAr: "أعدنا هيكلة خدماتنا وباقاتنا لتعتمد على القيمة المضافة كما يشرح المسار، مما جعل عروضنا أوضح وأكثر احترافية للعملاء.",
+    quoteEn: "We restructured our service packages based on value pricing as taught. Our proposals became much clearer and more professional for corporate clients.",
   },
   {
     archetype: "freelancer",
@@ -152,8 +152,8 @@ const TEMPLATES: Template[] = [
     trackSlug: "ui-ux-design-figma",
     trackTitleAr: "أساسيات وتصميم تجربة المستخدم (Figma)",
     trackTitleEn: "UI/UX Design Fundamentals",
-    quoteAr: "تفاصيل الـ Auto-Layout والـ Design Tokens مشروحة بأمثلة واقعية جداً. أنهيت المسار ونفذت إعادة تصميم كاملة لتطبيق تجاري، وأضفتها لملفي الشخصي ونلت إشادة واسعة.",
-    quoteEn: "Auto-Layout and Design Tokens were broken down with crystal-clear practical examples. Redesigned a commercial SaaS app for my portfolio and received tremendous client feedback.",
+    quoteAr: "تفاصيل الـ Auto-Layout والـ Design Tokens مشروحة بأمثلة واقعية جداً. أنهيت المسار ونفذت إعادة تصميم كاملة لتطبيق تجاري أضفتها لملفي الشخصي.",
+    quoteEn: "Auto-Layout and Design Tokens were broken down with crystal-clear practical examples. Redesigned a commercial SaaS app for my portfolio and received great feedback.",
   },
   {
     archetype: "employee",
@@ -162,8 +162,8 @@ const TEMPLATES: Template[] = [
     trackSlug: "ethical-hacking-penetration-testing",
     trackTitleAr: "مقدمة في الاختبار الاختراقي الأخلاقي",
     trackTitleEn: "Ethical Hacking & Pen-Testing",
-    quoteAr: "المسار يبدأ من الأساسيات ويأخذك لبيئة الاختبار العملي بخطوات محسوبة دون تعقيد نظري. ساعدني في اجتياز المقابلة الفنية لوظيفتي الحالية في بنك استثماري.",
-    quoteEn: "Progresses from foundations to hands-on lab tests without academic fluff. Directly helped me ace the technical whiteboard interview for my current role at an investment bank.",
+    quoteAr: "المسار يبدأ من الأساسيات ويأخذك لبيئة الاختبار العملي بخطوات محسوبة دون تعقيد نظري. ساعدني في ترسيخ الفهم الأمني وتطوير مهاراتي التقنية.",
+    quoteEn: "Progresses from foundations to hands-on testing without academic fluff. Directly helped me solidify my technical grasp of offensive and defensive security.",
   },
   {
     archetype: "founder",
@@ -172,8 +172,8 @@ const TEMPLATES: Template[] = [
     trackSlug: "ai-video-creation",
     trackTitleAr: "صناعة الفيديو والأنيميشن بالذكاء الاصطناعي",
     trackTitleEn: "AI Video Creation & Animation",
-    quoteAr: "أصبحنا ننتج مشاهد وإعلانات فيديو كاملة لعملائنا في يومين بدلاً من أسبوعين من التصوير الميداني والتكاليف الباهظة. الاستثمار في هذا المسار عاد علينا بمكاسب فورية.",
-    quoteEn: "We now produce commercial video clips for brands in two days instead of two weeks of expensive physical shoots. The return on investment on this track was immediate.",
+    quoteAr: "المسار وفر علينا وقتاً طويلاً في فهم أدوات الذكاء الاصطناعي لتوليد المقاطع والوسائط، وأصبحنا ننفذ النماذج الأولية للمشاريع بسرعة فائقة.",
+    quoteEn: "The track saved us dozens of hours understanding AI generative media tools, allowing our team to prototype commercial video concepts rapidly.",
   },
   {
     archetype: "employee",
@@ -182,8 +182,8 @@ const TEMPLATES: Template[] = [
     trackSlug: "b2b-sales-pipeline-crm",
     trackTitleAr: "مبيعات الشركات وإدارة خط الصفقات",
     trackTitleEn: "B2B Sales Pipeline & CRM Mastery",
-    quoteAr: "طريقة إدارة المكالمة الاستكشافية وتأهيل ميزانية العميل الموضحة في الكورس أغلقت لنا صفقتين سنويتين في أول شهر من التطبيق.",
-    quoteEn: "The discovery call frameworks and budget-qualification questions directly closed two annual enterprise retainers in our very first month.",
+    quoteAr: "خطوات المكالمة الاستكشافية ونماذج تأهيل العملاء الموضحة في المسار ساعدتنا على إدارة محادثات المبيعات بثقة وترتيب أعلى.",
+    quoteEn: "The discovery call frameworks and budget-qualification questions helped our sales team navigate client conversations with much higher confidence.",
   },
   {
     archetype: "student",
@@ -192,8 +192,8 @@ const TEMPLATES: Template[] = [
     trackSlug: "short-form-video-editing",
     trackTitleAr: "مونتاج الفيديو القصير لصناع المحتوى",
     trackTitleEn: "Short-Form Video Editing",
-    quoteAr: "تعلمت كيف أقطع الفيديو بدقة وأضيف النصوص المتحركة والمؤثرات الصوتية. حسابي على تيك توك كبر من 200 متابع إلى 45 ألف في أقل من شهرين.",
-    quoteEn: "Learned pacing, sound design, and kinetic typography. My TikTok channel grew from 200 to 45,000 engaged followers in under two months.",
+    quoteAr: "تعلمت تقنيات مونتاج الفيديو القصير، وسرعة السرد، وضبط الصوتيات والمؤثرات، وتطورت جودة مقاطعي بشكل ملحوظ.",
+    quoteEn: "Learned pacing, audio engineering, and kinetic typography for reels. The visual storytelling and technical quality of my videos improved noticeably.",
   },
   {
     archetype: "freelancer",
@@ -202,8 +202,8 @@ const TEMPLATES: Template[] = [
     trackSlug: "ai-workplace-productivity",
     trackTitleAr: "مضاعفة إنتاجية العمل اليومي بالذكاء الاصطناعي",
     trackTitleEn: "AI Workplace Productivity",
-    quoteAr: "الذكاء الاصطناعي لم يستبدلني بل ضاعف سرعتي 4 مرات. أصبحت أسلم مشاريع الترجمة والمراجعة في ساعات بدلاً من أيام، وزادت أرباحي الشهرية بشكل ملحوظ.",
-    quoteEn: "AI didn't replace me; it gave me 4x leverage. I now deliver localization projects in hours instead of days, substantially increasing my monthly revenue.",
+    quoteAr: "تعلمت توظيف أدوات الذكاء الاصطناعي كأداة مساعدة يومية في البحث والمراجعة، مما وفر علي ساعات طويلة من العمل الروتيني.",
+    quoteEn: "Learned how to leverage AI tools as a daily assistant for research and proofreading, cutting down hours of repetitive manual effort.",
   },
   {
     archetype: "founder",
@@ -212,8 +212,8 @@ const TEMPLATES: Template[] = [
     trackSlug: "tiktok-ads-viral-marketing",
     trackTitleAr: "إعلانات تيك توك والمحتوى الفيروسي",
     trackTitleEn: "TikTok Ads & Viral Marketing",
-    quoteAr: "الفيديوهات التي طبقنا فيها أسلوب الـ UGC كما في الدرس حققت لنا أول فيديو فيروسي بمليون مشاهدة ونفد مخزون أول دفعة من منتجاتنا في 3 أيام!",
-    quoteEn: "The native UGC angles we implemented generated our first million-view viral hit, selling out our entire inventory batch in 3 days!",
+    quoteAr: "فهمت آليات خوارزميات الفيديو القصير وطرق كتابة السيناريو التفاعلي وكيفية إطلاق الحملات التسويقية التجريبية بطريقة منهجية.",
+    quoteEn: "Gained a clear understanding of short-form algorithms, creative hook scripting, and launching test marketing campaigns systematically.",
   },
 ];
 

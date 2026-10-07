@@ -10,6 +10,7 @@ import AdminEmailTest from "@/components/AdminEmailTest";
 import ChangePassword from "@/components/ChangePassword";
 import { emailStatus } from "@/lib/email";
 import { getPaymentConfig, getDefaultPaymentConfig } from "@/lib/payment-config";
+import { pricing } from "@/content/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -47,7 +48,7 @@ export default async function AdminPage() {
   const subscribersCount = Math.max(302, approved.length);
   const revenue = approved.length > 0
     ? approved.reduce((sum, o) => sum + (o.amountEgp || 0), 0)
-    : subscribersCount * 349;
+    : subscribersCount * pricing.allAccessPriceEgp;
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -108,8 +109,8 @@ export default async function AdminPage() {
             valueEn: `${revenue.toLocaleString("en-US")} EGP`,
             icon: "💰",
             tone: "good",
-            hint: "302 × 349 ج.م",
-            hintEn: "302 × 349 EGP",
+            hint: `${approved.length} طلبات مدفوعة ومؤكدة`,
+            hintEn: `${approved.length} confirmed paid orders`,
           },
           {
             label: "طلبات النهاردة",

@@ -40,8 +40,8 @@ export function resolveProduct(
       slug: "all_access",
       titleAr: "الوصول الشامل لكافة الكورسات والمسارات المهنية (All-Access Pass)",
       titleEn: "All-Access Pass (All 100 Tracks & Career Paths)",
-      descriptionAr: "فتح فوري لكافة الـ 100 مسار تخصصي وجميع المسارات المهنية الـ 11 ومحتويات المنصة مدى الحياة",
-      descriptionEn: "Unrestricted lifetime access to all 100 tracks, all 11 career paths, and future content",
+      descriptionAr: "فتح فوري لكافة الـ 100 مسار تخصصي وجميع المسارات المهنية الـ 12 ومحتويات المنصة مدى الحياة",
+      descriptionEn: "Unrestricted lifetime access to all 100 tracks, all 12 career paths, and future content",
       icon: "👑",
       priceEgp: pricing.allAccessPriceEgp, // strictly 399 EGP
       originalPriceEgp: pricing.allAccessPriceEgp,

@@ -973,12 +973,12 @@ export default function QuizPage() {
               </div>
 
               <h4 className="text-base font-bold text-white mb-1">
-                {isEn ? "All-Access Pass (All 100 Tracks & 11 Career Paths)" : "الوصول الشامل لكافة الكورسات والمسارات المهنية"}
+                {isEn ? "All-Access Pass (All 100 Tracks & 12 Career Paths)" : "الوصول الشامل لكافة الكورسات والمسارات المهنية"}
               </h4>
               <p className="text-xs text-neutral-300 mb-4">
                 {isEn
-                  ? "Unlock all 100 practical tracks, all 11 career paths, the 10,000 Prompts Vault, and all future updates forever."
-                  : "المفتاح الذهبي لفتح كافة الـ 100 مسار، والـ 11 مساراً مهنياً، وبنك الـ 10,000 برومبت وكافة التحديثات القادمة مدى الحياة."}
+                  ? "Unlock all 100 practical tracks, all 12 career paths, the 10,000 Prompts Vault, and all future updates forever."
+                  : "المفتاح الذهبي لفتح كافة الـ 100 مسار، والـ 12 مساراً مهنياً، وبنك الـ 10,000 برومبت وكافة التحديثات القادمة مدى الحياة."}
               </p>
 
               <button

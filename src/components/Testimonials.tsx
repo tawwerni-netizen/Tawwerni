@@ -23,12 +23,12 @@ export default function Testimonials() {
       <div className="text-center mb-7">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-500/10 border border-teal-500/20 px-3 py-1 text-xs font-bold text-teal-600 dark:text-teal-400 mb-2">
           <span>👥</span>
-          <span>{isEn ? "Authentic Community Stories" : "قصص نجاح من مجتمع طوّرني"}</span>
+          <span>{isEn ? "Community Spotlight" : "أصوات وتجارب من مجتمع المتدربين"}</span>
         </span>
         <h2 className="text-xl font-bold md:text-2xl text-neutral-900 dark:text-white">
           {isEn
-            ? "Real Experiences from Learners Transforming Their Careers"
-            : "تجارب حقيقية لمتعلمين غيرت المنصة مسارهم المهني"}
+            ? "How Learners Apply Their Skills in Daily Practice"
+            : "كيف يطبّق المتعلمون مهاراتهم في الواقع العملي"}
         </h2>
       </div>
 
@@ -65,8 +65,8 @@ export default function Testimonials() {
         >
           <span>
             {isEn
-              ? "Browse all 300+ member stories & verified reviews →"
-              : "تصفح قصص باقي الـ 300 عضو في المجتمع ←"}
+              ? "Browse community member projects & reviews →"
+              : "تصفح مشاريع وأعضاء المجتمع ←"}
           </span>
         </Link>
       </div>
