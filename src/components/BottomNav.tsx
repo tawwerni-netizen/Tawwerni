@@ -10,7 +10,7 @@ export default function BottomNav({ isAdmin }: { isAdmin?: boolean }) {
 
   const items = [
     { href: "/app", label: lang === "ar" ? "الرئيسية" : "Home", icon: "🏠" },
-    { href: "/app/learn", label: lang === "ar" ? "تعلّم" : "Learn", icon: "📚" },
+    { href: "/app/inventory", label: lang === "ar" ? "مكتبتي" : "Library", icon: "🎒" },
     { href: "/app/progress", label: lang === "ar" ? "تقدّمي" : "Progress", icon: "📊" },
     ...(isAdmin
       ? [{ href: "/admin", label: lang === "ar" ? "الإدارة" : "Admin", icon: "🛡️" }]

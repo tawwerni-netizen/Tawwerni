@@ -16,22 +16,28 @@ export const brand = {
 } as const;
 
 export const pricing = {
-  priceEgp: 349,
-  originalPriceEgp: 1200,
-  priceUsd: 29,
-  originalPriceUsd: 99,
-  priceSar: 99,
-  originalPriceSar: 299,
+  trackPriceEgp: 50,
+  originalTrackPriceEgp: 250,
+  careerPathPriceEgp: 100,
+  originalCareerPathPriceEgp: 600,
+  priceEgp: 50,
+  bundlePriceEgp: 100,
+  originalPriceEgp: 250,
+  priceUsd: 10,
+  originalPriceUsd: 49,
+  priceSar: 25,
+  originalPriceSar: 99,
+  legacySubscriptionPriceEgp: 349,
   orderBumpPriceEgp: 199,
   orderBumpTitle: "قاعدة بيانات الـ 10,000 برومبت التنفيذي للشركات (100 مجال × 100 برومبت) + حزمة عقود الفريلانس القانونية",
   orderBumpTitleEn: "Executive 10,000 Corporate Prompts Vault (100 Domains × 100 Prompts) + Freelance Legal Contracts",
   cohortSeatsTotal: 500,
   cohortSeatsRemaining: 47,
-  offerNote: "عرض فوج التأسيس الأول · وصول لمدة سنة لـ 100 مسار",
-  offerNoteEn: "Founding Cohort Offer · 1-Year Access to 100 Tracks",
+  offerNote: "امتلك مسارك التعليمي بالكامل بـ 50 ج.م أو المسار المهني الشامل بـ 100 ج.م",
+  offerNoteEn: "Own your learning track for 50 EGP or complete Career Path for 100 EGP",
   guaranteeNote: "ضمان استرداد كامل خلال 7 أيام بدون أي أسئلة",
   guaranteeNoteEn: "7-Day 100% Money-Back Guarantee, No Questions Asked",
-  grantsAllCourses: true,
+  grantsAllCourses: false,
 } as const;
 
 export const social = [

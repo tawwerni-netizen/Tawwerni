@@ -81,6 +81,7 @@ export default function AppHeader({
   // Streamlined primary navigation items
   const navItems = [
     { href: "/app", labelAr: "الرئيسية", labelEn: "Home", icon: "🏠" },
+    { href: "/app/inventory", labelAr: "مكتبتي", labelEn: "My Library", icon: "🎒" },
     { href: "/career-paths", labelAr: "المسارات", labelEn: "Tracks", icon: "🧭" },
     { href: "/app/learn", labelAr: "تعلّم", labelEn: "Learn", icon: "📚" },
     { href: "/app/progress", labelAr: "تقدّمي", labelEn: "Progress", icon: "📊" },
@@ -273,6 +274,15 @@ export default function AppHeader({
                   >
                     <span>👤</span>
                     <span>{isEn ? "My Profile & Settings" : "حسابي وإعدادات التعلّم"}</span>
+                  </Link>
+
+                  <Link
+                    href="/app/inventory"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-bold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                  >
+                    <span>🎒</span>
+                    <span>{isEn ? "My Learning Library" : "مكتبتي ومخزوني التعليمي"}</span>
                   </Link>
 
                   <Link

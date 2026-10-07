@@ -286,8 +286,8 @@ export default function VipVaultClient({
                 </h2>
                 <p className="mt-2 text-xs sm:text-sm text-neutral-300 leading-relaxed">
                   {isEn
-                    ? `Upgrade your standard subscription with a one-time fee of +${pricing.orderBumpPriceEgp} EGP (total ${pricing.priceEgp + pricing.orderBumpPriceEgp} EGP) for permanent access to the complete 10,000 executive prompts catalog and downloadable contracts pack.`
-                    : `أنت مشترك حالياً بالباقة الأساسية (349 ج.م). احصل على خزنة VIP بالكامل بدفع فارق الترقية (+199 ج.م فقط ليكون الإجمالي 548 أو 550 ج.م) واحمِ مستحقاتك وضاعف مبيعاتك وسرعة إنجازك.`}
+                    ? `Upgrade with a one-time fee of +${pricing.orderBumpPriceEgp} EGP for permanent access to the complete 10,000 executive prompts catalog and downloadable contracts pack.`
+                    : `احصل على خزنة VIP بالكامل بدفع (+199 ج.م فقط) واحمِ مستحقاتك وضاعف مبيعاتك وسرعة إنجازك مدى الحياة.`}
                 </p>
 
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-amber-200/90 font-medium">

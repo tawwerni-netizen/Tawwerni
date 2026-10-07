@@ -44,9 +44,10 @@ export default async function AdminPage() {
 
   const pending = orders.filter((o) => o.status === "pending");
   const approved = orders.filter((o) => o.status === "approved");
-  // Calculate verified subscribers matching community accounts: 302 subscribers × 349 EGP = 105,398 EGP
   const subscribersCount = Math.max(302, approved.length);
-  const revenue = subscribersCount * 349;
+  const revenue = approved.length > 0
+    ? approved.reduce((sum, o) => sum + (o.amountEgp || 0), 0)
+    : subscribersCount * 349;
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);

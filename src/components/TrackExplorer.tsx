@@ -290,20 +290,39 @@ export default function TrackExplorer() {
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex items-center gap-3">
-              <Link
-                href={`/app/learn/${activeModalTrack.slug}`}
-                className="flex-1 py-3 text-center rounded-full font-bold text-sm bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-500 hover:to-emerald-400 text-white shadow-lg active:scale-95 transition-all"
-              >
-                {t.startTrack}
-              </Link>
-              <button
-                onClick={() => setActiveModalTrack(null)}
-                className="px-5 py-3 rounded-full text-xs font-semibold bg-neutral-100 hover:bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-300 transition-colors"
-              >
-                {lang === "ar" ? "إغلاق" : "Close"}
-              </button>
+            {/* Action Buttons & 50 EGP Purchase */}
+            <div className="space-y-2.5">
+              <div className="flex flex-col sm:flex-row items-center gap-2.5">
+                <Link
+                  href={`/quiz/checkout?type=track&slug=${activeModalTrack.slug}`}
+                  className="w-full sm:flex-1 py-3 text-center rounded-full font-black text-sm bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 hover:brightness-110 text-neutral-950 shadow-lg active:scale-95 transition-all cursor-pointer"
+                >
+                  {lang === "ar" ? "امتلك المسار بـ 50 ج.م فقط ➔" : "Own Track (50 EGP) ➔"}
+                </Link>
+                <Link
+                  href={`/app/learn/${activeModalTrack.slug}`}
+                  className="w-full sm:w-auto px-5 py-3 text-center rounded-full text-xs font-bold bg-white/10 hover:bg-white/20 text-white transition-colors"
+                >
+                  {lang === "ar" ? "تجربة اليوم 1 مجاناً" : "Day 1 Free Preview"}
+                </Link>
+                <button
+                  onClick={() => setActiveModalTrack(null)}
+                  className="w-full sm:w-auto px-4 py-3 rounded-full text-xs font-semibold bg-neutral-100 hover:bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-300 transition-colors"
+                >
+                  {lang === "ar" ? "إغلاق" : "Close"}
+                </button>
+              </div>
+
+              <div className="text-center pt-1">
+                <Link
+                  href="/career-paths"
+                  className="text-[11px] font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+                >
+                  {lang === "ar"
+                    ? "💡 أو امتلك المسار المهني المتكامل المتضمن له بـ 100 ج.م فقط (يوفر 75%)"
+                    : "💡 Or get the complete Career Path roadmap for 100 EGP (save 75%)"}
+                </Link>
+              </div>
             </div>
           </div>
         </div>

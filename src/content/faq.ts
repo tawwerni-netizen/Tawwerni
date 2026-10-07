@@ -16,8 +16,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "إزاي أبدأ في المنصة؟",
         "qEn": "How do I get started on Tawwerni?",
-        "a": "اعمل حساب بإيميلك وكلمة سر، وهتلاقي اليوم الأول من كل مسار مفتوح مجانًا على طول. لو عجبك، ادفع 349 جنيه وابعتلنا إثبات التحويل، وهنفتحلك كل المسارات الـ 100 خلال دقائق على الأكثر.",
-        "aEn": "Sign up with your email and password, and Day 1 of all 100 courses is immediately unlocked for free. When you're ready, pay 349 EGP and send us transfer proof to unlock all 100 tracks permanently."
+        "a": "اعمل حساب بإيميلك وكلمة سر، وهتلاقي اليوم الأول من كل مسار مفتوح مجانًا على طول. لو عجبك، يمكنك شراء أي مسار تخصصي فردي بـ 50 ج.م فقط، أو مسار مهني شامل يضم عدة مسارات بـ 100 ج.م فقط بامتلاك دائم بدون أي اشتراكات متكررة.",
+        "aEn": "Sign up with your email and password, and Day 1 of every track is immediately unlocked for free. When you're ready, purchase an individual track for 50 EGP or an entire career path bundle for 100 EGP with lifetime ownership and zero recurring fees."
       },
       {
         "q": "إزاي أعمل حساب؟",
@@ -154,10 +154,10 @@ export const faqCategories: FaqCategory[] = [
         "aEn": "The 100 tracks represent a comprehensive curriculum covering modern high-demand skills across 10 vital disciplines: AI & Prompting, Software & Web Development, Data Analytics, Freelancing & Agencies, Digital Marketing & Growth, Creative Design & Media, Entrepreneurship & Startups, Cybersecurity & Privacy, Leadership & Negotiation, and Peak Productivity. Each track contains 20 to 28 actionable lessons."
       },
       {
-        "q": "هل اشتراك واحد يفتح لي كل الـ 100 مسار بالكامل؟",
-        "qEn": "Does a single membership truly unlock all 100 tracks?",
-        "a": "نعم تماماً وبدون أي اشتراكات متكررة! باشتراك رمزي لمرة واحدة (349 ج.م فقط) تحصل على وصول لمدة سنة لكافة الـ 100 مسار بجميع دروسها، مهامها العملية، كويزاتها التفاعلية، وشهادات إتمامها.",
-        "aEn": "Yes, absolutely with zero recurring fees! A single one-time payment of 349 EGP unlocks 1-year access to all 100 tracks, including every lesson, practical task, interactive quiz, and completion certificate for a full year."
+        "q": "كيف أمتلك المسارات والمسارات المهنية؟",
+        "qEn": "How do track and career path purchases work?",
+        "a": "نظام طوّرني مرن وموجّه: يمكنك شراء أي مسار تخصصي فردي بـ 50 ج.م فقط، أو شراء مسار مهني متكامل يضم حزمة مسارات بـ 100 ج.م فقط بامتلاك دائم وبدون أي اشتراكات متكررة. كل مسار تشتريه يضاف لمكتبتك التعليمية ويفتح جميع مهامه وكويزاته وشهادته الموثقة.",
+        "aEn": "Tawwerni features modular ownership: purchase any individual track for just 50 EGP, or an all-in-one Career Path bundle for 100 EGP with lifetime ownership and zero recurring fees. Every product you buy is added to your learning inventory with all lessons, tasks, quizzes, and verified certificates unlocked."
       },
       {
         "q": "هل أحصل على شهادة معتمدة لكل مسار من الـ 100؟",
@@ -242,14 +242,14 @@ export const faqCategories: FaqCategory[] = [
   {
     "key": "payment",
     "title": "الدفع والاشتراك",
-    "titleEn": "Payment & 1-Year Membership",
+    "titleEn": "Pricing & Modular Ownership",
     "icon": "💳",
     "items": [
       {
-        "q": "سعر الاشتراك كام؟",
-        "qEn": "What is the membership price?",
-        "a": "349 جنيه فقط (بدل 1,200 جنيه)، دفعة واحدة، بتفتحلك كل الـ 100 مسار لمدة سنة — مش اشتراك شهري ومفيش أي تجديد تلقائي.",
-        "aEn": "Only 349 EGP (discounted from 1,200 EGP) as a single one-time payment. It grants 1-year access to all 100 tracks with zero recurring fees."
+        "q": "الأسعار ونظام الشراء كام؟",
+        "qEn": "What are the prices and ownership options?",
+        "a": "نوفر خيارين بامتلاك دائم: مسار تخصصي فردي بـ 50 جنيه فقط (بدل 250 جنيه)، أو مسار مهني متكامل يضم حزمة مسارات بـ 100 جنيه فقط (بدل 600 جنيه). دفعة واحدة لمرة واحدة بدون أي اشتراكات شهرية أو تجديد تلقائي.",
+        "aEn": "We offer two modular options with lifetime ownership: an Individual Track for just 50 EGP (original 250 EGP), or a Complete Career Path bundle for 100 EGP (original 600 EGP). A single one-time payment with zero monthly subscriptions or rebilling."
       },
       {
         "q": "الدفع بيتم إزاي؟",
@@ -260,8 +260,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "دفعت، وبعدين إيه؟",
         "qEn": "I completed the payment, what next?",
-        "a": "ابعتلنا سكرين شوت التحويل + الإيميل اللي هتستخدمه، على واتساب 01069999557 أو Tawwerni@gmail.com. هنفعّل حسابك خلال 24 ساعة.",
-        "aEn": "Send your transfer screenshot and account email via WhatsApp to 01069999557 or Tawwerni@gmail.com. We activate your account within hours."
+        "a": "ابعتلنا سكرين شوت التحويل + الإيميل اللي هتستخدمه، على واتساب 01069999557 أو Tawwerni@gmail.com. يتم تفعيل طلبك وإضافة مساراتك لمكتبتك التعليمية فوراً.",
+        "aEn": "Send your transfer screenshot and account email via WhatsApp to 01069999557 or Tawwerni@gmail.com. Your order is activated and added to your learning inventory promptly."
       },
       {
         "q": "ليه التفعيل يدوي مش تلقائي؟",
@@ -272,14 +272,14 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "هستنى قد إيه لحد ما يتفعّل حسابي؟",
         "qEn": "How long until my account is activated?",
-        "a": "عادة خلال ساعات قليلة، وبحد أقصى 24 ساعة. لو عدّت 24 ساعة، كلّمنا فورًا على واتساب.",
-        "aEn": "Usually within 1 to 3 hours, and at most 24 hours. If 24 hours have elapsed, message us directly on WhatsApp."
+        "a": "عادة خلال دقائق إلى ساعات قليلة، وبحد أقصى 24 ساعة. لو عدّت 24 ساعة، كلّمنا فورًا على واتساب.",
+        "aEn": "Usually within a few minutes up to 3 hours, and at most 24 hours. If 24 hours have elapsed, message us directly on WhatsApp."
       },
       {
-        "q": "الاشتراك ده شهري؟",
-        "qEn": "Is this a monthly subscription?",
-        "a": "لأ. دفعة واحدة 349 جنيه فقط، ووصول لمدة سنة لكل الـ 100 مسار مع كل تحديثاتها وإضافاتها المستقبلية طوال مدة الاشتراك.",
-        "aEn": "No. A single one-time payment of 349 EGP unlocks 1-year access to all 100 tracks with all future updates included for the full year."
+        "q": "هل فيه أي رسوم متكررة أو اشتراك شهري؟",
+        "qEn": "Are there any recurring monthly charges?",
+        "a": "إطلاقاً! لا توجد أي رسوم شهرية أو سنوية متكررة. كل عملية شراء (50 ج.م للمسار أو 100 ج.م للمسار المهني) تمنحك امتلاكاً دائماً للمحتوى ومكتبتك التعليمية مع كافة التحديثات.",
+        "aEn": "Absolutely not! Zero monthly or annual recurring fees. Each purchase (50 EGP for a Track, 100 EGP for a Career Path) gives you permanent lifetime access to the content and your learning inventory."
       },
       {
         "q": "أقدر أدفع بفيزا؟",
@@ -288,16 +288,16 @@ export const faqCategories: FaqCategory[] = [
         "aEn": "Vodafone Cash and InstaPay are currently active. Card checkout options are in active rollout."
       },
       {
-        "q": "لو اشتركت، بياخد كل المسارات ولا واحد؟",
-        "qEn": "Does the payment unlock all tracks or just one?",
-        "a": "كل المسارات. دفعة واحدة 349 جنيه وكل الـ 100 مسار بتتفتح على حسابك لمدة سنة كاملة، وأي مسار جديد ننزّله طوال مدة اشتراكك بيكون متاح مجانًا بدون أي رسوم إضافية.",
-        "aEn": "All tracks! A single payment unlocks all 100 tracks for a full year, and any new track added during your subscription is included completely free."
+        "q": "ما الفرق بين المسار الفردي والمسار المهني المتكامل؟",
+        "qEn": "What is the difference between an Individual Track and a Career Path?",
+        "a": "المسار الفردي (50 ج.م) يركز على مهارة تخصصية محددة من الصفر حتى مشروع عملي وشهادة موثقة. أما المسار المهني المتكامل (100 ج.م) فيضم حزمة متكاملة من المسارات التخصصية تشكّل تخصصاً وظيفياً كاملاً في سوق العمل وتمنحك توفيراً يتجاوز 75%.",
+        "aEn": "An Individual Track (50 EGP) focuses on a specific skill from zero to a portfolio project and verified certificate. A Career Path bundle (100 EGP) includes a complete roadmap of interconnected tracks qualifying you for a complete job role with 75%+ savings."
       },
       {
-        "q": "السعر هيفضل 349 ولا هيتغيّر؟",
-        "qEn": "Will the price remain 349 EGP for a full year?",
-        "a": "السعر الحالي (349 جنيه) هو عرض فوج التأسيس الأول (أول 500 مشترك) بدل السعر الأصلي 1,200 جنيه. اللي مضمون: لو اشتركت دلوقتي، وصولك لمدة سنة بنفس السعر اللي دفعته مهما زاد السعر بعد كده.",
-        "aEn": "349 EGP is an early founder tier for the first 500 members. Once you enroll, your 1-year access is locked in regardless of future price increases."
+        "q": "هل المشتركون السابقون يحتفظون بوصولهم؟",
+        "qEn": "Do legacy/existing members keep their full access?",
+        "a": "نعم بكل تأكيد! يحصل جميع المشتركين الحاليين والسابقين على وصول كامل مدى الحياة (Legacy Full Access) لكافة المسارات والمحتوى دون دفع أي مليم إضافي ودون فقدان لأي تقدم أو نقاط XP.",
+        "aEn": "Yes, absolutely! All existing and legacy subscribers maintain perpetual full access (Legacy Full Access) across all tracks and content with zero additional fees and zero progress or XP loss."
       },
       {
         "q": "فيه استرجاع للفلوس؟",

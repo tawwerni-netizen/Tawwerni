@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { brand, pricing, payment } from "@/content/brand";
 import { ALL_100_TRACKS, getTrackBySlug, Track100 } from "@/content/tracks100";
+import { getCareerPathsForTrack } from "@/content/career-paths";
 import { trackLead, trackQuizStarted } from "@/lib/analytics";
 import {
   quizQuestions,
@@ -270,6 +271,11 @@ export default function QuizPage() {
   }, [archetype]);
 
   const primarySlug = recommendedTracks[0]?.slug ?? "prompt-engineering-mastery";
+  const primaryTrack = recommendedTracks[0];
+  const relatedCareerPaths = useMemo(() => {
+    return getCareerPathsForTrack(primarySlug);
+  }, [primarySlug]);
+  const primaryCareerPath = relatedCareerPaths[0]?.careerPath;
 
   function next() {
     setStepIndex((i) => Math.min(steps.length - 1, i + 1));
@@ -309,12 +315,17 @@ export default function QuizPage() {
     }
   }
 
-  function goCheckout() {
+  function goCheckout(productType: "track" | "career_path" = "career_path", customSlug?: string) {
+    const slug =
+      customSlug ||
+      (productType === "career_path" && primaryCareerPath
+        ? primaryCareerPath.slug
+        : primarySlug);
     sessionStorage.setItem(
       "tawwerni_checkout",
-      JSON.stringify({ email, name, courseSlug: primarySlug })
+      JSON.stringify({ email, name, courseSlug: slug, productType })
     );
-    router.push("/quiz/checkout");
+    router.push(`/quiz/checkout?type=${productType}&slug=${encodeURIComponent(slug)}`);
   }
 
   function startMissionOne() {
@@ -844,99 +855,125 @@ export default function QuizPage() {
               </p>
             </div>
 
-            {/* ================= HERO ACTION 2: TAWWERNI PRO OFFER (349 EGP) ================= */}
-            <div className="rounded-3xl border-2 border-amber-400/80 bg-gradient-to-br from-[#181309] via-[#101915] to-[#0c1815] p-5 sm:p-7 mb-5 text-start shadow-2xl shadow-amber-500/15 relative overflow-hidden">
-              <div className="pointer-events-none absolute -top-16 -left-16 w-40 h-40 rounded-full bg-amber-400/15 blur-2xl" />
+            {/* ================= HERO ACTION 2: CAREER PATH BUNDLE (100 EGP - BEST VALUE) ================= */}
+            <div className="rounded-3xl border-2 border-emerald-400 bg-gradient-to-br from-[#0e221b] via-[#0d1c18] to-[#0c1815] p-5 sm:p-7 mb-4 text-start shadow-2xl shadow-emerald-500/15 relative overflow-hidden">
+              <div className="pointer-events-none absolute -top-16 -left-16 w-40 h-40 rounded-full bg-emerald-400/15 blur-2xl" />
 
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 text-amber-200 border border-amber-400/40 text-xs font-black">
-                  <span>👑</span>
-                  <span>{isEn ? "Tawwerni Pro · 1-Year All-Access Pass" : "عضوية طوّرني برو · وصول سنوي شامل"}</span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-400/40 text-xs font-black">
+                  <span>🌟</span>
+                  <span>{isEn ? "Recommended Career Path Bundle" : "المسار المهني المتكامل الموصى به"}</span>
                 </span>
 
-                <span className="text-[11px] font-black text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
-                  {isEn ? "All 100 Tracks Unlocked" : "١٠٠ مسار كاملة"}
+                <span className="text-[11px] font-black text-amber-300 bg-amber-400/15 border border-amber-400/30 px-2.5 py-0.5 rounded-full">
+                  {isEn ? "Best Value · Save 75%+" : "الأفضل قيمة · وفّر أكثر من 75%"}
                 </span>
               </div>
 
               <h3 className="text-lg sm:text-xl font-black text-white leading-snug">
-                {isEn
-                  ? "Or Fast-Track Your Progress with Full Platform Access"
-                  : "أو اختصر الطريق وافتح المنظومة كاملة لعام كامل"}
+                {primaryCareerPath
+                  ? (isEn ? primaryCareerPath.titleEn : primaryCareerPath.titleAr)
+                  : (isEn ? "Full Professional Roadmap" : "خارطة طريق وظيفية متكاملة")}
               </h3>
               <p className="text-xs text-neutral-300 mt-1 leading-relaxed">
                 {isEn
-                  ? "One-time transparent investment granting 365 days of full access to all 100 tracks, the 10,000 Prompts Vault, and community."
-                  : "استثمار لمرة واحدة يمنحك وصولاً شاملاً لمدة ٣٦٥ يومًا لكافة المسارات، خزانة الـ 10,000 برومبت، ومجتمع الناجحين."}
+                  ? "Unlocks your recommended track PLUS all included companion tracks with permanent lifetime ownership."
+                  : "يفتح مسارك الموصى به بالكامل بالإضافة إلى كافة المسارات التخصصية المندرجة في هذا التخصص بامتلاك دائم."}
               </p>
 
               {/* Price Banner */}
-              <div className="my-4 p-4 rounded-2xl bg-black/50 border border-white/10 flex items-baseline justify-between gap-3">
+              <div className="my-4 p-4 rounded-2xl bg-black/50 border border-emerald-500/30 flex items-baseline justify-between gap-3">
                 <div>
                   <div className="flex items-baseline gap-2" dir="ltr">
                     <span className="text-4xl sm:text-5xl font-black font-mono text-white">
-                      {pricing.priceEgp}
+                      {pricing.careerPathPriceEgp}
                     </span>
                     <span className="text-base font-black text-emerald-400">
                       {isEn ? "EGP" : "ج.م"}
                     </span>
-                    <span className="text-xs font-bold text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
-                      {isEn ? "Annual All-Access Pass" : "عضوية سنوية شاملة"}
+                    <span className="text-xs text-neutral-400 line-through">
+                      {pricing.originalCareerPathPriceEgp} {isEn ? "EGP" : "ج.م"}
                     </span>
                   </div>
                   <p className="text-[11px] text-neutral-400 mt-0.5">
-                    {isEn ? "One-time payment for a full year · No monthly rebills" : "دفعة واحدة فقط لسنة كاملة · بدون أي اشتراك شهري متكرر"}
+                    {isEn ? "One-time payment · Lifetime ownership · Unlocks all bundle tracks" : "دفعة واحدة لمرة واحدة · امتلاك دائم · تفتح كافة مسارات الحزمة"}
                   </p>
                 </div>
-
-                <span className="text-xs font-bold text-amber-300 bg-amber-400/10 border border-amber-400/20 px-3 py-1 rounded-full whitespace-nowrap">
-                  {isEn ? "Best Value ⚡" : "القيمة الأفضل ⚡"}
-                </span>
               </div>
 
               {/* Deliverables Checklist */}
               <ul className="space-y-2 text-xs text-neutral-200 mb-5">
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-400 font-bold">✓</span>
-                  <span><b>{isEn ? "100 Complete Professional Tracks" : "١٠٠ مسار احترافي كامل"}</b> {isEn ? `(${totalLessons}+ practical lessons)` : `(أكثر من ${totalLessons}+ درس تطبيقي مصغر)`}</span>
+                  <span><b>{isEn ? "All Included Specialized Tracks Unlocked" : "فتح شامل لكافة المسارات التخصصية المندرجة"}</b></span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-400 font-bold">✓</span>
-                  <span><b>{isEn ? "10,000 Corporate Prompts Vault" : "بنك الـ 10,000 برومبت التنفيذي للشركات"}</b> {isEn ? "+ 5 verified legal freelance contracts" : "+ ٥ صِيغ عقود فريلانس قانونية ملزمة تحمي أتعابك"}</span>
+                  <span><b>{isEn ? "Complete Multi-Project Portfolio" : "بورتفوليو مشاريع متكامل يؤهلك لسوق العمل والحر"}</b></span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-400 font-bold">✓</span>
-                  <span><b>{isEn ? "Psychological Focus Suite" : "أدوات الدعم النفسي والتركيز"}</b> {isEn ? "(Pomodoro + Alpha Binaural Beats + Streak Freeze)" : "(مؤقت بومودورو + ترددات ألفا للتركيز + فحص الطاقة والمزاج)"}</span>
+                  <span><b>{isEn ? "Verified Digital Certificates" : "شهادات إتمام رقمية موثقة برمز QR لكل مسار منجز"}</b></span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-400 font-bold">✓</span>
-                  <span><b>{isEn ? "300+ Verified Community & Digital Certificates" : "مجتمع ٣٠٠+ عضو حقيقي وشهادات إتمام رقمية موثقة برمز QR"}</b> {isEn ? "for every completed track" : "لكل مسار تنهيه"}</span>
+                  <span><b>{isEn ? "24/7 AI Mentor (Faheem)" : "كوتش الذكاء الاصطناعي (فهيم) يرشدك خطوة بخطوة"}</b></span>
                 </li>
               </ul>
 
-              {/* ⭐ 7-Day Guarantee Callout ⭐ */}
-              <div className="rounded-2xl border border-emerald-400/40 bg-emerald-500/10 p-3.5 mb-5 flex items-start gap-2.5">
-                <span className="text-2xl shrink-0">🛡️</span>
-                <div>
-                  <p className="text-xs font-bold text-emerald-300">
-                    {isEn ? "7-Day 100% Money-Back Guarantee" : "ضمان استرجاع كامل 100% خلال 7 أيام"}
-                  </p>
-                  <p className="text-[11px] text-neutral-300 mt-0.5 leading-relaxed">
-                    {isEn
-                      ? "Explore the platform, test the tracks and daily lessons. If it doesn't transform your productivity, get a 100% instant refund, no questions asked."
-                      : "جرّب المنصة وتصفح المسارات وطبّق الدروس.. إن لم تصنع فارقاً حقيقياً في مهاراتك، راسلنا خلال 7 أيام واسترد كامل المبلغ فوراً بدون أي تعقيد."}
-                  </p>
-                </div>
+              <button
+                type="button"
+                onClick={() => goCheckout("career_path")}
+                className="w-full bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-emerald-500/30 hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>⚡</span>
+                <span>{isEn ? `Get Full Career Path (${pricing.careerPathPriceEgp} EGP) →` : `امتلك المسار المهني المتكامل (${pricing.careerPathPriceEgp} ج.م فقط) ←`}</span>
+              </button>
+            </div>
+
+            {/* ================= HERO ACTION 3: INDIVIDUAL TRACK (50 EGP) ================= */}
+            <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#121815] to-[#0a0f0d] p-5 sm:p-6 mb-5 text-start shadow-lg relative">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 text-neutral-300 border border-white/10 text-xs font-bold">
+                  <span>🎯</span>
+                  <span>{isEn ? "Or Get Just This Single Track" : "أو امتلك هذا المسار الفردي فقط"}</span>
+                </span>
+                <span className="text-xs font-mono font-bold text-teal-400">
+                  {pricing.trackPriceEgp} {isEn ? "EGP" : "ج.م فقط"}
+                </span>
               </div>
+
+              <h4 className="text-base font-bold text-white mb-1">
+                {primaryTrack ? (isEn ? primaryTrack.titleEn : primaryTrack.titleAr) : (isEn ? "Single Track" : "المسار الفردي")}
+              </h4>
+              <p className="text-xs text-neutral-400 mb-4">
+                {isEn
+                  ? "Master this single specific skill with its full 28-day roadmap, practical mission outputs, and verifiable completion certificate."
+                  : "أتقن هذه المهارة المحددة بمفردها مع خطتها الـ 28 يومًا ومشاريعها وشهادتها الرقمية المعتمدة."}
+              </p>
 
               <button
                 type="button"
-                onClick={goCheckout}
-                className="w-full bg-gradient-to-r from-amber-400 via-emerald-400 to-teal-400 text-neutral-950 font-black rounded-full py-4 text-sm sm:text-base shadow-xl shadow-teal-500/30 hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                onClick={() => goCheckout("track")}
+                className="w-full bg-white/10 hover:bg-white/15 text-white font-bold rounded-full py-3 text-xs sm:text-sm border border-white/20 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>⚡</span>
-                <span>{isEn ? `Upgrade to Tawwerni Pro (${pricing.priceEgp} EGP) →` : `اشترك في طوّرني برو (${pricing.priceEgp} ج.م فقط) ←`}</span>
+                <span>{isEn ? `Get Single Track Only (${pricing.trackPriceEgp} EGP) →` : `امتلك هذا المسار فقط (${pricing.trackPriceEgp} ج.م) ←`}</span>
               </button>
+            </div>
+
+            {/* ⭐ 7-Day Guarantee Callout ⭐ */}
+            <div className="rounded-2xl border border-emerald-400/40 bg-emerald-500/10 p-3.5 mb-5 flex items-start gap-2.5">
+              <span className="text-2xl shrink-0">🛡️</span>
+              <div>
+                <p className="text-xs font-bold text-emerald-300">
+                  {isEn ? "7-Day 100% Money-Back Guarantee" : "ضمان استرجاع كامل 100% خلال 7 أيام"}
+                </p>
+                <p className="text-[11px] text-neutral-300 mt-0.5 leading-relaxed">
+                  {isEn
+                    ? "Explore your path and daily tasks. If you feel it's not right for you, contact us within 7 days for a full, instant refund with zero questions asked."
+                    : "جرّب مسارك والمهام اليومية.. إن لم تصنع فارقاً حقيقياً في مهاراتك، راسلنا خلال 7 أيام واسترد كامل المبلغ فوراً بدون أي تعقيد."}
+                </p>
+              </div>
             </div>
 
             {/* Direct WhatsApp Assistance */}

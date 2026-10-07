@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Avatar from "@/components/Avatar";
+import { CAREER_PATHS } from "@/content/career-paths";
+import { ALL_100_TRACKS } from "@/content/tracks100";
 
 export type AdminUserRowData = {
   id: string;
@@ -21,6 +23,8 @@ export type AdminUserRowData = {
   hasDownloadedVault?: boolean;
   downloadedVaultAt?: string | null;
   isAdmin: boolean;
+  hasLegacyAccess?: boolean;
+  entitlements?: { productType: string; productSlug: string; grantedAt: string }[];
   progress: { id: string; title: string; icon: string; done: number; total: number; percent: number }[];
 };
 
@@ -70,6 +74,35 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
   const [activationSuccess, setActivationSuccess] = useState("");
   const [togglingVip, setTogglingVip] = useState(false);
   const [vipSuccess, setVipSuccess] = useState("");
+  const [selectedCareerPath, setSelectedCareerPath] = useState(CAREER_PATHS[0]?.slug || "full-stack-web-developer");
+  const [selectedTrack, setSelectedTrack] = useState(ALL_100_TRACKS[0]?.slug || "prompt-engineering-mastery");
+  const [entitlementBusy, setEntitlementBusy] = useState(false);
+  const [entitlementSuccess, setEntitlementSuccess] = useState("");
+  const [entitlementError, setEntitlementError] = useState("");
+
+  async function handleEntitlementAction(action: "grant" | "revoke", productType: string, productSlug: string) {
+    setEntitlementBusy(true);
+    setEntitlementError("");
+    setEntitlementSuccess("");
+    try {
+      const res = await fetch(`/api/admin/users/${user.id}/entitlements`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action, productType, productSlug }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setEntitlementError(data.error || "فشل تحديث الصلاحيات");
+        return;
+      }
+      setEntitlementSuccess(data.message || "تم تحديث الصلاحية بنجاح!");
+      setTimeout(() => router.refresh(), 1000);
+    } catch {
+      setEntitlementError("خطأ في الاتصال بالسيرفر");
+    } finally {
+      setEntitlementBusy(false);
+    }
+  }
 
   async function handleToggleVip(grant = !user.isVip) {
     const promptMsg = grant
@@ -228,6 +261,18 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
                 <span className="rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40 px-2 py-0.5 text-[10px] font-black flex items-center gap-1">
                   <span>👑</span>
                   <span>VIP (10,000 برومبت)</span>
+                </span>
+              )}
+              {user.hasLegacyAccess && (
+                <span className="rounded-full bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/40 px-2 py-0.5 text-[10px] font-black flex items-center gap-1 shadow-2xs">
+                  <span>🌟</span>
+                  <span>وصول شامل (Legacy)</span>
+                </span>
+              )}
+              {user.entitlements && user.entitlements.length > 0 && !user.hasLegacyAccess && (
+                <span className="rounded-full bg-teal-500/15 text-teal-800 dark:text-teal-300 border border-teal-500/40 px-2 py-0.5 text-[10px] font-bold flex items-center gap-1">
+                  <span>🎯</span>
+                  <span>{user.entitlements.length} منتج ممتلك</span>
                 </span>
               )}
               {user.hasDownloadedVault && (
@@ -486,6 +531,132 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
                 <span>👑</span>
                 <span>{togglingVip ? "جارٍ التحديث..." : user.isVip ? "إلغاء ترقية VIP" : "ترقية فورية إلى VIP (10,000 برومبت)"}</span>
               </button>
+            </div>
+
+            {/* V2 Modular Entitlements Management */}
+            <div className="mt-3 border-t border-black/5 dark:border-white/10 pt-3">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <p className="text-[11px] font-bold text-neutral-800 dark:text-neutral-200 flex items-center gap-1.5">
+                  <span>🎯</span>
+                  <span>صلاحيات وامتلاك المنتجات (V2 Modular Entitlements)</span>
+                </p>
+                <div className="flex items-center gap-2">
+                  <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                    user.hasLegacyAccess
+                      ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40"
+                      : "bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400"
+                  }`}>
+                    {user.hasLegacyAccess ? "وصول شامل للمكتبة (Legacy) ✓" : "نموذج الشراء الموديولار"}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => handleEntitlementAction(user.hasLegacyAccess ? "revoke" : "grant", "legacy_full_access", "global_all_access")}
+                    disabled={entitlementBusy}
+                    className="text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/20 transition cursor-pointer"
+                  >
+                    {user.hasLegacyAccess ? "سحب الوصول الشامل" : "منح وصول شامل (Legacy)"}
+                  </button>
+                </div>
+              </div>
+
+              {/* List of currently granted entitlements */}
+              {user.entitlements && user.entitlements.length > 0 && (
+                <div className="mb-3 space-y-1.5">
+                  <p className="text-2xs font-semibold text-neutral-500">المنتجات والصلاحيات الممنوحة حالياً:</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {user.entitlements.map((e, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-2xs font-bold text-neutral-800 dark:text-neutral-200"
+                      >
+                        <span className="text-emerald-500">{e.productType === "career_path" ? "🌟 مسار مهني:" : e.productType === "track" ? "🎯 مسار فردي:" : "👑"}</span>
+                        <span>{e.productSlug}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleEntitlementAction("revoke", e.productType, e.productSlug)}
+                          disabled={entitlementBusy}
+                          className="text-red-500 hover:text-red-700 text-xs px-1 cursor-pointer font-black"
+                          title="سحب هذه الصلاحية"
+                        >
+                          ✕
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Grant controls */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                {/* Grant Career Path */}
+                <div className="p-2.5 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/60 dark:border-neutral-700/50">
+                  <p className="text-2xs font-bold text-neutral-700 dark:text-neutral-300 mb-1 flex items-center gap-1">
+                    <span>🌟</span>
+                    <span>منح مسار مهني شامل (Career Path)</span>
+                  </p>
+                  <div className="flex gap-1.5">
+                    <select
+                      value={selectedCareerPath}
+                      onChange={(e) => setSelectedCareerPath(e.target.value)}
+                      className="flex-1 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-2 py-1 text-2xs"
+                    >
+                      {CAREER_PATHS.map((cp) => (
+                        <option key={cp.slug} value={cp.slug}>
+                          {cp.titleAr} ({cp.stages.reduce((acc, s) => acc + s.tracks.length, 0)} مسار)
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      onClick={() => handleEntitlementAction("grant", "career_path", selectedCareerPath)}
+                      disabled={entitlementBusy}
+                      className="rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1 text-2xs font-bold whitespace-nowrap cursor-pointer transition"
+                    >
+                      منح
+                    </button>
+                  </div>
+                </div>
+
+                {/* Grant Individual Track */}
+                <div className="p-2.5 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/60 dark:border-neutral-700/50">
+                  <p className="text-2xs font-bold text-neutral-700 dark:text-neutral-300 mb-1 flex items-center gap-1">
+                    <span>🎯</span>
+                    <span>منح مسار تخصصي فردي (Track)</span>
+                  </p>
+                  <div className="flex gap-1.5">
+                    <select
+                      value={selectedTrack}
+                      onChange={(e) => setSelectedTrack(e.target.value)}
+                      className="flex-1 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-2 py-1 text-2xs"
+                    >
+                      {ALL_100_TRACKS.map((t) => (
+                        <option key={t.slug} value={t.slug}>
+                          {t.titleAr}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      onClick={() => handleEntitlementAction("grant", "track", selectedTrack)}
+                      disabled={entitlementBusy}
+                      className="rounded-lg bg-teal-600 hover:bg-teal-500 text-white px-2.5 py-1 text-2xs font-bold whitespace-nowrap cursor-pointer transition"
+                    >
+                      منح
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {entitlementSuccess && (
+                <p className="text-2xs text-emerald-600 dark:text-emerald-400 mt-2 font-bold">
+                  ✓ {entitlementSuccess}
+                </p>
+              )}
+              {entitlementError && (
+                <p className="text-2xs text-red-600 dark:text-red-400 mt-2 font-bold">
+                  ⚠ {entitlementError}
+                </p>
+              )}
             </div>
 
             {!user.isAdmin && (

@@ -8,6 +8,7 @@ import {
 } from "@/content/career-paths";
 import CareerPathsHeader from "@/components/CareerPathsHeader";
 import CareerPathDetailView from "@/components/CareerPathDetailView";
+import { canUserAccessCareerPath } from "@/lib/entitlements";
 
 export async function generateMetadata({
   params,
@@ -56,15 +57,22 @@ export default async function CareerPathDetailPage({
     .slice(0, 3);
 
   let completedLessonIds: string[] = [];
+  let isOwned = false;
+
   if (user) {
     try {
-      const completions = await prisma.lessonCompletion.findMany({
-        where: { userId: user.id },
-        select: { lessonId: true },
-      });
+      const [completions, access] = await Promise.all([
+        prisma.lessonCompletion.findMany({
+          where: { userId: user.id },
+          select: { lessonId: true },
+        }),
+        canUserAccessCareerPath(user.id, careerPath.slug),
+      ]);
       completedLessonIds = completions.map((c) => c.lessonId);
+      isOwned = access.hasAccess;
     } catch {
       completedLessonIds = [];
+      isOwned = false;
     }
   }
 
@@ -102,6 +110,7 @@ export default async function CareerPathDetailPage({
           careerPath={careerPath}
           userCompletedLessonIds={completedLessonIds}
           isLoggedIn={!!user}
+          isOwned={isOwned}
           relatedCareerPaths={relatedCareerPaths}
         />
       </main>

@@ -8,6 +8,7 @@ import AdminAddUser from "@/components/AdminAddUser";
 import type { AdminUserRowData } from "@/components/AdminUserRow";
 import { computeStreak } from "@/lib/xp";
 import { backfillUserCourseProgress } from "@/lib/user-progress-backfill";
+import { ensureEntitlementsTable } from "@/lib/entitlements";
 
 export const dynamic = "force-dynamic";
 
@@ -20,12 +21,15 @@ export default async function AdminUsersPage() {
   const admin = await adminUser();
   if (!admin) return <AdminLogin />;
 
+  await ensureEntitlementsTable();
+
   const [users, courses, pendingOrders, pendingPayouts, pendingTestimonials, vaultDownloads] = await Promise.all([
     prisma.user.findMany({
       orderBy: { createdAt: "desc" },
       take: 300,
       include: {
-        orders: { select: { status: true, amountEgp: true, method: true, proofChannel: true } },
+        orders: { select: { status: true, amountEgp: true, method: true, proofChannel: true, productType: true } },
+        entitlements: { select: { productType: true, productSlug: true, grantedAt: true } },
         completions: {
           select: {
             xpEarned: true,
@@ -141,6 +145,18 @@ export default async function AdminUsersPage() {
     const downloadedVaultAt = vaultDownloadsMap.get(u.email.toLowerCase().trim()) ?? null;
     const hasDownloadedVault = Boolean(downloadedVaultAt);
 
+    const hasLegacyAccess =
+      u.isAdmin ||
+      u.hasLegacyAccess ||
+      u.orders.some((o) => o.status === "approved" && (o.amountEgp >= 300 || o.productType === "legacy_full_access")) ||
+      (u.entitlements && u.entitlements.some((e) => e.productType === "legacy_full_access"));
+
+    const userEntitlements = (u.entitlements || []).map((e) => ({
+      productType: e.productType,
+      productSlug: e.productSlug,
+      grantedAt: e.grantedAt.toISOString(),
+    }));
+
     return {
       id: u.id,
       email: u.email,
@@ -158,6 +174,8 @@ export default async function AdminUsersPage() {
       hasDownloadedVault,
       downloadedVaultAt,
       isAdmin: u.isAdmin,
+      hasLegacyAccess,
+      entitlements: userEntitlements,
       progress,
     };
   });

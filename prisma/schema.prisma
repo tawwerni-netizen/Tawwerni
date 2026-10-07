@@ -37,6 +37,7 @@ model User {
   quizAnswers       String? @db.Text
   aiReadinessScore  Int?
   archetype         String?
+  hasLegacyAccess   Boolean   @default(false)
   createdAt         DateTime  @default(now())
 
   orders         Order[]
@@ -44,6 +45,7 @@ model User {
   badges         UserBadge[]
   messages       ChatMessage[]
   passwordResets PasswordReset[]
+  entitlements   UserEntitlement[]
 
   referredBy      User?             @relation("Referrals", fields: [referredById], references: [id])
   referrals       User[]            @relation("Referrals")
@@ -143,12 +145,15 @@ model Order {
   /// InstaPay receipts carry no phone, only the payer's name — captured here
   /// at checkout so an incoming IPN transfer can be attributed.
   instapayName    String?
+  productType     String?   @default("track")
+  productSlug     String?
   approvedAt      DateTime?
   createdAt       DateTime  @default(now())
 
-  user     User                 @relation(fields: [userId], references: [id])
-  course   Course               @relation(fields: [courseId], references: [id])
-  payments PaymentTransaction[]
+  user         User                 @relation(fields: [userId], references: [id])
+  course       Course               @relation(fields: [courseId], references: [id])
+  payments     PaymentTransaction[]
+  entitlements UserEntitlement[]
 
   @@index([status])
   @@index([senderPhone])
@@ -444,3 +449,27 @@ model AdminAuditLog {
   @@index([createdAt])
   @@index([targetType, targetId])
 }
+
+/// Product ownership / entitlement for V2 modular architecture.
+/// Supports individual track ownership, career path bundles, and legacy full access.
+model UserEntitlement {
+  id          String   @id @default(cuid())
+  userId      String
+  /// "track" | "career_path" | "legacy_full_access" | "bundle"
+  productType String
+  /// e.g. "fullstack-web-developer" or "react-nextjs-expert" or "global_all_access"
+  productSlug String
+  /// "direct_purchase" | "career_path_bundle" | "legacy_full_access" | "admin_grant" | "order_activation"
+  source      String   @default("direct_purchase")
+  orderId     String?
+  grantedAt   DateTime @default(now())
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  order Order? @relation(fields: [orderId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, productType, productSlug])
+  @@index([userId])
+  @@index([productSlug])
+  @@index([productType])
+}
+

@@ -116,28 +116,44 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
   }
 
   // 1. In Egypt, transfers arrive as:
-  // - Standard Course: 349 or 350 EGP
-  // - VIP Bundle (Course + 10,000 Prompts Vault): 548, 549, 550 EGP (or legacy 448, 449, 450)
-  // - Standalone VIP Upgrade (for existing learners): 199 or 200 EGP (or legacy 99, 100)
-  const standardTierAmounts = [349, 350, pricing.priceEgp];
-  const vipBundleAmounts = [548, 549, 550, pricing.priceEgp + pricing.orderBumpPriceEgp, 448, 449, 450];
-  const vipStandaloneUpgradeAmounts = [199, 200, pricing.orderBumpPriceEgp, 99, 100];
-  const vipTierAmounts = Array.from(new Set([...vipBundleAmounts, ...vipStandaloneUpgradeAmounts]));
+  // - Modular Track: 50 EGP (or 49)
+  // - Modular Career Path (Bundle): 100 EGP (or 99)
+  // - Track + VIP Order Bump: 249 or 250 EGP
+  // - Career Path + VIP Order Bump: 299 or 300 EGP
+  // - Legacy All-Access Subscriptions: 349, 350, 448, 450, 548, 550 EGP
+  // - Standalone VIP Upgrade: 199 or 200 EGP
+  const trackTierAmounts = [50, 49, pricing.trackPriceEgp];
+  const careerPathTierAmounts = [100, 99, pricing.careerPathPriceEgp];
+  const trackVipAmounts = [249, 250, pricing.trackPriceEgp + pricing.orderBumpPriceEgp];
+  const careerPathVipAmounts = [299, 300, pricing.careerPathPriceEgp + pricing.orderBumpPriceEgp];
+  const legacySubscriptionAmounts = [349, 350, 448, 449, 450, 548, 549, 550];
+  const vipStandaloneUpgradeAmounts = [199, 200, pricing.orderBumpPriceEgp];
 
-  const isVipTier = vipTierAmounts.includes(payment.amountEgp);
-  const isVipBundle = vipBundleAmounts.includes(payment.amountEgp);
+  const isTrackTier = trackTierAmounts.includes(payment.amountEgp);
+  const isCareerPathTier = careerPathTierAmounts.includes(payment.amountEgp);
+  const isTrackVip = trackVipAmounts.includes(payment.amountEgp);
+  const isCareerPathVip = careerPathVipAmounts.includes(payment.amountEgp);
+  const isLegacyTier = legacySubscriptionAmounts.includes(payment.amountEgp);
   const isStandaloneVipUpgrade = vipStandaloneUpgradeAmounts.includes(payment.amountEgp);
-  const isStandardTier = standardTierAmounts.includes(payment.amountEgp);
-  const isRecognizedTier = isVipTier || isStandardTier;
 
-  // Search across pending subscription orders (including cross-tier in case of upgrade at payment time)
-  const candidateAmounts = isVipBundle
-    ? Array.from(new Set([...vipBundleAmounts, ...standardTierAmounts]))
-    : isStandardTier
-    ? Array.from(new Set([...standardTierAmounts, ...vipBundleAmounts]))
-    : isStandaloneVipUpgrade
-    ? Array.from(new Set([...vipStandaloneUpgradeAmounts, ...standardTierAmounts, ...vipBundleAmounts]))
-    : [payment.amountEgp];
+  const isVipTier = isTrackVip || isCareerPathVip || isStandaloneVipUpgrade;
+  const isRecognizedTier =
+    isTrackTier ||
+    isCareerPathTier ||
+    isTrackVip ||
+    isCareerPathVip ||
+    isLegacyTier ||
+    isStandaloneVipUpgrade;
+
+  // Search across pending subscription orders
+  let candidateAmounts: number[] = [payment.amountEgp];
+  if (isTrackTier) candidateAmounts = [...trackTierAmounts, ...trackVipAmounts];
+  else if (isCareerPathTier) candidateAmounts = [...careerPathTierAmounts, ...careerPathVipAmounts];
+  else if (isTrackVip) candidateAmounts = [...trackVipAmounts, ...trackTierAmounts];
+  else if (isCareerPathVip) candidateAmounts = [...careerPathVipAmounts, ...careerPathTierAmounts];
+  else if (isLegacyTier) candidateAmounts = [...legacySubscriptionAmounts];
+  else if (isStandaloneVipUpgrade) candidateAmounts = [...vipStandaloneUpgradeAmounts, ...trackTierAmounts];
+  candidateAmounts = Array.from(new Set(candidateAmounts));
 
   // Fetch pending candidate orders (ordered newest first)
   const candidates = await prisma.order.findMany({
@@ -305,13 +321,13 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
     where: { id: tx.id },
     data: { status: "matched", matchedOrderId: matchedOrder.id, matchNote: matchReason },
   });
-  await activateOrder(matchedOrder.id, matchReason);
+  const activated = await activateOrder(matchedOrder.id, matchReason);
 
   return {
     result: "activated",
     transactionId: tx.id,
     orderId: matchedOrder.id,
     email: matchedOrder.user.email,
-    courseTitle: matchedOrder.course.title,
+    courseTitle: activated?.courseTitle || matchedOrder.course.title,
   };
 }

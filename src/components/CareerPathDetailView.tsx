@@ -10,6 +10,7 @@ type Props = {
   careerPath: CareerPath;
   userCompletedLessonIds: string[];
   isLoggedIn: boolean;
+  isOwned?: boolean;
   relatedCareerPaths: CareerPath[];
 };
 
@@ -17,6 +18,7 @@ export default function CareerPathDetailView({
   careerPath,
   userCompletedLessonIds,
   isLoggedIn,
+  isOwned = false,
   relatedCareerPaths,
 }: Props) {
   const { lang } = useI18n();
@@ -136,6 +138,57 @@ export default function CareerPathDetailView({
               </div>
             </div>
           </div>
+
+          {/* Ownership Status & Checkout CTA Banner */}
+          {!isOwned ? (
+            <div className="rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-r from-emerald-950/80 via-[#0d1614] to-teal-950/80 p-5 sm:p-6 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                  <span className="rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-0.5 text-xs font-black">
+                    ⭐ {isEn ? "Complete Career Path Bundle (100 EGP)" : "حزمة التخصص الشاملة (١٠٠ ج.م)"}
+                  </span>
+                  <span className="text-xs text-neutral-300 font-bold">
+                    {isEn ? `Includes all ${progress.totalTracksCount} certified tracks` : `تشمل كافة الـ ${progress.totalTracksCount} مسارات تخصصية`}
+                  </span>
+                </div>
+                <h3 className="text-base sm:text-lg font-black text-white">
+                  {isEn
+                    ? `Unlock ${careerPath.titleEn} Roadmap for 100 EGP`
+                    : `امتلك مسار ${careerPath.titleAr} بالكامل بـ ١٠٠ ج.م فقط`}
+                </h3>
+                <p className="text-xs text-neutral-300 mt-1 max-w-xl leading-relaxed">
+                  {isEn
+                    ? "Get lifetime ownership of all roadmap tracks, daily missions, quizzes, and verified portfolio proofs with a 7-day money-back guarantee."
+                    : "امتلك وصولاً دائماً لكافة مسارات خريطة الطريق والمهمات اليومية ومشاريع البورتفوليو والشهادات المعتمدة، مع ضمان استرداد ٧ أيام."}
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto shrink-0">
+                <Link
+                  href={`/quiz/checkout?type=career_path&slug=${careerPath.slug}`}
+                  className="w-full sm:w-auto whitespace-nowrap rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 px-6 py-3.5 text-xs sm:text-sm font-black text-neutral-950 shadow-lg hover:brightness-110 active:scale-98 transition-all text-center cursor-pointer"
+                >
+                  {isEn ? "Own Career Path (100 EGP) ➔" : "اشترك في المسار المهني (١٠٠ ج.م) ➔"}
+                </Link>
+                <Link
+                  href={nextTrackUrl}
+                  className="w-full sm:w-auto whitespace-nowrap rounded-full border border-white/20 bg-white/5 hover:bg-white/10 px-4 py-3 text-xs font-bold text-neutral-300 text-center"
+                >
+                  {isEn ? "Free Day 1 Preview" : "تجربة مجانية لليوم الأول"}
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 px-5 flex items-center justify-between gap-3 text-xs">
+              <span className="text-emerald-300 font-bold flex items-center gap-2">
+                <span>✓</span>
+                <span>{isEn ? "You own this complete Career Path" : "أنت تمتلك هذا المسار المهني بالكامل في حسابك"}</span>
+              </span>
+              <span className="text-neutral-400 font-mono text-[11px]">
+                {progress.completedTracksCount}/{progress.totalTracksCount} {isEn ? "tracks completed" : "مسار مكتمل"}
+              </span>
+            </div>
+          )}
 
           {/* User Progress Cockpit */}
           <div className="rounded-2xl border border-teal-500/40 bg-teal-950/40 backdrop-blur-md p-5 sm:p-6 space-y-3">

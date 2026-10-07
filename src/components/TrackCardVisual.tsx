@@ -266,13 +266,17 @@ export default function TrackCardVisual({ track, onSelect }: Props) {
 
       {/* Footer Info & Badges */}
       <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800/80 flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400">
-        <div className="flex items-center gap-1.5 font-medium">
-          <span style={{ color: theme.palette.primary }}>✓</span>
-          <span>{lang === "ar" ? "اليوم الأول مجانًا" : "Day 1 Free"}</span>
+        <div className="flex items-center gap-1.5 font-bold">
+          <span className="rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 text-[11px] font-mono font-black">
+            {lang === "ar" ? "50 ج.م" : "50 EGP"}
+          </span>
+          <span className="text-[10px] text-neutral-400 hidden sm:inline">
+            {lang === "ar" ? "· يوم 1 مجانًا" : "· Day 1 Free"}
+          </span>
         </div>
 
         <div
-          className="flex items-center gap-1 font-mono font-bold"
+          className="flex items-center gap-1 font-mono font-bold text-xs"
           style={{ color: theme.palette.primary }}
         >
           <span>⚡</span>
