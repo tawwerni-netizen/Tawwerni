@@ -1,6 +1,6 @@
 import { ALL_100_TRACKS } from "@/content/tracks100";
 import { getAllCareerPaths } from "@/content/career-paths";
-import { LEGAL_CONTRACTS, PROMPTS_VAULT } from "@/content/vip-vault-data";
+import { LEGAL_CONTRACTS, TOTAL_PROMPTS_COUNT } from "@/content/vip-vault-data";
 
 /**
  * Single Canonical Source of Truth for Platform Content Counts
@@ -15,7 +15,7 @@ export const CAREER_PATH_COUNT = getAllCareerPaths().length; // 12
 export const LESSON_COUNT = ALL_100_TRACKS.reduce((sum, t) => sum + t.totalLessons, 0); // 2,181
 export const MISSION_COUNT = LESSON_COUNT; // 2,181 practical missions (1 per lesson)
 export const QUIZ_COUNT = LESSON_COUNT; // 2,181 checkpoint quizzes (1 per lesson)
-export const PROMPT_COUNT = PROMPTS_VAULT.length; // 1,000 executive prompt templates
+export const PROMPT_COUNT = TOTAL_PROMPTS_COUNT; // 10,000 executive prompt templates
 export const CONTRACT_COUNT = LEGAL_CONTRACTS.length; // 5 legal contracts
 
 export const CONTENT_METRICS = {
@@ -36,5 +36,6 @@ export const FORMATTED_METRICS = {
   missions: `${MISSION_COUNT.toLocaleString()}`,
   quizzes: `${QUIZ_COUNT.toLocaleString()}`,
   prompts: `${PROMPT_COUNT.toLocaleString()}`,
+  promptsPlus: `+${PROMPT_COUNT.toLocaleString()}`,
   contracts: `${CONTRACT_COUNT}`,
 } as const;

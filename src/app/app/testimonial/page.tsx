@@ -9,18 +9,25 @@ export default async function TestimonialPage() {
   if (!user) return null;
 
   const [completions, existing] = await Promise.all([
-    prisma.lessonCompletion.findMany({
-      where: { userId: user.id },
-      select: { lesson: { select: { module: { select: { courseId: true } } } } },
-    }),
-    prisma.testimonial.findFirst({ where: { userId: user.id } }),
+    prisma.lessonCompletion
+      .findMany({
+        where: { userId: user.id },
+        select: { lessonId: true },
+      })
+      .catch(() => []),
+    prisma.testimonial
+      .findFirst({ where: { userId: user.id } })
+      .catch(() => null),
   ]);
 
   // The course they've put the most work into
   const perCourse = new Map<string, number>();
   for (const c of completions) {
-    const id = c.lesson.module.courseId;
-    perCourse.set(id, (perCourse.get(id) ?? 0) + 1);
+    const match = c.lessonId?.match(/^les-(.+)-(\d+)$/);
+    const id = match ? match[1] : c.lessonId;
+    if (id) {
+      perCourse.set(id, (perCourse.get(id) ?? 0) + 1);
+    }
   }
   const topCourseId = [...perCourse.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
 

@@ -72,23 +72,39 @@ export async function getSessionUserId(): Promise<string | null> {
 
   // A valid signature is not enough — the token also has to be from the
   // current generation for this account.
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { sessionVersion: true },
-  });
-  if (!user || user.sessionVersion !== version) return null;
-
-  return userId;
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { sessionVersion: true },
+    });
+    if (!user || user.sessionVersion !== version) return null;
+    return userId;
+  } catch (err: any) {
+    if (err?.digest === "DYNAMIC_SERVER_USAGE" || err?.digest?.startsWith("NEXT_")) {
+      throw err;
+    }
+    console.error("[auth] Database query failed in getSessionUserId:", err);
+    return null;
+  }
 }
 
 export async function getCurrentUser() {
-  const userId = await getSessionUserId();
-  if (!userId) return null;
-  const user = await prisma.user.findUnique({ where: { id: userId } });
-  if (user && user.email && (user.email.toLowerCase() === "hhifzy@gmail.com" || user.email.toLowerCase() === "tawwerni@gmail.com")) {
-    return { ...user, isAdmin: true };
+  try {
+    const userId = await getSessionUserId();
+    if (!userId) return null;
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) return null;
+    if (user.email && (user.email.toLowerCase() === "hhifzy@gmail.com" || user.email.toLowerCase() === "tawwerni@gmail.com")) {
+      return { ...user, isAdmin: true };
+    }
+    return user;
+  } catch (err: any) {
+    if (err?.digest === "DYNAMIC_SERVER_USAGE" || err?.digest?.startsWith("NEXT_")) {
+      throw err;
+    }
+    console.error("[auth] Database query failed in getCurrentUser:", err);
+    return null;
   }
-  return user;
 }
 
 export async function clearSessionCookie() {

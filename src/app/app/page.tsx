@@ -69,21 +69,38 @@ export default async function AppHomePage() {
 
   const currentDayNumber = activeTrack?.nextDayNumber || 1;
   const skillTree = getTrackSkillTree(activeSlug, activeCompletedDays, currentDayNumber);
-  const targetSkill = getCurrentTargetSkill(skillTree, currentDayNumber);
+  const fallbackSkill = skillTree.skills?.[0] || {
+    id: "core-skill",
+    nameAr: "المهارة الأساسية",
+    nameEn: "Core Practical Skill",
+    icon: "⭐",
+    domain: "general",
+    level: 1,
+    descriptionAr: "المهارة التطبيقية الأساسية للمسار.",
+    descriptionEn: "Core practical skill.",
+    status: "in_progress" as const,
+    evidenceCount: 0,
+    score: 50,
+    unlockedAtDay: 1,
+  };
+  const targetSkill = getCurrentTargetSkill(skillTree, currentDayNumber) || fallbackSkill;
   const weakSkill = getWeakSkill(skillTree);
 
   // Generate demonstrated projects list based on completed days
-  const demonstratedProjects: DemonstratedProject[] = activeCompletedDays.slice(0, 6).map((day) => {
-    const matchedSkill = skillTree.skills.find((s) => s.unlockedAtDay === day) || skillTree.skills[0];
+  const demonstratedProjects: DemonstratedProject[] = (activeCompletedDays || []).slice(0, 6).map((day) => {
+    const matchedSkill = skillTree.skills?.find((s) => s.unlockedAtDay === day) || fallbackSkill;
+    const skillNameAr = matchedSkill?.nameAr || "المهارة الأساسية";
+    const skillNameEn = matchedSkill?.nameEn || "Core Practical Skill";
+    const skillIcon = matchedSkill?.icon || "⭐";
     return {
       id: `proj-${activeSlug}-${day}`,
-      titleAr: `مخرج اليوم ${day}: تطبيق ${matchedSkill.nameAr}`,
-      titleEn: `Day ${day} Deliverable: ${matchedSkill.nameEn}`,
-      skillNameAr: matchedSkill.nameAr,
-      skillNameEn: matchedSkill.nameEn,
-      skillIcon: matchedSkill.icon,
-      artifactSummaryAr: `مخرج عملي تم فحصه واعتماده وفق معايير التقييم الذكي بنجاح. يثبت قدرة المتعلم على توظيف ${matchedSkill.nameAr} في مهام العمل المباشرة.`,
-      artifactSummaryEn: `Verified artifact reviewed against rubric standards. Proves demonstrated mastery in ${matchedSkill.nameEn}.`,
+      titleAr: `مخرج اليوم ${day}: تطبيق ${skillNameAr}`,
+      titleEn: `Day ${day} Deliverable: ${skillNameEn}`,
+      skillNameAr,
+      skillNameEn,
+      skillIcon,
+      artifactSummaryAr: `مخرج عملي تم فحصه واعتماده وفق معايير التقييم الذكي بنجاح. يثبت قدرة المتعلم على توظيف ${skillNameAr} في مهام العمل المباشرة.`,
+      artifactSummaryEn: `Verified artifact reviewed against rubric standards. Proves demonstrated mastery in ${skillNameEn}.`,
       score: 92,
       completedAt: `Day ${day} Milestone`,
     };
@@ -112,12 +129,11 @@ export default async function AppHomePage() {
   const activeCareerPath =
     matchedPathsForActive.length > 0
       ? matchedPathsForActive[0].careerPath
-      : getRecommendedCareerPath(allCareerPaths, completedLessonIds);
+      : (allCareerPaths.length > 0 ? getRecommendedCareerPath(allCareerPaths, completedLessonIds) : null);
 
-  const activeCareerPathProgress = resolveCareerPathProgress(
-    activeCareerPath,
-    completedLessonIds
-  );
+  const activeCareerPathProgress = activeCareerPath
+    ? resolveCareerPathProgress(activeCareerPath, completedLessonIds)
+    : null;
 
   return (
     <StudentDashboardView

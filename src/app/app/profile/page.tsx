@@ -8,8 +8,8 @@ export default async function ProfilePage() {
   if (!user) return null;
 
   const [completions, latestOrder] = await Promise.all([
-    prisma.lessonCompletion.findMany({ where: { userId: user.id } }),
-    prisma.order.findFirst({ where: { userId: user.id }, orderBy: { createdAt: "desc" } }),
+    prisma.lessonCompletion.findMany({ where: { userId: user.id } }).catch(() => []),
+    prisma.order.findFirst({ where: { userId: user.id }, orderBy: { createdAt: "desc" } }).catch(() => null),
   ]);
 
   const totalXp = completions.reduce((s, c) => s + c.xpEarned, 0);

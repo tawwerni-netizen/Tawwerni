@@ -9,16 +9,22 @@ export default async function ProgressPage() {
   if (!user) return null;
 
   const [completions, userBadges, hasTestimonial] = await Promise.all([
-    prisma.lessonCompletion.findMany({
-      where: { userId: user.id },
-      select: {
-        lessonId: true,
-        completedAt: true,
-        xpEarned: true,
-      },
-    }),
-    prisma.userBadge.findMany({ where: { userId: user.id }, select: { badge: { select: { key: true } } } }),
-    prisma.testimonial.findFirst({ where: { userId: user.id }, select: { id: true } }),
+    prisma.lessonCompletion
+      .findMany({
+        where: { userId: user.id },
+        select: {
+          lessonId: true,
+          completedAt: true,
+          xpEarned: true,
+        },
+      })
+      .catch(() => []),
+    prisma.userBadge
+      .findMany({ where: { userId: user.id }, select: { badge: { select: { key: true } } } })
+      .catch(() => []),
+    prisma.testimonial
+      .findFirst({ where: { userId: user.id }, select: { id: true } })
+      .catch(() => null),
   ]);
 
   const totalXp = completions.reduce((s, c) => s + c.xpEarned, 0);

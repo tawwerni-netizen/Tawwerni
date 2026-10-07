@@ -7,6 +7,8 @@ import { PUBLIC_COURSE_PAGE } from "@/lib/public-routes";
 import { resolveUserLearningProgress } from "@/lib/recent-learning-server";
 import AppClientShell from "@/components/AppClientShell";
 
+export const dynamic = "force-dynamic";
+
 export default async function AppLayout({ children }: LayoutProps<"/app">) {
   const user = await getCurrentUser();
 
@@ -23,24 +25,41 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
   }
   if (user.dailyPaceMinutes == null) redirect("/onboarding");
 
-  const [completions, cookieStore] = await Promise.all([
-    prisma.lessonCompletion.findMany({
-      where: { userId: user.id },
-      select: { completedAt: true },
-    }),
-    cookies(),
-  ]);
+  let completions: Array<{ completedAt: Date }> = [];
+  let cookieStore: any = undefined;
+  try {
+    const [c, cs] = await Promise.all([
+      prisma.lessonCompletion
+        .findMany({
+          where: { userId: user.id },
+          select: { completedAt: true },
+        })
+        .catch(() => []),
+      cookies(),
+    ]);
+    completions = c;
+    cookieStore = cs;
+  } catch (err) {
+    console.error("[AppLayout] Error fetching completions or cookies:", err);
+  }
 
-  const streak = computeStreak(completions.map((c) => c.completedAt));
+  const streak = computeStreak((completions || []).map((c) => c.completedAt));
 
-  const { activeTrack } = await resolveUserLearningProgress(user.id, cookieStore);
-  const initialResume = activeTrack ? {
-    slug: activeTrack.slug,
-    dayNumber: activeTrack.nextDayNumber,
-    titleAr: activeTrack.titleAr,
-    titleEn: activeTrack.titleEn,
-    icon: activeTrack.icon,
-  } : null;
+  let initialResume = null;
+  try {
+    const { activeTrack } = await resolveUserLearningProgress(user.id, cookieStore);
+    if (activeTrack) {
+      initialResume = {
+        slug: activeTrack.slug,
+        dayNumber: activeTrack.nextDayNumber,
+        titleAr: activeTrack.titleAr,
+        titleEn: activeTrack.titleEn,
+        icon: activeTrack.icon,
+      };
+    }
+  } catch (err) {
+    console.error("[AppLayout] Error resolving active track:", err);
+  }
 
   return (
     <AppClientShell

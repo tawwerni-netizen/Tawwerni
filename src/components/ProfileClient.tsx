@@ -298,13 +298,13 @@ export default function ProfileClient(props: Props) {
                 <div>
                   <p className="text-xs font-black text-neutral-900 dark:text-white">
                     {props.subscription.amountEgp >= 440
-                      ? isEn ? "VIP Vault Unlocked (+1,000 Prompts & Contracts)" : "خزنة VIP مفعلة (+1,000 برومبت وعقود الفريلانس)"
-                      : isEn ? "VIP Vault Upgrade Available (+99 EGP)" : "ترقية خزنة VIP متاحة (+99 ج.م فقط)"}
+                      ? isEn ? "VIP Vault Unlocked (+10,000 Prompts & Contracts)" : "خزنة VIP مفعلة (+10,000 برومبت وعقود الفريلانس)"
+                      : isEn ? "VIP Vault Upgrade Available (+199 EGP)" : "ترقية خزنة VIP متاحة (+199 ج.م فقط)"}
                   </p>
                   <p className="text-[10px] text-neutral-500">
                     {props.subscription.amountEgp >= 440
                       ? isEn ? "Full access to enterprise prompts & legal contracts" : "وصول شامل لأوامر الذكاء الاصطناعي وعقود العمل الحر"
-                      : isEn ? "Unlock the 1,000 prompts bank and legal contract pack" : "احصل على بنك الأوامر وعقود العمل الحر لحماية أتعابك"}
+                      : isEn ? "Unlock the 10,000 prompts bank and legal contract pack" : "احصل على بنك الأوامر وعقود العمل الحر لحماية أتعابك"}
                   </p>
                 </div>
               </div>

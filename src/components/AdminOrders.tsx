@@ -123,7 +123,7 @@ export default function AdminOrders({ orders }: { orders: Order[] }) {
                       {order.amountEgp >= 440 && (
                         <span className="text-[10px] font-black rounded-full px-2.5 py-0.5 bg-gradient-to-r from-amber-500/20 to-yellow-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40 flex items-center gap-1 shadow-2xs">
                           <span>👑</span>
-                          <span>VIP (1,000 برومبت)</span>
+                          <span>VIP (10,000 برومبت)</span>
                         </span>
                       )}
                     </div>

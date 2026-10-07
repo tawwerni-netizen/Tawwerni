@@ -18,7 +18,7 @@ The commercial model is fixed and must remain unchanged throughout all Phase B a
 | **Career Path** | **149 EGP** | 365 Days | **None** (One-time) | Multi-stage roadmap with unified capstone project |
 | **All Access Pass** | **399 EGP** | 365 Days | **None** (One-time) | Unrestricted library access + VIP Prompt Vault included |
 | **First Day Trial** | **FREE** | Instant | N/A | Immediate anonymous access without login wall |
-| **Prompt Vault** | **+199 EGP** | Included / Add-on | N/A | 1,000 production prompt templates & workflows |
+| **Prompt Vault** | **+199 EGP** | Included / Add-on | N/A | 10,000 production prompt templates & workflows |
 | **Referral Bounty** | **25 EGP** | Per paid referral | N/A | 100 EGP minimum withdrawal threshold |
 | **Digital Refund** | **3 Days** | Fair Consumption | N/A | Full money-back if $\le 3$ missions completed & no cert |
 

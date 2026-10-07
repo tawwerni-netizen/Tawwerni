@@ -13,10 +13,12 @@ export default async function ReferralsPage() {
 
   const [summary, openRequest] = await Promise.all([
     referralSummary(user.id),
-    prisma.payout.findFirst({
-      where: { userId: user.id, status: "requested" },
-      select: { amountEgp: true },
-    }),
+    prisma.payout
+      .findFirst({
+        where: { userId: user.id, status: "requested" },
+        select: { amountEgp: true },
+      })
+      .catch(() => null),
   ]);
 
   const shareUrl = `https://${brand.domain}/?${REFERRAL_PARAM}=${summary.code}`;
