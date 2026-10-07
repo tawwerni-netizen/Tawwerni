@@ -55,13 +55,13 @@ export default function CareerPathsCatalogView({
   return (
     <div className="space-y-12">
       {/* ================= 1. HERO SECTION ================= */}
-      <section className="relative overflow-hidden rounded-3xl border border-teal-500/30 bg-gradient-to-b from-teal-500/15 via-neutral-900/60 to-neutral-950 p-6 sm:p-12 text-center backdrop-blur-xl shadow-2xl">
+      <section className="relative overflow-hidden rounded-3xl border border-teal-500/20 dark:border-teal-500/30 bg-gradient-to-b from-teal-500/10 via-emerald-500/5 to-white dark:from-teal-500/15 dark:via-neutral-900/60 dark:to-neutral-950 p-6 sm:p-12 text-center backdrop-blur-xl shadow-xl dark:shadow-2xl">
         {/* Ambient Glows */}
-        <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-72 w-full max-w-2xl rounded-full bg-gradient-to-r from-teal-500/20 via-emerald-500/20 to-cyan-500/20 blur-3xl -z-10" />
+        <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-72 w-full max-w-2xl rounded-full bg-gradient-to-r from-teal-500/15 via-emerald-500/15 to-cyan-500/15 dark:from-teal-500/20 dark:via-emerald-500/20 dark:to-cyan-500/20 blur-3xl -z-10" />
 
         <div className="mx-auto max-w-3xl space-y-5">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-teal-500/40 bg-teal-500/15 px-4 py-1.5 text-xs font-black text-teal-700 dark:text-teal-300 shadow-xs">
+          <div className="inline-flex items-center gap-2 rounded-full border border-teal-500/30 dark:border-teal-500/40 bg-teal-500/10 dark:bg-teal-500/15 px-4 py-1.5 text-xs font-black text-teal-800 dark:text-teal-300 shadow-xs">
             <span className="text-sm">🧭</span>
             <span>
               {isEn
@@ -73,7 +73,7 @@ export default function CareerPathsCatalogView({
           {/* Main Title - Formatted with Perfect Breathing Room */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-neutral-900 dark:text-white leading-[1.25] tracking-tight">
             {isEn ? "Stop Guessing Where to Start." : "لا تسأل: أي كورس أبدأ؟"}
-            <span className="block mt-2 bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="block mt-2 bg-gradient-to-r from-teal-600 via-emerald-600 to-cyan-600 dark:from-teal-400 dark:via-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent">
               {isEn ? "Choose Your Goal. Follow the Roadmap." : "حدد هدفك المهني، واتبع خارطة الطريق."}
             </span>
           </h1>
@@ -87,16 +87,16 @@ export default function CareerPathsCatalogView({
 
           {/* 3 Dopamine Reassurance Pills */}
           <div className="flex flex-wrap items-center justify-center gap-3 pt-3 text-xs font-bold text-neutral-700 dark:text-neutral-200">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/80 dark:bg-neutral-900/80 px-4 py-2 border border-black/5 dark:border-white/10 shadow-2xs">
-              <span className="text-teal-500 text-sm">✓</span>
+            <span className="inline-flex items-center gap-2 rounded-full bg-white dark:bg-neutral-900/80 px-4 py-2 border border-teal-500/20 dark:border-white/10 shadow-xs">
+              <span className="text-teal-600 dark:text-teal-400 text-sm font-black">✓</span>
               <span>{isEn ? "12 Curated Specializations" : "12 مسار مهني متكامل"}</span>
             </span>
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/80 dark:bg-neutral-900/80 px-4 py-2 border border-black/5 dark:border-white/10 shadow-2xs">
-              <span className="text-emerald-500 text-sm">✓</span>
+            <span className="inline-flex items-center gap-2 rounded-full bg-white dark:bg-neutral-900/80 px-4 py-2 border border-emerald-500/20 dark:border-white/10 shadow-xs">
+              <span className="text-emerald-600 dark:text-emerald-400 text-sm font-black">✓</span>
               <span>{isEn ? "Structured in Ordered Stages" : "مقسمة إلى مراحل ومحطات بالترتيب"}</span>
             </span>
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/80 dark:bg-neutral-900/80 px-4 py-2 border border-black/5 dark:border-white/10 shadow-2xs">
-              <span className="text-amber-500 text-sm">🏆</span>
+            <span className="inline-flex items-center gap-2 rounded-full bg-white dark:bg-neutral-900/80 px-4 py-2 border border-amber-500/20 dark:border-white/10 shadow-xs">
+              <span className="text-amber-600 dark:text-amber-400 text-sm">🏆</span>
               <span>{isEn ? "Hands-on Capstone Projects" : "مشاريع بورتفوليو عملية موثقة"}</span>
             </span>
           </div>

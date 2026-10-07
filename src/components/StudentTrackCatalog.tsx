@@ -93,7 +93,7 @@ export default function StudentTrackCatalog({
       <div className="mb-6 flex flex-wrap items-center gap-2.5 text-xs">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-500/10 border border-teal-500/30 px-3.5 py-1.5 font-black text-teal-800 dark:text-teal-300 shadow-2xs">
           <span>🌟</span>
-          <span>{isEn ? "100 Practical Tracks Available" : "١٠٠ مسار عملي متاحة للتعلّم والامتلاك"}</span>
+          <span>{isEn ? "100 Practical Tracks Available" : "١٠٠ مسار عملي متاح للتعلّم والتدريب"}</span>
         </span>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-white dark:bg-neutral-900 border border-black/5 dark:border-white/10 px-3.5 py-1.5 font-bold text-neutral-700 dark:text-neutral-300 shadow-2xs">
           <span>⚡</span>
