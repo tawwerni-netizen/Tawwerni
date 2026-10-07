@@ -44,7 +44,8 @@
   "overrides": {
     "mariadb": "$mariadb",
     "mysql2": "^3.24.5",
-    "deepmerge-ts": "^8.0.2"
+    "deepmerge-ts": "^8.0.2",
+    "source-map-js": "^1.2.2"
   },
   "allowScripts": {
     "@prisma/engines@7.10.0": true,
