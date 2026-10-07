@@ -45,10 +45,8 @@ export default async function AdminPage() {
 
   const pending = orders.filter((o) => o.status === "pending");
   const approved = orders.filter((o) => o.status === "approved");
-  const subscribersCount = Math.max(302, approved.length);
-  const revenue = approved.length > 0
-    ? approved.reduce((sum, o) => sum + (o.amountEgp || 0), 0)
-    : subscribersCount * pricing.allAccessPriceEgp;
+  const subscribersCount = approved.length;
+  const revenue = approved.reduce((sum, o) => sum + (o.amountEgp || 0), 0);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);

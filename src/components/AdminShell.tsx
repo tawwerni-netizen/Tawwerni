@@ -11,6 +11,7 @@ import Avatar from "@/components/Avatar";
 const NAV = [
   { href: "/admin", labelAr: "الطلبات", labelEn: "Orders", icon: "🧾", exact: true },
   { href: "/admin/payment-settings", labelAr: "طرق الدفع", labelEn: "Payment Gateways", icon: "💳" },
+  { href: "/admin/ads", labelAr: "الحملات والإعلانات", labelEn: "Ads & Attribution", icon: "📈" },
   { href: "/admin/users", labelAr: "المستخدمين", labelEn: "Users", icon: "👥" },
   { href: "/admin/payouts", labelAr: "السحوبات", labelEn: "Payouts", icon: "💸" },
   { href: "/admin/testimonials", labelAr: "آراء المتعلمين", labelEn: "Reviews", icon: "💬" },
@@ -21,6 +22,7 @@ const NAV = [
 const TITLE_TRANSLATIONS: Record<string, string> = {
   "الطلبات والتحويلات": "Orders & Payments",
   "إعدادات طرق الدفع": "Payment Gateways & Accounts",
+  "إدارة الإعلانات واكتساب العملاء": "Ads & Customer Acquisition",
   "المستخدمون": "Learners & Users",
   "السحوبات": "Affiliate Payouts",
   "آراء المتعلمين": "Learner Testimonials",
