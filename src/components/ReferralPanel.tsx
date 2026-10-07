@@ -449,10 +449,10 @@ export default function ReferralPanel(props: Props) {
         </h4>
         <div className="space-y-2.5">
           {[
-            { badge: "🥉", title: "سفير برونزي", desc: "من 1 لـ 2 أصحاب · فتح السحب عند 150 ج.م", active: props.paidEgp + props.availableEgp < 150 },
-            { badge: "🥈", title: "شريك فضي", desc: "من 3 لـ 9 أصحاب · أرباح تصل لـ 675 ج.م", active: props.paidEgp + props.availableEgp >= 150 && props.paidEgp + props.availableEgp < 750 },
-            { badge: "🥇", title: "قائد ذهبي", desc: "من 10 لـ 24 صاحب · أرباح تتخطى 1,800 ج.م", active: props.paidEgp + props.availableEgp >= 750 && props.paidEgp + props.availableEgp < 1500 },
-            { badge: "💎", title: "شريك ماسي VIP", desc: "25+ صاحب · أرباح غير محدودة وسحب VIP", active: props.paidEgp + props.availableEgp >= 1500 },
+            { badge: "🥉", title: "سفير برونزي", desc: "من 1 لـ 4 إحالات · فتح السحب عند 100 ج.م", active: props.paidEgp + props.availableEgp < 100 },
+            { badge: "🥈", title: "شريك فضي", desc: "من 5 لـ 10 إحالات · أرباح تصل لـ 250 ج.م", active: props.paidEgp + props.availableEgp >= 100 && props.paidEgp + props.availableEgp < 250 },
+            { badge: "🥇", title: "قائد ذهبي", desc: "من 11 لـ 24 إحالة · أرباح تتخطى 600 ج.م", active: props.paidEgp + props.availableEgp >= 250 && props.paidEgp + props.availableEgp < 600 },
+            { badge: "💎", title: "شريك ماسي VIP", desc: "25+ إحالة · أرباح غير محدودة وسحب VIP فوري", active: props.paidEgp + props.availableEgp >= 600 },
           ].map((lvl, idx) => (
             <div
               key={idx}

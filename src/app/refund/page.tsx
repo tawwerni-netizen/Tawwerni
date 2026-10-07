@@ -113,8 +113,8 @@ export default function RefundPage() {
             </div>
             <p className="text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm leading-relaxed ps-12">
               {isEn
-                ? "Once your payment transfer is verified, your purchased tracks, career paths, or All-Access pass are permanently added to your personal learning inventory with lifetime access and zero recurring monthly fees."
-                : "بمجرد تأكيد تحويلك المالي، تتم إضافة المسار التخصصي (50 ج.م) أو المسار المهني (100 ج.م) أو باقة الوصول الشامل (350 ج.م) فوراً لمخزونك التعليمي مع ملكية دائمة مدى الحياة بدون أي رسوم اشتراك شهرية متكررة."}
+                ? `Once your payment transfer is verified, your purchased tracks (${pricing.trackPriceEgp} EGP), career paths (${pricing.careerPathPriceEgp} EGP), or All-Access pass (${pricing.allAccessPriceEgp} EGP) are permanently added to your personal learning inventory with lifetime access and zero recurring monthly fees.`
+                : `بمجرد تأكيد تحويلك المالي، تتم إضافة المسار التخصصي (${pricing.trackPriceEgp} ج.م) أو المسار المهني (${pricing.careerPathPriceEgp} ج.م) أو باقة الوصول الشامل (${pricing.allAccessPriceEgp} ج.م) فوراً لمخزونك التعليمي مع ملكية دائمة مدى الحياة بدون أي رسوم اشتراك شهرية متكررة.`}
             </p>
           </div>
 
@@ -164,8 +164,8 @@ export default function RefundPage() {
         <div className="mt-8 rounded-2xl bg-neutral-100 dark:bg-neutral-900/60 border border-black/5 dark:border-white/5 p-4 text-xs text-neutral-600 dark:text-neutral-400 text-center">
           <p>
             {isEn
-              ? `Tawwerni offers single one-time payments: 50 EGP per track, 100 EGP per career path, or 350 EGP for the All-Access pass. There are strictly zero recurring subscriptions or hidden charges.`
-              : `أسعار طوّرني واضحة وثابتة: 50 ج.م للمسار التخصصي، 100 ج.م للمسار المهني الشامل، و350 ج.م لباقة الوصول الشامل — بدون أي اشتراكات متجددة أو رسوم خفية.`}
+              ? `Tawwerni offers single one-time payments: ${pricing.trackPriceEgp} EGP per track, ${pricing.careerPathPriceEgp} EGP per career path, or ${pricing.allAccessPriceEgp} EGP for the All-Access pass. There are strictly zero recurring subscriptions or hidden charges.`
+              : `أسعار طوّرني واضحة وثابتة: ${pricing.trackPriceEgp} ج.م للمسار التخصصي، ${pricing.careerPathPriceEgp} ج.م للمسار المهني الشامل، و${pricing.allAccessPriceEgp} ج.م لباقة الوصول الشامل — بدون أي اشتراكات متجددة أو رسوم خفية.`}
           </p>
         </div>
       </main>

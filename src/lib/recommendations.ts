@@ -6,6 +6,7 @@ import {
 } from "@/content/career-paths";
 import { ALL_100_TRACKS, getTrackBySlug, type Track100 } from "@/content/tracks100";
 import type { UserInventory } from "@/lib/entitlements";
+import { pricing } from "@/content/brand";
 
 export type NextStepRecommendation = {
   type: "next_track_in_career_path" | "upgrade_to_career_path" | "complementary_track" | "featured_starter";
@@ -73,17 +74,17 @@ export function getDeterministicRecommendation(
           type: "upgrade_to_career_path",
           titleAr: careerPath.titleAr,
           titleEn: careerPath.titleEn,
-          descriptionAr: `بما أنك تدرس (${track.titleAr})، يمكنك فتح خريطة طريق (${careerPath.titleAr}) كاملة بكافة مساراتها بـ 100 ج.م فقط!`,
-          descriptionEn: `Since you own (${track.titleEn}), unlock the entire (${careerPath.titleEn}) path and all contained tracks for just 100 EGP!`,
+          descriptionAr: `بما أنك تدرس (${track.titleAr})، يمكنك فتح خريطة طريق (${careerPath.titleAr}) كاملة بكافة مساراتها بـ ${pricing.careerPathPriceEgp} ج.م فقط!`,
+          descriptionEn: `Since you own (${track.titleEn}), unlock the entire (${careerPath.titleEn}) path and all contained tracks for just ${pricing.careerPathPriceEgp} EGP!`,
           targetSlug: careerPath.slug,
           targetType: "career_path",
-          ctaTextAr: "امتلك المسار المهني بالكامل (100 ج.م) ➔",
-          ctaTextEn: "Unlock Full Career Path (100 EGP) ➔",
+          ctaTextAr: `امتلك المسار المهني بالكامل (${pricing.careerPathPriceEgp} ج.م) ➔`,
+          ctaTextEn: `Unlock Full Career Path (${pricing.careerPathPriceEgp} EGP) ➔`,
           ctaHref: `/quiz/checkout?type=career_path&slug=${careerPath.slug}`,
           icon: careerPath.icon || "🚀",
           badgeAr: "ترقية حزمة التخصص المهني",
           badgeEn: "Career Path Bundle",
-          priceEgp: 100,
+          priceEgp: pricing.careerPathPriceEgp,
         };
       }
     }
@@ -105,13 +106,13 @@ export function getDeterministicRecommendation(
         descriptionEn: `Advanced complementary skill building upon your success in (${lastCompleted.titleEn})`,
         targetSlug: complementary.slug,
         targetType: "track",
-        ctaTextAr: "امتلك هذا المسار (50 ج.م) ➔",
-        ctaTextEn: "Get This Track (50 EGP) ➔",
+        ctaTextAr: `امتلك هذا المسار (${pricing.trackPriceEgp} ج.م) ➔`,
+        ctaTextEn: `Get This Track (${pricing.trackPriceEgp} EGP) ➔`,
         ctaHref: `/quiz/checkout?type=track&slug=${complementary.slug}`,
         icon: complementary.icon,
         badgeAr: "المهارة المكملة المقترحة",
         badgeEn: "Suggested Next Skill",
-        priceEgp: 50,
+        priceEgp: pricing.trackPriceEgp,
       };
     }
   }
@@ -134,12 +135,12 @@ export function getDeterministicRecommendation(
     descriptionEn: defaultPath.descriptionEn,
     targetSlug: defaultPath.slug,
     targetType: "career_path",
-    ctaTextAr: "استكشف المسار المهني (100 ج.م) ➔",
-    ctaTextEn: "Explore Career Path (100 EGP) ➔",
+    ctaTextAr: `استكشف المسار المهني (${pricing.careerPathPriceEgp} ج.م) ➔`,
+    ctaTextEn: `Explore Career Path (${pricing.careerPathPriceEgp} EGP) ➔`,
     ctaHref: `/career-paths/${defaultPath.slug}`,
     icon: defaultPath.icon,
     badgeAr: "المسار الأبرز للمبتدئين",
     badgeEn: "Top Career Pathway",
-    priceEgp: 100,
+    priceEgp: pricing.careerPathPriceEgp,
   };
 }

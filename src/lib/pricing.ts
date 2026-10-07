@@ -43,7 +43,7 @@ export function resolveProduct(
       descriptionAr: "فتح فوري لكافة الـ 100 مسار تخصصي وجميع المسارات المهنية الـ 11 ومحتويات المنصة مدى الحياة",
       descriptionEn: "Unrestricted lifetime access to all 100 tracks, all 11 career paths, and future content",
       icon: "👑",
-      priceEgp: pricing.allAccessPriceEgp, // strictly 350 EGP
+      priceEgp: pricing.allAccessPriceEgp, // strictly 399 EGP
       originalPriceEgp: pricing.allAccessPriceEgp,
       includedTracksCount: 100,
     };
@@ -63,7 +63,7 @@ export function resolveProduct(
       descriptionAr: cp.descriptionAr,
       descriptionEn: cp.descriptionEn,
       icon: cp.icon,
-      priceEgp: pricing.careerPathPriceEgp, // strictly 100 EGP
+      priceEgp: pricing.careerPathPriceEgp, // strictly 149 EGP
       originalPriceEgp: pricing.careerPathPriceEgp,
       includedTracksCount: totalTracks,
     };
@@ -81,7 +81,7 @@ export function resolveProduct(
     descriptionAr: track.descriptionAr,
     descriptionEn: track.descriptionEn,
     icon: track.icon,
-    priceEgp: pricing.trackPriceEgp, // strictly 50 EGP
+    priceEgp: pricing.trackPriceEgp, // strictly 59 EGP
     originalPriceEgp: pricing.trackPriceEgp,
     includedTracksCount: 1,
   };
@@ -119,6 +119,15 @@ export function calculateOrderPrice({
   };
 }
 
+export function getPricingConfig() {
+  return {
+    trackPriceEgp: pricing.trackPriceEgp, // 59 EGP
+    careerPathPriceEgp: pricing.careerPathPriceEgp, // 149 EGP
+    allAccessPriceEgp: pricing.allAccessPriceEgp, // 399 EGP
+    orderBumpPriceEgp: pricing.orderBumpPriceEgp,
+  };
+}
+
 /**
  * Calculates smart upgrade price by crediting already-paid amounts.
  */
@@ -136,7 +145,13 @@ export function calculateUpgradePrice({
   upgradePriceEgp: number;
 } {
   const product = resolveProduct(targetProductType, targetProductSlug);
-  const fullPriceEgp = product?.priceEgp ?? (targetProductType === "all_access" ? 350 : targetProductType === "career_path" ? 100 : 50);
+  const fullPriceEgp =
+    product?.priceEgp ??
+    (targetProductType === "all_access"
+      ? pricing.allAccessPriceEgp
+      : targetProductType === "career_path"
+      ? pricing.careerPathPriceEgp
+      : pricing.trackPriceEgp);
   const creditEgp = Math.min(userPaidAmountEgp, fullPriceEgp);
   const upgradePriceEgp = Math.max(0, fullPriceEgp - creditEgp);
   return {

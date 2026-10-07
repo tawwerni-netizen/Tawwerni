@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useI18n } from "@/components/LanguageContext";
 import { CareerPath } from "@/content/career-paths";
 import { resolveCareerPathProgress } from "@/lib/career-paths-progress";
+import { pricing } from "@/content/brand";
 
 type Props = {
   careerPath: CareerPath;
@@ -145,7 +146,7 @@ export default function CareerPathDetailView({
               <div>
                 <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                   <span className="rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-0.5 text-xs font-black">
-                    ⭐ {isEn ? "Complete Career Path Bundle (100 EGP)" : "حزمة التخصص الشاملة (١٠٠ ج.م)"}
+                    ⭐ {isEn ? `Complete Career Path Bundle (${pricing.careerPathPriceEgp} EGP)` : `حزمة التخصص الشاملة (${pricing.careerPathPriceEgp} ج.م)`}
                   </span>
                   <span className="text-xs text-neutral-300 font-bold">
                     {isEn ? `Includes all ${progress.totalTracksCount} certified tracks` : `تشمل كافة الـ ${progress.totalTracksCount} مسارات تخصصية`}
@@ -153,8 +154,8 @@ export default function CareerPathDetailView({
                 </div>
                 <h3 className="text-base sm:text-lg font-black text-white">
                   {isEn
-                    ? `Unlock ${careerPath.titleEn} Roadmap for 100 EGP`
-                    : `امتلك مسار ${careerPath.titleAr} بالكامل بـ ١٠٠ ج.م فقط`}
+                    ? `Unlock ${careerPath.titleEn} Roadmap for ${pricing.careerPathPriceEgp} EGP`
+                    : `امتلك مسار ${careerPath.titleAr} بالكامل بـ ${pricing.careerPathPriceEgp} ج.م فقط`}
                 </h3>
                 <p className="text-xs text-neutral-300 mt-1 max-w-xl leading-relaxed">
                   {isEn
@@ -168,7 +169,7 @@ export default function CareerPathDetailView({
                   href={`/quiz/checkout?type=career_path&slug=${careerPath.slug}`}
                   className="w-full sm:w-auto whitespace-nowrap rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 px-6 py-3.5 text-xs sm:text-sm font-black text-neutral-950 shadow-lg hover:brightness-110 active:scale-98 transition-all text-center cursor-pointer"
                 >
-                  {isEn ? "Own Career Path (100 EGP) ➔" : "امتلك المسار المهني (١٠٠ ج.م) ➔"}
+                  {isEn ? `Own Career Path (${pricing.careerPathPriceEgp} EGP) ➔` : `امتلك المسار المهني (${pricing.careerPathPriceEgp} ج.م) ➔`}
                 </Link>
                 <Link
                   href={nextTrackUrl}

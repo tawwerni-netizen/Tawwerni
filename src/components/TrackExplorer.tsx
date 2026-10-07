@@ -6,6 +6,7 @@ import { ALL_100_TRACKS, TRACK_PILLARS, Track100 } from "@/content/tracks100";
 import TrackCardVisual from "@/components/TrackCardVisual";
 import { getTrackArtwork } from "@/content/track-artworks";
 import { useI18n } from "@/components/LanguageContext";
+import { pricing } from "@/content/brand";
 import { resolveDomainTheme } from "@/lib/design-system/domain-themes";
 
 export default function TrackExplorer() {
@@ -290,14 +291,14 @@ export default function TrackExplorer() {
               </div>
             </div>
 
-            {/* Action Buttons & 50 EGP Purchase */}
+            {/* Action Buttons & Modular Purchase */}
             <div className="space-y-2.5">
               <div className="flex flex-col sm:flex-row items-center gap-2.5">
                 <Link
                   href={`/quiz/checkout?type=track&slug=${activeModalTrack.slug}`}
                   className="w-full sm:flex-1 py-3 text-center rounded-full font-black text-sm bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 hover:brightness-110 text-neutral-950 shadow-lg active:scale-95 transition-all cursor-pointer"
                 >
-                  {lang === "ar" ? "امتلك المسار بـ 50 ج.م فقط ➔" : "Own Track (50 EGP) ➔"}
+                  {lang === "ar" ? `امتلك المسار بـ ${pricing.trackPriceEgp} ج.م فقط ➔` : `Own Track (${pricing.trackPriceEgp} EGP) ➔`}
                 </Link>
                 <Link
                   href={`/app/learn/${activeModalTrack.slug}`}
@@ -319,8 +320,8 @@ export default function TrackExplorer() {
                   className="text-[11px] font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
                 >
                   {lang === "ar"
-                    ? "💡 أو امتلك المسار المهني المتكامل المتضمن له بـ 100 ج.م فقط (يوفر 75%)"
-                    : "💡 Or get the complete Career Path roadmap for 100 EGP (save 75%)"}
+                    ? `💡 أو امتلك المسار المهني الشامل المتضمن له بـ ${pricing.careerPathPriceEgp} ج.م فقط (حزمة متكاملة)`
+                    : `💡 Or get the complete Career Path roadmap for ${pricing.careerPathPriceEgp} EGP (full bundle)`}
                 </Link>
               </div>
             </div>

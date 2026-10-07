@@ -16,8 +16,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "إزاي أبدأ في المنصة؟",
         "qEn": "How do I get started on Tawwerni?",
-        "a": "اعمل حساب بإيميلك وكلمة سر، وهتلاقي اليوم الأول من كل مسار مفتوح مجانًا على طول. لو عجبك، يمكنك شراء أي مسار تخصصي فردي بـ 50 ج.م فقط، أو مسار مهني شامل يضم عدة مسارات بـ 100 ج.م فقط بامتلاك دائم بدون أي اشتراكات متكررة.",
-        "aEn": "Sign up with your email and password, and Day 1 of every track is immediately unlocked for free. When you're ready, purchase an individual track for 50 EGP or an entire career path bundle for 100 EGP with lifetime ownership and zero recurring fees."
+        "a": "اعمل حساب بإيميلك وكلمة سر، وهتلاقي اليوم الأول من كل مسار مفتوح مجانًا على طول. لو عجبك، يمكنك شراء أي مسار تخصصي فردي بـ 59 ج.م فقط، أو مسار مهني شامل يضم عدة مسارات بـ 149 ج.م، أو الوصول الشامل لكافة المسارات بـ 399 ج.م بامتلاك دائم بدون أي اشتراكات متكررة.",
+        "aEn": "Sign up with your email and password, and Day 1 of every track is immediately unlocked for free. When you're ready, purchase an individual track for 59 EGP, an entire career path bundle for 149 EGP, or the All-Access Pass for 399 EGP with lifetime ownership and zero recurring fees."
       },
       {
         "q": "إزاي أعمل حساب؟",
@@ -64,8 +64,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "أقدر أبدأ أكتر من مسار في نفس الوقت؟",
         "qEn": "Can I learn multiple tracks simultaneously?",
-        "a": "اشتراكك بيفتحلك كل المسارات، فتقدر. بس ننصح تركز على واحد لحد ما تخلّصه — التشتت بين مسارين بيقلل الاستمرارية.",
-        "aEn": "Your subscription unlocks all 100 tracks, so yes! However, we recommend focusing on one primary track to build momentum before branching out."
+        "a": "بإمكانك امتلاك عدة مسارات أو مسار مهني يضم عدة مسارات، ولكن ننصح بالتركيز على مسار واحد حتى إتمامه لبناء الزخم والاستمرارية.",
+        "aEn": "You can own individual tracks or a multi-track Career Path, but we recommend focusing on one primary track to build momentum before branching out."
       },
       {
         "q": "إيه الفرق بين المسارات؟",
@@ -94,12 +94,12 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "المحتوى بيتحدّث؟",
         "qEn": "Is the content regularly updated?",
-        "a": "أيوة. بنضيف دروس ومحتوى جديد بشكل مستمر، والتحديثات بتوصلك مجانًا طوال مدة اشتراكك من غير أي دفع إضافي.",
-        "aEn": "Yes. We update and add new lessons constantly, and all updates are completely free for all active members with zero extra charges."
+        "a": "أيوة. بنضيف دروس ومحتوى جديد بشكل مستمر، والتحديثات بتوصلك مجانًا لجميع المسارات التي تمتلكها مدى الحياة من غير أي دفع إضافي.",
+        "aEn": "Yes. We update and add new lessons constantly, and all updates are completely free for all tracks you own with zero extra charges."
       },
       {
         "q": "أقدر أشوف محتوى المسار قبل ما أشتري؟",
-        "qEn": "Can I view the curriculum before subscribing?",
+        "qEn": "Can I view the curriculum before purchasing?",
         "a": "أيوة. في صفحة كل مسار هتلاقي قائمة كاملة بالأيام بعناوينها والمدة والوحدات، عشان تعرف بالظبط هتتعلم إيه.",
         "aEn": "Yes! Every track page displays the complete day-by-day curriculum with titles, durations, modules, and learning outcomes."
       },
@@ -156,8 +156,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "كيف أمتلك المسارات والمسارات المهنية؟",
         "qEn": "How do track and career path purchases work?",
-        "a": "نظام طوّرني مرن وموجّه: يمكنك شراء أي مسار تخصصي فردي بـ 50 ج.م فقط، أو شراء مسار مهني متكامل يضم حزمة مسارات بـ 100 ج.م فقط بامتلاك دائم وبدون أي اشتراكات متكررة. كل مسار تشتريه يضاف لمكتبتك التعليمية ويفتح جميع مهامه وكويزاته وشهادته الموثقة.",
-        "aEn": "Tawwerni features modular ownership: purchase any individual track for just 50 EGP, or an all-in-one Career Path bundle for 100 EGP with lifetime ownership and zero recurring fees. Every product you buy is added to your learning inventory with all lessons, tasks, quizzes, and verified certificates unlocked."
+        "a": "نظام طوّرني مرن وموجّه: يمكنك شراء أي مسار تخصصي فردي بـ 59 ج.م فقط، أو شراء مسار مهني متكامل يضم حزمة مسارات بـ 149 ج.م فقط، أو الوصول الشامل بـ 399 ج.م بامتلاك دائم وبدون أي اشتراكات متكررة. كل مسار تشتريه يضاف لمكتبتك التعليمية ويفتح جميع مهامه وكويزاته وشهادته الموثقة.",
+        "aEn": "Tawwerni features modular ownership: purchase any individual track for just 59 EGP, an all-in-one Career Path bundle for 149 EGP, or the All-Access Pass for 399 EGP with lifetime ownership and zero recurring fees. Every product you buy is added to your learning inventory with all lessons, tasks, quizzes, and verified certificates unlocked."
       },
       {
         "q": "هل أحصل على شهادة معتمدة لكل مسار من الـ 100؟",
@@ -202,10 +202,10 @@ export const faqCategories: FaqCategory[] = [
         "aEn": "Faheem is your 24/7 empathetic AI coach. He understands the exact lesson you are studying, clarifies complex technical concepts, reviews your daily exercises, and provides ongoing encouragement."
       },
       {
-        "q": "هل التحديثات والمسارات الإضافية المستقبلية مجانية للمشتركين؟",
-        "qEn": "Are future updates and additional courses included for free?",
-        "a": "نعم! اشتراكك هو استثمار لمدة سنة، ويشمل جميع التحديثات الدورية على المسارات الـ 100، بالإضافة إلى أي مسارات جديدة يتم إطلاقها طوال فترة اشتراكك بدون أي رسوم إضافية إطلاقاً.",
-        "aEn": "Yes! 1-Year membership guarantees free access to all curriculum updates, refreshed tool guides, and brand-new tracks added to the catalog for a full year."
+        "q": "هل التحديثات والمسارات الإضافية المستقبلية مجانية؟",
+        "qEn": "Are future updates and additional content included for free?",
+        "a": "نعم! ملكيتك لأي مسار أو مسار مهني أو الوصول الشامل تشمل جميع التحديثات الدورية على المحتوى والتمارين بدون أي رسوم إضافية إطلاقاً.",
+        "aEn": "Yes! Lifetime ownership of any track, career path, or All-Access Pass includes all periodic updates and refreshed resources with zero additional fees."
       },
       {
         "q": "هل أقدر أدرس وأتابع المسارات من الموبايل بسهولة؟",
@@ -241,15 +241,15 @@ export const faqCategories: FaqCategory[] = [
   },
   {
     "key": "payment",
-    "title": "الدفع والاشتراك",
+    "title": "الدفع والامتلاك المكتبي",
     "titleEn": "Pricing & Modular Ownership",
     "icon": "💳",
     "items": [
       {
         "q": "الأسعار ونظام الشراء كام؟",
         "qEn": "What are the prices and ownership options?",
-        "a": "نوفر خيارين بامتلاك دائم: مسار تخصصي فردي بـ 50 جنيه فقط (بدل 250 جنيه)، أو مسار مهني متكامل يضم حزمة مسارات بـ 100 جنيه فقط (بدل 600 جنيه). دفعة واحدة لمرة واحدة بدون أي اشتراكات شهرية أو تجديد تلقائي.",
-        "aEn": "We offer two modular options with lifetime ownership: an Individual Track for just 50 EGP (original 250 EGP), or a Complete Career Path bundle for 100 EGP (original 600 EGP). A single one-time payment with zero monthly subscriptions or rebilling."
+        "a": "نوفر ثلاثة مستويات بامتلاك دائم: مسار تخصصي فردي بـ 59 جنيه فقط، أو مسار مهني متكامل يضم حزمة مسارات بـ 149 جنيه فقط، أو الوصول الشامل لكافة المسارات بـ 399 جنيه فقط. دفعة واحدة لمرة واحدة بدون أي اشتراكات شهرية أو تجديد تلقائي.",
+        "aEn": "We offer three transparent tiers with lifetime ownership: an Individual Track for 59 EGP, a Complete Career Path bundle for 149 EGP, or the All-Access Pass for 399 EGP. A single one-time payment with zero recurring fees."
       },
       {
         "q": "الدفع بيتم إزاي؟",
@@ -278,8 +278,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "هل فيه أي رسوم متكررة أو اشتراك شهري؟",
         "qEn": "Are there any recurring monthly charges?",
-        "a": "إطلاقاً! لا توجد أي رسوم شهرية أو سنوية متكررة. كل عملية شراء (50 ج.م للمسار أو 100 ج.م للمسار المهني) تمنحك امتلاكاً دائماً للمحتوى ومكتبتك التعليمية مع كافة التحديثات.",
-        "aEn": "Absolutely not! Zero monthly or annual recurring fees. Each purchase (50 EGP for a Track, 100 EGP for a Career Path) gives you permanent lifetime access to the content and your learning inventory."
+        "a": "إطلاقاً! لا توجد أي رسوم شهرية أو سنوية متكررة. كل عملية شراء (59 ج.م للمسار، 149 ج.م للمسار المهني، أو 399 ج.م للوصول الشامل) تمنحك امتلاكاً دائماً للمحتوى ومكتبتك التعليمية مع كافة التحديثات.",
+        "aEn": "Absolutely not! Zero monthly or annual recurring fees. Each purchase (59 EGP for a Track, 149 EGP for a Career Path, or 399 EGP for All-Access) gives you permanent lifetime access to the content and your learning inventory."
       },
       {
         "q": "أقدر أدفع بفيزا؟",
@@ -288,10 +288,10 @@ export const faqCategories: FaqCategory[] = [
         "aEn": "Vodafone Cash and InstaPay are currently active. Card checkout options are in active rollout."
       },
       {
-        "q": "ما الفرق بين المسار الفردي والمسار المهني المتكامل؟",
-        "qEn": "What is the difference between an Individual Track and a Career Path?",
-        "a": "المسار الفردي (50 ج.م) يركز على مهارة تخصصية محددة من الصفر حتى مشروع عملي وشهادة موثقة. أما المسار المهني المتكامل (100 ج.م) فيضم حزمة متكاملة من المسارات التخصصية تشكّل تخصصاً وظيفياً كاملاً في سوق العمل وتمنحك توفيراً يتجاوز 75%.",
-        "aEn": "An Individual Track (50 EGP) focuses on a specific skill from zero to a portfolio project and verified certificate. A Career Path bundle (100 EGP) includes a complete roadmap of interconnected tracks qualifying you for a complete job role with 75%+ savings."
+        "q": "ما الفرق بين المسار الفردي والمسار المهني والوصول الشامل؟",
+        "qEn": "What is the difference between an Individual Track, a Career Path, and All-Access?",
+        "a": "المسار الفردي (59 ج.م) يركز على مهارة تخصصية محددة من الصفر حتى مشروع عملي وشهادة موثقة. أما المسار المهني المتكامل (149 ج.م) فيضم خريطة طريق متكاملة من عدة مسارات تؤهلك لدور وظيفي كامل في سوق العمل. والوصول الشامل (399 ج.م) يفتح كافة الـ 100 مسار وجميع المسارات المهنية بامتلاك دائم مدى الحياة.",
+        "aEn": "An Individual Track (59 EGP) focuses on a specific skill from zero to a portfolio project and verified certificate. A Career Path bundle (149 EGP) includes a complete roadmap of interconnected tracks qualifying you for a complete job role. The All-Access Pass (399 EGP) unlocks all 100 tracks and career roadmaps with lifetime ownership."
       },
       {
         "q": "هل المشتركون السابقون يحتفظون بوصولهم؟",
@@ -330,10 +330,10 @@ export const faqCategories: FaqCategory[] = [
         "aEn": "Yes! Day 1 of all 100 tracks is completely free for every registered user without entering any payment information."
       },
       {
-        "q": "أقدر أهدي الاشتراك لحد؟",
-        "qEn": "Can I gift a membership to a friend or colleague?",
-        "a": "أيوة. ادفع وابعتلنا إيميل الشخص اللي عايز تهديه، وهنفعّل الحساب باسمه.",
-        "aEn": "Yes! Complete the transfer and send us the recipient's email address on WhatsApp, and we will activate their account directly."
+        "q": "أقدر أهدي مسار أو حساب لحد؟",
+        "qEn": "Can I gift a track, career path, or pass to a friend?",
+        "a": "أيوة. ادفع وابعتلنا إيميل الشخص اللي عايز تهديه على واتساب، وهنفعّل طلبه باسمه فوراً.",
+        "aEn": "Yes! Complete the transfer and send us the recipient's email address on WhatsApp, and we will activate their course access directly."
       },
       {
         "q": "ليه بتطلبوا رقم الموبايل وقت الطلب؟",
@@ -400,8 +400,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "أقدر أرجع لدرس قديم؟",
         "qEn": "Can I go back to review completed lessons?",
-        "a": "أيوة. كل الدروس اللي فتحتها بتفضل متاحة ليك طوال فترة اشتراكك (سنة كاملة) ترجع تراجعها في أي وقت.",
-        "aEn": "Yes! All unlocked lessons remain accessible in your account throughout your 1-year subscription for anytime review."
+        "a": "أيوة. كل المسارات والدروس التي تمتلكها بتفضل متاحة ليك مدى الحياة ترجع تراجعها في أي وقت بدون أي انتهاء صلاحية.",
+        "aEn": "Yes! All tracks and lessons you own remain accessible in your account permanently for lifetime review."
       },
       {
         "q": "أقدر أقفز لدرس متقدّم؟",
@@ -646,8 +646,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "إيه هو برنامج الإحالة؟",
         "qEn": "What is the referral program?",
-        "a": "بتاخد 50 جنيه عن كل شخص يشترك من اللينك بتاعك. مفيش حد أقصى لعدد الناس.",
-        "aEn": "You earn 50 EGP for every person who subscribes through your personal referral link, with unlimited earning potential."
+        "a": "بتاخد 25 جنيه عن كل عملية شراء مدفوعة تتم من اللينك بتاعك. مفيش حد أقصى لعدد الناس.",
+        "aEn": "You earn 25 EGP for every paid purchase completed through your personal referral link, with unlimited earning potential."
       },
       {
         "q": "فين اللينك بتاعي؟",
@@ -664,8 +664,8 @@ export const faqCategories: FaqCategory[] = [
       {
         "q": "أقل مبلغ أقدر أسحبه كام؟",
         "qEn": "What is the minimum withdrawal amount?",
-        "a": "500 جنيه. لما رصيدك يوصلها، زرار السحب بيتفعّل في صفحة \"اكسب\".",
-        "aEn": "500 EGP. As soon as your withdrawable balance reaches 500 EGP, the payout request button activates."
+        "a": "100 جنيه. لما رصيدك يوصلها، زرار السحب بيتفعّل في صفحة \"اكسب\".",
+        "aEn": "100 EGP. As soon as your withdrawable balance reaches 100 EGP, the payout request button activates."
       },
       {
         "q": "بستلم الفلوس إزاي؟",

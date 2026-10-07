@@ -410,6 +410,87 @@ export async function revokeUserEntitlement({
 }
 
 /**
+ * Calculates user's verified settled purchase credit ledger for upgrades.
+ */
+export async function getEligiblePurchaseCredit(userId: string): Promise<{
+  totalPaidEgp: number;
+  eligibleCreditEgp: number;
+  settledOrders: {
+    id: string;
+    productType: string;
+    productSlug: string;
+    amountEgp: number;
+    createdAt: Date;
+  }[];
+}> {
+  if (!userId) {
+    return { totalPaidEgp: 0, eligibleCreditEgp: 0, settledOrders: [] };
+  }
+
+  // Only approved orders, not refunded or cancelled
+  const orders = await prisma.order.findMany({
+    where: {
+      userId,
+      status: "approved",
+    },
+    select: {
+      id: true,
+      productType: true,
+      productSlug: true,
+      amountEgp: true,
+      createdAt: true,
+    },
+    orderBy: { createdAt: "asc" },
+  });
+
+  const totalPaid = orders.reduce((sum, o) => sum + (o.amountEgp || 0), 0);
+  const eligibleCredit = Math.min(399, totalPaid);
+
+  return {
+    totalPaidEgp: totalPaid,
+    eligibleCreditEgp: eligibleCredit,
+    settledOrders: orders.map((o) => ({
+      id: o.id,
+      productType: o.productType || "track",
+      productSlug: o.productSlug || "",
+      amountEgp: o.amountEgp,
+      createdAt: o.createdAt,
+    })),
+  };
+}
+
+/**
+ * Retrieve raw user entitlements list.
+ */
+export async function getUserEntitlements(userId: string) {
+  if (!userId) return [];
+  await ensureEntitlementsTable();
+  return prisma.userEntitlement.findMany({
+    where: { userId },
+    orderBy: { grantedAt: "desc" },
+  });
+}
+
+/**
+ * Get explainable source of access for a track.
+ */
+export async function getTrackAccessSource(userId: string, trackSlug: string): Promise<string> {
+  const result = await canUserAccessTrack(userId, trackSlug);
+  return result.reason;
+}
+
+/**
+ * Get explainable source of access for a career path.
+ */
+export async function getCareerPathAccessSource(userId: string, careerPathSlug: string): Promise<string> {
+  const result = await canUserAccessCareerPath(userId, careerPathSlug);
+  return result.reason;
+}
+
+export const canAccessTrack = canUserAccessTrack;
+export const canAccessCareerPath = canUserAccessCareerPath;
+
+/**
  * Get comprehensive learning inventory for a user.
  */
 export async function getUserInventory(userId: string): Promise<UserInventory> {

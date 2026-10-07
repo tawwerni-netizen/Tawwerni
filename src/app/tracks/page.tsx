@@ -62,16 +62,16 @@ export default function TracksPage() {
           <h1 className="text-3xl font-black sm:text-5xl lg:text-6xl tracking-tight text-neutral-900 dark:text-white mb-5 leading-tight">
             {isEn ? (
               <>
-                All Modern Career Skills, <br className="hidden sm:inline" />
+                Master Any Skill, <br className="hidden sm:inline" />
                 <span className="text-teal-600 dark:text-emerald-400 font-black">
-                  In One 1-Year Membership
+                  Own It Forever At Your Own Pace
                 </span>
               </>
             ) : (
               <>
-                كل مهارات سوق العمل والذكاء الاصطناعي، <br className="hidden sm:inline" />
+                امتلك المهارة التي تحتاجها، <br className="hidden sm:inline" />
                 <span className="text-teal-600 dark:text-emerald-400 font-black">
-                  في اشتراك سنوي واحد شامل
+                  ملكية دائمة وتعلّم فوري بالسرعة التي تناسبك
                 </span>
               </>
             )}

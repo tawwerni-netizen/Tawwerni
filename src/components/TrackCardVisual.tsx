@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import type { Track100 } from "@/content/tracks100";
 import { getTrackArtwork } from "@/content/track-artworks";
 import { useI18n } from "./LanguageContext";
+import { pricing } from "@/content/brand";
 import { resolveDomainTheme, type DomainTheme } from "@/lib/design-system/domain-themes";
 
 type Props = {
@@ -268,7 +269,7 @@ export default function TrackCardVisual({ track, onSelect }: Props) {
       <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800/80 flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400">
         <div className="flex items-center gap-1.5 font-bold">
           <span className="rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 text-[11px] font-mono font-black">
-            {lang === "ar" ? "50 ج.م" : "50 EGP"}
+            {lang === "ar" ? `${pricing.trackPriceEgp} ج.م` : `${pricing.trackPriceEgp} EGP`}
           </span>
           <span className="text-[10px] text-neutral-400 hidden sm:inline">
             {lang === "ar" ? "· يوم 1 مجانًا" : "· Day 1 Free"}

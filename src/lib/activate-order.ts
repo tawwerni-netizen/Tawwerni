@@ -32,7 +32,7 @@ export async function activateOrder(orderId: string, note: string) {
     const isCareerPath = order.productType === "career_path";
 
     if (isAllAccess) {
-      // All-Access Pass (350 EGP) / Legacy -> full library access
+      // All-Access Pass (399 EGP) / Legacy -> full library access
       await grantUserEntitlement({
         userId: order.userId,
         productType: "all_access",
@@ -48,7 +48,7 @@ export async function activateOrder(orderId: string, note: string) {
         orderId: order.id,
       });
     } else if (isCareerPath && order.productSlug) {
-      // Career Path bundle (100 EGP) -> grants career path entitlement
+      // Career Path bundle (149 EGP) -> grants career path entitlement
       await grantUserEntitlement({
         userId: order.userId,
         productType: "career_path",
@@ -57,7 +57,7 @@ export async function activateOrder(orderId: string, note: string) {
         orderId: order.id,
       });
     } else {
-      // Track (50 EGP) -> grants individual track entitlement
+      // Track (59 EGP) -> grants individual track entitlement
       const trackSlug = order.productSlug || order.course?.slug;
       if (trackSlug) {
         await grantUserEntitlement({

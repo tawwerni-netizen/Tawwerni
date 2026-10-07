@@ -171,10 +171,10 @@ export default function CheckoutForm({
   // Price calculation
   const basePrice =
     productType === "all_access"
-      ? pricing.allAccessPriceEgp // 350 EGP
+      ? pricing.allAccessPriceEgp // 399 EGP
       : productType === "career_path"
-      ? pricing.careerPathPriceEgp // 100 EGP
-      : pricing.trackPriceEgp; // 50 EGP
+      ? pricing.careerPathPriceEgp // 149 EGP
+      : pricing.trackPriceEgp; // 59 EGP
 
   const totalPrice = basePrice + (withOrderBump ? pricing.orderBumpPriceEgp : 0);
 
@@ -469,7 +469,7 @@ export default function CheckoutForm({
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs sm:text-sm font-black text-white flex items-center gap-2">
               <span>🎯</span>
-              <span>{isEn ? "Choose Your Learning Model" : "اختر نوع الاشتراك التعليمي"}</span>
+              <span>{isEn ? "Choose Your Learning Model" : "اختر نموذج التملك المهاري"}</span>
             </span>
             <span className="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
               {isEn ? "Transparent One-Time Fee" : "دفعة واحدة بدون تجديد دوري"}
@@ -765,7 +765,7 @@ export default function CheckoutForm({
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-xs sm:text-sm font-black text-white flex items-center gap-2">
                   <span>👑</span>
-                  <span>{isEn ? "All-Access Pass Selected (350 EGP)" : "باقة الوصول الشامل المختارة (٣٥٠ ج.م)"}</span>
+                  <span>{isEn ? `All-Access Pass Selected (${pricing.allAccessPriceEgp} EGP)` : `باقة الوصول الشامل المختارة (${pricing.allAccessPriceEgp} ج.م)`}</span>
                 </label>
                 <span className="text-[10px] text-amber-300 font-bold bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
                   {isEn ? "All 100 Tracks Unlocked" : "فتح كافة الـ 100 مسار"}
@@ -795,7 +795,7 @@ export default function CheckoutForm({
             <div className="rounded-3xl border border-white/10 bg-[#0d1614] p-4 sm:p-5 shadow-xs">
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-xs sm:text-sm font-black text-white">
-                  {isEn ? "1. Select Career Path (100 EGP Bundle)" : "١. حدد المسار المهني المطلوب (١٠٠ ج.م)"}
+                  {isEn ? `1. Select Career Path (${pricing.careerPathPriceEgp} EGP Bundle)` : `١. حدد المسار المهني المطلوب (${pricing.careerPathPriceEgp} ج.م)`}
                 </label>
                 <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
                   {isEn ? "Unlocks all included tracks" : "يفتح جميع مسارات الخريطة"}
@@ -847,7 +847,7 @@ export default function CheckoutForm({
             <div className="rounded-3xl border border-white/10 bg-[#0d1614] p-4 sm:p-5 shadow-xs">
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-xs sm:text-sm font-black text-white">
-                  {isEn ? "1. Select Learning Track (50 EGP)" : "١. حدد المسار التدريبي (٥٠ ج.م)"}
+                  {isEn ? `1. Select Learning Track (${pricing.trackPriceEgp} EGP)` : `١. حدد المسار التدريبي (${pricing.trackPriceEgp} ج.م)`}
                 </label>
                 <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
                   {isEn ? "100 Tracks Available" : "١٠٠ مسار متاح"}

@@ -116,21 +116,23 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
   }
 
   // 1. In Egypt, transfers arrive as:
-  // - Modular Track: 50 EGP (or 49)
-  // - Modular Career Path (Bundle): 100 EGP (or 99)
-  // - Track + VIP Order Bump: 249 or 250 EGP
-  // - Career Path + VIP Order Bump: 299 or 300 EGP
-  // - Legacy All-Access Subscriptions: 349, 350, 448, 450, 548, 550 EGP
+  // - Modular Track: 59 EGP (or 58/60 or legacy 50/49)
+  // - Modular Career Path (Bundle): 149 EGP (or 148/150 or legacy 100/99)
+  // - All-Access Pass: 399 EGP (or 398/400 or legacy 349/350)
+  // - Track + VIP Order Bump: 258 EGP (or legacy 249/250)
+  // - Career Path + VIP Order Bump: 348 EGP (or legacy 299/300)
   // - Standalone VIP Upgrade: 199 or 200 EGP
-  const trackTierAmounts = [50, 49, pricing.trackPriceEgp];
-  const careerPathTierAmounts = [100, 99, pricing.careerPathPriceEgp];
-  const trackVipAmounts = [249, 250, pricing.trackPriceEgp + pricing.orderBumpPriceEgp];
-  const careerPathVipAmounts = [299, 300, pricing.careerPathPriceEgp + pricing.orderBumpPriceEgp];
-  const legacySubscriptionAmounts = [349, 350, 448, 449, 450, 548, 549, 550];
+  const trackTierAmounts = [59, 58, 60, 50, 49, pricing.trackPriceEgp];
+  const careerPathTierAmounts = [149, 148, 150, 100, 99, pricing.careerPathPriceEgp];
+  const allAccessTierAmounts = [399, 398, 400, 350, 349, pricing.allAccessPriceEgp];
+  const trackVipAmounts = [258, 257, 249, 250, pricing.trackPriceEgp + pricing.orderBumpPriceEgp];
+  const careerPathVipAmounts = [348, 347, 299, 300, pricing.careerPathPriceEgp + pricing.orderBumpPriceEgp];
+  const legacySubscriptionAmounts = [349, 350, 399, 448, 449, 450, 548, 549, 550];
   const vipStandaloneUpgradeAmounts = [199, 200, pricing.orderBumpPriceEgp];
 
   const isTrackTier = trackTierAmounts.includes(payment.amountEgp);
   const isCareerPathTier = careerPathTierAmounts.includes(payment.amountEgp);
+  const isAllAccessTier = allAccessTierAmounts.includes(payment.amountEgp);
   const isTrackVip = trackVipAmounts.includes(payment.amountEgp);
   const isCareerPathVip = careerPathVipAmounts.includes(payment.amountEgp);
   const isLegacyTier = legacySubscriptionAmounts.includes(payment.amountEgp);
@@ -140,6 +142,7 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
   const isRecognizedTier =
     isTrackTier ||
     isCareerPathTier ||
+    isAllAccessTier ||
     isTrackVip ||
     isCareerPathVip ||
     isLegacyTier ||
@@ -149,9 +152,10 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
   let candidateAmounts: number[] = [payment.amountEgp];
   if (isTrackTier) candidateAmounts = [...trackTierAmounts, ...trackVipAmounts];
   else if (isCareerPathTier) candidateAmounts = [...careerPathTierAmounts, ...careerPathVipAmounts];
+  else if (isAllAccessTier) candidateAmounts = [...allAccessTierAmounts, ...legacySubscriptionAmounts];
   else if (isTrackVip) candidateAmounts = [...trackVipAmounts, ...trackTierAmounts];
   else if (isCareerPathVip) candidateAmounts = [...careerPathVipAmounts, ...careerPathTierAmounts];
-  else if (isLegacyTier) candidateAmounts = [...legacySubscriptionAmounts];
+  else if (isLegacyTier) candidateAmounts = [...legacySubscriptionAmounts, ...allAccessTierAmounts];
   else if (isStandaloneVipUpgrade) candidateAmounts = [...vipStandaloneUpgradeAmounts, ...trackTierAmounts];
   candidateAmounts = Array.from(new Set(candidateAmounts));
 

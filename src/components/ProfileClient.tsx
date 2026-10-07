@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { brand, payment } from "@/content/brand";
+import { brand, payment, pricing } from "@/content/brand";
 import AvatarPicker from "@/components/AvatarPicker";
 import ChangePassword from "@/components/ChangePassword";
 import { useI18n } from "./LanguageContext";
@@ -345,7 +345,7 @@ export default function ProfileClient(props: Props) {
                 {isEn ? "Free Preview Mode (Day 1 Unlocked)" : "عضوية تجريبية (اليوم الأول مجاني في كل مسار)"}
               </p>
               <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                {isEn ? "Own individual tracks for 50 EGP, Career Paths for 100 EGP, or All-Access for 350 EGP." : "امتلك مسارات تخصصية بـ 50 ج.م، مسارات مهنية بـ 100 ج.م، أو الوصول الشامل بـ 350 ج.م."}
+                {isEn ? `Own individual tracks for ${pricing.trackPriceEgp} EGP, Career Paths for ${pricing.careerPathPriceEgp} EGP, or All-Access for ${pricing.allAccessPriceEgp} EGP.` : `امتلك مسارات تخصصية بـ ${pricing.trackPriceEgp} ج.م، مسارات مهنية بـ ${pricing.careerPathPriceEgp} ج.م، أو الوصول الشامل بـ ${pricing.allAccessPriceEgp} ج.م.`}
               </p>
             </div>
             <div className="flex items-center gap-2 shrink-0">

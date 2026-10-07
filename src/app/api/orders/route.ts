@@ -74,7 +74,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "اختر المسار أو التخصص أولاً" }, { status: 400 });
   }
 
-  // Calculate pricing strictly server-side (50 EGP Track, 100 EGP Career Path, 350 EGP All-Access)
+  // Calculate pricing strictly server-side (59 EGP Track, 149 EGP Career Path, 399 EGP All-Access)
   const priceCalc = calculateOrderPrice({
     productType: resolvedType,
     productSlug: resolvedSlug,

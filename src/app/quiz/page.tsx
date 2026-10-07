@@ -857,7 +857,7 @@ export default function QuizPage() {
               </p>
             </div>
 
-            {/* ================= HERO ACTION 2: CAREER PATH BUNDLE (100 EGP - BEST VALUE) ================= */}
+            {/* ================= HERO ACTION 2: CAREER PATH BUNDLE ================= */}
             <div className="rounded-3xl border-2 border-emerald-400 bg-gradient-to-br from-[#0e221b] via-[#0d1c18] to-[#0c1815] p-5 sm:p-7 mb-4 text-start shadow-2xl shadow-emerald-500/15 relative overflow-hidden">
               <div className="pointer-events-none absolute -top-16 -left-16 w-40 h-40 rounded-full bg-emerald-400/15 blur-2xl" />
 
@@ -868,7 +868,7 @@ export default function QuizPage() {
                 </span>
 
                 <span className="text-[11px] font-black text-amber-300 bg-amber-400/15 border border-amber-400/30 px-2.5 py-0.5 rounded-full">
-                  {isEn ? "Best Value · Save 75%+" : "الأفضل قيمة · وفّر أكثر من 75%"}
+                  {isEn ? "Complete Career Roadmap" : "خريطة طريق مهنية متكاملة"}
                 </span>
               </div>
 
@@ -930,7 +930,7 @@ export default function QuizPage() {
               </button>
             </div>
 
-            {/* ================= HERO ACTION 3: INDIVIDUAL TRACK (50 EGP) ================= */}
+            {/* ================= HERO ACTION 3: INDIVIDUAL TRACK ================= */}
             <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#121815] to-[#0a0f0d] p-5 sm:p-6 mb-5 text-start shadow-lg relative">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 text-neutral-300 border border-white/10 text-xs font-bold">
@@ -960,7 +960,7 @@ export default function QuizPage() {
               </button>
             </div>
 
-            {/* ================= HERO ACTION 4: ALL-ACCESS PASS (350 EGP) ================= */}
+            {/* ================= HERO ACTION 4: ALL-ACCESS PASS ================= */}
             <div className="rounded-3xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-[#14120e] to-[#0a0f0d] p-5 sm:p-6 mb-5 text-start shadow-xl relative">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold">

@@ -338,8 +338,8 @@ export default function LandingPageView() {
 
             <p className="mt-4 text-center text-xs text-neutral-500 dark:text-neutral-400">
               {isEn
-                ? "✨ Any path you choose includes Day 1 free. Own individual tracks for 50 EGP or complete Career Path bundles for 100 EGP with lifetime ownership."
-                : "✨ أي مسار تختاره اليوم الأول فيه مجاني بالكامل. امتلك مسارك الفردي بـ 50 ج.م فقط أو المسار المهني الشامل بـ 100 ج.م بامتلاك دائم وبدون أي اشتراكات متكررة."}
+                ? `✨ Any path you choose includes Day 1 free. Own individual tracks for ${pricing.trackPriceEgp} EGP or complete Career Path bundles for ${pricing.careerPathPriceEgp} EGP with lifetime ownership.`
+                : `✨ أي مسار تختاره اليوم الأول فيه مجاني بالكامل. امتلك مسارك الفردي بـ ${pricing.trackPriceEgp} ج.م فقط أو المسار المهني الشامل بـ ${pricing.careerPathPriceEgp} ج.م بامتلاك دائم وبدون أي اشتراكات متكررة.`}
             </p>
           </div>
         </div>
@@ -1066,7 +1066,7 @@ export default function LandingPageView() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-start">
-            {/* Card 1: Individual Track (50 EGP) */}
+            {/* Card 1: Individual Track */}
             <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-7 shadow-lg flex flex-col justify-between relative">
               <div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/10 text-teal-800 dark:text-teal-300 border border-teal-500/20 text-2xs font-black mb-3">
@@ -1132,7 +1132,7 @@ export default function LandingPageView() {
               </div>
             </div>
 
-            {/* Card 2: Complete Career Path (100 EGP) - Best Value */}
+            {/* Card 2: Complete Career Path - Best Value */}
             <div className="rounded-3xl border-2 border-emerald-500 bg-white dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-7 shadow-xl shadow-emerald-500/10 flex flex-col justify-between relative ring-2 ring-emerald-500/20 overflow-hidden">
               <div className="pointer-events-none absolute -top-20 -right-20 w-48 h-48 rounded-full bg-emerald-500/15 blur-3xl" />
               <div className="pointer-events-none absolute -bottom-20 -left-20 w-48 h-48 rounded-full bg-teal-500/15 blur-3xl" />
@@ -1201,7 +1201,7 @@ export default function LandingPageView() {
               </div>
             </div>
 
-            {/* Card 3: All-Access Pass (350 EGP) - Complete Mastery */}
+            {/* Card 3: All-Access Pass - Complete Mastery */}
             <div className="rounded-3xl border-2 border-amber-400/50 bg-white dark:bg-neutral-900/90 backdrop-blur-md p-6 sm:p-7 shadow-xl shadow-amber-500/10 flex flex-col justify-between relative ring-2 ring-amber-400/20 overflow-hidden">
               <div className="pointer-events-none absolute -top-20 -right-20 w-48 h-48 rounded-full bg-amber-500/15 blur-3xl" />
 

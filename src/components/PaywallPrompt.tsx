@@ -8,9 +8,10 @@ import { getCareerPathsForTrack } from "@/content/career-paths";
 /**
  * Shown right after a learner finishes the free preview day, or when accessing
  * locked content in a track.
- * Presents clear V2 modular options:
- * 1. Own this Track for 50 EGP (lifetime)
- * 2. Own the full Career Path Bundle for 100 EGP (save 75%+)
+ * Presents clear V3 modular options:
+ * 1. Own this Track for 59 EGP (lifetime)
+ * 2. Own the full Career Path Bundle for 149 EGP
+ * 3. Own the All-Access Pass for 399 EGP
  */
 export default function PaywallPrompt({
   state,
@@ -103,14 +104,14 @@ export default function PaywallPrompt({
             </>
           ) : (
             <>
-              متبقي لك <b className="text-white">{Math.max(0, totalLessons - 1)} مهمة عملية</b>. يمكنك امتلاك هذا المسار التخصصي بمفرده، أو فتح المسار المهني الشامل بالكامل وتوفير أكثر من 75%.
+              متبقي لك <b className="text-white">{Math.max(0, totalLessons - 1)} مهمة عملية</b>. يمكنك امتلاك هذا المسار التخصصي بمفرده، أو فتح المسار المهني الشامل بالكامل بامتلاك دائم لجميع مساراته.
             </>
           )}
         </p>
 
         {/* Dual Modular Purchase Choices */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-6 text-start">
-          {/* Option 1: Track Only (50 EGP) */}
+          {/* Option 1: Track Only */}
           <div className="rounded-2xl border border-white/15 bg-white/5 p-4 flex flex-col justify-between hover:border-white/30 transition">
             <div>
               <div className="flex items-center justify-between mb-2">
@@ -138,12 +139,12 @@ export default function PaywallPrompt({
             </Link>
           </div>
 
-          {/* Option 2: Full Career Path (100 EGP) - Best Value */}
+          {/* Option 2: Full Career Path - Best Value */}
           <div className="rounded-2xl border-2 border-emerald-400 bg-emerald-500/10 p-4 flex flex-col justify-between relative shadow-lg shadow-emerald-500/10">
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-2xs font-black px-2 py-0.5 rounded-full bg-emerald-400 text-neutral-950">
-                  {isEn ? "🌟 Best Value (Save 75%+)" : "🌟 الأفضل قيمة (وفّر 75%+)"}
+                  {isEn ? "🌟 Complete Roadmap" : "🌟 خريطة طريق متكاملة"}
                 </span>
                 <span className="text-sm font-black font-mono text-emerald-300">
                   {pricing.careerPathPriceEgp} {isEn ? "EGP" : "ج.م"}
