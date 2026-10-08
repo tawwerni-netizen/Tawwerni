@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { brand, pricing, payment } from "@/content/brand";
@@ -187,7 +187,24 @@ export default function CheckoutForm({
 
   const totalPrice = basePrice + (withOrderBump && productType !== "all_access" ? pricing.orderBumpPriceEgp : 0);
 
+  const hasInitialized = useRef(false);
+
+  const handleSelectProductType = (type: "track" | "career_path" | "all_access") => {
+    setProductType(type);
+    try {
+      const raw = sessionStorage.getItem("tawwerni_checkout");
+      const current = raw ? JSON.parse(raw) : {};
+      sessionStorage.setItem(
+        "tawwerni_checkout",
+        JSON.stringify({ ...current, productType: type })
+      );
+    } catch {}
+  };
+
   useEffect(() => {
+    if (hasInitialized.current) return;
+    hasInitialized.current = true;
+
     // Dynamically retrieve active payment receiving accounts
     fetch("/api/payment-config")
       .then((r) => r.json())
@@ -198,6 +215,10 @@ export default function CheckoutForm({
       })
       .catch(() => {});
 
+    let initialProductType: "track" | "career_path" | "all_access" | null = null;
+    let initialTrackSlug: string | null = null;
+    let initialPathSlug: string | null = null;
+
     // Check URL parameters for pre-selected product
     try {
       const params = new URLSearchParams(window.location.search);
@@ -205,22 +226,22 @@ export default function CheckoutForm({
       const slugParam = params.get("slug");
 
       if (typeParam === "all_access" || slugParam === "all_access" || slugParam === "all-access") {
-        setProductType("all_access");
+        initialProductType = "all_access";
       } else if (typeParam === "track" && slugParam) {
-        setProductType("track");
-        setSelectedTrackSlug(slugParam);
+        initialProductType = "track";
+        initialTrackSlug = slugParam;
       } else if (typeParam === "career_path" && slugParam) {
-        setProductType("career_path");
-        setSelectedCareerPathSlug(slugParam);
+        initialProductType = "career_path";
+        initialPathSlug = slugParam;
       } else if (slugParam) {
         // Find if slug belongs to career path or track
         const isPath = careerPaths.some((cp) => cp.slug === slugParam);
         if (isPath) {
-          setProductType("career_path");
-          setSelectedCareerPathSlug(slugParam);
+          initialProductType = "career_path";
+          initialPathSlug = slugParam;
         } else {
-          setProductType("track");
-          setSelectedTrackSlug(slugParam);
+          initialProductType = "track";
+          initialTrackSlug = slugParam;
         }
       }
     } catch {}
@@ -231,18 +252,31 @@ export default function CheckoutForm({
         const data = JSON.parse(raw);
         if (data.email) setEmail(data.email);
         if (data.name) setName(data.name);
-        if (data.productType) setProductType(data.productType);
+        if (!initialProductType && data.productType) {
+          initialProductType = data.productType;
+        }
         if (data.productSlug) {
-          if (data.productType === "career_path") setSelectedCareerPathSlug(data.productSlug);
-          else if (data.productType === "track") setSelectedTrackSlug(data.productSlug);
+          if (data.productType === "career_path") initialPathSlug = data.productSlug;
+          else if (data.productType === "track") initialTrackSlug = data.productSlug;
         } else if (data.courseSlug) {
-          setSelectedTrackSlug(data.courseSlug);
+          initialTrackSlug = data.courseSlug;
         }
       } catch {}
     }
+
+    if (initialProductType) setProductType(initialProductType);
+    if (initialTrackSlug) setSelectedTrackSlug(initialTrackSlug);
+    if (initialPathSlug) setSelectedCareerPathSlug(initialPathSlug);
+
     setReady(true);
-    trackInitiateCheckout(basePrice);
-  }, [careerPaths, basePrice]);
+    const initialPrice =
+      initialProductType === "all_access"
+        ? pricing.allAccessPriceEgp
+        : initialProductType === "career_path"
+        ? pricing.careerPathPriceEgp
+        : pricing.trackPriceEgp;
+    trackInitiateCheckout(initialPrice);
+  }, [careerPaths]);
 
   const selectedTrack = courses.find((c) => c.slug === selectedTrackSlug) || courses[0];
   const selectedCareerPath =
@@ -504,16 +538,16 @@ export default function CheckoutForm({
             {/* Individual Track Option */}
             <button
               type="button"
-              onClick={() => setProductType("track")}
-              className={`relative rounded-2xl border-2 p-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
+              onClick={() => handleSelectProductType("track")}
+              className={`relative rounded-2xl border-2 pt-8 pb-4 px-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
                 productType === "track"
                   ? "border-emerald-400 bg-emerald-950/40 shadow-lg shadow-emerald-500/15 ring-2 ring-emerald-400/20"
                   : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
               }`}
             >
               <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-lg">🎯</span>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xl">🎯</span>
                   <div className="flex items-baseline gap-1 font-mono" dir="ltr">
                     <span className="text-2xl font-black text-white">{pricing.trackPriceEgp}</span>
                     <span className="text-xs font-bold text-emerald-400">
@@ -549,20 +583,20 @@ export default function CheckoutForm({
             {/* Career Path Option (Recommended) */}
             <button
               type="button"
-              onClick={() => setProductType("career_path")}
-              className={`relative rounded-2xl border-2 p-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
+              onClick={() => handleSelectProductType("career_path")}
+              className={`relative rounded-2xl border-2 pt-8 pb-4 px-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
                 productType === "career_path"
                   ? "border-emerald-400 bg-emerald-950/40 shadow-lg shadow-emerald-500/15 ring-2 ring-emerald-400/20"
                   : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
               }`}
             >
-              <div className="absolute -top-2.5 start-3 bg-gradient-to-r from-emerald-500 to-teal-400 text-neutral-950 text-[10px] font-black px-2 py-0.5 rounded-full shadow-xs">
+              <div className="absolute -top-3 start-3 sm:start-4 bg-gradient-to-r from-emerald-500 to-teal-400 text-neutral-950 text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md whitespace-nowrap z-10 pointer-events-none">
                 ⭐ {isEn ? "Career Roadmap" : "خارطة مهنية شاملة"}
               </div>
 
               <div>
-                <div className="flex items-center justify-between mt-1 mb-1.5">
-                  <span className="text-lg">🚀</span>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xl">🚀</span>
                   <div className="flex items-baseline gap-1 font-mono" dir="ltr">
                     <span className="text-2xl font-black text-white">
                       {pricing.careerPathPriceEgp}
@@ -600,20 +634,20 @@ export default function CheckoutForm({
             {/* All-Access Pass Option (399 EGP) */}
             <button
               type="button"
-              onClick={() => setProductType("all_access")}
-              className={`relative rounded-2xl border-2 p-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
+              onClick={() => handleSelectProductType("all_access")}
+              className={`relative rounded-2xl border-2 pt-8 pb-4 px-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
                 productType === "all_access"
                   ? "border-amber-400 bg-amber-950/40 shadow-lg shadow-amber-500/15 ring-2 ring-amber-400/20"
                   : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
               }`}
             >
-              <div className="absolute -top-2.5 start-3 bg-gradient-to-r from-amber-400 to-yellow-300 text-neutral-950 text-[10px] font-black px-2 py-0.5 rounded-full shadow-xs">
+              <div className="absolute -top-3 start-3 sm:start-4 bg-gradient-to-r from-amber-400 to-yellow-300 text-neutral-950 text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md whitespace-nowrap z-10 pointer-events-none">
                 👑 {isEn ? "All 100 Tracks" : "الوصول الشامل الأقصى"}
               </div>
 
               <div>
-                <div className="flex items-center justify-between mt-1 mb-1.5">
-                  <span className="text-lg">👑</span>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xl">👑</span>
                   <div className="flex items-baseline gap-1 font-mono" dir="ltr">
                     <span className="text-2xl font-black text-amber-300">
                       {pricing.allAccessPriceEgp}
