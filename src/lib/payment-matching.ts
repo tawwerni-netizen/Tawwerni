@@ -122,6 +122,9 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
   // - Track + VIP Order Bump: 258 EGP (or legacy 249/250)
   // - Career Path + VIP Order Bump: 348 EGP (or legacy 299/300)
   // - Standalone VIP Upgrade: 199 or 200 EGP
+  // - Upgrade Track -> Career Path Difference: 90 EGP (149 - 59 = 90, or 89/91)
+  // - Upgrade Career Path -> All Access Difference: 250 EGP (399 - 149 = 250, or 249/251)
+  // - Upgrade Track -> All Access Difference: 340 EGP (399 - 59 = 340, or 339/341)
   const trackTierAmounts = [59, 58, 60, 50, 49, pricing.trackPriceEgp];
   const careerPathTierAmounts = [149, 148, 150, 100, 99, pricing.careerPathPriceEgp];
   const allAccessTierAmounts = [399, 398, 400, 350, 349, pricing.allAccessPriceEgp];
@@ -129,6 +132,9 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
   const careerPathVipAmounts = [348, 347, 299, 300, pricing.careerPathPriceEgp + pricing.orderBumpPriceEgp];
   const legacySubscriptionAmounts = [349, 350, 399, 448, 449, 450, 548, 549, 550];
   const vipStandaloneUpgradeAmounts = [199, 200, pricing.orderBumpPriceEgp];
+  const trackToCareerUpgradeAmounts = [90, 89, 91, pricing.careerPathPriceEgp - pricing.trackPriceEgp];
+  const careerToAllAccessUpgradeAmounts = [250, 249, 251, pricing.allAccessPriceEgp - pricing.careerPathPriceEgp];
+  const trackToAllAccessUpgradeAmounts = [340, 339, 341, pricing.allAccessPriceEgp - pricing.trackPriceEgp];
 
   const isTrackTier = trackTierAmounts.includes(payment.amountEgp);
   const isCareerPathTier = careerPathTierAmounts.includes(payment.amountEgp);
@@ -137,6 +143,10 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
   const isCareerPathVip = careerPathVipAmounts.includes(payment.amountEgp);
   const isLegacyTier = legacySubscriptionAmounts.includes(payment.amountEgp);
   const isStandaloneVipUpgrade = vipStandaloneUpgradeAmounts.includes(payment.amountEgp);
+  const isTrackToCareerUpgrade = trackToCareerUpgradeAmounts.includes(payment.amountEgp);
+  const isCareerToAllAccessUpgrade = careerToAllAccessUpgradeAmounts.includes(payment.amountEgp);
+  const isTrackToAllAccessUpgrade = trackToAllAccessUpgradeAmounts.includes(payment.amountEgp);
+  const isAnyTierUpgrade = isTrackToCareerUpgrade || isCareerToAllAccessUpgrade || isTrackToAllAccessUpgrade;
 
   const isVipTier = isTrackVip || isCareerPathVip || isStandaloneVipUpgrade;
   const isRecognizedTier =
@@ -146,17 +156,21 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
     isTrackVip ||
     isCareerPathVip ||
     isLegacyTier ||
-    isStandaloneVipUpgrade;
+    isStandaloneVipUpgrade ||
+    isAnyTierUpgrade;
 
   // Search across pending subscription orders
   let candidateAmounts: number[] = [payment.amountEgp];
   if (isTrackTier) candidateAmounts = [...trackTierAmounts, ...trackVipAmounts];
-  else if (isCareerPathTier) candidateAmounts = [...careerPathTierAmounts, ...careerPathVipAmounts];
-  else if (isAllAccessTier) candidateAmounts = [...allAccessTierAmounts, ...legacySubscriptionAmounts];
+  else if (isCareerPathTier) candidateAmounts = [...careerPathTierAmounts, ...careerPathVipAmounts, ...trackTierAmounts];
+  else if (isAllAccessTier) candidateAmounts = [...allAccessTierAmounts, ...legacySubscriptionAmounts, ...careerPathTierAmounts, ...trackTierAmounts];
   else if (isTrackVip) candidateAmounts = [...trackVipAmounts, ...trackTierAmounts];
   else if (isCareerPathVip) candidateAmounts = [...careerPathVipAmounts, ...careerPathTierAmounts];
   else if (isLegacyTier) candidateAmounts = [...legacySubscriptionAmounts, ...allAccessTierAmounts];
   else if (isStandaloneVipUpgrade) candidateAmounts = [...vipStandaloneUpgradeAmounts, ...trackTierAmounts];
+  else if (isTrackToCareerUpgrade) candidateAmounts = [...trackToCareerUpgradeAmounts, ...trackTierAmounts];
+  else if (isCareerToAllAccessUpgrade) candidateAmounts = [...careerToAllAccessUpgradeAmounts, ...careerPathTierAmounts];
+  else if (isTrackToAllAccessUpgrade) candidateAmounts = [...trackToAllAccessUpgradeAmounts, ...trackTierAmounts];
   candidateAmounts = Array.from(new Set(candidateAmounts));
 
   // Fetch pending candidate orders (ordered newest first)
@@ -170,7 +184,7 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
   });
 
   if (candidates.length === 0) {
-    if (isStandaloneVipUpgrade && (senderPhone || payment.senderName)) {
+    if ((isStandaloneVipUpgrade || isAnyTierUpgrade) && (senderPhone || payment.senderName)) {
       // Look for an existing user with an approved order to upgrade
       const existingUser = await prisma.user.findFirst({
         where: senderPhone
@@ -188,11 +202,19 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
 
       if (existingUser && existingUser.orders.length > 0) {
         const primaryOrder = existingUser.orders[0];
+        const upgradedType =
+          isCareerToAllAccessUpgrade || isTrackToAllAccessUpgrade
+            ? "all_access"
+            : isTrackToCareerUpgrade
+            ? "career_path"
+            : primaryOrder.productType;
+
         await prisma.order.update({
           where: { id: primaryOrder.id },
           data: {
             amountEgp: primaryOrder.amountEgp + payment.amountEgp,
-            proofChannel: "vip_vault",
+            productType: upgradedType,
+            proofChannel: isStandaloneVipUpgrade ? "vip_vault" : primaryOrder.proofChannel,
           },
         });
         await prisma.paymentTransaction.update({
@@ -200,15 +222,16 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
           data: {
             status: "matched",
             matchedOrderId: primaryOrder.id,
-            matchNote: `ترقية VIP تلقائية لمشترك حالي (${payment.amountEgp} ج.م)`,
+            matchNote: `ترقية باقة تلقائية لمشترك حالي (${payment.amountEgp} ج.م)`,
           },
         });
+        const activated = await activateOrder(primaryOrder.id, `ترقية باقة بمبلغ الفرق (${payment.amountEgp} ج.م)`);
         return {
           result: "activated",
           transactionId: tx.id,
           orderId: primaryOrder.id,
           email: existingUser.email,
-          courseTitle: "خزنة VIP وقاعدة الـ 10,000 برومبت وعقود الفريلانس",
+          courseTitle: activated?.courseTitle || (isStandaloneVipUpgrade ? "خزنة VIP وقاعدة الـ 10,000 برومبت وعقود الفريلانس" : "ترقية الاشتراك الشامل"),
         };
       }
     }
@@ -307,18 +330,24 @@ export async function recordAndMatch(payment: IncomingPayment): Promise<MatchOut
     );
   }
 
-  // If payment was for VIP tier and order was at 349 EGP, upgrade order amountEgp & set proofChannel to vip_vault!
-  if (isVipTier) {
-    matchedOrder = await prisma.order.update({
-      where: { id: matchedOrder.id },
-      data: {
-        amountEgp: Math.max(matchedOrder.amountEgp, payment.amountEgp),
-        originalPriceEgp: Math.max(matchedOrder.originalPriceEgp, payment.amountEgp),
-        proofChannel: "vip_vault",
-      },
-      include: { user: true, course: true },
-    });
-  }
+  // If payment was for higher tier or upgrade, update order productType and amountEgp accordingly
+  const targetProductType =
+    isAllAccessTier || isCareerToAllAccessUpgrade || isTrackToAllAccessUpgrade
+      ? "all_access"
+      : isCareerPathTier || isTrackToCareerUpgrade
+      ? "career_path"
+      : matchedOrder.productType;
+
+  matchedOrder = await prisma.order.update({
+    where: { id: matchedOrder.id },
+    data: {
+      amountEgp: Math.max(matchedOrder.amountEgp, payment.amountEgp),
+      originalPriceEgp: Math.max(matchedOrder.originalPriceEgp, payment.amountEgp),
+      productType: targetProductType,
+      proofChannel: isVipTier ? "vip_vault" : matchedOrder.proofChannel,
+    },
+    include: { user: true, course: true },
+  });
 
   // Activate order immediately
   await prisma.paymentTransaction.update({

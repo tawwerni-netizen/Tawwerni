@@ -217,9 +217,31 @@ html[data-theme="dark"] .text-neutral-500:not([class*="dark:text-"]) { color: va
 html[data-theme="dark"] .text-neutral-600:not([class*="dark:text-"]) { color: var(--text-body); }
 html[data-theme="dark"] .text-neutral-700:not([class*="dark:text-"]) { color: var(--text-body); }
 html[data-theme="dark"] .text-neutral-800:not([class*="dark:text-"]) { color: var(--text-strong); }
-html[data-theme="dark"] .text-neutral-900:not([class*="dark:text-"], .cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, .stay-white, .stay-white *, .dark\:bg-white:not([class*="/"]), [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #f3f4f6 !important; }
-html[data-theme="dark"] .text-neutral-950:not([class*="dark:text-"], .cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, .stay-white, .stay-white *, .dark\:bg-white:not([class*="/"]), [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #ffffff !important; }
-html[data-theme="dark"] .text-black:not([class*="dark:text-"], .cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, .stay-white, .stay-white *, .dark\:bg-white:not([class*="/"]), [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *) { color: #ffffff !important; }
+html[data-theme="dark"] .text-neutral-900:not([class*="dark:text-"], .cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, .stay-white, .stay-white *, .dark\:bg-white:not([class*="/"]), [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *, [class*="bg-amber-"], [class*="bg-amber-"] *, [class*="bg-yellow-"], [class*="bg-yellow-"] *, [class*="from-amber-"], [class*="from-amber-"] *, [class*="from-yellow-"], [class*="from-yellow-"] *) { color: #f3f4f6 !important; }
+html[data-theme="dark"] .text-neutral-950:not([class*="dark:text-"], .cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, .stay-white, .stay-white *, .dark\:bg-white:not([class*="/"]), [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *, [class*="bg-amber-"], [class*="bg-amber-"] *, [class*="bg-yellow-"], [class*="bg-yellow-"] *, [class*="from-amber-"], [class*="from-amber-"] *, [class*="from-yellow-"], [class*="from-yellow-"] *) { color: #ffffff !important; }
+html[data-theme="dark"] .text-black:not([class*="dark:text-"], .cta-btn-white, .cta-btn-white *, .btn-white, .btn-white *, .stay-white, .stay-white *, .dark\:bg-white:not([class*="/"]), [class*="dark:text-neutral-9"], [class*="dark:text-black"], button.bg-white:not([class*="dark:bg-"]) *, a.bg-white:not([class*="dark:bg-"]) *, .btn-amber, .btn-amber *, .cta-btn-amber, .cta-btn-amber *, [class*="bg-amber-"], [class*="bg-amber-"] *, [class*="bg-yellow-"], [class*="bg-yellow-"] *, [class*="from-amber-"], [class*="from-amber-"] *, [class*="from-yellow-"], [class*="from-yellow-"] *) { color: #ffffff !important; }
+
+/* In dark mode, ensure elements with solid amber or yellow backgrounds retain high-contrast black/dark text */
+html[data-theme="dark"] [class*="bg-amber-300"],
+html[data-theme="dark"] [class*="bg-amber-400"],
+html[data-theme="dark"] [class*="bg-yellow-300"],
+html[data-theme="dark"] [class*="bg-yellow-400"],
+html[data-theme="dark"] [class*="from-amber-300"],
+html[data-theme="dark"] [class*="from-amber-400"],
+html[data-theme="dark"] [class*="from-yellow-300"],
+html[data-theme="dark"] [class*="from-yellow-400"] {
+  color: #09090b !important;
+}
+html[data-theme="dark"] [class*="bg-amber-300"] *,
+html[data-theme="dark"] [class*="bg-amber-400"] *,
+html[data-theme="dark"] [class*="bg-yellow-300"] *,
+html[data-theme="dark"] [class*="bg-yellow-400"] *,
+html[data-theme="dark"] [class*="from-amber-300"] *,
+html[data-theme="dark"] [class*="from-amber-400"] *,
+html[data-theme="dark"] [class*="from-yellow-300"] *,
+html[data-theme="dark"] [class*="from-yellow-400"] * {
+  color: #09090b !important;
+}
 
 /* In dark mode, only solid white surfaces (NOT translucent dark:bg-white/5 or /10) have dark text */
 html[data-theme="dark"] .dark\:bg-white:not([class*="dark:bg-white/"]):not([class*="dark:bg-white\\/"]),
@@ -373,9 +395,27 @@ body {
   font-size: 17px;
 }
 
+/* High-contrast, attractive text selection highlight (crystal clear & legible) */
 ::selection {
-  background: var(--brand-100);
-  color: var(--brand-900);
+  background: #0d9488;
+  color: #ffffff !important;
+}
+::-moz-selection {
+  background: #0d9488;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] ::selection,
+.dark ::selection {
+  background: #059669;
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] ::-moz-selection,
+.dark ::-moz-selection {
+  background: #059669;
+  color: #ffffff !important;
+  text-shadow: none !important;
 }
 
 /*

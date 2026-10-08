@@ -104,7 +104,7 @@ export default function AdminShell({
                 >
                   <span aria-hidden>{item.icon}</span>
                   <span>{isEn ? item.labelEn : item.labelAr}</span>
-                  {count ? <span className="admin-badge ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-amber-500 text-white font-bold">{count}</span> : null}
+                  {count ? <span className="admin-badge ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-amber-400 text-neutral-950 font-black">{count}</span> : null}
                 </Link>
               );
             })}
@@ -146,7 +146,7 @@ export default function AdminShell({
               >
                 <span aria-hidden>{item.icon}</span>
                 <span>{isEn ? item.labelEn : item.labelAr}</span>
-                {count ? <span className="admin-badge ml-1 px-1.5 py-0.5 text-[9px] rounded-full bg-amber-500 text-white font-bold">{count}</span> : null}
+                {count ? <span className="admin-badge ml-1 px-1.5 py-0.5 text-[9px] rounded-full bg-amber-400 text-neutral-950 font-black">{count}</span> : null}
               </Link>
             );
           })}

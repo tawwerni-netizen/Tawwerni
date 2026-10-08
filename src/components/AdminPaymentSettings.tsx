@@ -416,7 +416,7 @@ export default function AdminPaymentSettings({ initialConfig }: AdminPaymentSett
               <button
                 type="button"
                 onClick={handleAddInstapay}
-                className="shrink-0 rounded-2xl bg-amber-500 hover:bg-amber-600 px-4 py-2.5 text-xs font-bold text-white transition-colors cursor-pointer"
+                className="shrink-0 rounded-2xl bg-teal-600 hover:bg-teal-500 px-4 py-2.5 text-xs font-bold text-white transition-colors cursor-pointer"
               >
                 {isEn ? "Add" : "إضافة"}
               </button>

@@ -40,6 +40,20 @@ export type CareerPathOption = {
 type Method = "vodafone_cash" | "instapay";
 type Channel = "whatsapp" | "email";
 
+export const PILLAR_FILTERS = [
+  { id: "all", nameAr: "الكل", nameEn: "All", icon: "🌐" },
+  { id: "الذكاء الاصطناعي", nameAr: "الذكاء الاصطناعي", nameEn: "AI", icon: "🤖" },
+  { id: "البرمجة", nameAr: "البرمجة والتطوير", nameEn: "Coding", icon: "💻" },
+  { id: "البيانات", nameAr: "تحليل البيانات", nameEn: "Data", icon: "📊" },
+  { id: "العمل الحر", nameAr: "العمل الحر والبيزنس", nameEn: "Freelance", icon: "💼" },
+  { id: "التسويق", nameAr: "التسويق والنمو", nameEn: "Marketing", icon: "🚀" },
+  { id: "التصميم", nameAr: "التصميم والميديا", nameEn: "Design", icon: "🎨" },
+  { id: "ريادة الأعمال", nameAr: "ريادة الأعمال", nameEn: "Startups", icon: "🏢" },
+  { id: "السيبراني", nameAr: "الأمن السيبراني", nameEn: "Security", icon: "🛡️" },
+  { id: "المهارات الناعمة", nameAr: "المهارات الناعمة", nameEn: "Soft Skills", icon: "🗣️" },
+  { id: "الإنتاجية", nameAr: "الإنتاجية والذات", nameEn: "Productivity", icon: "🧠" },
+] as const;
+
 function waLink(local: string) {
   return `https://wa.me/20${local.replace(/^0/, "")}`;
 }
@@ -164,6 +178,7 @@ export default function CheckoutForm({
   const [selectedTrackSlug, setSelectedTrackSlug] = useState(courses[0]?.slug ?? "");
   const [selectedCareerPathSlug, setSelectedCareerPathSlug] = useState(careerPaths[0]?.slug ?? "");
   const [searchFilter, setSearchFilter] = useState("");
+  const [selectedPillar, setSelectedPillar] = useState<string>("all");
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -490,14 +505,22 @@ export default function CheckoutForm({
     );
   }
 
-  // Filtered tracks for search
+  // Filtered tracks for search and category tabs
   const filteredTracks = courses.filter((c) => {
+    // Category pillar filter
+    if (selectedPillar !== "all") {
+      const matchCat =
+        c.category.includes(selectedPillar) ||
+        (c.categoryEn && c.categoryEn.toLowerCase().includes(selectedPillar.toLowerCase()));
+      if (!matchCat) return false;
+    }
     if (!searchFilter.trim()) return true;
     const term = searchFilter.toLowerCase().trim();
     return (
       c.title.toLowerCase().includes(term) ||
       (c.titleEn && c.titleEn.toLowerCase().includes(term)) ||
-      c.category.toLowerCase().includes(term)
+      c.category.toLowerCase().includes(term) ||
+      (c.categoryEn && c.categoryEn.toLowerCase().includes(term))
     );
   });
 
@@ -535,11 +558,13 @@ export default function CheckoutForm({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {/* Individual Track Option */}
+            {/* Individual Track Option (59 EGP) */}
             <button
               type="button"
+              role="radio"
+              aria-checked={productType === "track"}
               onClick={() => handleSelectProductType("track")}
-              className={`relative rounded-2xl border-2 pt-8 pb-4 px-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
+              className={`relative rounded-2xl border-2 pt-9 pb-4 px-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
                 productType === "track"
                   ? "border-emerald-400 bg-emerald-950/40 shadow-lg shadow-emerald-500/15 ring-2 ring-emerald-400/20"
                   : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
@@ -569,7 +594,7 @@ export default function CheckoutForm({
               <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px] text-neutral-300 font-bold">
                 <span>{isEn ? "1 Track · 28 Days" : "مسار واحد · ٢٨ يوماً"}</span>
                 <span
-                  className={`h-4 w-4 rounded-full border-2 flex items-center justify-center ${
+                  className={`h-4 w-4 rounded-full border-2 flex items-center justify-center font-black ${
                     productType === "track"
                       ? "border-emerald-400 bg-emerald-400 text-neutral-950 text-[10px]"
                       : "border-neutral-600"
@@ -580,17 +605,19 @@ export default function CheckoutForm({
               </div>
             </button>
 
-            {/* Career Path Option (Recommended) */}
+            {/* Career Path Option (149 EGP) */}
             <button
               type="button"
+              role="radio"
+              aria-checked={productType === "career_path"}
               onClick={() => handleSelectProductType("career_path")}
-              className={`relative rounded-2xl border-2 pt-8 pb-4 px-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
+              className={`relative rounded-2xl border-2 pt-9 pb-4 px-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
                 productType === "career_path"
                   ? "border-emerald-400 bg-emerald-950/40 shadow-lg shadow-emerald-500/15 ring-2 ring-emerald-400/20"
                   : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
               }`}
             >
-              <div className="absolute -top-3 start-3 sm:start-4 bg-gradient-to-r from-emerald-500 to-teal-400 text-neutral-950 text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md whitespace-nowrap z-10 pointer-events-none">
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white text-[10px] font-black px-3.5 py-1 rounded-full shadow-lg shadow-emerald-500/20 whitespace-nowrap z-10 pointer-events-none border border-emerald-400/40">
                 ⭐ {isEn ? "Career Roadmap" : "خارطة مهنية شاملة"}
               </div>
 
@@ -620,7 +647,7 @@ export default function CheckoutForm({
               <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px] text-emerald-300 font-bold">
                 <span>{isEn ? "4-8 Tracks Included" : "يشمل ٤ إلى ٨ مسارات"}</span>
                 <span
-                  className={`h-4 w-4 rounded-full border-2 flex items-center justify-center ${
+                  className={`h-4 w-4 rounded-full border-2 flex items-center justify-center font-black ${
                     productType === "career_path"
                       ? "border-emerald-400 bg-emerald-400 text-neutral-950 text-[10px]"
                       : "border-neutral-600"
@@ -631,28 +658,30 @@ export default function CheckoutForm({
               </div>
             </button>
 
-            {/* All-Access Pass Option (399 EGP) */}
+            {/* All-Access Pass Option (399 EGP - Prestigious Royal Violet) */}
             <button
               type="button"
+              role="radio"
+              aria-checked={productType === "all_access"}
               onClick={() => handleSelectProductType("all_access")}
-              className={`relative rounded-2xl border-2 pt-8 pb-4 px-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
+              className={`relative rounded-2xl border-2 pt-9 pb-4 px-3.5 text-start transition-all cursor-pointer flex flex-col justify-between ${
                 productType === "all_access"
-                  ? "border-amber-400 bg-amber-950/40 shadow-lg shadow-amber-500/15 ring-2 ring-amber-400/20"
-                  : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
+                  ? "border-violet-500 bg-violet-950/40 shadow-xl shadow-violet-500/20 ring-2 ring-violet-400/30"
+                  : "border-white/10 bg-white/5 hover:border-violet-500/30 hover:bg-white/10"
               }`}
             >
-              <div className="absolute -top-3 start-3 sm:start-4 bg-gradient-to-r from-amber-400 to-yellow-300 text-neutral-950 text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md whitespace-nowrap z-10 pointer-events-none">
-                👑 {isEn ? "All 100 Tracks" : "الوصول الشامل الأقصى"}
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 text-white text-[10px] font-black px-3.5 py-1 rounded-full shadow-lg shadow-violet-500/25 whitespace-nowrap z-10 pointer-events-none border border-violet-400/50">
+                👑 {isEn ? "All 100 Tracks & Paths" : "الوصول الشامل الأقصى"}
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xl">👑</span>
                   <div className="flex items-baseline gap-1 font-mono" dir="ltr">
-                    <span className="text-2xl font-black text-amber-300">
+                    <span className="text-2xl font-black text-violet-300">
                       {pricing.allAccessPriceEgp}
                     </span>
-                    <span className="text-xs font-bold text-amber-400">
+                    <span className="text-xs font-bold text-violet-400">
                       {isEn ? "EGP" : "ج.م"}
                     </span>
                   </div>
@@ -668,12 +697,12 @@ export default function CheckoutForm({
                 </p>
               </div>
 
-              <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px] text-amber-300 font-bold">
+              <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px] text-violet-300 font-bold">
                 <span>{isEn ? "100 Tracks · All Paths" : "الـ ١٠٠ مسار كاملة"}</span>
                 <span
-                  className={`h-4 w-4 rounded-full border-2 flex items-center justify-center ${
+                  className={`h-4 w-4 rounded-full border-2 flex items-center justify-center font-black ${
                     productType === "all_access"
-                      ? "border-amber-400 bg-amber-400 text-neutral-950 text-[10px]"
+                      ? "border-violet-400 bg-violet-500 text-white text-[10px]"
                       : "border-neutral-600"
                   }`}
                 >
@@ -806,7 +835,7 @@ export default function CheckoutForm({
               <div className="flex-1 text-start">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="rounded-md bg-gradient-to-r from-amber-400 to-yellow-300 text-neutral-950 px-2.5 py-0.5 text-[11px] font-black shadow-xs">
+                    <span className="rounded-md bg-gradient-to-r from-amber-500 to-amber-600 text-white px-2.5 py-0.5 text-[11px] font-black shadow-xs border border-amber-400/40">
                       ⚡ {isEn ? "Executive AI Vault Add-on" : "إضافة اختيارية: حزمة الأصول التنفيذية"}
                     </span>
                     <span className="rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-bold">
@@ -925,8 +954,8 @@ export default function CheckoutForm({
                 <label className="block text-xs sm:text-sm font-black text-white">
                   {isEn ? `1. Select Learning Track (${pricing.trackPriceEgp} EGP)` : `١. حدد المسار التدريبي (${pricing.trackPriceEgp} ج.م)`}
                 </label>
-                <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
-                  {isEn ? "100 Tracks Available" : "١٠٠ مسار متاح"}
+                <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-mono">
+                  {isEn ? `Showing ${filteredTracks.length} of ${courses.length} tracks` : `عرض ${filteredTracks.length} من أصل ${courses.length} مسار`}
                 </span>
               </div>
 
@@ -939,13 +968,36 @@ export default function CheckoutForm({
                   type="text"
                   value={searchFilter}
                   onChange={(e) => setSearchFilter(e.target.value)}
-                  placeholder={isEn ? "Search among 100 tracks..." : "ابحث في الـ ١٠٠ مسار..."}
+                  placeholder={isEn ? "Search across all 100 tracks..." : "ابحث في الـ ١٠٠ مسار بالاسم أو التخصص..."}
                   className="w-full rounded-xl border border-white/10 bg-black/40 ps-8 pe-3 py-2 text-xs text-white placeholder:text-neutral-500 focus:border-emerald-400 focus:outline-hidden"
                 />
               </div>
 
-              <div className="space-y-2 max-h-64 overflow-y-auto pe-1">
-                {filteredTracks.slice(0, 15).map((c) => (
+              {/* Pillar Category Filter Tabs */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-2.5 mb-2.5 pt-0.5 scrollbar-thin">
+                {PILLAR_FILTERS.map((p) => {
+                  const isActive = selectedPillar === p.id;
+                  return (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onClick={() => setSelectedPillar(p.id)}
+                      className={`shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
+                        isActive
+                          ? "bg-emerald-500 text-neutral-950 font-black shadow-xs"
+                          : "bg-white/5 text-neutral-300 hover:bg-white/10 hover:text-white border border-white/5"
+                      }`}
+                    >
+                      <span>{p.icon}</span>
+                      <span>{isEn ? p.nameEn : p.nameAr}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* All 100 Tracks Scrollable Navigator */}
+              <div className="space-y-2 max-h-80 sm:max-h-96 overflow-y-auto pe-1.5 pt-1.5 pb-2">
+                {filteredTracks.map((c) => (
                   <button
                     key={c.slug}
                     type="button"

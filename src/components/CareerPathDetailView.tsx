@@ -166,7 +166,7 @@ export default function CareerPathDetailView({
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto shrink-0">
+              <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto shrink-0">
                 <Link
                   href={nextTrackUrl}
                   className="w-full sm:w-auto whitespace-nowrap rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 px-6 py-3.5 text-xs sm:text-sm font-black text-neutral-950 shadow-lg hover:brightness-110 active:scale-98 transition-all text-center cursor-pointer"
@@ -175,9 +175,10 @@ export default function CareerPathDetailView({
                 </Link>
                 <Link
                   href={`/quiz/checkout?type=career_path&slug=${careerPath.slug}`}
-                  className="w-full sm:w-auto whitespace-nowrap rounded-full border border-white/20 bg-white/5 hover:bg-white/10 px-5 py-3 text-xs font-bold text-neutral-300 text-center"
+                  className="w-full sm:w-auto whitespace-nowrap rounded-full bg-gradient-to-r from-amber-500/20 via-emerald-500/15 to-teal-500/20 hover:from-amber-500/30 hover:to-teal-500/30 border-2 border-emerald-400/80 hover:border-emerald-300 px-6 py-3.5 text-xs sm:text-sm font-black text-white hover:text-emerald-200 shadow-xl shadow-emerald-950/50 hover:shadow-emerald-500/20 hover:scale-[1.02] active:scale-98 transition-all duration-200 text-center flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  {isEn ? `Subscribe to Career Path (${pricing.careerPathPriceEgp} EGP / yr)` : `اشترك في المسار المهني (${pricing.careerPathPriceEgp} ج.م / سنة)`}
+                  <span className="text-amber-400">⭐</span>
+                  <span>{isEn ? `Subscribe to Career Path (${pricing.careerPathPriceEgp} EGP / yr)` : `اشترك في المسار المهني (${pricing.careerPathPriceEgp} ج.م / سنة)`}</span>
                 </Link>
               </div>
             </div>
@@ -506,6 +507,42 @@ export default function CareerPathDetailView({
           </div>
         </div>
       </section>
+
+      {/* ================= 4.5. BOTTOM ROADMAP CONVERSION CARD ================= */}
+      {!isOwned && (
+        <div className="rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-950/60 via-neutral-900/90 to-[#070e0c] p-6 sm:p-8 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-2 text-center md:text-start">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-500/15 px-3 py-1 text-xs font-black text-emerald-300">
+              <span>🚀</span>
+              <span>{isEn ? `Full Career Path Roadmap · ${pricing.careerPathPriceEgp} EGP / Year` : `خارطة المسار المهني المتكامل · ${pricing.careerPathPriceEgp} ج.م / سنة`}</span>
+            </div>
+            <h3 className="text-lg sm:text-xl font-black text-white">
+              {isEn ? `Ready to master ${careerPath.titleEn}?` : `جاهز لإتقان مسار ${careerPath.titleAr} بالكامل؟`}
+            </h3>
+            <p className="text-xs sm:text-sm text-neutral-300 max-w-xl leading-relaxed">
+              {isEn
+                ? `Includes all ${careerPath.stages.reduce((acc: number, s) => acc + s.tracks.length, 0)} specialized roadmap tracks, 28-day daily missions, portfolio capstone project, and verified completion credentials.`
+                : `يشمل كافة الـ ${careerPath.stages.reduce((acc: number, s) => acc + s.tracks.length, 0)} مسارات تخصصية، ومهمات الـ 28 يوماً العملية، والمشروع النهائي للبورتفوليو، والشهادات المعتمدة.`}
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto shrink-0">
+            <Link
+              href={nextTrackUrl}
+              className="w-full sm:w-auto whitespace-nowrap rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 px-6 py-3.5 text-xs sm:text-sm font-black text-neutral-950 shadow-lg hover:brightness-110 active:scale-98 transition-all text-center cursor-pointer"
+            >
+              {isEn ? "Try Stage 1 for Free ➔" : "جرّب المرحلة الأولى مجانًا ➔"}
+            </Link>
+            <Link
+              href={`/quiz/checkout?type=career_path&slug=${careerPath.slug}`}
+              className="w-full sm:w-auto whitespace-nowrap rounded-full bg-gradient-to-r from-amber-500/20 via-emerald-500/15 to-teal-500/20 hover:from-amber-500/30 hover:to-teal-500/30 border-2 border-emerald-400/80 hover:border-emerald-300 px-6 py-3.5 text-xs sm:text-sm font-black text-white hover:text-emerald-200 shadow-xl shadow-emerald-950/50 hover:shadow-emerald-500/20 hover:scale-[1.02] active:scale-98 transition-all duration-200 text-center flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span className="text-amber-400">⭐</span>
+              <span>{isEn ? `Subscribe to Career Path (${pricing.careerPathPriceEgp} EGP / yr)` : `اشترك في المسار المهني (${pricing.careerPathPriceEgp} ج.م / سنة)`}</span>
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* ================= 5. RELATED CAREER PATHS ================= */}
       {relatedCareerPaths.length > 0 && (
