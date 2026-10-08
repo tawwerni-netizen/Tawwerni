@@ -170,6 +170,57 @@ export default function FocusPlayer() {
 
   return (
     <>
+      {/* Inline Dashboard Companion Card */}
+      <div className="relative overflow-hidden rounded-3xl border border-teal-500/25 bg-gradient-to-r from-teal-50 via-white to-cyan-50 dark:from-neutral-900 dark:via-neutral-900 dark:to-cyan-950/40 p-4 sm:p-5 text-neutral-900 dark:text-white shadow-xs dark:shadow-md backdrop-blur-xs transition-colors flex flex-col justify-between h-full">
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <span className="text-xl shrink-0 select-none">🎧</span>
+              <h4 className="text-sm font-bold text-teal-700 dark:text-teal-300">
+                {lang === "ar" ? "وضع التركيز الصوتي (Pomodoro)" : "Audio Focus (Pomodoro)"}
+              </h4>
+            </div>
+            <span className="text-xs font-mono font-bold text-teal-700 dark:text-teal-300 bg-teal-500/10 px-2.5 py-0.5 rounded-full border border-teal-500/20" dir="ltr">
+              {timeFormatted}
+            </span>
+          </div>
+
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-3">
+            {lang === "ar"
+              ? "جلسات تركيز عميقة ٢٥ دقيقة مع موجات ألفا ومحاكاة المطر والضوضاء البيضاء للمذاكرة والتطبيق بدون تشتت."
+              : "25-minute flow sessions with calm Alpha binaural waves and ambient sounds for distraction-free study."}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2 pt-2 border-t border-black/5 dark:border-white/5">
+          <button
+            type="button"
+            onClick={() => setIsRunning(!isRunning)}
+            className={`flex-1 py-2.5 px-3 rounded-2xl font-bold text-xs transition-all active:scale-95 shadow-xs flex items-center justify-center gap-1.5 ${
+              isRunning
+                ? "bg-amber-600 hover:bg-amber-500 text-white"
+                : "bg-teal-600 hover:bg-teal-500 text-white dark:bg-teal-500 dark:hover:bg-teal-400 dark:text-neutral-950"
+            }`}
+          >
+            <span>{isRunning ? "⏸" : "▶"}</span>
+            <span>
+              {isRunning
+                ? (lang === "ar" ? "إيقاف مؤقت" : "Pause")
+                : (lang === "ar" ? "ابدأ التركيز (٢٥ د)" : "Start Focus (25m)")}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            className="py-2.5 px-3.5 rounded-2xl font-bold text-xs bg-white/90 dark:bg-neutral-800/90 text-neutral-700 dark:text-neutral-200 border border-black/10 dark:border-white/10 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors flex items-center gap-1.5 shadow-2xs"
+          >
+            <span>🎵</span>
+            <span>{lang === "ar" ? "الأصوات" : "Sounds"}</span>
+          </button>
+        </div>
+      </div>
+
       {/* Floating launcher button */}
       <button
         type="button"
@@ -178,8 +229,8 @@ export default function FocusPlayer() {
         title={t.focusMode}
         className="fixed bottom-24 end-5 z-40 flex items-center gap-2 rounded-full border border-teal-500/40 bg-white/95 text-teal-800 dark:bg-neutral-900/90 dark:text-teal-300 px-3.5 py-2.5 text-xs font-bold shadow-xl backdrop-blur-md transition-all hover:scale-105 active:scale-95 hover:border-teal-500"
       >
-        <span className="text-base animate-pulse">🧘‍♂️</span>
-        <span className="hidden sm:inline">{isRunning ? timeFormatted : t.focusMode}</span>
+        <span className="text-base animate-pulse">🎧</span>
+        <span className="hidden sm:inline" dir="ltr">{isRunning ? timeFormatted : t.focusMode}</span>
       </button>
 
       {/* Focus Modal / Drawer */}
@@ -192,7 +243,7 @@ export default function FocusPlayer() {
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b border-black/10 dark:border-neutral-800">
               <div className="flex items-center gap-2">
-                <span className="text-2xl">🧘‍♂️</span>
+                <span className="text-2xl">🎧</span>
                 <div>
                   <h3 className="text-base font-bold text-teal-700 dark:text-teal-400">{t.focusMode}</h3>
                   <p className="text-xs text-neutral-500 dark:text-neutral-400">{t.pomodoro}</p>

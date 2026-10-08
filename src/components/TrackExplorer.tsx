@@ -317,7 +317,7 @@ export default function TrackExplorer() {
               <div className="text-center pt-1">
                 <Link
                   href="/career-paths"
-                  className="text-[11px] font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+                  className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 transition-colors"
                 >
                   {lang === "ar"
                     ? `💡 أو اشترك في المسار المهني الشامل بـ ${pricing.careerPathPriceEgp} ج.م / سنة (حزمة متكاملة)`

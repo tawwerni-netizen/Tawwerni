@@ -99,7 +99,7 @@ export default function CourseTile({
           />
         </div>
         <div className="mt-1 text-[10px] text-neutral-400 font-mono">
-          {done}/{total} {isEn ? "Days" : "يوم"}
+          <span dir="ltr" className="inline-block">{done}/{total}</span> {isEn ? "Days" : "يوم"}
         </div>
       </div>
 

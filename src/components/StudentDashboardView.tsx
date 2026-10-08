@@ -244,7 +244,7 @@ export default function StudentDashboardView({
 
               <span className="inline-flex items-center gap-1.5 bg-amber-500/20 border border-amber-400/40 px-3.5 py-1.5 rounded-xl text-xs font-mono font-black text-amber-200 shadow-xs">
                 <span>💎</span>
-                <span>Reward: +180 XP</span>
+                <span>{isEn ? "Reward: +180 XP" : "المكافأة: +180 XP"}</span>
               </span>
             </div>
 
@@ -368,7 +368,7 @@ export default function StudentDashboardView({
       )}
 
       {/* Focus & Well-being Tools Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <FocusPlayer />
         <MoodCheckIn />
       </div>
@@ -409,7 +409,7 @@ export default function StudentDashboardView({
 
         <div className="grid grid-cols-3 gap-3 text-center">
           <div className="rounded-2xl bg-teal-50/60 dark:bg-teal-950/20 p-3 border border-teal-500/20">
-            <div className="text-lg sm:text-xl font-black text-teal-700 dark:text-teal-400 font-mono">
+            <div className="text-lg sm:text-xl font-black text-teal-700 dark:text-teal-400 font-mono" dir="ltr">
               {totalXp} XP
             </div>
             <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
@@ -418,7 +418,7 @@ export default function StudentDashboardView({
           </div>
 
           <div className="rounded-2xl bg-amber-50/60 dark:bg-amber-950/20 p-3 border border-amber-500/20">
-            <div className="text-lg sm:text-xl font-black text-amber-700 dark:text-amber-400 font-mono">
+            <div className="text-lg sm:text-xl font-black text-amber-700 dark:text-amber-400 font-mono" dir="ltr">
               {activeTrack?.doneCount || 0} / {activeTrack?.totalDays || 24}
             </div>
             <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
@@ -428,7 +428,7 @@ export default function StudentDashboardView({
 
           <div className="rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/20 p-3 border border-emerald-500/20">
             <div className="text-lg sm:text-xl font-black text-emerald-700 dark:text-emerald-400 font-mono">
-              {dailyPaceMinutes} {isEn ? "m/d" : "د/يوم"}
+              <span dir="ltr">{dailyPaceMinutes}</span> {isEn ? "min / day" : "دقيقة يومياً"}
             </div>
             <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-bold mt-0.5">
               {isEn ? "Daily Habit Pace" : "الوتيرة اليومية"}
