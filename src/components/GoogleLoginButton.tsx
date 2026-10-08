@@ -25,7 +25,14 @@ export default function GoogleLoginButton() {
         body: JSON.stringify({ token: response.credential }),
       });
 
-      const data = await res.json();
+      const raw = await res.text();
+      let data: any = {};
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        data = {};
+      }
+
       if (!res.ok) {
         setError(data.error || (isEn ? "Google sign-in failed. Please try again." : "فشل تسجيل الدخول بجوجل. حاول مرة أخرى."));
         setLoading(false);

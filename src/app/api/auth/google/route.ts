@@ -3,38 +3,75 @@ import { readJson } from "@/lib/read-json";
 import { prisma } from "@/lib/prisma";
 import { createSessionCookie } from "@/lib/auth";
 import { maybeSendWelcome } from "@/lib/welcome";
+import { ensureDatabaseSchema } from "@/lib/db-schema-sync";
 import { OAuth2Client } from "google-auth-library";
+
+const DEFAULT_CLIENT_ID =
+  "643238889542-rb62aecd5jamlo29snr0f52e18osft6o.apps.googleusercontent.com";
 
 const GOOGLE_CLIENT_ID =
   process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
-  "643238889542-rb62aecd5jamlo29snr0f52e18osft6o.apps.googleusercontent.com";
+  process.env.GOOGLE_CLIENT_ID ||
+  DEFAULT_CLIENT_ID;
 
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 export async function POST(request: Request) {
-  try {
-    const { token } = await readJson(request);
+  const { token } = await readJson(request);
 
-    if (!token || typeof token !== "string") {
-      return NextResponse.json({ error: "No token provided" }, { status: 400 });
-    }
+  if (!token || typeof token !== "string") {
+    return NextResponse.json({ error: "لم يتم استلام توكن جوجل" }, { status: 400 });
+  }
+
+  // 1. Verify Google ID Token
+  let payload: { email?: string; name?: string } | undefined;
+  try {
+    const audienceList = Array.from(
+      new Set(
+        [
+          GOOGLE_CLIENT_ID,
+          process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+          process.env.GOOGLE_CLIENT_ID,
+          DEFAULT_CLIENT_ID,
+        ].filter((x): x is string => typeof x === "string" && x.length > 0)
+      )
+    );
 
     const ticket = await client.verifyIdToken({
       idToken: token,
-      audience: GOOGLE_CLIENT_ID,
+      audience: audienceList.length === 1 ? audienceList[0] : audienceList,
     });
 
-    const payload = ticket.getPayload();
+    payload = ticket.getPayload();
     if (!payload || !payload.email) {
-      return NextResponse.json({ error: "Invalid Google token" }, { status: 400 });
+      return NextResponse.json({ error: "بيانات توكن جوجل غير صالحة" }, { status: 400 });
     }
+  } catch (tokenError: any) {
+    console.error("[GoogleAuth] Token verification failed:", tokenError?.message || tokenError);
+    return NextResponse.json(
+      { error: "فشل التحقق من حساب جوجل. حاول مرة أخرى أو استخدم البريد وكلمة المرور." },
+      { status: 401 }
+    );
+  }
 
-    const email = payload.email.toLowerCase();
-    const name = payload.name || "";
+  const email = payload.email.toLowerCase().trim();
+  const name = payload.name || "";
 
-    // Find or create the user
+  // 2. Synchronize Database & Create/Update User
+  try {
+    // Ensure DB columns exist (e.g. hasLegacyAccess)
+    await ensureDatabaseSchema(prisma).catch(() => {});
+
+    // Explicit select protects against unmigrated columns crashing the query
     let user = await prisma.user.findUnique({
       where: { email },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        dailyPaceMinutes: true,
+        sessionVersion: true,
+      },
     });
 
     let isNewUser = false;
@@ -46,6 +83,13 @@ export async function POST(request: Request) {
           name,
           passwordHash: "", // No password for Google users initially
         },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          dailyPaceMinutes: true,
+          sessionVersion: true,
+        },
       });
 
       const { cookies } = await import("next/headers");
@@ -56,12 +100,13 @@ export async function POST(request: Request) {
         await attachReferrer(user.id, refCode).catch(() => {});
       }
 
-      await maybeSendWelcome(user.id);
+      await maybeSendWelcome(user.id).catch(() => {});
     } else {
-      // Clear any lockouts if they successfully logged in with Google
+      // Clear any previous failed login lockouts
       await prisma.user.update({
         where: { id: user.id },
         data: { loginAttempts: 0, lockedUntil: null },
+        select: { id: true },
       });
     }
 
@@ -72,8 +117,11 @@ export async function POST(request: Request) {
       hasOnboarded: user.dailyPaceMinutes != null,
       isNewUser,
     });
-  } catch (error) {
-    console.error("Google Auth Error:", error);
-    return NextResponse.json({ error: "فشل التحقق من حساب جوجل" }, { status: 401 });
+  } catch (dbError: any) {
+    console.error("[GoogleAuth] Database operation failed:", dbError?.message || dbError);
+    return NextResponse.json(
+      { error: "حصل خطأ في حفظ بيانات الحساب. يرجى إعادة المحاولة." },
+      { status: 500 }
+    );
   }
 }

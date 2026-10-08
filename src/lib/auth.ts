@@ -92,7 +92,27 @@ export async function getCurrentUser() {
   try {
     const userId = await getSessionUserId();
     if (!userId) return null;
-    const user = await prisma.user.findUnique({ where: { id: userId } });
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        phone: true,
+        passwordHash: true,
+        referralCode: true,
+        referredById: true,
+        avatarUrl: true,
+        mustChangePassword: true,
+        isAdmin: true,
+        dailyPaceMinutes: true,
+        focusCategory: true,
+        quizAnswers: true,
+        aiReadinessScore: true,
+        archetype: true,
+        createdAt: true,
+      },
+    });
     if (!user) return null;
     if (user.email && (user.email.toLowerCase() === "hhifzy@gmail.com" || user.email.toLowerCase() === "tawwerni@gmail.com")) {
       return { ...user, isAdmin: true };

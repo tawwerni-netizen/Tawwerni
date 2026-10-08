@@ -71,6 +71,12 @@ function client_(): PrismaClient {
   // Dev reloads the module on every edit; without this each reload would open
   // another pool and the connection limit would be hit within minutes.
   if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = client;
+
+  // Background non-blocking sync ensuring schema columns (e.g. hasLegacyAccess) exist
+  import("./db-schema-sync").then(({ ensureDatabaseSchema }) => {
+    if (client) ensureDatabaseSchema(client).catch(() => {});
+  }).catch(() => {});
+
   return client;
 }
 
