@@ -74,11 +74,43 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
   const [activationSuccess, setActivationSuccess] = useState("");
   const [togglingVip, setTogglingVip] = useState(false);
   const [vipSuccess, setVipSuccess] = useState("");
+  const [togglingAdmin, setTogglingAdmin] = useState(false);
+  const [adminSuccess, setAdminSuccess] = useState("");
   const [selectedCareerPath, setSelectedCareerPath] = useState(CAREER_PATHS[0]?.slug || "full-stack-web-developer");
   const [selectedTrack, setSelectedTrack] = useState(ALL_100_TRACKS[0]?.slug || "prompt-engineering-mastery");
   const [entitlementBusy, setEntitlementBusy] = useState(false);
   const [entitlementSuccess, setEntitlementSuccess] = useState("");
   const [entitlementError, setEntitlementError] = useState("");
+
+  async function handleToggleAdmin(grant = !user.isAdmin) {
+    const promptMsg = grant
+      ? `هل أنت متأكد من ترقية ${user.name || user.email} إلى مسؤول (Admin)؟ سيكون لديه كامل الصلاحيات لإدارة المنصة والمستخدمين والاشتراكات.`
+      : `هل أنت متأكد من إلغاء صلاحيات المسؤول (Admin) عن ${user.name || user.email}؟`;
+    if (!confirm(promptMsg)) return;
+
+    setTogglingAdmin(true);
+    setError("");
+    setAdminSuccess("");
+    try {
+      const res = await fetch(`/api/admin/users/${user.id}/admin`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ grant }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "فشل تحديث صلاحية الأدمن");
+        return;
+      }
+      setAdminSuccess(data.message || (grant ? "تم تعيينه كأدمن بنجاح! 🛡️" : "تم إلغاء صلاحية الأدمن"));
+      user.isAdmin = grant;
+      setTimeout(() => router.refresh(), 1200);
+    } catch {
+      setError("خطأ في الاتصال بالسيرفر");
+    } finally {
+      setTogglingAdmin(false);
+    }
+  }
 
   async function handleEntitlementAction(action: "grant" | "revoke", productType: string, productSlug: string) {
     setEntitlementBusy(true);
@@ -257,6 +289,12 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
               <p className="truncate font-bold text-neutral-900 dark:text-white text-sm sm:text-base" dir="ltr">
                 {user.email}
               </p>
+              {user.isAdmin && (
+                <span className="rounded-full bg-purple-500/15 text-purple-800 dark:text-purple-300 border border-purple-500/40 px-2 py-0.5 text-[10px] font-black flex items-center gap-1 shadow-2xs">
+                  <span>🛡️</span>
+                  <span>مسؤول (Admin)</span>
+                </span>
+              )}
               {user.isVip && (
                 <span className="rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40 px-2 py-0.5 text-[10px] font-black flex items-center gap-1">
                   <span>👑</span>
@@ -297,11 +335,26 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
         </div>
 
         <div className="flex shrink-0 flex-wrap items-center gap-1.5 self-end sm:self-auto">
-          {user.isAdmin && (
-            <span className="rounded-full bg-brand-50 text-brand-800 dark:bg-brand-950/60 dark:text-brand-300 border border-brand-500/30 px-2 py-0.5 text-[10px] font-bold">
-              أدمن
-            </span>
-          )}
+          {/* Admin Role Toggle Button */}
+          <button
+            type="button"
+            onClick={() => handleToggleAdmin(!user.isAdmin)}
+            disabled={togglingAdmin}
+            className={`whitespace-nowrap shrink-0 rounded-full px-3 py-1 text-[11px] font-black transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50 select-none ${
+              user.isAdmin
+                ? "bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:brightness-110 active:scale-95 text-white shadow-xs border border-purple-400/40"
+                : "border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 active:scale-95 text-purple-700 dark:text-purple-300"
+            }`}
+            title={
+              user.isAdmin
+                ? "مسؤول بالمنصة — انقر لإلغاء صلاحية الأدمن"
+                : "ترقية هذا الحساب ليصبح مسؤولاً (Admin) في المنصة"
+            }
+          >
+            <span>🛡️</span>
+            <span>{togglingAdmin ? "..." : user.isAdmin ? "أدمن نشط ✓" : "+ تعيين كأدمن"}</span>
+          </button>
+
           <span
             className={`rounded-full px-2.5 py-1 text-xs font-bold ${
               user.paid
@@ -343,6 +396,13 @@ export default function AdminUserRow({ user }: { user: AdminUserRowData }) {
           )}
         </div>
       </div>
+
+      {adminSuccess && (
+        <div className="mb-3 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-300 dark:border-purple-700 p-2.5 text-xs text-purple-800 dark:text-purple-200 font-black animate-pulse flex items-center gap-2">
+          <span>🛡️</span>
+          <span>{adminSuccess}</span>
+        </div>
+      )}
 
       {activationSuccess && (
         <div className="mb-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 p-2.5 text-xs text-emerald-800 dark:text-emerald-200 font-bold animate-pulse">

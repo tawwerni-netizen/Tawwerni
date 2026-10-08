@@ -182,6 +182,7 @@ export default async function AdminUsersPage() {
 
   const paidCount = Math.max(302, rows.filter((r) => r.paid).length);
   const vipCount = rows.filter((r) => r.isVip).length;
+  const adminCount = rows.filter((r) => r.isAdmin).length;
   const vaultDownloadedCount = rows.filter((r) => r.hasDownloadedVault).length;
   const totalUserCount = Math.max(302, rows.length);
   const activeCount = rows.filter((r) => r.lessonsDone > 0).length;
@@ -191,18 +192,18 @@ export default async function AdminUsersPage() {
     <AdminShell
       title="المستخدمون"
       titleEn="Learners & Accounts"
-      subtitle={`${totalUserCount} حساب مسجّل · ${paidCount} مشترك · ${vipCount} عضو VIP · ${vaultDownloadedCount} حمّلوا البرومبتات`}
-      subtitleEn={`${totalUserCount} registered accounts · ${paidCount} subscribers · ${vipCount} VIP members · ${vaultDownloadedCount} downloaded vault`}
+      subtitle={`${totalUserCount} حساب مسجّل · ${paidCount} مشترك · ${adminCount} مسؤول · ${vipCount} عضو VIP · ${vaultDownloadedCount} حمّلوا البرومبتات`}
+      subtitleEn={`${totalUserCount} registered accounts · ${paidCount} subscribers · ${adminCount} admins · ${vipCount} VIP members · ${vaultDownloadedCount} downloaded vault`}
       admin={admin}
       badges={{ "/admin": pendingOrders, "/admin/payouts": pendingPayouts, "/admin/testimonials": pendingTestimonials }}
     >
       <AdminStats
         stats={[
           { label: "مسجّل", labelEn: "Registered", value: totalUserCount, icon: "👥" },
+          { label: "المسؤولين", labelEn: "Admins", value: adminCount, icon: "🛡️", hint: "إدارة المنصة", hintEn: "Platform Admins" },
           { label: "مشترك", labelEn: "Subscribers", value: paidCount, icon: "✅", tone: "good", hint: "٣٠٢ مشترك", hintEn: "302 active" },
           { label: "أعضاء VIP", labelEn: "VIP Members", value: vipCount, icon: "👑", tone: "good", hint: "10,000 برومبت", hintEn: "10,000 Prompts Vault" },
           { label: "حمّلوا البرومبتات", labelEn: "Vault Downloaded", value: vaultDownloadedCount, icon: "📥", tone: vaultDownloadedCount > 0 ? "good" : "neutral", hint: "غير مؤهل للاسترجاع", hintEn: "Non-refundable" },
-          { label: "نشِط", labelEn: "Active", value: activeCount || 184, icon: "⚡" },
           { label: "الإيرادات", labelEn: "Total Revenue", value: `${revenue.toLocaleString("en-US")} ج.م`, valueEn: `${revenue.toLocaleString("en-US")} EGP`, icon: "💰", tone: "good" },
         ]}
       />

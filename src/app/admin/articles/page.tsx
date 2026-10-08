@@ -45,7 +45,7 @@ export default async function AdminArticlesPage() {
         </Link>
 
         {articles.length === 0 ? (
-          <p className="rounded-2xl border border-black/5 bg-white p-6 text-center text-sm text-neutral-500">
+          <p className="rounded-2xl border border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 p-6 text-center text-sm text-neutral-500 dark:text-neutral-400">
             مفيش مقالات لسه.
           </p>
         ) : (
@@ -56,23 +56,23 @@ export default async function AdminArticlesPage() {
                 <Link
                   key={a.id}
                   href={`/admin/articles/${a.id}/edit`}
-                  className="flex items-center gap-3 rounded-xl border border-black/5 bg-white p-3"
+                  className="flex items-center gap-3 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900 p-3.5 hover:border-brand-500/30 transition shadow-xs"
                 >
-                  <span className="text-lg">{a.icon}</span>
+                  <span className="text-xl">{a.icon}</span>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-bold">{a.title}</p>
-                    <p className="text-[11px] text-neutral-400">
+                    <p className="truncate text-sm font-bold text-neutral-900 dark:text-white">{a.title}</p>
+                    <p className="text-[11px] text-neutral-500 dark:text-neutral-400 font-medium">
                       {pillar?.title ?? a.pillar}
                     </p>
                   </div>
                   <span
-                    className={`shrink-0 rounded-full px-2 py-1 text-[10px] font-bold ${
+                    className={`shrink-0 rounded-full px-3 py-1 text-xs font-black shadow-xs ${
                       a.status === "published"
-                        ? "bg-green-50 text-green-700"
-                        : "bg-neutral-100 text-neutral-500"
+                        ? "bg-emerald-600 text-white border border-emerald-500"
+                        : "bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-black/10 dark:border-white/10"
                     }`}
                   >
-                    {a.status === "published" ? "منشور" : "مسودة"}
+                    {a.status === "published" ? "✓ منشور" : "مسودة"}
                   </span>
                 </Link>
               );

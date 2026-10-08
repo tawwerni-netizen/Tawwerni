@@ -22,7 +22,7 @@ export async function POST(request: Request) {
   const admin = await adminUser();
   if (!admin) return NextResponse.json({ error: "غير مصرّح" }, { status: 401 });
 
-  const { email, name, phone, password, grantAccess } = await readJson(request);
+  const { email, name, phone, password, grantAccess, isAdmin: requestIsAdmin } = await readJson(request);
 
   const normalizedEmail = typeof email === "string" ? email.toLowerCase().trim() : "";
   if (!normalizedEmail.includes("@") || normalizedEmail.length < 5) {
@@ -57,8 +57,9 @@ export async function POST(request: Request) {
       // The owner picked this password, so the learner has to replace it.
       mustChangePassword: true,
       dailyPaceMinutes: 15,
+      isAdmin: Boolean(requestIsAdmin),
     },
-    select: { id: true, email: true, name: true },
+    select: { id: true, email: true, name: true, isAdmin: true },
   });
 
   let activated = false;

@@ -4,10 +4,11 @@ import { useMemo, useState } from "react";
 import AdminUserRow, { type AdminUserRowData } from "@/components/AdminUserRow";
 import { useI18n } from "./LanguageContext";
 
-type Filter = "all" | "paid" | "pending" | "free" | "active";
+type Filter = "all" | "admin" | "paid" | "pending" | "free" | "active";
 
 const FILTERS: { key: Filter; labelAr: string; labelEn: string }[] = [
   { key: "all", labelAr: "الكل", labelEn: "All" },
+  { key: "admin", labelAr: "المسؤولين 🛡️", labelEn: "Admins 🛡️" },
   { key: "pending", labelAr: "في الانتظار", labelEn: "Pending" },
   { key: "paid", labelAr: "مشتركين", labelEn: "Subscribers" },
   { key: "active", labelAr: "نشِطين", labelEn: "Active" },
@@ -29,6 +30,7 @@ export default function AdminUserList({ users }: { users: AdminUserRowData[] }) 
   const shown = useMemo(() => {
     const q = query.trim().toLowerCase();
     return users.filter((u) => {
+      if (filter === "admin" && !u.isAdmin) return false;
       if (filter === "paid" && !u.paid) return false;
       if (filter === "pending" && !u.pending) return false;
       if (filter === "free" && (u.paid || u.pending)) return false;
@@ -48,6 +50,7 @@ export default function AdminUserList({ users }: { users: AdminUserRowData[] }) 
   const counts = useMemo(
     () => ({
       all: users.length,
+      admin: users.filter((u) => u.isAdmin).length,
       paid: users.filter((u) => u.paid).length,
       pending: users.filter((u) => u.pending).length,
       free: users.filter((u) => !u.paid && !u.pending).length,

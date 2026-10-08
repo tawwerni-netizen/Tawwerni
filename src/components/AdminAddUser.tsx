@@ -20,6 +20,7 @@ export default function AdminAddUser() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [grant, setGrant] = useState(true);
+  const [isAdminUser, setIsAdminUser] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState<{ email: string; password: string; note: string } | null>(null);
@@ -39,6 +40,7 @@ export default function AdminAddUser() {
     setPhone("");
     setPassword("");
     setGrant(true);
+    setIsAdminUser(false);
     setError("");
   }
 
@@ -51,7 +53,7 @@ export default function AdminAddUser() {
       const res = await fetch("/api/admin/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, phone, password, grantAccess: grant }),
+        body: JSON.stringify({ email, name, phone, password, grantAccess: grant, isAdmin: isAdminUser }),
       });
 
       const raw = await res.text();
@@ -192,6 +194,23 @@ export default function AdminAddUser() {
               {isEn
                 ? "Unlock all 100 tracks immediately (marked as paid)"
                 : "افتحله كل المسارات على طول (يعني دفع)"}
+            </span>
+          </label>
+
+          <label className="mt-2 flex items-center gap-2 text-xs text-neutral-700 dark:text-neutral-300 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isAdminUser}
+              onChange={(e) => setIsAdminUser(e.target.checked)}
+              className="h-4 w-4 rounded-sm text-purple-600 focus:ring-purple-500"
+            />
+            <span className="font-bold text-purple-800 dark:text-purple-300 flex items-center gap-1">
+              <span>🛡️</span>
+              <span>
+                {isEn
+                  ? "Grant Admin privileges (Platform Administrator)"
+                  : "منح صلاحيات الأدمن (مسؤول للمنصة)"}
+              </span>
             </span>
           </label>
 
