@@ -78,82 +78,101 @@ export default function AdminShell({
       dir={isEn ? "ltr" : "rtl"}
       className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors"
     >
-      <header className="app-header sticky top-0 z-40 border-b border-black/5 dark:border-white/10 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-6xl items-center gap-3 px-4">
-          <Link href="/admin" className="flex items-center gap-2">
-            <LogoMark size={30} />
-            <span className="hidden text-sm font-bold sm:inline text-neutral-900 dark:text-white">
-              {isEn ? "Admin Panel" : "لوحة الإدارة"}
-            </span>
-          </Link>
+      <header className="app-header sticky top-0 z-40 border-b border-black/5 dark:border-white/10 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md shadow-2xs">
+        {/* Tier 1: Brand & User Controls (Guaranteed never cut off) */}
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
+          <div className="flex shrink-0 items-center gap-3">
+            <Link href="/admin" className="flex items-center gap-2.5 group">
+              <LogoMark size={32} />
+              <div className="flex items-center gap-1.5">
+                <span className="text-sm font-black tracking-tight text-neutral-900 dark:text-white">
+                  {isEn ? "Tawwerni" : "طوّرني"}
+                </span>
+                <span className="rounded-full bg-teal-500/15 border border-teal-500/30 text-teal-700 dark:text-teal-300 px-2 py-0.5 text-[10px] font-black">
+                  {isEn ? "Admin Panel" : "لوحة الإدارة"}
+                </span>
+              </div>
+            </Link>
 
-          <nav className="hidden flex-1 items-center justify-center gap-1 sm:flex">
-            {NAV.map((item) => {
-              const active = item.exact ? pathname === item.href : pathname.startsWith(item.href);
-              const count = badges?.[item.href];
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={active ? "page" : undefined}
-                  className={`nav-pill flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs md:text-sm font-semibold transition ${
-                    active
-                      ? "nav-pill-on bg-teal-500/15 text-teal-700 dark:text-teal-300 font-bold border border-teal-500/30"
-                      : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
-                  }`}
-                >
-                  <span aria-hidden>{item.icon}</span>
-                  <span>{isEn ? item.labelEn : item.labelAr}</span>
-                  {count ? <span className="admin-badge ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-amber-400 text-neutral-950 font-black">{count}</span> : null}
-                </Link>
-              );
-            })}
-          </nav>
+            <span className="text-neutral-300 dark:text-neutral-700 hidden sm:inline">|</span>
 
-          <div className={`${isEn ? "ml-auto" : "mr-auto"} flex items-center gap-2 sm:mr-0`}>
             <Link
               href="/app"
-              className="hidden text-xs text-neutral-500 hover:text-teal-600 dark:hover:text-teal-400 hover:underline md:inline"
+              className="hidden sm:flex text-xs font-semibold text-neutral-500 hover:text-teal-600 dark:hover:text-teal-400 transition items-center gap-1"
             >
-              {isEn ? "Platform →" : "المنصة ←"}
+              <span>{isEn ? "Platform" : "المنصة"}</span>
+              <span className="text-[10px]">{isEn ? "↗" : "←"}</span>
+            </Link>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
+            <Link
+              href="/app"
+              className="sm:hidden text-xs font-semibold text-neutral-500 hover:text-teal-600 dark:hover:text-teal-400 transition flex items-center gap-1"
+              title={isEn ? "Go to Platform" : "الذهاب إلى المنصة"}
+            >
+              <span>{isEn ? "Platform" : "المنصة"}</span>
+              <span className="text-[10px]">{isEn ? "↗" : "←"}</span>
             </Link>
             <LanguageToggle />
             <ThemeToggle />
-            <Avatar name={admin.name} email={admin.email} avatarUrl={admin.avatarUrl} size={32} />
+            <div className="hidden sm:block h-4 w-px bg-black/10 dark:bg-white/10 mx-0.5" />
+            <div className="flex items-center gap-2">
+              <Avatar name={admin.name} email={admin.email} avatarUrl={admin.avatarUrl} size={30} />
+              <div className="hidden lg:block text-right">
+                <p className="text-xs font-bold text-neutral-900 dark:text-white leading-tight">
+                  {admin.name || "المدير"}
+                </p>
+                <p className="text-[10px] text-neutral-400 leading-tight truncate max-w-[130px]" dir="ltr">
+                  {admin.email}
+                </p>
+              </div>
+            </div>
             <button
               onClick={signOut}
-              className="rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-[11px] font-bold hover:bg-red-500 hover:text-white dark:hover:bg-red-600 transition"
+              className="rounded-full border border-red-500/25 bg-red-500/10 text-red-600 dark:text-red-400 px-3 py-1.5 text-xs font-bold hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white transition flex items-center gap-1 cursor-pointer shrink-0"
+              title={isEn ? "Sign out" : "تسجيل الخروج من لوحة الإدارة"}
             >
-              {isEn ? "Sign out" : "خروج"}
+              <span>🚪</span>
+              <span>{isEn ? "Sign out" : "خروج"}</span>
             </button>
           </div>
         </div>
 
-        {/* Phone: the nav can't fit next to the logo, so it gets its own row. */}
-        <nav className="flex gap-1 overflow-x-auto border-t border-black/5 dark:border-white/10 px-3 py-2 sm:hidden">
-          {NAV.map((item) => {
-            const active = item.exact ? pathname === item.href : pathname.startsWith(item.href);
-            const count = badges?.[item.href];
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`nav-pill flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs ${
-                  active
-                    ? "nav-pill-on bg-teal-500/15 text-teal-700 dark:text-teal-300 font-bold border border-teal-500/30"
-                    : "text-neutral-600 dark:text-neutral-400"
-                }`}
-              >
-                <span aria-hidden>{item.icon}</span>
-                <span>{isEn ? item.labelEn : item.labelAr}</span>
-                {count ? <span className="admin-badge ml-1 px-1.5 py-0.5 text-[9px] rounded-full bg-amber-400 text-neutral-950 font-black">{count}</span> : null}
-              </Link>
-            );
-          })}
-        </nav>
+        {/* Tier 2: Dedicated Full Navigation Bar with Smooth Scroll */}
+        <div className="border-t border-black/5 dark:border-white/10 bg-neutral-50/70 dark:bg-neutral-950/50 backdrop-blur-xs">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6">
+            <nav className="flex items-center gap-1 overflow-x-auto py-2 scrollbar-none">
+              {NAV.map((item) => {
+                const active = item.exact ? pathname === item.href : pathname.startsWith(item.href);
+                const count = badges?.[item.href];
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`nav-pill flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
+                      active
+                        ? "nav-pill-on bg-teal-500/15 text-teal-700 dark:text-teal-300 font-black border border-teal-500/30 shadow-2xs"
+                        : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+                    }`}
+                  >
+                    <span aria-hidden>{item.icon}</span>
+                    <span>{isEn ? item.labelEn : item.labelAr}</span>
+                    {count ? (
+                      <span className="admin-badge mr-1 px-1.5 py-0.5 text-[10px] rounded-full bg-amber-400 text-neutral-950 font-black">
+                        {count}
+                      </span>
+                    ) : null}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-6">
+      <main className="mx-auto max-w-7xl px-4 py-6">
         <div className="mb-5">
           <h1 className="text-xl font-bold md:text-2xl text-neutral-900 dark:text-white">{displayTitle}</h1>
           {displaySubtitle && <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">{displaySubtitle}</p>}
