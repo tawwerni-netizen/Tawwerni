@@ -32,7 +32,8 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window,document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init','${META_PIXEL_ID}');
+fbq('init','3725210437617519');
+fbq('init','1639099564495968');
 fbq('track','PageView');`}
       </Script>
 
