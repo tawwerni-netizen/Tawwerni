@@ -4,7 +4,6 @@ import { getCurrentUser } from "@/lib/auth";
 import { resolveUserLearningProgress } from "@/lib/recent-learning-server";
 import StudentTrackCatalog from "@/components/StudentTrackCatalog";
 import ShareRow from "@/components/ShareRow";
-import FocusPlayer from "@/components/FocusPlayer";
 import LearnHeader from "@/components/LearnHeader";
 
 export default async function LearnPage() {
@@ -47,8 +46,6 @@ export default async function LearnPage() {
 
   return (
     <div className="px-4 pt-7 sm:pt-9 pb-12 min-h-screen">
-      <FocusPlayer />
-
       <LearnHeader />
 
       <StudentTrackCatalog

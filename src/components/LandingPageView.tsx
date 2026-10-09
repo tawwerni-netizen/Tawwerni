@@ -13,7 +13,6 @@ import Testimonials from "@/components/Testimonials";
 import LanguageToggle from "@/components/LanguageToggle";
 import ThemeToggle from "@/components/ThemeToggle";
 import TrackCardVisual from "@/components/TrackCardVisual";
-import FocusPlayer from "@/components/FocusPlayer";
 import InteractiveDopaminePreview from "@/components/InteractiveDopaminePreview";
 import { useI18n } from "./LanguageContext";
 import { resolveDomainTheme } from "@/lib/design-system/domain-themes";
@@ -56,9 +55,6 @@ export default function LandingPageView() {
       {/* Ambient background glows */}
       <div className="pointer-events-none absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-teal-500/15 dark:bg-teal-500/10 blur-[140px]" />
       <div className="pointer-events-none absolute top-[30%] -right-40 h-[500px] w-[500px] rounded-full bg-emerald-500/15 dark:bg-emerald-500/10 blur-[140px]" />
-
-      {/* Floating Pomodoro & Binaural Beats Focus Tool */}
-      <FocusPlayer />
 
       {/* Navigation Header */}
       <header className="sticky top-0 z-40 border-b border-black/5 dark:border-white/10 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md transition-colors">
